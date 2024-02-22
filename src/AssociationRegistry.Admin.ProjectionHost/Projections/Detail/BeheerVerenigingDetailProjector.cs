@@ -440,4 +440,9 @@ public class BeheerVerenigingDetailProjector
         document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
         document.Metadata = new Metadata(e.Sequence, e.Version);
     }
+
+    public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
+    }
 }

@@ -194,4 +194,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         VoegMaatschappelijkeZetelToe(adres);
     }
+
+    public void WijzigNaamUitKbo(VerenigingsNaam naam)
+    {
+        if (State.Naam == naam) return;
+        AddEvent(new NaamWerdGewijzigdInKbo(naam));
+    }
 }

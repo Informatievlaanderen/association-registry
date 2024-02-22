@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework;
+using Kbo;
 using Vereniging;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
@@ -23,5 +24,18 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+        };
+
+    public VerenigingVolgensKbo VerenigingVolgensKbo
+        => new()
+        {
+            Naam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            KboNummer = KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
+            Startdatum = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum,
+            Type = Verenigingstype.Parse(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm),
+            KorteNaam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
+            Adres = null,
+            Contactgegevens = null,
+            Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
         };
 }

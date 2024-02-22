@@ -13,18 +13,24 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_No_Changes
+public class With_A_Different_Naam
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
+    private readonly string _newNaam;
 
-    public With_No_Changes()
+    public With_A_Different_Naam()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new SyncKboCommand(_scenario.VCode, _scenario.VerenigingVolgensKbo);
+        _newNaam = fixture.Create<string>();
+
+        var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
+        verenigingVolgensKbo.Naam = _newNaam;
+
+        var command = new SyncKboCommand(_scenario.VCode, verenigingVolgensKbo);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new SyncKboCommandHandler();
 
@@ -40,16 +46,17 @@ public class With_No_Changes
     }
 
     [Fact]
-    public void Then_Only_A_KboSyncSuccessful_Event_Is_Saved()
+    public void Then_A_NaamWerdGewijzigdInKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
            .SaveInvocations[0]
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(1)
+           .HaveCount(2)
+           .And
+           .ContainSingle(e => e.Equals(new NaamWerdGewijzigdInKbo(_newNaam)))
            .And
            .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
-
     }
 }

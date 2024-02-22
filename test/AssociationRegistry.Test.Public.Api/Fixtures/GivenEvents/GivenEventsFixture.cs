@@ -40,6 +40,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V018_FeitelijkeVerenigingWerdVerwijderdScenario V018_FeitelijkeVerenigingWerdVerwijderdScenario = new();
     public readonly V019_Vereniging19ForSearchScenario V019Vereniging19ForSearchScenario = new();
     public readonly V020_Vereniging20ForSearchScenario V020Vereniging20ForSearchScenario = new();
+    public readonly V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd V021VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -61,6 +62,7 @@ public class GivenEventsFixture : PublicApiFixture
             V018_FeitelijkeVerenigingWerdVerwijderdScenario,
             V019Vereniging19ForSearchScenario,
             V020Vereniging20ForSearchScenario,
+            V021VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd,
         };
 
     public override async Task InitializeAsync()

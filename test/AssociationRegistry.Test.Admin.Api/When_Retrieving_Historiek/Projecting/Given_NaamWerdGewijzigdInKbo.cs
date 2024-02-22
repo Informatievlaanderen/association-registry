@@ -1,34 +1,36 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
+using AssociationRegistry.Admin.ProjectionHost.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AutoFixture;
 using Events;
+using EventStore;
 using FluentAssertions;
 using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_NaamWerdGewijzigd
+public class Given_NaamWerdGewijzigdInKbo
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var korteNaamWerdGewijzigd = fixture.Create<TestEvent<NaamWerdGewijzigd>>();
+        var naamWerdGewijzigdInKbo = fixture.Create<TestEvent<NaamWerdGewijzigdInKbo>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
+        BeheerVerenigingHistoriekProjector.Apply(naamWerdGewijzigdInKbo, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.Naam}'.",
-                nameof(NaamWerdGewijzigd),
-                korteNaamWerdGewijzigd.Data,
-                korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToZuluTime()));
+                $"In KBO werd de naam gewijzigd naar '{naamWerdGewijzigdInKbo.Data.Naam}'.",
+                nameof(NaamWerdGewijzigdInKbo),
+                naamWerdGewijzigdInKbo.Data,
+                naamWerdGewijzigdInKbo.Initiator,
+                naamWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
     }
 }
