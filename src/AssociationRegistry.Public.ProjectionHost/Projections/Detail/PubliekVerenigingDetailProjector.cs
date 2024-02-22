@@ -307,69 +307,6 @@ public static class PubliekVerenigingDetailProjector
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
-        => new()
-        {
-            JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Locatie.CreateWithIdValues(vCode, loc.LocatieId.ToString()),
-                JsonLdType.Locatie.Type),
-            LocatieId = loc.LocatieId,
-            IsPrimair = loc.IsPrimair,
-            Naam = loc.Naam,
-            Locatietype = loc.Locatietype,
-            Adres = Map(vCode, loc.LocatieId, loc.Adres),
-            Adresvoorstelling = loc.Adres.ToAdresString(),
-            AdresId = Map(loc.AdresId),
-            VerwijstNaar = MapVerwijstNaar(loc.AdresId),
-        };
-
-    private static PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? MapVerwijstNaar(Registratiedata.AdresId? adresid)
-    {
-        if (adresid is null) return null;
-
-        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
-        {
-            JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.AdresVerwijzing.CreateWithIdValues(adresid.Bronwaarde.Split('/').Last()),
-                JsonLdType.AdresVerwijzing.Type),
-        };
-    }
-
-    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
-        => adres is null
-            ? null
-            : new PubliekVerenigingDetailDocument.Adres
-            {
-                JsonLdMetadata = new JsonLdMetadata(
-                    JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
-                    JsonLdType.Adres.Type),
-                Straatnaam = adres.Straatnaam,
-                Huisnummer = adres.Huisnummer,
-                Busnummer = adres.Busnummer,
-                Postcode = adres.Postcode,
-                Gemeente = adres.Gemeente,
-                Land = adres.Land,
-            };
-
-    private static PubliekVerenigingDetailDocument.AdresId? Map(Registratiedata.AdresId? locAdresId)
-        => locAdresId is null
-            ? null
-            : new PubliekVerenigingDetailDocument.AdresId
-            {
-                Bronwaarde = locAdresId.Bronwaarde,
-                Broncode = locAdresId.Broncode,
-            };
-
-    private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
-        => new()
-        {
-            JsonLdMetadata = new JsonLdMetadata(
-                JsonLdType.Doelgroep.CreateWithIdValues(vCode),
-                JsonLdType.Doelgroep.Type),
-            Minimumleeftijd = doelgroep.Minimumleeftijd,
-            Maximumleeftijd = doelgroep.Maximumleeftijd,
-        };
-
     public static void Apply(
         IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
         PubliekVerenigingDetailDocument document)
@@ -445,4 +382,72 @@ public static class PubliekVerenigingDetailProjector
     {
         document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
+
+    public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
+    }
+
+    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
+        => new()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Locatie.CreateWithIdValues(vCode, loc.LocatieId.ToString()),
+                JsonLdType.Locatie.Type),
+            LocatieId = loc.LocatieId,
+            IsPrimair = loc.IsPrimair,
+            Naam = loc.Naam,
+            Locatietype = loc.Locatietype,
+            Adres = Map(vCode, loc.LocatieId, loc.Adres),
+            Adresvoorstelling = loc.Adres.ToAdresString(),
+            AdresId = Map(loc.AdresId),
+            VerwijstNaar = MapVerwijstNaar(loc.AdresId),
+        };
+
+    private static PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? MapVerwijstNaar(Registratiedata.AdresId? adresid)
+    {
+        if (adresid is null) return null;
+
+        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.AdresVerwijzing.CreateWithIdValues(adresid.Bronwaarde.Split('/').Last()),
+                JsonLdType.AdresVerwijzing.Type),
+        };
+    }
+
+    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
+        => adres is null
+            ? null
+            : new PubliekVerenigingDetailDocument.Adres
+            {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
+                    JsonLdType.Adres.Type),
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = adres.Land,
+            };
+
+    private static PubliekVerenigingDetailDocument.AdresId? Map(Registratiedata.AdresId? locAdresId)
+        => locAdresId is null
+            ? null
+            : new PubliekVerenigingDetailDocument.AdresId
+            {
+                Bronwaarde = locAdresId.Bronwaarde,
+                Broncode = locAdresId.Broncode,
+            };
+
+    private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
+        => new()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Doelgroep.CreateWithIdValues(vCode),
+                JsonLdType.Doelgroep.Type),
+            Minimumleeftijd = doelgroep.Minimumleeftijd,
+            Maximumleeftijd = doelgroep.Maximumleeftijd,
+        };
 }

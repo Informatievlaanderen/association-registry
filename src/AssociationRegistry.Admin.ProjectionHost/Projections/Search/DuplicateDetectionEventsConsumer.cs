@@ -33,6 +33,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd):
                 case nameof(VerenigingWerdGestopt):
                 case nameof(VerenigingWerdVerwijderd):
+                case nameof(NaamWerdGewijzigdInKbo):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
                     break;
             }

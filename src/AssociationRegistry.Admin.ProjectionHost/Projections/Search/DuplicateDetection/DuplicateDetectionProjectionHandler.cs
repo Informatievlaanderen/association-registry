@@ -113,6 +113,15 @@ public class DuplicateDetectionProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
+    public async Task Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                Naam = message.Data.Naam,
+            }
+        );
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {

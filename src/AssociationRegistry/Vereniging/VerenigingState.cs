@@ -360,4 +360,10 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(KboSyncSuccessful @event)
         => this;
+
+    public VerenigingState Apply(NaamWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Naam = VerenigingsNaam.Hydrate(@event.Naam),
+        };
 }

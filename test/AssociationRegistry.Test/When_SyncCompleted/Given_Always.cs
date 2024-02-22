@@ -1,13 +1,10 @@
-﻿namespace AssociationRegistry.Test.WhenSyncingWithKbo;
+﻿namespace AssociationRegistry.Test.When_SyncCompleted;
 
-using AssociationRegistry.Framework;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Framework.Customizations;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
 using FluentAssertions;
-using Framework.Customizations;
-using Kbo;
-using KellermanSoftware.CompareNetObjects;
-using Vereniging;
 using Xunit;
 
 public class Given_Always

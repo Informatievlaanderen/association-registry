@@ -374,6 +374,15 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            naamWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de naam gewijzigd naar '{naamWerdGewijzigdInKbo.Data.Naam}'."
+        );
+    }
+
     public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
     {
         document.Metadata = new Metadata(@event.Sequence, @event.Version);

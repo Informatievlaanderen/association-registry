@@ -139,6 +139,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates
         V061VerenigingWerdGeregistreerdAndVerwijderdAndFollowedByUpdates = new();
 
+    public readonly V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
+        V062VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAndSynced = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -190,6 +193,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V059FeitelijkeVerenigingWerdGeregistreerdAndRemoved,
             V060VerenigingWerdGeregistreerdAndVerwijderdForDuplicateDetection,
             V061VerenigingWerdGeregistreerdAndVerwijderdAndFollowedByUpdates,
+            V062VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAndSynced,
         };
 
         foreach (var scenario in scenarios)
