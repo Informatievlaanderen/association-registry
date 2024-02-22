@@ -1,3 +1,10 @@
+# [8.67.0](https://github.com/informatievlaanderen/association-registry/compare/v8.66.0...v8.67.0) (2024-02-22)
+
+
+### Features
+
+* or-2094 wijzig naam in ACM ([857d13b](https://github.com/informatievlaanderen/association-registry/commit/857d13bb816eb5a277be3bc4e03e42c30e31fb4a))
+
 # [8.66.0](https://github.com/informatievlaanderen/association-registry/compare/v8.65.1...v8.66.0) (2024-02-22)
 
 
