@@ -1,0 +1,27 @@
+type file
+version 1.0.0
+
+id Be.Vlaanderen.Basisregisters.AssociationRegistry
+title Be.Vlaanderen.Basisregisters.AssociationRegistry
+
+authors Basisregisters.Vlaanderen
+owners Vlaamse overheid
+copyright Copyright (c) Vlaamse overheid
+requireLicenseAcceptance false
+projectUrl https://vlaanderen.be/digitaal-vlaanderen
+iconUrl https://raw.githubusercontent.com/Informatievlaanderen/build-pipeline/master/logo.png
+licenseUrl https://opensource.org/licenses/EUPL-1.2
+
+description Road Registry.
+
+dependencies
+  framework: net6.0
+    Be.Vlaanderen.Basisregisters.AggregateSource >= LOCKEDVERSION
+    Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic >= LOCKEDVERSION
+    Result.Net >= LOCKEDVERSION
+    Marten >= LOCKEDVERSION
+
+files
+
+  AssociationRegistry.dll => lib\net6.0
+  AssociationRegistry.pdb => lib\net6.0
