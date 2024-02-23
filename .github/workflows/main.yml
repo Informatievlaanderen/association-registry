@@ -244,7 +244,7 @@ jobs:
       run-docker-elasticsearch: true
     secrets: inherit
 
-  pack-assocation-registry:
+  pack-association-registry:
     name: Pack Association Registry Domain
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
     needs: [ set-release-version ]
