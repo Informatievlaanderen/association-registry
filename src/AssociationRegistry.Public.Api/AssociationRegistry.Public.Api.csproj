@@ -39,6 +39,7 @@
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

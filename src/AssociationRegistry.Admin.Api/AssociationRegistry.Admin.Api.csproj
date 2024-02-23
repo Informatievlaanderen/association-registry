@@ -3,8 +3,9 @@
 
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <UserSecretsId>265231d5-e072-4985-b56a-085e838c6e99</UserSecretsId>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

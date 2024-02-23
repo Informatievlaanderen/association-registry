@@ -8,6 +8,8 @@
     <PackageProjectUrl>https://github.com/informatievlaanderen/association-registry.git</PackageProjectUrl>
     <RepositoryUrl>https://github.com/informatievlaanderen/association-registry.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <ItemGroup>
