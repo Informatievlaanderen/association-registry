@@ -391,7 +391,7 @@ jobs:
       - name: Download NuGet package 'association-registry'
         uses: actions/download-artifact@v3
         with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssocationRegistry-${{ needs.release.outputs.version }}
+          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
           path: ~/
 
       - name: Publish packages to NuGet
