@@ -26,10 +26,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Include="paket.template" CopyToOutputDirectory="Always"/>
   </ItemGroup>
 
