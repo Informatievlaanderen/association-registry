@@ -342,7 +342,7 @@ jobs:
         uses: actions/download-artifact@v3
         continue-on-error: false
         with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssocationRegistry-${{ needs.set-release-version.outputs.version }}
+          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.set-release-version.outputs.version }}
           path: dist/nuget/
 
       - name: Run Semantic Release
