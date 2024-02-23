@@ -10,6 +10,7 @@ open Fake.Core
 open Fake.Core.TargetOperators
 open Fake.IO.FileSystemOperators
 open Fake.DotNet
+open System
 open ``Build-generic``
 
 
@@ -86,12 +87,15 @@ Target.create "Build_Solution" (fun _ ->
   setVersions "SolutionInfo.cs"
   buildSolution "AssociationRegistry")
 
-Target.create "SetSolutionInfo" (fun _ ->
-  setVersions "SolutionInfo.cs"
- )
-
+Target.create "SetSolutionInfo" (fun _ -> setVersions "SolutionInfo.cs")
 
 Target.create "Test_Solution" (fun _ -> testSolution "AssociationRegistry")
+
+Target.create "Pack_Solution" (fun _ ->
+  [
+    "AssociationRegistry"
+  ] |> List.iter pack
+)
 
 Target.create "Publish_Solution" (fun _ ->
   [
