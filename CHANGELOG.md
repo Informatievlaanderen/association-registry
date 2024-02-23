@@ -1,3 +1,22 @@
+# [8.69.0](https://github.com/informatievlaanderen/association-registry/compare/v8.68.0...v8.69.0) (2024-02-23)
+
+
+### Bug Fixes
+
+* add SetAssemblyVersions inside build.fsx targets ([9d52c75](https://github.com/informatievlaanderen/association-registry/commit/9d52c75b2f99e7a342ef4c7a012d8b5917537c21))
+* add solution info inside csproj file ([3a8a0ac](https://github.com/informatievlaanderen/association-registry/commit/3a8a0ac41a43079003cf80ba4c376cb915c16fc2))
+* allow duplicate content publish output files ([8eee0cb](https://github.com/informatievlaanderen/association-registry/commit/8eee0cba4ee1fd145f1bacfe83c48a0e09f886bc))
+* cleanup on package references inside test projects ([4dbd244](https://github.com/informatievlaanderen/association-registry/commit/4dbd24478db1c3bb422ae2727e2133c031bc081e))
+* correct typo inside workflow file ([38a4639](https://github.com/informatievlaanderen/association-registry/commit/38a463943266935d7adb52d4d2a358bf05b8800b))
+* remove solution info reference ([e703a3e](https://github.com/informatievlaanderen/association-registry/commit/e703a3e7bfb489f60f7c940ff13c12d7272e6ca1))
+* typo inside workflow file ([2f73061](https://github.com/informatievlaanderen/association-registry/commit/2f7306182950a32594017288c3f33f72621d5108))
+* update build.fsx which requires TimeSpan ([3ec9603](https://github.com/informatievlaanderen/association-registry/commit/3ec9603b7fb4291f8f26eb020bcabfec5b7f5498))
+
+
+### Features
+
+* add support for NuGet packaging ([0c69800](https://github.com/informatievlaanderen/association-registry/commit/0c69800bbff8a4999b013342f18135249bd2c4c4))
+
 # [8.68.0](https://github.com/informatievlaanderen/association-registry/compare/v8.67.0...v8.68.0) (2024-02-22)
 
 
