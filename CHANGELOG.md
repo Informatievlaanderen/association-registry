@@ -1,3 +1,10 @@
+## [8.69.1](https://github.com/informatievlaanderen/association-registry/compare/v8.69.0...v8.69.1) (2024-02-23)
+
+
+### Bug Fixes
+
+* type inside workflow file ([194a4b9](https://github.com/informatievlaanderen/association-registry/commit/194a4b9363063745dc7f2658a9cb7d5a47a7d601))
+
 # [8.69.0](https://github.com/informatievlaanderen/association-registry/compare/v8.68.0...v8.69.0) (2024-02-23)
 
 
