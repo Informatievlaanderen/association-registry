@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Acties.SyncKbo;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Vereniging;
-using WijzigBasisgegevens;
+using Framework;
+using Vereniging;
 
 public class SyncKboCommandHandler
 {
@@ -16,6 +14,8 @@ public class SyncKboCommandHandler
 
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(message.Command.VerenigingVolgensKbo.Naam!));
         vereniging.WijzigKorteNaamUitKbo(message.Command.VerenigingVolgensKbo.KorteNaam);
+        vereniging.WijzigContactgegevensUitKbo(message.Command.VerenigingVolgensKbo.Contactgegevens);
+
         vereniging.SyncCompleted();
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);

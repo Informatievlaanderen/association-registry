@@ -346,7 +346,24 @@ public record VerenigingState : IHasVersion
                         @event.Waarde,
                         string.Empty,
                         isPrimair: false,
-                        Bron.KBO))),
+                        Bron.KBO,
+                        ContactgegeventypeVolgensKbo.Parse(@event.TypeVolgensKbo)))),
+        };
+
+    public VerenigingState Apply(ContactgegevenWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens
+                   .Without(@event.ContactgegevenId)
+                   .Append(Contactgegeven.Hydrate(
+                               @event.ContactgegevenId,
+                               Contactgegeventype.Parse(@event.Contactgegeventype),
+                               @event.Waarde,
+                               string.Empty,
+                               isPrimair: false,
+                               Bron.KBO,
+                               ContactgegeventypeVolgensKbo.Parse(@event.TypeVolgensKbo)))),
         };
 
     public VerenigingState Apply(ContactgegevenKonNietOvergenomenWordenUitKBO @event)

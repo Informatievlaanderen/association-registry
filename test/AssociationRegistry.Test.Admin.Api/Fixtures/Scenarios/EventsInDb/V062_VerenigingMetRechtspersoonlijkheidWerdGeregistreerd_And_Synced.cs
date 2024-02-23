@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using Test.Framework.Customizations;
 using Vereniging;
 
 public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced : IEventsInDbScenario
@@ -13,6 +14,8 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo;
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo;
+    public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo;
+    public readonly ContactgegevenWerdGewijzigdInKbo ContactgegevenWerdGewijzigdInKbo;
 
     public V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced()
     {
@@ -30,6 +33,17 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
         KorteNaamWerdGewijzigdInKbo = fixture.Create<KorteNaamWerdGewijzigdInKbo>();
 
+        ContactgegevenWerdOvergenomenUitKbo = fixture.Create<ContactgegevenWerdOvergenomenUitKBO>() with
+        {
+            ContactgegevenId = 1,
+        };
+
+        ContactgegevenWerdGewijzigdInKbo = new ContactgegevenWerdGewijzigdInKbo(1, ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
+                                                                                  ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo,
+                                                                                  fixture.CreateContactgegevenVolgensType(
+                                                                                      ContactgegevenWerdOvergenomenUitKbo
+                                                                                         .Contactgegeventype).Waarde);
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -40,8 +54,10 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            ContactgegevenWerdOvergenomenUitKbo,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
+            ContactgegevenWerdGewijzigdInKbo,
             new KboSyncSuccessful(),
         };
 

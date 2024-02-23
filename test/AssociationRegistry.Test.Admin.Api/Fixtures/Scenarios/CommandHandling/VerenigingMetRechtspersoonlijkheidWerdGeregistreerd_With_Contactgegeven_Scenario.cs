@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework;
+using Kbo;
 using Vereniging;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario : CommandhandlerScenarioBase
@@ -27,5 +28,35 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgeg
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             ContactgegevenWerdOvergenomenUitKBO,
+        };
+
+    public VerenigingVolgensKbo VerenigingVolgensKbo
+        => new()
+        {
+            Naam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            KboNummer = KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
+            Startdatum = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum,
+            Type = Verenigingstype.Parse(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm),
+            KorteNaam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
+            Adres = new AdresVolgensKbo(),
+            Contactgegevens = ContactgegevensVolgensKbo,
+            Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
+        };
+
+    public ContactgegevensVolgensKbo ContactgegevensVolgensKbo
+        => new()
+        {
+            Email = ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo == ContactgegeventypeVolgensKbo.Email
+                ? ContactgegevenWerdOvergenomenUitKBO.Waarde
+                : null,
+            Telefoonnummer = ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo == ContactgegeventypeVolgensKbo.Telefoon
+                ? ContactgegevenWerdOvergenomenUitKBO.Waarde
+                : null,
+            Website = ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo == ContactgegeventypeVolgensKbo.Website
+                ? ContactgegevenWerdOvergenomenUitKBO.Waarde
+                : null,
+            GSM = ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo == ContactgegeventypeVolgensKbo.GSM
+                ? ContactgegevenWerdOvergenomenUitKBO.Waarde
+                : null,
         };
 }

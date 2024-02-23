@@ -41,3 +41,53 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }
+
+[UnitTest]
+public class Given_ContactgegevenWerdGewijzigdUitKBO
+{
+    [Fact]
+    public void Then_it_updates_the_contactgegeven_to_the_detail()
+    {
+        var fixture = new Fixture().CustomizePublicApi();
+        var contactgegevenWerdGewijzigdUitKbo = fixture.Create<TestEvent<ContactgegevenWerdGewijzigdInKbo>>();
+
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
+        var contactgegevenBeforeEdit = new PubliekVerenigingDetailDocument.Contactgegeven
+        {
+            JsonLdMetadata = new JsonLdMetadata
+            {
+                Id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                    doc.VCode, contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId.ToString()),
+                Type = JsonLdType.Contactgegeven.Type,
+            },
+            ContactgegevenId = contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
+            Contactgegeventype = contactgegevenWerdGewijzigdUitKbo.Data.Contactgegeventype,
+            Waarde = fixture.Create<string>(),
+            Beschrijving = fixture.Create<string>(),
+            IsPrimair = true,
+        };
+
+        doc.Contactgegevens = new[]
+        {
+            contactgegevenBeforeEdit,
+        };
+
+        PubliekVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigdUitKbo, doc);
+
+        doc.Contactgegevens.Should()
+           .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId)
+           .Which.Should().BeEquivalentTo(
+                new PubliekVerenigingDetailDocument.Contactgegeven
+                {
+                    JsonLdMetadata = contactgegevenBeforeEdit.JsonLdMetadata,
+                    ContactgegevenId = contactgegevenBeforeEdit.ContactgegevenId,
+                    Beschrijving = contactgegevenBeforeEdit.Beschrijving,
+                    Contactgegeventype = contactgegevenBeforeEdit.Contactgegeventype,
+                    Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde,
+                    IsPrimair = contactgegevenBeforeEdit.IsPrimair,
+                });
+
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
+    }
+}

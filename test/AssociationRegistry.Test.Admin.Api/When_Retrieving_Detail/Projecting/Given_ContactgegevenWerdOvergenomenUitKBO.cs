@@ -43,3 +43,52 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
     }
 }
+
+[UnitTest]
+public class Given_ContactgegevenWerdGewijzigdUitKbo
+{
+    [Fact]
+    public void Then_it_updates_the_contactgegeven_in_the_detail()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var contactgegevenWerdGewijzigdUitKbo = fixture.Create<TestEvent<ContactgegevenWerdGewijzigdInKbo>>();
+        var doc = fixture.Create<BeheerVerenigingDetailDocument>();
+
+        var contactgegevenBeforeEdit = new Contactgegeven
+        {
+            JsonLdMetadata = new JsonLdMetadata
+            {
+                Id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                    doc.VCode, contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId.ToString()),
+                Type = JsonLdType.Contactgegeven.Type,
+            },
+            ContactgegevenId = contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
+            Contactgegeventype = contactgegevenWerdGewijzigdUitKbo.Data.Contactgegeventype,
+            Waarde = fixture.Create<string>(),
+            Beschrijving = fixture.Create<string>(),
+            IsPrimair = true,
+            Bron = Bron.KBO,
+        };
+
+        doc.Contactgegevens = new[]
+        {
+            contactgegevenBeforeEdit,
+        };
+
+        BeheerVerenigingDetailProjector.Apply(contactgegevenWerdGewijzigdUitKbo, doc);
+
+        doc.Contactgegevens.Should().ContainEquivalentOf(
+            new Contactgegeven
+            {
+                JsonLdMetadata = contactgegevenBeforeEdit.JsonLdMetadata,
+                ContactgegevenId = contactgegevenBeforeEdit.ContactgegevenId,
+                Beschrijving = contactgegevenBeforeEdit.Beschrijving,
+                Contactgegeventype = contactgegevenBeforeEdit.Contactgegeventype,
+                Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde,
+                IsPrimair = contactgegevenBeforeEdit.IsPrimair,
+                Bron = Bron.KBO,
+            });
+
+        doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
+    }
+}
