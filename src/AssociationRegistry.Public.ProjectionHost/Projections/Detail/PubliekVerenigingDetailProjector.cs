@@ -392,6 +392,18 @@ public static class PubliekVerenigingDetailProjector
     {
         document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
     }
+    public static void Apply(IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo, PubliekVerenigingDetailDocument document)
+    {
+        var contactgegeven =
+            document.Contactgegevens.Single(c => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId);
+
+        contactgegeven.Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde;
+
+        document.Contactgegevens = document.Contactgegevens
+                                           .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId)
+                                           .Append(contactgegeven)
+                                           .OrderBy(l => l.ContactgegevenId)
+                                           .ToArray();    }
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()

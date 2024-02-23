@@ -7,6 +7,7 @@ using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using templates;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 
@@ -50,7 +51,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
                       .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
                       .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
-                      .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam);
+                      .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
+                      .WithContactgegeven(_scenario.ContactgegevenWerdOvergenomenUitKbo.ContactgegevenId, Bron.KBO,
+                                          _scenario.ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
+                                          _scenario.ContactgegevenWerdGewijzigdInKbo.Waarde, _scenario.VCode);
 
         content.Should().BeEquivalentJson(expected);
     }

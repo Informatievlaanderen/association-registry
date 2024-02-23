@@ -128,6 +128,18 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
                 .HasPrimairForType(updatedContactgegeven.Contactgegeventype),
             updatedContactgegeven.Contactgegeventype);
     }
+
+    public Contactgegeven? WijzigUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    {
+        var contactgegeven = this.SingleOrDefault(c => c.TypeVolgensKbo == typeVolgensKbo);
+
+        if (contactgegeven is null) return null;
+
+        if (contactgegeven.WouldBeEquivalent(waarde: waarde, null, null, out var gewijzigdContactgegeven))
+            return null;
+
+        return gewijzigdContactgegeven;
+    }
 }
 
 public static class ContactgegevenEnumerableExtensions

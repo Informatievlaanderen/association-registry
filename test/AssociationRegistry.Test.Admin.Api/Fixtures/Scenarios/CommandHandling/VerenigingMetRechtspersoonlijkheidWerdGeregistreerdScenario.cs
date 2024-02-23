@@ -34,8 +34,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
             Startdatum = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum,
             Type = Verenigingstype.Parse(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm),
             KorteNaam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
-            Adres = null,
-            Contactgegevens = null,
+            Adres = new AdresVolgensKbo(),
+            Contactgegevens = new ContactgegevensVolgensKbo(),
             Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
         };
 }

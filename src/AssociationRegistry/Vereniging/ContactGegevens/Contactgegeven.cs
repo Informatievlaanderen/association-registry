@@ -26,7 +26,8 @@ public record Contactgegeven
         string waarde,
         string beschrijving,
         bool isPrimair,
-        Bron bron)
+        Bron bron,
+        ContactgegeventypeVolgensKbo? contactgegeventypeVolgensKbo = null)
     {
         ContactgegevenId = contactgegevenId;
         Contactgegeventype = contactgegeventype;
@@ -34,6 +35,7 @@ public record Contactgegeven
         Beschrijving = beschrijving;
         IsPrimair = isPrimair;
         Bron = bron;
+        TypeVolgensKbo = contactgegeventypeVolgensKbo;
     }
 
     public int ContactgegevenId { get; init; }
@@ -42,6 +44,7 @@ public record Contactgegeven
     public string Beschrijving { get; init; }
     public bool IsPrimair { get; init; }
     public Bron Bron { get; init; }
+    public ContactgegeventypeVolgensKbo? TypeVolgensKbo { get; set; }
 
     public virtual bool Equals(Contactgegeven? other)
     {
@@ -62,8 +65,9 @@ public record Contactgegeven
         string waarde,
         string beschrijving,
         bool isPrimair,
-        Bron bron)
-        => new(contactgegevenId, type, waarde, beschrijving, isPrimair, bron);
+        Bron bron,
+        ContactgegeventypeVolgensKbo? typeVolgensKbo = null)
+        => new(contactgegevenId, type, waarde, beschrijving, isPrimair, bron,typeVolgensKbo);
 
     public static Contactgegeven CreateFromInitiator(Contactgegeventype type, string waarde, string? beschrijving, bool isPrimair)
     {

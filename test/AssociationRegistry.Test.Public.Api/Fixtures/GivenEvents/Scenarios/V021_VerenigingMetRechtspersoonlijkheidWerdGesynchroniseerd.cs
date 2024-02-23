@@ -18,6 +18,12 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo = new("FA");
 
+    public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo =
+        new(1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, "example.me@example.org");
+
+    public readonly ContactgegevenWerdGewijzigdInKbo ContactgegevenWerdGewijzigdInKbo =
+        new(1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, "test.me@example.org");
+
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
@@ -26,8 +32,10 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         return new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            ContactgegevenWerdOvergenomenUitKbo,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
+            ContactgegevenWerdGewijzigdInKbo,
             new KboSyncSuccessful(),
         };
     }

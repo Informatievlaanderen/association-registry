@@ -37,6 +37,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
                           .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
                           .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                           .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
+                          .WithContactgegeven(_scenario.VCode,
+                                              _scenario.ContactgegevenWerdOvergenomenUitKbo.ContactgegevenId.ToString(),
+                                              _scenario.ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
+                                              _scenario.ContactgegevenWerdGewijzigdInKbo.Waarde)
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
         content.Should().BeEquivalentJson(goldenMaster);

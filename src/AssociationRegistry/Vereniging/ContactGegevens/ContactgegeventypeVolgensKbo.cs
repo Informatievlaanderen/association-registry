@@ -34,7 +34,7 @@ public sealed class ContactgegeventypeVolgensKbo : IEquatable<Contactgegeventype
 
     public static readonly ContactgegeventypeVolgensKbo[] All =
     {
-        Email, Website, SocialMedia, Telefoon,
+        Email, Website, SocialMedia, Telefoon, GSM,
     };
 
     private ContactgegeventypeVolgensKbo(string waarde, Contactgegeventype contactgegeventype)
@@ -54,7 +54,7 @@ public sealed class ContactgegeventypeVolgensKbo : IEquatable<Contactgegeventype
         if (value is null)
             return false;
 
-        return Array.Find(All, match: candidate => candidate == value) is not null;
+        return Array.Find(All, match: candidate => candidate.Waarde == value) is not null;
     }
 
     public static bool TryParse(string? value, out ContactgegeventypeVolgensKbo? parsed)
@@ -64,7 +64,7 @@ public sealed class ContactgegeventypeVolgensKbo : IEquatable<Contactgegeventype
         if (value is null)
             return false;
 
-        parsed = Array.Find(All, match: candidate => candidate == value) ?? null;
+        parsed = Array.Find(All, match: candidate => candidate.Waarde == value) ?? null;
 
         return parsed is not null;
     }

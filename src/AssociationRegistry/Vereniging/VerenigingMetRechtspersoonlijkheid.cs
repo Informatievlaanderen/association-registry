@@ -204,5 +204,24 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     public void WijzigKorteNaamUitKbo(string? korteNaam)
     {
         if (State.KorteNaam == korteNaam) return;
-        AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));    }
+        AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));
+    }
+
+    public void WijzigContactgegevensUitKbo(ContactgegevensVolgensKbo contactgegevens)
+    {
+        WijzigContactgegevenUitKbo(contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
+        WijzigContactgegevenUitKbo(contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
+        WijzigContactgegevenUitKbo(contactgegevens.Telefoonnummer, ContactgegeventypeVolgensKbo.Telefoon);
+        WijzigContactgegevenUitKbo(contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
+    }
+
+    private void WijzigContactgegevenUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    {
+        var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(waarde, typeVolgensKbo);
+
+        if (gewijzigdContactgegeven is null)
+            return;
+
+        AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
+    }
 }

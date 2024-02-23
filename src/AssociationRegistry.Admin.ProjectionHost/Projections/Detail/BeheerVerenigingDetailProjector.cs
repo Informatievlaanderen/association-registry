@@ -52,7 +52,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                             .MapHoofdactiviteitVerenigingsloket)
+                                                                                         .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -449,5 +449,20 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.UpdateSingle(
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
+                                                update: contactgegeven => contactgegeven with
+                                                {
+                                                    Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde,
+                                                }
+                                            ).OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
     }
 }

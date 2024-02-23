@@ -389,7 +389,19 @@ public class BeheerVerenigingHistoriekProjector
             korteNaamWerdGewijzigdInKbo,
             document,
             $"In KBO werd de korte naam gewijzigd naar '{korteNaamWerdGewijzigdInKbo.Data.KorteNaam}'."
-        );    }
+        );
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdGewijzigdUitKbo,
+            document,
+            $"In KBO werd contactgegeven ‘{contactgegevenWerdGewijzigdUitKbo.Data.TypeVolgensKbo}' gewijzigd."
+        );
+    }
 
     public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
     {
