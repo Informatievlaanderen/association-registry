@@ -12,8 +12,6 @@ open Fake.IO.FileSystemOperators
 open Fake.DotNet
 open ``Build-generic``
 
-open System
-open System.IO
 
 
 let product = "Basisregisters Vlaanderen"
@@ -80,6 +78,7 @@ let testSolution sln =
   testWithDotNet (sprintf "%s.sln" sln)
 
 // Solution -----------------------------------------------------------------------
+Target.create "SetAssemblyVersions" (fun _ -> setVersions "SolutionInfo.cs")
 
 Target.create "Restore_Solution" (fun _ -> restore "AssociationRegistry")
 
