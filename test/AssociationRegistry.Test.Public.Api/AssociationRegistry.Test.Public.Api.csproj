@@ -8,15 +8,34 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
     <PackageReference Include="coverlet.collector" Version="3.1.2">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
+    <PackageReference Remove="Microsoft.CSharp" />
+    <PackageReference Remove="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.FileSystemGlobbing" />
+    <PackageReference Remove="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Remove="System.Buffers" />
+    <PackageReference Remove="System.Runtime.CompilerServices.Unsafe" />
+    <PackageReference Remove="System.Diagnostics.DiagnosticSource" />
+    <PackageReference Remove="Microsoft.Extensions.Primitives" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Remove="Microsoft.Extensions.FileProviders.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Options" />
+    <PackageReference Remove="System.Collections.Immutable" />
+    <PackageReference Remove="System.Reflection.Metadata" />
+    <PackageReference Remove="System.Text.Encodings.Web" />
+    <PackageReference Remove="Microsoft.Extensions.FileProviders.Physical" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.FileExtensions" />
+    <PackageReference Remove="System.Threading.Tasks.Extensions" />
+    <PackageReference Remove="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Remove="System.IO.Pipelines" />
+    <PackageReference Remove="Microsoft.Extensions.Logging" />
+    <PackageReference Remove="Microsoft.AspNetCore.TestHost" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Given_an_Event_That_Is_Not_Handled\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />

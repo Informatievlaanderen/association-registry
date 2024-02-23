@@ -29,5 +29,30 @@
       <DependentUpon>EmbeddedResources.tt</DependentUpon>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <PackageReference Remove="Microsoft.Extensions.DependencyInjection.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.FileSystemGlobbing" />
+    <PackageReference Remove="Microsoft.Extensions.Logging.Abstractions" />
+    <PackageReference Remove="System.Buffers" />
+    <PackageReference Remove="System.Runtime.CompilerServices.Unsafe" />
+    <PackageReference Remove="System.Diagnostics.DiagnosticSource" />
+    <PackageReference Remove="Microsoft.Extensions.Primitives" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.EnvironmentVariables" />
+    <PackageReference Remove="Microsoft.Extensions.FileProviders.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Hosting.Abstractions" />
+    <PackageReference Remove="Microsoft.Extensions.Options" />
+    <PackageReference Remove="System.Collections.Immutable" />
+    <PackageReference Remove="System.Reflection.Metadata" />
+    <PackageReference Remove="System.Text.Encodings.Web" />
+    <PackageReference Remove="Microsoft.Extensions.FileProviders.Physical" />
+    <PackageReference Remove="Microsoft.Extensions.Configuration.FileExtensions" />
+    <PackageReference Remove="System.Threading.Tasks.Extensions" />
+    <PackageReference Remove="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Remove="System.IO.Pipelines" />
+    <PackageReference Remove="Microsoft.Extensions.Logging" />
+    <PackageReference Remove="Microsoft.AspNetCore.TestHost" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
