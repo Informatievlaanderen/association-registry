@@ -1,3 +1,17 @@
+# [8.70.0](https://github.com/informatievlaanderen/association-registry/compare/v8.69.1...v8.70.0) (2024-02-24)
+
+
+### Bug Fixes
+
+* add build.fsx line again ([109f893](https://github.com/informatievlaanderen/association-registry/commit/109f893201aa1ec00e88c98dbebabe93e96c74db))
+* correct dotnet version for service references ([5b8e368](https://github.com/informatievlaanderen/association-registry/commit/5b8e3681ff092465615a2c12a63fd557fd2e95ee))
+
+
+### Features
+
+* add package support for MAGDA ([e2efff9](https://github.com/informatievlaanderen/association-registry/commit/e2efff969ccc458335402b72f5e668dd82e4873b))
+* refactor all MAGDA stuff into single project for NuGet package ([43e03bf](https://github.com/informatievlaanderen/association-registry/commit/43e03bf837757c732d28895096e40f490fbf50e6))
+
 ## [8.69.1](https://github.com/informatievlaanderen/association-registry/compare/v8.69.0...v8.69.1) (2024-02-23)
 
 
