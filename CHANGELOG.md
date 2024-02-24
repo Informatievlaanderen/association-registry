@@ -1,3 +1,10 @@
+## [8.70.1](https://github.com/informatievlaanderen/association-registry/compare/v8.70.0...v8.70.1) (2024-02-24)
+
+
+### Bug Fixes
+
+* update visibility markers on MagdaGeefVerenigingService ([2acc1bf](https://github.com/informatievlaanderen/association-registry/commit/2acc1bfd53c78d7273486107a2fb7ff7bcd77d3b))
+
 # [8.70.0](https://github.com/informatievlaanderen/association-registry/compare/v8.69.1...v8.70.0) (2024-02-24)
 
 
