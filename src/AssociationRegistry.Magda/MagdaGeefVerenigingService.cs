@@ -15,7 +15,7 @@ using Vereniging;
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
-    private readonly Dictionary<string, Verenigingstype> rechtsvormMap = new()
+    protected readonly Dictionary<string, Verenigingstype> rechtsvormMap = new()
     {
         { RechtsvormCodes.VZW, Verenigingstype.VZW },
         { RechtsvormCodes.IVZW, Verenigingstype.IVZW },
@@ -23,10 +23,10 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         { RechtsvormCodes.StichtingVanOpenbaarNut, Verenigingstype.StichtingVanOpenbaarNut },
     };
 
-    private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
-    private readonly IMagdaFacade _magdaFacade;
-    private readonly TemporaryMagdaVertegenwoordigersSection _temporaryMagdaVertegenwoordigersSection;
-    private readonly ILogger<MagdaGeefVerenigingService> _logger;
+    protected readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
+    protected readonly IMagdaFacade _magdaFacade;
+    protected readonly TemporaryMagdaVertegenwoordigersSection _temporaryMagdaVertegenwoordigersSection;
+    protected readonly ILogger<MagdaGeefVerenigingService> _logger;
 
     public MagdaGeefVerenigingService(
         IMagdaCallReferenceRepository magdaCallReferenceRepository,
@@ -40,7 +40,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         _logger = logger;
     }
 
-    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+    public virtual async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
@@ -92,10 +92,10 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    private static bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
+    protected bool IsActiefOfInOprichting(Onderneming2_0Type magdaOnderneming)
         => IsActief(magdaOnderneming) || IsInOprichting(magdaOnderneming);
 
-    private VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
+    protected VertegenwoordigerVolgensKbo[] GetVertegenwoordigers()
         => _temporaryMagdaVertegenwoordigersSection.TemporaryVertegenwoordigers
                                                    .Select(x => new VertegenwoordigerVolgensKbo
                                                     {
@@ -105,14 +105,14 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                                                     })
                                                    .ToArray();
 
-    private bool HeeftToegestaneActieveRechtsvorm(Onderneming2_0Type magdaOnderneming)
+    protected bool HeeftToegestaneActieveRechtsvorm(Onderneming2_0Type magdaOnderneming)
     {
         var rechtsvormCode = GetActiveRechtsvorm(magdaOnderneming)?.Code.Value;
 
         return rechtsvormCode != null && rechtsvormMap.ContainsKey(rechtsvormCode);
     }
 
-    private ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
+    protected ContactgegevensVolgensKbo GetContactgegevensFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
         if (maatschappelijkeZetel is null)
             return new ContactgegevensVolgensKbo();
@@ -128,7 +128,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         };
     }
 
-    private static AdresVolgensKbo GetAdresFrom(AdresOndernemingType? maatschappelijkeZetel)
+    protected AdresVolgensKbo GetAdresFrom(AdresOndernemingType? maatschappelijkeZetel)
     {
         if (maatschappelijkeZetel is null)
             return new AdresVolgensKbo();
@@ -146,7 +146,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         };
     }
 
-    private static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[]? namen)
+    protected static NaamOndernemingType? GetBestMatchingNaam(NaamOndernemingType[]? namen)
     {
         if (namen is null) return null;
 
@@ -167,7 +167,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                activeNamen.First();
     }
 
-    private static DescriptieType GetBestMatchingAdres(DescriptieType[] descripties)
+    protected static DescriptieType GetBestMatchingAdres(DescriptieType[] descripties)
     {
         if (descripties.Length == 1)
             return descripties.Single();
@@ -179,33 +179,33 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                descripties.First();
     }
 
-    private static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
+    protected static NaamOndernemingType? GetNaamInTaal(NaamOndernemingType[] namen, string taalcode)
         => namen.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
 
-    private static DescriptieType? GetDescriptieInTaal(DescriptieType[] descripties, string taalcode)
+    protected static DescriptieType? GetDescriptieInTaal(DescriptieType[] descripties, string taalcode)
         => descripties.SingleOrDefault(n => n.Taalcode.Equals(taalcode, StringComparison.InvariantCultureIgnoreCase));
 
-    private static bool IsActiveToday(string datumBegin, string datumEinde)
+    protected static bool IsActiveToday(string datumBegin, string datumEinde)
         => DateOnlyHelper.ParseOrNull(datumBegin, Formats.DateOnly).IsNullOrBeforeToday() &&
            DateOnlyHelper.ParseOrNull(datumEinde, Formats.DateOnly).IsNullOrAfterToday();
 
-    private static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
+    protected static RechtsvormExtentieType? GetActiveRechtsvorm(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.Rechtsvormen?.FirstOrDefault(
             r => IsActiveToday(r.DatumBegin, r.DatumEinde));
 
-    private static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)
+    protected static bool IsRechtspersoon(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.SoortOnderneming.Code.Value == SoortOndernemingCodes.Rechtspersoon;
 
-    private static bool IsActief(Onderneming2_0Type magdaOnderneming)
+    protected static bool IsActief(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.Actief;
 
-    private static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
+    protected static bool IsInOprichting(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.StatusKBO.Code.Value == StatusKBOCodes.InOprichting;
 
-    private static bool IsOnderneming(Onderneming2_0Type magdaOnderneming)
+    protected static bool IsOnderneming(Onderneming2_0Type magdaOnderneming)
         => magdaOnderneming.OndernemingOfVestiging.Code.Value == OndernemingOfVestigingCodes.Onderneming;
 
-    private Result<VerenigingVolgensKbo> HandleUitzonderingen(
+    protected virtual Result<VerenigingVolgensKbo> HandleUitzonderingen(
         string kboNummer,
         ResponseEnvelope<GeefOndernemingResponseBody>? magdaResponse)
     {
@@ -224,7 +224,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         return VerenigingVolgensKboResult.GeenGeldigeVereniging;
     }
 
-    private static async Task<MagdaCallReference> CreateReference(
+    protected virtual async Task<MagdaCallReference> CreateReference(
         IMagdaCallReferenceRepository repository,
         string initiator,
         Guid correlationId,
