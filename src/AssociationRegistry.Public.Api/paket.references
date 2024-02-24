@@ -1,16 +1,6 @@
-Be.Vlaanderen.Basisregisters.AggregateSource
 Be.Vlaanderen.Basisregisters.Api
-Be.Vlaanderen.Basisregisters.EventHandling.Autofac
-Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
-
-AWSSDK.S3
-AWSSDK.Core
-
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
 NEST
-
-
 Marten
-

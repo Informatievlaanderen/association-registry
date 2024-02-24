@@ -9,48 +9,40 @@
 
 namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
 {
-    using System.CodeDom.Compiler;
-    using System.ComponentModel;
-    using System.Diagnostics;
-    using System.ServiceModel;
-    using System.ServiceModel.Channels;
-    using System.ServiceModel.Description;
-    using System.Xml;
-    using System.Xml.Schema;
-    using System.Xml.Serialization;
-
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [ServiceContract(Name="Onderneming.GeefOndernemingPortType", Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                                                                           "", ConfigurationName="AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingP" +
-                         "ortType")]
-    public interface OndernemingGeefOndernemingPortType
+    
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.ServiceModel.ServiceContractAttribute(Name="Onderneming.GeefOndernemingPortType", Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "", ConfigurationName="AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingP" +
+        "ortType")]
+    internal interface OndernemingGeefOndernemingPortType
     {
-
-        [OperationContract(Action="http://magdaondernemingdienst-intern-aip.vonet.be/GeefOndernemingDienst-02.00/soa" +
-                                  "p/WebService", ReplyAction="*")]
-        [XmlSerializerFormat(SupportFaults=true)]
-        [ServiceKnownType(typeof(HoedanigheidType))]
-        [ServiceKnownType(typeof(NaceType))]
-        [ServiceKnownType(typeof(VrijstellingType))]
-        [ServiceKnownType(typeof(RechtstoestandType))]
-        [ServiceKnownType(typeof(RechtsvormType))]
-        [ServiceKnownType(typeof(AdresBasisType))]
-        [ServiceKnownType(typeof(OndernemingBasisType))]
-        Task<GeefOndernemingResponse1> GeefOndernemingAsync(GeefOndernemingRequest request);
+        
+        [System.ServiceModel.OperationContractAttribute(Action="http://magdaondernemingdienst-intern-aip.vonet.be/GeefOndernemingDienst-02.00/soa" +
+            "p/WebService", ReplyAction="*")]
+        [System.ServiceModel.XmlSerializerFormatAttribute(SupportFaults=true)]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(HoedanigheidType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(NaceType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(VrijstellingType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RechtstoestandType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(RechtsvormType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(AdresBasisType))]
+        [System.ServiceModel.ServiceKnownTypeAttribute(typeof(OndernemingBasisType))]
+        System.Threading.Tasks.Task<AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse1> GeefOndernemingAsync(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest request);
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                                           "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class GeefOnderneming
     {
-
+        
         private VerzoekType verzoekField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VerzoekType Verzoek
         {
             get
@@ -63,21 +55,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class VerzoekType
     {
-
+        
         private ContextType contextField;
-
+        
         private VragenType vragenField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public ContextType Context
         {
             get
@@ -89,9 +81,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.contextField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VragenType Vragen
         {
             get
@@ -104,24 +96,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class ContextType
     {
-
+        
         private string naamField;
-
+        
         private string versieField;
-
+        
         private BerichtType berichtField;
-
+        
         private AnnotatieType[] annotatiesField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Naam
         {
             get
@@ -133,9 +125,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Versie
         {
             get
@@ -147,9 +139,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.versieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public BerichtType Bericht
         {
             get
@@ -161,10 +153,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.berichtField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=3)]
-        [XmlArrayItem("Annotatie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Annotatie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AnnotatieType[] Annotaties
         {
             get
@@ -177,24 +169,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class BerichtType
     {
-
+        
         private BerichtTypeType typeField;
-
+        
         private TijdstipType tijdstipField;
-
+        
         private AfzenderAdresType afzenderField;
-
+        
         private OntvangerAdresType ontvangerField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public BerichtTypeType Type
         {
             get
@@ -206,9 +198,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.typeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public TijdstipType Tijdstip
         {
             get
@@ -220,9 +212,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.tijdstipField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public AfzenderAdresType Afzender
         {
             get
@@ -234,9 +226,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.afzenderField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public OntvangerAdresType Ontvanger
         {
             get
@@ -249,48 +241,48 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum BerichtTypeType
     {
-
+        
         /// <remarks/>
         VRAAG,
-
+        
         /// <remarks/>
         ANTWOORD,
-
+        
         /// <remarks/>
         VOORLOPIG_ANTWOORD,
-
+        
         /// <remarks/>
         DATAGRAM,
-
+        
         /// <remarks/>
         BEVESTIGING,
-
+        
         /// <remarks/>
         UITZONDERING,
-
+        
         /// <remarks/>
         PUBLICATIE,
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class TijdstipType
     {
-
+        
         private string datumField;
-
+        
         private string tijdField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
         {
             get
@@ -302,9 +294,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Tijd
         {
             get
@@ -317,32 +309,32 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class UitzonderingType
     {
-
+        
         private string identificatieField;
-
+        
         private string oorsprongField;
-
+        
         private UitzonderingTypeType typeField;
-
+        
         private TijdstipType tijdstipField;
-
+        
         private string diagnoseField;
-
+        
         private string omstandigheidField;
-
+        
         private AnnotatieType[] annotatiesField;
-
+        
         private string[] elementReferentiesField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
         {
             get
@@ -354,9 +346,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.identificatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Oorsprong
         {
             get
@@ -368,9 +360,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.oorsprongField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public UitzonderingTypeType Type
         {
             get
@@ -382,9 +374,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.typeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public TijdstipType Tijdstip
         {
             get
@@ -396,9 +388,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.tijdstipField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Diagnose
         {
             get
@@ -410,9 +402,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.diagnoseField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Omstandigheid
         {
             get
@@ -424,10 +416,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.omstandigheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=6)]
-        [XmlArrayItem("Annotatie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Annotatie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AnnotatieType[] Annotaties
         {
             get
@@ -439,10 +431,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.annotatiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=7)]
-        [XmlArrayItem("ElementReferentie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("ElementReferentie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public string[] ElementReferenties
         {
             get
@@ -455,36 +447,36 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum UitzonderingTypeType
     {
-
+        
         /// <remarks/>
         FOUT,
-
+        
         /// <remarks/>
         WAARSCHUWING,
-
+        
         /// <remarks/>
         INFORMATIE,
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AnnotatieType
     {
-
+        
         private string naamField;
-
+        
         private string waardeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Naam
         {
             get
@@ -496,9 +488,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Waarde
         {
             get
@@ -511,20 +503,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAmbtshalveDoorhalingTypeRedenType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -536,9 +528,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -551,20 +543,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AmbtshalveDoorhalingTypeRedenType
     {
-
+        
         private CodeAmbtshalveDoorhalingTypeRedenType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeAmbtshalveDoorhalingTypeRedenType Code
         {
             get
@@ -576,9 +568,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -591,22 +583,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class OmschrijvingAlgemeenType
     {
-
+        
         private string oorsprongField;
-
+        
         private string taalCodeField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Oorsprong
         {
             get
@@ -618,9 +610,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.oorsprongField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string TaalCode
         {
             get
@@ -632,9 +624,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.taalCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -647,22 +639,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AmbtshalveDoorhalingKBOType
     {
-
+        
         private AmbtshalveDoorhalingTypeRedenType redenField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AmbtshalveDoorhalingTypeRedenType Reden
         {
             get
@@ -674,9 +666,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.redenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -688,9 +680,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -703,24 +695,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BijhuisType
     {
-
+        
         private AdresOndernemingType adresField;
-
+        
         private StopzettingExtentieType stopzettingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AdresOndernemingType Adres
         {
             get
@@ -732,9 +724,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.adresField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public StopzettingExtentieType Stopzetting
         {
             get
@@ -746,9 +738,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.stopzettingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -760,9 +752,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -775,26 +767,26 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingType : AdresOndernemingBasisType
     {
-
+        
         private TypeAdresOndernemingType typeField;
-
+        
         private DescriptieType[] descriptiesField;
-
+        
         private AdresDoorhalingKBOType[] doorhalingenField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public TypeAdresOndernemingType Type
         {
             get
@@ -806,10 +798,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.typeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=1)]
-        [XmlArrayItem("Descriptie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Descriptie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public DescriptieType[] Descripties
         {
             get
@@ -821,10 +813,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.descriptiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=2)]
-        [XmlArrayItem("Doorhaling", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Doorhaling", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AdresDoorhalingKBOType[] Doorhalingen
         {
             get
@@ -836,9 +828,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.doorhalingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -850,9 +842,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -865,20 +857,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class TypeAdresOndernemingType
     {
-
+        
         private CodeTypeAdresOndernemingType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeTypeAdresOndernemingType Code
         {
             get
@@ -890,9 +882,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -905,20 +897,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeTypeAdresOndernemingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -930,9 +922,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -945,24 +937,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DescriptieType
     {
-
+        
         private AdresOndernemingBasisType adresField;
-
+        
         private ContactType contactField;
-
+        
         private string taalcodeField;
-
+        
         private string aanvullingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AdresOndernemingBasisType Adres
         {
             get
@@ -974,9 +966,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.adresField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public ContactType Contact
         {
             get
@@ -988,9 +980,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.contactField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Taalcode
         {
             get
@@ -1002,9 +994,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.taalcodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string Aanvulling
         {
             get
@@ -1017,19 +1009,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(AdresOndernemingType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingBasisType : AdresBasisType
     {
-
+        
         private Land2_0Type landField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public Land2_0Type Land
         {
             get
@@ -1042,22 +1034,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class Land2_0Type
     {
-
+        
         private string nISCodeField;
-
+        
         private string iSOCodeField;
-
+        
         private string naamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string NISCode
         {
             get
@@ -1069,9 +1061,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.nISCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string ISOCode
         {
             get
@@ -1083,9 +1075,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.iSOCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Naam
         {
             get
@@ -1098,29 +1090,29 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(AdresOndernemingDeelnemingInType))]
-    [XmlInclude(typeof(AdresOndernemingBasisType))]
-    [XmlInclude(typeof(AdresOndernemingType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingDeelnemingInType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingBasisType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresBasisType
     {
-
+        
         private StraatRR2_0Type straatField;
-
+        
         private string huisnummerField;
-
+        
         private string busnummerField;
-
+        
         private GemeenteOptioneel2_0Type gemeenteField;
-
+        
         private string staatField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public StraatRR2_0Type Straat
         {
             get
@@ -1132,9 +1124,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.straatField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Huisnummer
         {
             get
@@ -1146,9 +1138,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.huisnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Busnummer
         {
             get
@@ -1160,9 +1152,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.busnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public GemeenteOptioneel2_0Type Gemeente
         {
             get
@@ -1174,9 +1166,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.gemeenteField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Staat
         {
             get
@@ -1189,20 +1181,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StraatRR2_0Type
     {
-
+        
         private string codeField;
-
+        
         private string naamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Code
         {
             get
@@ -1214,9 +1206,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
         {
             get
@@ -1229,22 +1221,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class GemeenteOptioneel2_0Type
     {
-
+        
         private string nISCodeField;
-
+        
         private string postCodeField;
-
+        
         private string naamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string NISCode
         {
             get
@@ -1256,9 +1248,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.nISCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string PostCode
         {
             get
@@ -1270,9 +1262,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.postCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Naam
         {
             get
@@ -1285,18 +1277,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingDeelnemingInType : AdresBasisType
     {
-
+        
         private DeelnemingInLand2_0Type landField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public DeelnemingInLand2_0Type Land
         {
             get
@@ -1309,22 +1301,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DeelnemingInLand2_0Type
     {
-
+        
         private string nISCodeField;
-
+        
         private string iSOCodeField;
-
+        
         private string naamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string NISCode
         {
             get
@@ -1336,9 +1328,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.nISCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string ISOCode
         {
             get
@@ -1350,9 +1342,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.iSOCodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Naam
         {
             get
@@ -1365,26 +1357,26 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ContactType
     {
-
+        
         private string telefoonnummerField;
-
+        
         private string faxnummerField;
-
+        
         private string gSMField;
-
+        
         private string emailField;
-
+        
         private string websiteField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Telefoonnummer
         {
             get
@@ -1396,9 +1388,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.telefoonnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Faxnummer
         {
             get
@@ -1410,9 +1402,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.faxnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string GSM
         {
             get
@@ -1424,9 +1416,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.gSMField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string Email
         {
             get
@@ -1438,9 +1430,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.emailField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Website
         {
             get
@@ -1453,22 +1445,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresDoorhalingKBOType
     {
-
+        
         private AdresDoorhalingRedenType redenField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AdresDoorhalingRedenType Reden
         {
             get
@@ -1480,9 +1472,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.redenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -1494,9 +1486,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -1509,20 +1501,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresDoorhalingRedenType
     {
-
+        
         private CodeAdresDoorhalingRedenType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeAdresDoorhalingRedenType Code
         {
             get
@@ -1534,9 +1526,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -1549,20 +1541,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAdresDoorhalingRedenType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -1574,9 +1566,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -1589,18 +1581,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StopzettingExtentieType : StopzettingType
     {
-
+        
         private string datumField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
         {
             get
@@ -1613,21 +1605,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(StopzettingExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(StopzettingExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StopzettingType
     {
-
+        
         private CodeStopzettingType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeStopzettingType Code
         {
             get
@@ -1639,9 +1631,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -1654,20 +1646,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeStopzettingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -1679,9 +1671,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -1694,20 +1686,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ExterneIdentificatieType
     {
-
+        
         private string eDRLField;
-
+        
         private string naamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string EDRL
         {
             get
@@ -1719,9 +1711,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.eDRLField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
         {
             get
@@ -1734,20 +1726,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeBeeindigingHoedanigheidType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -1759,9 +1751,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -1774,20 +1766,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BeeindigingHoedanigheidType
     {
-
+        
         private CodeBeeindigingHoedanigheidType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeBeeindigingHoedanigheidType Code
         {
             get
@@ -1799,9 +1791,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -1814,20 +1806,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeFaseHoedanigheidType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -1839,9 +1831,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -1854,20 +1846,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FaseHoedanigheidType
     {
-
+        
         private CodeFaseHoedanigheidType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeFaseHoedanigheidType Code
         {
             get
@@ -1879,9 +1871,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -1894,20 +1886,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeHoedanigheidType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -1919,9 +1911,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -1934,21 +1926,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(HoedanigheidExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(HoedanigheidExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class HoedanigheidType
     {
-
+        
         private CodeHoedanigheidType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeHoedanigheidType Code
         {
             get
@@ -1960,9 +1952,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -1975,30 +1967,30 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class HoedanigheidExtentieType : HoedanigheidType
     {
-
+        
         private string instrumenterendeAdministratieField;
-
+        
         private DatumInschrijvingType inschrijvingField;
-
+        
         private string duurtijdField;
-
+        
         private FaseHoedanigheidType faseField;
-
+        
         private BeeindigingHoedanigheidType beeindigingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string InstrumenterendeAdministratie
         {
             get
@@ -2010,9 +2002,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.instrumenterendeAdministratieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public DatumInschrijvingType Inschrijving
         {
             get
@@ -2024,9 +2016,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.inschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Duurtijd
         {
             get
@@ -2038,9 +2030,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.duurtijdField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public FaseHoedanigheidType Fase
         {
             get
@@ -2052,9 +2044,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.faseField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public BeeindigingHoedanigheidType Beeindiging
         {
             get
@@ -2066,9 +2058,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beeindigingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -2080,9 +2072,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -2095,18 +2087,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumInschrijvingType
     {
-
+        
         private string datumField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
         {
             get
@@ -2119,26 +2111,26 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class GerelateerdeOndernemingType
     {
-
+        
         private RelatieExtentieType relatieField;
-
+        
         private string ondernemingsnummerField;
-
+        
         private StopzettingType eindeRelatieField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public RelatieExtentieType Relatie
         {
             get
@@ -2150,9 +2142,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.relatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Ondernemingsnummer
         {
             get
@@ -2164,9 +2156,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public StopzettingType EindeRelatie
         {
             get
@@ -2178,9 +2170,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.eindeRelatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -2192,9 +2184,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -2207,20 +2199,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RelatieExtentieType : RelatieType
     {
-
+        
         private VlagEnumType isDochterField;
-
+        
         private bool isDochterFieldSpecified;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public VlagEnumType IsDochter
         {
             get
@@ -2232,9 +2224,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.isDochterField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool IsDochterSpecified
         {
             get
@@ -2247,36 +2239,36 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum VlagEnumType
     {
-
+        
         /// <remarks/>
-        [XmlEnum("0")]
+        [System.Xml.Serialization.XmlEnumAttribute("0")]
         Item0,
-
+        
         /// <remarks/>
-        [XmlEnum("1")]
+        [System.Xml.Serialization.XmlEnumAttribute("1")]
         Item1,
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(RelatieExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RelatieExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RelatieType
     {
-
+        
         private CodeRelatieType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeRelatieType Code
         {
             get
@@ -2288,9 +2280,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -2303,20 +2295,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRelatieType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2328,9 +2320,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -2343,20 +2335,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeTypeActiviteitType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2368,9 +2360,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -2383,20 +2375,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class TypeActiviteitType
     {
-
+        
         private CodeTypeActiviteitType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeTypeActiviteitType Code
         {
             get
@@ -2408,9 +2400,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -2423,20 +2415,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeNaceType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2448,9 +2440,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -2463,21 +2455,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(NaceExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(NaceExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaceType
     {
-
+        
         private CodeNaceType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeNaceType Code
         {
             get
@@ -2489,9 +2481,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -2504,18 +2496,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaceExtentieType : NaceType
     {
-
+        
         private string versieField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Versie
         {
             get
@@ -2528,26 +2520,26 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ActiviteitType
     {
-
+        
         private NaceExtentieType naceField;
-
+        
         private TypeActiviteitType typeField;
-
+        
         private string groepField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public NaceExtentieType Nace
         {
             get
@@ -2559,9 +2551,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naceField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public TypeActiviteitType Type
         {
             get
@@ -2573,9 +2565,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.typeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Groep
         {
             get
@@ -2587,9 +2579,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.groepField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -2601,9 +2593,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -2616,20 +2608,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctieOndernemingType
     {
-
+        
         private string ondernemingsnummerField;
-
+        
         private NaamOndernemingType maatschappelijkeNaamField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Ondernemingsnummer
         {
             get
@@ -2641,9 +2633,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public NaamOndernemingType MaatschappelijkeNaam
         {
             get
@@ -2656,24 +2648,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaamOndernemingType
     {
-
+        
         private string naamField;
-
+        
         private string taalcodeField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Naam
         {
             get
@@ -2685,9 +2677,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Taalcode
         {
             get
@@ -2699,9 +2691,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.taalcodeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -2713,9 +2705,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -2728,24 +2720,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctiePersoonType
     {
-
+        
         private string iNSZField;
-
+        
         private string achterNaamField;
-
+        
         private string voorNaamField;
-
+        
         private StraatRR2_0Type straatField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string INSZ
         {
             get
@@ -2757,9 +2749,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.iNSZField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string AchterNaam
         {
             get
@@ -2771,9 +2763,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.achterNaamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string VoorNaam
         {
             get
@@ -2785,9 +2777,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.voorNaamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public StraatRR2_0Type Straat
         {
             get
@@ -2800,20 +2792,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAardFunctieType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2825,9 +2817,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -2840,20 +2832,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AardFunctieType
     {
-
+        
         private CodeAardFunctieType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeAardFunctieType Code
         {
             get
@@ -2865,9 +2857,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -2880,20 +2872,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeEindeFunctieType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2905,9 +2897,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -2920,20 +2912,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class EindeFunctieType
     {
-
+        
         private CodeEindeFunctieType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeEindeFunctieType Code
         {
             get
@@ -2945,9 +2937,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -2960,20 +2952,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class VlagCodeType
     {
-
+        
         private string beschrijvingField;
-
+        
         private VlagEnumType valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -2985,9 +2977,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public VlagEnumType Value
         {
             get
@@ -3000,20 +2992,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeVrijstellingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -3025,9 +3017,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -3040,21 +3032,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(VrijstellingExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(VrijstellingExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VrijstellingType
     {
-
+        
         private CodeVrijstellingType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeVrijstellingType Code
         {
             get
@@ -3066,9 +3058,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -3081,20 +3073,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VrijstellingExtentieType : VrijstellingType
     {
-
+        
         private VlagCodeType aanduidingVrijstellingField;
-
+        
         private VlagCodeType geenKMOField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagCodeType AanduidingVrijstelling
         {
             get
@@ -3106,9 +3098,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingVrijstellingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VlagCodeType GeenKMO
         {
             get
@@ -3121,20 +3113,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAanduidingPersoonOndernemingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -3146,9 +3138,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -3161,20 +3153,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AanduidingPersoonOndernemingType
     {
-
+        
         private CodeAanduidingPersoonOndernemingType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeAanduidingPersoonOndernemingType Code
         {
             get
@@ -3186,9 +3178,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -3201,34 +3193,34 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctieType
     {
-
+        
         private string functiehouderVanField;
-
+        
         private AanduidingPersoonOndernemingType aanduidingPersoonOndernemingField;
-
+        
         private VrijstellingExtentieType vrijstellingField;
-
+        
         private EindeFunctieType eindeFunctieField;
-
+        
         private AardFunctieType aardFunctieField;
-
+        
         private FunctiePersoonType persoonField;
-
+        
         private FunctieOndernemingType ondernemingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string FunctiehouderVan
         {
             get
@@ -3240,9 +3232,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.functiehouderVanField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AanduidingPersoonOndernemingType AanduidingPersoonOnderneming
         {
             get
@@ -3254,9 +3246,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingPersoonOndernemingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public VrijstellingExtentieType Vrijstelling
         {
             get
@@ -3268,9 +3260,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.vrijstellingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public EindeFunctieType EindeFunctie
         {
             get
@@ -3282,9 +3274,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.eindeFunctieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public AardFunctieType AardFunctie
         {
             get
@@ -3296,9 +3288,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aardFunctieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public FunctiePersoonType Persoon
         {
             get
@@ -3310,9 +3302,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.persoonField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public FunctieOndernemingType Onderneming
         {
             get
@@ -3324,9 +3316,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -3338,9 +3330,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -3353,30 +3345,30 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BankrekeningType
     {
-
+        
         private string rekeningnummerField;
-
+        
         private string doelField;
-
+        
         private string iBANField;
-
+        
         private string bICField;
-
+        
         private string nietSEPAnummerField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Rekeningnummer
         {
             get
@@ -3388,9 +3380,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.rekeningnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Doel
         {
             get
@@ -3402,9 +3394,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.doelField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string IBAN
         {
             get
@@ -3416,9 +3408,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.iBANField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string BIC
         {
             get
@@ -3430,9 +3422,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bICField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string NietSEPAnummer
         {
             get
@@ -3444,9 +3436,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.nietSEPAnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -3458,9 +3450,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -3473,34 +3465,34 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VestigingType
     {
-
+        
         private string vestigingsnummerField;
-
+        
         private StatusKBOType statusKBOField;
-
+        
         private MaatschappelijkeZetelType maatschappelijkeZetelField;
-
+        
         private NamenOndernemingType namenField;
-
+        
         private AdresOndernemingType[] adressenField;
-
+        
         private DatumAfsluitingType afsluitingField;
-
+        
         private StopzettingExtentieType stopzettingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Vestigingsnummer
         {
             get
@@ -3512,9 +3504,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.vestigingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public StatusKBOType StatusKBO
         {
             get
@@ -3526,9 +3518,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.statusKBOField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public MaatschappelijkeZetelType MaatschappelijkeZetel
         {
             get
@@ -3540,9 +3532,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.maatschappelijkeZetelField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public NamenOndernemingType Namen
         {
             get
@@ -3554,10 +3546,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.namenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=4)]
-        [XmlArrayItem("Adres", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Adres", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AdresOndernemingType[] Adressen
         {
             get
@@ -3569,9 +3561,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.adressenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public DatumAfsluitingType Afsluiting
         {
             get
@@ -3583,9 +3575,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.afsluitingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public StopzettingExtentieType Stopzetting
         {
             get
@@ -3597,9 +3589,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.stopzettingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -3611,9 +3603,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -3626,20 +3618,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StatusKBOType
     {
-
+        
         private CodeStatusKBOType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeStatusKBOType Code
         {
             get
@@ -3651,9 +3643,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -3666,20 +3658,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeStatusKBOType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -3691,9 +3683,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -3706,26 +3698,26 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class MaatschappelijkeZetelType
     {
-
+        
         private RelatieType relatieField;
-
+        
         private string ondernemingsnummerField;
-
+        
         private StopzettingType stopzettingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public RelatieType Relatie
         {
             get
@@ -3737,9 +3729,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.relatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Ondernemingsnummer
         {
             get
@@ -3751,9 +3743,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public StopzettingType Stopzetting
         {
             get
@@ -3765,9 +3757,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.stopzettingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -3779,9 +3771,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -3794,23 +3786,23 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NamenOndernemingType
     {
-
+        
         private NaamOndernemingType[] maatschappelijkeNamenField;
-
+        
         private NaamOndernemingType[] afgekorteNamenField;
-
+        
         private NaamOndernemingType[] commercieleNamenField;
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=0)]
-        [XmlArrayItem("MaatschappelijkeNaam", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("MaatschappelijkeNaam", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public NaamOndernemingType[] MaatschappelijkeNamen
         {
             get
@@ -3822,10 +3814,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.maatschappelijkeNamenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=1)]
-        [XmlArrayItem("AfgekorteNaam", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("AfgekorteNaam", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public NaamOndernemingType[] AfgekorteNamen
         {
             get
@@ -3837,10 +3829,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.afgekorteNamenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=2)]
-        [XmlArrayItem("CommercieleNaam", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("CommercieleNaam", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public NaamOndernemingType[] CommercieleNamen
         {
             get
@@ -3853,18 +3845,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumAfsluitingType
     {
-
+        
         private string datumField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
         {
             get
@@ -3877,20 +3869,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRechtstoestandType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -3902,9 +3894,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -3917,21 +3909,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(RechtstoestandExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RechtstoestandExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtstoestandType
     {
-
+        
         private CodeRechtstoestandType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeRechtstoestandType Code
         {
             get
@@ -3943,9 +3935,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -3958,22 +3950,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtstoestandExtentieType : RechtstoestandType
     {
-
+        
         private string instrumenterendeOverheidField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string InstrumenterendeOverheid
         {
             get
@@ -3985,9 +3977,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.instrumenterendeOverheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -3999,9 +3991,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -4014,20 +4006,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRechtsvormType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -4039,9 +4031,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -4054,21 +4046,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(RechtsvormExtentieType))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(RechtsvormExtentieType))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtsvormType
     {
-
+        
         private CodeRechtsvormType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeRechtsvormType Code
         {
             get
@@ -4080,9 +4072,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -4095,22 +4087,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtsvormExtentieType : RechtsvormType
     {
-
+        
         private string afkortingField;
-
+        
         private string datumBeginField;
-
+        
         private string datumEindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Afkorting
         {
             get
@@ -4122,9 +4114,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.afkortingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumBegin
         {
             get
@@ -4136,9 +4128,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.datumBeginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string DatumEinde
         {
             get
@@ -4151,18 +4143,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumStartType
     {
-
+        
         private string datumField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Datum
         {
             get
@@ -4175,20 +4167,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeSoortOndernemingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -4200,9 +4192,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -4215,20 +4207,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class SoortOndernemingType
     {
-
+        
         private CodeSoortOndernemingType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeSoortOndernemingType Code
         {
             get
@@ -4240,9 +4232,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -4255,20 +4247,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeOndernemingOfVestigingType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -4280,9 +4272,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -4295,18 +4287,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingOfVestigingType
     {
-
+        
         private CodeOndernemingOfVestigingType codeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeOndernemingOfVestigingType Code
         {
             get
@@ -4319,20 +4311,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAuthentiekBronType
     {
-
+        
         private string beschrijvingField;
-
+        
         private string valueField;
-
+        
         /// <remarks/>
-        [XmlAttribute()]
+        [System.Xml.Serialization.XmlAttributeAttribute()]
         public string Beschrijving
         {
             get
@@ -4344,9 +4336,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlText()]
+        [System.Xml.Serialization.XmlTextAttribute()]
         public string Value
         {
             get
@@ -4359,20 +4351,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AuthentiekBronType
     {
-
+        
         private CodeAuthentiekBronType codeField;
-
+        
         private OmschrijvingAlgemeenType omschrijvingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CodeAuthentiekBronType Code
         {
             get
@@ -4384,9 +4376,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.codeField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public OmschrijvingAlgemeenType Omschrijving
         {
             get
@@ -4399,24 +4391,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(OndernemingAlgemeenType))]
-    [XmlInclude(typeof(Onderneming2_0Type))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(OndernemingAlgemeenType))]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Onderneming2_0Type))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingBasisType
     {
-
+        
         private string ondernemingsnummerField;
-
+        
         private AuthentiekBronType authentiekBronField;
-
+        
         private OndernemingOfVestigingType ondernemingOfVestigingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Ondernemingsnummer
         {
             get
@@ -4428,9 +4420,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AuthentiekBronType AuthentiekBron
         {
             get
@@ -4442,9 +4434,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.authentiekBronField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public OndernemingOfVestigingType OndernemingOfVestiging
         {
             get
@@ -4457,39 +4449,39 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [XmlInclude(typeof(Onderneming2_0Type))]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.Xml.Serialization.XmlIncludeAttribute(typeof(Onderneming2_0Type))]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingAlgemeenType : OndernemingBasisType
     {
-
+        
         private StatusKBOType statusKBOField;
-
+        
         private SoortOndernemingType soortOndernemingField;
-
+        
         private MaatschappelijkeZetelType maatschappelijkeZetelField;
-
+        
         private NamenOndernemingType namenField;
-
+        
         private AdresOndernemingType[] adressenField;
-
+        
         private DatumStartType startField;
-
+        
         private DatumInschrijvingType inschrijvingField;
-
+        
         private string duurtijdField;
-
+        
         private DatumAfsluitingType afsluitingField;
-
+        
         private StopzettingExtentieType stopzettingField;
-
+        
         private RechtsvormExtentieType[] rechtsvormenField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public StatusKBOType StatusKBO
         {
             get
@@ -4501,9 +4493,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.statusKBOField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public SoortOndernemingType SoortOnderneming
         {
             get
@@ -4515,9 +4507,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.soortOndernemingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public MaatschappelijkeZetelType MaatschappelijkeZetel
         {
             get
@@ -4529,9 +4521,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.maatschappelijkeZetelField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public NamenOndernemingType Namen
         {
             get
@@ -4543,10 +4535,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.namenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=4)]
-        [XmlArrayItem("Adres", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Adres", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AdresOndernemingType[] Adressen
         {
             get
@@ -4558,9 +4550,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.adressenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public DatumStartType Start
         {
             get
@@ -4572,9 +4564,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.startField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public DatumInschrijvingType Inschrijving
         {
             get
@@ -4586,9 +4578,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.inschrijvingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         public string Duurtijd
         {
             get
@@ -4600,9 +4592,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.duurtijdField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
         public DatumAfsluitingType Afsluiting
         {
             get
@@ -4614,9 +4606,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.afsluitingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
         public StopzettingExtentieType Stopzetting
         {
             get
@@ -4628,10 +4620,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.stopzettingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=10)]
-        [XmlArrayItem("Rechtsvorm", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Rechtsvorm", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public RechtsvormExtentieType[] Rechtsvormen
         {
             get
@@ -4644,37 +4636,37 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class Onderneming2_0Type : OndernemingAlgemeenType
     {
-
+        
         private RechtstoestandExtentieType[] rechtstoestandenField;
-
+        
         private VestigingType[] vestigingenField;
-
+        
         private BankrekeningType[] bankrekeningenField;
-
+        
         private FunctieType[] functiesField;
-
+        
         private ActiviteitType[] activiteitenField;
-
+        
         private GerelateerdeOndernemingType[] gerelateerdeOndernemingenField;
-
+        
         private HoedanigheidExtentieType[] hoedanighedenField;
-
+        
         private ExterneIdentificatieType[] externeIdentificatiesField;
-
+        
         private BijhuisType bijhuisField;
-
+        
         private AmbtshalveDoorhalingKBOType[] ambtshalveDoorhalingenField;
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=0)]
-        [XmlArrayItem("Rechtstoestand", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Rechtstoestand", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public RechtstoestandExtentieType[] Rechtstoestanden
         {
             get
@@ -4686,10 +4678,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.rechtstoestandenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=1)]
-        [XmlArrayItem("Vestiging", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Vestiging", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public VestigingType[] Vestigingen
         {
             get
@@ -4701,10 +4693,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.vestigingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=2)]
-        [XmlArrayItem("Bankrekeningnummer", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Bankrekeningnummer", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public BankrekeningType[] Bankrekeningen
         {
             get
@@ -4716,10 +4708,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bankrekeningenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=3)]
-        [XmlArrayItem("Functie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Functie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public FunctieType[] Functies
         {
             get
@@ -4731,10 +4723,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.functiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=4)]
-        [XmlArrayItem("Activiteit", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Activiteit", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public ActiviteitType[] Activiteiten
         {
             get
@@ -4746,10 +4738,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.activiteitenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=5)]
-        [XmlArrayItem("GerelateerdeOnderneming", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("GerelateerdeOnderneming", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public GerelateerdeOndernemingType[] GerelateerdeOndernemingen
         {
             get
@@ -4761,10 +4753,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.gerelateerdeOndernemingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=6)]
-        [XmlArrayItem("Hoedanigheid", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Hoedanigheid", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public HoedanigheidExtentieType[] Hoedanigheden
         {
             get
@@ -4776,10 +4768,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.hoedanighedenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=7)]
-        [XmlArrayItem("ExterneIdentificatie", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("ExterneIdentificatie", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public ExterneIdentificatieType[] ExterneIdentificaties
         {
             get
@@ -4791,9 +4783,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.externeIdentificatiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
         public BijhuisType Bijhuis
         {
             get
@@ -4805,10 +4797,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bijhuisField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=9)]
-        [XmlArrayItem("AmbtshalveDoorhaling", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("AmbtshalveDoorhaling", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public AmbtshalveDoorhalingKBOType[] AmbtshalveDoorhalingen
         {
             get
@@ -4821,19 +4813,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class AntwoordInhoudType
     {
-
+        
         private Onderneming2_0Type ondernemingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public Onderneming2_0Type Onderneming
         {
             get
@@ -4846,23 +4838,23 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class AntwoordType
     {
-
+        
         private string referteField;
-
+        
         private AntwoordInhoudType inhoudField;
-
+        
         private UitzonderingType[] uitzonderingenField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Referte
         {
             get
@@ -4874,9 +4866,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.referteField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AntwoordInhoudType Inhoud
         {
             get
@@ -4888,10 +4880,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.inhoudField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=2)]
-        [XmlArrayItem("Uitzondering", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Uitzondering", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public UitzonderingType[] Uitzonderingen
         {
             get
@@ -4904,19 +4896,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class AntwoordenType
     {
-
+        
         private AntwoordType antwoordField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public AntwoordType Antwoord
         {
             get
@@ -4929,23 +4921,23 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class RepliekType
     {
-
+        
         private ContextType contextField;
-
+        
         private AntwoordenType antwoordenField;
-
+        
         private UitzonderingType[] uitzonderingenField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public ContextType Context
         {
             get
@@ -4957,9 +4949,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.contextField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public AntwoordenType Antwoorden
         {
             get
@@ -4971,10 +4963,10 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.antwoordenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlArray(Form=XmlSchemaForm.Unqualified, Order=2)]
-        [XmlArrayItem("Uitzondering", Form=XmlSchemaForm.Unqualified, IsNullable=false)]
+        [System.Xml.Serialization.XmlArrayAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlArrayItemAttribute("Uitzondering", Form=System.Xml.Schema.XmlSchemaForm.Unqualified, IsNullable=false)]
         public UitzonderingType[] Uitzonderingen
         {
             get
@@ -4987,20 +4979,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class PeriodeOptioneelType
     {
-
+        
         private string beginField;
-
+        
         private string eindeField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Begin
         {
             get
@@ -5012,9 +5004,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.beginField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Einde
         {
             get
@@ -5027,19 +5019,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaDatumsType
     {
-
+        
         private object itemField;
-
+        
         /// <remarks/>
-        [XmlElement("Aanduiding", typeof(VlagEnumType), Form=XmlSchemaForm.Unqualified, Order=0)]
-        [XmlElement("Periode", typeof(PeriodeOptioneelType), Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("Aanduiding", typeof(VlagEnumType), Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute("Periode", typeof(PeriodeOptioneelType), Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public object Item
         {
             get
@@ -5052,18 +5044,18 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaOmschrijvingenType
     {
-
+        
         private VlagEnumType aanduidingField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagEnumType Aanduiding
         {
             get
@@ -5076,20 +5068,20 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaHoedanighedenType
     {
-
+        
         private VlagEnumType aanduidingField;
-
+        
         private string soortField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagEnumType Aanduiding
         {
             get
@@ -5101,9 +5093,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Soort
         {
             get
@@ -5116,22 +5108,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaGerelateerdeOndernemingenType
     {
-
+        
         private VlagEnumType aanduidingField;
-
+        
         private VlagEnumType vestigingenField;
-
+        
         private bool vestigingenFieldSpecified;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagEnumType Aanduiding
         {
             get
@@ -5143,9 +5135,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VlagEnumType Vestigingen
         {
             get
@@ -5157,9 +5149,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.vestigingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool VestigingenSpecified
         {
             get
@@ -5172,24 +5164,24 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaFunctiesType
     {
-
+        
         private VlagEnumType aanduidingField;
-
+        
         private string soortField;
-
+        
         private VlagEnumType ondernemingField;
-
+        
         private bool ondernemingFieldSpecified;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagEnumType Aanduiding
         {
             get
@@ -5201,9 +5193,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Soort
         {
             get
@@ -5215,9 +5207,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.soortField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public VlagEnumType Onderneming
         {
             get
@@ -5229,9 +5221,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool OndernemingSpecified
         {
             get
@@ -5244,22 +5236,22 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaVestigingenType
     {
-
+        
         private VlagEnumType aanduidingField;
-
+        
         private VlagEnumType detailsField;
-
+        
         private bool detailsFieldSpecified;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VlagEnumType Aanduiding
         {
             get
@@ -5271,9 +5263,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.aanduidingField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VlagEnumType Details
         {
             get
@@ -5285,9 +5277,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.detailsField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool DetailsSpecified
         {
             get
@@ -5300,56 +5292,56 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaGeefOnderneming2_0Type
     {
-
+        
         private string ondernemingsnummerField;
-
+        
         private VlagEnumType basisgegevensField;
-
+        
         private VlagEnumType rechtstoestandenField;
-
+        
         private bool rechtstoestandenFieldSpecified;
-
+        
         private CriteriaVestigingenType vestigingenField;
-
+        
         private VlagEnumType bankrekeningenField;
-
+        
         private bool bankrekeningenFieldSpecified;
-
+        
         private CriteriaFunctiesType functiesField;
-
+        
         private VlagEnumType activiteitenField;
-
+        
         private bool activiteitenFieldSpecified;
-
+        
         private CriteriaGerelateerdeOndernemingenType gerelateerdeOndernemingenField;
-
+        
         private CriteriaHoedanighedenType hoedanighedenField;
-
+        
         private VlagEnumType externeIdentificatiesField;
-
+        
         private bool externeIdentificatiesFieldSpecified;
-
+        
         private VlagEnumType bijhuisField;
-
+        
         private bool bijhuisFieldSpecified;
-
+        
         private VlagEnumType ambtshalveDoorhalingenField;
-
+        
         private bool ambtshalveDoorhalingenFieldSpecified;
-
+        
         private CriteriaOmschrijvingenType omschrijvingenField;
-
+        
         private CriteriaDatumsType datumsField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Ondernemingsnummer
         {
             get
@@ -5361,9 +5353,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ondernemingsnummerField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VlagEnumType Basisgegevens
         {
             get
@@ -5375,9 +5367,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.basisgegevensField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public VlagEnumType Rechtstoestanden
         {
             get
@@ -5389,9 +5381,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.rechtstoestandenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool RechtstoestandenSpecified
         {
             get
@@ -5403,9 +5395,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.rechtstoestandenFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public CriteriaVestigingenType Vestigingen
         {
             get
@@ -5417,9 +5409,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.vestigingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public VlagEnumType Bankrekeningen
         {
             get
@@ -5431,9 +5423,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bankrekeningenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool BankrekeningenSpecified
         {
             get
@@ -5445,9 +5437,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bankrekeningenFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public CriteriaFunctiesType Functies
         {
             get
@@ -5459,9 +5451,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.functiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=6)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=6)]
         public VlagEnumType Activiteiten
         {
             get
@@ -5473,9 +5465,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.activiteitenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool ActiviteitenSpecified
         {
             get
@@ -5487,9 +5479,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.activiteitenFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=7)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=7)]
         public CriteriaGerelateerdeOndernemingenType GerelateerdeOndernemingen
         {
             get
@@ -5501,9 +5493,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.gerelateerdeOndernemingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=8)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=8)]
         public CriteriaHoedanighedenType Hoedanigheden
         {
             get
@@ -5515,9 +5507,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.hoedanighedenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=9)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=9)]
         public VlagEnumType ExterneIdentificaties
         {
             get
@@ -5529,9 +5521,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.externeIdentificatiesField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool ExterneIdentificatiesSpecified
         {
             get
@@ -5543,9 +5535,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.externeIdentificatiesFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=10)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=10)]
         public VlagEnumType Bijhuis
         {
             get
@@ -5557,9 +5549,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bijhuisField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool BijhuisSpecified
         {
             get
@@ -5571,9 +5563,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.bijhuisFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=11)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=11)]
         public VlagEnumType AmbtshalveDoorhalingen
         {
             get
@@ -5585,9 +5577,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ambtshalveDoorhalingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlIgnore()]
+        [System.Xml.Serialization.XmlIgnoreAttribute()]
         public bool AmbtshalveDoorhalingenSpecified
         {
             get
@@ -5599,9 +5591,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.ambtshalveDoorhalingenFieldSpecified = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=12)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=12)]
         public CriteriaOmschrijvingenType Omschrijvingen
         {
             get
@@ -5613,9 +5605,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.omschrijvingenField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=13)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=13)]
         public CriteriaDatumsType Datums
         {
             get
@@ -5628,21 +5620,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class VraagInhoudType
     {
-
+        
         private CriteriaGeefOnderneming2_0Type criteriaField;
-
+        
         private string taalField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public CriteriaGeefOnderneming2_0Type Criteria
         {
             get
@@ -5654,9 +5646,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.criteriaField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Taal
         {
             get
@@ -5669,21 +5661,21 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class VraagType
     {
-
+        
         private string referteField;
-
+        
         private VraagInhoudType inhoudField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Referte
         {
             get
@@ -5695,9 +5687,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.referteField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public VraagInhoudType Inhoud
         {
             get
@@ -5710,19 +5702,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                       "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class VragenType
     {
-
+        
         private VraagType vraagField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public VraagType Vraag
         {
             get
@@ -5735,28 +5727,28 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class OntvangerAdresType
     {
-
+        
         private string identificatieField;
-
+        
         private string naamField;
-
+        
         private string referteField;
-
+        
         private string organisatieEenheidField;
-
+        
         private string hoedanigheidField;
-
+        
         private string gebruikerField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
         {
             get
@@ -5768,9 +5760,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.identificatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
         {
             get
@@ -5782,9 +5774,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Referte
         {
             get
@@ -5796,9 +5788,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.referteField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string OrganisatieEenheid
         {
             get
@@ -5810,9 +5802,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.organisatieEenheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Hoedanigheid
         {
             get
@@ -5824,9 +5816,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.hoedanigheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Gebruiker
         {
             get
@@ -5839,28 +5831,28 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AfzenderAdresType
     {
-
+        
         private string identificatieField;
-
+        
         private string naamField;
-
+        
         private string referteField;
-
+        
         private string organisatieEenheidField;
-
+        
         private string hoedanigheidField;
-
+        
         private string gebruikerField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public string Identificatie
         {
             get
@@ -5872,9 +5864,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.identificatieField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=1)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=1)]
         public string Naam
         {
             get
@@ -5886,9 +5878,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.naamField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=2)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=2)]
         public string Referte
         {
             get
@@ -5900,9 +5892,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.referteField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=3)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=3)]
         public string OrganisatieEenheid
         {
             get
@@ -5914,9 +5906,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.organisatieEenheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=4)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=4)]
         public string Hoedanigheid
         {
             get
@@ -5928,9 +5920,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
                 this.hoedanigheidField = value;
             }
         }
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=5)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=5)]
         public string Gebruiker
         {
             get
@@ -5943,19 +5935,19 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
+    
     /// <remarks/>
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [DebuggerStepThrough()]
-    [XmlType(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                                           "")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+        "")]
     public partial class GeefOndernemingResponse
     {
-
+        
         private RepliekType repliekField;
-
+        
         /// <remarks/>
-        [XmlElement(Form=XmlSchemaForm.Unqualified, Order=0)]
+        [System.Xml.Serialization.XmlElementAttribute(Form=System.Xml.Schema.XmlSchemaForm.Unqualified, Order=0)]
         public RepliekType Repliek
         {
             get
@@ -5968,160 +5960,150 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
             }
         }
     }
-
-    [DebuggerStepThrough()]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [MessageContract(IsWrapped=false)]
-    public partial class GeefOndernemingRequest
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GeefOndernemingRequest
     {
-
-        [MessageBodyMember(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                                     "", Order=0)]
-        public GeefOnderneming GeefOnderneming;
-
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+            "", Order=0)]
+        public AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOnderneming GeefOnderneming;
+        
         public GeefOndernemingRequest()
         {
         }
-
-        public GeefOndernemingRequest(GeefOnderneming GeefOnderneming)
+        
+        public GeefOndernemingRequest(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOnderneming GeefOnderneming)
         {
             this.GeefOnderneming = GeefOnderneming;
         }
     }
-
-    [DebuggerStepThrough()]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [EditorBrowsable(EditorBrowsableState.Advanced)]
-    [MessageContract(IsWrapped=false)]
-    public partial class GeefOndernemingResponse1
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
+    internal partial class GeefOndernemingResponse1
     {
-
-        [MessageBodyMember(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
-                                     "", Order=0)]
-        public GeefOndernemingResponse GeefOndernemingResponse;
-
+        
+        [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
+            "", Order=0)]
+        public AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse GeefOndernemingResponse;
+        
         public GeefOndernemingResponse1()
         {
         }
-
-        public GeefOndernemingResponse1(GeefOndernemingResponse GeefOndernemingResponse)
+        
+        public GeefOndernemingResponse1(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse GeefOndernemingResponse)
         {
             this.GeefOndernemingResponse = GeefOndernemingResponse;
         }
     }
-
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public interface OndernemingGeefOndernemingPortTypeChannel : OndernemingGeefOndernemingPortType, IClientChannel
+    
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    internal interface OndernemingGeefOndernemingPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType, System.ServiceModel.IClientChannel
     {
     }
-
-    [DebuggerStepThrough()]
-    [GeneratedCode("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public partial class OndernemingGeefOndernemingPortTypeClient : ClientBase<OndernemingGeefOndernemingPortType>, OndernemingGeefOndernemingPortType
+    
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    internal partial class OndernemingGeefOndernemingPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType>, AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType
     {
-
+        
         /// <summary>
         /// Implement this partial method to configure the service endpoint.
         /// </summary>
         /// <param name="serviceEndpoint">The endpoint to configure</param>
         /// <param name="clientCredentials">The client credentials</param>
-        static partial void ConfigureEndpoint(ServiceEndpoint serviceEndpoint, ClientCredentials clientCredentials);
-
-        public OndernemingGeefOndernemingPortTypeClient() :
-                base(GetDefaultBinding(), GetDefaultEndpointAddress())
+        static partial void ConfigureEndpoint(System.ServiceModel.Description.ServiceEndpoint serviceEndpoint, System.ServiceModel.Description.ClientCredentials clientCredentials);
+        
+        public OndernemingGeefOndernemingPortTypeClient() : 
+                base(OndernemingGeefOndernemingPortTypeClient.GetDefaultBinding(), OndernemingGeefOndernemingPortTypeClient.GetDefaultEndpointAddress())
         {
             this.Endpoint.Name = EndpointConfiguration.Onderneming_GeefOndernemingHttpPort.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-
-        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration) :
-                base(GetBindingForEndpoint(endpointConfiguration), GetEndpointAddress(endpointConfiguration))
+        
+        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration) : 
+                base(OndernemingGeefOndernemingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), OndernemingGeefOndernemingPortTypeClient.GetEndpointAddress(endpointConfiguration))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-
-        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration, string remoteAddress) :
-                base(GetBindingForEndpoint(endpointConfiguration), new EndpointAddress(remoteAddress))
+        
+        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration, string remoteAddress) : 
+                base(OndernemingGeefOndernemingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), new System.ServiceModel.EndpointAddress(remoteAddress))
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-
-        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration, EndpointAddress remoteAddress) :
-                base(GetBindingForEndpoint(endpointConfiguration), remoteAddress)
+        
+        public OndernemingGeefOndernemingPortTypeClient(EndpointConfiguration endpointConfiguration, System.ServiceModel.EndpointAddress remoteAddress) : 
+                base(OndernemingGeefOndernemingPortTypeClient.GetBindingForEndpoint(endpointConfiguration), remoteAddress)
         {
             this.Endpoint.Name = endpointConfiguration.ToString();
             ConfigureEndpoint(this.Endpoint, this.ClientCredentials);
         }
-
-        public OndernemingGeefOndernemingPortTypeClient(Binding binding, EndpointAddress remoteAddress) :
+        
+        public OndernemingGeefOndernemingPortTypeClient(System.ServiceModel.Channels.Binding binding, System.ServiceModel.EndpointAddress remoteAddress) : 
                 base(binding, remoteAddress)
         {
         }
-
-        [EditorBrowsable(EditorBrowsableState.Advanced)]
-        Task<GeefOndernemingResponse1> OndernemingGeefOndernemingPortType.GeefOndernemingAsync(GeefOndernemingRequest request)
+        
+        public System.Threading.Tasks.Task<AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse1> GeefOndernemingAsync(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest request)
         {
             return base.Channel.GeefOndernemingAsync(request);
         }
-
-        public Task<GeefOndernemingResponse1> GeefOndernemingAsync(GeefOnderneming GeefOnderneming)
+        
+        public virtual System.Threading.Tasks.Task OpenAsync()
         {
-            GeefOndernemingRequest inValue = new GeefOndernemingRequest();
-            inValue.GeefOnderneming = GeefOnderneming;
-            return ((OndernemingGeefOndernemingPortType)(this)).GeefOndernemingAsync(inValue);
+            return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
         }
-
-        public virtual Task OpenAsync()
+        
+        public virtual System.Threading.Tasks.Task CloseAsync()
         {
-            return Task.Factory.FromAsync(((ICommunicationObject)(this)).BeginOpen(null, null), new Action<IAsyncResult>(((ICommunicationObject)(this)).EndOpen));
+            return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginClose(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndClose));
         }
-
-        public virtual Task CloseAsync()
-        {
-            return Task.Factory.FromAsync(((ICommunicationObject)(this)).BeginClose(null, null), new Action<IAsyncResult>(((ICommunicationObject)(this)).EndClose));
-        }
-
-        private static Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
+        
+        private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.Onderneming_GeefOndernemingHttpPort))
             {
-                BasicHttpBinding result = new BasicHttpBinding();
+                System.ServiceModel.BasicHttpBinding result = new System.ServiceModel.BasicHttpBinding();
                 result.MaxBufferSize = int.MaxValue;
-                result.ReaderQuotas = XmlDictionaryReaderQuotas.Max;
+                result.ReaderQuotas = System.Xml.XmlDictionaryReaderQuotas.Max;
                 result.MaxReceivedMessageSize = int.MaxValue;
                 result.AllowCookies = true;
-                result.Security.Mode = BasicHttpSecurityMode.Transport;
+                result.Security.Mode = System.ServiceModel.BasicHttpSecurityMode.Transport;
                 return result;
             }
-            throw new InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
+            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-
-        private static EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
+        
+        private static System.ServiceModel.EndpointAddress GetEndpointAddress(EndpointConfiguration endpointConfiguration)
         {
             if ((endpointConfiguration == EndpointConfiguration.Onderneming_GeefOndernemingHttpPort))
             {
-                return new EndpointAddress("https://magdaondernemingdienst.vlaanderen.be/GeefOndernemingDienst-02.00/soap/Web" +
-                                           "Service");
+                return new System.ServiceModel.EndpointAddress("https://magdaondernemingdienst.vlaanderen.be/GeefOndernemingDienst-02.00/soap/Web" +
+                        "Service");
             }
-            throw new InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
+            throw new System.InvalidOperationException(string.Format("Could not find endpoint with name \'{0}\'.", endpointConfiguration));
         }
-
-        private static Binding GetDefaultBinding()
+        
+        private static System.ServiceModel.Channels.Binding GetDefaultBinding()
         {
-            return GetBindingForEndpoint(EndpointConfiguration.Onderneming_GeefOndernemingHttpPort);
+            return OndernemingGeefOndernemingPortTypeClient.GetBindingForEndpoint(EndpointConfiguration.Onderneming_GeefOndernemingHttpPort);
         }
-
-        private static EndpointAddress GetDefaultEndpointAddress()
+        
+        private static System.ServiceModel.EndpointAddress GetDefaultEndpointAddress()
         {
-            return GetEndpointAddress(EndpointConfiguration.Onderneming_GeefOndernemingHttpPort);
+            return OndernemingGeefOndernemingPortTypeClient.GetEndpointAddress(EndpointConfiguration.Onderneming_GeefOndernemingHttpPort);
         }
-
+        
         public enum EndpointConfiguration
         {
-
+            
             Onderneming_GeefOndernemingHttpPort,
         }
     }

@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOnderneming;
 using Models.GeefOndernemingVKBO;
+using Models.RegistreerInschrijving;
+using Models.RegistreerUitschrijving;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Xml.Serialization;
@@ -52,6 +54,40 @@ public class MagdaFacade : IMagdaFacade
 
         return await PerformMagdaRequest<GeefOndernemingResponseBody>(
             _magdaOptions.GeefOndernemingEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
+
+    public async Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijving(
+        string kbonummer,
+        MagdaCallReference reference)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
+
+        var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
+            _magdaOptions.RegistreerInschrijvingEndpoint!,
+            clientCertificate,
+            signedEnvelope);
+    }
+
+    public async Task<ResponseEnvelope<RegistreerUitschrijvingResponseBody>?> RegistreerUitschrijving(
+        string kbonummer,
+        MagdaCallReference reference)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
+
+        var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
+        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+
+        return await PerformMagdaRequest<RegistreerUitschrijvingResponseBody>(
+            _magdaOptions.RegistreerUitschrijvingEndpoint!,
             clientCertificate,
             signedEnvelope);
     }

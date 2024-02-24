@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda.Extensions;
 using EventStore;
 using Framework.Helpers;
 using IdentityModel;

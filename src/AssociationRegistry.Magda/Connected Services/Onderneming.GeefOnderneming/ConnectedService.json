@@ -3,31 +3,15 @@
   "version": "2.0.3",
   "ExtendedData": {
     "inputs": [
-      "/home/koen/Downloads/Overzicht-xsd-20230718/Overzicht-xsd-20230718/xsd/Onderneming.GeefOndernemingDienst-02.00/WebService/GeefOnderneming.wsdl"
+      "../../WSDL/Onderneming.GeefOndernemingDienst-02.00/WebService/GeefOnderneming.wsdl"
     ],
+    "internalTypeAccess": true,
+    "messageContract": true,
     "namespaceMappings": [
       "*, AssociationRegistry.Magda.Onderneming.GeefOnderneming"
     ],
-    "outputFile": "Onderneming.GeefOnderneming.cs",
-    "references": [
-      "Microsoft.Bcl.AsyncInterfaces, {Microsoft.Bcl.AsyncInterfaces, 6.0.0}",
-      "Microsoft.Extensions.DependencyInjection, {Microsoft.Extensions.DependencyInjection, 6.0.0}",
-      "Microsoft.Extensions.DependencyInjection.Abstractions, {Microsoft.Extensions.DependencyInjection.Abstractions, 6.0.0}",
-      "Microsoft.Extensions.Http, {Microsoft.Extensions.Http, 6.0.0}",
-      "Microsoft.Extensions.Logging, {Microsoft.Extensions.Logging, 6.0.0}",
-      "Microsoft.Extensions.Logging.Abstractions, {Microsoft.Extensions.Logging.Abstractions, 7.0.0}",
-      "Microsoft.Extensions.Options, {Microsoft.Extensions.Options, 6.0.0}",
-      "Microsoft.Extensions.Primitives, {Microsoft.Extensions.Primitives, 6.0.0}",
-      "System.Diagnostics.DiagnosticSource, {System.Diagnostics.DiagnosticSource, 7.0.0}",
-      "System.Reflection.DispatchProxy, {System.Reflection.DispatchProxy, 4.7.1}",
-      "System.Runtime.CompilerServices.Unsafe, {System.Runtime.CompilerServices.Unsafe, 6.0.0}",
-      "System.Security.AccessControl, {System.Security.AccessControl, 4.7.0}",
-      "System.Security.Cryptography.Xml, {System.Security.Cryptography.Xml, 4.7.0}",
-      "System.Security.Permissions, {System.Security.Permissions, 4.7.0}",
-      "System.Security.Principal.Windows, {System.Security.Principal.Windows, 4.7.0}",
-      "System.Windows.Extensions, {System.Windows.Extensions, 4.7.0}"
-    ],
-    "targetFramework": "net6.0",
+    "outputFile": "Onderneming.GeefOnderneming",
+    "targetFramework": "net7.0",
     "typeReuseMode": "All"
   }
 }
