@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Magda;
+namespace AssociationRegistry.Magda.Extensions;
 
 using Models;
 using System.Security.Cryptography.X509Certificates;

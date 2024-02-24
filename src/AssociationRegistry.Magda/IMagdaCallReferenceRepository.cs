@@ -1,9 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Magda;
+﻿namespace AssociationRegistry.Magda;
 
-using AssociationRegistry.Magda.Models;
 using Marten;
-using System.Threading;
-using System.Threading.Tasks;
+using Models;
 
 public interface IMagdaCallReferenceRepository
 {

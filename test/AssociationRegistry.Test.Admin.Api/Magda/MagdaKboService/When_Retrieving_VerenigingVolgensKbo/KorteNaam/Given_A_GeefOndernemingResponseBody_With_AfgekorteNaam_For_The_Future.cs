@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo.KorteNaam;
 
-using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Configuration;

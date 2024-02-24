@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Magda;
+namespace AssociationRegistry.Magda.Extensions;
 
 using System.Xml.Serialization;
 

@@ -1,8 +1,9 @@
-namespace AssociationRegistry.Admin.Api.Magda;
+namespace AssociationRegistry.Magda;
 
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Models.GeefOnderneming;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using Extensions;
+using Models;
+using Models.GeefOnderneming;
+using Onderneming.GeefOnderneming;
 
 public static class MagdaResponseValidator
 {

@@ -10,7 +10,6 @@ open Fake.Core
 open Fake.Core.TargetOperators
 open Fake.IO.FileSystemOperators
 open Fake.DotNet
-open System
 open ``Build-generic``
 
 
@@ -94,6 +93,7 @@ Target.create "Test_Solution" (fun _ -> testSolution "AssociationRegistry")
 Target.create "Pack_Solution" (fun _ ->
   [
     "AssociationRegistry"
+    "AssociationRegistry.Magda"
   ] |> List.iter pack
 )
 

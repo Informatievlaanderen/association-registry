@@ -1,6 +1,5 @@
-namespace AssociationRegistry.Admin.Api.Magda;
+namespace AssociationRegistry.Magda;
 
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 public record MagdaUitzondering(string Identificatie, string Omschrijving, bool IsBlokkerend)

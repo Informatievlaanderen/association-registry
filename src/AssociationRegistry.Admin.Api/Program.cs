@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api;
 
-using AssociationRegistry.Magda;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -72,7 +71,6 @@ using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Wolverine;
-using IEventStore = EventStore.IEventStore;
 
 public class Program
 {
@@ -153,7 +151,7 @@ public class Program
            .ToList()
            .ForEach(key =>
             {
-                app.Services.GetRequiredService<ILogger<Program>>().LogInformation("Archiving {Stream}", key);
+                app.Services.GetRequiredService<ILogger<Program>>().LogInformation(message: "Archiving {Stream}", key);
                 session.Events.ArchiveStream(key);
             });
 

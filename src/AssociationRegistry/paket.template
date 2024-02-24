@@ -12,7 +12,7 @@ projectUrl https://vlaanderen.be/digitaal-vlaanderen
 iconUrl https://raw.githubusercontent.com/Informatievlaanderen/build-pipeline/master/logo.png
 licenseUrl https://opensource.org/licenses/EUPL-1.2
 
-description Road Registry.
+description Association Registry
 
 dependencies
   framework: net6.0
