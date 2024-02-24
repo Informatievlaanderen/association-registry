@@ -24,7 +24,7 @@
   </ItemGroup>
   
   <ItemGroup>
-    <Content Include="paket.template" CopyToOutputDirectory="Always"/>
+    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition=""/>
   </ItemGroup>
   
   <ItemGroup>
