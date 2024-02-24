@@ -9,6 +9,7 @@ concurrency: CI
 jobs:
 
   analyze-code:
+    name: Analyze Code
     runs-on: ubuntu-latest
 
     steps:

@@ -29,6 +29,7 @@ using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
+using Magda.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

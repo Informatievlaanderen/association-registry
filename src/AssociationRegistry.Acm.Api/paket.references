@@ -1,17 +1,8 @@
-Be.Vlaanderen.Basisregisters.AggregateSource
 Be.Vlaanderen.Basisregisters.Api
-Be.Vlaanderen.Basisregisters.EventHandling.Autofac
-Be.Vlaanderen.Basisregisters.DataDog.Tracing.Autofac
 Be.Vlaanderen.Basisregisters.BlobStore
-
 AspNetCore.HealthChecks.SqlServer
-
 Microsoft.AspNetCore.Authentication.JwtBearer
 IdentityModel.AspNetCore.OAuth2Introspection
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
-
-
-
-Marten
 Marten.CommandLine

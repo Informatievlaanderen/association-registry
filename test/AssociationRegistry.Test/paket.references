@@ -1,20 +1,14 @@
-Be.Vlaanderen.Basisregisters.AggregateSource.Testing
 Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.Xunit
 Be.Vlaanderen.Basisregisters.EventHandling.Autofac
-
 AutoFixture
-FluentAssertions
 FluentAssertions.Json
 Marten
 Moq
 Microsoft.AspNetCore.Mvc.Testing
 Microsoft.NET.Test.Sdk
 NEST
-xunit
 xunit.runner.visualstudio
 xunit.categories
-
 group Testing
 Microsoft.AspNetCore.Hosting
 Microsoft.AspNetCore.TestHost
