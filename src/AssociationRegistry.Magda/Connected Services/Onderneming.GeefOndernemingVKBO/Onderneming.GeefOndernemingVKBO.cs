@@ -15,7 +15,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO
     [System.ServiceModel.ServiceContractAttribute(Name="Onderneming.GeefOndernemingVKBOPortType", Namespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaandere" +
         "n.be", ConfigurationName="AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernem" +
         "ingVKBOPortType")]
-    public interface OndernemingGeefOndernemingVKBOPortType
+    internal interface OndernemingGeefOndernemingVKBOPortType
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://magdaondernemingdienst-intern-aip.vonet.be/GeefOndernemingVKBODienst-02.00" +
@@ -2942,7 +2942,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GeefOndernemingVKBORequest
+    internal partial class GeefOndernemingVKBORequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaandere" +
@@ -2962,7 +2962,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GeefOndernemingVKBOResponse1
+    internal partial class GeefOndernemingVKBOResponse1
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingvkbodienst-02_00.onderneming-02_00.vip.vlaandere" +
@@ -2980,13 +2980,13 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public interface OndernemingGeefOndernemingVKBOPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType, System.ServiceModel.IClientChannel
+    internal interface OndernemingGeefOndernemingVKBOPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public partial class OndernemingGeefOndernemingVKBOPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType>, AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType
+    internal partial class OndernemingGeefOndernemingVKBOPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType>, AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO.OndernemingGeefOndernemingVKBOPortType
     {
         
         /// <summary>
