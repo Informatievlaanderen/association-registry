@@ -1,22 +1,16 @@
-﻿namespace AssociationRegistry.Admin.Api.Magda;
+﻿namespace AssociationRegistry.Magda;
 
-using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Configuration;
-using AssociationRegistry.Magda.Constants;
-using AssociationRegistry.Magda.Exceptions;
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Models.GeefOnderneming;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using Configuration;
+using Constants;
+using Exceptions;
+using Extensions;
 using Framework;
-using Infrastructure.Extensions;
 using Kbo;
 using Microsoft.Extensions.Logging;
+using Models;
+using Models.GeefOnderneming;
+using Onderneming.GeefOnderneming;
 using ResultNet;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using Vereniging;
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
@@ -62,6 +56,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 return HandleUitzonderingen(kboNummer, magdaResponse);
 
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
+
             if (magdaOnderneming is null ||
                 !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
                 !IsOnderneming(magdaOnderneming) ||

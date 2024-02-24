@@ -1,10 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Magda;
+namespace AssociationRegistry.Magda.Extensions;
 
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Models.GeefOnderneming;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
-using System;
-using System.Linq;
+using Models;
+using Models.GeefOnderneming;
+using Onderneming.GeefOnderneming;
 
 public static class MagdaResponseExtensions
 {

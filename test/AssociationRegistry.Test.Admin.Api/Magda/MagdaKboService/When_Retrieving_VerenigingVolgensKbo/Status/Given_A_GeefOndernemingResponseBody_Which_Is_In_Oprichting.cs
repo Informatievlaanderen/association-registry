@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Magda.MagdaKboService.When_Retrieving_VerenigingVolgensKbo.Status;
 
-using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Configuration;
@@ -38,7 +37,7 @@ public class Given_A_GeefOndernemingResponseBody_Which_Is_In_Oprichting
                 Value = StatusKBOCodes.InOprichting,
             },
         };
-        
+
         magdaFacade.Setup(facade => facade.GeefOnderneming(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
                    .ReturnsAsync(responseEnvelope);
 

@@ -256,6 +256,18 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
+  pack-association-registry-magda:
+    name: Pack Association Registry Magda
+    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
+    needs: [ set-release-version ]
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    with:
+      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
+      test-project: AssociationRegistry.Test.EmptyPack
+      build-project: AssociationRegistry.Magda
+      semver: ${{ needs.set-release-version.outputs.version }}
+    secrets: inherit
+
   release:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Semantic Release
@@ -267,7 +279,8 @@ jobs:
       build-public-projections,
       build-admin-api,
       build-admin-projections,
-      pack-association-registry
+      pack-association-registry,
+      pack-association-registry-magda
     ]
 
     outputs:
@@ -345,6 +358,13 @@ jobs:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.set-release-version.outputs.version }}
           path: dist/nuget/
 
+      - name: Download AssociationRegistry.Magda NuGet
+        uses: actions/download-artifact@v3
+        continue-on-error: false
+        with:
+          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.set-release-version.outputs.version }}
+          path: dist/nuget/
+
       - name: Run Semantic Release
         shell: bash
         run: npx semantic-release
@@ -394,10 +414,17 @@ jobs:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
           path: ~/
 
+      - name: Download NuGet package 'association-registry-magda'
+        uses: actions/download-artifact@v3
+        with:
+          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.release.outputs.version }}
+          path: ~/
+
       - name: Publish packages to NuGet
         shell: bash
         run: |
           dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+          dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
         env:
           SEMVER: ${{  needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}

@@ -1,6 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-
-using System;
+﻿namespace AssociationRegistry.Magda.Extensions;
 
 public static class DateOnlyHelper
 {

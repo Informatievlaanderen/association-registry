@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Magda;
 
 using Configuration;
+using Extensions;
 using Framework;
 using Microsoft.Extensions.Logging;
 using Models;

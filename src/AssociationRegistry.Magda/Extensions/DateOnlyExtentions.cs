@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Magda.Extensions;
 
 using NodaTime;
-using System;
 
 public static class StringExtensions
 {
