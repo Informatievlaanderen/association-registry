@@ -465,4 +465,13 @@ public class BeheerVerenigingDetailProjector
                                             ).OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
     }
+
+    public static void Apply(IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+                                           .Where(
+                                                c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
+                                           .OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
 }

@@ -389,4 +389,11 @@ public record VerenigingState : IHasVersion
         {
             KorteNaam = @event.KorteNaam,
         };
+
+    public VerenigingState Apply(ContactgegevenWerdVerwijderdUitKBO @event)
+        => this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Without(@event.ContactgegevenId)),
+        };
 }
