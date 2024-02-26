@@ -19,7 +19,7 @@ public class Given_ContactgegevenKonNietOvergenomenWordenUitKBO
         var fixture = new Fixture().CustomizeAdminApi();
         var contactgegevenKonNietOvergenomenWorden = fixture.Create<TestEvent<ContactgegevenKonNietOvergenomenWordenUitKBO>>();
 
-        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+        var doc = new BeheerVerenigingHistoriekDocument();
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenKonNietOvergenomenWorden, doc);
 

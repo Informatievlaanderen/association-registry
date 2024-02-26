@@ -217,11 +217,27 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     private void WijzigContactgegevenUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
-        var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(waarde, typeVolgensKbo);
+        if (waarde is null) return;
 
-        if (gewijzigdContactgegeven is null)
+        var newContactgegeven = Contactgegeven.TryCreateFromKbo(waarde, typeVolgensKbo);
+        var teWijzigenContactgegeven = State.Contactgegevens.GetContactgegevenOfKboType(typeVolgensKbo);
+
+        if (newContactgegeven is null)
+        {
+            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven, typeVolgensKbo));
+            VoegFoutiefContactgegevenToe(typeVolgensKbo, waarde);
+
             return;
+        }
 
-        AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
+        if (teWijzigenContactgegeven is not null)
+        {
+            var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(teWijzigenContactgegeven.ContactgegevenId, waarde);
+
+            if (gewijzigdContactgegeven is null)
+                return;
+
+            AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
+        }
     }
 }

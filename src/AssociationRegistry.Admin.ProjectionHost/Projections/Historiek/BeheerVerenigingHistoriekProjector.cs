@@ -403,6 +403,17 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdVerwijderdUitKbo,
+            document,
+            $"In KBO werd contactgegeven ‘{contactgegevenWerdVerwijderdUitKbo.Data.TypeVolgensKbo}' verwijderd."
+        );
+    }
+
     public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
     {
         document.Metadata = new Metadata(@event.Sequence, @event.Version);

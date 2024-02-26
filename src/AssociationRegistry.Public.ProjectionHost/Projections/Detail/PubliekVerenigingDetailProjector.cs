@@ -405,6 +405,15 @@ public static class PubliekVerenigingDetailProjector
                                            .OrderBy(l => l.ContactgegevenId)
                                            .ToArray();    }
 
+    public static void Apply(IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+                                           .Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
+                                           .OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {

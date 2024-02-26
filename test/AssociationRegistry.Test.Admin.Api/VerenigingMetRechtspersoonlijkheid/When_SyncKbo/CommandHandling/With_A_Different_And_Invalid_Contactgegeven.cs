@@ -9,27 +9,25 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
-using Test.Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_A_Different_And_Valid_Contactgegeven
+public class With_A_Different_And_Invalid_Contactgegeven
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario _scenario;
     private readonly string _newContactgegevenWaarde;
 
-    public With_A_Different_And_Valid_Contactgegeven()
+    public With_A_Different_And_Invalid_Contactgegeven()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _newContactgegevenWaarde = fixture.CreateContactgegevenVolgensType(_scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype)
-                                         .Waarde;
+        _newContactgegevenWaarde = fixture.Create<string>();
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
@@ -57,17 +55,22 @@ public class With_A_Different_And_Valid_Contactgegeven
     }
 
     [Fact]
-    public void Then_A_NaamWerdGewijzigdInKbo_Event_Is_Saved()
+    public void Then_A_ContactgegevenWerdVerwijderd_And_ContactgegevenKonNietOvergenomenWorden_Event_Is_Saved()
     {
         _verenigingRepositoryMock
            .SaveInvocations[0]
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
+           .HaveCount(3)
            .And
-           .ContainSingle(e => e.Equals(new ContactgegevenWerdGewijzigdInKbo(
+           .ContainSingle(e => e.Equals(new ContactgegevenWerdVerwijderdUitKBO(
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
+                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
+                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
+                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.Waarde)))
+           .And
+           .ContainSingle(e => e.Equals(new ContactgegevenKonNietOvergenomenWordenUitKBO(
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
                                             _newContactgegevenWaarde)))

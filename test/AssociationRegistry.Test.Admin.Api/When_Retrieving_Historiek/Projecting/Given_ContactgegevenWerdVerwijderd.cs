@@ -32,3 +32,26 @@ public class Given_ContactgegevenWerdVerwijderd
                 contactgegevenWerdVerwijderd.Tijdstip.ToZuluTime()));
     }
 }
+
+[UnitTest]
+public class Given_ContactgegevenWerdVerwijderdUitKbo
+{
+    [Fact]
+    public void Then_it_adds_a_new_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderdUitKBO>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdVerwijderd, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"In KBO werd contactgegeven ‘{contactgegevenWerdVerwijderd.Data.TypeVolgensKbo}' verwijderd.",
+                nameof(ContactgegevenWerdVerwijderdUitKBO),
+                contactgegevenWerdVerwijderd.Data,
+                contactgegevenWerdVerwijderd.Initiator,
+                contactgegevenWerdVerwijderd.Tijdstip.ToZuluTime()));
+    }
+}

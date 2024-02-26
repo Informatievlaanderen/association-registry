@@ -129,16 +129,19 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
             updatedContactgegeven.Contactgegeventype);
     }
 
-    public Contactgegeven? WijzigUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    public Contactgegeven? WijzigUitKbo(int id, string? waarde)
     {
-        var contactgegeven = this.SingleOrDefault(c => c.TypeVolgensKbo == typeVolgensKbo);
-
-        if (contactgegeven is null) return null;
+        var contactgegeven = this[id];
 
         if (contactgegeven.WouldBeEquivalent(waarde: waarde, null, null, out var gewijzigdContactgegeven))
             return null;
 
         return gewijzigdContactgegeven;
+    }
+
+    public Contactgegeven? GetContactgegevenOfKboType(ContactgegeventypeVolgensKbo typeVolgensKbo)
+    {
+        return this.SingleOrDefault(c => c.TypeVolgensKbo == typeVolgensKbo);
     }
 }
 
