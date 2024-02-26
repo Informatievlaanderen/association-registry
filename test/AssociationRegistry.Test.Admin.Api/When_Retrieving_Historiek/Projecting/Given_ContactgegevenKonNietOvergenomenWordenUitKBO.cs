@@ -25,7 +25,7 @@ public class Given_ContactgegevenKonNietOvergenomenWordenUitKBO
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.Contactgegeventype}' kon niet overgenomen worden uit KBO.",
+                $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.TypeVolgensKbo}' kon niet overgenomen worden uit KBO.",
                 nameof(ContactgegevenKonNietOvergenomenWordenUitKBO),
                 contactgegevenKonNietOvergenomenWorden.Data,
                 contactgegevenKonNietOvergenomenWorden.Initiator,
