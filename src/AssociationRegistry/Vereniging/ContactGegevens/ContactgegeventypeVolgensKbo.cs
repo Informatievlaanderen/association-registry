@@ -34,7 +34,7 @@ public sealed class ContactgegeventypeVolgensKbo : IEquatable<Contactgegeventype
 
     public static readonly ContactgegeventypeVolgensKbo[] All =
     {
-        Email, Website, SocialMedia, Telefoon, GSM,
+        Email, Website, Telefoon, GSM,
     };
 
     private ContactgegeventypeVolgensKbo(string waarde, Contactgegeventype contactgegeventype)
