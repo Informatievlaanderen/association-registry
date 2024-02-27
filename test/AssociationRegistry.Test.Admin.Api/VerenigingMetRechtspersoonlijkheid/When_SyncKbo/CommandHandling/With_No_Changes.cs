@@ -8,6 +8,8 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
+using Kbo;
+using Moq;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -17,16 +19,21 @@ public class With_No_Changes
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
+    private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
 
     public With_No_Changes()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
+        _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
+
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new SyncKboCommand(_scenario.VCode, _scenario.VerenigingVolgensKbo);
+        var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler();
+        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+                                                           _scenario.VerenigingVolgensKbo
+                                                       ));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -36,7 +43,7 @@ public class With_No_Changes
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
     }
 
     [Fact]

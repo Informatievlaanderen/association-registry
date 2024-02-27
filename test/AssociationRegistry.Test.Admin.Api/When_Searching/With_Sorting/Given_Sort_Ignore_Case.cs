@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Searching.With_Sorting;
 
 using Fixtures;
-using FluentAssertions;
-using Framework;
-using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;

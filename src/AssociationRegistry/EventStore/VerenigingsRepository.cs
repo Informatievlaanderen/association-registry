@@ -41,22 +41,18 @@ public class VerenigingsRepository : IVerenigingsRepository
         return vereniging;
     }
 
-    public async Task<VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
+    public async Task<VerenigingMetRechtspersoonlijkheid?> Load(KboNummer kboNummer, long? expectedVersion)
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer);
 
-        if (verenigingState == null)
-            return null;
+        if(verenigingState is null) return null;
+        var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
+        verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
 
-        return new VCodeAndNaam(verenigingState.VCode, verenigingState.Naam);
-    }
+        if (expectedVersion is not null && verenigingState.Version != expectedVersion)
+            throw new UnexpectedAggregateVersionException();
 
-    public record VCodeAndNaam(VCode? VCode, VerenigingsNaam VerenigingsNaam)
-    {
-        public static VCodeAndNaam Fallback(KboNummer kboNummer)
-            => new(
-                VCode: null,
-                VerenigingsNaam.Create($"Moeder {kboNummer}"));
+        return verenigingMetRechtspersoonlijkheid;
     }
 
     private void ThrowIfVerwijderd(VerenigingState verenigingState)

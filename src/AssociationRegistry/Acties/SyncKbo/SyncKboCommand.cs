@@ -3,6 +3,4 @@
 using Vereniging;
 using Kbo;
 
-public record SyncKboCommand(
-    VCode VCode,
-    VerenigingVolgensKbo VerenigingVolgensKbo);
+public record SyncKboCommand(KboNummer KboNummer);

@@ -29,7 +29,7 @@ public class With_A_Different_And_Valid_Contactgegeven
         var fixture = new Fixture().CustomizeAdminApi();
 
         _newContactgegevenWaarde = fixture.CreateContactgegevenVolgensType(_scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype)
-                                         .Waarde;
+                                          .Waarde;
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
@@ -41,9 +41,9 @@ public class With_A_Different_And_Valid_Contactgegeven
             GSM = verenigingVolgensKbo.Contactgegevens.GSM is null ? null : _newContactgegevenWaarde,
         };
 
-        var command = new SyncKboCommand(_scenario.VCode, verenigingVolgensKbo);
+        var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler();
+        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(verenigingVolgensKbo));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -53,7 +53,7 @@ public class With_A_Different_And_Valid_Contactgegeven
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
     }
 
     [Fact]

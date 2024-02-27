@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.ProjectionHost.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AutoFixture;
 using Events;
-using EventStore;
 using FluentAssertions;
 using Framework;
 using Xunit;

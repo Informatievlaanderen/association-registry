@@ -6,7 +6,7 @@ public abstract class VerenigingsBase
 {
     protected VerenigingState State = new();
 
-    public string VCode
+    public VCode VCode
         => State.VCode;
 
     public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();

@@ -4,7 +4,6 @@ using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Constants;
-using AssociationRegistry.Magda.Extensions;
 using AssociationRegistry.Magda.Models;
 using AutoFixture;
 using FluentAssertions;
