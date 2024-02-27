@@ -6,6 +6,7 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
+using Vereniging.Websites;
 
 public static class EventCustomizations
 {
@@ -62,13 +63,13 @@ public static class EventCustomizations
             composer => composer.FromFactory<int>(
                                      i =>
                                      {
-                                         var contactgegeven = fixture.Create<Contactgegeven>();
+                                         var typeVolgensKbo = ContactgegeventypeVolgensKbo.All[i % ContactgegeventypeVolgensKbo.All.Length];
+                                         var contactgegeven = fixture.CreateContactgegevenVolgensType(typeVolgensKbo.Contactgegeventype);
 
                                          return new ContactgegevenWerdOvergenomenUitKBO(
                                              contactgegeven.ContactgegevenId,
-                                             ContactgegeventypeVolgensKbo.All.First(
-                                                 c => c.Contactgegeventype == contactgegeven.Contactgegeventype),
-                                             contactgegeven.Contactgegeventype,
+                                             typeVolgensKbo.Contactgegeventype.Waarde,
+                                             typeVolgensKbo.Waarde,
                                              contactgegeven.Waarde);
                                      })
                                 .OmitAutoProperties());
