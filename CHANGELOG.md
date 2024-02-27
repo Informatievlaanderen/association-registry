@@ -1,3 +1,18 @@
+# [8.71.0](https://github.com/informatievlaanderen/association-registry/compare/v8.70.1...v8.71.0) (2024-02-27)
+
+
+### Bug Fixes
+
+* or-2100 fix test ([3d4d4dc](https://github.com/informatievlaanderen/association-registry/commit/3d4d4dc954e699b76ca9255af6a8e75588e7e24a))
+* or-2105 fix contacttype issue with KBO ([883cff6](https://github.com/informatievlaanderen/association-registry/commit/883cff6c44329b06b88f6b1f36e43e0338ec520c))
+
+
+### Features
+
+* or-2100 update contactgegeven from KBO ([c73919d](https://github.com/informatievlaanderen/association-registry/commit/c73919d53a78b65422a301292aeb727a6ff7ad4e))
+* or-2105 remove contactgegevens if invalid ([39b8c3f](https://github.com/informatievlaanderen/association-registry/commit/39b8c3f37c69325c6f107f549d26a13b6579c30f))
+* or-2105 remove socialMedia from Kbo types ([9771439](https://github.com/informatievlaanderen/association-registry/commit/97714397335739f383969e056feca0d4c76e47b3))
+
 ## [8.70.1](https://github.com/informatievlaanderen/association-registry/compare/v8.70.0...v8.70.1) (2024-02-24)
 
 
