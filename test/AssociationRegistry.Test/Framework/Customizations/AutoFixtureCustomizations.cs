@@ -45,7 +45,7 @@ public static class AutoFixtureCustomizations
         fixture.Customizations.Add(new TestEventSpecimenBuilder(testEventType));
     }
 
-    public static Contactgegeven CreateContactgegevenVolgensType(this Fixture source, string type)
+    public static Contactgegeven CreateContactgegevenVolgensType(this IFixture source, string type)
         => type switch
         {
             Contactgegeventype.Labels.Telefoon => source.Create<TelefoonNummer>(),
