@@ -8,19 +8,17 @@ using Vereniging;
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private VerenigingState? _verenigingToLoad;
-    private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
     public record SaveInvocation(VerenigingsBase Vereniging);
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     // Anders kan er niet gecompared worden.
-    private record InvocationLoad(VCode VCode, Type Type);
+    private record InvocationLoad(string key, Type Type);
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null!)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null)
     {
         _verenigingToLoad = verenigingToLoad;
-        _moederVCodeAndNaam = moederVCodeAndNaam;
     }
 
     public async Task<StreamActionResult> Save(
@@ -50,13 +48,22 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(vereniging);
     }
 
-    public Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
-        => Task.FromResult(_moederVCodeAndNaam)!;
+    public async Task<VerenigingMetRechtspersoonlijkheid?> Load(KboNummer kboNummer, long? expectedVersion)
+    {
+        _invocationsLoad.Add(new InvocationLoad(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid)));
 
-    public void ShouldHaveLoaded<TVereniging>(params string[] vCodes) where TVereniging : IHydrate<VerenigingState>, new()
+        if (_verenigingToLoad is null) return null;
+
+        var vereniging = new VerenigingMetRechtspersoonlijkheid();
+        vereniging.Hydrate(_verenigingToLoad);
+
+        return await Task.FromResult(vereniging);
+    }
+
+    public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(
-            vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode), typeof(TVereniging))),
+            keys.Select(key => new InvocationLoad(key, typeof(TVereniging))),
             config: options => options.WithStrictOrdering());
     }
 

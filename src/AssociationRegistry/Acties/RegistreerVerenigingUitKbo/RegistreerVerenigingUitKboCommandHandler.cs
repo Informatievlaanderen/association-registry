@@ -42,7 +42,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNummer)
     {
-        var duplicateKbo = await _verenigingsRepository.GetVCodeAndNaam(kboNummer);
+        var duplicateKbo = await _verenigingsRepository.Load(kboNummer);
 
         return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
     }

@@ -30,9 +30,9 @@ public class With_A_Different_KorteNaam
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
         verenigingVolgensKbo.KorteNaam = _newKorteNaam;
 
-        var command = new SyncKboCommand(_scenario.VCode, verenigingVolgensKbo);
+        var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler();
+        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(verenigingVolgensKbo));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -42,7 +42,7 @@ public class With_A_Different_KorteNaam
     [Fact]
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.VCode);
+        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
     }
 
     [Fact]

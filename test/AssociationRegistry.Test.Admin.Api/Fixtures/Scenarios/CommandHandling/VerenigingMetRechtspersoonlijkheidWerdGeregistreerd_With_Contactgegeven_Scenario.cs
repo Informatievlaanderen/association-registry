@@ -10,6 +10,7 @@ using Vereniging;
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgegeven_Scenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
+    public KboNummer KboNummer => KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer);
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKBO;
 

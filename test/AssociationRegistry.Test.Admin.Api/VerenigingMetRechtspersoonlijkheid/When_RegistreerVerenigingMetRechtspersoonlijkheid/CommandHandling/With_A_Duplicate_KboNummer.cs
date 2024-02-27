@@ -5,13 +5,13 @@ using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using DuplicateVerenigingDetection;
-using EventStore;
 using Fakes;
 using FluentAssertions;
 using Framework;
 using Kbo;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,14 +21,18 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
     private Result _result = null!;
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
     private readonly CommandEnvelope<RegistreerVerenigingUitKboCommand> _envelope;
-    private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
+    private readonly VerenigingState _moederVCodeAndNaam;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
 
     public With_A_Duplicate_KboNummer()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _moederVCodeAndNaam = fixture.Create<VerenigingsRepository.VCodeAndNaam>();
+        _moederVCodeAndNaam = new VerenigingState
+        {
+            Identity = fixture.Create<VCode>(),
+            Verenigingstype = Verenigingstype.VZW,
+        };
 
         _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
                                                                            fixture.Create<CommandMetadata>());
@@ -36,7 +40,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
         _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            new VerenigingRepositoryMock(moederVCodeAndNaam: _moederVCodeAndNaam),
+            new VerenigingRepositoryMock(_moederVCodeAndNaam),
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object);
     }

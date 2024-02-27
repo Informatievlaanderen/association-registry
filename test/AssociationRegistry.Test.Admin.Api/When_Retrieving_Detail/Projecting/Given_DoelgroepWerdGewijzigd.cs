@@ -6,7 +6,6 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
