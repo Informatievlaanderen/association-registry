@@ -1,3 +1,15 @@
+# [8.72.0](https://github.com/informatievlaanderen/association-registry/compare/v8.71.0...v8.72.0) (2024-02-27)
+
+
+### Bug Fixes
+
+* failing test ([d196ad9](https://github.com/informatievlaanderen/association-registry/commit/d196ad9a249b656a0fb3648900bfc73288d9eae5))
+
+
+### Features
+
+* call magda on sync with Kbo and refactor ([20bea02](https://github.com/informatievlaanderen/association-registry/commit/20bea02380c189692ecceb6bfa85d8172b91b202))
+
 # [8.71.0](https://github.com/informatievlaanderen/association-registry/compare/v8.70.1...v8.71.0) (2024-02-27)
 
 
