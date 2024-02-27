@@ -1,3 +1,10 @@
+# [8.73.0](https://github.com/informatievlaanderen/association-registry/compare/v8.72.0...v8.73.0) (2024-02-27)
+
+
+### Features
+
+* or-2099 remove contactgegeven on sync ([09affd1](https://github.com/informatievlaanderen/association-registry/commit/09affd170a0e3d15ee6c95b2e0c62ec121a3c915))
+
 # [8.72.0](https://github.com/informatievlaanderen/association-registry/compare/v8.71.0...v8.72.0) (2024-02-27)
 
 
