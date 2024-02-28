@@ -32,3 +32,26 @@ public class Given_ContactgegevenWerdGewijzigd
                 contactgegevenWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }
+
+[UnitTest]
+public class Given_ContactgegevenWerdInBeheerGenomenDoorKbo
+{
+    [Fact]
+    public void Then_it_adds_a_new_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var contactgegevenWerdInBeheerGenomenDoorKbo = fixture.Create<TestEvent<ContactgegevenWerdInBeheerGenomenDoorKbo>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdInBeheerGenomenDoorKbo, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Contactgegeventype} '{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Waarde}' werd in beheer genomen door KBO.",
+                nameof(ContactgegevenWerdInBeheerGenomenDoorKbo),
+                contactgegevenWerdInBeheerGenomenDoorKbo.Data,
+                contactgegevenWerdInBeheerGenomenDoorKbo.Initiator,
+                contactgegevenWerdInBeheerGenomenDoorKbo.Tijdstip.ToZuluTime()));
+    }
+}

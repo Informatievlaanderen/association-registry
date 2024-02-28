@@ -11,6 +11,7 @@ using Schema;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
+using Vereniging.Bronnen;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
@@ -52,7 +53,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                         .MapHoofdactiviteitVerenigingsloket)
+                                                                                             .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -466,11 +467,29 @@ public class BeheerVerenigingDetailProjector
                                            .ToArray();
     }
 
-    public static void Apply(IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo,
+        BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
                                            .Where(
                                                 c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
+                                           .OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> contactgegevenWerdInBeheerGenomenDoorKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+                                           .UpdateSingle(
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenWerdInBeheerGenomenDoorKbo.Data.ContactgegevenId,
+                                                update: c => c with
+                                                {
+                                                    Bron = contactgegevenWerdInBeheerGenomenDoorKbo.Data.Bron,
+                                                })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
     }
