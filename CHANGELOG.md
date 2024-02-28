@@ -1,3 +1,10 @@
+# [8.75.0](https://github.com/informatievlaanderen/association-registry/compare/v8.74.0...v8.75.0) (2024-02-28)
+
+
+### Features
+
+* or-2032 add dependencies to magda package ([9e81df1](https://github.com/informatievlaanderen/association-registry/commit/9e81df19eb0477542a59fc677b483d64efec4f91))
+
 # [8.74.0](https://github.com/informatievlaanderen/association-registry/compare/v8.73.0...v8.74.0) (2024-02-28)
 
 
