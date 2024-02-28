@@ -396,4 +396,19 @@ public record VerenigingState : IHasVersion
             Contactgegevens = Contactgegevens.Hydrate(
                 Contactgegevens.Without(@event.ContactgegevenId)),
         };
+
+    public VerenigingState Apply(ContactgegevenWerdInBeheerGenomenDoorKbo @event)
+    {
+        var contactgegeven = Contactgegevens.Single(c => c.ContactgegevenId == @event.ContactgegevenId);
+
+        return this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Without(@event.ContactgegevenId)
+                               .Append(contactgegeven with
+                                {
+                                    Bron = Bron.KBO,
+                                })),
+        };
+    }
 }

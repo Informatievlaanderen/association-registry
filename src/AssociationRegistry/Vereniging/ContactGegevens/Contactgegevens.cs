@@ -104,6 +104,9 @@ public class Contactgegevens : ReadOnlyCollection<Contactgegeven>
     public bool ContainsMetZelfdeWaarden(Contactgegeven contactgegeven)
         => this.Any(contactgegeven.IsEquivalentTo);
 
+    public Contactgegeven? MetZelfdeWaarden(Contactgegeven contactgegeven)
+        => this.SingleOrDefault(contactgegeven.IsEquivalentTo);
+
     private bool HasKey(int contactgegevenId)
         => this.Any(contactgegeven => contactgegeven.ContactgegevenId == contactgegevenId);
 

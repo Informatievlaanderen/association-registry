@@ -413,6 +413,16 @@ public class BeheerVerenigingHistoriekProjector
             $"In KBO werd contactgegeven ‘{contactgegevenWerdVerwijderdUitKbo.Data.TypeVolgensKbo}' verwijderd."
         );
     }
+    public static void Apply(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> contactgegevenWerdInBeheerGenomenDoorKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdInBeheerGenomenDoorKbo,
+            document,
+            $"{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Contactgegeventype} '{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Waarde}' werd in beheer genomen door KBO."
+        );
+    }
 
     public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
     {
