@@ -28,7 +28,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             {
                 new Vereniging
                 {
-                    type = JsonLdType.Vereniging.Type,
+                    type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
@@ -93,7 +93,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 },
                 new Vereniging
                 {
-                    type = JsonLdType.Vereniging.Type,
+                    type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
                     KorteNaam = string.Empty,
@@ -116,8 +116,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     },
                     Doelgroep = new DoelgroepResponse
                     {
-                        id = JsonLdType.Vereniging.CreateWithIdValues("V00036651"),
-                        type = JsonLdType.Vereniging.Type,
+                        id = JsonLdType.FeitelijkeVereniging.CreateWithIdValues("V00036651"),
+                        type = JsonLdType.FeitelijkeVereniging.Type,
                         Minimumleeftijd = 0,
                         Maximumleeftijd = 150,
                     },

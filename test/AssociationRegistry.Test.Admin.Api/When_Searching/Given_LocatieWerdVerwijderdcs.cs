@@ -5,6 +5,7 @@ using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Formatters;
 using Framework;
+using JsonLdContext;
 using templates;
 using Vereniging;
 using Xunit;
@@ -43,6 +44,7 @@ public class Given_LocatieWerdVerwijderd
                                    var l3 = _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[2];
 
                                    v.WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
+                                    .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
                                     .WithType(Verenigingstype.FeitelijkeVereniging)
                                     .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
                                     .WithKorteNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteNaam)

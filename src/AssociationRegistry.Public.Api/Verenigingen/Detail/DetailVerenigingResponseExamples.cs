@@ -29,7 +29,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
-                type = JsonLdType.Vereniging.Type,
+                type = JsonLdType.FeitelijkeVereniging.Type,
                 VCode = "V0001001",
                 Verenigingstype = new VerenigingsType
                 {

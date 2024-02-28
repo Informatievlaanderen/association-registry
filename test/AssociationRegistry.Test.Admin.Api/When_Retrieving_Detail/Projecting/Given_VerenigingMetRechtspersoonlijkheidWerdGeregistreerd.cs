@@ -46,7 +46,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
         doc.Should().BeEquivalentTo(
             new BeheerVerenigingDetailDocument
             {
-                JsonLdMetadataType = JsonLdType.Vereniging.Type,
+                JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                 Verenigingstype = new VerenigingsType
                 {
