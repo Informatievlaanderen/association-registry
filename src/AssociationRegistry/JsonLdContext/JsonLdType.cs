@@ -8,7 +8,8 @@ public class JsonLdType
     public static readonly JsonLdType Doelgroep = new(JsonLdContext.GuidNamespace.Doelgroep, type: "verenigingen_ext:Doelgroep",
                                                       prefix: "doel");
 
-    public static readonly JsonLdType Vereniging = new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
+    public static readonly JsonLdType FeitelijkeVereniging = new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
+    public static readonly JsonLdType VerenigingMetRechtspersoonlijkheid = new(JsonLdContext.GuidNamespace.Vereniging, type: "regorg:RegisteredOrganization");
     public static readonly JsonLdType Hoofdactiviteit = new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept");
 
     public static readonly JsonLdType Vertegenwoordiger =

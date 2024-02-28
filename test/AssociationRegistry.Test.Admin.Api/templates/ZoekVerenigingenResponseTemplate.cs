@@ -80,7 +80,6 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate WithVCode(string vCode)
         {
             _vereniging.vcode = vCode;
-            _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
 
             _vereniging.sleutels.Add(new
             {
@@ -185,6 +184,13 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate WithJsonLdType(JsonLdType jsonLdType)
+        {
+            _vereniging.jsonldtype = jsonLdType.Type;
+
+            return this;
+        }
+
         public VerenigingTemplate WithLocatie(
             string type,
             string naam,
@@ -213,6 +219,7 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)
+                          .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
                           .WithType(Verenigingstype.FeitelijkeVereniging)
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
@@ -236,6 +243,7 @@ public class ZoekVerenigingenResponseTemplate
         public VerenigingTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
         {
             var template = WithVCode(e.VCode)
+                          .WithJsonLdType(JsonLdType.VerenigingMetRechtspersoonlijkheid)
                           .WithType(Verenigingstype.Parse(e.Rechtsvorm))
                           .WithNaam(e.Naam)
                           .WithRoepnaam(string.Empty)

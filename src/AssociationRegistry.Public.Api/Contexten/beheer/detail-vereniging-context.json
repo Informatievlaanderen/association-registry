@@ -15,6 +15,7 @@
   "dc": "http://purl.org/dc/terms/",
   "verenigingen_ext": "http://data.lblod.info/vocabularies/FeitelijkeVerenigingen/",
   "fei": "https://data.vlaanderen.be/ns/FeitelijkeVerenigingen#",
+  "regorg": "http://www.w3.org/ns/regorg#",
   "con": "http://lblod.data.gift/concepts/",
   "verenigingsregister": "https://publiek.verenigingen.vlaanderen.be/ns/verenigingsregister#",
   "hoofdactiviteitenVerenigingsloket": "regorg:orgActivity",

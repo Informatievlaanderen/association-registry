@@ -35,7 +35,7 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate WithVCode(string vCode)
     {
         _vereniging.vcode = vCode;
-        _vereniging.jsonldtype = JsonLdType.Vereniging.Type;
+        _vereniging.jsonldtype = JsonLdType.FeitelijkeVereniging.Type;
 
         _vereniging.sleutels.Add(new
         {
@@ -281,6 +281,7 @@ public class DetailVerenigingResponseTemplate
     public DetailVerenigingResponseTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
     {
         var template = WithVCode(e.VCode)
+                      .WithJsonLdType(JsonLdType.FeitelijkeVereniging)
                       .WithType(Verenigingstype.FeitelijkeVereniging)
                       .WithNaam(e.Naam)
                       .WithKorteNaam(e.KorteNaam)
@@ -307,9 +308,17 @@ public class DetailVerenigingResponseTemplate
         return template;
     }
 
+    public DetailVerenigingResponseTemplate WithJsonLdType(JsonLdType jsonLdType)
+    {
+        _vereniging.jsonldtype = jsonLdType.Type;
+
+        return this;
+    }
+
     public DetailVerenigingResponseTemplate FromEvent(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd e)
     {
         var template = WithVCode(e.VCode)
+                      .WithJsonLdType(JsonLdType.VerenigingMetRechtspersoonlijkheid)
                       .WithType(Verenigingstype.Parse(e.Rechtsvorm))
                       .WithNaam(e.Naam)
                       .WithRoepnaam(string.Empty)

@@ -27,7 +27,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
             {
                 new Vereniging
                 {
-                    type = JsonLdType.Vereniging.Type, VCode = "V0001001",
+                    type = JsonLdType.FeitelijkeVereniging.Type, VCode = "V0001001",
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "Een vrolijke groep van BA'ers die graag BA dingen doen.",
@@ -92,7 +92,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                 },
                 new Vereniging
                 {
-                    type = JsonLdType.Vereniging.Type,
+                    type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0036651",
                     Naam = "FWA De Bron",
                     Roepnaam = "Bronneke",
