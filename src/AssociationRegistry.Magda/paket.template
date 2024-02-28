@@ -17,6 +17,10 @@ description Association Registry MAGDA
 dependencies
   framework: net6.0
     Microsoft.Extensions.Http >= LOCKEDVERSION
+    System.ServiceModel.Duplex 6.0.0
+    System.ServiceModel.Http 6.2.0
+    System.ServiceModel.NetTcp 6.2.0
+    System.ServiceModel.Security 6.0.0
 
 files
 
