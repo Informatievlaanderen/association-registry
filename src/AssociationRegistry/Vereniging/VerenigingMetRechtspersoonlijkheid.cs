@@ -211,10 +211,16 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         var teWijzigenContactgegeven = State.Contactgegevens.GetContactgegevenOfKboType(typeVolgensKbo);
 
+        if (teWijzigenContactgegeven is null)
+        {
+            VoegContactgegevenToe(waarde, typeVolgensKbo);
+
+            return;
+        }
+
         if (waarde is null)
         {
-            if (teWijzigenContactgegeven is not null)
-                AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven, typeVolgensKbo));
+            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven));
 
             return;
         }
@@ -223,22 +229,17 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (newContactgegeven is null)
         {
-            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven, typeVolgensKbo));
+            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven));
             VoegFoutiefContactgegevenToe(typeVolgensKbo, waarde);
 
             return;
         }
 
-        if (teWijzigenContactgegeven is not null)
-        {
-            var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(teWijzigenContactgegeven.ContactgegevenId, waarde);
+        var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(teWijzigenContactgegeven.ContactgegevenId, waarde);
 
-            if (gewijzigdContactgegeven is null)
-                return;
+        if (gewijzigdContactgegeven is null)
+            return;
 
-            AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
-        }
-
-
+        AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
     }
 }

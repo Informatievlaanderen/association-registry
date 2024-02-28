@@ -15,10 +15,10 @@ public record ContactgegevenWerdVerwijderdUitKBO(
     public Bron Bron
         => Bron.KBO;
 
-    public static ContactgegevenWerdVerwijderdUitKBO With(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    public static ContactgegevenWerdVerwijderdUitKBO With(Contactgegeven contactgegeven)
         => new(
             contactgegeven.ContactgegevenId,
             contactgegeven.Contactgegeventype,
-            typeVolgensKbo.Waarde,
+            contactgegeven.TypeVolgensKbo!.Waarde,
             contactgegeven.Waarde);
 }
