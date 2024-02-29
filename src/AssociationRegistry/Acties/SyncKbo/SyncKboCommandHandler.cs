@@ -27,6 +27,7 @@ public class SyncKboCommandHandler
 
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verengigingVolgensMagda.Data.Naam));
         vereniging.WijzigKorteNaamUitKbo(verengigingVolgensMagda.Data.KorteNaam);
+        vereniging.WijzigStartdatum(Datum.CreateOptional(verengigingVolgensMagda.Data.Startdatum));
         HandleContactgegevens(vereniging, verengigingVolgensMagda);
 
         vereniging.SyncCompleted();

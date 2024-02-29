@@ -12,22 +12,22 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_StartdatumWerdGewijzigd
+public class Given_StartdatumWerdGewijzigdInKbo
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigdInKbo>>();
 
-        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+        var doc = new BeheerVerenigingHistoriekDocument();
 
         BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Startdatum werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'.",
-                nameof(StartdatumWerdGewijzigd),
+                $"In KBO werd de startdatum gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'.",
+                nameof(StartdatumWerdGewijzigdInKbo),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
                 startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));

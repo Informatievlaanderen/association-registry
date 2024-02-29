@@ -177,6 +177,11 @@ public static class PubliekVerenigingDetailProjector
         document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum;
     }
 
+    public static void Apply(IEvent<StartdatumWerdGewijzigdInKbo> startdatumWerdGewijzigdInKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.Startdatum = startdatumWerdGewijzigdInKbo.Data.Startdatum;
+    }
+
     public static void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, PubliekVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;

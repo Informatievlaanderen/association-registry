@@ -28,6 +28,14 @@ public record Datum
         return oldStartdatum is not null && newStartdatum is not null && newStartdatum.Equals(oldStartdatum);
     }
 
+    public virtual bool Equals(Datum? other)
+    {
+        if (ReferenceEquals(objA: null, other)) return false;
+        if (ReferenceEquals(this, other)) return true;
+
+        return Value == other.Value;
+    }
+
     public static implicit operator DateOnly?(Datum datum)
         => datum.Value;
 
