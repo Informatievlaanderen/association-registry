@@ -88,6 +88,14 @@ public record Locatie
         return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
     }
 
+    public Locatie WijzigUitKbo(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    {
+        if (adres is null && adresId is null)
+            return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+
+        return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
+    }
+
     public Locatie Wijzig(string? naam, bool? isPrimair)
         => Create(naam ?? Naam, isPrimair ?? IsPrimair, Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 }
