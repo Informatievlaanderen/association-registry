@@ -1,3 +1,11 @@
+# [8.76.0](https://github.com/informatievlaanderen/association-registry/compare/v8.75.0...v8.76.0) (2024-02-29)
+
+
+### Features
+
+* or-1282 add type for geregistreerde organisatie ([0f832fa](https://github.com/informatievlaanderen/association-registry/commit/0f832fa0526449a41f369b6f0226670ef301e4d7))
+* or-2106 sync kbo can take over existing contactgegevens ([a1e9c0c](https://github.com/informatievlaanderen/association-registry/commit/a1e9c0cbfe26f1a24caefdbd3a9ce7fb45e229c5))
+
 # [8.75.0](https://github.com/informatievlaanderen/association-registry/compare/v8.74.0...v8.75.0) (2024-02-28)
 
 
