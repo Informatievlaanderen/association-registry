@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek.Projecting;
 
-using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
@@ -12,22 +11,24 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_StartdatumWerdGewijzigd
+public class Given_StartdatumWerdGewijzigdInKbo_With_Null
 {
     [Fact]
-    public void Then_it_adds_a_new_gebeurtenis()
+    public void Then_it_adds_a_new_gebeurtenis_with_null()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigd>>();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigdInKbo>>();
 
-        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+        startdatumWerdGewijzigd.Data = new StartdatumWerdGewijzigdInKbo(Startdatum: null);
+
+        var doc = new BeheerVerenigingHistoriekDocument();
 
         BeheerVerenigingHistoriekProjector.Apply(startdatumWerdGewijzigd, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Startdatum werd gewijzigd naar '{startdatumWerdGewijzigd.Data.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}'.",
-                nameof(StartdatumWerdGewijzigd),
+                Beschrijving: "In KBO werd de startdatum verwijderd.",
+                nameof(StartdatumWerdGewijzigdInKbo),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
                 startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));

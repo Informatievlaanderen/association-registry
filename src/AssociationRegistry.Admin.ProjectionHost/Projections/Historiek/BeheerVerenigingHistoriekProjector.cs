@@ -87,6 +87,28 @@ public class BeheerVerenigingHistoriekProjector
         }
     }
 
+    public static void Apply(IEvent<StartdatumWerdGewijzigdInKbo> startdatumWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        if (startdatumWerdGewijzigdInKbo.Data.Startdatum is { } startdatum)
+        {
+            var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
+
+            AddHistoriekEntry(
+                startdatumWerdGewijzigdInKbo,
+                document,
+                $"In KBO werd de startdatum gewijzigd naar '{startDatumString}'."
+            );
+        }
+        else
+        {
+            AddHistoriekEntry(
+                startdatumWerdGewijzigdInKbo,
+                document,
+                beschrijving: "In KBO werd de startdatum verwijderd."
+            );
+        }
+    }
+
     public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             doelgroepWerdGewijzigd,

@@ -207,6 +207,12 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));
     }
 
+    public void WijzigStartdatum(Datum? startdatum)
+    {
+        if (State.Startdatum == startdatum) return;
+        AddEvent(StartdatumWerdGewijzigdInKbo.With(startdatum));
+    }
+
     public void WijzigContactgegevenUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
         var teWijzigenContactgegeven = State.Contactgegevens.GetContactgegevenOfKboType(typeVolgensKbo);

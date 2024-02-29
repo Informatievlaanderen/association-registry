@@ -73,6 +73,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<StartdatumWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<StartdatumWerdGewijzigdInKbo> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<DoelgroepWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 

@@ -25,3 +25,20 @@ public class Given_StartdatumWerdGewijzigd
         doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum);
     }
 }
+
+[UnitTest]
+public class Given_StartdatumWerdGewijzigdInKbo
+{
+    [Fact]
+    public void Then_it_modifies_the_startdatum()
+    {
+        var fixture = new Fixture().CustomizePublicApi();
+        var startdatumWerdGewijzigd = fixture.Create<TestEvent<StartdatumWerdGewijzigdInKbo>>();
+
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
+        PubliekVerenigingDetailProjector.Apply(startdatumWerdGewijzigd, doc);
+
+        doc.Startdatum.Should().Be(startdatumWerdGewijzigd.Data.Startdatum);
+    }
+}

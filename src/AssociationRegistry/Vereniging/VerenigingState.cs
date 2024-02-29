@@ -113,6 +113,7 @@ public record VerenigingState : IHasVersion
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
+            Startdatum = Datum.Hydrate(@event.Startdatum),
         };
 
     public VerenigingState Apply(NaamWerdGewijzigd @event)
@@ -388,6 +389,12 @@ public record VerenigingState : IHasVersion
         => this with
         {
             KorteNaam = @event.KorteNaam,
+        };
+
+    public VerenigingState Apply(StartdatumWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Startdatum = Datum.Hydrate(@event.Startdatum),
         };
 
     public VerenigingState Apply(ContactgegevenWerdVerwijderdUitKBO @event)
