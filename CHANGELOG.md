@@ -1,3 +1,11 @@
+# [8.77.0](https://github.com/informatievlaanderen/association-registry/compare/v8.76.0...v8.77.0) (2024-02-29)
+
+
+### Features
+
+* or-2110 add invalid contactgeven on sync ([8ad008c](https://github.com/informatievlaanderen/association-registry/commit/8ad008c4257f7bd5a6a8624ad81c69e4611293fc))
+* or-2111 dont overrule contactgegeven when it has a beschrijving ([5b65e15](https://github.com/informatievlaanderen/association-registry/commit/5b65e15ab0443d30f6cf936d02a88201b8ae50fd))
+
 # [8.76.0](https://github.com/informatievlaanderen/association-registry/compare/v8.75.0...v8.76.0) (2024-02-29)
 
 
