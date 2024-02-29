@@ -136,6 +136,31 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
     }
 
+    public void WijzigMaatschappelijkeZetelUitKbo(AdresVolgensKbo adresVolgensKbo)
+    {
+        var maatschappelijkeZetel = State.Locaties.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
+        if (maatschappelijkeZetel is null)
+        {
+            VoegMaatschappelijkeZetelToe(adresVolgensKbo);
+        }
+        else
+        {
+            var adres = Adres.TryCreateFromKbo(adresVolgensKbo);
+
+            if (adres == maatschappelijkeZetel.Adres)
+                return;
+
+            var gewijzigdeLocatie = maatschappelijkeZetel.WijzigUitKbo(maatschappelijkeZetel.Naam,
+                                                                       Locatietype.MaatschappelijkeZetelVolgensKbo,
+                                                                       maatschappelijkeZetel.IsPrimair,
+                                                                       maatschappelijkeZetel.AdresId,
+                                                                       Adres.TryCreateFromKbo(adresVolgensKbo));
+
+            AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
+        }
+    }
+
     private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
@@ -242,6 +267,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             }
 
             VoegContactgegevenToe(waarde, typeVolgensKbo);
+
             return;
         }
 
