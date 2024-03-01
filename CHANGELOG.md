@@ -1,3 +1,10 @@
+# [8.78.0](https://github.com/informatievlaanderen/association-registry/compare/v8.77.0...v8.78.0) (2024-03-01)
+
+
+### Features
+
+* or-2101 sync Startdatum ([9533b48](https://github.com/informatievlaanderen/association-registry/commit/9533b4888c58285d15fdda5dd3fe83e4d43935bb))
+
 # [8.77.0](https://github.com/informatievlaanderen/association-registry/compare/v8.76.0...v8.77.0) (2024-02-29)
 
 
