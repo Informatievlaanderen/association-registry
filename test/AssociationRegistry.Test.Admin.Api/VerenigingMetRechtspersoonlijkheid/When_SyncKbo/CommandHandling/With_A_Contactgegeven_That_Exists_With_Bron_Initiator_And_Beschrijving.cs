@@ -77,6 +77,6 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
                                                                       ContactgegeventypeVolgensKbo.Email.Waarde,
                                                                       _existingContactgegeven.Waarde)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

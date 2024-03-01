@@ -58,7 +58,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
-            new KboSyncSuccessful(),
+            new SynchronisatieMetKboWasSuccesvol(),
         };
 
     public CommandMetadata GetCommandMetadata()

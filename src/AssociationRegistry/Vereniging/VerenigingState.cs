@@ -376,7 +376,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(RoepnaamWerdGewijzigd @event)
         => this with { Roepnaam = @event.Roepnaam };
 
-    public VerenigingState Apply(KboSyncSuccessful @event)
+    public VerenigingState Apply(SynchronisatieMetKboWasSuccesvol @event)
         => this;
 
     public VerenigingState Apply(NaamWerdGewijzigdInKbo @event)

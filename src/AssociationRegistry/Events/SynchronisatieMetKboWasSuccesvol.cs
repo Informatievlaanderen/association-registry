@@ -2,4 +2,4 @@
 
 using Framework;
 
-public record KboSyncSuccessful : IEvent;
+public record SynchronisatieMetKboWasSuccesvol : IEvent;

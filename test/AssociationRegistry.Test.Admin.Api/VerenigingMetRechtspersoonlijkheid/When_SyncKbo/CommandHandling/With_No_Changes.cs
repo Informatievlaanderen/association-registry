@@ -56,7 +56,7 @@ public class With_No_Changes
            .Should()
            .HaveCount(1)
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
 
     }
 }

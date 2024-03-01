@@ -57,6 +57,6 @@ public class With_A_Different_KorteNaam
            .And
            .ContainSingle(e => e.Equals(new KorteNaamWerdGewijzigdInKbo(_newKorteNaam)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }
