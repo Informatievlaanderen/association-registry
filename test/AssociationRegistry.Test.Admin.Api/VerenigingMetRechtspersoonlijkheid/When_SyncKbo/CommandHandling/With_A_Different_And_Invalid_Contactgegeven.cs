@@ -75,6 +75,6 @@ public class With_A_Different_And_Invalid_Contactgegeven
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
                                             _newContactgegevenWaarde)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

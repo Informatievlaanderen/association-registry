@@ -57,6 +57,6 @@ public class With_A_Different_StartDatum
            .And
            .ContainSingle(e => e.Equals(new StartdatumWerdGewijzigdInKbo(_newStartdatum)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

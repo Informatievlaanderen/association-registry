@@ -86,6 +86,6 @@ public class With_A_New_Contactgegeven
                               new ContactgegevenWerdOvergenomenUitKBO(4, Contactgegeventype.Telefoon,
                                                                       ContactgegeventypeVolgensKbo.GSM.Waarde, _newGSM)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

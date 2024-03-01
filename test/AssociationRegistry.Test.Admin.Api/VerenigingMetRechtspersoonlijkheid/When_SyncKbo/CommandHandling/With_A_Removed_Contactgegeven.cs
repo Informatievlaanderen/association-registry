@@ -69,6 +69,6 @@ public class With_A_Removed_Contactgegeven
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.Waarde)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

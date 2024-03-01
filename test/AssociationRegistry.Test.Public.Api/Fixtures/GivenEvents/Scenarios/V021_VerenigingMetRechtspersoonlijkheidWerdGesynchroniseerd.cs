@@ -36,7 +36,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
-            new KboSyncSuccessful(),
+            new SynchronisatieMetKboWasSuccesvol(),
         };
     }
 

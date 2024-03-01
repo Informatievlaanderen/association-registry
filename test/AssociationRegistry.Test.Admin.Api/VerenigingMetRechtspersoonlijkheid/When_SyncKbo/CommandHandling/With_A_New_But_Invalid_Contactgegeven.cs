@@ -69,6 +69,6 @@ public class With_A_New_But_Invalid_Contactgegeven
                                             ContactgegeventypeVolgensKbo.Email,
                                             _newContactgegevenWaarde)))
            .And
-           .ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }

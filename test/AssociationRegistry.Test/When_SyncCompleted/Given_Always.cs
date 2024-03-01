@@ -21,6 +21,6 @@ public class Given_Always
 
         vereniging.SyncCompleted();
 
-        vereniging.UncommittedEvents.Should().ContainSingle(e => e.GetType() == typeof(KboSyncSuccessful));
+        vereniging.UncommittedEvents.Should().ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
     }
 }
