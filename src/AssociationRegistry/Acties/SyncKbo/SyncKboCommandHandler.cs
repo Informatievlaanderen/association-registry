@@ -26,9 +26,9 @@ public class SyncKboCommandHandler
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.WijzigRechtsvormUitKbo(verengigingVolgensMagda.Data.Type);
-        vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verengigingVolgensMagda.Data.Naam));
-        vereniging.WijzigKorteNaamUitKbo(verengigingVolgensMagda.Data.KorteNaam);
-        vereniging.WijzigStartdatum(Datum.CreateOptional(verengigingVolgensMagda.Data.Startdatum));
+        vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verengigingVolgensMagda.Data.Naam ?? ""));
+        vereniging.WijzigKorteNaamUitKbo(verengigingVolgensMagda.Data.KorteNaam ?? "");
+        vereniging.WijzigStartdatum(Datum.CreateOptional(verengigingVolgensMagda.Data.Startdatum ?? null));
         HandleContactgegevens(vereniging, verengigingVolgensMagda);
 
         vereniging.SyncCompleted();
@@ -38,11 +38,16 @@ public class SyncKboCommandHandler
         return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }
 
-    private static void HandleContactgegevens(VerenigingMetRechtspersoonlijkheid vereniging, Result<VerenigingVolgensKbo> verenigingVolgensMagda)
+    private static void HandleContactgegevens(
+        VerenigingMetRechtspersoonlijkheid vereniging,
+        Result<VerenigingVolgensKbo> verenigingVolgensMagda)
     {
         vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
         vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
-        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Telefoonnummer, ContactgegeventypeVolgensKbo.Telefoon);
+
+        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Telefoonnummer,
+                                              ContactgegeventypeVolgensKbo.Telefoon);
+
         vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
     }
 }
