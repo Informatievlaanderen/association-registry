@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DuplicateVerenigingDetection;
 using Framework;
 using Kbo;
@@ -53,9 +54,15 @@ public class RegistreerVerenigingUitKboCommandHandler
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNumber)
     {
-        var duplicateKbo = await _verenigingsRepository.Load(kboNumber);
-
-        return duplicateKbo is not null ? DuplicateKboFound.WithVcode(duplicateKbo.VCode!) : Result.Success();
+        try
+        {
+            var duplicateKbo = await _verenigingsRepository.Load(kboNumber);
+            return DuplicateKboFound.WithVcode(duplicateKbo.VCode!);
+        }
+        catch (AggregateNotFoundException)
+        {
+            return Result.Success();
+        }
     }
 
     private async Task<Result> RegistreerVereniging(

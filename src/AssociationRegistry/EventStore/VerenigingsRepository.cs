@@ -41,11 +41,9 @@ public class VerenigingsRepository : IVerenigingsRepository
         return vereniging;
     }
 
-    public async Task<VerenigingMetRechtspersoonlijkheid?> Load(KboNummer kboNummer, long? expectedVersion)
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer);
-
-        if(verenigingState is null) return null;
         var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
         verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
 
