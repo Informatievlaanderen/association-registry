@@ -1,17 +1,17 @@
-﻿namespace AssociationRegistry.Admin.Api.Magda;
+﻿namespace AssociationRegistry.Magda;
 
-using AssociationRegistry.Magda;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
 using AssociationRegistry.Magda.Exceptions;
+using AssociationRegistry.Magda.Extensions;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
-using Framework;
-using Kbo;
+using AssociationRegistry.Vereniging;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Vereniging;
 
 public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingService
 {

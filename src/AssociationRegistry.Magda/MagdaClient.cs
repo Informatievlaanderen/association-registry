@@ -58,23 +58,6 @@ public class MagdaClient : IMagdaClient
             signedEnvelope);
     }
 
-    public async Task<ResponseEnvelope<RegistreerInschrijvingResponseBody>?> RegistreerInschrijving(
-        string kbonummer,
-        MagdaCallReference reference)
-    {
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
-
-        var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
-        var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
-        var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
-
-        return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
-            _magdaOptions.RegistreerInschrijvingEndpoint!,
-            clientCertificate,
-            signedEnvelope);
-    }
-
     public async Task<ResponseEnvelope<RegistreerUitschrijvingResponseBody>?> RegistreerUitschrijving(
         string kbonummer,
         MagdaCallReference reference)

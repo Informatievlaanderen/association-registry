@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Magda.When_RegistreerInschrijving.Service;
 
-using AssociationRegistry.Admin.Api.Magda;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
