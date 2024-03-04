@@ -9,7 +9,6 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using Metrics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -23,8 +22,7 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions,
-        IConfiguration configuration)
+        PostgreSqlOptionsSection postgreSqlOptions)
     {
         var martenConfiguration = services.AddMarten(
             serviceProvider =>

@@ -325,7 +325,7 @@ public class Program
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddTransient<IMagdaClient, MagdaClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
-               .AddMarten(postgreSqlOptionsSection, builder.Configuration)
+               .AddMarten(postgreSqlOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()

@@ -38,16 +38,15 @@ public class RegistreerVerenigingUitKboCommandHandler
         var command = message.Command;
         var duplicateResult = await CheckForDuplicate(command.KboNummer);
 
-        if (duplicateResult.IsFailure()) return duplicateResult;
+        if (duplicateResult.IsFailure())
+            return duplicateResult;
 
-        var registreerInschrijvingResult = await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
-
-        if (registreerInschrijvingResult.IsFailure()) throw new RegistreerInschrijvingKonNietVoltooidWorden();
-        _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, command.KboNummer);
+        await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
 
         var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
 
-        if (geefVerenigingResult.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
+        if (geefVerenigingResult.IsFailure())
+            throw new GeenGeldigeVerenigingInKbo();
 
         return await RegistreerVereniging(geefVerenigingResult, message.Metadata, cancellationToken);
     }
@@ -79,23 +78,26 @@ public class RegistreerVerenigingUitKboCommandHandler
         return Result.Success(CommandResult.Create(vCode, result));
     }
 
-    private async Task<Result> RegistreerInschrijving(
-        KboNummer kboNumber,
+    private async Task RegistreerInschrijving(
+        KboNummer kboNummer,
         CommandMetadata messageMetadata,
         CancellationToken cancellationToken)
     {
         try
         {
             var result = await _magdaRegistreerInschrijvingService.RegistreerInschrijving(
-                kboNumber, messageMetadata, cancellationToken);
+                kboNummer, messageMetadata, cancellationToken);
 
-            return result;
+            if (result.IsFailure())
+                throw new RegistreerInschrijvingKonNietVoltooidWorden();
+
+            _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, kboNummer);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNumber);
+            _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNummer);
 
-            return Result.Failure();
+            throw new RegistreerInschrijvingKonNietVoltooidWorden();
         }
     }
 }
