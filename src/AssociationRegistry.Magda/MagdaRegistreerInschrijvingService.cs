@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Magda;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
-using AssociationRegistry.Magda.Exceptions;
-using AssociationRegistry.Magda.Extensions;
-using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Kbo;
+using Exceptions;
+using Extensions;
+using Models;
+using Repertorium.RegistreerInschrijving;
+using Vereniging;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using System;
@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingService
 {
+    private const ResultaatEnumType Geslaagd = ResultaatEnumType.Item1;
     private readonly IMagdaCallReferenceRepository _magdaCallReferenceRepository;
     private readonly IMagdaClient _magdaClient;
     private readonly ILogger<MagdaRegistreerInschrijvingService> _logger;
@@ -47,24 +48,31 @@ public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingSe
 
             var uitzonderingen = response?.Body?.RegistreerInschrijvingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen;
 
-            _logger.LogInformation(
-                "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: " +
-                "\nFouten:\n'{Uitzonderingen}'" +
-                "\nWaarschuwingen:\n'{Waarschuwingen}'" +
-                "\nInformatie:\n'{Informatie}'",
-                kboNummer,
-                uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.FOUT),
-                uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.WAARSCHUWING),
-                uitzonderingen?.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE));
+            LogIndienUitzonderingen(kboNummer, uitzonderingen);
 
-
-            return response?.Body?.RegistreerInschrijvingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Resultaat.Value == ResultaatEnumType.Item1 ? Result.Success() : Result.Failure();
+            return response?.Body?.RegistreerInschrijvingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Resultaat.Value == Geslaagd ? Result.Success() : Result.Failure();
         }
         catch (Exception e)
         {
             throw new MagdaException(
                 message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst.", e);
         }
+    }
+
+    private void LogIndienUitzonderingen(KboNummer kboNummer, UitzonderingType[]? uitzonderingen)
+    {
+        if (uitzonderingen is null || !uitzonderingen.Any())
+            return;
+
+        _logger.LogInformation(
+            "Uitzondering bij het aanroepen van de Magda GeefOnderneming service voor KBO-nummer {KboNummer}: " +
+            "\nFouten:\n'{Uitzonderingen}'" +
+            "\nWaarschuwingen:\n'{Waarschuwingen}'" +
+            "\nInformatie:\n'{Informatie}'",
+            kboNummer,
+            uitzonderingen.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.FOUT),
+            uitzonderingen.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.WAARSCHUWING),
+            uitzonderingen.ConcatenateUitzonderingen(separator: "\n", UitzonderingTypeType.INFORMATIE));
     }
 
     private static async Task<MagdaCallReference> CreateReference(
