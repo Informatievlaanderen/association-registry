@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,6 +24,28 @@ public class Given_NaamWerdGewijzigdInKbo
         PubliekVerenigingDetailProjector.Apply(naamWerdGewijzigdInKbo, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigdInKbo.Data.Naam);
+    }
+}
+
+[UnitTest]
+public class Given_RechtsvormWerdGewijzigdInKbo
+{
+    [Fact]
+    public void Then_it_modifies_the_rechtsvorm()
+    {
+        var fixture = new Fixture().CustomizePublicApi();
+        var rechtsvormWerdGewijzigdInKbo = fixture.Create<TestEvent<RechtsvormWerdGewijzigdInKBO>>();
+
+        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
+        PubliekVerenigingDetailProjector.Apply(rechtsvormWerdGewijzigdInKbo, doc);
+
+        doc.Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.VerenigingsType
+        {
+            Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
+        });
+        doc.Rechtsvorm.Should().Be(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm);
     }
 }
 

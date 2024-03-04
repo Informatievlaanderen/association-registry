@@ -7,6 +7,7 @@ using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using templates;
+using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -49,6 +50,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
 
         var expected = new DetailVerenigingResponseTemplate()
                       .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                      .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
                       .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                       .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)

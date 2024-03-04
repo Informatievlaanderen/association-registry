@@ -397,7 +397,10 @@ public static class PubliekVerenigingDetailProjector
     {
         document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
     }
-    public static void Apply(IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo, PubliekVerenigingDetailDocument document)
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo,
+        PubliekVerenigingDetailDocument document)
     {
         var contactgegeven =
             document.Contactgegevens.Single(c => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId);
@@ -408,9 +411,12 @@ public static class PubliekVerenigingDetailProjector
                                            .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId)
                                            .Append(contactgegeven)
                                            .OrderBy(l => l.ContactgegevenId)
-                                           .ToArray();    }
+                                           .ToArray();
+    }
 
-    public static void Apply(IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo, PubliekVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo,
+        PubliekVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens
                                            .Where(c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
@@ -418,6 +424,16 @@ public static class PubliekVerenigingDetailProjector
                                            .ToArray();
     }
 
+    public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, PubliekVerenigingDetailDocument document)
+    {
+        document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
+
+        document.Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+        {
+            Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
+        };
+    }
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()

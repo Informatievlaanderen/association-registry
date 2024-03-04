@@ -388,6 +388,12 @@ public record VerenigingState : IHasVersion
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
         };
 
+    public VerenigingState Apply(RechtsvormWerdGewijzigdInKBO @event)
+        => this with
+        {
+            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
+        };
+
     public VerenigingState Apply(KorteNaamWerdGewijzigdInKbo @event)
         => this with
         {

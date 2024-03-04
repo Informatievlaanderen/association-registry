@@ -25,6 +25,7 @@ public class SyncKboCommandHandler
         var verengigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
+        vereniging.WijzigRechtsvormUitKbo(verengigingVolgensMagda.Data.Type);
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verengigingVolgensMagda.Data.Naam));
         vereniging.WijzigKorteNaamUitKbo(verengigingVolgensMagda.Data.KorteNaam);
         vereniging.WijzigStartdatum(Datum.CreateOptional(verengigingVolgensMagda.Data.Startdatum));

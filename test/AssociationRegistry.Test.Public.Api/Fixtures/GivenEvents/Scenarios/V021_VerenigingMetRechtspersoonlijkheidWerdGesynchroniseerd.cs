@@ -10,11 +10,12 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
         VCode: "V0001021",
         KboNummer: "0987654420",
-        Rechtsvorm: "VZW",
+        Rechtsvorm: Verenigingstype.VZW.Code,
         Naam: "Feesten Affligem",
         string.Empty,
         Startdatum: null);
 
+    public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO = new(Verenigingstype.IVZW.Code);
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo = new("FA");
 
@@ -33,6 +34,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             ContactgegevenWerdOvergenomenUitKbo,
+            RechtsvormWerdGewijzigdInKBO,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,

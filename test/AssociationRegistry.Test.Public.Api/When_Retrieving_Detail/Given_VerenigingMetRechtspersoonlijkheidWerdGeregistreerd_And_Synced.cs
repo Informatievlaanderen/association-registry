@@ -7,6 +7,7 @@ using FluentAssertions;
 using Formatters;
 using Framework;
 using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,6 +36,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
 
         var goldenMaster = new DetailVerenigingResponseTemplate()
                           .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                          .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                           .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                           .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
                           .WithContactgegeven(_scenario.VCode,

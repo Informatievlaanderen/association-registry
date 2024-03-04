@@ -7,7 +7,7 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
 {
     public string JsonLdMetadataType { get; set; }
     public string Naam { get; set; } = null!;
-    public VerenigingsType Verenigingstype { get; init; } = null!;
+    public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
