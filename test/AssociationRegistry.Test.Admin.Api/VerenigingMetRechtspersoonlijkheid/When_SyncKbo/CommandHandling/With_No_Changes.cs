@@ -31,7 +31,7 @@ public class With_No_Changes
         var fixture = new Fixture().CustomizeAdminApi();
         var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ));
 

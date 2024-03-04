@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-  
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -11,22 +10,18 @@
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
-  
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
     <PackageReference Include="System.ServiceModel.Http" Version="6.2.0" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="6.2.0" />
     <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
   </ItemGroup>
-  
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
-  
   <ItemGroup>
-    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition=""/>
+    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition="" />
   </ItemGroup>
-  
   <ItemGroup>
     <Folder Include="WSDL\Generiek-02.00\" />
     <Folder Include="WSDL\Onderneming-02.00\" />
@@ -37,12 +32,11 @@
     <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\" />
     <Folder Include="WSDL\Sleutel-02.00\" />
   </ItemGroup>
-  
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
   <ItemGroup>
     <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Wsdl\" />
   </ItemGroup>
+  <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

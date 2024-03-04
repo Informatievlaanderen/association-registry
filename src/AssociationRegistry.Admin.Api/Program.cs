@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
+using AssociationRegistry.Magda;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -28,8 +29,6 @@ using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
-using Magda;
-using Magda.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

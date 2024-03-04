@@ -49,7 +49,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(verenigingVolgensKbo));
+        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo));
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
