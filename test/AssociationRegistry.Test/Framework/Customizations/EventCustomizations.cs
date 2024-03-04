@@ -19,6 +19,7 @@ public static class EventCustomizations
         fixture.CustomizeContactgegevenWerdOvergenomenUitKBO();
         fixture.CustomizeVertegenwoordigerWerdOvergenomenUitKBO();
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
+        fixture.CustomizeRechtsvormWerdGewijzigdInKBO();
     }
 
     private static void CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)
@@ -139,5 +140,13 @@ public static class EventCustomizations
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
                     fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
                 )).OmitAutoProperties());
+    }
+
+    private static void CustomizeRechtsvormWerdGewijzigdInKBO(this IFixture fixture)
+    {
+        fixture.Customize<RechtsvormWerdGewijzigdInKBO>(
+            composer => composer.FromFactory(
+                () => new RechtsvormWerdGewijzigdInKBO(
+                    fixture.Create<Verenigingstype>().Code)).OmitAutoProperties());
     }
 }

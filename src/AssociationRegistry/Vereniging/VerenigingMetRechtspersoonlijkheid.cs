@@ -203,6 +203,12 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(new NaamWerdGewijzigdInKbo(naam));
     }
 
+    public void WijzigRechtsvormUitKbo(Verenigingstype verenigingstype)
+    {
+        if (State.Verenigingstype == verenigingstype) return;
+        AddEvent(RechtsvormWerdGewijzigdInKBO.With(verenigingstype));
+    }
+
     public void WijzigKorteNaamUitKbo(string? korteNaam)
     {
         if (State.KorteNaam == korteNaam) return;

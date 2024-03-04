@@ -498,4 +498,15 @@ public class BeheerVerenigingDetailProjector
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
     }
+
+    public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Verenigingstype = new VerenigingsType
+        {
+            Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
+        };
+
+        document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
+    }
 }

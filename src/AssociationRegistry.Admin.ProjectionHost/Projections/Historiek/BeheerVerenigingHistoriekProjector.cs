@@ -8,6 +8,7 @@ using Marten.Events;
 using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
+using Vereniging;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjector
@@ -443,6 +444,15 @@ public class BeheerVerenigingHistoriekProjector
             contactgegevenWerdInBeheerGenomenDoorKbo,
             document,
             $"{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Contactgegeventype} '{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Waarde}' werd in beheer genomen door KBO."
+        );
+    }
+
+    public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            rechtsvormWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de rechtsvorm gewijzigd naar '{Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam}'."
         );
     }
 

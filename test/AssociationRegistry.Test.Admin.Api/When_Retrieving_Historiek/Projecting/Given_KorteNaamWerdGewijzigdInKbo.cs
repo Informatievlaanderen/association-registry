@@ -11,24 +11,24 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_NaamWerdGewijzigdInKbo
+public class Given_KorteNaamWerdGewijzigdInKbo
 {
     [Fact]
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var naamWerdGewijzigdInKbo = fixture.Create<TestEvent<NaamWerdGewijzigdInKbo>>();
+        var korteNaamWerdGewijzigdInKbo = fixture.Create<TestEvent<KorteNaamWerdGewijzigdInKbo>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        BeheerVerenigingHistoriekProjector.Apply(naamWerdGewijzigdInKbo, doc);
+        BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigdInKbo, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"In KBO werd de naam gewijzigd naar '{naamWerdGewijzigdInKbo.Data.Naam}'.",
-                nameof(NaamWerdGewijzigdInKbo),
-                naamWerdGewijzigdInKbo.Data,
-                naamWerdGewijzigdInKbo.Initiator,
-                naamWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
+                $"In KBO werd de korte naam gewijzigd naar '{korteNaamWerdGewijzigdInKbo.Data.KorteNaam}'.",
+                nameof(KorteNaamWerdGewijzigdInKbo),
+                korteNaamWerdGewijzigdInKbo.Data,
+                korteNaamWerdGewijzigdInKbo.Initiator,
+                korteNaamWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
     }
 }

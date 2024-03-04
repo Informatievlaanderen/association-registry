@@ -24,6 +24,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeAchternaam();
         fixture.CustomizeLocatie();
         fixture.CustomizeKboNummer();
+        fixture.CustomizeVerengingsType();
         fixture.CustomizeVertegenwoordiger();
         fixture.CustomizeAdresBron();
         fixture.CustomizeAdresId();
@@ -223,6 +224,15 @@ public static class AutoFixtureCustomizations
 
                                                                  return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
                                                              })
+                                                        .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeVerengingsType(this IFixture fixture)
+    {
+        fixture.Customize<Verenigingstype>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                                                             factory: i => Verenigingstype.All[i % Verenigingstype.All.Length])
                                                         .OmitAutoProperties()
         );
     }

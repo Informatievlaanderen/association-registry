@@ -6,6 +6,7 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Framework;
 using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -38,6 +39,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd
                           .WithVereniging(
                                v => v
                                    .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                                   .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                                    .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                                    .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
                            );

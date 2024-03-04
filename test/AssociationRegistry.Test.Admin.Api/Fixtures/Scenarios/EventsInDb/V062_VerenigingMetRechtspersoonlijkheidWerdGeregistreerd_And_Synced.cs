@@ -12,6 +12,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
 {
     public readonly CommandMetadata Metadata;
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO;
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo;
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo;
     public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo;
@@ -30,6 +31,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
             Rechtsvorm = Verenigingstype.VZW.Code,
         };
 
+        RechtsvormWerdGewijzigdInKBO = fixture.Create<RechtsvormWerdGewijzigdInKBO>();
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
         KorteNaamWerdGewijzigdInKbo = fixture.Create<KorteNaamWerdGewijzigdInKbo>();
 
@@ -55,6 +57,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             ContactgegevenWerdOvergenomenUitKbo,
+            RechtsvormWerdGewijzigdInKBO,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
