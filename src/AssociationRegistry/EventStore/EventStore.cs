@@ -97,7 +97,7 @@ public class EventStore : IEventStore
                                .SingleOrDefaultAsync())?.VCode;
 
         if (string.IsNullOrEmpty(id))
-            return null;
+            throw new AggregateNotFoundException(kboNummer, typeof(T));
 
         return await Load<T>(id);
     }

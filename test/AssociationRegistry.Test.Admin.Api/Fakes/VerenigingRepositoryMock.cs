@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
 using AssociationRegistry.Framework;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using EventStore;
 using FluentAssertions;
 using Vereniging;
@@ -48,11 +49,11 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(vereniging);
     }
 
-    public async Task<VerenigingMetRechtspersoonlijkheid?> Load(KboNummer kboNummer, long? expectedVersion)
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
     {
         _invocationsLoad.Add(new InvocationLoad(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid)));
 
-        if (_verenigingToLoad is null) return null;
+        if (_verenigingToLoad is null) throw new AggregateNotFoundException(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid));
 
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
         vereniging.Hydrate(_verenigingToLoad);
