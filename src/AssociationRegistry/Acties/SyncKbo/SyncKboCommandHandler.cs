@@ -4,6 +4,7 @@ using Framework;
 using Kbo;
 using ResultNet;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class SyncKboCommandHandler
 {
@@ -22,14 +23,15 @@ public class SyncKboCommandHandler
     {
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
 
-        var verengigingVolgensMagda =
+        var verenigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
+        if (verenigingVolgensMagda.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
 
-        vereniging.WijzigRechtsvormUitKbo(verengigingVolgensMagda.Data.Type);
-        vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verengigingVolgensMagda.Data.Naam ?? ""));
-        vereniging.WijzigKorteNaamUitKbo(verengigingVolgensMagda.Data.KorteNaam ?? "");
-        vereniging.WijzigStartdatum(Datum.CreateOptional(verengigingVolgensMagda.Data.Startdatum ?? null));
-        HandleContactgegevens(vereniging, verengigingVolgensMagda);
+        vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
+        vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
+        vereniging.WijzigKorteNaamUitKbo(verenigingVolgensMagda.Data.KorteNaam ?? "");
+        vereniging.WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Data.Startdatum ?? null));
+        HandleContactgegevens(vereniging, verenigingVolgensMagda);
 
         vereniging.SyncCompleted();
 
