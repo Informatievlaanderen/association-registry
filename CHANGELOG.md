@@ -1,3 +1,10 @@
+# [8.79.0](https://github.com/informatievlaanderen/association-registry/compare/v8.78.0...v8.79.0) (2024-03-05)
+
+
+### Features
+
+* or-2031 registreer inschrijving when adding kbo verenigingen ([8dce845](https://github.com/informatievlaanderen/association-registry/commit/8dce8450d9af41f29b1a45ac10fb2625569c4da6))
+
 # [8.78.0](https://github.com/informatievlaanderen/association-registry/compare/v8.77.0...v8.78.0) (2024-03-01)
 
 
