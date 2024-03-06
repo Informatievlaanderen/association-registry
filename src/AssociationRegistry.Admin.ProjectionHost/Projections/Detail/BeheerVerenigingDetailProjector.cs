@@ -499,6 +499,33 @@ public class BeheerVerenigingDetailProjector
                                            .ToArray();
     }
 
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.LocatieId,
+                                         update: l => l with
+                                         {
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(
+                                                 maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres, document.VCode, l.LocatieId),
+                                             Adresvoorstelling = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(
+                                                 maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
+                                             VerwijstNaar =
+                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
     public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = new VerenigingsType

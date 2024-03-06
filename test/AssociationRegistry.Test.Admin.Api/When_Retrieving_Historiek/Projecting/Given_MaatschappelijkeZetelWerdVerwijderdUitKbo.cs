@@ -11,24 +11,24 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
+public class Given_MaatschappelijkeZetelWerdVerwijderdUitKbo
 {
     [Fact]
     public void Then_it_adds_the_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo>>();
+        var maatschappelijkeZetelWerdVerwijderdUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
-        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
+        BeheerVerenigingHistoriekProjector.Apply(maatschappelijkeZetelWerdVerwijderdUitKbo, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO.",
-                nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
+                Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd verwijderd uit KBO.",
+                nameof(MaatschappelijkeZetelWerdVerwijderdUitKbo),
+                maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie,
+                maatschappelijkeZetelWerdVerwijderdUitKbo.Initiator,
+                maatschappelijkeZetelWerdVerwijderdUitKbo.Tijdstip.ToZuluTime()));
     }
 }

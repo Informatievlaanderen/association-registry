@@ -136,29 +136,39 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
     }
 
-    public void WijzigMaatschappelijkeZetelUitKbo(AdresVolgensKbo adresVolgensKbo)
+    public void WijzigMaatschappelijkeZetelUitKbo(AdresVolgensKbo? adresVolgensKbo)
     {
-        var maatschappelijkeZetel = State.Locaties.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        var maatschappelijkeZetel = State.Locaties.MaatschappelijkeZetel;
 
         if (maatschappelijkeZetel is null)
         {
             VoegMaatschappelijkeZetelToe(adresVolgensKbo);
+
+            return;
         }
-        else
+
+        if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty())
         {
-            var adres = Adres.TryCreateFromKbo(adresVolgensKbo);
+            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
 
-            if (adres == maatschappelijkeZetel.Adres)
-                return;
-
-            var gewijzigdeLocatie = maatschappelijkeZetel.WijzigUitKbo(maatschappelijkeZetel.Naam,
-                                                                       Locatietype.MaatschappelijkeZetelVolgensKbo,
-                                                                       maatschappelijkeZetel.IsPrimair,
-                                                                       maatschappelijkeZetel.AdresId,
-                                                                       Adres.TryCreateFromKbo(adresVolgensKbo));
-
-            AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
+            return;
         }
+
+        var adres = Adres.TryCreateFromKbo(adresVolgensKbo);
+
+        if (adres is null)
+        {
+            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
+            AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adresVolgensKbo));
+
+            return;
+        }
+
+        if (adres == maatschappelijkeZetel.Adres)
+            return;
+
+        var gewijzigdeLocatie = maatschappelijkeZetel.Wijzig(adres: adres);
+        AddEvent(MaatschappelijkeZetelWerdGewijzigdInKbo.With(gewijzigdeLocatie));
     }
 
     private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)

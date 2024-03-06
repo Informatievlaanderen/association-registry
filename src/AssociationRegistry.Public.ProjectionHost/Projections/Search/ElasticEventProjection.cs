@@ -282,6 +282,20 @@ public class PubliekZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message)
+    {
+        await _elasticRepository.UpdateLocatie(
+            message.VCode,
+            Map(message.Data.Locatie, message.VCode));
+    }
+
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message)
+    {
+        await _elasticRepository.RemoveLocatie(
+            message.VCode,
+            message.Data.Locatie.LocatieId);
+    }
+
     public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
     {
         await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument

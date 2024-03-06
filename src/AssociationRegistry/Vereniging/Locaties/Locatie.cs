@@ -78,17 +78,7 @@ public record Locatie
     public override int GetHashCode()
         => HashCode.Combine(LocatieId, Naam, IsPrimair, Locatietype, AdresId, Adres);
 
-    public Locatie Wijzig(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
-    {
-        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
-
-        if (adres is null && adresId is null)
-            return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
-
-        return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
-    }
-
-    public Locatie WijzigUitKbo(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    public Locatie Wijzig(string? naam = null, Locatietype? locatietype = null, bool? isPrimair = null, AdresId? adresId = null, Adres? adres = null)
     {
         if (adres is null && adresId is null)
             return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };

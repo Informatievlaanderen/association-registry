@@ -12,11 +12,13 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
 {
     public readonly CommandMetadata Metadata;
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo;
+    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo;
     public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO;
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo;
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo;
-    public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo;
     public readonly ContactgegevenWerdGewijzigdInKbo ContactgegevenWerdGewijzigdInKbo;
+    public readonly MaatschappelijkeZetelWerdGewijzigdInKbo MaatschappelijkeZetelWerdGewijzigdInKbo;
 
     public V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced()
     {
@@ -35,16 +37,26 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
         KorteNaamWerdGewijzigdInKbo = fixture.Create<KorteNaamWerdGewijzigdInKbo>();
 
+        MaatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>();
+
+        MaatschappelijkeZetelWerdGewijzigdInKbo = fixture.Create<MaatschappelijkeZetelWerdGewijzigdInKbo>() with
+        {
+            Locatie = fixture.Create<Registratiedata.Locatie>() with
+            {
+                LocatieId = MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+            },
+        };
+
         ContactgegevenWerdOvergenomenUitKbo = fixture.Create<ContactgegevenWerdOvergenomenUitKBO>() with
         {
             ContactgegevenId = 1,
         };
 
         ContactgegevenWerdGewijzigdInKbo = new ContactgegevenWerdGewijzigdInKbo(1, ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
-                                                                                  ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo,
-                                                                                  fixture.CreateContactgegevenVolgensType(
-                                                                                      ContactgegevenWerdOvergenomenUitKbo
-                                                                                         .Contactgegeventype).Waarde);
+                                                                                ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo,
+                                                                                fixture.CreateContactgegevenVolgensType(
+                                                                                    ContactgegevenWerdOvergenomenUitKbo
+                                                                                       .Contactgegeventype).Waarde);
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -56,10 +68,12 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
             ContactgegevenWerdOvergenomenUitKbo,
             RechtsvormWerdGewijzigdInKBO,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
+            MaatschappelijkeZetelWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
             new SynchronisatieMetKboWasSuccesvol(),
         };

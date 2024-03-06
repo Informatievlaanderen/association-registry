@@ -8,6 +8,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 {
     private const int InitialId = 1;
     public int NextId { get; }
+    public Locatie? MaatschappelijkeZetel => this.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
     public static Locaties Empty
         => new(Array.Empty<Locatie>(), InitialId);
@@ -54,6 +55,8 @@ public class Locaties : ReadOnlyCollection<Locatie>
     public Locatie? Wijzig(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
         var locatie = Get(locatieId);
+
+        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var gewijzigdeLocatie = locatie.Wijzig(naam, locatietype, isPrimair, adresId, adres);
 

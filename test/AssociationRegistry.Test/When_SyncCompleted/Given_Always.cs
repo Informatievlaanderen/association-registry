@@ -10,7 +10,7 @@ using Xunit;
 public class Given_Always
 {
     [Fact]
-    public void Then_It_Should_Add_A_KboSyncSuccessfulEvent()
+    public void Then_It_Should_Add_A_SynchronisatieMetKboWasSuccesvolEvent()
     {
         var fixture = new Fixture().CustomizeDomain();
 

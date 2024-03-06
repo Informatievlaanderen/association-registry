@@ -323,6 +323,27 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.LocatieId)
+                                    .Append(MapLocatie(document.VCode, maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie))
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
         IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
         PubliekVerenigingDetailDocument document)
     {

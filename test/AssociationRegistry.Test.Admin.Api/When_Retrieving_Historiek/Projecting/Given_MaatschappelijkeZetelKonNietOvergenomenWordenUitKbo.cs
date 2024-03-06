@@ -11,13 +11,13 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
+public class Given_MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo
 {
     [Fact]
     public void Then_it_adds_the_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo>>();
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
@@ -25,9 +25,9 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO.",
-                nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
-                maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
+                Beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO.",
+                nameof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
+                maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Initiator,
                 maatschappelijkeZetelWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
     }

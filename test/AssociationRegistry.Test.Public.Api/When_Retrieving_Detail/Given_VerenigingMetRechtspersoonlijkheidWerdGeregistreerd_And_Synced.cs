@@ -39,6 +39,17 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
                           .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                           .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                           .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
+                          .WithLocatie(_scenario.VCode,
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId.ToString(),
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.ToAdresString(),
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Straatnaam,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Huisnummer,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Busnummer,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Postcode,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Gemeente,
+                                       _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Land)
                           .WithContactgegeven(_scenario.VCode,
                                               _scenario.ContactgegevenWerdOvergenomenUitKbo.ContactgegevenId.ToString(),
                                               _scenario.ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,

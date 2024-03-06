@@ -4,6 +4,7 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using templates;
 using Vereniging;
@@ -42,6 +43,13 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd
                                    .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                                    .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
                                    .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
+                                   .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.ToAdresString(),
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Postcode,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Gemeente,
+                                                _scenario.VCode,
+                                                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId)
                            );
 
         content.Should().BeEquivalentJson(goldenMaster);

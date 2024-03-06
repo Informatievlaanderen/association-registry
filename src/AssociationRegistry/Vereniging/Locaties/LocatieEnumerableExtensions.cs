@@ -4,6 +4,7 @@ using Events;
 
 public static class LocatieEnumerableExtensions
 {
+
     public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, Locatie locatie)
         => locaties.Without(locatie.LocatieId);
 
