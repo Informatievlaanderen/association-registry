@@ -40,9 +40,10 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdVerwijderd):
                 case nameof(NaamWerdGewijzigdInKbo):
                 case nameof(KorteNaamWerdGewijzigdInKbo):
+                case nameof(MaatschappelijkeZetelWerdGewijzigdInKbo):
+                case nameof(MaatschappelijkeZetelWerdVerwijderdUitKbo):
                 case nameof(RechtsvormWerdGewijzigdInKBO):
                     await _zoekProjectionHandler.Handle(eventEnvelope);
-
                     break;
             }
         }

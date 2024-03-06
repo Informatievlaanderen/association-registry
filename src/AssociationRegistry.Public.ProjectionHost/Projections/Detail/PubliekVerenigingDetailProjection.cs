@@ -118,6 +118,16 @@ public class PubliekVerenigingDetailProjection : EventProjection
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     public async Task Project(
+        IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
         IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> @event,
         IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);

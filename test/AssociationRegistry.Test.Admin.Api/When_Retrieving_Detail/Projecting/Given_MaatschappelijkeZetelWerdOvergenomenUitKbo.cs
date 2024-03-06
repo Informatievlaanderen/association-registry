@@ -28,7 +28,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 
         doc.Locaties.Should().HaveCount(4);
 
-        var locatie = doc.Locaties.Should().ContainSingle(locatie => locatie.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId)
+        var locatie = doc.Locaties.Should()
+                         .ContainSingle(locatie => locatie.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId)
                          .Subject;
 
         locatie.Should().BeEquivalentTo(
@@ -36,7 +37,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
             {
                 JsonLdMetadata = new JsonLdMetadata
                 {
-                    Id = JsonLdType.Locatie.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                    Id = JsonLdType.Locatie.CreateWithIdValues(
+                        doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
                     Type = JsonLdType.Locatie.Type,
                 },
                 LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
@@ -49,7 +51,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
-                            Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                            Id = JsonLdType.Adres.CreateWithIdValues(
+                                doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
                             Type = JsonLdType.Adres.Type,
                         },
                         Straatnaam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.Straatnaam,
@@ -73,7 +76,8 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
-                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde.Split('/').Last()),
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(
+                                maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde.Split('/').Last()),
                             Type = JsonLdType.AdresVerwijzing.Type,
                         },
                     },
@@ -81,5 +85,112 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
             });
 
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
+    }
+}
+
+[UnitTest]
+public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
+{
+    [Fact]
+    public void Then_it_updates_a_locatie()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo>>();
+
+        var maatschappelijkeZetelWerdGewijzigdInKbo = new TestEvent<MaatschappelijkeZetelWerdGewijzigdInKbo>(
+            new MaatschappelijkeZetelWerdGewijzigdInKbo(
+                Locatie: fixture.Create<Registratiedata.Locatie>() with
+                {
+                    LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
+                })
+        );
+
+        var doc = new BeheerVerenigingDetailDocument();
+
+        BeheerVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
+        BeheerVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdGewijzigdInKbo, doc);
+
+        doc.Locaties.Should().HaveCount(1);
+
+        var locatie = doc.Locaties.Should()
+                         .ContainSingle(locatie => locatie.LocatieId == maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId)
+                         .Subject;
+
+        locatie.Should().BeEquivalentTo(
+            new Locatie
+            {
+                JsonLdMetadata = new JsonLdMetadata
+                {
+                    Id = JsonLdType.Locatie.CreateWithIdValues(
+                        doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                    Type = JsonLdType.Locatie.Type,
+                },
+                LocatieId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId,
+                IsPrimair = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.IsPrimair,
+                Naam = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Naam,
+                Locatietype = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
+                Adres = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres is null
+                    ? null
+                    : new Adres
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.Adres.CreateWithIdValues(
+                                doc.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.LocatieId.ToString()),
+                            Type = JsonLdType.Adres.Type,
+                        },
+                        Straatnaam = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Straatnaam,
+                        Huisnummer = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Huisnummer,
+                        Busnummer = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Busnummer,
+                        Postcode = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Postcode,
+                        Gemeente = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Gemeente,
+                        Land = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.Land,
+                    },
+                Adresvoorstelling = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
+                AdresId = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId is null
+                    ? null
+                    : new AdresId
+                    {
+                        Broncode = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId?.Broncode,
+                        Bronwaarde = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId?.Bronwaarde,
+                    },
+                VerwijstNaar = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId is null
+                    ? null
+                    : new AdresVerwijzing
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(
+                                maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId?.Bronwaarde.Split('/').Last()),
+                            Type = JsonLdType.AdresVerwijzing.Type,
+                        },
+                    },
+                Bron = Bron.KBO,
+            });
+
+        doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
+    }
+}
+
+[UnitTest]
+public class Given_MaatschappelijkeZetelWerdVerwijderdUitKbo
+{
+    [Fact]
+    public void Then_it_removes_a_locatie()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<TestEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo>>();
+
+        var maatschappelijkeZetelWerdVerwijderdUitKbo = new TestEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo>(
+            new MaatschappelijkeZetelWerdVerwijderdUitKbo(
+                Locatie: maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie)
+        );
+
+        var doc = new BeheerVerenigingDetailDocument();
+
+        BeheerVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdOvergenomenUitKbo, doc);
+        BeheerVerenigingDetailProjector.Apply(maatschappelijkeZetelWerdVerwijderdUitKbo, doc);
+
+        doc.Locaties.Should().HaveCount(0);
     }
 }

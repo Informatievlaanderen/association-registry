@@ -3,6 +3,7 @@
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
@@ -56,7 +57,22 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
                       .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
                       .WithContactgegeven(_scenario.ContactgegevenWerdOvergenomenUitKbo.ContactgegevenId, Bron.KBO,
                                           _scenario.ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
-                                          _scenario.ContactgegevenWerdGewijzigdInKbo.Waarde, _scenario.VCode);
+                                          _scenario.ContactgegevenWerdGewijzigdInKbo.Waarde, _scenario.VCode)
+                      .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.ToAdresString(),
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Straatnaam,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Huisnummer,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Busnummer,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Postcode,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Gemeente,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Land,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.AdresId.Broncode,
+                                   _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.AdresId.Bronwaarde,
+                                   false,
+                                   Bron.KBO,
+                                   _scenario.VCode);
 
         content.Should().BeEquivalentJson(expected);
     }

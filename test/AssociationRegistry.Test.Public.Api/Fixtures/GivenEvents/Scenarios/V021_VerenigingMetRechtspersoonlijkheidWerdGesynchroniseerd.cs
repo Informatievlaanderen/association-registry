@@ -15,6 +15,20 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         string.Empty,
         Startdatum: null);
 
+    public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo =
+        new(new Registratiedata.Locatie(1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                        false, "",
+                                        new Registratiedata.Adres(
+                                            "maatstraat", "1", null, "1000", "Brussel",
+                                            "Belgie"), null));
+
+    public readonly MaatschappelijkeZetelWerdGewijzigdInKbo MaatschappelijkeZetelWerdGewijzigdInKbo =
+        new(new Registratiedata.Locatie(1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                        false, "",
+                                        new Registratiedata.Adres(
+                                            "beterlaan", "42", "b", "2000", "Antwerpen",
+                                            "Belgie"), null));
+
     public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO = new(Verenigingstype.IVZW.Code);
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo = new("FA");
@@ -33,10 +47,12 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
         return new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
             ContactgegevenWerdOvergenomenUitKbo,
             RechtsvormWerdGewijzigdInKBO,
             NaamWerdGewijzigdInKbo,
             KorteNaamWerdGewijzigdInKbo,
+            MaatschappelijkeZetelWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
             new SynchronisatieMetKboWasSuccesvol(),
         };

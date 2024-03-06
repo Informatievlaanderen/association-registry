@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_Searching;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using templates;
 using Vereniging;
@@ -40,7 +41,14 @@ public class Given_VerenigingMetRechtspersoonlijkheid_Werd_Gesynchroniseerd
                                    .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
                                    .WithType(Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm))
                                    .WithNaam(_scenario.NaamWerdGewijzigdInKbo.Naam)
-                                   .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam));
+                                   .WithKorteNaam(_scenario.KorteNaamWerdGewijzigdInKbo.KorteNaam)
+                                   .WithLocatie(_scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Locatietype,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Naam,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.ToAdresString(),
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Postcode,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Gemeente,
+                                                _scenario.VCode,
+                                                _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.LocatieId));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

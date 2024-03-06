@@ -332,6 +332,23 @@ public record VerenigingState : IHasVersion
                    .AppendFromEventData(@event.Locatie)),
         };
 
+    public VerenigingState Apply(MaatschappelijkeZetelWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.Locatie.LocatieId)
+                   .AppendFromEventData(@event.Locatie)),
+        };
+
+    public VerenigingState Apply(MaatschappelijkeZetelWerdVerwijderdUitKbo @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.Locatie.LocatieId)),
+        };
+
     public VerenigingState Apply(VertegenwoordigerWerdOvergenomenUitKBO @event)
         => this with
         {

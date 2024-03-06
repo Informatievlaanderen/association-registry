@@ -47,7 +47,7 @@ public class With_No_Changes
     }
 
     [Fact]
-    public void Then_Only_A_KboSyncSuccessful_Event_Is_Saved()
+    public void Then_Only_A_SynchronisatieMetKboWasSuccesvol_Event_Is_Saved()
     {
         _verenigingRepositoryMock
            .SaveInvocations[0]

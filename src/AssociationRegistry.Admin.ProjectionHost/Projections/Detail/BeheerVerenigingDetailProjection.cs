@@ -154,6 +154,12 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<RechtsvormWerdGewijzigdInKBO> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 

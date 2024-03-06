@@ -297,6 +297,30 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdGewijzigdInKbo,
+            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie,
+            document,
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd gewijzigd in KBO."
+        );
+    }
+
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdVerwijderdUitKbo,
+            maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie,
+            document,
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd verwijderd uit KBO."
+        );
+    }
+
+    public static void Apply(
         IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
         BeheerVerenigingHistoriekDocument document)
     {

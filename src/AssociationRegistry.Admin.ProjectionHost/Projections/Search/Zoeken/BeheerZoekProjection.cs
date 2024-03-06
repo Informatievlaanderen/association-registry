@@ -315,6 +315,20 @@ public class BeheerZoekProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message)
+    {
+        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            Map(message.Data.Locatie, message.VCode));
+    }
+
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message)
+    {
+        await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            message.Data.Locatie.LocatieId);
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {
