@@ -352,20 +352,6 @@ jobs:
         shell: bash
         run: npm install --legacy-peer-deps
 
-      - name: Download AssociationRegistry NuGet
-        uses: actions/download-artifact@v3
-        continue-on-error: false
-        with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.set-release-version.outputs.version }}
-          path: dist/nuget/
-
-      - name: Download AssociationRegistry.Magda NuGet
-        uses: actions/download-artifact@v3
-        continue-on-error: false
-        with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.set-release-version.outputs.version }}
-          path: dist/nuget/
-
       - name: Run Semantic Release
         shell: bash
         run: npx semantic-release
