@@ -1,3 +1,20 @@
+# [8.80.0](https://github.com/informatievlaanderen/association-registry/compare/v8.79.0...v8.80.0) (2024-03-07)
+
+
+### Bug Fixes
+
+* or-2097 add or update maatschappelijke zetel from kbo ([fee5fd5](https://github.com/informatievlaanderen/association-registry/commit/fee5fd5a88299d8f80039e9e81af83276f956c93))
+* or-2102 check if verenigingVolgensMagda was succes ([4916122](https://github.com/informatievlaanderen/association-registry/commit/49161223e2f54182347263e0c0f6cb6b80730aee))
+
+
+### Features
+
+* or-1818 stop vereniging on sync ([5e7c0aa](https://github.com/informatievlaanderen/association-registry/commit/5e7c0aa789fce10219fc1c1659c9ee16c2f4320a))
+* or-2097 sync maatschappelijke zetel ([5fce42e](https://github.com/informatievlaanderen/association-registry/commit/5fce42e79a9b94416fc424fbea45cf2f3fb3278b))
+* or-2102 change rechtsvorm on sync with KBO ([35f13f8](https://github.com/informatievlaanderen/association-registry/commit/35f13f8099cfffd22f476ac6eb8367ab9d11b14c))
+* or-2102 defend agains null from magda ([b3acc33](https://github.com/informatievlaanderen/association-registry/commit/b3acc33aff1c91dc226b4f5afc042f02af7cf7e0))
+* or-2102 defend against sync with unknown KboNummer ([c8008bd](https://github.com/informatievlaanderen/association-registry/commit/c8008bdcd799a611f1eb91a646feff945bb7136c))
+
 # [8.79.0](https://github.com/informatievlaanderen/association-registry/compare/v8.78.0...v8.79.0) (2024-03-05)
 
 
