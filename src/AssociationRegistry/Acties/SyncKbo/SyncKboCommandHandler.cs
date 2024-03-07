@@ -25,7 +25,10 @@ public class SyncKboCommandHandler
 
         var verenigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
+
         if (verenigingVolgensMagda.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
+
+
 
         vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
@@ -33,6 +36,9 @@ public class SyncKboCommandHandler
         vereniging.WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Data.Startdatum ?? null));
         vereniging.WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Data.Adres);
         HandleContactgegevens(vereniging, verenigingVolgensMagda);
+
+        if (!verenigingVolgensMagda.Data.IsActief)
+            vereniging.StopUitKbo(Datum.Create(verenigingVolgensMagda.Data.EindDatum!.Value));
 
         vereniging.SyncCompleted();
 

@@ -134,6 +134,9 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingWerdGestopt @event)
         => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
 
+    public VerenigingState Apply(VerenigingWerdGestoptInKBO @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
+
     public VerenigingState Apply(VerenigingWerdVerwijderd @event)
         => this with { IsVerwijderd = true };
 

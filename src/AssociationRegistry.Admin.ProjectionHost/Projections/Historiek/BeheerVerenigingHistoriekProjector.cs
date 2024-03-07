@@ -400,6 +400,15 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<VerenigingWerdGestoptInKBO> verenigingWerdGestoptInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdGestoptInKbo,
+            document,
+            $"De vereniging werd gestopt in KBO met einddatum '{verenigingWerdGestoptInKbo.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+    }
+
     public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(

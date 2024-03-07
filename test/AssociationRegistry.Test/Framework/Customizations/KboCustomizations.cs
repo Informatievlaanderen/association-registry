@@ -36,6 +36,8 @@ public static class KboCustomizations
                                      }[i % 4],
                                      KboNummer = fixture.Create<KboNummer>(),
                                      Startdatum = fixture.Create<DateOnly>(),
+                                     IsActief = true,
+                                     EindDatum = null,
                                  };
                              })
                         .OmitAutoProperties());

@@ -298,4 +298,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
     }
+
+    public void StopUitKbo(Datum eindDatum)
+    {
+        if (State.IsGestopt) return;
+        AddEvent(VerenigingWerdGestoptInKBO.With(eindDatum));
+    }
 }

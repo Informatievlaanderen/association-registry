@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
+using AssociationRegistry.Admin.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
@@ -72,7 +73,9 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
                                    _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.AdresId.Bronwaarde,
                                    false,
                                    Bron.KBO,
-                                   _scenario.VCode);
+                                   _scenario.VCode)
+                      .WithStatus(VerenigingStatus.Gestopt)
+                      .WithEinddatum(_scenario.VerenigingWerdGestoptInKbo.Einddatum);
 
         content.Should().BeEquivalentJson(expected);
     }

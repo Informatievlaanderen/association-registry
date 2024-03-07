@@ -42,6 +42,7 @@ public class With_A_KboNummer
             Naam = fixture.Create<string>(),
             KorteNaam = fixture.Create<string>(),
             Startdatum = fixture.Create<DateOnly>(),
+            IsActief = true,
         };
 
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();

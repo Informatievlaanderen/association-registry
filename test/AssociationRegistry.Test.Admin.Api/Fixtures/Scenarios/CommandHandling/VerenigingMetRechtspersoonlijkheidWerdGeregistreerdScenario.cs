@@ -38,6 +38,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : Comma
             Adres = new AdresVolgensKbo(),
             Contactgegevens = new ContactgegevensVolgensKbo(),
             Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
+            IsActief = true,
+            EindDatum = null,
         };
 }
 
@@ -79,6 +81,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenari
             Adres = AdresVolgensKbo,
             Contactgegevens = new ContactgegevensVolgensKbo(),
             Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
+            IsActief = true,
+            EindDatum = null,
         };
 
     public AdresVolgensKbo AdresVolgensKbo
