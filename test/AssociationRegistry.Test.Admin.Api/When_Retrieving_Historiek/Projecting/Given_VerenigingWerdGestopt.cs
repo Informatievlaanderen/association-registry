@@ -33,3 +33,26 @@ public class Given_VerenigingWerdGestopt
                 verenigingWerdGestopt.Tijdstip.ToZuluTime()));
     }
 }
+
+[UnitTest]
+public class Given_VerenigingWerdGestoptInKBO
+{
+    [Fact]
+    public void Then_it_adds_a_new_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var verenigingWerdGestopt = fixture.Create<TestEvent<VerenigingWerdGestoptInKBO>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(verenigingWerdGestopt, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"De vereniging werd gestopt in KBO met einddatum '{verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'.",
+                nameof(VerenigingWerdGestoptInKBO),
+                verenigingWerdGestopt.Data,
+                verenigingWerdGestopt.Initiator,
+                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
+    }
+}

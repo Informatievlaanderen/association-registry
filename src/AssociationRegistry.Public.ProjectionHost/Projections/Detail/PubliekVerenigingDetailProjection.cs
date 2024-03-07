@@ -141,6 +141,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<VerenigingWerdGestopt> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingWerdGestoptInKBO> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
     public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
         => ops.Delete<PubliekVerenigingDetailDocument>(@event.StreamKey);
 

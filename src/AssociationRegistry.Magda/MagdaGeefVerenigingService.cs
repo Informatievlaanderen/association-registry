@@ -60,7 +60,6 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             if (magdaOnderneming is null ||
                 !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
                 !IsOnderneming(magdaOnderneming) ||
-                !IsActiefOfInOprichting(magdaOnderneming) ||
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
@@ -81,6 +80,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                     Naam = naamOndernemingType.Naam,
                     KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
                     Startdatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
+                    EindDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Stopzetting?.Datum, Formats.DateOnly),
+                    IsActief = IsActiefOfInOprichting(magdaOnderneming),
                     Adres = GetAdresFrom(maatschappelijkeZetel),
                     Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
                     Vertegenwoordigers = GetVertegenwoordigers(),

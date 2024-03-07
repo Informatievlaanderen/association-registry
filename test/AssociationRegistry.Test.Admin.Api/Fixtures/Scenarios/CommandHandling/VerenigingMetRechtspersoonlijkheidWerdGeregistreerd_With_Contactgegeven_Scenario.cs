@@ -41,6 +41,8 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Contactgeg
             KorteNaam = VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
             Adres = new AdresVolgensKbo(),
             Contactgegevens = ContactgegevensVolgensKbo,
+            IsActief = true,
+            EindDatum = null,
             Vertegenwoordigers = Array.Empty<VertegenwoordigerVolgensKbo>(),
         };
 

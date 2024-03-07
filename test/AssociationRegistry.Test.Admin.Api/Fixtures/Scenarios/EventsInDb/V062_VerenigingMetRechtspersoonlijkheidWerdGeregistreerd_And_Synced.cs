@@ -19,6 +19,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo;
     public readonly ContactgegevenWerdGewijzigdInKbo ContactgegevenWerdGewijzigdInKbo;
     public readonly MaatschappelijkeZetelWerdGewijzigdInKbo MaatschappelijkeZetelWerdGewijzigdInKbo;
+    public readonly VerenigingWerdGestoptInKBO VerenigingWerdGestoptInKbo;
 
     public V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced()
     {
@@ -58,6 +59,8 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
                                                                                     ContactgegevenWerdOvergenomenUitKbo
                                                                                        .Contactgegeventype).Waarde);
 
+        VerenigingWerdGestoptInKbo = new VerenigingWerdGestoptInKBO(new DateOnly(2024, 03, 07));
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -75,6 +78,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
             KorteNaamWerdGewijzigdInKbo,
             MaatschappelijkeZetelWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
+            VerenigingWerdGestoptInKbo,
             new SynchronisatieMetKboWasSuccesvol(),
         };
 

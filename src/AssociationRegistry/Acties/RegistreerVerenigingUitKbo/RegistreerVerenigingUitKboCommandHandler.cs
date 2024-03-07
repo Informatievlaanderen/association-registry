@@ -46,7 +46,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
 
-        if (geefVerenigingResult.IsFailure())
+        if (geefVerenigingResult.IsFailure() || !geefVerenigingResult.Data.IsActief)
             throw new GeenGeldigeVerenigingInKbo();
 
         return await RegistreerVereniging(geefVerenigingResult, message.Metadata, cancellationToken);
