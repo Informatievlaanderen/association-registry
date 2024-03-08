@@ -8,6 +8,8 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
+using Moq;
+using Notifications;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -18,11 +20,13 @@ public class With_Inactief_And_Einddatum
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly DateOnly _einddatum;
+    private readonly Mock<INotifier> _notifierMock;
 
     public With_Inactief_And_Einddatum()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
         _einddatum = fixture.Create<DateOnly>();
@@ -33,7 +37,9 @@ public class With_Inactief_And_Einddatum
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo));
+
+        var commandHandler =
+            new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -44,6 +50,12 @@ public class With_Inactief_And_Einddatum
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
+    }
+
+    [Fact]
+    public void Then_No_Notification_Is_Send()
+    {
+        _notifierMock.VerifyNoOtherCalls();
     }
 
     [Fact]

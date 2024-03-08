@@ -2,6 +2,8 @@
 
 using Framework;
 using Kbo;
+using Notifications;
+using Notifications.Messages;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -9,11 +11,14 @@ using Vereniging.Exceptions;
 public class SyncKboCommandHandler
 {
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
+    private readonly INotifier _notifier;
 
     public SyncKboCommandHandler(
-        IMagdaGeefVerenigingService magdaGeefVerenigingService)
+        IMagdaGeefVerenigingService magdaGeefVerenigingService,
+        INotifier notifier)
     {
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
+        _notifier = notifier;
     }
 
     public async Task<CommandResult> Handle(
@@ -26,9 +31,11 @@ public class SyncKboCommandHandler
         var verenigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
-        if (verenigingVolgensMagda.IsFailure()) throw new GeenGeldigeVerenigingInKbo();
-
-
+        if (verenigingVolgensMagda.IsFailure())
+        {
+            await _notifier.Notify(new KboSynchronisatieMisluktMessage(message.Command.KboNummer));
+            throw new GeenGeldigeVerenigingInKbo();
+        }
 
         vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
