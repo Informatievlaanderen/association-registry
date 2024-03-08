@@ -8,3 +8,4 @@ NEST
 SourceLink.Embed.AllSourceFiles
 SourceLink.Copy.PdbFiles
 WolverineFx
+AWSSDK.SQS

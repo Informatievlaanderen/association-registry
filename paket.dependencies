@@ -12,6 +12,7 @@ nuget Microsoft.Extensions.Configuration.Json 6.0.0
 nuget AspNetCore.HealthChecks.SqlServer 6.0.2
 
 nuget Microsoft.EntityFrameworkCore.Design 6.0.3
+nuget AWSSDK.SQS 3.7.300.48
 
 // BASE REGISTRIES STUFF
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.4
