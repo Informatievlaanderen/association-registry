@@ -1,3 +1,10 @@
+## [8.81.1](https://github.com/informatievlaanderen/association-registry/compare/v8.81.0...v8.81.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* update download artifact ([cb4c33b](https://github.com/informatievlaanderen/association-registry/commit/cb4c33b1bb70fb3282ee4fcc57142b9f050d8da4))
+
 # [8.81.0](https://github.com/informatievlaanderen/association-registry/compare/v8.80.0...v8.81.0) (2024-03-08)
 
 
