@@ -114,6 +114,7 @@ public class Program
             });
 
         var app = builder.Build();
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
@@ -161,8 +162,15 @@ public class Program
 
         var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
 
-        await registreerInschrijvinCatchupService
-           .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
+        try
+        {
+            await registreerInschrijvinCatchupService
+               .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"MAGDA Catchup Service: Fout bij het opstarten! ({ex.Message})");
+        }
 
         await app.RunOaktonCommands(args);
     }
