@@ -1,3 +1,16 @@
+# [8.81.0](https://github.com/informatievlaanderen/association-registry/compare/v8.80.0...v8.81.0) (2024-03-08)
+
+
+### Bug Fixes
+
+* add region endpoint for amazon sqs client ([35ddc31](https://github.com/informatievlaanderen/association-registry/commit/35ddc31c25c696d36417b65e1c856a226c0f7005))
+* or-2107 perform catchup on RegistreerInschrijving ([b5e8c54](https://github.com/informatievlaanderen/association-registry/commit/b5e8c54ff10f98a4f644bd9b75d73fce03025c0e))
+
+
+### Features
+
+* or-2107 catchup RegistreerInschrijving ([a3ad177](https://github.com/informatievlaanderen/association-registry/commit/a3ad177bf4493998eedd600b1b804ff66c632d12))
+
 # [8.80.0](https://github.com/informatievlaanderen/association-registry/compare/v8.79.0...v8.80.0) (2024-03-07)
 
 
