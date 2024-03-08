@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
-using AssociationRegistry.Magda;
+using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -18,6 +18,7 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ExceptionHandlers;
@@ -29,6 +30,7 @@ using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
+using Magda;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -156,6 +158,11 @@ public class Program
             });
 
         session.SaveChanges();
+
+        var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+
+        await registreerInschrijvinCatchupService
+           .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
 
         await app.RunOaktonCommands(args);
     }
@@ -306,6 +313,7 @@ public class Program
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
+        var sqsClient = new AmazonSQSClient();
 
         builder.Services
                .AddScoped<InitiatorProvider>()
@@ -314,6 +322,8 @@ public class Program
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
+               .AddSingleton<IAmazonSQS>(sqsClient)
+               .AddSingleton<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()

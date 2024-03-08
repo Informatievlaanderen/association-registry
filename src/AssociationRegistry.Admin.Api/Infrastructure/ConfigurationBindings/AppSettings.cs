@@ -8,6 +8,7 @@ public class AppSettings
     private string? _beheerProjectionHostBaseUrl;
     private string? _publicApiBaseUrl;
     private string? _publicProjectionHostBaseUrl;
+    private string? _kboSyncQueueUrl;
 
     public string BeheerProjectionHostBaseUrl
     {
@@ -31,6 +32,12 @@ public class AppSettings
     {
         get => _baseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
         set => _baseUrl = value;
+    }
+
+    public string KboSyncQueueUrl
+    {
+        get => _kboSyncQueueUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _kboSyncQueueUrl = value;
     }
 
     public string[] SuperAdminClientIds { get; set; } = Array.Empty<string>();
