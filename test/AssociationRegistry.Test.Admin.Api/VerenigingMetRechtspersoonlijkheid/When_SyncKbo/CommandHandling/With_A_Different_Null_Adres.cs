@@ -9,6 +9,8 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Moq;
+using Notifications;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -18,11 +20,13 @@ public class With_A_Different_Null_Adres
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenario _scenario;
+    private readonly Mock<INotifier> _notifierMock;
 
     public With_A_Different_Null_Adres()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -31,7 +35,9 @@ public class With_A_Different_Null_Adres
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo));
+
+        var commandHandler =
+            new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -42,6 +48,12 @@ public class With_A_Different_Null_Adres
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
+    }
+
+    [Fact]
+    public void Then_No_Notification_Is_Send()
+    {
+        _notifierMock.VerifyNoOtherCalls();
     }
 
     [Fact]

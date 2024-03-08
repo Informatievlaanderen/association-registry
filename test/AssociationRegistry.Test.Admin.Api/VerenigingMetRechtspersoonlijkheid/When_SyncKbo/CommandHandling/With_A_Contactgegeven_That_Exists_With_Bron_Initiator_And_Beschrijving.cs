@@ -9,6 +9,8 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Moq;
+using Notifications;
 using Test.Framework.Customizations;
 using Vereniging;
 using Xunit;
@@ -20,6 +22,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Contactgegeven _existingContactgegeven;
+    private readonly Mock<INotifier> _notifierMock;
 
     public With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijving()
     {
@@ -37,6 +40,8 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
                                                                           .Apply(ContactgegevenWerdToegevoegd
                                                                                     .With(_existingContactgegeven)));
 
+        _notifierMock = new Mock<INotifier>();
+
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
         verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
@@ -49,7 +54,9 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo));
+
+        var commandHandler =
+            new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -60,6 +67,12 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
+    }
+
+    [Fact]
+    public void Then_No_Notification_Is_Send()
+    {
+        _notifierMock.VerifyNoOtherCalls();
     }
 
     [Fact]

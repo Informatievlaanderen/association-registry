@@ -9,6 +9,8 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Moq;
+using Notifications;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -19,11 +21,13 @@ public class With_A_New_But_Invalid_Contactgegeven
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly string _newContactgegevenWaarde;
+    private readonly Mock<INotifier> _notifierMock;
 
     public With_A_New_But_Invalid_Contactgegeven()
     {
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -41,7 +45,9 @@ public class With_A_New_But_Invalid_Contactgegeven
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo));
+
+        var commandHandler =
+            new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
@@ -52,6 +58,12 @@ public class With_A_New_But_Invalid_Contactgegeven
     public void Then_The_Correct_Vereniging_Is_Loaded_Once()
     {
         _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
+    }
+
+    [Fact]
+    public void Then_No_Notification_Is_Send()
+    {
+        _notifierMock.VerifyNoOtherCalls();
     }
 
     [Fact]
