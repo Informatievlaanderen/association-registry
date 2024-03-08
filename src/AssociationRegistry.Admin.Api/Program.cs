@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
+using Amazon;
 using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -321,7 +322,7 @@ public class Program
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
-        var sqsClient = new AmazonSQSClient();
+        var sqsClient = new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
                .AddScoped<InitiatorProvider>()
