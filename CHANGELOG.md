@@ -1,3 +1,10 @@
+## [8.82.1](https://github.com/informatievlaanderen/association-registry/compare/v8.82.0...v8.82.1) (2024-03-11)
+
+
+### Bug Fixes
+
+* update visibility markers for the MagdaGeefVerenigingService to allow override ([c7ccc99](https://github.com/informatievlaanderen/association-registry/commit/c7ccc99dd5451a9ba61295ff8baa4e9303037cff))
+
 # [8.82.0](https://github.com/informatievlaanderen/association-registry/compare/v8.81.1...v8.82.0) (2024-03-11)
 
 
