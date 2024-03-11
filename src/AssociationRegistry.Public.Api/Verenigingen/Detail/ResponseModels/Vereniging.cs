@@ -7,13 +7,17 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Vereniging
 {
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;
 
     /// <summary>Type van de vereniging</summary>
-    [DataMember(Name = "Type")]
-    public VerenigingsType Type { get; init; } = null!;
+    [DataMember(Name = "Verenigingstype")]
+    public VerenigingsType Verenigingstype { get; init; } = null!;
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -36,7 +40,7 @@ public class Vereniging
     [DataMember(Name = "Startdatum")]
     public DateOnly? Startdatum { get; init; }
 
-    /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
+    /// <summary>De doelgroep waar de activiteiten van deze vereniging zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;
 
@@ -54,7 +58,8 @@ public class Vereniging
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } =
+        Array.Empty<HoofdactiviteitVerenigingsloket>();
 
     /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]

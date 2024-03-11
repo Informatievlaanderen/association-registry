@@ -8,47 +8,28 @@
     <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
-    <PackageReference Include="xunit" Version="2.4.1" />
-    <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-    <PackageReference Include="coverlet.collector" Version="3.1.2">
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      <PrivateAssets>all</PrivateAssets>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry\AssociationRegistry.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Afdeling\When_RegistreerAfdeling\files\*.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
+    <EmbeddedResource Include="templates\*.json" />
+    <EmbeddedResource Include="templates\kboSyncHistoriek\KboSyncHistoriek.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\*.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="When_Retrieving_HoofdactiviteitenLijst\Given_A_Working_Service_Then_It_Returns_All_Possible_Values.json" />
     <EmbeddedResource Include="When_Searching\files\*.json" />
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Update="appsettings.kratos.json">
+    <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="appsettings.LAPTOP-10LRP5E7.json">
+    <Content Update="appsettings.*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Content Update="appsettings.kratos.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

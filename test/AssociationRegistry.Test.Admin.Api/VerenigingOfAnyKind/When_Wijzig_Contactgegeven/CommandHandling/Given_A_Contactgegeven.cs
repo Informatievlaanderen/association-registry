@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.CommandHandling;
 
 using Acties.WijzigContactgegeven;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Vereniging.Emails;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -45,8 +45,8 @@ public class Given_A_Contactgegeven
 
         _verenigingRepositoryMock.ShouldHaveSaved(
             new ContactgegevenWerdGewijzigd(
-                ContactgegevenId: FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
-                ContactgegevenType.Email,
+                FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId,
+                Contactgegeventype.Email,
                 command.Contactgegeven.Waarde!,
                 command.Contactgegeven.Beschrijving ?? string.Empty,
                 IsPrimair: false)

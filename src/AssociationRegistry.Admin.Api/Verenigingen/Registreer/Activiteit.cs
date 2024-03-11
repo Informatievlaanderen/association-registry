@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using System.Runtime.Serialization;
 using DuplicateVerenigingDetection;
+using System.Runtime.Serialization;
 
 /// <summary>Een activiteit van een vereniging</summary>
 [DataContract]

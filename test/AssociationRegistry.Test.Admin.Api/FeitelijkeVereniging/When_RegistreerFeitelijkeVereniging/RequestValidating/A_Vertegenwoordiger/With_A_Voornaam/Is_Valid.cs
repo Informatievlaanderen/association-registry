@@ -1,9 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.With_A_Voornaam;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Vertegenwoordiger.
+    With_A_Voornaam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,10 +17,11 @@ public class Is_Valid
     [InlineData("@#(!i i")]
     public void Has_no_validation_errors(string voornaam)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
-            Vertegenwoordigers = new []
+            Vertegenwoordigers = new[]
             {
                 new ToeTeVoegenVertegenwoordiger
                 {
@@ -27,6 +29,7 @@ public class Is_Valid
                 },
             },
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(

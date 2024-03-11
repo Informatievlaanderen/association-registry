@@ -1,10 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
-using System;
 using ConfigurationBindings;
-using Schema.Search;
-using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Schema.Search;
 
 public static class ElasticSearchExtensions
 {
@@ -13,7 +11,10 @@ public static class ElasticSearchExtensions
         ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
-        EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
+
+        EnsureIndexExists(elasticClient,
+                          elasticSearchOptions.Indices!.Verenigingen!,
+                          elasticSearchOptions.Indices!.DuplicateDetection!);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
@@ -21,21 +22,29 @@ public static class ElasticSearchExtensions
         return services;
     }
 
-    private static void EnsureIndexExists(IElasticClient elasticClient, string verenigingenIndexName)
+    public static void EnsureIndexExists(
+        IElasticClient elasticClient,
+        string verenigingenIndexName,
+        string duplicateDetectionIndexName)
     {
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
             elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
+
+        if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
+            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
-            .BasicAuthentication(
-                elasticSearchOptions.Username,
-                elasticSearchOptions.Password)
-            .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
+                      .BasicAuthentication(
+                           elasticSearchOptions.Username,
+                           elasticSearchOptions.Password)
+                      .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
+                      .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
 
         var elasticClient = new ElasticClient(settings);
+
         return elasticClient;
     }
 
@@ -43,7 +52,15 @@ public static class ElasticSearchExtensions
     {
         return settings.DefaultMappingFor(
             typeof(VerenigingZoekDocument),
-            descriptor => descriptor.IndexName(indexName)
-                .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+    }
+
+    public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)
+    {
+        return settings.DefaultMappingFor(
+            typeof(DuplicateDetectionDocument),
+            selector: descriptor => descriptor.IndexName(indexName)
+                                              .IdProperty(nameof(DuplicateDetectionDocument.VCode)));
     }
 }

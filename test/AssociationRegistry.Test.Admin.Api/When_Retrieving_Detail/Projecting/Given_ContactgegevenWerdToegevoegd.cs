@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
@@ -8,6 +7,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -24,18 +24,22 @@ public class Given_ContactgegevenWerdToegevoegd
 
         BeheerVerenigingDetailProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
-        doc.Contactgegevens.Should().Contain(
-            new BeheerVerenigingDetailDocument.Contactgegeven
+        doc.Contactgegevens.Should().ContainEquivalentOf(
+            new Contactgegeven
             {
+                JsonLdMetadata = new JsonLdMetadata
+                {
+                    Id = JsonLdType.Contactgegeven.CreateWithIdValues(doc.VCode, contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                    Type = JsonLdType.Contactgegeven.Type,
+                },
                 ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                Type = contactgegevenWerdToegevoegd.Data.Type,
+                Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                 Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                 Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                 IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
                 Bron = Bron.Initiator,
             });
+
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version));
     }
 }

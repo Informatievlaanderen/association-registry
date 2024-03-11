@@ -3,8 +3,8 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -13,17 +13,19 @@ public class Is_Empty : ValidatorTest
     public void Has_validation_error__contactgegevenType_mag_niet_leeg_zijn()
     {
         var validator = new VoegContactgegevenToeValidator();
+
         var result = validator.TestValidate(
             new VoegContactgegevenToeRequest
             {
                 Contactgegeven = new ToeTeVoegenContactgegeven
                 {
-                    Type = "",
+                    Contactgegeventype = "",
                 },
             });
 
-        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Type))
-            .WithErrorMessage("'Type' mag niet leeg zijn.")
-            .Only();
+        result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
+                                            nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
+              .WithErrorMessage("'Contactgegeventype' mag niet leeg zijn.")
+              .Only();
     }
 }

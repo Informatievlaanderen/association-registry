@@ -13,7 +13,10 @@ public class Given_No_Busnummer
     public void Then_Busnummer_Is_Empty()
     {
         var fixture = new Fixture();
-        var adres = Adres.Create(fixture.Create<string>(), fixture.Create<string>(), null, fixture.Create<string>(), fixture.Create<string>(), fixture.Create<string>());
+
+        var adres = Adres.Create(fixture.Create<string>(), fixture.Create<string>(), busnummer: null, fixture.Create<string>(),
+                                 fixture.Create<string>(), fixture.Create<string>());
+
         adres.Busnummer.Should().BeEmpty();
     }
 }

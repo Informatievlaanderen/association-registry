@@ -1,42 +1,53 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using System;
+using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
-using Framework;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json;
+using Serilog;
+using System;
 
 public static class ConfigurationExtensions
 {
     public static PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
         var postgreSqlOptionsSection = configuration
-            .GetSection(PostgreSqlOptionsSection.SectionName)
-            .Get<PostgreSqlOptionsSection>();
+                                      .GetSection(PostgreSqlOptionsSection.SectionName)
+                                      .Get<PostgreSqlOptionsSection>();
+
         postgreSqlOptionsSection.ThrowIfInvalid();
+
         return postgreSqlOptionsSection;
     }
 
     private static void ThrowIfInvalid(this PostgreSqlOptionsSection postgreSqlOptions)
     {
         const string sectionName = nameof(PostgreSqlOptionsSection);
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
     }
 
     public static ElasticSearchOptionsSection GetElasticSearchOptionsSection(this IConfiguration configuration)
     {
         var elasticSearchOptions = configuration
-            .GetSection(ElasticSearchOptionsSection.SectionName)
-            .Get<ElasticSearchOptionsSection>();
+                                  .GetSection(ElasticSearchOptionsSection.SectionName)
+                                  .Get<ElasticSearchOptionsSection>();
 
         elasticSearchOptions.ThrowIfInvalid();
+
         return elasticSearchOptions;
     }
 
@@ -46,39 +57,69 @@ public static class ConfigurationExtensions
     private static void ThrowIfInvalid(this ElasticSearchOptionsSection elasticSearchOptions)
     {
         const string sectionName = nameof(ElasticSearchOptionsSection);
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Uri, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Uri)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Indices?.Verenigingen,
+                               $"{sectionName}.{nameof(ElasticSearchOptionsSection.Indices)}.{nameof(ElasticSearchOptionsSection.Indices.Verenigingen)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Username, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Username)}");
+
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
+           .IfNullOrWhiteSpace(elasticSearchOptions.Password, $"{sectionName}.{nameof(ElasticSearchOptionsSection.Password)}");
     }
 
-    public static MagdaOptionsSection GetMagdaOptionsSection(this IConfiguration configuration, string magdaOptionsSectionName = MagdaOptionsSection.SectionName)
+    public static MagdaOptionsSection GetMagdaOptionsSection(
+        this IConfiguration configuration,
+        string magdaOptionsSectionName = MagdaOptionsSection.SectionName)
     {
         var magdaOptionsSection = configuration
-            .GetSection(magdaOptionsSectionName)
-            .Get<MagdaOptionsSection>();
+                                 .GetSection(magdaOptionsSectionName)
+                                 .Get<MagdaOptionsSection>();
 
         magdaOptionsSection.ThrowIfInvalid();
+
         return magdaOptionsSection;
+    }
+
+    public static TemporaryMagdaVertegenwoordigersSection GetMagdaTemporaryVertegenwoordigersSection(
+        this IConfiguration configuration,
+        IWebHostEnvironment environment,
+        string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
+    {
+        if (environment.IsProduction())
+        {
+            Log.Logger.Information("Not loading temporary vertegenwoordigers in Production");
+
+            return new TemporaryMagdaVertegenwoordigersSection();
+        }
+
+        var vertegenwoordigersJson = configuration[magdaOptionsSectionName];
+        var temporaryVertegenwoordigers = JsonConvert.DeserializeObject<TemporaryMagdaVertegenwoordigersSection>(vertegenwoordigersJson);
+
+        Log.Logger.Information(messageTemplate: "Found {@Vertegenwoordigers}", temporaryVertegenwoordigers);
+
+        return temporaryVertegenwoordigers;
     }
 
     private static void ThrowIfInvalid(this MagdaOptionsSection magdaOptionsSection)
     {
         const string sectionName = nameof(MagdaOptionsSection);
+
         Throw<ArgumentException>
-            .If(magdaOptionsSection.ClientCertificate is null != magdaOptionsSection.ClientCertificatePassword is null, $"Both {sectionName}.{nameof(MagdaOptionsSection.ClientCertificate)} and {sectionName}.{nameof(MagdaOptionsSection.ClientCertificatePassword)} must be provided or ignored.");
+           .If(magdaOptionsSection.ClientCertificate is null != magdaOptionsSection.ClientCertificatePassword is null,
+               $"Both {sectionName}.{nameof(MagdaOptionsSection.ClientCertificate)} and {sectionName}.{nameof(MagdaOptionsSection.ClientCertificatePassword)} must be provided or ignored.");
 
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(magdaOptionsSection.Hoedanigheid, $"{sectionName}.{nameof(MagdaOptionsSection.Hoedanigheid)}");
+           .IfNullOrWhiteSpace(magdaOptionsSection.Hoedanigheid, $"{sectionName}.{nameof(MagdaOptionsSection.Hoedanigheid)}");
 
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(magdaOptionsSection.Afzender, $"{sectionName}.{nameof(MagdaOptionsSection.Afzender)}");
+           .IfNullOrWhiteSpace(magdaOptionsSection.Afzender, $"{sectionName}.{nameof(MagdaOptionsSection.Afzender)}");
 
         Throw<ArgumentNullException>
-            .IfNullOrWhiteSpace(magdaOptionsSection.Ontvanger, $"{sectionName}.{nameof(MagdaOptionsSection.Ontvanger)}");
+           .IfNullOrWhiteSpace(magdaOptionsSection.Ontvanger, $"{sectionName}.{nameof(MagdaOptionsSection.Ontvanger)}");
     }
 }

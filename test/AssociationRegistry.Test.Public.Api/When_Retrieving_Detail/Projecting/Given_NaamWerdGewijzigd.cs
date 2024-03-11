@@ -1,12 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
-using Framework;
 using AutoFixture;
+using Events;
 using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,6 +23,5 @@ public class Given_NaamWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(naamWerdGewijzigd, doc);
 
         doc.Naam.Should().Be(naamWerdGewijzigd.Data.Naam);
-        doc.DatumLaatsteAanpassing.Should().Be(naamWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

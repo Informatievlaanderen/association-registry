@@ -25,9 +25,11 @@ public class With_A_Minimumleeftijd
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
+
         var command = new WijzigBasisgegevensCommand(
             _scenario.VCode,
-            Doelgroep: Doelgroep.Create(NieuweMinimumleeftijd, null));
+            Doelgroep: Doelgroep.Create(NieuweMinimumleeftijd, maximumleeftijd: null));
+
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -49,8 +51,8 @@ public class With_A_Minimumleeftijd
         _verenigingRepositoryMock.ShouldHaveSaved(
             new DoelgroepWerdGewijzigd(
                 new Registratiedata.Doelgroep(
-                    Minimumleeftijd: NieuweMinimumleeftijd,
-                    Maximumleeftijd: Doelgroep.StandaardMaximumleeftijd))
+                    NieuweMinimumleeftijd,
+                    Doelgroep.StandaardMaximumleeftijd))
         );
     }
 }

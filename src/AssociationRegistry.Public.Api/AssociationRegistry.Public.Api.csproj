@@ -39,6 +39,7 @@
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -64,18 +65,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
     <ProjectReference Include="..\AssociationRegistry.OpenTelemetry\AssociationRegistry.OpenTelemetry.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Public.Schema\AssociationRegistry.Public.Schema.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Contexten\detail-vereniging-context.json" />
-    <EmbeddedResource Include="Contexten\zoek-verenigingen-context.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Verenigingen" />
+    <EmbeddedResource Include="Contexten\beheer\detail-vereniging-context.json" />
+    <EmbeddedResource Include="Contexten\beheer\historiek-vereniging-context.json" />
+    <EmbeddedResource Include="Contexten\beheer\zoek-verenigingen-context.json" />
+    <EmbeddedResource Include="Contexten\publiek\detail-vereniging-context.json" />
+    <EmbeddedResource Include="Contexten\publiek\zoek-verenigingen-context.json" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

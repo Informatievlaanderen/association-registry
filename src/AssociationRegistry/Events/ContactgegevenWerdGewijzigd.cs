@@ -5,7 +5,7 @@ using Vereniging;
 
 public record ContactgegevenWerdGewijzigd(
     int ContactgegevenId,
-    string Type,
+    string Contactgegeventype,
     string Waarde,
     string Beschrijving,
     bool IsPrimair) : IEvent
@@ -13,7 +13,7 @@ public record ContactgegevenWerdGewijzigd(
     public static ContactgegevenWerdGewijzigd With(Contactgegeven contactgegeven)
         => new(
             contactgegeven.ContactgegevenId,
-            contactgegeven.Type,
+            contactgegeven.Contactgegeventype,
             contactgegeven.Waarde,
             contactgegeven.Beschrijving,
             contactgegeven.IsPrimair);

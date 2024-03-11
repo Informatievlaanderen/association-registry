@@ -2,23 +2,29 @@
 
 using Framework;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class VoegVertegenwoordigerToeCommandHandler
 {
-    private readonly IVerenigingsRepository _verenigingRepository;
+    private readonly IVerenigingsRepository _repository;
 
     public VoegVertegenwoordigerToeCommandHandler(IVerenigingsRepository verenigingRepository)
     {
-        _verenigingRepository = verenigingRepository;
+        _repository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(
+        CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
+        CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingRepository.Load<Vereniging>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+        var vereniging = await _repository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata.ExpectedVersion)
+                                          .OrWhenUnsupportedOperationForType()
+                                          .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
         vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
 
-        var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
+        var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
     }
 }

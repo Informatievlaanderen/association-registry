@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Loc
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
-public class With_An_Empty_Locatie: ValidatorTest
+public class With_An_Empty_Locatie : ValidatorTest
 {
     [Fact]
     public void Has_ValidationError_For_Locatie()
@@ -16,6 +16,6 @@ public class With_An_Empty_Locatie: ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(locatieRequest => locatieRequest.Locatie)
-            .WithErrorMessage("'Locatie' moet ingevuld zijn.");
+              .WithErrorMessage("'Locatie' moet ingevuld zijn.");
     }
 }

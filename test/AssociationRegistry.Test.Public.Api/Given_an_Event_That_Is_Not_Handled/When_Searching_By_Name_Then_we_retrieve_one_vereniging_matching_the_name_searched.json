@@ -1,27 +1,35 @@
 {
-  "@context": "https://127.0.0.1:11003/v1/contexten/zoek-verenigingen-context.json",
+  "@context": "https://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json",
   "verenigingen": [
     {
+      "@id": "2b13feac-cc71-50f6-af69-76ef8c1b5fd2",
+      "@type": "fei:FeitelijkeVerenigingen",
       "vCode": "V0001004",
-      "type": {
+      "verenigingstype": {
         "code": "FV",
-        "beschrijving": "Feitelijke vereniging"
+        "naam": "Feitelijke vereniging"
       },
       "naam": "Oostende voor anker",
       "korteNaam": "OVA",
+      "korteBeschrijving": "",
       "hoofdactiviteitenVerenigingsloket": [
         {
+          "@id": "2686b267-9b94-54f6-8ed7-367495d669e6",
+          "@type": "skos:Concept",
           "code": "BLA",
-          "beschrijving": "Buitengewoon Leuke Afkortingen"
+          "naam": "Buitengewoon Leuke Afkortingen"
         }
       ],
       "doelgroep": {
+        "@id": "doel:bcb9a78b-7615-59a9-98e8-16d80cfe9023",
+        "@type": "verenigingen_ext:Doelgroep",
         "minimumleeftijd": 0,
-        "maximumleeftijd": 150,
+        "maximumleeftijd": 150
       },
       "locaties": [
       ],
      "sleutels": [],
+     "relaties": [],
       "links": {
         "detail": "https://127.0.0.1:11003/v1/verenigingen/V0001004"
       }

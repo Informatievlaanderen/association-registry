@@ -1,21 +1,22 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
-using System.Threading.Tasks;
 using Acties.VoegContactgegevenToe;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Framework;
-using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
+using Framework;
+using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Middleware;
-using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
+using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RequestsModels;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -52,15 +53,19 @@ public class VoegContactgegevenToeController : ApiController
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpPost("{vCode}/contactgegevens")]
-    [Consumes("application/json")]
-    [Produces("application/json")]
+    [ConsumesJson]
+    [ProducesJson]
     [SwaggerRequestExample(typeof(VoegContactgegevenToeRequest), typeof(VoegContactgegevenToeRequestExamples))]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, "string", "Het sequence nummer van deze request.")]
-    [SwaggerResponseHeader(StatusCodes.Status202Accepted, "ETag", "string", "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
+                           description: "Het sequence nummer van deze request.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
+                           description: "De versie van de geregistreerde vereniging.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post(
         [FromRoute] string vCode,

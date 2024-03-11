@@ -9,17 +9,26 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
+using Projections;
 using Projections.Detail;
 using Projections.Historiek;
+using Projections.KboSync;
 using Projections.Search;
+using Projections.Search.DuplicateDetection;
+using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
-using Wolverine;
+using Schema.KboSync;
+using System.Configuration;
+using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
-    public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
+    public static IServiceCollection ConfigureProjectionsWithMarten(
+        this IServiceCollection source,
+        ConfigurationManager configurationManager)
     {
         source
            .AddTransient<IElasticRepository, ElasticRepository>();
@@ -27,7 +36,7 @@ public static class ConfigureMartenExtensions
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return source;
     }
@@ -61,7 +70,8 @@ public static class ConfigureMartenExtensions
             serviceProvider =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
-                                                            .Get<PostgreSqlOptionsSection>();
+                                                            .Get<PostgreSqlOptionsSection>() ??
+                                        throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
@@ -73,24 +83,42 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.OnException(_ => true).Stop();
+                opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
+
+                opts.Projections.DaemonLockId = 1;
+
+                opts.Projections.AsyncListeners.Add(
+                    new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+                opts.Projections.Add<BeheerKboSyncHistoriekProjection>(ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(
-                        new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IMessageBus>()
+                        new BeheerZoekenEventsConsumer(
+                            new BeheerZoekProjectionHandler(
+                                serviceProvider.GetRequiredService<IElasticRepository>())
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    projectionName: "BeheerVerenigingZoekenDocument");
+                    ProjectionNames.VerenigingZoeken);
+
+                opts.Projections.Add(
+                    new MartenSubscription(
+                        new DuplicateDetectionEventsConsumer(
+                            new DuplicateDetectionProjectionHandler(
+                                serviceProvider.GetRequiredService<IElasticRepository>())
+                        )
+                    ),
+                    ProjectionLifecycle.Async,
+                    ProjectionNames.DuplicateDetection);
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {

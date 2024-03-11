@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 
-using AssociationRegistry.Acties.WijzigLocatie;
+using Acties.WijzigLocatie;
 using Vereniging;
 
 public class WijzigLocatieRequest
@@ -11,6 +11,4 @@ public class WijzigLocatieRequest
         => new(
             VCode.Create(vCode),
             TeWijzigenLocatie.Map(Locatie, locatieId));
-
-
 }

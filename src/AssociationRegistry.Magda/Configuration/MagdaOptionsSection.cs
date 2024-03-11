@@ -3,7 +3,6 @@
 public class MagdaOptionsSection
 {
     public const string SectionName = "MagdaOptions";
-
     public string? ClientCertificate { get; set; }
     public string? ClientCertificatePassword { get; set; }
     public int Timeout { get; set; } = 30;
@@ -12,4 +11,6 @@ public class MagdaOptionsSection
     public string Ontvanger { get; set; } = null!;
     public string? GeefOndernemingVkboEndpoint { get; set; } = null!;
     public string? GeefOndernemingEndpoint { get; set; } = null!;
+    public string? RegistreerInschrijvingEndpoint { get; set; } = null!;
+    public string? RegistreerUitschrijvingEndpoint { get; set; } = null!;
 }

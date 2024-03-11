@@ -20,6 +20,7 @@ public record Achternaam
     {
         Throw<AchternaamBevatNummers>.If(waarde.Any(char.IsDigit));
         Throw<AchternaamZonderLetters>.IfNot(waarde.Any(char.IsLetter));
+
         return new Achternaam(waarde: waarde);
     }
 

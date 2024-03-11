@@ -26,15 +26,15 @@ public static class FormatterExtensions
         source.DateFormatHandling = DateFormatHandling.IsoDateFormat;
         source.DateTimeZoneHandling = DateTimeZoneHandling.RoundtripKind;
 
-        var stringEnumConvertor = new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy()};
-        stringEnumConvertor.NamingStrategy = new CamelCaseNamingStrategy(true, true);
+        var stringEnumConvertor = new StringEnumConverter { NamingStrategy = new CamelCaseNamingStrategy() };
+        stringEnumConvertor.NamingStrategy = new CamelCaseNamingStrategy(processDictionaryKeys: true, overrideSpecifiedNames: true);
         source.Converters.Add(stringEnumConvertor);
 
         source.Converters.Add(new TrimStringConverter());
         source.Converters.Add(new Rfc3339SerializableDateTimeOffsetConverter());
 
         return source
-            .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
-            .WithIsoIntervalConverter();
+              .ConfigureForNodaTime(DateTimeZoneProviders.Tzdb)
+              .WithIsoIntervalConverter();
     }
 }

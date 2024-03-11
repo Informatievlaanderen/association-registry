@@ -21,13 +21,13 @@ public class Given_A_Second_CorrespondentieLocatie
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
             gewijzigdeLocatie.LocatieId,
-            null,
+            naam: null,
             gewijzigdeLocatie.Locatietype,
-            null,
-            null,
-            null);
+            isPrimair: null,
+            adresId: null,
+            adres: null);
 
-        wijzigLocatie.Should().Throw<MultipleCorrespondentieLocaties>();
+        wijzigLocatie.Should().Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>();
     }
 
     public static IEnumerable<object[]> Data
@@ -37,6 +37,7 @@ public class Given_A_Second_CorrespondentieLocatie
             var fixture = new Fixture().CustomizeDomain();
             var correspondentieLocatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Correspondentie };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
+
             var gewijzigdeLocatie = teWijzigenLocatie with
             {
                 Locatietype = Locatietype.Correspondentie,
@@ -44,15 +45,6 @@ public class Given_A_Second_CorrespondentieLocatie
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
                 new object[]
                 {
                     new VerenigingState().Apply(

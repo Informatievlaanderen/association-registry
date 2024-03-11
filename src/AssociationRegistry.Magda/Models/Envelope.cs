@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Magda.Models;
 
-using System;
 using System.Xml.Serialization;
 
 [XmlRoot("Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
@@ -13,7 +12,6 @@ public class Envelope<T>
     [XmlElement(Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
     public T? Body { get; set; }
 }
-
 
 [XmlRoot("Envelope", Namespace = "http://schemas.xmlsoap.org/soap/envelope/")]
 [Serializable]

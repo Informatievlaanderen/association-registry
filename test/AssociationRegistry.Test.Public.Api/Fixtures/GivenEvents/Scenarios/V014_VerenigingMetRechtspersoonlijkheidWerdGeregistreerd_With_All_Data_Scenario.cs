@@ -7,34 +7,45 @@ using Vereniging;
 
 public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario : IScenario
 {
-    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001014",
-        "0987654321",
-        "VZW",
-        "Feesten Affligem",
-        string.Empty,
-        null);
+    public readonly ContactgegevenUitKBOWerdGewijzigd EmailWerdGewijzigd =
+        new(ContactgegevenId: 1, Beschrijving: "TestEmail", IsPrimair: true);
+
+    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO =
+        new(ContactgegevenId: 1, Contactgegeventype.Email.Waarde, ContactgegeventypeVolgensKbo.Email, Waarde: "email@testdata.com");
+
+    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO =
+        new(ContactgegevenId: 4, Contactgegeventype.Telefoon.Waarde, ContactgegeventypeVolgensKbo.GSM, Waarde: "0987654321");
 
     public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo = new(
         Locatie: new Registratiedata.Locatie(
-            1,
+            LocatieId: 1,
             Locatietype.MaatschappelijkeZetelVolgensKbo,
-            false,
+            IsPrimair: false,
             string.Empty,
             new Registratiedata.Adres(
-                "Stationsstraat",
-                "1",
-                "B",
-                "1790",
-                "Affligem",
-                "België"),
-            null
+                Straatnaam: "Stationsstraat",
+                Huisnummer: "1",
+                Busnummer: "B",
+                Postcode: "1790",
+                Gemeente: "Affligem",
+                Land: "België"),
+            AdresId: null
         ));
 
-    public readonly ContactgegevenWerdOvergenomenUitKBO EmailWerdOvergenomenUitKBO = new(1, ContactgegevenType.Email.Waarde, ContactgegevenTypeVolgensKbo.Email, "email@testdata.com");
-    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO = new(2, ContactgegevenType.Website.Waarde, ContactgegevenTypeVolgensKbo.Website, "https://www.testdata.com");
-    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO = new(3, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.Telefoon, "0123456789");
-    public readonly ContactgegevenWerdOvergenomenUitKBO GSMWerdOvergenomenUitKBO = new(4, ContactgegevenType.Telefoon.Waarde, ContactgegevenTypeVolgensKbo.GSM, "0987654321");
+    public readonly ContactgegevenWerdOvergenomenUitKBO TelefoonWerdOvergenomenUitKBO =
+        new(ContactgegevenId: 3, Contactgegeventype.Telefoon.Waarde, ContactgegeventypeVolgensKbo.Telefoon, Waarde: "0123456789");
+
+    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
+        VCode: "V0001014",
+        KboNummer: "0987654321",
+        Rechtsvorm: "VZW",
+        Naam: "Feesten Affligem",
+        string.Empty,
+        Startdatum: null);
+
+    public readonly ContactgegevenWerdOvergenomenUitKBO WebsiteWerdOvergenomenUitKBO =
+        new(ContactgegevenId: 2, Contactgegeventype.Website.Waarde, ContactgegeventypeVolgensKbo.Website,
+            Waarde: "https://www.testdata.com");
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -49,9 +60,12 @@ public class V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_D
             WebsiteWerdOvergenomenUitKBO,
             TelefoonWerdOvergenomenUitKBO,
             GSMWerdOvergenomenUitKBO,
+            EmailWerdGewijzigd,
         };
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

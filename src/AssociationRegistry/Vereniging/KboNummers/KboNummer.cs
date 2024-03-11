@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Framework;
 using Exceptions;
+using Framework;
 
 public record KboNummer
 {
@@ -41,14 +41,14 @@ public record KboNummer
     /// <returns></returns>
     private static string Sanitize(string kboNummer)
         => kboNummer
-            .Replace(".", "")
-            .Replace(" ", "");
+          .Replace(oldValue: ".", newValue: "")
+          .Replace(oldValue: " ", newValue: "");
 
     private static void Validate(string value)
     {
-        Throw<InvalidKboNummerChars>.IfNot(ulong.TryParse(value, out _));
-        Throw<InvalidKboNummerLength>.If(value.Length != 10);
-        Throw<InvalidKboNummerMod97>.IfNot(Modulo97Correct(value));
+        Throw<KboNummerBevatOngeldigeTekens>.IfNot(ulong.TryParse(value, out _));
+        Throw<KboNummerLengteIsOngeldig>.If(value.Length != 10);
+        Throw<KboNummerMod97IsOngeldig>.IfNot(Modulo97Correct(value));
     }
 
     private static bool Modulo97Correct(string value)
@@ -57,6 +57,7 @@ public record KboNummer
         var remainder = int.Parse(value[8..]);
 
         var modulo97 = 97 - baseNumber % 97;
+
         return modulo97 == remainder;
     }
 }

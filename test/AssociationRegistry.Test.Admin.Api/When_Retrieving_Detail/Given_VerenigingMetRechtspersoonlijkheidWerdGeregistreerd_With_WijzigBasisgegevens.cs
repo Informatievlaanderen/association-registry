@@ -1,15 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
-using Vereniging;
-using Vereniging.Bronnen;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,15 +16,12 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly HttpResponseMessage _response;
-    private V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens _scenario;
+    private readonly V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V038VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithWijzigBasisgegevens;
-
         _adminApiClient = fixture.DefaultClient;
-        _response = fixture.DefaultClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -49,56 +43,26 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     [Fact]
     public async Task Then_we_get_a_detail_response()
     {
-        var content = await _response.Content.ReadAsStringAsync();
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        var content = await response.Content.ReadAsStringAsync();
 
         var vCode = _scenario.VCode;
 
-        var expected = $@"
-{{
-    ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
-    ""vereniging"": {{
-            ""vCode"": ""{vCode}"",
-            ""type"": {{
-                ""code"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
-                ""beschrijving"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
-            }},
-            ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
-            ""roepnaam"": ""{_scenario.RoepnaamWerdGewijzigd.Roepnaam}"",
-            ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": """",
-            ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""einddatum"": null,
-            ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
-            ""status"": ""Actief"",
-            ""isUitgeschrevenUitPubliekeDatastroom"": false,
-            ""contactgegevens"": [],
-            ""locaties"":[],
-            ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenVerenigingsloket"":[],
-            ""sleutels"":[
-                {{
-                    ""bron"": ""KBO"",
-                    ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
-                }}],
-            ""relaties"":[],
-            ""bron"": ""{Bron.KBO.Waarde}"",
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
-        }}
-}}
-";
+        var expected = new DetailVerenigingResponseTemplate()
+                      .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
+                      .WithRoepnaam(_scenario.RoepnaamWerdGewijzigd.Roepnaam);
 
         content.Should().BeEquivalentJson(expected);
     }
 
     [Fact]
-    public void Then_it_returns_an_etag_header()
+    public async Task Then_it_returns_an_etag_header()
     {
-        _response.Headers.ETag.Should().NotBeNull();
-        var etagValues = _response.Headers.GetValues(HeaderNames.ETag).ToList();
-        etagValues.Should().HaveCount(expected: 1);
-        var etag = etagValues[index: 0];
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        response.Headers.ETag.Should().NotBeNull();
+
+        var etag = response.Headers.GetValues(HeaderNames.ETag).ToList().Should().ContainSingle().Subject;
         etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
 }

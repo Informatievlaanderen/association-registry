@@ -55,7 +55,6 @@ public record Vertegenwoordiger
         SocialMedia socialMedia)
         => new(insz, primairContactpersoon, roepnaam, rol, voornaam, achternaam, email, telefoonNummer, mobiel, socialMedia);
 
-
     public static Vertegenwoordiger Hydrate(
         int vertegenwoordigerId,
         Insz insz,
@@ -83,13 +82,29 @@ public record Vertegenwoordiger
             VertegenwoordigerId = vertegenwoordigerId,
         };
 
-    public bool WouldBeEquivalent(string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair, out Vertegenwoordiger updatedVertegenwoordiger)
+    public bool WouldBeEquivalent(
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair,
+        out Vertegenwoordiger updatedVertegenwoordiger)
     {
         updatedVertegenwoordiger = CopyWithValuesIfNotNull(rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+
         return this == updatedVertegenwoordiger;
     }
 
-    private Vertegenwoordiger CopyWithValuesIfNotNull(string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    private Vertegenwoordiger CopyWithValuesIfNotNull(
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair)
         => Create(
                 Insz,
                 isPrimair ?? IsPrimair,

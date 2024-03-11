@@ -30,6 +30,29 @@ public class Given_VertegenwoordigerWerdToegevoegd
                 nameof(VertegenwoordigerWerdToegevoegd),
                 VertegenwoordigerData.Create(vertegenwoordigerWerdToegevoegd.Data),
                 vertegenwoordigerWerdToegevoegd.Initiator,
-                vertegenwoordigerWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdToegevoegd.Tijdstip.ToZuluTime()));
+    }
+}
+
+[UnitTest]
+public class Given_VertegenwoordigerWerdOvergenomenUitKBO
+{
+    [Fact]
+    public void Then_it_adds_the_vertegenwoordiger_gebeurtenis()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var vertegenwoordigerWerdOvergenomenUitKbo = fixture.Create<TestEvent<VertegenwoordigerWerdOvergenomenUitKBO>>();
+
+        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+
+        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
+
+        doc.Gebeurtenissen.Should().ContainEquivalentOf(
+            new BeheerVerenigingHistoriekGebeurtenis(
+                $"Vertegenwoordiger '{vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam} {vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam}' werd overgenomen uit KBO.",
+                nameof(VertegenwoordigerWerdOvergenomenUitKBO),
+                VertegenwoordigerData.Create(vertegenwoordigerWerdOvergenomenUitKbo.Data),
+                vertegenwoordigerWerdOvergenomenUitKbo.Initiator,
+                vertegenwoordigerWerdOvergenomenUitKbo.Tijdstip.ToZuluTime()));
     }
 }

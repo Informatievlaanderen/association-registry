@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -7,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging.Abstractions;
+using ResultNet;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,9 +28,9 @@ public class With_VerenigingVolgensKbo_No_Adres
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+
         _verenigingVolgensKbo.Adres = new AdresVolgensKbo
         {
             Straatnaam = null,
@@ -43,14 +46,16 @@ public class With_VerenigingVolgensKbo_No_Adres
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
+            new MagdaGeefVerenigingNumberFoundServiceMock(
                 _verenigingVolgensKbo
-            ));
+            ),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance);
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -63,7 +68,8 @@ public class With_VerenigingVolgensKbo_No_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum)
+                _verenigingVolgensKbo.Startdatum),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }

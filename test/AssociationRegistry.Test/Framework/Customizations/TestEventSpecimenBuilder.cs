@@ -4,6 +4,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Marten.Events;
 using NodaTime;
+using Vereniging;
 
 public class TestEventSpecimenBuilder : ISpecimenBuilder
 {
@@ -23,6 +24,7 @@ public class TestEventSpecimenBuilder : ISpecimenBuilder
             return new NoSpecimen();
 
         var typeArguments = t.GetGenericArguments();
+
         if (typeArguments.Length != 1)
             return new NoSpecimen();
 
@@ -33,6 +35,8 @@ public class TestEventSpecimenBuilder : ISpecimenBuilder
         var instance = (IEvent)Activator.CreateInstance(t, @event, context.Create<string>(), context.Create<Instant>())!;
         instance.Version = context.Create<long>();
         instance.Sequence = context.Create<long>();
+        instance.StreamKey = context.Create<VCode>();
+
         return instance;
     }
 }

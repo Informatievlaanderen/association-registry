@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplication;
 
-using Microsoft.AspNetCore.Builder;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 
 public static class UseSwaggerExtensions
@@ -9,6 +8,7 @@ public static class UseSwaggerExtensions
     {
         source.UseSwagger();
         source.UseSwaggerUI();
+
         source.UseReDoc(
             options =>
             {

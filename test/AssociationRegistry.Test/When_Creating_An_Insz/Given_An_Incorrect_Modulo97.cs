@@ -18,6 +18,6 @@ public class Given_An_Incorrect_Modulo97
     public void Then_it_throws_an_InvalidInszMod97Exception(string insz)
     {
         var factory = () => Insz.Create(insz);
-        factory.Should().Throw<InvalidInszMod97>();
+        factory.Should().Throw<InszMod97IsOngeldig>();
     }
 }

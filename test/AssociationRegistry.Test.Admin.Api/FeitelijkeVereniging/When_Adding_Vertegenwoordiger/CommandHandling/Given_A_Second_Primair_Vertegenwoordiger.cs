@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Ve
 
 using Acties.VoegVertegenwoordigerToe;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,29 +33,30 @@ public class Given_A_Second_Primair_Vertegenwoordiger
     public async Task Then_A_DuplicateVertegenwoordiger_Is_Thrown()
     {
         var command = new VoegVertegenwoordigerToeCommand(
-            VCode: _scenario.VCode,
-            Vertegenwoordiger: _fixture.Create<Vertegenwoordiger>()
+            _scenario.VCode,
+            _fixture.Create<Vertegenwoordiger>()
                 with
                 {
                     IsPrimair = true,
                 });
+
         var commandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(command, _fixture.Create<CommandMetadata>());
 
         var secondCommand = new VoegVertegenwoordigerToeCommand(
-            VCode: _scenario.VCode,
-            Vertegenwoordiger: _fixture.Create<Vertegenwoordiger>()
+            _scenario.VCode,
+            _fixture.Create<Vertegenwoordiger>()
                 with
                 {
                     IsPrimair = true,
                 });
-        var secondCommandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(secondCommand, _fixture.Create<CommandMetadata>());
 
+        var secondCommandEnvelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(secondCommand, _fixture.Create<CommandMetadata>());
 
         await _commandHandler.Handle(commandEnvelope);
         var handleCall = async () => await _commandHandler.Handle(secondCommandEnvelope);
 
         await handleCall.Should()
-            .ThrowAsync<MultiplePrimaireVertegenwoordigers>()
-            .WithMessage(new MultiplePrimaireVertegenwoordigers().Message);
+                        .ThrowAsync<MeerderePrimaireVertegenwoordigers>()
+                        .WithMessage(new MeerderePrimaireVertegenwoordigers().Message);
     }
 }

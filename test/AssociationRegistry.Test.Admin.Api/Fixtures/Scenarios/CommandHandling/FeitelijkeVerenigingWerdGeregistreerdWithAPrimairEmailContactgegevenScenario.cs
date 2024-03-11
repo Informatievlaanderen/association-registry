@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
+using Events;
 using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase
@@ -13,11 +13,10 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
     public readonly string KorteNaam = "FOud";
-
     public readonly string Naam = "Hulste Huldigt";
     public readonly DateOnly Startdatum = new(year: 2023, month: 3, day: 6);
-    public readonly ContactgegevenType Type = ContactgegevenType.Email;
-    public override VCode VCode =>VCode.Create("V0009002");
+    public readonly Contactgegeventype Type = Contactgegeventype.Email;
+    public override VCode VCode => VCode.Create("V0009002");
 
     public override IEnumerable<IEvent> Events()
     {
@@ -30,7 +29,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegeve
                 KorteBeschrijving,
                 Startdatum,
                 Registratiedata.Doelgroep.With(Doelgroep.Null),
-                false,
+                IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),

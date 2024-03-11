@@ -17,16 +17,19 @@ public class V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999033";
         Naam = "Dee sjiekste club";
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             Naam = Naam,
         };
+
         LocatieWerdToegevoegd = new LocatieWerdToegevoegd(
             fixture.Create<Registratiedata.Locatie>() with
             {
                 LocatieId = 1,
             });
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

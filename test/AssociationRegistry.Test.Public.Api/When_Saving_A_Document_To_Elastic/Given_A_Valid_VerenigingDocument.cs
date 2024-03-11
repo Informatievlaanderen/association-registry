@@ -12,7 +12,7 @@ public class Given_A_Valid_VerenigingDocument_Fixture : ElasticRepositoryFixture
     }
 }
 
-[UnitTest]
+[IntegrationTest]
 public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_VerenigingDocument_Fixture>
 {
     private readonly Given_A_Valid_VerenigingDocument_Fixture _classFixture;
@@ -28,14 +28,15 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
         var fixture = new Fixture();
 
         _classFixture.ElasticRepository!
-            .Index(
-                new VerenigingZoekDocument
-                {
-                    VCode = fixture.Create<string>(),
-                    Naam = fixture.Create<string>(),
-                    KorteNaam = fixture.Create<string>(),
-                    Locaties = new[] { fixture.Create<VerenigingZoekDocument.Locatie>() },
-                    HoofdactiviteitenVerenigingsloket = new[] { fixture.Create<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>() },
-                });
+                     .Index(
+                          new VerenigingZoekDocument
+                          {
+                              VCode = fixture.Create<string>(),
+                              Naam = fixture.Create<string>(),
+                              KorteNaam = fixture.Create<string>(),
+                              Locaties = new[] { fixture.Create<VerenigingZoekDocument.Locatie>() },
+                              HoofdactiviteitenVerenigingsloket = new[]
+                                  { fixture.Create<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>() },
+                          });
     }
 }

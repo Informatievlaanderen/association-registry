@@ -1,19 +1,19 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
-using Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Events;
 using NodaTime.Extensions;
+using Vereniging;
 
 public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001006",
-        "0000000000",
-        "VZW",
-        "VZW 0000000000",
+        VCode: "V0001006",
+        KboNummer: "0000000000",
+        Rechtsvorm: "VZW",
+        Naam: "VZW 0000000000",
         string.Empty,
-        null);
+        Startdatum: null);
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -27,5 +27,7 @@ public class V006_VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : 
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

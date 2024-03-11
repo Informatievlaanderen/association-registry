@@ -1,11 +1,11 @@
 Microsoft.NET.Test.Sdk
-Microsoft.AspNetCore.Hosting
-Microsoft.AspNetCore.TestHost
-xunit
 xunit.runner.visualstudio
 xunit.categories
 AutoFixture
-FluentAssertions
 FluentAssertions.Json
 Moq
 Microsoft.AspNetCore.Mvc.Testing
+group Testing
+Scriban
+Microsoft.AspNetCore.Hosting
+Microsoft.AspNetCore.TestHost

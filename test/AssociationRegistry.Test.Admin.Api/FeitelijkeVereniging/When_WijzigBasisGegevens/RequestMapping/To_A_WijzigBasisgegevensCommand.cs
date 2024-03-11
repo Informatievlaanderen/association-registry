@@ -1,10 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Primitives;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,11 +37,15 @@ public class To_A_WijzigBasisgegevensCommand
         naam!.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(
-            request.Startdatum.IsNull ? null :
-            request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
+
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
+
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
-        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        hoofdactiviteitenVerenigingsloket.Should()
+                                         .BeEquivalentTo(
+                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 
@@ -69,11 +74,15 @@ public class To_A_WijzigBasisgegevensCommand
         naam!.ToString().Should().Be(request.Naam);
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
-        startdatum.Should().Be(
-            request.Startdatum.IsNull ? null :
-            request.Startdatum.IsEmpty ? Startdatum.Leeg : Startdatum.Create(request.Startdatum.Value));
+
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
+
         doelgroep.Should().BeNull();
-        hoofdactiviteitenVerenigingsloket.Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        hoofdactiviteitenVerenigingsloket.Should()
+                                         .BeEquivalentTo(
+                                              request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
 }

@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Test.Acm.Api.Given_A_Vereniging_Does_Not_Exist;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Framework;
+using System.Net;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,11 +30,9 @@ public class When_retrieving_Verenigingen_for_Insz
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        const string expected = $@"
-        {{
-            ""insz"":""{Insz}"",
-            ""verenigingen"":[]
-        }}";
+        var expected =
+            new VerenigingenPerInszResponseTemplate()
+               .WithInsz(Insz);
 
         content.Should().BeEquivalentJson(expected);
     }

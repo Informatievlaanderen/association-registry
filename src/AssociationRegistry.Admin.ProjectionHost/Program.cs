@@ -1,22 +1,24 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
+using Extensions;
+using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
-using Marten;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Oakton;
 using OpenTelemetry.Extensions;
-using Projections.Detail;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -31,7 +33,8 @@ public class Program
 
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args);
@@ -60,7 +63,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new AdminInstrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
@@ -75,14 +78,8 @@ public class Program
 
         var app = builder.Build();
 
-        app.MapPost(
-            pattern: "/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger, CancellationToken cancellationToken) =>
-            {
-                var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                await projectionDaemon.RebuildProjection<BeheerVerenigingDetailProjection>(cancellationToken);
-                logger.LogInformation("Rebuild complete");
-            });
+        app.AddProjectionEndpoints(
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 
         app.SetUpSwagger();
         ConfigureHealtChecks(app);
@@ -161,5 +158,16 @@ public class Program
         };
 
         app.UseHealthChecks(path: "/health", healthCheckOptions);
+    }
+}
+
+public static class ResponseExtensions
+{
+    public static async Task<TResponse> ThrowIfInvalidAsync<TResponse>(this Task<TResponse> response)
+        where TResponse : AcknowledgedResponseBase
+    {
+        var acknowledgedResponseBase = await response;
+
+        return acknowledgedResponseBase.IsValid ? acknowledgedResponseBase : throw acknowledgedResponseBase.OriginalException;
     }
 }

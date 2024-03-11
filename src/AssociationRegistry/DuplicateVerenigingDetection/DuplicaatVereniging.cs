@@ -4,7 +4,7 @@ using System.Collections.Immutable;
 
 public record DuplicaatVereniging(
     string VCode,
-    DuplicaatVereniging.VerenigingsType Type,
+    DuplicaatVereniging.VerenigingsType Verenigingstype,
     string Naam,
     string KorteNaam,
     ImmutableArray<DuplicaatVereniging.HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket,
@@ -18,10 +18,7 @@ public record DuplicaatVereniging(
         string Postcode,
         string Gemeente);
 
-    public record VerenigingsType(string Code, string Beschrijving);
-
-
+    public record VerenigingsType(string Code, string Naam);
     public record Activiteit(int Id, string Categorie);
-
-    public record HoofdactiviteitVerenigingsloket(string Code, string Beschrijving);
+    public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
 }

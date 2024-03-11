@@ -2,12 +2,12 @@
 
 using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,6 +36,6 @@ public class With_An_Unknown_ContactgegevenId
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<OnbekendContactgegeven>();
+        await handle.Should().ThrowAsync<ContactgegevenIsNietGekend>();
     }
 }

@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Fakes;
 using Framework;
 using Xunit;
@@ -25,9 +26,9 @@ public class With_Null_Request
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(
                 new WijzigBasisgegevensRequestValidator(),
-                null,
-                "V0001001",
-                new CommandMetadataProviderStub { Initiator= "OVO000001" },
-                "M/\"1\""));
+                request: null,
+                vCode: "V0001001",
+                new CommandMetadataProviderStub { Initiator = "OVO000001" },
+                ifMatch: "M/\"1\""));
     }
 }

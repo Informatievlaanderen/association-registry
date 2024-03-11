@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
-using System.Net.Http.Headers;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
 using Microsoft.Extensions.Configuration;
+using System.Net.Http.Headers;
 
 public class AcmIntegrationTestHelper
 {
@@ -22,7 +22,7 @@ public class AcmIntegrationTestHelper
         => await CreateAcmClient("dv_verenigingsregister_hoofdvertegenwoordigers");
 
     public async Task<HttpClient> CreateAcmClient(string scope)
-        => await CreateMachine2MachineClientFor("acmClient", scope, "secret");
+        => await CreateMachine2MachineClientFor(clientId: "acmClient", scope, clientSecret: "secret");
 
     private async Task<HttpClient> CreateMachine2MachineClientFor(
         string clientId,
@@ -30,10 +30,10 @@ public class AcmIntegrationTestHelper
         string clientSecret)
     {
         var editApiConfiguration = _fixture.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
-            .Get<OAuth2IntrospectionOptions>();
+                                           .Get<OAuth2IntrospectionOptions>();
 
         var tokenClient = new TokenClient(
-            () => new HttpClient(),
+            client: () => new HttpClient(),
             new TokenClientOptions
             {
                 Address = $"{editApiConfiguration.Authority}/connect/token",
@@ -42,7 +42,7 @@ public class AcmIntegrationTestHelper
                 Parameters = new Parameters(
                     new[]
                     {
-                        new KeyValuePair<string, string>("scope", scope),
+                        new KeyValuePair<string, string>(key: "scope", scope),
                     }),
             });
 
@@ -51,7 +51,8 @@ public class AcmIntegrationTestHelper
         var token = acmResponse.AccessToken;
         var httpClientFor = _fixture.Server.CreateClient();
         httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", token);
+
         return httpClientFor;
     }
 }

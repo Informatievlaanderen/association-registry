@@ -1,18 +1,19 @@
 ﻿namespace AssociationRegistry.Public.Schema.Detail;
 
-using System;
+using Marten.Metadata;
 using Marten.Schema;
 
 public record Doelgroep
 {
+    public JsonLdMetadata JsonLdMetadata { get; set; }
     public int Minimumleeftijd { get; set; }
     public int Maximumleeftijd { get; set; }
 }
 
-public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPubliekeDatastroom
+public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitgeschrevenUitPubliekeDatastroom
 {
-    [Identity] public string VCode { get; set; } = null!;
-    public VerenigingsType Type { get; set; } = null!;
+    public string JsonLdMetadataType { get; set; } = null!;
+    public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
@@ -24,21 +25,26 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<HoofdactiviteitVerenigingsloket>();
+
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
+        Array.Empty<HoofdactiviteitVerenigingsloket>();
+
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    [Identity] public string VCode { get; set; } = null!;
 
     public class VerenigingsType
     {
         public string Code { get; set; } = null!;
-        public string Beschrijving { get; set; } = null!;
+        public string Naam { get; set; } = null!;
     }
 
     public class Contactgegeven
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
         public int ContactgegevenId { get; set; }
-        public string Type { get; set; } = null!;
+        public string Contactgegeventype { get; set; } = null!;
         public string Waarde { get; set; } = null!;
         public string Beschrijving { get; set; } = null!;
         public bool IsPrimair { get; set; }
@@ -46,6 +52,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
     public record Locatie
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public int LocatieId { get; set; }
         public string Locatietype { get; set; } = null!;
         public bool IsPrimair { get; set; }
@@ -53,23 +60,45 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
         public Adres? Adres { get; set; }
         public string? Naam { get; set; }
         public AdresId? AdresId { get; set; }
+        public AdresVerwijzing? VerwijstNaar { get; set; }
+
+        public class LocatieType
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
+            public string Naam { get; set; }
+        }
+
+        public class AdresVerwijzing
+        {
+            public JsonLdMetadata JsonLdMetadata { get; set; }
+        }
     }
 
     public class HoofdactiviteitVerenigingsloket
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Code { get; set; } = null!;
-        public string Beschrijving { get; set; } = null!;
+        public string Naam { get; set; } = null!;
     }
 
     public class Sleutel
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Bron { get; set; } = null!;
         public string Waarde { get; set; } = null!;
+        public GestructureerdeIdentificator GestructureerdeIdentificator { get; set; }
+        public string CodeerSysteem { get; set; }
+    }
+
+    public class GestructureerdeIdentificator
+    {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
+        public string Nummer { get; set; } = null!;
     }
 
     public class Relatie
     {
-        public string Type { get; set; } = null!;
+        public string Relatietype { get; set; } = null!;
         public GerelateerdeVereniging AndereVereniging { get; set; } = null!;
 
         public class GerelateerdeVereniging
@@ -88,6 +117,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
 
     public class Adres
     {
+        public JsonLdMetadata JsonLdMetadata { get; set; } = null!;
         public string Straatnaam { get; init; } = null!;
         public string Huisnummer { get; init; } = null!;
         public string? Busnummer { get; init; }
@@ -95,4 +125,23 @@ public class PubliekVerenigingDetailDocument : IVCode, ICanBeUitgeschrevenUitPub
         public string Gemeente { get; init; } = null!;
         public string Land { get; init; } = null!;
     }
+
+    public bool Deleted { get; set; }
+    public DateTimeOffset? DeletedAt { get; set; }
+}
+
+public class JsonLdMetadata
+{
+    public JsonLdMetadata()
+    {
+    }
+
+    public JsonLdMetadata(string id, string type)
+    {
+        Id = id;
+        Type = type;
+    }
+
+    public string Id { get; set; }
+    public string Type { get; set; }
 }

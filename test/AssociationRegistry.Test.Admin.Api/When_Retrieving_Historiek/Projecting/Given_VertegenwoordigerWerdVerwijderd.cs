@@ -24,13 +24,12 @@ public class Given_VertegenwoordigerWerdVerwijderd
 
         BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdVerwijderd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Vertegenwoordiger '{vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam}' werd verwijderd.",
                 nameof(VertegenwoordigerWerdVerwijderd),
                 VertegenwoordigerWerdVerwijderdData.Create(vertegenwoordigerWerdVerwijderd.Data),
                 vertegenwoordigerWerdVerwijderd.Initiator,
-                vertegenwoordigerWerdVerwijderd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdVerwijderd.Tijdstip.ToZuluTime()));
     }
 }

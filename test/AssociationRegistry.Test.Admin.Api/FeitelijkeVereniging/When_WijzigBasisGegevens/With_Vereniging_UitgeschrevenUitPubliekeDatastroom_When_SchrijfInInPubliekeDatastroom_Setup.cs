@@ -1,17 +1,18 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,9 +28,9 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
 
         Request = new Fixture().CustomizeAdminApi().Create<WijzigBasisgegevensRequest>();
 
-        var jsonBody = $@"{{
+        var jsonBody = @"{
             ""isUitgeschrevenUitPubliekeDatastroom"":false,
-            ""initiator"": ""OVO000001""}}";
+            ""initiator"": ""OVO000001""}";
 
         Response = fixture.DefaultClient.PatchVereniging(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
     }
@@ -60,12 +61,12 @@ public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInIn
     public void Then_it_saves_the_events()
     {
         using var session = _documentStore
-            .LightweightSession();
+           .LightweightSession();
 
         session.Events
-            .FetchStream(_vCode)
-            .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdIngeschrevenInPubliekeDatastroom))
-            .Should().NotBeNull();
+               .FetchStream(_vCode)
+               .Single(@event => @event.Data.GetType() == typeof(VerenigingWerdIngeschrevenInPubliekeDatastroom))
+               .Should().NotBeNull();
     }
 
     [Fact]
@@ -77,9 +78,10 @@ public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInIn
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _response.Headers.Should().ContainKey(HeaderNames.Location);
+
         _response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
+                 .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

@@ -8,5 +8,5 @@ public static class IntegrationTestHelpers
         => new(
             jsonContent,
             Encoding.UTF8,
-            "application/json");
+            mediaType: "application/json");
 }

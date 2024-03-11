@@ -10,5 +10,6 @@ public class ElasticSearchOptionsSection
     public class IndicesOptionsSection
     {
         public string? Verenigingen { get; set; }
+        public string? DuplicateDetection { get; set; }
     }
 }

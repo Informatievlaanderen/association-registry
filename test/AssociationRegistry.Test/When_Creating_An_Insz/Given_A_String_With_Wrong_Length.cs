@@ -19,6 +19,6 @@ public class Given_A_String_With_Wrong_Length
     public void Then_it_throws_an_InvalidInszLengthException(string insz)
     {
         var factory = () => Insz.Create(insz);
-        factory.Should().Throw<InvalidInszLength>();
+        factory.Should().Throw<InszLengteIsOngeldig>();
     }
 }

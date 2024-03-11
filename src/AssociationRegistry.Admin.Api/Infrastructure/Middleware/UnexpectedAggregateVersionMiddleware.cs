@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using System.Threading.Tasks;
+using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
+using Extensions;
 using Microsoft.AspNetCore.Http;
+using System.Threading.Tasks;
 
 public class UnexpectedAggregateVersionMiddleware
 {
@@ -13,16 +15,15 @@ public class UnexpectedAggregateVersionMiddleware
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
+    public async Task InvokeAsync(HttpContext context, ProblemDetailsHelper problemDetailsHelper)
     {
         try
         {
             await _next(context);
         }
-        catch (UnexpectedAggregateVersionException)
+        catch (UnexpectedAggregateVersionException ex)
         {
-            context.Response.Clear();
-            context.Response.StatusCode = StatusCodes.Status412PreconditionFailed;
+            await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, ex.Message, StatusCodes.Status412PreconditionFailed);
         }
     }
 }

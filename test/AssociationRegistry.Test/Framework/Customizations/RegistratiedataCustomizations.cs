@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
+using AutoFixture;
 using Events;
 using Vereniging;
-using AutoFixture;
 
 public static class RegistratiedataCustomizations
 {
@@ -22,9 +22,10 @@ public static class RegistratiedataCustomizations
                 i =>
                 {
                     var contactgegeven = fixture.Create<Contactgegeven>();
+
                     return new Registratiedata.Contactgegeven(
                         i,
-                        contactgegeven.Type,
+                        contactgegeven.Contactgegeventype,
                         contactgegeven.Waarde,
                         contactgegeven.Beschrijving,
                         contactgegeven.IsPrimair
@@ -39,7 +40,8 @@ public static class RegistratiedataCustomizations
                 () =>
                 {
                     var h = fixture.Create<HoofdactiviteitVerenigingsloket>();
-                    return new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Beschrijving);
+
+                    return new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam);
                 }).OmitAutoProperties());
     }
 
@@ -48,18 +50,18 @@ public static class RegistratiedataCustomizations
         fixture.Customize<Registratiedata.Locatie>(
             composer => composer.FromFactory(
                 () => new Registratiedata.Locatie(
-                    LocatieId: fixture.Create<int>(),
-                    Locatietype: fixture.Create<Locatietype>(),
+                    fixture.Create<int>(),
+                    fixture.Create<Locatietype>(),
                     IsPrimair: false,
-                    Naam: fixture.Create<string>(),
-                    Adres: new Registratiedata.Adres(
-                        Straatnaam: fixture.Create<string>(),
-                        Huisnummer: fixture.Create<int>().ToString(),
-                        Busnummer: fixture.Create<string>(),
-                        Postcode: (fixture.Create<int>() % 10000).ToString(),
-                        Gemeente: fixture.Create<string>(),
-                        Land: fixture.Create<string>()),
-                    AdresId: fixture.Create<Registratiedata.AdresId>())).OmitAutoProperties());
+                    fixture.Create<string>(),
+                    new Registratiedata.Adres(
+                        fixture.Create<string>(),
+                        fixture.Create<int>().ToString(),
+                        fixture.Create<string>(),
+                        (fixture.Create<int>() % 10000).ToString(),
+                        fixture.Create<string>(),
+                        fixture.Create<string>()),
+                    fixture.Create<Registratiedata.AdresId>())).OmitAutoProperties());
     }
 
     private static void CustomizeAdresId(this IFixture fixture)
@@ -67,9 +69,9 @@ public static class RegistratiedataCustomizations
         fixture.Customize<Registratiedata.AdresId>(
             composer =>
                 composer.FromFactory<int>(
-                        _ => Registratiedata.AdresId.With(
-                            fixture.Create<AdresId>())!)
-                    .OmitAutoProperties()
+                             _ => Registratiedata.AdresId.With(
+                                 fixture.Create<AdresId>())!)
+                        .OmitAutoProperties()
         );
     }
 
@@ -78,9 +80,9 @@ public static class RegistratiedataCustomizations
         fixture.Customize<Registratiedata.Doelgroep>(
             composer =>
                 composer.FromFactory(
-                        () => Registratiedata.Doelgroep.With(
-                            fixture.Create<Doelgroep>()))
-                    .OmitAutoProperties()
+                             () => Registratiedata.Doelgroep.With(
+                                 fixture.Create<Doelgroep>()))
+                        .OmitAutoProperties()
         );
     }
 }

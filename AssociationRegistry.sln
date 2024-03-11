@@ -12,7 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		build.fsx = build.fsx
 		global.json = global.json
 		paket.dependencies = paket.dependencies
-		paket.lock = paket.lock
 		SolutionInfo.cs = SolutionInfo.cs
 		.gitignore = .gitignore
 		package.json = package.json
@@ -20,8 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		definition_of_done.md = definition_of_done.md
 		readme.md = readme.md
 		CONTRIBUTING.md = CONTRIBUTING.md
-		otel-collector-config.yaml = otel-collector-config.yaml
 		regen-marten.sh = regen-marten.sh
+		otel-collector-config.yaml = otel-collector-config.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C812C887-6495-405A-8B99-4F686D243126}"
@@ -37,13 +36,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{11DA6C2C-FBC0-4537-A4F8-2C7F546BB8CA}"
 	ProjectSection(SolutionItems) = preProject
 		.github\workflows\main.yml = .github\workflows\main.yml
-		.github\workflows\production-manual.yml = .github\workflows\production-manual.yml
-		.github\workflows\test-manual.yml = .github\workflows\test-manual.yml
-		.github\workflows\staging-manual.yml = .github\workflows\staging-manual.yml
 		.github\workflows\pre-merge-tests.yml = .github\workflows\pre-merge-tests.yml
 		.github\workflows\build-image.yml = .github\workflows\build-image.yml
 		.github\workflows\otel.yml = .github\workflows\otel.yml
 		.github\workflows\awscli.yml = .github\workflows\awscli.yml
+		.github\workflows\test-manual-ik4.yml = .github\workflows\test-manual-ik4.yml
+		.github\workflows\build-nightly.yml = .github\workflows\build-nightly.yml
+		.github\workflows\staging-manual-ik4.yml = .github\workflows\staging-manual-ik4.yml
+		.github\workflows\production-manual-ik4.yml = .github\workflows\production-manual-ik4.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.Api", "src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj", "{EC780706-D1C5-46DA-A9EA-1691E3C5052A}"
@@ -90,6 +90,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\GeefOnderneming.connection-failure.json = wiremock\mappings\GeefOnderneming.connection-failure.json
 		wiremock\mappings\GeefOnderneming.notfound.json = wiremock\mappings\GeefOnderneming.notfound.json
 		wiremock\mappings\GeefOnderneming.vestiging.json = wiremock\mappings\GeefOnderneming.vestiging.json
+		wiremock\mappings\projectionactions.json = wiremock\mappings\projectionactions.json
+		wiremock\mappings\RegistreerInschrijving.json = wiremock\mappings\RegistreerInschrijving.json
+		wiremock\mappings\RegistreerInschrijving.connection-failure.json = wiremock\mappings\RegistreerInschrijving.connection-failure.json
+		wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json = wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -107,7 +111,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "GeefOndernemingResponses", 
 		wiremock\__files\GeefOndernemingResponses\2289324120.vestiging.xml = wiremock\__files\GeefOndernemingResponses\2289324120.vestiging.xml
 		wiremock\__files\GeefOndernemingResponses\0407622110.xml = wiremock\__files\GeefOndernemingResponses\0407622110.xml
 		wiremock\__files\GeefOndernemingResponses\0408498573.xml = wiremock\__files\GeefOndernemingResponses\0408498573.xml
+		wiremock\__files\GeefOndernemingResponses\0407622011.xml = wiremock\__files\GeefOndernemingResponses\0407622011.xml
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Hosts", "src\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj", "{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingResponses", "RegistreerInschrijvingResponses", "{598628E9-81AA-41EE-8F2A-C9607A2D294A}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\RegistreerInschrijvingResponses\RegistreerInschrijvingResponse.xml = wiremock\__files\RegistreerInschrijvingResponses\RegistreerInschrijvingResponse.xml
+		wiremock\__files\RegistreerInschrijvingResponses\0725459040.uitzondering.fout.xml = wiremock\__files\RegistreerInschrijvingResponses\0725459040.uitzondering.fout.xml
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.EmptyPack", "test\AssociationRegistry.Test.EmptyPack\AssociationRegistry.Test.EmptyPack.csproj", "{7F27E962-B067-4086-B730-4D94173EA2ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -178,6 +193,14 @@ Global
 		{85139412-485D-4B23-8423-A0C2021B60DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85139412-485D-4B23-8423-A0C2021B60DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85139412-485D-4B23-8423-A0C2021B60DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F27E962-B067-4086-B730-4D94173EA2ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F27E962-B067-4086-B730-4D94173EA2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F27E962-B067-4086-B730-4D94173EA2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F27E962-B067-4086-B730-4D94173EA2ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -202,5 +225,8 @@ Global
 		{9E074A15-9B15-4B42-8D0B-8DA1A618330C} = {DBDE4EB5-760D-48AA-BDE4-59704B669084}
 		{85139412-485D-4B23-8423-A0C2021B60DE} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{9C2CDA4C-FFF3-4AA1-B31A-8804D98F0469} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427} = {20B970CD-1737-4427-A924-D299A42346FE}
+		{598628E9-81AA-41EE-8F2A-C9607A2D294A} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{7F27E962-B067-4086-B730-4D94173EA2ED} = {C812C887-6495-405A-8B99-4F686D243126}
 	EndGlobalSection
 EndGlobal

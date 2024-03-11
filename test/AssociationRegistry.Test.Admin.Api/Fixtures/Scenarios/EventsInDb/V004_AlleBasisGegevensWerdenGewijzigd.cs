@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using Framework;
-using AutoFixture;
 using Vereniging;
 
 public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
@@ -23,27 +23,29 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999004";
+
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            "Vereniging voor verwaarloosde vogels",
-            "VVVV",
+            Naam: "Vereniging voor verwaarloosde vogels",
+            KorteNaam: "VVVV",
             string.Empty,
-            null,
+            Startdatum: null,
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
-            new []
+            new[]
             {
-                new Registratiedata.HoofdactiviteitVerenigingsloket("BLA", "blabla"),
+                new Registratiedata.HoofdactiviteitVerenigingsloket(Code: "BLA", Naam: "blabla"),
             }
         );
-        NaamWerdGewijzigd = new NaamWerdGewijzigd(VCode, "Vrije Vogels van Verre Vertrekken");
-        KorteNaamWerdGewijzigd = new KorteNaamWerdGewijzigd(VCode, "VVVVV");
-        KorteBeschrijvingWerdGewijzigd = new KorteBeschrijvingWerdGewijzigd(VCode, "Een vereniging voor vrij vogels");
-        StartdatumWerdGewijzigd = new StartdatumWerdGewijzigd(VCode, new DateOnly(2023, 6, 14));
-        DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(12,18));
+
+        NaamWerdGewijzigd = new NaamWerdGewijzigd(VCode, Naam: "Vrije Vogels van Verre Vertrekken");
+        KorteNaamWerdGewijzigd = new KorteNaamWerdGewijzigd(VCode, KorteNaam: "VVVVV");
+        KorteBeschrijvingWerdGewijzigd = new KorteBeschrijvingWerdGewijzigd(VCode, KorteBeschrijving: "Een vereniging voor vrij vogels");
+        StartdatumWerdGewijzigd = new StartdatumWerdGewijzigd(VCode, new DateOnly(year: 2023, month: 6, day: 14));
+        DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(Minimumleeftijd: 12, Maximumleeftijd: 18));
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = new VerenigingWerdUitgeschrevenUitPubliekeDatastroom();
         VerenigingWerdIngeschrevenInPubliekeDatastroom = new VerenigingWerdIngeschrevenInPubliekeDatastroom();
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

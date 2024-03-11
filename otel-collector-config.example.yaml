@@ -1,0 +1,28 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+
+exporters:
+  logging:
+
+  otlphttp:
+    endpoint: http://seq/ingest/otlp
+
+processors:
+  batch:
+
+service:
+  pipelines:
+    traces:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ logging ]
+    metrics:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ logging ]
+    logs:
+      receivers: [ otlp ]
+      processors: [ batch ]
+      exporters: [ logging, otlphttp ]

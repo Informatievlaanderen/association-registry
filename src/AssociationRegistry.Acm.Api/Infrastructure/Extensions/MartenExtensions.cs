@@ -14,9 +14,12 @@ using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
 
-public static class MartenExtentions
+public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
+    public static IServiceCollection AddMarten(
+        this IServiceCollection services,
+        PostgreSqlOptionsSection postgreSqlOptions,
+        IConfiguration configuration)
     {
         var martenConfiguration = services
                                  .AddSingleton(postgreSqlOptions)
@@ -28,7 +31,9 @@ public static class MartenExtentions
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Serializer(CreateCustomMartenSerializer());
                                           opts.Events.MetadataConfig.EnableAll();
-                                          opts.AddPostgresProjections();
+                                          opts.AddPostgresProjections(serviceProvider);
+
+                                          opts.Projections.DaemonLockId = 2;
 
                                           opts.RegisterDocumentType<VerenigingenPerInszDocument>();
                                           opts.RegisterDocumentType<VerenigingDocument>();
@@ -49,7 +54,7 @@ public static class MartenExtentions
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return services;
     }

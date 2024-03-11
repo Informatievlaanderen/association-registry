@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_AdresId;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
+using Test.Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_A_Valid_Broncode : ValidatorTest
@@ -17,7 +18,7 @@ public class With_A_Valid_Broncode : ValidatorTest
     [InlineData("AR")]
     public void Has_no_validation_errors(string adresBroncode)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties[0].AdresId!.Broncode = Adresbron.Parse(adresBroncode);
         var result = validator.TestValidate(request);

@@ -15,7 +15,6 @@ public class Given_An_InvalidValid_EmailAddres
     [InlineData("jos@club")]
     [InlineData("jos@club.")]
     [InlineData("jos(at)club.be")]
-    [InlineData("jos.@punt.be")]
     [InlineData(".jos@club.be")]
     [InlineData("stoereVent@onderde/.be")]
     [InlineData("ikke@club@ginder.nl")]
@@ -30,6 +29,6 @@ public class Given_An_InvalidValid_EmailAddres
     public void Then_it_throws_InvalidEmailFormatException(string emailString)
     {
         var ctor = () => Email.Create(emailString);
-        ctor.Should().Throw<InvalidEmailFormat>();
+        ctor.Should().Throw<EmailHeeftEenOngeldigFormaat>();
     }
 }

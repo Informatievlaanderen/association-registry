@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program;
 
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
+using System.Reflection;
 
 public class ApiControllerSpec : IApiControllerSpecification
 {
@@ -12,4 +12,6 @@ public class ApiControllerSpec : IApiControllerSpecification
         _apiControllerType.IsAssignableFrom(controller.ControllerType);
 }
 
-public abstract class ApiController : ControllerBase { }
+public abstract class ApiController : ControllerBase
+{
+}

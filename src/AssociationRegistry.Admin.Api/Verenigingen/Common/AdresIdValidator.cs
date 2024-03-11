@@ -9,5 +9,8 @@ public class AdresIdValidator : AbstractValidator<AdresId>
     {
         this.RequireNotNullOrEmpty(adresId => adresId.Broncode);
         this.RequireNotNullOrEmpty(adresId => adresId.Bronwaarde);
+
+        RuleFor(m => m.Broncode).MustNotContainHtml();
+        RuleFor(m => m.Bronwaarde).MustNotContainHtml();
     }
 }

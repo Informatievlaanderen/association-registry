@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
 
-using System.Runtime.Serialization;
-using AssociationRegistry.Acties.VoegVertegenwoordigerToe;
+using Acties.VoegVertegenwoordigerToe;
 using Common;
+using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -17,7 +17,7 @@ public class VoegVertegenwoordigerToeRequest
 
     public VoegVertegenwoordigerToeCommand ToCommand(string vCode)
         => new(
-            VCode: VCode.Create(vCode),
+            VCode.Create(vCode),
             AssociationRegistry.Vereniging.Vertegenwoordiger.Create(
                 Insz.Create(Vertegenwoordiger.Insz),
                 Vertegenwoordiger.IsPrimair,

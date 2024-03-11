@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Valid : ValidatorTest
@@ -16,6 +16,7 @@ public class Is_Valid : ValidatorTest
     public void Has_not_validation_error(string? waarde, string? beschrijving, bool? isPrimair)
     {
         var validator = new WijzigContactgegevenValidator();
+
         var request = new WijzigContactgegevenRequest
         {
             Contactgegeven = new TeWijzigenContactgegeven
@@ -25,6 +26,7 @@ public class Is_Valid : ValidatorTest
                 IsPrimair = isPrimair,
             },
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(toeRequest => toeRequest.Contactgegeven);

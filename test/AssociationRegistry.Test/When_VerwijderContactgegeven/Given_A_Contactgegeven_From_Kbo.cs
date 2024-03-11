@@ -16,18 +16,17 @@ public class Given_A_Contactgegeven_From_Kbo
     public void Then_It_Throws()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var contactgegeven = fixture.Create<Contactgegeven>() with
-        {
-            ContactgegevenId = 1,
-        };
 
         var vereniging = new VerenigingOfAnyKind();
+
+        var contactgegevenWerdOvergenomenUitKbo = fixture.Create<ContactgegevenWerdOvergenomenUitKBO>() with { ContactgegevenId = 1 };
+
         vereniging.Hydrate(new VerenigingState()
-            .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-            .Apply(ContactgegevenWerdOvergenomenUitKBO.With(contactgegeven, ContactgegevenTypeVolgensKbo.All.First(c=>c.ContactgegevenType==contactgegeven.Type))));
+                          .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
+                          .Apply(contactgegevenWerdOvergenomenUitKbo));
 
-        var wijzigLocatie = () => vereniging.VerwijderContactgegeven(contactgegeven.ContactgegevenId);
+        var wijzigLocatie = () => vereniging.VerwijderContactgegeven(contactgegevenWerdOvergenomenUitKbo.ContactgegevenId);
 
-        wijzigLocatie.Should().Throw<ContactgegevenFromKboCannotBeRemoved>();
+        wijzigLocatie.Should().Throw<ContactgegevenUitKboKanNietVerwijderdWorden>();
     }
 }

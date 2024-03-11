@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.Examples;
 
-using System;
-using System.Linq;
 using Common;
 using Primitives;
-using Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using System;
+using System.Linq;
+using Vereniging;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>
 {
@@ -23,7 +23,7 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
                 Maximumleeftijd = 18,
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
-                .All().Take(5).Select(h => h.Code).ToArray(),
+                                               .All().Take(5).Select(h => h.Code).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom = true,
         };
 }

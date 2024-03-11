@@ -12,6 +12,6 @@ public class Given_An_Null_Adres
     public void Then_It_Returns_A_Null_Adres()
     {
         Registratiedata.Adres.With(null)
-            .Should().BeNull();
+                       .Should().BeNull();
     }
 }

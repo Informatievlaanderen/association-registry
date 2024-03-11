@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -7,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
+using ResultNet;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -18,14 +21,15 @@ public class With_VerenigingVolgensKbo_Contactgegevens
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+    private readonly LoggerFactory _loggerFactory;
 
     public With_VerenigingVolgensKbo_Contactgegevens()
     {
+        _loggerFactory = new LoggerFactory();
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
-
 
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
@@ -33,17 +37,20 @@ public class With_VerenigingVolgensKbo_Contactgegevens
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                _verenigingVolgensKbo
-            ));
+            new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -56,31 +63,32 @@ public class With_VerenigingVolgensKbo_Contactgegevens
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new ContactgegevenWerdOvergenomenUitKBO(
-                1,
-                ContactgegevenType.Email.Waarde,
-                ContactgegevenTypeVolgensKbo.Email,
+                ContactgegevenId: 1,
+                Contactgegeventype.Email.Waarde,
+                ContactgegeventypeVolgensKbo.Email,
                 _verenigingVolgensKbo.Contactgegevens.Email!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                2,
-                ContactgegevenType.Website.Waarde,
-                ContactgegevenTypeVolgensKbo.Website,
+                ContactgegevenId: 2,
+                Contactgegeventype.Website.Waarde,
+                ContactgegeventypeVolgensKbo.Website,
                 _verenigingVolgensKbo.Contactgegevens.Website!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                3,
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.Telefoon,
+                ContactgegevenId: 3,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.Telefoon,
                 _verenigingVolgensKbo.Contactgegevens.Telefoonnummer!
             ),
             new ContactgegevenWerdOvergenomenUitKBO(
-                4,
-                ContactgegevenType.Telefoon.Waarde,
-                ContactgegevenTypeVolgensKbo.GSM,
+                ContactgegevenId: 4,
+                Contactgegeventype.Telefoon.Waarde,
+                ContactgegeventypeVolgensKbo.GSM,
                 _verenigingVolgensKbo.Contactgegevens.GSM!
-            )
+            ),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }
@@ -92,18 +100,20 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+    private readonly LoggerFactory _loggerFactory;
 
     public With_VerenigingVolgensKbo_No_Contactgegevens()
     {
+        _loggerFactory = new LoggerFactory();
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
-        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
+
+        _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
             Email = null,
             Telefoonnummer = null,
@@ -113,17 +123,20 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                _verenigingVolgensKbo
-            ));
+            new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -136,7 +149,8 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum)
+                _verenigingVolgensKbo.Startdatum),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }

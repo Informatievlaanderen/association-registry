@@ -23,13 +23,12 @@ public class Given_VertegenwoordigerWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Vertegenwoordiger '{vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam}' werd gewijzigd.",
                 nameof(VertegenwoordigerWerdGewijzigd),
                 vertegenwoordigerWerdGewijzigd.Data,
                 vertegenwoordigerWerdGewijzigd.Initiator,
-                vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                vertegenwoordigerWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

@@ -17,6 +17,6 @@ public class Given_An_Unknow_Code
     public void Then_it_throws_an_UnknownHoofdactiviteitCodeException(string code)
     {
         var ctor = () => HoofdactiviteitVerenigingsloket.Create(code);
-        ctor.Should().Throw<UnknownHoofdactiviteitCode>();
+        ctor.Should().Throw<HoofdactiviteitCodeIsNietGekend>();
     }
 }

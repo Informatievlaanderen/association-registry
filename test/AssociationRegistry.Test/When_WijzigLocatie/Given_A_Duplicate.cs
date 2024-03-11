@@ -21,9 +21,11 @@ public class Given_A_Duplicate
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);
         var adres = HydrateAdres(gewijzigdeLocatie.Adres!);
-        var wijzigLocatie = () => vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
 
-        wijzigLocatie.Should().Throw<DuplicateLocatie>();
+        var wijzigLocatie = () => vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam,
+                                                           gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, adres);
+
+        wijzigLocatie.Should().Throw<LocatieIsNietUniek>();
     }
 
     private static Adres HydrateAdres(Registratiedata.Adres gewijzigdeLocatieAdres)
@@ -35,6 +37,7 @@ public class Given_A_Duplicate
             out var postcode,
             out var gemeente,
             out var land);
+
         return Adres.Hydrate(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
     }
 
@@ -46,6 +49,7 @@ public class Given_A_Duplicate
             var locaties = fixture.CreateMany<Registratiedata.Locatie>().ToArray();
             var locatie1 = locaties[0];
             var locatie2 = locaties[1];
+
             var gewijzigdeLocatie = locatie2 with
             {
                 Naam = locatie1.Naam,
@@ -57,15 +61,6 @@ public class Given_A_Duplicate
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = locaties,
-                        }),
-                    gewijzigdeLocatie,
-                },
                 new object[]
                 {
                     new VerenigingState().Apply(

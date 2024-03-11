@@ -3,8 +3,9 @@
 
   <PropertyGroup>
     <ServerGarbageCollection>true</ServerGarbageCollection>
-    <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <UserSecretsId>265231d5-e072-4985-b56a-085e838c6e99</UserSecretsId>
+    <EnableDefaultContentItems>false</EnableDefaultContentItems>
+    <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -43,6 +44,15 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Contexten\*.json" />
+    <Compile Update="ValidationMessages.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>ValidationMessages.resx</DependentUpon>
+    </Compile>
+    <EmbeddedResource Update="ValidationMessages.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

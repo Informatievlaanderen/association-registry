@@ -1,3 +1,1365 @@
+## [8.81.1](https://github.com/informatievlaanderen/association-registry/compare/v8.81.0...v8.81.1) (2024-03-08)
+
+
+### Bug Fixes
+
+* update download artifact ([cb4c33b](https://github.com/informatievlaanderen/association-registry/commit/cb4c33b1bb70fb3282ee4fcc57142b9f050d8da4))
+
+# [8.81.0](https://github.com/informatievlaanderen/association-registry/compare/v8.80.0...v8.81.0) (2024-03-08)
+
+
+### Bug Fixes
+
+* add region endpoint for amazon sqs client ([35ddc31](https://github.com/informatievlaanderen/association-registry/commit/35ddc31c25c696d36417b65e1c856a226c0f7005))
+* or-2107 perform catchup on RegistreerInschrijving ([b5e8c54](https://github.com/informatievlaanderen/association-registry/commit/b5e8c54ff10f98a4f644bd9b75d73fce03025c0e))
+
+
+### Features
+
+* or-2107 catchup RegistreerInschrijving ([a3ad177](https://github.com/informatievlaanderen/association-registry/commit/a3ad177bf4493998eedd600b1b804ff66c632d12))
+
+# [8.80.0](https://github.com/informatievlaanderen/association-registry/compare/v8.79.0...v8.80.0) (2024-03-07)
+
+
+### Bug Fixes
+
+* or-2097 add or update maatschappelijke zetel from kbo ([fee5fd5](https://github.com/informatievlaanderen/association-registry/commit/fee5fd5a88299d8f80039e9e81af83276f956c93))
+* or-2102 check if verenigingVolgensMagda was succes ([4916122](https://github.com/informatievlaanderen/association-registry/commit/49161223e2f54182347263e0c0f6cb6b80730aee))
+
+
+### Features
+
+* or-1818 stop vereniging on sync ([5e7c0aa](https://github.com/informatievlaanderen/association-registry/commit/5e7c0aa789fce10219fc1c1659c9ee16c2f4320a))
+* or-2097 sync maatschappelijke zetel ([5fce42e](https://github.com/informatievlaanderen/association-registry/commit/5fce42e79a9b94416fc424fbea45cf2f3fb3278b))
+* or-2102 change rechtsvorm on sync with KBO ([35f13f8](https://github.com/informatievlaanderen/association-registry/commit/35f13f8099cfffd22f476ac6eb8367ab9d11b14c))
+* or-2102 defend agains null from magda ([b3acc33](https://github.com/informatievlaanderen/association-registry/commit/b3acc33aff1c91dc226b4f5afc042f02af7cf7e0))
+* or-2102 defend against sync with unknown KboNummer ([c8008bd](https://github.com/informatievlaanderen/association-registry/commit/c8008bdcd799a611f1eb91a646feff945bb7136c))
+
+# [8.79.0](https://github.com/informatievlaanderen/association-registry/compare/v8.78.0...v8.79.0) (2024-03-05)
+
+
+### Features
+
+* or-2031 registreer inschrijving when adding kbo verenigingen ([8dce845](https://github.com/informatievlaanderen/association-registry/commit/8dce8450d9af41f29b1a45ac10fb2625569c4da6))
+
+# [8.78.0](https://github.com/informatievlaanderen/association-registry/compare/v8.77.0...v8.78.0) (2024-03-01)
+
+
+### Features
+
+* or-2101 sync Startdatum ([9533b48](https://github.com/informatievlaanderen/association-registry/commit/9533b4888c58285d15fdda5dd3fe83e4d43935bb))
+
+# [8.77.0](https://github.com/informatievlaanderen/association-registry/compare/v8.76.0...v8.77.0) (2024-02-29)
+
+
+### Features
+
+* or-2110 add invalid contactgeven on sync ([8ad008c](https://github.com/informatievlaanderen/association-registry/commit/8ad008c4257f7bd5a6a8624ad81c69e4611293fc))
+* or-2111 dont overrule contactgegeven when it has a beschrijving ([5b65e15](https://github.com/informatievlaanderen/association-registry/commit/5b65e15ab0443d30f6cf936d02a88201b8ae50fd))
+
+# [8.76.0](https://github.com/informatievlaanderen/association-registry/compare/v8.75.0...v8.76.0) (2024-02-29)
+
+
+### Features
+
+* or-1282 add type for geregistreerde organisatie ([0f832fa](https://github.com/informatievlaanderen/association-registry/commit/0f832fa0526449a41f369b6f0226670ef301e4d7))
+* or-2106 sync kbo can take over existing contactgegevens ([a1e9c0c](https://github.com/informatievlaanderen/association-registry/commit/a1e9c0cbfe26f1a24caefdbd3a9ce7fb45e229c5))
+
+# [8.75.0](https://github.com/informatievlaanderen/association-registry/compare/v8.74.0...v8.75.0) (2024-02-28)
+
+
+### Features
+
+* or-2032 add dependencies to magda package ([9e81df1](https://github.com/informatievlaanderen/association-registry/commit/9e81df19eb0477542a59fc677b483d64efec4f91))
+
+# [8.74.0](https://github.com/informatievlaanderen/association-registry/compare/v8.73.0...v8.74.0) (2024-02-28)
+
+
+### Features
+
+* or-2098 add new contactgegeven on sync ([a37fee1](https://github.com/informatievlaanderen/association-registry/commit/a37fee15bb1e3041fd91fe1133fc23c820a0bb4e))
+
+# [8.73.0](https://github.com/informatievlaanderen/association-registry/compare/v8.72.0...v8.73.0) (2024-02-27)
+
+
+### Features
+
+* or-2099 remove contactgegeven on sync ([09affd1](https://github.com/informatievlaanderen/association-registry/commit/09affd170a0e3d15ee6c95b2e0c62ec121a3c915))
+
+# [8.72.0](https://github.com/informatievlaanderen/association-registry/compare/v8.71.0...v8.72.0) (2024-02-27)
+
+
+### Bug Fixes
+
+* failing test ([d196ad9](https://github.com/informatievlaanderen/association-registry/commit/d196ad9a249b656a0fb3648900bfc73288d9eae5))
+
+
+### Features
+
+* call magda on sync with Kbo and refactor ([20bea02](https://github.com/informatievlaanderen/association-registry/commit/20bea02380c189692ecceb6bfa85d8172b91b202))
+
+# [8.71.0](https://github.com/informatievlaanderen/association-registry/compare/v8.70.1...v8.71.0) (2024-02-27)
+
+
+### Bug Fixes
+
+* or-2100 fix test ([3d4d4dc](https://github.com/informatievlaanderen/association-registry/commit/3d4d4dc954e699b76ca9255af6a8e75588e7e24a))
+* or-2105 fix contacttype issue with KBO ([883cff6](https://github.com/informatievlaanderen/association-registry/commit/883cff6c44329b06b88f6b1f36e43e0338ec520c))
+
+
+### Features
+
+* or-2100 update contactgegeven from KBO ([c73919d](https://github.com/informatievlaanderen/association-registry/commit/c73919d53a78b65422a301292aeb727a6ff7ad4e))
+* or-2105 remove contactgegevens if invalid ([39b8c3f](https://github.com/informatievlaanderen/association-registry/commit/39b8c3f37c69325c6f107f549d26a13b6579c30f))
+* or-2105 remove socialMedia from Kbo types ([9771439](https://github.com/informatievlaanderen/association-registry/commit/97714397335739f383969e056feca0d4c76e47b3))
+
+## [8.70.1](https://github.com/informatievlaanderen/association-registry/compare/v8.70.0...v8.70.1) (2024-02-24)
+
+
+### Bug Fixes
+
+* update visibility markers on MagdaGeefVerenigingService ([2acc1bf](https://github.com/informatievlaanderen/association-registry/commit/2acc1bfd53c78d7273486107a2fb7ff7bcd77d3b))
+
+# [8.70.0](https://github.com/informatievlaanderen/association-registry/compare/v8.69.1...v8.70.0) (2024-02-24)
+
+
+### Bug Fixes
+
+* add build.fsx line again ([109f893](https://github.com/informatievlaanderen/association-registry/commit/109f893201aa1ec00e88c98dbebabe93e96c74db))
+* correct dotnet version for service references ([5b8e368](https://github.com/informatievlaanderen/association-registry/commit/5b8e3681ff092465615a2c12a63fd557fd2e95ee))
+
+
+### Features
+
+* add package support for MAGDA ([e2efff9](https://github.com/informatievlaanderen/association-registry/commit/e2efff969ccc458335402b72f5e668dd82e4873b))
+* refactor all MAGDA stuff into single project for NuGet package ([43e03bf](https://github.com/informatievlaanderen/association-registry/commit/43e03bf837757c732d28895096e40f490fbf50e6))
+
+## [8.69.1](https://github.com/informatievlaanderen/association-registry/compare/v8.69.0...v8.69.1) (2024-02-23)
+
+
+### Bug Fixes
+
+* type inside workflow file ([194a4b9](https://github.com/informatievlaanderen/association-registry/commit/194a4b9363063745dc7f2658a9cb7d5a47a7d601))
+
+# [8.69.0](https://github.com/informatievlaanderen/association-registry/compare/v8.68.0...v8.69.0) (2024-02-23)
+
+
+### Bug Fixes
+
+* add SetAssemblyVersions inside build.fsx targets ([9d52c75](https://github.com/informatievlaanderen/association-registry/commit/9d52c75b2f99e7a342ef4c7a012d8b5917537c21))
+* add solution info inside csproj file ([3a8a0ac](https://github.com/informatievlaanderen/association-registry/commit/3a8a0ac41a43079003cf80ba4c376cb915c16fc2))
+* allow duplicate content publish output files ([8eee0cb](https://github.com/informatievlaanderen/association-registry/commit/8eee0cba4ee1fd145f1bacfe83c48a0e09f886bc))
+* cleanup on package references inside test projects ([4dbd244](https://github.com/informatievlaanderen/association-registry/commit/4dbd24478db1c3bb422ae2727e2133c031bc081e))
+* correct typo inside workflow file ([38a4639](https://github.com/informatievlaanderen/association-registry/commit/38a463943266935d7adb52d4d2a358bf05b8800b))
+* remove solution info reference ([e703a3e](https://github.com/informatievlaanderen/association-registry/commit/e703a3e7bfb489f60f7c940ff13c12d7272e6ca1))
+* typo inside workflow file ([2f73061](https://github.com/informatievlaanderen/association-registry/commit/2f7306182950a32594017288c3f33f72621d5108))
+* update build.fsx which requires TimeSpan ([3ec9603](https://github.com/informatievlaanderen/association-registry/commit/3ec9603b7fb4291f8f26eb020bcabfec5b7f5498))
+
+
+### Features
+
+* add support for NuGet packaging ([0c69800](https://github.com/informatievlaanderen/association-registry/commit/0c69800bbff8a4999b013342f18135249bd2c4c4))
+
+# [8.68.0](https://github.com/informatievlaanderen/association-registry/compare/v8.67.0...v8.68.0) (2024-02-22)
+
+
+### Features
+
+* or-2095 sync korte naam ([5788139](https://github.com/informatievlaanderen/association-registry/commit/57881391db700825eb40aa2f7af44ee7cb953712))
+
+# [8.67.0](https://github.com/informatievlaanderen/association-registry/compare/v8.66.0...v8.67.0) (2024-02-22)
+
+
+### Features
+
+* or-2094 wijzig naam in ACM ([857d13b](https://github.com/informatievlaanderen/association-registry/commit/857d13bb816eb5a277be3bc4e03e42c30e31fb4a))
+
+# [8.66.0](https://github.com/informatievlaanderen/association-registry/compare/v8.65.1...v8.66.0) (2024-02-22)
+
+
+### Features
+
+* or-2094 sync naam from kbo ([8c10867](https://github.com/informatievlaanderen/association-registry/commit/8c10867872c29d12f1c86272966484c0a4eb4849))
+
+## [8.65.1](https://github.com/informatievlaanderen/association-registry/compare/v8.65.0...v8.65.1) (2024-02-22)
+
+
+### Bug Fixes
+
+* improve readability of docs ([a57b15b](https://github.com/informatievlaanderen/association-registry/commit/a57b15b22fd66cc7ded4571cff82b20972e13d71))
+
+# [8.65.0](https://github.com/informatievlaanderen/association-registry/compare/v8.64.0...v8.65.0) (2024-02-22)
+
+
+### Bug Fixes
+
+* or-2036 fix markdown error ([5fdca8b](https://github.com/informatievlaanderen/association-registry/commit/5fdca8b090b46a1f360adc6648e661fc7c4e7e24))
+
+
+### Features
+
+* or-2093 emit event when syncKbo is successful ([f267b0b](https://github.com/informatievlaanderen/association-registry/commit/f267b0bae5817fc251d0db8d9cb140d2c2e753a4))
+
+# [8.64.0](https://github.com/informatievlaanderen/association-registry/compare/v8.63.0...v8.64.0) (2024-02-21)
+
+
+### Features
+
+* or-2038 fix naming for sort ([33228ff](https://github.com/informatievlaanderen/association-registry/commit/33228ff54fff8a85e31e99d54805093afa4c6575))
+
+# [8.63.0](https://github.com/informatievlaanderen/association-registry/compare/v8.62.0...v8.63.0) (2024-02-21)
+
+
+### Features
+
+* or-2038 simplify rebuild to ensure mapping is updated correctly ([873fcbe](https://github.com/informatievlaanderen/association-registry/commit/873fcbeb14982a751a83c8f51521fb94d1ea88ef))
+
+# [8.62.0](https://github.com/informatievlaanderen/association-registry/compare/v8.61.1...v8.62.0) (2024-02-21)
+
+
+### Features
+
+* or-2072 allow uppercase socialmedia ([10f1f99](https://github.com/informatievlaanderen/association-registry/commit/10f1f99f5dc91bf463f4f1534ecfc1c078db8001))
+
+## [8.61.1](https://github.com/informatievlaanderen/association-registry/compare/v8.61.0...v8.61.1) (2024-02-20)
+
+
+### Bug Fixes
+
+* or-1282 remove dependency on vCode for hoofdactiviteiten in beheer detail ([1639d70](https://github.com/informatievlaanderen/association-registry/commit/1639d70f89e187a5a6ab863a61f9e4de2d7d9b00))
+
+# [8.61.0](https://github.com/informatievlaanderen/association-registry/compare/v8.60.0...v8.61.0) (2024-02-20)
+
+
+### Features
+
+* or-2038 add sorting on beheer zoeken ([5823d69](https://github.com/informatievlaanderen/association-registry/commit/5823d691202bff7acc4fe447775482126ee48061))
+* or-2038 add trim filter ([f13c5c9](https://github.com/informatievlaanderen/association-registry/commit/f13c5c94673d9e895bc6e9ffba37545e26ecb4be))
+
+# [8.60.0](https://github.com/informatievlaanderen/association-registry/compare/v8.59.0...v8.60.0) (2024-02-20)
+
+
+### Features
+
+* or-2072 make website case insencitive ([6d6c668](https://github.com/informatievlaanderen/association-registry/commit/6d6c668ce909c4998333bb73acdd13891f75a423))
+* or-2112 trim spaces when sorting in publiek zoek ([b7d686a](https://github.com/informatievlaanderen/association-registry/commit/b7d686a223890f2bdcc1caa9121007acb31800a9))
+
+# [8.59.0](https://github.com/informatievlaanderen/association-registry/compare/v8.58.1...v8.59.0) (2024-02-09)
+
+
+### Bug Fixes
+
+* or-1282 bug introduced by reverting loactieType to string ([2784f95](https://github.com/informatievlaanderen/association-registry/commit/2784f95b9fa74bf067daff046c0d579a8d9d4ce6))
+
+
+### Features
+
+* or-1282 copy jsonld-context to all files ([842948f](https://github.com/informatievlaanderen/association-registry/commit/842948fc43cf07fb78fde8e5c85f5d0ea88a6f7f))
+* or-1282 remove id from vereniging ([e7e5cc2](https://github.com/informatievlaanderen/association-registry/commit/e7e5cc2809e8ea6e381b390f3b4f2bc49123d7e5))
+* or-1282 update JsonLd context file ([91005fb](https://github.com/informatievlaanderen/association-registry/commit/91005fb24c4047cfbda1c9baf275737b8098bdd3))
+
+## [8.58.1](https://github.com/informatievlaanderen/association-registry/compare/v8.58.0...v8.58.1) (2024-02-09)
+
+
+### Bug Fixes
+
+* or-1282 override CreateWithIdValue ([6d6aa1d](https://github.com/informatievlaanderen/association-registry/commit/6d6aa1d1d3706422403af41804a12141b490ce47))
+
+# [8.58.0](https://github.com/informatievlaanderen/association-registry/compare/v8.57.0...v8.58.0) (2024-02-08)
+
+
+### Features
+
+* or-1282 revert LocatieType to string ([a08df29](https://github.com/informatievlaanderen/association-registry/commit/a08df29a217bc6b00319fe3aec124033d6767f00))
+
+# [8.57.0](https://github.com/informatievlaanderen/association-registry/compare/v8.56.0...v8.57.0) (2024-02-07)
+
+
+### Bug Fixes
+
+* email regular expression fine tuning ([3e6185d](https://github.com/informatievlaanderen/association-registry/commit/3e6185d3c85e3e20cff9d356f78d9523422efcf8))
+* or-2088 replace email validation regular expression to be less restrictive ([3ffdb49](https://github.com/informatievlaanderen/association-registry/commit/3ffdb49fbd34ef035d9351986cefea737fbba50e))
+
+
+### Features
+
+* or-1282 update beheer zoeken ([f1cd64f](https://github.com/informatievlaanderen/association-registry/commit/f1cd64f1d4b25de3ac5cf8d9501024437dae3dd8))
+* or-1282 update publiek detail ([c31db4d](https://github.com/informatievlaanderen/association-registry/commit/c31db4de834bbe6118ab5c6ca75d8030973b1a9f))
+* or-1282 update publiek zoeken ([e2bc503](https://github.com/informatievlaanderen/association-registry/commit/e2bc50327d4744b506fb92f08542bdb2fc7b878e))
+
+# [8.56.0](https://github.com/informatievlaanderen/association-registry/compare/v8.55.3...v8.56.0) (2024-02-05)
+
+
+### Features
+
+* or-2067 allow KBO in oprichting ([0386cda](https://github.com/informatievlaanderen/association-registry/commit/0386cda6c40444ad9275fab3c39cd54a105e3ea5))
+
+## [8.55.3](https://github.com/informatievlaanderen/association-registry/compare/v8.55.2...v8.55.3) (2024-02-05)
+
+
+### Bug Fixes
+
+* use fixed version for polling action inside github actions ([578dfd7](https://github.com/informatievlaanderen/association-registry/commit/578dfd7e34148afe905231c11ebb09d5a5991811))
+
+## [8.55.2](https://github.com/informatievlaanderen/association-registry/compare/v8.55.1...v8.55.2) (2024-02-05)
+
+
+### Bug Fixes
+
+* update github actions token ([#625](https://github.com/informatievlaanderen/association-registry/issues/625)) ([2fbd051](https://github.com/informatievlaanderen/association-registry/commit/2fbd051b165732b1fe80d5af6a0838d258837256))
+
+## [8.55.1](https://github.com/informatievlaanderen/association-registry/compare/v8.55.0...v8.55.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* update workflow for main ([1929764](https://github.com/informatievlaanderen/association-registry/commit/19297643c7c5dfe6c470b88f9f1247c610c4f890))
+
+# [8.55.0](https://github.com/informatievlaanderen/association-registry/compare/v8.54.1...v8.55.0) (2024-02-05)
+
+
+### Features
+
+* OR-1282 implementation for JSON-LD ([#621](https://github.com/informatievlaanderen/association-registry/issues/621)) ([3251370](https://github.com/informatievlaanderen/association-registry/commit/3251370a373276df2a79c72a830daa06cf6c68fa))
+
+## [8.54.1](https://github.com/informatievlaanderen/association-registry/compare/v8.54.0...v8.54.1) (2024-02-05)
+
+
+### Bug Fixes
+
+* or-1282 retry semantic release ([#620](https://github.com/informatievlaanderen/association-registry/issues/620)) ([393c158](https://github.com/informatievlaanderen/association-registry/commit/393c158f0aa82e85ec55f2dde0692130f05b61cd))
+
+# [8.54.0](https://github.com/informatievlaanderen/association-registry/compare/v8.53.3...v8.54.0) (2024-02-05)
+
+
+### Features
+
+* OR-1282 implementation for JSON-LD ([#619](https://github.com/informatievlaanderen/association-registry/issues/619)) ([b701d70](https://github.com/informatievlaanderen/association-registry/commit/b701d70330adb38fbdf664b3da2b18d2b71cc072))
+
+## [8.53.3](https://github.com/informatievlaanderen/association-registry/compare/v8.53.2...v8.53.3) (2024-01-29)
+
+
+### Bug Fixes
+
+* add custom headers to activity for logging ([3a22c63](https://github.com/informatievlaanderen/association-registry/commit/3a22c63e1cc35dd7b1a486776bd37df872cae6c3))
+
+## [8.53.2](https://github.com/informatievlaanderen/association-registry/compare/v8.53.1...v8.53.2) (2024-01-29)
+
+
+### Bug Fixes
+
+* add custom header names ([3483dea](https://github.com/informatievlaanderen/association-registry/commit/3483dea123afdb4b70655cea6e0154a6f238ac82))
+
+## [8.53.1](https://github.com/informatievlaanderen/association-registry/compare/v8.53.0...v8.53.1) (2024-01-26)
+
+
+### Bug Fixes
+
+* add forward endpoint for duplicate detection ([7f32452](https://github.com/informatievlaanderen/association-registry/commit/7f32452f9a86e119145debea71077658538ad549))
+* or-1349 add duplicate detection rebuild capability ([e807b58](https://github.com/informatievlaanderen/association-registry/commit/e807b5820284aff3758733728c9a1a2448cfa4b0))
+
+# [8.53.0](https://github.com/informatievlaanderen/association-registry/compare/v8.52.0...v8.53.0) (2024-01-26)
+
+
+### Features
+
+* or-2073 rework facets to work with mapping ([302ab98](https://github.com/informatievlaanderen/association-registry/commit/302ab98dbe54c998ccb4bd853b9a69d38bfa6649))
+
+# [8.52.0](https://github.com/informatievlaanderen/association-registry/compare/v8.51.0...v8.52.0) (2024-01-25)
+
+
+### Features
+
+* or-1349 split duplicate detection ([#616](https://github.com/informatievlaanderen/association-registry/issues/616)) ([8595bb8](https://github.com/informatievlaanderen/association-registry/commit/8595bb8a07ecdfa6773b8642c5e41a6e3d0d8377))
+
+# [8.51.0](https://github.com/informatievlaanderen/association-registry/compare/v8.50.2...v8.51.0) (2024-01-25)
+
+
+### Features
+
+* or-1976 normalize facets ([f966ce8](https://github.com/informatievlaanderen/association-registry/commit/f966ce8be9d1a85d468f466bddc29049a8341df6))
+
+## [8.50.2](https://github.com/informatievlaanderen/association-registry/compare/v8.50.1...v8.50.2) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 archive afdelingen ([7c1bbb7](https://github.com/informatievlaanderen/association-registry/commit/7c1bbb7bf3213d1784b49ed756a1e136630279cb))
+* or-1349 don't use bus ([cb3b758](https://github.com/informatievlaanderen/association-registry/commit/cb3b7584beb7730af8076072f67a33bcf2e7ff09))
+
+## [8.50.1](https://github.com/informatievlaanderen/association-registry/compare/v8.50.0...v8.50.1) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 wait, stop, start for rebuilding ([09cfe08](https://github.com/informatievlaanderen/association-registry/commit/09cfe083290eb86b25978bd563db7316e8b8a0b7))
+
+# [8.50.0](https://github.com/informatievlaanderen/association-registry/compare/v8.49.0...v8.50.0) (2024-01-24)
+
+
+### Features
+
+* or-1349 add stop-start shards ([5d183fd](https://github.com/informatievlaanderen/association-registry/commit/5d183fdf36e669fb0609fe14f7b4b0bfadc42273))
+
+# [8.49.0](https://github.com/informatievlaanderen/association-registry/compare/v8.48.0...v8.49.0) (2024-01-24)
+
+
+### Features
+
+* or-1349 add rebuild all publiek projections ([39c9eb2](https://github.com/informatievlaanderen/association-registry/commit/39c9eb232274cd621773105a48b18e35024e5568))
+* or-1349 restart elastic deamon after rebuild ([9029fbe](https://github.com/informatievlaanderen/association-registry/commit/9029fbedd46b0be26428f1ce2bf4e2a83ac9dd11))
+
+# [8.48.0](https://github.com/informatievlaanderen/association-registry/compare/v8.47.0...v8.48.0) (2024-01-24)
+
+
+### Bug Fixes
+
+* or-1349 typo ([bbae5e5](https://github.com/informatievlaanderen/association-registry/commit/bbae5e537a30285e62a8d7d5e8c5f93a827e3230))
+
+
+### Features
+
+* or-1349 add acm rebuild endpoint ([5f44a5b](https://github.com/informatievlaanderen/association-registry/commit/5f44a5b46215a329ae378e72f207bab63c7c1dde))
+* or-1349 add comment in ProjectionEndpointExtensions.cs ([c3c6d51](https://github.com/informatievlaanderen/association-registry/commit/c3c6d51306a1aee653d6dff33bb9835597fc5da6))
+* or-1349 add configurable timeout to rebuilds ([bf66083](https://github.com/informatievlaanderen/association-registry/commit/bf660839251514f1b62e9608c9a2043e64d97c7b))
+* or-1349 disable rebuild endpoints for ACM ([886e79e](https://github.com/informatievlaanderen/association-registry/commit/886e79e1ac30d6378b7a62df25f59924fb725b81))
+
+# [8.47.0](https://github.com/informatievlaanderen/association-registry/compare/v8.46.0...v8.47.0) (2024-01-24)
+
+
+### Features
+
+* or-1976 remove dots and accents for publiek zoek ([fd8af2e](https://github.com/informatievlaanderen/association-registry/commit/fd8af2edfd88d2d9015b90e752d566b6fde3163a))
+* or-1976 remove stopwords from query ([7d820a2](https://github.com/informatievlaanderen/association-registry/commit/7d820a2ae0477a1f61b7a500abe54985203ad099))
+
+# [8.46.0](https://github.com/informatievlaanderen/association-registry/compare/v8.45.0...v8.46.0) (2024-01-23)
+
+
+### Features
+
+* or-2061 add korte beschrijving als veld in publiek zoeken ([#606](https://github.com/informatievlaanderen/association-registry/issues/606)) ([f519a43](https://github.com/informatievlaanderen/association-registry/commit/f519a43e0532ee54e70909f77b46d02f3a4c382b))
+
+# [8.45.0](https://github.com/informatievlaanderen/association-registry/compare/v8.44.0...v8.45.0) (2024-01-23)
+
+
+### Features
+
+* or-1976 cleanup code ([303ecde](https://github.com/informatievlaanderen/association-registry/commit/303ecdeeda4721626c8c8fc7ab41076ac10a8781))
+* or-1976 fix failing test ([7778a7f](https://github.com/informatievlaanderen/association-registry/commit/7778a7f2fd53275f7cce8e90cb98debeb10cc0db))
+* or-1976 voeg normalizer toe aan Ãpubliek zoeken ([0281360](https://github.com/informatievlaanderen/association-registry/commit/02813608686324c8c17127ec4f92128dcbb62239))
+
+# [8.44.0](https://github.com/informatievlaanderen/association-registry/compare/v8.43.1...v8.44.0) (2024-01-22)
+
+
+### Features
+
+* or-1349 make rebuilds work in background ([b4b1a18](https://github.com/informatievlaanderen/association-registry/commit/b4b1a18643a9543b49257c20da442513c54fcf7f))
+
+## [8.43.1](https://github.com/informatievlaanderen/association-registry/compare/v8.43.0...v8.43.1) (2024-01-22)
+
+
+### Reverts
+
+* Revert "feat: or-1282 jsonLd for publiek detail" ([abda924](https://github.com/informatievlaanderen/association-registry/commit/abda924324bb5ea732a6050192e3a4450cffa440))
+* Revert "feat: or-1282 add jsonld for beheer detail" ([3124000](https://github.com/informatievlaanderen/association-registry/commit/3124000be56cf7ea7653b858376a486ec00c98b6))
+* Revert "feat: or-1282 jsonld for beheer zoeken" ([a397de4](https://github.com/informatievlaanderen/association-registry/commit/a397de4c697705cc7de08e48571864035fcf8c96))
+* Revert "feat: or-1282 add jsonLd for publiek zoeken" ([eb8ebc4](https://github.com/informatievlaanderen/association-registry/commit/eb8ebc4337dd4265528ba8bebe37c2aa64f12bba))
+
+# [8.43.0](https://github.com/informatievlaanderen/association-registry/compare/v8.42.4...v8.43.0) (2024-01-19)
+
+
+### Features
+
+* or-1282 add jsonld for beheer detail ([a817f75](https://github.com/informatievlaanderen/association-registry/commit/a817f75df0a5765ec3b1e8f05c9ab71b7d5ec680))
+* or-1282 add jsonLd for publiek zoeken ([9a6b342](https://github.com/informatievlaanderen/association-registry/commit/9a6b342f422a0738c8ed411a120c989c6d17e297))
+* or-1282 jsonld for beheer zoeken ([cc3488d](https://github.com/informatievlaanderen/association-registry/commit/cc3488d2dd944fdb74da8e1ca020107b7d01e19c))
+* or-1282 jsonLd for publiek detail ([d35f398](https://github.com/informatievlaanderen/association-registry/commit/d35f3985e040482d78025cb85d57174357a0fcfe))
+
+## [8.42.4](https://github.com/informatievlaanderen/association-registry/compare/v8.42.3...v8.42.4) (2024-01-18)
+
+
+### Bug Fixes
+
+* OR-2058 reverse condition on duplicate detection for IsDeleted ([5e09a71](https://github.com/informatievlaanderen/association-registry/commit/5e09a714531dc13f1d5fceea0130ad5d5b0d9604))
+
+## [8.42.3](https://github.com/informatievlaanderen/association-registry/compare/v8.42.2...v8.42.3) (2024-01-17)
+
+
+### Bug Fixes
+
+* or-2058 fix isVerwijder condition in beheer zoeken query ([9bed3e3](https://github.com/informatievlaanderen/association-registry/commit/9bed3e37a3d7ac4b9586914df4aa785b8c9d304c))
+* OR-2058 update Magda test ([e1a0dc1](https://github.com/informatievlaanderen/association-registry/commit/e1a0dc1cca7157d808805272c8729270c578b655))
+
+## [8.42.2](https://github.com/informatievlaanderen/association-registry/compare/v8.42.1...v8.42.2) (2024-01-16)
+
+
+### Bug Fixes
+
+* or-1217 change validation message for association deleted ([35f6b56](https://github.com/informatievlaanderen/association-registry/commit/35f6b56be20d03bd6f5a75ef8431d676198e05ba))
+* reverted build.fsx file ([438fce5](https://github.com/informatievlaanderen/association-registry/commit/438fce5bb0ed999203ae92e8d9722ba672bc603c))
+* solution wide reformat and cleanup ([e029db8](https://github.com/informatievlaanderen/association-registry/commit/e029db850ee8b391854e6a9f8f570bd31d6fbfe8))
+
+## [8.42.1](https://github.com/informatievlaanderen/association-registry/compare/v8.42.0...v8.42.1) (2024-01-13)
+
+
+### Bug Fixes
+
+* use hotcold and retry mechanism ([0d6e522](https://github.com/informatievlaanderen/association-registry/commit/0d6e522f2702659be8abaf14f45ce0219eeb2a65))
+
+# [8.42.0](https://github.com/informatievlaanderen/association-registry/compare/v8.41.0...v8.42.0) (2024-01-12)
+
+
+### Bug Fixes
+
+* OR-1217 update expected exception message ([b5e2797](https://github.com/informatievlaanderen/association-registry/commit/b5e2797eabbd8ad0ff38286aaefc33ff7a0e11e9))
+
+
+### Features
+
+* OR-1217 allow vereniging to be removed and block further updates ([ba71ce6](https://github.com/informatievlaanderen/association-registry/commit/ba71ce60076d334264e0e5a14555a9116f11bac3))
+
+# [8.41.0](https://github.com/informatievlaanderen/association-registry/compare/v8.40.0...v8.41.0) (2024-01-11)
+
+
+### Bug Fixes
+
+* or-2035 add more fields to check for html ([692f1f1](https://github.com/informatievlaanderen/association-registry/commit/692f1f1c622d7622b396f1af5608285417c6b541))
+* or-2035 fix registreer request, check extra field in validationproblemdetails ([099da7c](https://github.com/informatievlaanderen/association-registry/commit/099da7c4b3a87932adba99ada71202f85c950149))
+* OR-2035 recursively apply validation rules for requests and invalidate html fields ([cd8c545](https://github.com/informatievlaanderen/association-registry/commit/cd8c5450fd1f681cc85a23e57143fef6f4da7ac6))
+* remove middleware and generic rulebuilder with rulefor and ruleforeach in respective validators ([d25ef42](https://github.com/informatievlaanderen/association-registry/commit/d25ef42e06f811149c84a5b159dab275235de127))
+
+
+### Features
+
+* OR-2035 add more tests for string and string[] ([b2274ba](https://github.com/informatievlaanderen/association-registry/commit/b2274bab885c74e8f2a393fa38b22d5892ee4d0b))
+* or-2035 remove HtmlSanitizer ([709f6e8](https://github.com/informatievlaanderen/association-registry/commit/709f6e870ef5a90f6c6de8b5d6f814504739b667))
+* or-2035 wip: add property name to prevent exception ([c77601a](https://github.com/informatievlaanderen/association-registry/commit/c77601ac20dc865093e4091bcebe872ae069f06f))
+* or-2035 wip: add seq ([ac4024c](https://github.com/informatievlaanderen/association-registry/commit/ac4024cf412be8f690e58e8df499b23e3fceb2aa))
+* or-2035 wip: block html ([c21a120](https://github.com/informatievlaanderen/association-registry/commit/c21a1204f374554cad0234e24ef40414b2f7024d))
+* or-2035 wip: block html through attributes ([c21ad1a](https://github.com/informatievlaanderen/association-registry/commit/c21ad1a0863465f91f878de6ea6b7ff688aaf9da))
+
+# [8.40.0](https://github.com/informatievlaanderen/association-registry/compare/v8.39.0...v8.40.0) (2023-12-20)
+
+
+### Features
+
+* or-2013 add initiator to otel tracing via middleware ([95a1dc1](https://github.com/informatievlaanderen/association-registry/commit/95a1dc12c6e93d250883c8000a8edb6a1a729164))
+
+# [8.39.0](https://github.com/informatievlaanderen/association-registry/compare/v8.38.0...v8.39.0) (2023-12-20)
+
+
+### Features
+
+* or-2013 add correlationId to session ([6f388fe](https://github.com/informatievlaanderen/association-registry/commit/6f388fea0dafa21aa905278fea1483e76dd298a7))
+* or-2013 add initiator to otel tracing ([1e30b81](https://github.com/informatievlaanderen/association-registry/commit/1e30b81033cd90feaf7765ce83e51cb9fe0084b8))
+* or-2013 use lightweight session io obsolete method ([29ee136](https://github.com/informatievlaanderen/association-registry/commit/29ee136e752f14d296cfd1331c1e56a386293b46))
+
+# [8.38.0](https://github.com/informatievlaanderen/association-registry/compare/v8.37.0...v8.38.0) (2023-12-20)
+
+
+### Features
+
+* or-2006 make kbo numbers unique in tests; fix vlk; ([cb8f541](https://github.com/informatievlaanderen/association-registry/commit/cb8f541872f476839af644dd9cdb21521405c910))
+* or-2006 simple solution for or-2006 ([4f49efe](https://github.com/informatievlaanderen/association-registry/commit/4f49efe6909e922e979f8f4d18c973d7a8429da4))
+
+# [8.37.0](https://github.com/informatievlaanderen/association-registry/compare/v8.36.1...v8.37.0) (2023-12-18)
+
+
+### Features
+
+* or-1834 wip instrumentation ([2fe7c1a](https://github.com/informatievlaanderen/association-registry/commit/2fe7c1ab4f6d2697d134797be3e6883b413ed95c))
+* or-1834-metrics ([5e997c1](https://github.com/informatievlaanderen/association-registry/commit/5e997c1943f64c558396ddb60afcd904ee2adcb7))
+* replace otel with example and ignore it ([63ea653](https://github.com/informatievlaanderen/association-registry/commit/63ea65371476f0c605fc1b3f2fd3a3e761cf19bc))
+
+## [8.36.1](https://github.com/informatievlaanderen/association-registry/compare/v8.36.0...v8.36.1) (2023-12-15)
+
+
+### Bug Fixes
+
+* re-add obsolete afdeling event ([6bb703c](https://github.com/informatievlaanderen/association-registry/commit/6bb703ca4ad53a3bc53afb6dd37ff0061d0d0ed2))
+
+# [8.36.0](https://github.com/informatievlaanderen/association-registry/compare/v8.35.0...v8.36.0) (2023-12-15)
+
+
+### Bug Fixes
+
+* OR-1349 add mapping to sln ([23846c5](https://github.com/informatievlaanderen/association-registry/commit/23846c55316890b044041c8c00a99d293849a5aa))
+* OR-1349 remove folder from csproj ([5cc06a4](https://github.com/informatievlaanderen/association-registry/commit/5cc06a4a35203e00fe36ae308f41a8ce7c12c34a))
+
+
+### Features
+
+* or-1349 add security; delete views on rebuild ([66ca427](https://github.com/informatievlaanderen/association-registry/commit/66ca427239450888d6894962c5cffb430c0fc516))
+
+# [8.35.0](https://github.com/informatievlaanderen/association-registry/compare/v8.34.1...v8.35.0) (2023-12-14)
+
+
+### Bug Fixes
+
+* OR-1349 use asynchronous index creator ([84f7b47](https://github.com/informatievlaanderen/association-registry/commit/84f7b47a8c8d8aba148a526762b7ec781e09cf2a))
+
+
+### Features
+
+* OR-1349 add projections status endpoint and rebuild endpoints which remain undocumented in swagger ([3b9e073](https://github.com/informatievlaanderen/association-registry/commit/3b9e073d639037434e2ee0fdfa5da6f9fd88541b))
+* or-1349 add rebuild en status endpoints for projections ([debae61](https://github.com/informatievlaanderen/association-registry/commit/debae6184163d38ba57e57824bd9d084e651098b))
+* or-1349 stop elastic projection shard before removing indices ([fec4c52](https://github.com/informatievlaanderen/association-registry/commit/fec4c52a0d02a5e366ef4d9bffaad1b70a026a7d))
+
+## [8.34.1](https://github.com/informatievlaanderen/association-registry/compare/v8.34.0...v8.34.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* update nightly build in sync with main workflow ([a863115](https://github.com/informatievlaanderen/association-registry/commit/a86311508a0d935e9bf98aa7a32028b3ba3d0928))
+
+# [8.34.0](https://github.com/informatievlaanderen/association-registry/compare/v8.33.0...v8.34.0) (2023-12-11)
+
+
+### Features
+
+* or-2008 remove afdeling ([50c0b08](https://github.com/informatievlaanderen/association-registry/commit/50c0b084715f6738650ed8995b356e1aa782446c))
+* or-2008 remove afdeling relatie ([530523e](https://github.com/informatievlaanderen/association-registry/commit/530523e7b8a0bc64c80121bdbdc211c4f6707bcb))
+* remove aws folder ([f1f315d](https://github.com/informatievlaanderen/association-registry/commit/f1f315d89bbebf816276864f36029ea168b34e85))
+
+# [8.33.0](https://github.com/informatievlaanderen/association-registry/compare/v8.32.5...v8.33.0) (2023-12-11)
+
+
+### Features
+
+* add default sorting on VCode for beheer zoeken ([380988a](https://github.com/informatievlaanderen/association-registry/commit/380988a38997b6c6c524014f4c22a2400e6393b2))
+* or-2012 do not load temporary vertegenwoordigers on production ([935b7a7](https://github.com/informatievlaanderen/association-registry/commit/935b7a7e3861477c97f515b7ca309377ed6dd5d3))
+
+## [8.32.5](https://github.com/informatievlaanderen/association-registry/compare/v8.32.4...v8.32.5) (2023-12-11)
+
+
+### Bug Fixes
+
+* 0R-2009 use correct secrets for IK4 environment ([f719243](https://github.com/informatievlaanderen/association-registry/commit/f719243e0a0802c992d449f2070794a22106d197))
+* or-2009 remove override of docker registry ([e94c4de](https://github.com/informatievlaanderen/association-registry/commit/e94c4de76e2e0c2f04026d78d91be62f7c2a1899))
+* or-2009 use correct registry ([eb9835b](https://github.com/informatievlaanderen/association-registry/commit/eb9835b0b6052843ce39dc203eecce251de1ddb5))
+* or-2009 use correct registry everywhere ([acf083f](https://github.com/informatievlaanderen/association-registry/commit/acf083fa009c0367afc939fda2c15f8055182835))
+
+## [8.32.4](https://github.com/informatievlaanderen/association-registry/compare/v8.32.3...v8.32.4) (2023-12-11)
+
+
+### Bug Fixes
+
+* OR-2009 cleanup file names and image names ([acc2ccc](https://github.com/informatievlaanderen/association-registry/commit/acc2cccd8776b6e348a3f16bdbb3e5465704fcf8))
+* OR-2009 open System(.io) ([b652327](https://github.com/informatievlaanderen/association-registry/commit/b65232777ab1341a284fa1ab912112fe74b86599))
+* OR-2009 replace magda test data ([4b8b402](https://github.com/informatievlaanderen/association-registry/commit/4b8b40219fc98205bccac661f09a9cc0eca3f0e8))
+* OR-2009 update build.fsx with updated containerize ([72f1377](https://github.com/informatievlaanderen/association-registry/commit/72f13772675cdb1eb352f84e1aa1ab923275d086))
+
+## [8.32.3](https://github.com/informatievlaanderen/association-registry/compare/v8.32.2...v8.32.3) (2023-12-11)
+
+
+### Bug Fixes
+
+* OR-2009 remove non-IK4 workflows ([069dfa0](https://github.com/informatievlaanderen/association-registry/commit/069dfa0c2d56e643c1d3f973f63f5cb03a2d7d6d))
+
+## [8.32.2](https://github.com/informatievlaanderen/association-registry/compare/v8.32.1...v8.32.2) (2023-12-07)
+
+
+### Bug Fixes
+
+* or-2006 add extra duplicate check closer to persisting event ([9d69705](https://github.com/informatievlaanderen/association-registry/commit/9d69705a71716d36ae402c1a39009e1419be2b86))
+
+## [8.32.1](https://github.com/informatievlaanderen/association-registry/compare/v8.32.0...v8.32.1) (2023-12-07)
+
+
+### Bug Fixes
+
+* OR-2007 prevent 'no set method' exception with xml serialization ([cb62c64](https://github.com/informatievlaanderen/association-registry/commit/cb62c647d9eeed1cd1dd874bf3d5de3122bc158d))
+
+# [8.32.0](https://github.com/informatievlaanderen/association-registry/compare/v8.31.1...v8.32.0) (2023-12-05)
+
+
+### Bug Fixes
+
+* temp change of magda geefonderneming backend values ([73d5cc7](https://github.com/informatievlaanderen/association-registry/commit/73d5cc7d0b09bf8c82d6c951f0ae2fa7c62a7bcc))
+
+
+### Features
+
+* add more logs for magda geefonderneming ([5ef5bbb](https://github.com/informatievlaanderen/association-registry/commit/5ef5bbb7c6ee8a985a0ef1d98588919051288dad))
+
+## [8.31.1](https://github.com/informatievlaanderen/association-registry/compare/v8.31.0...v8.31.1) (2023-12-05)
+
+
+### Bug Fixes
+
+* add logging of magda response when not successful ([aa0273f](https://github.com/informatievlaanderen/association-registry/commit/aa0273f67303dca87ffeb833f6b1c839f29cebe4))
+
+# [8.31.0](https://github.com/informatievlaanderen/association-registry/compare/v8.30.0...v8.31.0) (2023-12-05)
+
+
+### Bug Fixes
+
+* OR-1972 add location from KBO after registration of association ([72f1e68](https://github.com/informatievlaanderen/association-registry/commit/72f1e68028044b60a6dfa8862e7ddaa7ae56f568))
+
+
+### Features
+
+* or-1972 do not return gestopte verenigingen in duplicatedetaction ([40cd6af](https://github.com/informatievlaanderen/association-registry/commit/40cd6afcac903ad76f5295ec6f1c4591237f2469))
+* or-1972 extract duplicate query into methods ([016f042](https://github.com/informatievlaanderen/association-registry/commit/016f0421fdff1329449b6359644db6ebad7463a7))
+* or-1972 ignor IsPrimair when comparing locaties ([b28e033](https://github.com/informatievlaanderen/association-registry/commit/b28e033412c4ba741c550257181995a4529dae48))
+* or-1972 revert to previous query, but improved ([22818b9](https://github.com/informatievlaanderen/association-registry/commit/22818b9ce8fd166d68af5e7bb5aa8b6101a522c9))
+
+# [8.30.0](https://github.com/informatievlaanderen/association-registry/compare/v8.29.1...v8.30.0) (2023-12-04)
+
+
+### Features
+
+* or-1990 rename hoofdactiviteiten.beschrijving to naam in publiek zoeken and hoofdactiviteiten endpoint ([b7162cd](https://github.com/informatievlaanderen/association-registry/commit/b7162cd1736523e549e61fa7a2e8ef6d34a2eef7))
+
+## [8.29.1](https://github.com/informatievlaanderen/association-registry/compare/v8.29.0...v8.29.1) (2023-12-01)
+
+
+### Bug Fixes
+
+* test op nightly ([0e364b0](https://github.com/informatievlaanderen/association-registry/commit/0e364b0f6cee12a1ef48a9ac502fd70f63006df6))
+
+# [8.29.0](https://github.com/informatievlaanderen/association-registry/compare/v8.28.1...v8.29.0) (2023-11-29)
+
+
+### Features
+
+* or-2003 rename type->verenigingstype beschrijving->naam in duplicatedetectionResponse ([2c42012](https://github.com/informatievlaanderen/association-registry/commit/2c420129210b032f373b03083c22439c03991701))
+
+## [8.28.1](https://github.com/informatievlaanderen/association-registry/compare/v8.28.0...v8.28.1) (2023-11-29)
+
+
+### Bug Fixes
+
+* make testname more unique ([2a07fa0](https://github.com/informatievlaanderen/association-registry/commit/2a07fa008dec94d56c514e8df4bbc0d7625d2114))
+
+# [8.28.0](https://github.com/informatievlaanderen/association-registry/compare/v8.27.0...v8.28.0) (2023-11-28)
+
+
+### Features
+
+* OR-1992 rename contactgegeven.type to contactgegeven.contactgegeventype ([b88da64](https://github.com/informatievlaanderen/association-registry/commit/b88da64b797eaaa5e7758c5d819347c291321631))
+* OR-1993 rename relatie.type to relatie.relatietype ([36535e4](https://github.com/informatievlaanderen/association-registry/commit/36535e404045a715ef233cfb74b9247026cb5f98))
+
+# [8.27.0](https://github.com/informatievlaanderen/association-registry/compare/v8.26.0...v8.27.0) (2023-11-27)
+
+
+### Bug Fixes
+
+* remove empty workflow ([1f9fd40](https://github.com/informatievlaanderen/association-registry/commit/1f9fd40ff30094496cbd14d6b7c726b50743e6fa))
+
+
+### Features
+
+* or-1972 add generic logger ([6714e67](https://github.com/informatievlaanderen/association-registry/commit/6714e6794d635f272c3ccf3e368374343e1db875))
+* or-1972 add logging when 400 from ES ([01f1f54](https://github.com/informatievlaanderen/association-registry/commit/01f1f54272bb505dfb76fd518313ec9b5749d30c))
+* or-1972 replace dots and underscores ([e42c396](https://github.com/informatievlaanderen/association-registry/commit/e42c39635e4a07a1a297f7211d4e9af26e2f45d3))
+
+# [8.26.0](https://github.com/informatievlaanderen/association-registry/compare/v8.25.0...v8.26.0) (2023-11-27)
+
+
+### Features
+
+* OR-1991 rename vereniging.type to vereniging.verenigingstype and .beschrijving to .naam ([c6f189b](https://github.com/informatievlaanderen/association-registry/commit/c6f189b1ee326268240a89f5e8db8c29b47e4e58))
+
+# [8.25.0](https://github.com/informatievlaanderen/association-registry/compare/v8.24.1...v8.25.0) (2023-11-27)
+
+
+### Features
+
+* OR-1990 rename hoofdactiviteitenVerenigingsloket.Beschrijving to .Naam ([fbf015c](https://github.com/informatievlaanderen/association-registry/commit/fbf015cb855f643782620e12c8fb969f00f29545))
+
+## [8.24.1](https://github.com/informatievlaanderen/association-registry/compare/v8.24.0...v8.24.1) (2023-11-23)
+
+
+### Bug Fixes
+
+* OR-1972 update elastic search for duplicates ([8342130](https://github.com/informatievlaanderen/association-registry/commit/8342130815c918120218de035a2680ad8ebb3687))
+
+# [8.24.0](https://github.com/informatievlaanderen/association-registry/compare/v8.23.2...v8.24.0) (2023-11-22)
+
+
+### Features
+
+* or-1972 do not try to find duplicates if no adres is given ([6f65928](https://github.com/informatievlaanderen/association-registry/commit/6f65928a2bdf471e175c7aa58e58c323c33be27a))
+* or-1972 validate startdatum before dupplicate check ([e7c9bc5](https://github.com/informatievlaanderen/association-registry/commit/e7c9bc5804fcaa15e31b9eb700e895f87e2632b3))
+
+## [8.23.2](https://github.com/informatievlaanderen/association-registry/compare/v8.23.1...v8.23.2) (2023-11-22)
+
+
+### Bug Fixes
+
+* added output for staging ik4 ([30c15ad](https://github.com/informatievlaanderen/association-registry/commit/30c15adfed167296096d348847cdb63e56482db9))
+
+## [8.23.1](https://github.com/informatievlaanderen/association-registry/compare/v8.23.0...v8.23.1) (2023-11-20)
+
+
+### Bug Fixes
+
+* update workflow for staging IK4 ([f973c34](https://github.com/informatievlaanderen/association-registry/commit/f973c349a6c8b8693ca791a02ea3095f1ea115c4))
+
+# [8.23.0](https://github.com/informatievlaanderen/association-registry/compare/v8.22.0...v8.23.0) (2023-11-20)
+
+
+### Features
+
+* or-1952 add docs for auto-register moedervereniging ([df45654](https://github.com/informatievlaanderen/association-registry/commit/df4565434222209f36615eb9d5256fa13f766783))
+
+# [8.22.0](https://github.com/informatievlaanderen/association-registry/compare/v8.21.0...v8.22.0) (2023-11-17)
+
+
+### Bug Fixes
+
+* OR-1972 cleanup csproj files ([a99a3f9](https://github.com/informatievlaanderen/association-registry/commit/a99a3f922bf04124f6f1bf6592665f7a6b05383b))
+* OR-1972 make machine appsettings optional ([5574026](https://github.com/informatievlaanderen/association-registry/commit/5574026b78a214e73d5a2dff9e34c531bd2a07ae))
+
+
+### Features
+
+* or-1972 clean up, make separate location type ([f53fb5d](https://github.com/informatievlaanderen/association-registry/commit/f53fb5d07bb0d92a231d667453f369e6741ae3df))
+* or-1972 detect duplicates with foezie search ([30744f5](https://github.com/informatievlaanderen/association-registry/commit/30744f5afa73f41793d61943659ec2c462f52863))
+* or-1972 first try ([c0d5984](https://github.com/informatievlaanderen/association-registry/commit/c0d5984d2754fe32dc03956c223997263706dda1))
+* or-1972 fix scenario ([44634fd](https://github.com/informatievlaanderen/association-registry/commit/44634fd5ec9041d73a04af721b5b86e8dbeb5b0a))
+* or-1972 set up integration test ([34d65dc](https://github.com/informatievlaanderen/association-registry/commit/34d65dcd0de6823a9ab6f48ca6131dc849e79c7a))
+
+# [8.21.0](https://github.com/informatievlaanderen/association-registry/compare/v8.20.0...v8.21.0) (2023-11-15)
+
+
+### Bug Fixes
+
+* or-1952 fix faulty test ([cc8e76c](https://github.com/informatievlaanderen/association-registry/commit/cc8e76cb0dd497f0f7f4c693d28b657eef215950))
+
+
+### Features
+
+* or-1952 registratie Moedervereniging uit KBO when registratie afdeling ([600be4a](https://github.com/informatievlaanderen/association-registry/commit/600be4a5e6cc06466b9ff6a18a5e2b53998e99aa))
+
+# [8.20.0](https://github.com/informatievlaanderen/association-registry/compare/v8.19.0...v8.20.0) (2023-11-15)
+
+
+### Bug Fixes
+
+* or-1759 compare case sensitive ([97cf254](https://github.com/informatievlaanderen/association-registry/commit/97cf254185c3a33f38b0bf97016674cf56e2d9b6))
+* or-1759 possible solution for naamswijziging afdeling ([2f57eff](https://github.com/informatievlaanderen/association-registry/commit/2f57eff507cb94b5c765c59e40c088c9efd7ac1a))
+
+
+### Features
+
+* or-1759 add naamwerdgewijzigd to publiek detail ([1a04da2](https://github.com/informatievlaanderen/association-registry/commit/1a04da2222c905935618ac5626e4d01fa7604ab0))
+* or-1759 remove redundant method ([a5ed8d8](https://github.com/informatievlaanderen/association-registry/commit/a5ed8d8ff5bc0df48a5a97022fc87ec507924568))
+
+# [8.19.0](https://github.com/informatievlaanderen/association-registry/compare/v8.18.0...v8.19.0) (2023-11-09)
+
+
+### Features
+
+* OR-1759 add rename on related associations ([145708f](https://github.com/informatievlaanderen/association-registry/commit/145708f8337113f8a23a0f9a4b19f972ac561c92))
+
+# [8.18.0](https://github.com/informatievlaanderen/association-registry/compare/v8.17.0...v8.18.0) (2023-11-07)
+
+
+### Features
+
+* add deploy target ([65b155a](https://github.com/informatievlaanderen/association-registry/commit/65b155a6da5dc7bdd0e6f97ada0f493b9224e98c))
+
+# [8.17.0](https://github.com/informatievlaanderen/association-registry/compare/v8.16.0...v8.17.0) (2023-11-06)
+
+
+### Features
+
+* or-1932 use separate environment for test in CI ([466e42e](https://github.com/informatievlaanderen/association-registry/commit/466e42e241c6b25047a0c9dabf1a4a25062a71e8))
+* or-1932 use separate environments ([97011c4](https://github.com/informatievlaanderen/association-registry/commit/97011c4dc2131ca232948a27cfeddd01a22b9ec6))
+* or-1932 use separate environments for status url ([adfef11](https://github.com/informatievlaanderen/association-registry/commit/adfef116ad1f55554ef4e7e8a886cb60bad93c41))
+
+# [8.16.0](https://github.com/informatievlaanderen/association-registry/compare/v8.15.0...v8.16.0) (2023-11-06)
+
+
+### Features
+
+* or-1932 add manual deploy staging script ([483a07c](https://github.com/informatievlaanderen/association-registry/commit/483a07cf234e670e95a899c8c8044fe1f4eba301))
+
+# [8.15.0](https://github.com/informatievlaanderen/association-registry/compare/v8.14.0...v8.15.0) (2023-10-31)
+
+
+### Features
+
+* or-1965 always output ([3573337](https://github.com/informatievlaanderen/association-registry/commit/3573337f2b385a4e9ad59721f3758d351807ff1b))
+* or-1965 use correct names in manual deploy ([b2a63a5](https://github.com/informatievlaanderen/association-registry/commit/b2a63a5f9ebe43fdfb5545de933ce28b3798f4d3))
+* or-1965 use main branch again ([c289a9b](https://github.com/informatievlaanderen/association-registry/commit/c289a9bc98fc6ffe699fa3bb533b4027bcc3bb12))
+
+# [8.14.0](https://github.com/informatievlaanderen/association-registry/compare/v8.13.0...v8.14.0) (2023-10-31)
+
+
+### Features
+
+* or-1965 use vr version in manual deploy ([e79bce7](https://github.com/informatievlaanderen/association-registry/commit/e79bce784cc7de6a84ca311f6396520c04ab550c))
+
+# [8.13.0](https://github.com/informatievlaanderen/association-registry/compare/v8.12.0...v8.13.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 use vr version of polling action ([9ad04ac](https://github.com/informatievlaanderen/association-registry/commit/9ad04ac952ec6f22649ad9c7d0e394c02c28ea6c))
+
+# [8.12.0](https://github.com/informatievlaanderen/association-registry/compare/v8.11.0...v8.12.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 add debug information when not able to connect to ES ([0819a9a](https://github.com/informatievlaanderen/association-registry/commit/0819a9ae4ea9817436f9fd8e2313ab5a304e507d))
+* or-1965 correct names of local images ([185027c](https://github.com/informatievlaanderen/association-registry/commit/185027c5002d1e33750c2037ba24cb805b6c1d55))
+
+# [8.11.0](https://github.com/informatievlaanderen/association-registry/compare/v8.10.0...v8.11.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 deploy using correct service names ([88fe815](https://github.com/informatievlaanderen/association-registry/commit/88fe815ccc18434f872ebd4039c84749bd08c3a1))
+
+# [8.10.0](https://github.com/informatievlaanderen/association-registry/compare/v8.9.0...v8.10.0) (2023-10-30)
+
+
+### Features
+
+* or-1965 deploy using ik4 api ([645ff37](https://github.com/informatievlaanderen/association-registry/commit/645ff372164f743415c44bc37c37fe23c7a49a77))
+
+# [8.9.0](https://github.com/informatievlaanderen/association-registry/compare/v8.8.1...v8.9.0) (2023-10-26)
+
+
+### Features
+
+* or-1929 push images to test env (ik4) ([394b2e6](https://github.com/informatievlaanderen/association-registry/commit/394b2e69ab84f8bc96c087a3bdf1b86a4558c880))
+
+## [8.8.1](https://github.com/informatievlaanderen/association-registry/compare/v8.8.0...v8.8.1) (2023-10-25)
+
+
+### Bug Fixes
+
+* OR-1956 add nightly build ([88f0e7f](https://github.com/informatievlaanderen/association-registry/commit/88f0e7f97d69ff98fa40ae3ac43b9fa7b5775dda))
+
+# [8.8.0](https://github.com/informatievlaanderen/association-registry/compare/v8.7.1...v8.8.0) (2023-10-19)
+
+
+### Bug Fixes
+
+* or-1941 include devDeps for generate_token ([10119d9](https://github.com/informatievlaanderen/association-registry/commit/10119d9fb1dbc52d748a38ca09c8ebc758a1717b))
+* or-1941 install npm deps ([84963dd](https://github.com/informatievlaanderen/association-registry/commit/84963dd63304c0d91733dcee094ef227559ec361))
+
+
+### Features
+
+* or-1941 use token for github hardening ([90d946f](https://github.com/informatievlaanderen/association-registry/commit/90d946f5ee75c0dbd216df11f74eac4232a2c71e))
+
+## [8.7.1](https://github.com/informatievlaanderen/association-registry/compare/v8.7.0...v8.7.1) (2023-10-17)
+
+
+### Bug Fixes
+
+* or-1949 rm unnecessary response docs ([533fb37](https://github.com/informatievlaanderen/association-registry/commit/533fb37c326899f35af74e9e810fa77216e91367))
+
+# [8.7.0](https://github.com/informatievlaanderen/association-registry/compare/v8.6.0...v8.7.0) (2023-10-17)
+
+
+### Bug Fixes
+
+* add good default for magda ([7c8b476](https://github.com/informatievlaanderen/association-registry/commit/7c8b4767e37f7dfab1e56e3966d235be2732f0d0))
+* OR-1949 add documentation and response types ([44798a0](https://github.com/informatievlaanderen/association-registry/commit/44798a025b8f938303b934a895fc3df1db26298c))
+* or-1949 unify 412 problemdetails and examples ([3c291e2](https://github.com/informatievlaanderen/association-registry/commit/3c291e2b841a20b73be8269ea34ccbd9f13ec4dd))
+
+
+### Features
+
+* OR-1949 add response detail when not found result ([fef1188](https://github.com/informatievlaanderen/association-registry/commit/fef118837334b98a5e8626e50f1b150b2af88f60))
+* OR-1949 return 404 response which has detail filled in ([f6dfa50](https://github.com/informatievlaanderen/association-registry/commit/f6dfa50b2f86204086947ff83682dc451169ee6d))
+
+# [8.6.0](https://github.com/informatievlaanderen/association-registry/compare/v8.5.0...v8.6.0) (2023-10-09)
+
+
+### Features
+
+* or-1930 insert old registry ([ee51c3e](https://github.com/informatievlaanderen/association-registry/commit/ee51c3e261f52dddc00de15d7a9d22d858b8af5f))
+
+# [8.5.0](https://github.com/informatievlaanderen/association-registry/compare/v8.4.0...v8.5.0) (2023-10-09)
+
+
+### Features
+
+* or-1930 use new structure for docker registry ([325103a](https://github.com/informatievlaanderen/association-registry/commit/325103a6328ca46d78e19faa4a385244ded478c5))
+
+# [8.4.0](https://github.com/informatievlaanderen/association-registry/compare/v8.3.0...v8.4.0) (2023-10-09)
+
+
+### Features
+
+* throw when missing postgres config ([a32e9b4](https://github.com/informatievlaanderen/association-registry/commit/a32e9b496b49ffa919316a0c2d9a96e56f84056d))
+
+# [8.3.0](https://github.com/informatievlaanderen/association-registry/compare/v8.2.0...v8.3.0) (2023-10-02)
+
+
+### Features
+
+* use correct build credentials ([30d64c2](https://github.com/informatievlaanderen/association-registry/commit/30d64c2c3300cf4293c93118e713ff63fc03c750))
+
+# [8.2.0](https://github.com/informatievlaanderen/association-registry/compare/v8.1.0...v8.2.0) (2023-10-02)
+
+
+### Features
+
+* deploy images to ik4 ecr ([9356ec6](https://github.com/informatievlaanderen/association-registry/commit/9356ec69d87404e77c64a7300913565faab1cb62))
+
+# [8.1.0](https://github.com/informatievlaanderen/association-registry/compare/v8.0.0...v8.1.0) (2023-09-28)
+
+
+### Features
+
+* or-1926 add emtpy busnummer ([78c473c](https://github.com/informatievlaanderen/association-registry/commit/78c473c5b0b0643d0344c1ffde62ebe4989b3419))
+* or-1926 remove default value from roepnaam ([984d40f](https://github.com/informatievlaanderen/association-registry/commit/984d40f2edebb1bfa6a329c3698cd6e31e06afc3))
+
+# [8.0.0](https://github.com/informatievlaanderen/association-registry/compare/v7.40.0...v8.0.0) (2023-09-28)
+
+
+### Features
+
+* or-1925 display historiek item in zulu time ([6e93bab](https://github.com/informatievlaanderen/association-registry/commit/6e93bab7ef984ecb85a808dc063989b42d72addc))
+
+
+### BREAKING CHANGES
+
+* historiek item is now displayed in zulu format
+(yyyy-MM-ddTHH:mm:ssZ).
+
+# [7.40.0](https://github.com/informatievlaanderen/association-registry/compare/v7.39.0...v7.40.0) (2023-09-28)
+
+
+### Features
+
+* or-1927 rework projections ([f2f3508](https://github.com/informatievlaanderen/association-registry/commit/f2f350880acc3445e69d29af04390bdb4b625ec4))
+
+# [7.39.0](https://github.com/informatievlaanderen/association-registry/compare/v7.38.0...v7.39.0) (2023-09-28)
+
+
+### Features
+
+* or-1320 clarify which fields can be used for sorting ([992339b](https://github.com/informatievlaanderen/association-registry/commit/992339b1c604f4942cd6b832e5d9213f56c9c310))
+* or-1927 fix tests and cleanup ([aa9b9a4](https://github.com/informatievlaanderen/association-registry/commit/aa9b9a4dc36adb62e027cb922cd356fe9a241d0e))
+* or-1927 rework projector and projections to always update version ([0957e21](https://github.com/informatievlaanderen/association-registry/commit/0957e2115c2b2eb13e711ca626b9cdc0977bb014))
+
+# [7.38.0](https://github.com/informatievlaanderen/association-registry/compare/v7.37.0...v7.38.0) (2023-09-28)
+
+
+### Features
+
+* or-1918 remove old endpoint ([a2e1fb8](https://github.com/informatievlaanderen/association-registry/commit/a2e1fb8b91627bf16299f4bb4f8ccff815e64400))
+
+# [7.37.0](https://github.com/informatievlaanderen/association-registry/compare/v7.36.0...v7.37.0) (2023-09-28)
+
+
+### Features
+
+* or-1926 add schema filter to remove nullables ([c38123a](https://github.com/informatievlaanderen/association-registry/commit/c38123a47ea9d78449fe590174032eb98feef670))
+
+# [7.36.0](https://github.com/informatievlaanderen/association-registry/compare/v7.35.0...v7.36.0) (2023-09-27)
+
+
+### Features
+
+* or-1831 add mapper class ([d49a8bc](https://github.com/informatievlaanderen/association-registry/commit/d49a8bc2ab30932eeacc53cc1941d82cb952611c))
+* or-1831 add template for publiek zoek met feitelijke verenigingen ([b0e012d](https://github.com/informatievlaanderen/association-registry/commit/b0e012d4654ec45edc007db1b93810588038b175))
+* or-1831 make beheer detail template ([03246f8](https://github.com/informatievlaanderen/association-registry/commit/03246f814f86e690209ed67358e763e96bc39aaa))
+* or-1831 make template for beheer zoek ([f4543a0](https://github.com/informatievlaanderen/association-registry/commit/f4543a08ca0c745797fee544f5d3b9c7ba7e6399))
+* or-1831 make template for publiek detail ([bf1d100](https://github.com/informatievlaanderen/association-registry/commit/bf1d100e086e7c562bbf22ddf37bb178e78a89e2))
+* or-1831 move templates to project root ([8c25e8b](https://github.com/informatievlaanderen/association-registry/commit/8c25e8be9f7150ea891fedcc7b5bc8274a590c2b))
+* or-1831 rework tests ([f236a06](https://github.com/informatievlaanderen/association-registry/commit/f236a06cb3e512414f758bc1b244a5d0bffac68a))
+* or-1831 update test for vereniging met rechtspersoonlijkheid ([b5822b2](https://github.com/informatievlaanderen/association-registry/commit/b5822b2ad2907c31c49a82d865873992693d826e))
+* or-1831 use lambda for WithVereniging ([1e7cf66](https://github.com/informatievlaanderen/association-registry/commit/1e7cf66c11c1fc5235eb048402ff8797fcc83578))
+
+# [7.35.0](https://github.com/informatievlaanderen/association-registry/compare/v7.34.0...v7.35.0) (2023-09-25)
+
+
+### Features
+
+* OR-1222 Ensure no null properties in examples ([17d1f97](https://github.com/informatievlaanderen/association-registry/commit/17d1f9768b3840708589bf9f9e5f6b242efa50b7))
+* OR-1222 fix documentation line breaks ([8287a6e](https://github.com/informatievlaanderen/association-registry/commit/8287a6ec10c271108bcf87efb0e94ce4a71c8ca4))
+
+# [7.34.0](https://github.com/informatievlaanderen/association-registry/compare/v7.33.1...v7.34.0) (2023-09-25)
+
+
+### Features
+
+* OR-1924 upgrade critter stack ([#521](https://github.com/informatievlaanderen/association-registry/issues/521)) ([f92c73a](https://github.com/informatievlaanderen/association-registry/commit/f92c73aa1ba1cc5d1976ddced1f4a5430076477f))
+
+## [7.33.1](https://github.com/informatievlaanderen/association-registry/compare/v7.33.0...v7.33.1) (2023-09-21)
+
+# [7.33.0](https://github.com/informatievlaanderen/association-registry/compare/v7.32.0...v7.33.0) (2023-09-21)
+
+
+### Features
+
+* or-1831 add status and kboNummer to Acm api ([4885838](https://github.com/informatievlaanderen/association-registry/commit/4885838d0ee5ad601d50af60fa9bbbcc372a6a1e))
+
+# [7.32.0](https://github.com/informatievlaanderen/association-registry/compare/v7.31.1...v7.32.0) (2023-09-20)
+
+
+### Features
+
+* or-1222 add relaties toe publiek zoek ([8cded0b](https://github.com/informatievlaanderen/association-registry/commit/8cded0bdb40cf7454568ad6b64aebd8699b42766))
+* or-1222 Make sure appendXXX calls to ES are idempotent ([c87a2b9](https://github.com/informatievlaanderen/association-registry/commit/c87a2b908a9e263a4bd031bca5ffac98c5afef70))
+* or-1320 remove need to add keyword to all fields ([ff546c4](https://github.com/informatievlaanderen/association-registry/commit/ff546c4ec22c525bd7912f60d9b0ebd5f271cc2c))
+* or-1320 wait for elasticsearch and throw if index cannot be created ([6105371](https://github.com/informatievlaanderen/association-registry/commit/61053717ddead9ef5fa04cc4b257f58fd4271cd8))
+
+## [7.31.1](https://github.com/informatievlaanderen/association-registry/compare/v7.31.0...v7.31.1) (2023-09-20)
+
+
+### Bug Fixes
+
+* or-1903 place historiek in beheer folder ([c84facd](https://github.com/informatievlaanderen/association-registry/commit/c84facdbd40494850120e5db7ddd013c6062b47a))
+
+# [7.31.0](https://github.com/informatievlaanderen/association-registry/compare/v7.30.0...v7.31.0) (2023-09-19)
+
+
+### Features
+
+* or-1320 add docs ([68fc173](https://github.com/informatievlaanderen/association-registry/commit/68fc173c541f9b8241176d571210fc9251ed1d7a))
+
+# [7.30.0](https://github.com/informatievlaanderen/association-registry/compare/v7.29.0...v7.30.0) (2023-09-19)
+
+
+### Bug Fixes
+
+* or-1901 add new scenario for startdatum tests ([62dd930](https://github.com/informatievlaanderen/association-registry/commit/62dd930e385ba7f8b978902fd758c4bb93e85429))
+
+
+### Features
+
+* or-1320 add default sort at the end ([c25f77e](https://github.com/informatievlaanderen/association-registry/commit/c25f77e6798825738ba3420dcb808f30faf597eb))
+* or-1320 add sorting on top-level and nested fields ([fb8987e](https://github.com/informatievlaanderen/association-registry/commit/fb8987e058f7925aadf9c52109cc9d4c7147970c))
+* or-1320 implement more advanced sorting ([7eda81a](https://github.com/informatievlaanderen/association-registry/commit/7eda81a7e01d696243df003326834dfe5813d613))
+* or-1320 LocatieId not as number ([02b40c9](https://github.com/informatievlaanderen/association-registry/commit/02b40c9f7cfee92eeb0995e97e448f39a3f70019))
+
+# [7.29.0](https://github.com/informatievlaanderen/association-registry/compare/v7.28.0...v7.29.0) (2023-09-18)
+
+
+### Features
+
+* or-1901 add nullable to all types ([c6a31d1](https://github.com/informatievlaanderen/association-registry/commit/c6a31d1dfbf384323b5f91453c5391c3db121207))
+
+# [7.28.0](https://github.com/informatievlaanderen/association-registry/compare/v7.27.3...v7.28.0) (2023-09-18)
+
+
+### Features
+
+* or-1903 split contexts between beheer and publiek ([465bb6b](https://github.com/informatievlaanderen/association-registry/commit/465bb6b373594d207f0b0146d9cd9d17618faa9e))
+
+## [7.27.3](https://github.com/informatievlaanderen/association-registry/compare/v7.27.2...v7.27.3) (2023-09-15)
+
+
+### Bug Fixes
+
+* or-1885 verrijken naar wijzigen ([93e51db](https://github.com/informatievlaanderen/association-registry/commit/93e51db4c7ae5b7b8bd18e55d1a4a763f99749dc))
+
+## [7.27.2](https://github.com/informatievlaanderen/association-registry/compare/v7.27.1...v7.27.2) (2023-09-14)
+
+
+### Bug Fixes
+
+* or-1885 replace verrijken with wijzigen ([44f8591](https://github.com/informatievlaanderen/association-registry/commit/44f8591e77a353df3b8a2eee925087a4aa4abb2d))
+
+## [7.27.1](https://github.com/informatievlaanderen/association-registry/compare/v7.27.0...v7.27.1) (2023-09-14)
+
+
+### Bug Fixes
+
+* or-1903 update context url ([9078b03](https://github.com/informatievlaanderen/association-registry/commit/9078b03d57fe9ac8374ea47d6007111847fadce7))
+
+# [7.27.0](https://github.com/informatievlaanderen/association-registry/compare/v7.26.0...v7.27.0) (2023-09-14)
+
+
+### Features
+
+* or-1914 Add newsletter url to public api docs ([3875cd7](https://github.com/informatievlaanderen/association-registry/commit/3875cd7f72387ea8243c78e3c573294f82cb26c3))
+
+# [7.26.0](https://github.com/informatievlaanderen/association-registry/compare/v7.25.0...v7.26.0) (2023-09-14)
+
+
+### Features
+
+* or-1902 Remove hoofdactiviteiten endpoint from admin api ([6a86390](https://github.com/informatievlaanderen/association-registry/commit/6a8639050d45758d14933c7b0039830cf19c213e))
+* or-1903 Remove context endpoint from admin api ([65189b0](https://github.com/informatievlaanderen/association-registry/commit/65189b0b120d21d3073cd8ea7fbaf6f2d38bee5e))
+
+# [7.25.0](https://github.com/informatievlaanderen/association-registry/compare/v7.24.4...v7.25.0) (2023-09-14)
+
+
+### Features
+
+* or-1904 add duplicate endpoint registreer feitelijke vereinging ([59a6307](https://github.com/informatievlaanderen/association-registry/commit/59a630705e64b3992edaba85db260e9c243813f6))
+
+## [7.24.4](https://github.com/informatievlaanderen/association-registry/compare/v7.24.3...v7.24.4) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1908 use Swagger.Create ([60a60b7](https://github.com/informatievlaanderen/association-registry/commit/60a60b76c6fec74c809c72b9aadfd389e856f208))
+
+## [7.24.3](https://github.com/informatievlaanderen/association-registry/compare/v7.24.2...v7.24.3) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1908 add custom annotation for Produces and Consumes Json ([b611171](https://github.com/informatievlaanderen/association-registry/commit/b6111713468f2dc33c83b6854266cfc0381ad0f1))
+
+## [7.24.2](https://github.com/informatievlaanderen/association-registry/compare/v7.24.1...v7.24.2) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1900 fix errormessage for telefoonnummer ([067ddf6](https://github.com/informatievlaanderen/association-registry/commit/067ddf67a2be6378252e68d21f4f4333543380a2))
+* or-1905 fix maatschappelijkezetelCannotBeRemoved ([8d944e3](https://github.com/informatievlaanderen/association-registry/commit/8d944e3a111c8b2d04eabf3e4a5939cd17fde497))
+
+## [7.24.1](https://github.com/informatievlaanderen/association-registry/compare/v7.24.0...v7.24.1) (2023-09-13)
+
+
+### Bug Fixes
+
+* or-1885 fix condition ([e2dd0a8](https://github.com/informatievlaanderen/association-registry/commit/e2dd0a8a5fc8bd389d455b2c7f92ae93ddf63e5a))
+
+# [7.24.0](https://github.com/informatievlaanderen/association-registry/compare/v7.23.0...v7.24.0) (2023-09-12)
+
+
+### Features
+
+* or-1888 handle ContactgegevenVolgensKBOWerdGewijzigd in beheer historiek ([c282500](https://github.com/informatievlaanderen/association-registry/commit/c282500c7ff9df69b9ed87fc0b5294fc4ab8fad8))
+* or-1888 place endpoint in correct swagger gorup ([34b3fa0](https://github.com/informatievlaanderen/association-registry/commit/34b3fa096ef572a8bc4c4f3c486a6a59c9fee9e6))
+* or-1888 process feedback ([2d556bf](https://github.com/informatievlaanderen/association-registry/commit/2d556bf63d619fd30011c9e1d1e4596efde62777))
+* or-1888 rename ContactgegevenVolgensKboWerdGewijzigd naar ContactgegevenUitKboWerdGewijzigd ([c54e08e](https://github.com/informatievlaanderen/association-registry/commit/c54e08ee2bf2adbf0528da3707080d7032a9a04b))
+* or-1888 verrijk contactgegevens van KBO ([07b2b3a](https://github.com/informatievlaanderen/association-registry/commit/07b2b3a95ee19d2370420dde8cf1c559fa2de41b))
+
+# [7.23.0](https://github.com/informatievlaanderen/association-registry/compare/v7.22.0...v7.23.0) (2023-09-12)
+
+
+### Features
+
+* or-1885 test feedback ([f10b014](https://github.com/informatievlaanderen/association-registry/commit/f10b014b4c2ea688a46a2b4d43699e98aead3b30))
+
+# [7.22.0](https://github.com/informatievlaanderen/association-registry/compare/v7.21.1...v7.22.0) (2023-09-12)
+
+
+### Features
+
+* or-1826 add error messages ([c59ce70](https://github.com/informatievlaanderen/association-registry/commit/c59ce70e83b5730582fc88486117159702a0f2d8))
+
+## [7.21.1](https://github.com/informatievlaanderen/association-registry/compare/v7.21.0...v7.21.1) (2023-09-12)
+
+
+### Bug Fixes
+
+* or-1885 zetel without capital ([9456566](https://github.com/informatievlaanderen/association-registry/commit/94565660e71fccd4e39993d25c32ca2cc0f1ef87))
+
+# [7.21.0](https://github.com/informatievlaanderen/association-registry/compare/v7.20.1...v7.21.0) (2023-09-12)
+
+
+### Bug Fixes
+
+* or-1885 historiek message ([de18e6a](https://github.com/informatievlaanderen/association-registry/commit/de18e6a5223b0233363f157b133760e16c2840df))
+
+
+### Features
+
+* or-1885 Patch endpoint maatschappelijkeZetel ([d05e52e](https://github.com/informatievlaanderen/association-registry/commit/d05e52e39c55ccd17d84db40379ad07a9f73c269))
+* or-1885 projecties ([f2eff22](https://github.com/informatievlaanderen/association-registry/commit/f2eff225aca9ac83b09ab00c27f6c0bbf160b7fc))
+* or-1885 update documentatie ([9756307](https://github.com/informatievlaanderen/association-registry/commit/9756307a903cb5bf01d84465de137b11244cf16b))
+
+## [7.20.1](https://github.com/informatievlaanderen/association-registry/compare/v7.20.0...v7.20.1) (2023-09-11)
+
+
+### Bug Fixes
+
+* or-1425 hide stopped verenigingen in publiek detail ([08caaba](https://github.com/informatievlaanderen/association-registry/commit/08caaba8137a1718deca0b7b7d15106fe46ef4d4))
+
+# [7.20.0](https://github.com/informatievlaanderen/association-registry/compare/v7.19.0...v7.20.0) (2023-09-11)
+
+
+### Features
+
+* or-1826 allow verrijken vertegenwoordigers ([8d121c1](https://github.com/informatievlaanderen/association-registry/commit/8d121c15dbb5891576fc29ab3df8cea93906521e))
+
+# [7.19.0](https://github.com/informatievlaanderen/association-registry/compare/v7.18.0...v7.19.0) (2023-09-11)
+
+
+### Bug Fixes
+
+* or-1425 make Startdatum nullable Datum in RegistreerFeitelijkeVerenigingCommand ([f4e4685](https://github.com/informatievlaanderen/association-registry/commit/f4e4685dab436e14e20241a461c58404c242e9aa))
+* or-1425 rollback removal of vereniging gestopt and add filter ([281bd8b](https://github.com/informatievlaanderen/association-registry/commit/281bd8b93dad8cdf19200c9f01cb573b278e9bef))
+
+
+### Features
+
+* or-1425 fix musts ([248ce12](https://github.com/informatievlaanderen/association-registry/commit/248ce12d773ad2fedad556417c531179855b80f7))
+
+# [7.18.0](https://github.com/informatievlaanderen/association-registry/compare/v7.17.0...v7.18.0) (2023-09-11)
+
+
+### Features
+
+* or-1891 project ACM ([0a2a4cc](https://github.com/informatievlaanderen/association-registry/commit/0a2a4cca1d31421af3c720d96009ff99dea37baa))
+* or-1891 project beheer deatil ([f63f242](https://github.com/informatievlaanderen/association-registry/commit/f63f2424e20195486e4b9c79c3b54fd9141e2954))
+* or-1891 project beheer historiek ([0d632b6](https://github.com/informatievlaanderen/association-registry/commit/0d632b6f432cc5a022646bd3550c608033329007))
+
+# [7.17.0](https://github.com/informatievlaanderen/association-registry/compare/v7.16.0...v7.17.0) (2023-09-08)
+
+
+### Features
+
+* OR-1981 Use json string for vertegenwoordigers ([936434f](https://github.com/informatievlaanderen/association-registry/commit/936434f8d1b1e4c1ea64dd8ad918fd3e1ecb44f0))
+
+# [7.16.0](https://github.com/informatievlaanderen/association-registry/compare/v7.15.0...v7.16.0) (2023-09-08)
+
+
+### Features
+
+* or-1891 Bind configuration ([cb93a25](https://github.com/informatievlaanderen/association-registry/commit/cb93a2552da90c9f7e5bd50cfc79250b18ab5f59))
+
+# [7.15.0](https://github.com/informatievlaanderen/association-registry/compare/v7.14.0...v7.15.0) (2023-09-08)
+
+
+### Features
+
+* or-1891 add logging of value ([2b78a0c](https://github.com/informatievlaanderen/association-registry/commit/2b78a0c10b5c46731bbae13eb580ecdbfea45928))
+
+# [7.14.0](https://github.com/informatievlaanderen/association-registry/compare/v7.13.0...v7.14.0) (2023-09-08)
+
+
+### Features
+
+* OR-1891 Temp log section ([faba8d0](https://github.com/informatievlaanderen/association-registry/commit/faba8d0a16ddf8b61a6601e85fba71d098c3e937))
+
+# [7.13.0](https://github.com/informatievlaanderen/association-registry/compare/v7.12.1...v7.13.0) (2023-09-08)
+
+
+### Features
+
+* OR-1425 ensure temp vertegenwoordigers not null ([237b810](https://github.com/informatievlaanderen/association-registry/commit/237b810ef587d0d928d5eaf9af33a25e86e8df0b))
+* OR-1425 improve error messages ([f327788](https://github.com/informatievlaanderen/association-registry/commit/f327788073c1f3e5a9541378839efdba6435e29a))
+* OR-1891 Add vertegenwoordigers from static source on registration from kbo ([c4664c0](https://github.com/informatievlaanderen/association-registry/commit/c4664c048ac977b6490d04546664ecee84156a05))
+
+## [7.12.1](https://github.com/informatievlaanderen/association-registry/compare/v7.12.0...v7.12.1) (2023-09-07)
+
+
+### Bug Fixes
+
+* or-1892 fix time in example ([801b803](https://github.com/informatievlaanderen/association-registry/commit/801b80365bb63e3edf7f9992318a2ed1a74d66ab))
+
+# [7.12.0](https://github.com/informatievlaanderen/association-registry/compare/v7.11.1...v7.12.0) (2023-09-07)
+
+
+### Bug Fixes
+
+* or-1425 small fixes, formattings, and improvements ([dbc63fd](https://github.com/informatievlaanderen/association-registry/commit/dbc63fd8e6f2352095f32fd6de7b4cdde69a83ef))
+
+
+### Features
+
+* or-1425 stop vereniging missing tests ([3a51c8f](https://github.com/informatievlaanderen/association-registry/commit/3a51c8fd10bc65a1b8542a88497a7c577c14ac26))
+* or-1425 stop verenigingen ([dd89c6e](https://github.com/informatievlaanderen/association-registry/commit/dd89c6e7ae75db08127504b7d7d320b1fb05447f))
+
 ## [7.11.1](https://github.com/informatievlaanderen/association-registry/compare/v7.11.0...v7.11.1) (2023-09-04)
 
 

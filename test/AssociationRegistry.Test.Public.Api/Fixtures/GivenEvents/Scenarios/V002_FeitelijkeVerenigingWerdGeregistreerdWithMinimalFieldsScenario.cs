@@ -1,36 +1,36 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
-using Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Events;
 using NodaTime;
+using Vereniging;
 
 public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario
 {
-    private readonly string Naam = "Feesten Hulste";
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
+        VCode: "V0001002",
+        Naam: "Feesten Hulste",
+        string.Empty,
+        string.Empty,
+        Startdatum: null,
+        Registratiedata.Doelgroep.With(Doelgroep.Null),
+        IsUitgeschrevenUitPubliekeDatastroom: false,
+        Array.Empty<Registratiedata.Contactgegeven>(),
+        Array.Empty<Registratiedata.Locatie>(),
+        Array.Empty<Registratiedata.Vertegenwoordiger>(),
+        Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
     public VCode VCode
-        => VCode.Create("V0001002");
+        => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()
     {
         return new IEvent[]
         {
-            new FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                string.Empty,
-                string.Empty,
-                Startdatum: null,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
-                false,
-                Array.Empty<Registratiedata.Contactgegeven>(),
-                Array.Empty<Registratiedata.Locatie>(),
-                Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            FeitelijkeVerenigingWerdGeregistreerd,
         };
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 }

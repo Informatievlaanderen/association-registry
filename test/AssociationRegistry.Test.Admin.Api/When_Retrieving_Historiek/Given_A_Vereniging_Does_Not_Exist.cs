@@ -1,8 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Historiek;
 
-using System.Net;
+using AssociationRegistry.Admin.Api;
+using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
+using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,4 +25,14 @@ public class Given_A_Vereniging_Does_Not_Exist
     [Fact]
     public void Then_we_get_a_404()
         => _response.StatusCode.Should().Be(HttpStatusCode.NotFound);
+
+    [Fact]
+    public async Task Then_we_get_a_detail()
+    {
+        var content = await _response.Content.ReadAsStringAsync();
+        var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);
+
+        problemDetails.Detail.Should().NotBeEmpty();
+        problemDetails.Detail.Should().Be(ValidationMessages.Status404NotFound);
+    }
 }

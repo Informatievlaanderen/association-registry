@@ -1,8 +1,32 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 
+using System;
+
 public class AppSettings
 {
     private string? _baseUrl;
+    private string? _beheerProjectionHostBaseUrl;
+    private string? _publicApiBaseUrl;
+    private string? _publicProjectionHostBaseUrl;
+    private string? _kboSyncQueueUrl;
+
+    public string BeheerProjectionHostBaseUrl
+    {
+        get => _beheerProjectionHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _beheerProjectionHostBaseUrl = value;
+    }
+
+    public string PublicApiBaseUrl
+    {
+        get => _publicApiBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _publicApiBaseUrl = value;
+    }
+
+    public string PublicProjectionHostBaseUrl
+    {
+        get => _publicProjectionHostBaseUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _publicProjectionHostBaseUrl = value;
+    }
 
     public string BaseUrl
     {
@@ -10,16 +34,20 @@ public class AppSettings
         set => _baseUrl = value;
     }
 
+    public string KboSyncQueueUrl
+    {
+        get => _kboSyncQueueUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
+        set => _kboSyncQueueUrl = value;
+    }
+
+    public string[] SuperAdminClientIds { get; set; } = Array.Empty<string>();
     public string Salt { get; set; } = null!;
-
     public ApiDocsSettings ApiDocs { get; set; } = new();
-
     public SearchSettings Search { get; set; } = new();
 
     public class ApiDocsSettings
     {
         public string Title { get; set; } = null!;
-
         public ContactSettings Contact { get; set; } = null!;
 
         public class ContactSettings

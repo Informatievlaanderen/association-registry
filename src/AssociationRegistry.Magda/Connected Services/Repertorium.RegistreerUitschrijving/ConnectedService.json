@@ -1,0 +1,17 @@
+{
+  "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
+  "version": "2.0.3",
+  "ExtendedData": {
+    "inputs": [
+      "../../WSDL/Repertorium.RegistreerUitschrijvingDienst-02.01/WebService/RegistreerUitschrijving.wsdl"
+    ],
+    "internalTypeAccess": true,
+    "messageContract": true,
+    "namespaceMappings": [
+      "*, AssociationRegistry.Magda.Repertorium.RegistreerUitschrijving"
+    ],
+    "outputFile": "Repertorium.RegistreerInschrijving",
+    "targetFramework": "net6.0",
+    "typeReuseMode": "All"
+  }
+}

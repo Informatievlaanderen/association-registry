@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_Adres;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_An_Empty_Postcode : ValidatorTest
@@ -15,7 +16,8 @@ public class With_An_Empty_Postcode : ValidatorTest
     [Fact]
     public void Has_validation_error__postcode_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
@@ -23,7 +25,7 @@ public class With_An_Empty_Postcode : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "Dezestraat",
                         Gemeente = "Zonnedorp",
@@ -34,9 +36,11 @@ public class With_An_Empty_Postcode : ValidatorTest
                 },
             },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
-            .WithErrorMessage("'Postcode' mag niet leeg zijn.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Postcode)}")
+              .WithErrorMessage("'Postcode' mag niet leeg zijn.");
     }
 }

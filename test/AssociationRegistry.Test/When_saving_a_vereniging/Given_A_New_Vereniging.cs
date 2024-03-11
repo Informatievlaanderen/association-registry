@@ -1,15 +1,14 @@
 namespace AssociationRegistry.Test.When_saving_a_vereniging;
 
+using AssociationRegistry.Framework;
+using AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Vertegenwoordiger = Vereniging.Vertegenwoordiger;
 
 [UnitTest]
 public class Given_A_New_Vereniging : IAsyncLifetime
@@ -28,14 +27,15 @@ public class Given_A_New_Vereniging : IAsyncLifetime
 
         _vCode = VCode.Create(1001);
         _naam = VerenigingsNaam.Create("Vereniging 1");
+
         _vereniging = Vereniging.RegistreerFeitelijkeVereniging(
             _vCode,
             _naam,
-            null,
-            null,
-            Startdatum.Leeg,
+            korteNaam: null,
+            korteBeschrijving: null,
+            startDatum: null,
             Doelgroep.Null,
-            false,
+            uitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
@@ -62,7 +62,6 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         theEvent.KorteBeschrijving.Should().BeEmpty();
         theEvent.Startdatum.Should().BeNull();
     }
-
 
     public Task DisposeAsync()
         => Task.CompletedTask;

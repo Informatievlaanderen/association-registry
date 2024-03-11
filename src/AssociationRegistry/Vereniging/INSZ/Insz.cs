@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Framework;
 using Exceptions;
+using Framework;
 
 public record Insz
 {
@@ -16,6 +16,7 @@ public record Insz
     {
         var sanitezedInsz = Sanitize(insz);
         Validate(sanitezedInsz);
+
         return new Insz(sanitezedInsz);
     }
 
@@ -29,13 +30,13 @@ public record Insz
         => insz.Value;
 
     private static string Sanitize(string insz)
-        => insz.Replace(".", string.Empty).Replace("-", string.Empty);
+        => insz.Replace(oldValue: ".", string.Empty).Replace(oldValue: "-", string.Empty);
 
     private static void Validate(string sanitezedInsz)
     {
-        Throw<InvalidInszLength>.If(sanitezedInsz.Length != 11);
-        Throw<InvalidInszChars>.IfNot(ulong.TryParse(sanitezedInsz, out _));
-        Throw<InvalidInszMod97>.IfNot(Modulo97Correct(sanitezedInsz) ^ Modulo97Correct($"2{sanitezedInsz}"));
+        Throw<InszLengteIsOngeldig>.If(sanitezedInsz.Length != 11);
+        Throw<InszBevatOngeldigeTekens>.IfNot(ulong.TryParse(sanitezedInsz, out _));
+        Throw<InszMod97IsOngeldig>.IfNot(Modulo97Correct(sanitezedInsz) ^ Modulo97Correct($"2{sanitezedInsz}"));
     }
 
     private static bool Modulo97Correct(string value)
@@ -44,6 +45,7 @@ public record Insz
         var remainder = long.Parse(value[^2..]);
 
         var modulo97 = 97 - baseNumber % 97;
+
         return modulo97 == remainder;
     }
 }

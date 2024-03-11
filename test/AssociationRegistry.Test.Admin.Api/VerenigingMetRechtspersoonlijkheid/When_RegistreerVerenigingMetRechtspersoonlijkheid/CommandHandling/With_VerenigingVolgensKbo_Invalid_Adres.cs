@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
@@ -7,6 +8,8 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
+using ResultNet;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,17 +20,19 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+    private readonly LoggerFactory _loggerFactory;
 
     public With_VerenigingVolgensKbo_Invalid_Adres()
     {
+        _loggerFactory = new LoggerFactory();
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var commandMetadata = fixture.Create<CommandMetadata>();
         _verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>();
+
         _verenigingVolgensKbo.Adres = new AdresVolgensKbo
         {
             Straatnaam = fixture.Create<string>(),
@@ -40,17 +45,20 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
-            new MagdaGeefVerenigingNumberFoundMagdaGeefVerenigingService(
-                _verenigingVolgensKbo
-            ));
+            new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
 
         commandHandler
-            .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
-            .GetAwaiter()
-            .GetResult();
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .GetAwaiter()
+           .GetResult();
     }
 
     [Fact]
@@ -63,7 +71,7 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
                 _verenigingVolgensKbo.Type.Code,
                 _verenigingVolgensKbo.Naam!,
                 _verenigingVolgensKbo.KorteNaam!,
-                _verenigingVolgensKbo.StartDatum),
+                _verenigingVolgensKbo.Startdatum),
             new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
                 _verenigingVolgensKbo.Adres.Straatnaam ?? string.Empty,
                 _verenigingVolgensKbo.Adres.Huisnummer ?? string.Empty,
@@ -71,7 +79,8 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
                 _verenigingVolgensKbo.Adres.Postcode ?? string.Empty,
                 _verenigingVolgensKbo.Adres.Gemeente ?? string.Empty,
                 _verenigingVolgensKbo.Adres.Land ?? string.Empty
-            )
+            ),
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_command.KboNummer)
         );
     }
 }

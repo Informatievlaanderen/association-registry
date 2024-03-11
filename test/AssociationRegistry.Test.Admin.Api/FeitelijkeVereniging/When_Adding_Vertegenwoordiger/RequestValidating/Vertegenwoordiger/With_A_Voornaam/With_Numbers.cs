@@ -1,4 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.With_A_Voornaam;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestValidating.Vertegenwoordiger.
+    With_A_Voornaam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
@@ -16,6 +17,7 @@ public class With_Numbers
     public void Has_validation_error__Voornaam_mag_enkel_letters_bevatten(string voornaam)
     {
         var validator = new VoegVertegenwoordigerToeValidator();
+
         var request = new VoegVertegenwoordigerToeRequest
         {
             Vertegenwoordiger =
@@ -24,9 +26,11 @@ public class With_Numbers
                     Voornaam = voornaam,
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Voornaam)}")
-            .WithErrorMessage("'Voornaam' mag geen cijfers bevatten.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger)}.{nameof(ToeTeVoegenVertegenwoordiger.Voornaam)}")
+              .WithErrorMessage("'Voornaam' mag geen cijfers bevatten.");
     }
 }

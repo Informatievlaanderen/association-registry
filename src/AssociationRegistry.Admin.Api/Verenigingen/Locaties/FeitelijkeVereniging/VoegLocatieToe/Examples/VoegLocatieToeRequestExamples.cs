@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.Examples;
 
 using Common;
-using Vereniging;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using AdresId = Common.AdresId;
+using Vereniging;
 using Adres = Common.Adres;
+using AdresId = Common.AdresId;
 
 public class VoegLocatieToeRequestExamples : IExamplesProvider<VoegLocatieToeRequest>
 {

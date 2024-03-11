@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Acties.WijzigBasisgegevens;
 
 using Framework;
+using Primitives;
 using Vereniging;
 
 public class WijzigBasisgegevensCommandHandler
@@ -22,6 +23,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
 
@@ -33,14 +35,19 @@ public class WijzigBasisgegevensCommandHandler
         {
             case true:
                 vereniging.SchrijfUitUitPubliekeDatastroom();
+
                 break;
+
             case false:
                 vereniging.SchrijfInInPubliekeDatastroom();
+
                 break;
         }
     }
 
-    private static void WijzigHoofdactiviteitenVerenigingsloket(Vereniging vereniging, HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
+    private static void WijzigHoofdactiviteitenVerenigingsloket(
+        Vereniging vereniging,
+        HoofdactiviteitVerenigingsloket[]? hoofdactiviteitenVerenigingsloket)
     {
         if (hoofdactiviteitenVerenigingsloket is null)
             return;
@@ -48,12 +55,12 @@ public class WijzigBasisgegevensCommandHandler
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
     }
 
-    private static void HandleStartdatum(Vereniging vereniging, Startdatum? startdatum, IClock clock)
+    private static void HandleStartdatum(Vereniging vereniging, NullOrEmpty<Datum> startdatum, IClock clock)
     {
-        if (startdatum is null)
+        if (startdatum.IsNull)
             return;
 
-        vereniging.WijzigStartdatum(startdatum, clock);
+        vereniging.WijzigStartdatum(startdatum.IsEmpty ? null : startdatum.Value, clock);
     }
 
     private static void HandleKorteBeschrijving(Vereniging vereniging, string? korteBeschrijving)

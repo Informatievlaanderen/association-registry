@@ -1,32 +1,31 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Fakes;
 
-using EventStore;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
+using EventStore;
 using FluentAssertions;
-using IEvent = AssociationRegistry.Framework.IEvent;
+using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private VerenigingState? _verenigingToLoad;
-    private readonly VerenigingsRepository.VCodeAndNaam _moederVCodeAndNaam;
-
     public record SaveInvocation(VerenigingsBase Vereniging);
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
     // Anders kan er niet gecompared worden.
-    private record InvocationLoad(VCode VCode, Type Type);
-
+    private record InvocationLoad(string key, Type Type);
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, VerenigingsRepository.VCodeAndNaam moederVCodeAndNaam = null!)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null)
     {
         _verenigingToLoad = verenigingToLoad;
-        _moederVCodeAndNaam = moederVCodeAndNaam;
     }
 
-    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(
+        VerenigingsBase vereniging,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default)
     {
         SaveInvocations.Add(new SaveInvocation(vereniging));
 
@@ -40,29 +39,41 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(StreamActionResult.Empty);
     }
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
+        where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Add(new InvocationLoad(vCode, typeof(TVereniging)));
         var vereniging = new TVereniging();
         vereniging.Hydrate(_verenigingToLoad!);
+
         return await Task.FromResult(vereniging);
     }
 
-    public Task<VerenigingsRepository.VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
-        => Task.FromResult(_moederVCodeAndNaam)!;
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
+    {
+        _invocationsLoad.Add(new InvocationLoad(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid)));
 
-    public void ShouldHaveLoaded<TVereniging>(params string[] vCodes) where TVereniging : IHydrate<VerenigingState>, new()
+        if (_verenigingToLoad is null) throw new AggregateNotFoundException(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid));
+
+        var vereniging = new VerenigingMetRechtspersoonlijkheid();
+        vereniging.Hydrate(_verenigingToLoad);
+
+        return await Task.FromResult(vereniging);
+    }
+
+    public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(
-            vCodes.Select(vCode => new InvocationLoad(VCode.Create(vCode), typeof(TVereniging))),
-            options => options.WithStrictOrdering());
+            keys.Select(key => new InvocationLoad(key, typeof(TVereniging))),
+            config: options => options.WithStrictOrdering());
     }
 
     public void ShouldHaveSaved(params IEvent[] events)
     {
         SaveInvocations.Should().HaveCount(1);
+
         SaveInvocations[0].Vereniging.UncommittedEvents.Should()
-            .BeEquivalentTo(events, options => options.RespectingRuntimeTypes().WithStrictOrdering());
+                          .BeEquivalentTo(events, config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
     }
 
     public void ShouldNotHaveSaved<TEvent>() where TEvent : IEvent

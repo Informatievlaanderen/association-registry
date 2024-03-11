@@ -2,13 +2,13 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Emails;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,14 +33,15 @@ public class With_An_Unknown_ContactgegevenId
     public async Task Then_A_UnknownContactgegevenException_Is_Thrown()
     {
         var command = new WijzigContactgegevenCommand(_scenario.VCode, new WijzigContactgegevenCommand.CommandContactgegeven(
-            _fixture.Create<int>(),
-            _fixture.Create<Email>().Waarde,
-            _fixture.Create<string?>(),
-            IsPrimair: false));
+                                                          _fixture.Create<int>(),
+                                                          _fixture.Create<Email>().Waarde,
+                                                          _fixture.Create<string?>(),
+                                                          IsPrimair: false));
+
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<OnbekendContactgegeven>();
+        await handle.Should().ThrowAsync<ContactgegevenIsNietGekend>();
     }
 }

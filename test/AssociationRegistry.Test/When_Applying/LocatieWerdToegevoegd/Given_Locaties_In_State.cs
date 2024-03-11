@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.When_Applying.LocatieWerdToegevoegd;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -16,6 +16,7 @@ public class Given_Locaties_In_State
     public void Then_It_Uses_The_Next_NextId()
     {
         var fixture = new Fixture().CustomizeDomain();
+
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             Locaties = new[]
@@ -25,8 +26,9 @@ public class Given_Locaties_In_State
                 fixture.Create<Registratiedata.Locatie>() with { LocatieId = 3 },
             },
         };
+
         var state = new VerenigingState()
-            .Apply(feitelijkeVerenigingWerdGeregistreerd);
+           .Apply(feitelijkeVerenigingWerdGeregistreerd);
 
         var locatieWerdToegevoegd = new LocatieWerdToegevoegd(
             Locatie: fixture.Create<Registratiedata.Locatie>() with
@@ -39,5 +41,3 @@ public class Given_Locaties_In_State
         stateAfterApply.Locaties.NextId.Should().Be(5);
     }
 }
-
-

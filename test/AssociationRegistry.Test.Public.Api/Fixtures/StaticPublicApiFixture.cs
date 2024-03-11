@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
-using System.Reflection;
-using global::AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.Api;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 public class StaticPublicApiFixture : IDisposable
 {
@@ -17,8 +17,9 @@ public class StaticPublicApiFixture : IDisposable
     public StaticPublicApiFixture()
     {
         _webApplicationFactory = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder => { builder.UseConfiguration(GetConfiguration()); });
+
         HttpClient = _webApplicationFactory.CreateClient();
         DocumentStore = _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
     }
@@ -26,20 +27,23 @@ public class StaticPublicApiFixture : IDisposable
     private static IConfigurationRoot GetConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(GetRootDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+                     .SetBasePath(GetRootDirectory())
+                     .AddJsonFile(path: "appsettings.json", optional: true)
+                     .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
 
         var configurationRoot = builder.Build();
+
         return configurationRoot;
     }
 
     private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+                                .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
+
         return rootDirectory;
     }
 

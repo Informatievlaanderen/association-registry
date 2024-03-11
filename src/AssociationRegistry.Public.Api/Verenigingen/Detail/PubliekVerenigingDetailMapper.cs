@@ -1,20 +1,21 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using System.Linq;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using System.Linq;
 
 public static class PubliekVerenigingDetailMapper
 {
     public static PubliekVerenigingDetailResponse Map(PubliekVerenigingDetailDocument document, AppSettings appSettings)
         => new()
         {
-            Context = $"{appSettings.BaseUrl}/v1/contexten/detail-vereniging-context.json",
+            Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
+                type = document.JsonLdMetadataType,
                 VCode = document.VCode,
-                Type = Map(document.Type),
+                Verenigingstype = Map(document.Verenigingstype),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,
@@ -22,6 +23,8 @@ public static class PubliekVerenigingDetailMapper
                 Startdatum = document.Startdatum,
                 Doelgroep = new DoelgroepResponse
                 {
+                    id = document.Doelgroep.JsonLdMetadata.Id,
+                    type = document.Doelgroep.JsonLdMetadata.Type,
                     Minimumleeftijd = document.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = document.Doelgroep.Maximumleeftijd,
                 },
@@ -38,7 +41,7 @@ public static class PubliekVerenigingDetailMapper
     private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
         => new()
         {
-            Type = r.Type,
+            Relatietype = r.Relatietype,
             AndereVereniging = new Relatie.GerelateerdeVereniging
             {
                 KboNummer = r.AndereVereniging.KboNummer,
@@ -53,7 +56,9 @@ public static class PubliekVerenigingDetailMapper
     private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
         => new()
         {
-            Type = info.Type,
+            id = info.JsonLdMetadata.Id,
+            type = info.JsonLdMetadata.Type,
+            Contactgegeventype = info.Contactgegeventype,
             Waarde = info.Waarde,
             Beschrijving = info.Beschrijving,
             IsPrimair = info.IsPrimair,
@@ -63,29 +68,60 @@ public static class PubliekVerenigingDetailMapper
         => new()
         {
             Code = verenigingsType.Code,
-            Beschrijving = verenigingsType.Beschrijving,
+            Naam = verenigingsType.Naam,
         };
 
     private static Sleutel Map(PubliekVerenigingDetailDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
+
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
+
+            CodeerSysteem = s.CodeerSysteem,
             Bron = s.Bron,
             Waarde = s.Waarde,
         };
 
     private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
-        => new() { Code = ha.Code, Beschrijving = ha.Beschrijving };
+        => new()
+        {
+            id = ha.JsonLdMetadata.Id,
+            type = ha.JsonLdMetadata.Type,
+            Code = ha.Code,
+            Naam = ha.Naam,
+        };
 
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
         => new()
         {
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
             Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
             Naam = loc.Naam,
             Adres = Map(loc.Adres),
             AdresId = Map(loc.AdresId),
+            VerwijstNaar = Map(loc.VerwijstNaar),
         };
+
+    private static AdresVerwijzing? Map(PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? verwijzing)
+    {
+        if (verwijzing is null) return null;
+
+        return new AdresVerwijzing
+        {
+            id = verwijzing.JsonLdMetadata.Id,
+            type = verwijzing.JsonLdMetadata.Type,
+        };
+    }
 
     private static AdresId? Map(PubliekVerenigingDetailDocument.AdresId? adresId)
         => adresId is not null
@@ -100,6 +136,8 @@ public static class PubliekVerenigingDetailMapper
         => adres is not null
             ? new Adres
             {
+                id = adres.JsonLdMetadata.Id,
+                type = adres.JsonLdMetadata.Type,
                 Straatnaam = adres.Straatnaam,
                 Huisnummer = adres.Huisnummer,
                 Busnummer = adres.Busnummer,

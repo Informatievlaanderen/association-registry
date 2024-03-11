@@ -23,7 +23,7 @@ public record Locatie
 
     public static Locatie Create(string? naam, bool isPrimair, string locatieType, AdresId? adresId = null, Adres? adres = null)
     {
-        Throw<MissingAdres>.If(adresId is null && adres is null);
+        Throw<AdresOfAdresIdMoetAanwezigZijn>.If(adresId is null && adres is null);
 
         return new Locatie(naam, isPrimair, locatieType, adresId, adres);
     }
@@ -45,7 +45,7 @@ public record Locatie
 
     public virtual bool Equals(Locatie? other)
     {
-        if (ReferenceEquals(null, other)) return false;
+        if (ReferenceEquals(objA: null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
         if (Naam != other.Naam)
@@ -78,13 +78,14 @@ public record Locatie
     public override int GetHashCode()
         => HashCode.Combine(LocatieId, Naam, IsPrimair, Locatietype, AdresId, Adres);
 
-
-    public Locatie Wijzig(string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
+    public Locatie Wijzig(string? naam = null, Locatietype? locatietype = null, bool? isPrimair = null, AdresId? adresId = null, Adres? adres = null)
     {
-        Throw<MaatschappelijkeZetelCanNotBeUpdated>.If(Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
         if (adres is null && adresId is null)
             return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 
         return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
     }
+
+    public Locatie Wijzig(string? naam, bool? isPrimair)
+        => Create(naam ?? Naam, isPrimair ?? IsPrimair, Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 }

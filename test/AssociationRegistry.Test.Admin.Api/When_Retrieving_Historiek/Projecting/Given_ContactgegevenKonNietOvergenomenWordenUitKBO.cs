@@ -19,16 +19,16 @@ public class Given_ContactgegevenKonNietOvergenomenWordenUitKBO
         var fixture = new Fixture().CustomizeAdminApi();
         var contactgegevenKonNietOvergenomenWorden = fixture.Create<TestEvent<ContactgegevenKonNietOvergenomenWordenUitKBO>>();
 
-        var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
+        var doc = new BeheerVerenigingHistoriekDocument();
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenKonNietOvergenomenWorden, doc);
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.Type}' kon niet overgenomen worden uit KBO.",
+                $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.TypeVolgensKbo}' kon niet overgenomen worden uit KBO.",
                 nameof(ContactgegevenKonNietOvergenomenWordenUitKBO),
                 contactgegevenKonNietOvergenomenWorden.Data,
                 contactgegevenKonNietOvergenomenWorden.Initiator,
-                contactgegevenKonNietOvergenomenWorden.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenKonNietOvergenomenWorden.Tijdstip.ToZuluTime()));
     }
 }

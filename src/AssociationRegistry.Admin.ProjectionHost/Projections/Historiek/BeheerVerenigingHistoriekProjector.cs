@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
-using System.Collections.Generic;
 using Constants;
 using Events;
 using Framework;
@@ -9,18 +8,15 @@ using Marten.Events;
 using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
+using Vereniging;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjector
 {
-    public static BeheerVerenigingHistoriekDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+    public static BeheerVerenigingHistoriekDocument Create(
+        IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var beheerVerenigingHistoriekDocument = CreateNewDocument(feitelijkeVerenigingWerdGeregistreerd.Data.VCode);
 
         AddHistoriekEntry(
             feitelijkeVerenigingWerdGeregistreerd,
@@ -31,41 +27,10 @@ public class BeheerVerenigingHistoriekProjector
         return beheerVerenigingHistoriekDocument;
     }
 
-    public static BeheerVerenigingHistoriekDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+    public static BeheerVerenigingHistoriekDocument Create(
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
     {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
-
-        AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            beheerVerenigingHistoriekDocument,
-            $"Afdeling werd geregistreerd met naam '{afdelingWerdGeregistreerd.Data.Naam}'.");
-
-        return beheerVerenigingHistoriekDocument;
-    }
-
-    public static void Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingHistoriekDocument moeder)
-    {
-        AddHistoriekEntry(
-            afdelingWerdGeregistreerd,
-            AfdelingWerdGeregistreerdData.Create(afdelingWerdGeregistreerd.Data),
-            moeder,
-            $"'{afdelingWerdGeregistreerd.Data.Naam}' werd geregistreerd als afdeling.");
-    }
-
-    public static BeheerVerenigingHistoriekDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-    {
-        var beheerVerenigingHistoriekDocument = new BeheerVerenigingHistoriekDocument
-        {
-            VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
-            Metadata = new Metadata(Sequence: 0, Version: 0),
-        };
+        var beheerVerenigingHistoriekDocument = CreateNewDocument(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode);
 
         AddHistoriekEntry(
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
@@ -93,7 +58,9 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Korte naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}'.");
 
-    public static void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             korteBeschrijvingWerdGewijzigd,
             document,
@@ -116,7 +83,29 @@ public class BeheerVerenigingHistoriekProjector
             AddHistoriekEntry(
                 startdatumWerdGewijzigd,
                 document,
-                "Startdatum werd verwijderd."
+                beschrijving: "Startdatum werd verwijderd."
+            );
+        }
+    }
+
+    public static void Apply(IEvent<StartdatumWerdGewijzigdInKbo> startdatumWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        if (startdatumWerdGewijzigdInKbo.Data.Startdatum is { } startdatum)
+        {
+            var startDatumString = startdatum.ToString(WellknownFormats.DateOnly);
+
+            AddHistoriekEntry(
+                startdatumWerdGewijzigdInKbo,
+                document,
+                $"In KBO werd de startdatum gewijzigd naar '{startDatumString}'."
+            );
+        }
+        else
+        {
+            AddHistoriekEntry(
+                startdatumWerdGewijzigdInKbo,
+                document,
+                beschrijving: "In KBO werd de startdatum verwijderd."
             );
         }
     }
@@ -128,21 +117,21 @@ public class BeheerVerenigingHistoriekProjector
             $"Doelgroep werd gewijzigd naar '{doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd} " +
             $"- {doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd}'.");
 
-    public static void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
             hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
             document,
-            "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
+            beschrijving: "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             contactgegevenWerdToegevoegd,
             document,
-            $"{contactgegevenWerdToegevoegd.Data.Type} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
+            $"{contactgegevenWerdToegevoegd.Data.Contactgegeventype} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
@@ -152,8 +141,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"{contactgegevenWerdVerwijderd.Data.Type} '{contactgegevenWerdVerwijderd.Data.Waarde}' werd verwijderd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -161,13 +148,13 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             contactgegevenWerdGewijzigd,
             document,
-            $"{contactgegevenWerdGewijzigd.Data.Type} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
+            $"{contactgegevenWerdGewijzigd.Data.Contactgegeventype} '{contactgegevenWerdGewijzigd.Data.Waarde}' werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdToegevoegd,
@@ -175,11 +162,11 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{vertegenwoordigerWerdToegevoegd.Data.Voornaam} {vertegenwoordigerWerdToegevoegd.Data.Achternaam}' werd toegevoegd als vertegenwoordiger."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdGewijzigd,
@@ -187,11 +174,11 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdGewijzigd.Data.Voornaam} {vertegenwoordigerWerdGewijzigd.Data.Achternaam}' werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             vertegenwoordigerWerdVerwijderd,
@@ -199,32 +186,30 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"Vertegenwoordiger '{vertegenwoordigerWerdVerwijderd.Data.Voornaam} {vertegenwoordigerWerdVerwijderd.Data.Achternaam}' werd verwijderd."
         );
-
-        document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
-    public static void Apply(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             verenigingWerdUitgeschrevenUitPubliekeDatastroom,
             verenigingWerdUitgeschrevenUitPubliekeDatastroom.Data,
             document,
-            $"Vereniging werd uitgeschreven uit de publieke datastroom."
+            beschrijving: "Vereniging werd uitgeschreven uit de publieke datastroom."
         );
-
-        document.Metadata = new Metadata(verenigingWerdUitgeschrevenUitPubliekeDatastroom.Sequence, verenigingWerdUitgeschrevenUitPubliekeDatastroom.Version);
     }
 
-    public static void Apply(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdIngeschrevenInPubliekeDatastroom,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             verenigingWerdIngeschrevenInPubliekeDatastroom,
             verenigingWerdIngeschrevenInPubliekeDatastroom.Data,
             document,
-            $"Vereniging werd ingeschreven in de publieke datastroom."
+            beschrijving: "Vereniging werd ingeschreven in de publieke datastroom."
         );
-
-        document.Metadata = new Metadata(verenigingWerdIngeschrevenInPubliekeDatastroom.Sequence, verenigingWerdIngeschrevenInPubliekeDatastroom.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
@@ -239,8 +224,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdToegevoegd.Data.Locatie.Locatietype}' locatie {naam}werd toegevoegd."
         );
-
-        document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
@@ -255,8 +238,6 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdGewijzigd.Data.Locatie.Locatietype}' locatie {naam}werd gewijzigd."
         );
-
-        document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
@@ -271,14 +252,12 @@ public class BeheerVerenigingHistoriekProjector
             document,
             $"'{locatieWerdVerwijderd.Data.Locatie.Locatietype}' locatie {naam}werd verwijderd."
         );
-
-        document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToZuluTime();
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -288,14 +267,12 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
-
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
     private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateAndTime();
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToZuluTime();
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -305,53 +282,234 @@ public class BeheerVerenigingHistoriekProjector
                 initiator,
                 tijdstip
             )).ToList();
-
-        document.Metadata = new Metadata(@event.Sequence, @event.Version);
     }
 
-    public static void Apply(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
             document,
-            "De locatie met type ‘Maatschappelijke Zetel volgens KBO' werd overgenomen uit KBO."
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."
         );
-
-        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
-    public static void Apply(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdGewijzigdInKbo,
+            maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie,
+            document,
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd gewijzigd in KBO."
+        );
+    }
+
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            maatschappelijkeZetelWerdVerwijderdUitKbo,
+            maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie,
+            document,
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO' werd verwijderd uit KBO."
+        );
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        var contactgegevenWerdOvergenomenUitKbo = document.Gebeurtenissen
+                                                          .Where(x => x.Gebeurtenis == nameof(ContactgegevenWerdOvergenomenUitKBO))
+                                                          .Select(x => (ContactgegevenWerdOvergenomenUitKBO)x.Data!)
+                                                          .Single(x => x.ContactgegevenId ==
+                                                                       contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId);
+
+        var type = contactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo;
+        var waarde = contactgegevenWerdOvergenomenUitKbo.Waarde;
+
+        AddHistoriekEntry(
+            contactgegevenUitKboWerdGewijzigd,
+            contactgegevenUitKboWerdGewijzigd.Data,
+            document,
+            $"{type} '{waarde}' werd gewijzigd."
+        );
+    }
+
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        var naam = string.IsNullOrEmpty(maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam)
+            ? string.Empty
+            : $"'{maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam}' ";
+
+        AddHistoriekEntry(
+            maatschappelijkeZetelVolgensKboWerdGewijzigd,
+            maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
+            document,
+            beschrijving: "Maatschappelijke zetel volgens KBO werd gewijzigd."
+        );
+    }
+
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             maatschappelijkeZetelWerdOvergenomenUitKbo,
             maatschappelijkeZetelWerdOvergenomenUitKbo.Data,
             document,
-            "De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."
+            beschrijving: "De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."
         );
-
-        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
-    public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomen, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomen,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             contactgegevenWerdOvergenomen,
             document,
             $"Contactgegeven ‘{contactgegevenWerdOvergenomen.Data.TypeVolgensKbo}' werd overgenomen uit KBO."
         );
-
-        document.Metadata = new Metadata(contactgegevenWerdOvergenomen.Sequence, contactgegevenWerdOvergenomen.Version);
     }
 
-    public static void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> contactgegevenKonNietOvergenomenWorden, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> contactgegevenKonNietOvergenomenWorden,
+        BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             contactgegevenKonNietOvergenomenWorden,
             document,
             $"Contactgegeven ‘{contactgegevenKonNietOvergenomenWorden.Data.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."
         );
-
-        document.Metadata = new Metadata(contactgegevenKonNietOvergenomenWorden.Sequence, contactgegevenKonNietOvergenomenWorden.Version);
     }
+
+    public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdGestopt,
+            document,
+            $"De vereniging werd gestopt met einddatum '{verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+    }
+
+    public static void Apply(IEvent<VerenigingWerdGestoptInKBO> verenigingWerdGestoptInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdGestoptInKbo,
+            document,
+            $"De vereniging werd gestopt in KBO met einddatum '{verenigingWerdGestoptInKbo.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+    }
+
+    public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            einddatumWerdGewijzigd,
+            document,
+            $"De einddatum van de vereniging werd gewijzigd naar '{einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly)}'."
+        );
+    }
+
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            vertegenwoordigerWerdOvergenomenUitKbo,
+            VertegenwoordigerData.Create(vertegenwoordigerWerdOvergenomenUitKbo.Data),
+            document,
+            $"Vertegenwoordiger '{vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam} {vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam}' werd overgenomen uit KBO."
+        );
+    }
+
+    public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            naamWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de naam gewijzigd naar '{naamWerdGewijzigdInKbo.Data.Naam}'."
+        );
+    }
+
+    public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            korteNaamWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de korte naam gewijzigd naar '{korteNaamWerdGewijzigdInKbo.Data.KorteNaam}'."
+        );
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdGewijzigdUitKbo,
+            document,
+            $"In KBO werd contactgegeven ‘{contactgegevenWerdGewijzigdUitKbo.Data.TypeVolgensKbo}' gewijzigd."
+        );
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdVerwijderdUitKbo,
+            document,
+            $"In KBO werd contactgegeven ‘{contactgegevenWerdVerwijderdUitKbo.Data.TypeVolgensKbo}' verwijderd."
+        );
+    }
+    public static void Apply(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> contactgegevenWerdInBeheerGenomenDoorKbo,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            contactgegevenWerdInBeheerGenomenDoorKbo,
+            document,
+            $"{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Contactgegeventype} '{contactgegevenWerdInBeheerGenomenDoorKbo.Data.Waarde}' werd in beheer genomen door KBO."
+        );
+    }
+
+    public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            rechtsvormWerdGewijzigdInKbo,
+            document,
+            $"In KBO werd de rechtsvorm gewijzigd naar '{Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam}'."
+        );
+    }
+
+    public static void UpdateMetadata(IEvent @event, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Metadata = new Metadata(@event.Sequence, @event.Version);
+    }
+
+    public static void Apply(IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    {
+        document.Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>();
+
+        AddHistoriekEntry(
+            verenigingWerdVerwijderd,
+            document,
+            beschrijving: "Deze vereniging werd verwijderd."
+        );
+    }
+
+    private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
+        => new()
+        {
+            VCode = vCode,
+            Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
+            Metadata = new Metadata(Sequence: 0, Version: 0),
+        };
 }

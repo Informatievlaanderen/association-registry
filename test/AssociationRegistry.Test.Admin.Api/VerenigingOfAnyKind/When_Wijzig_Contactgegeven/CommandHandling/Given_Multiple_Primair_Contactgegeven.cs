@@ -2,12 +2,12 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,9 +37,11 @@ public class Given_Multiple_Primair_Contactgegeven
                 _scenario.ContactgegevenWerdToegevoegd2.ContactgegevenId,
                 _scenario.ContactgegevenWerdToegevoegd2.Waarde,
                 _scenario.ContactgegevenWerdToegevoegd2.Beschrijving,
-                true)); // <== changed value
+                IsPrimair: true)); // <== changed value
 
-        var handle = () => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
-        await handle.Should().ThrowAsync<MultiplePrimairContactgegevens>();
+        var handle = ()
+            => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        await handle.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
     }
 }

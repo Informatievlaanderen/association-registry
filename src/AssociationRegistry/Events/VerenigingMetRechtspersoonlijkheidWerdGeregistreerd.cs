@@ -1,7 +1,8 @@
 namespace AssociationRegistry.Events;
 
-using System.Runtime.Serialization;
 using Framework;
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
 
 public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
     string VCode,
@@ -12,6 +13,6 @@ public record VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
     DateOnly? Startdatum) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => Vereniging.Bronnen.Bron.KBO;
+    public Bron Bron
+        => Bron.KBO;
 }

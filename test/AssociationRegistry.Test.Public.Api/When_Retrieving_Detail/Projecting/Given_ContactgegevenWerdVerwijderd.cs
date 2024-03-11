@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
-using Events;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
@@ -20,11 +19,12 @@ public class Given_ContactgegevenWerdVerwijderd
         var contactgegevenWerdVerwijderd = fixture.Create<TestEvent<ContactgegevenWerdVerwijderd>>();
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
+
         doc.Contactgegevens = doc.Contactgegevens.Append(
             new PubliekVerenigingDetailDocument.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
-                Type = fixture.Create<string>(),
+                Contactgegeventype = fixture.Create<string>(),
                 Waarde = fixture.Create<string>(),
                 Beschrijving = fixture.Create<string>(),
                 IsPrimair = fixture.Create<bool>(),
@@ -34,6 +34,5 @@ public class Given_ContactgegevenWerdVerwijderd
 
         doc.Contactgegevens.Should().NotContain(c => c.ContactgegevenId == contactgegevenWerdVerwijderd.Data.ContactgegevenId);
         doc.Contactgegevens.Should().BeInAscendingOrder(c => c.ContactgegevenId);
-        doc.DatumLaatsteAanpassing.Should().Be(contactgegevenWerdVerwijderd.Tijdstip.ToBelgianDate());
     }
 }

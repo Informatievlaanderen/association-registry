@@ -6,6 +6,14 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Locatie
 {
+    /// <summary>De json-ld id</summary>
+    [DataMember(Name = "@id")]
+    public string id { get; init; }
+
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
     /// <summary>
     ///     De unieke identificatie code van deze locatie binnen de vereniging
     /// </summary>
@@ -33,7 +41,7 @@ public class Locatie
 
     /// <summary>De adrescomponenten van de locatie</summary>
     [DataMember(Name = "Adres")]
-    public Adres? Adres { get; init; } = null!;
+    public Adres? Adres { get; init; }
 
     /// <summary>Een standaard geformatteerde weergave van het adres van de locatie</summary>
     [DataMember(Name = "Adresvoorstelling")]
@@ -45,6 +53,12 @@ public class Locatie
     [DataMember(Name = "AdresId")]
     public AdresId? AdresId { get; set; }
 
+    /// <summary>
+    ///     De verwijzing naar een adres in het adresregister
+    /// </summary>
+    [DataMember(Name = "VerwijstNaar")]
+    public AdresVerwijzing? VerwijstNaar { get; set; }
+
     /// <summary> De bron die deze locatie beheert.
     /// <br />
     ///     Mogelijke waarden:<br />
@@ -52,6 +66,5 @@ public class Locatie
     ///     - KBO
     ///</summary>
     [DataMember(Name = "Bron")]
-
     public string Bron { get; set; } = null!;
 }

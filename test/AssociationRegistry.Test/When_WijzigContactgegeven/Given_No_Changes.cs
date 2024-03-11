@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.When_WijzigContactgegeven;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,7 +18,8 @@ public class Given_No_Changes
         var vereniging = new VerenigingOfAnyKind();
         vereniging.Hydrate(givenState);
 
-        vereniging.WijzigContactgegeven(duplicateContactgegeven.ContactgegevenId, duplicateContactgegeven.Waarde, duplicateContactgegeven.Beschrijving, duplicateContactgegeven.IsPrimair);
+        vereniging.WijzigContactgegeven(duplicateContactgegeven.ContactgegevenId, duplicateContactgegeven.Waarde,
+                                        duplicateContactgegeven.Beschrijving, duplicateContactgegeven.IsPrimair);
 
         vereniging.UncommittedEvents.Should().BeEmpty();
     }
@@ -36,15 +37,6 @@ public class Given_No_Changes
                 new object[]
                 {
                     new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Contactgegevens = new[] { contactgegeven },
-                        }),
-                    gewijzigdeLocatie,
-                },
-                new object[]
-                {
-                    new VerenigingState().Apply(
                         fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                         {
                             Contactgegevens = new[] { contactgegeven },
@@ -54,8 +46,10 @@ public class Given_No_Changes
                 new object[]
                 {
                     new VerenigingState()
-                        .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-                        .Apply(new ContactgegevenWerdToegevoegd(contactgegeven.ContactgegevenId, contactgegeven.Type, contactgegeven.Waarde, contactgegeven.Beschrijving, contactgegeven.IsPrimair)),
+                       .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
+                       .Apply(new ContactgegevenWerdToegevoegd(contactgegeven.ContactgegevenId, contactgegeven.Contactgegeventype,
+                                                               contactgegeven.Waarde, contactgegeven.Beschrijving,
+                                                               contactgegeven.IsPrimair)),
                     gewijzigdeLocatie,
                 },
             };

@@ -1,19 +1,20 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using Vereniging;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -54,7 +55,9 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     private readonly IDocumentStore _documentStore;
     private readonly AppSettings _appSettings;
 
-    public With_All_BasisGegevensWerdenGewijzigd(When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup, EventsInDbScenariosFixture fixture)
+    public With_All_BasisGegevensWerdenGewijzigd(
+        When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup setup,
+        EventsInDbScenariosFixture fixture)
     {
         _request = setup.Request;
         _response = setup.Response;
@@ -76,9 +79,12 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam!));
 
         var korteBeschrijvingWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd));
-        korteBeschrijvingWerdGewijzigd.Data.Should().BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
+
+        korteBeschrijvingWerdGewijzigd.Data.Should()
+                                      .BeEquivalentTo(new KorteBeschrijvingWerdGewijzigd(_vCode, _request.KorteBeschrijving!));
 
         var doelgroepWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(DoelgroepWerdGewijzigd));
+
         doelgroepWerdGewijzigd.Data.Should()
                               .BeEquivalentTo(new DoelgroepWerdGewijzigd(
                                                   new Registratiedata.Doelgroep(_request.Doelgroep!.Minimumleeftijd!.Value,
@@ -88,7 +94,8 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
 
         hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
+            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!
+                                                                          .Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
     }
 
     [Fact]
@@ -100,7 +107,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        _response.Headers.Should().ContainKey(HeaderNames.Location);
 
         _response.Headers.Location!.OriginalString.Should()
                  .StartWith($"{_appSettings.BaseUrl}/v1/verenigingen/V");

@@ -21,7 +21,6 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
-
     private readonly V030_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data _scenario;
 
     public Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Invalid_Data(EventsInDbScenariosFixture fixture)
@@ -55,11 +54,11 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
     public async Task Then_we_get_registratie_gebeurtenis_for_moeder()
     {
         var content = await _response.Content.ReadAsStringAsync();
-        content = Regex.Replace(content, "\"datumLaatsteAanpassing\":\".+\"", "\"datumLaatsteAanpassing\":\"\"");
+        content = Regex.Replace(content, pattern: "\"datumLaatsteAanpassing\":\".+\"", replacement: "\"datumLaatsteAanpassing\":\"\"");
 
         var expected = $@"
             {{
-                ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/historiek-vereniging-context.json"}"",
+                ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/historiek-vereniging-context.json"}"",
                 ""vCode"": ""{_vCode}"",
                 ""gebeurtenissen"": [
                     {{
@@ -67,39 +66,39 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
-                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke Zetel volgens KBO’ kon niet overgenomen worden uit KBO."",
+                        ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GsmKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GsmKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

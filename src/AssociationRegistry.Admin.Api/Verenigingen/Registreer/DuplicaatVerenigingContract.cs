@@ -11,7 +11,7 @@ public class DuplicaatVerenigingContract
         string vCode,
         string naam,
         string korteNaam,
-        VerenigingsType type,
+        VerenigingsType verenigingstype,
         ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
         ImmutableArray<Locatie> locaties,
         VerenigingLinks links)
@@ -19,7 +19,7 @@ public class DuplicaatVerenigingContract
         VCode = vCode;
         Naam = naam;
         KorteNaam = korteNaam;
-        Type = type;
+        Verenigingstype = verenigingstype;
         HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
         Locaties = locaties;
         Links = links;
@@ -38,8 +38,8 @@ public class DuplicaatVerenigingContract
     public string KorteNaam { get; init; }
 
     /// <summary>Type van de vereniging</summary>
-    [DataMember(Name = "Type")]
-    public VerenigingsType Type { get; init; }
+    [DataMember(Name = "Verenigingstype")]
+    public VerenigingsType Verenigingstype { get; init; }
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]

@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using Constants;
 using Infrastructure.ConfigurationBindings;
 using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Relatie = ResponseModels.Relatie;
 
 public class SearchVerenigingenResponseMapper
 {
@@ -26,10 +27,10 @@ public class SearchVerenigingenResponseMapper
         string[] hoofdactiviteiten)
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/zoek-verenigingen-context.json",
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
-                .Select(x => Map(x.Source, _appSettings))
-                .ToArray(),
+                                         .Select(x => Map(x.Source, _appSettings))
+                                         .ToArray(),
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
@@ -43,27 +44,34 @@ public class SearchVerenigingenResponseMapper
     private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
         => new()
         {
+            type = verenigingZoekDocument.JsonLdMetadataType,
             VCode = verenigingZoekDocument.VCode,
-            Type = Map(verenigingZoekDocument.Type),
+            Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
             Naam = verenigingZoekDocument.Naam,
             Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
+            KorteBeschrijving = verenigingZoekDocument.KorteBeschrijving,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                .Select(Map)
-                .ToArray(),
+                                                                      .Select(Map)
+                                                                      .ToArray(),
             Locaties = verenigingZoekDocument.Locaties
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
             Sleutels = verenigingZoekDocument.Sleutels
-                .Select(Map)
-                .ToArray(),
+                                             .Select(Map)
+                                             .ToArray(),
+            Relaties = verenigingZoekDocument.Relaties
+                                             .Select(r => Map(appSettings, r))
+                                             .ToArray(),
             Links = Map(verenigingZoekDocument.VCode, appSettings),
         };
 
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()
         {
+            id = doelgroep.JsonLdMetadata.Id,
+            type = doelgroep.JsonLdMetadata.Type,
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
@@ -72,13 +80,19 @@ public class SearchVerenigingenResponseMapper
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
     private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
-        => new() { Code = h.Code, Beschrijving = h.Naam };
+        => new()
+        {
+            id = h.JsonLdMetadata.Id,
+            type = h.JsonLdMetadata.Type,
+            Code = h.Code,
+            Naam = h.Naam,
+        };
 
     private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
         => new()
         {
             Code = verenigingDocumentType.Code,
-            Beschrijving = verenigingDocumentType.Beschrijving,
+            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
@@ -99,12 +113,12 @@ public class SearchVerenigingenResponseMapper
         string[] hoofdactiviteiten)
     {
         return searchResponse.Aggregations
-            .Filter(WellknownFacets.GlobalAggregateName)
-            .Filter(WellknownFacets.FilterAggregateName)
-            .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-            .Buckets
-            .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-            .ToArray();
+                             .Filter(WellknownFacets.GlobalAggregateName)
+                             .Filter(WellknownFacets.FilterAggregateName)
+                             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+                             .Buckets
+                             .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
+                             .ToArray();
     }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
@@ -124,7 +138,11 @@ public class SearchVerenigingenResponseMapper
         };
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
+    public static string AddHoofdactiviteitToQuery(
+        AppSettings appSettings,
+        string hoofdactiviteitenVerenigingsloketCode,
+        string originalQuery,
+        string[] hoofdactiviteiten)
         => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
@@ -135,6 +153,8 @@ public class SearchVerenigingenResponseMapper
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()
         {
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
             Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
@@ -143,11 +163,35 @@ public class SearchVerenigingenResponseMapper
             Gemeente = loc.Gemeente,
         };
 
-
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
             Bron = s.Bron,
             Waarde = s.Waarde,
+            CodeerSysteem = s.CodeerSysteem,
+            GestructureerdeIdentificator =
+                new GestructureerdeIdentificator
+                {
+                    id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                    type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                    Nummer = s.GestructureerdeIdentificator.Nummer,
+                },
+        };
+
+    private static Relatie Map(AppSettings appSettings, Schema.Search.Relatie r)
+        => new()
+        {
+            Relatietype = r.Relatietype,
+            AndereVereniging = new Relatie.GerelateerdeVereniging
+            {
+                KboNummer = r.AndereVereniging.KboNummer,
+                VCode = r.AndereVereniging.VCode,
+                Naam = r.AndereVereniging.Naam,
+                Detail = !string.IsNullOrEmpty(r.AndereVereniging.VCode)
+                    ? $"{appSettings.BaseUrl}/v1/verenigingen/{r.AndereVereniging.VCode}"
+                    : string.Empty,
+            },
         };
 }

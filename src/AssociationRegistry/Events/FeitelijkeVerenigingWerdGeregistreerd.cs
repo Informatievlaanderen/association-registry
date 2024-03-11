@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Events;
 
-using System.Runtime.Serialization;
 using Framework;
+using System.Runtime.Serialization;
+using Vereniging.Bronnen;
 
 public record FeitelijkeVerenigingWerdGeregistreerd(
     string VCode,
@@ -17,6 +18,6 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     [IgnoreDataMember]
-    public string Bron
-        => Vereniging.Bronnen.Bron.Initiator;
+    public Bron Bron
+        => Bron.Initiator;
 }

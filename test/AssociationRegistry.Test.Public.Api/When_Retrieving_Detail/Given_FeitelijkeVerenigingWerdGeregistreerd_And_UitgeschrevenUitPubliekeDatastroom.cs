@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail;
 
-using System.Net;
 using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 

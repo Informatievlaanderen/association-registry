@@ -21,7 +21,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     private readonly HttpResponseMessage _response;
     private readonly string _vCode;
     private readonly CommandMetadata _metadata;
-
     private readonly V038_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens(EventsInDbScenariosFixture fixture)
@@ -59,7 +58,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
 
         var expected = $@"
             {{
-                ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/historiek-vereniging-context.json"}"",
+                ""@context"": ""{"http://127.0.0.1:11003/v1/contexten/beheer/historiek-vereniging-context.json"}"",
                 ""vCode"": ""{_vCode}"",
                 ""gebeurtenissen"": [
                     {{
@@ -67,14 +66,14 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Roepnaam werd gewijzigd naar '{_scenario.RoepnaamWerdGewijzigd.Roepnaam}'."",
                         ""gebeurtenis"":""RoepnaamWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.RoepnaamWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToBelgianDateAndTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}

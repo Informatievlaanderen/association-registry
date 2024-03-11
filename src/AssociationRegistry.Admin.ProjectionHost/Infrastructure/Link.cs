@@ -8,5 +8,5 @@ public record Link(
     [property: DataMember(Name = "Rel")] string Rel
 )
 {
-    public static Link VerenigingDetail(string verenigingId) => new($"/v1/verenigingen/static/{verenigingId}", "GET", "Detail");
+    public static Link VerenigingDetail(string verenigingId) => new($"/v1/verenigingen/static/{verenigingId}", Type: "GET", Rel: "Detail");
 }

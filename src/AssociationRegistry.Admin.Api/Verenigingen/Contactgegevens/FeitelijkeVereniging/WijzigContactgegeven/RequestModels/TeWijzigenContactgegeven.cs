@@ -7,12 +7,12 @@ using System.Runtime.Serialization;
 public class TeWijzigenContactgegeven
 {
     /// <summary>De waarde van het contactgegeven</summary>
-    [DataMember(Name = "waarde")] public string? Waarde { get; set; } = null!;
+    [DataMember(Name = "waarde")] public string? Waarde { get; set; }
 
     /// <summary>
     /// Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
-    [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; } = null;
+    [DataMember(Name = "beschrijving")] public string? Beschrijving { get; set; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
     [DataMember(Name = "isPrimair")]

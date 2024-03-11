@@ -24,7 +24,7 @@ public class With_A_Roepnaam
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Roepnaam: NieuweRoepnaam);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, NieuweRoepnaam);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

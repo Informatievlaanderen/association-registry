@@ -18,6 +18,6 @@ public class Given_A_Value_Outside_Allowed_Range
     public void Then_it_Throws_An_DoelgroepOutOfRange(int min, int max)
     {
         var create = () => Doelgroep.Create(min, max);
-        create.Should().Throw<DoelgroepOutOfRange>();
+        create.Should().Throw<DoelgroepValtBuitenToegestaneWaarden>();
     }
 }

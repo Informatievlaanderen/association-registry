@@ -2,8 +2,8 @@
 
 using Fixtures;
 using Fixtures.GivenEvents;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,6 +31,7 @@ public class Given_A_Working_Service
     {
         var response = await _publicApiClient.GetHoofdactiviteiten();
         var content = await response.Content.ReadAsStringAsync();
+
         var goldenMaster = GetType().GetAssociatedResourceJson(
             $"{nameof(Given_A_Working_Service)}_{nameof(Then_It_Returns_All_Possible_Values)}");
 

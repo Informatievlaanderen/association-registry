@@ -8,7 +8,7 @@ using Json;
 using Marten;
 using Marten.Events;
 using Marten.Services;
-using Microsoft.Extensions.Configuration;
+using Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
@@ -16,10 +16,13 @@ using Schema.Detail;
 using Schema.Historiek;
 using VCodeGeneration;
 using Vereniging;
+using Weasel.Core;
 
 public static class MartenExtensions
 {
-    public static IServiceCollection AddMarten(this IServiceCollection services, PostgreSqlOptionsSection postgreSqlOptions, IConfiguration configuration)
+    public static IServiceCollection AddMarten(
+        this IServiceCollection services,
+        PostgreSqlOptionsSection postgreSqlOptions)
     {
         var martenConfiguration = services.AddMarten(
             serviceProvider =>
@@ -30,6 +33,8 @@ public static class MartenExtensions
                 opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                 opts.Serializer(CreateCustomMartenSerializer());
                 opts.Events.MetadataConfig.EnableAll();
+
+                opts.Listeners.Add(new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
@@ -47,6 +52,8 @@ public static class MartenExtensions
                     opts.GeneratedCodeMode = TypeLoadMode.Auto;
                     opts.SourceCodeWritingEnabled = false;
                 }
+
+                opts.AutoCreateSchemaObjects = AutoCreate.All;
 
                 return opts;
             });

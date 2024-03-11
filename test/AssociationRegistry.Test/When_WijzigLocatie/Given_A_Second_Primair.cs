@@ -21,13 +21,13 @@ public class Given_A_Second_Primair
 
         var wijzigLocatie = () => vereniging.WijzigLocatie(
             gewijzigdeLocatie.LocatieId,
-            null,
-            null,
+            naam: null,
+            locatietype: null,
             gewijzigdeLocatie.IsPrimair,
-            null,
-            null);
+            adresId: null,
+            adres: null);
 
-        wijzigLocatie.Should().Throw<MultiplePrimaireLocaties>();
+        wijzigLocatie.Should().Throw<MeerderePrimaireLocatiesZijnNietToegestaan>();
     }
 
     public static IEnumerable<object[]> Data
@@ -37,6 +37,7 @@ public class Given_A_Second_Primair
             var fixture = new Fixture().CustomizeDomain();
             var primaireLocatie = fixture.Create<Registratiedata.Locatie>() with { IsPrimair = true };
             var teWijzigenLocatie = fixture.Create<Registratiedata.Locatie>();
+
             var gewijzigdeLocatie = teWijzigenLocatie with
             {
                 IsPrimair = true,
@@ -44,15 +45,6 @@ public class Given_A_Second_Primair
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { primaireLocatie, teWijzigenLocatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
                 new object[]
                 {
                     new VerenigingState().Apply(

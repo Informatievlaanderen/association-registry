@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Formatting.When_Formatting_An_Adres;
 
 using Events;
-using Formatters;
 using FluentAssertions;
+using Formatters;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,9 +19,9 @@ public class Given_An_Address_Without_Busnummer
         const string land = "België";
 
         var locatie = new Registratiedata.Locatie(
-            1,
-            "Activiteiten",
-            true,
+            LocatieId: 1,
+            Locatietype: "Activiteiten",
+            IsPrimair: true,
             string.Empty,
             new Registratiedata.Adres(
                 straatnaam,
@@ -30,7 +30,7 @@ public class Given_An_Address_Without_Busnummer
                 postcode,
                 gemeente,
                 land),
-            null);
+            AdresId: null);
 
         locatie.Adres.ToAdresString().Should().Be($"{straatnaam} {huisnummer}, {postcode} {gemeente}, {land}");
     }

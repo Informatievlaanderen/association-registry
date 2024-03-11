@@ -3,8 +3,9 @@
   "version": "2.0.3",
   "ExtendedData": {
     "inputs": [
-      "../../../../magda/Onderneming.GeefOndernemingVKBODienst-02.00/WebService/GeefOndernemingVKBO.wsdl"
+      "../../WSDL/Onderneming.GeefOndernemingVKBODienst-02.00/WebService/GeefOndernemingVKBO.wsdl"
     ],
+    "internalTypeAccess": true,
     "messageContract": true,
     "namespaceMappings": [
       "*, AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO"

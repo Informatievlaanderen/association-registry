@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Bronnen;
 using Events;
 using Exceptions;
 using Framework;
@@ -9,9 +10,26 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 {
     private static Verenigingstype[] _allowedTypes;
 
+    public void Hydrate(VerenigingState obj)
+    {
+        _allowedTypes = new[]
+        {
+            Verenigingstype.VZW,
+            Verenigingstype.IVZW,
+            Verenigingstype.PrivateStichting,
+            Verenigingstype.StichtingVanOpenbaarNut,
+        };
+
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
+            !_allowedTypes.Contains(obj.Verenigingstype));
+
+        State = obj;
+    }
+
     public static VerenigingMetRechtspersoonlijkheid Registreer(VCode vCode, VerenigingVolgensKbo verenigingVolgensKbo)
     {
         var vereniging = new VerenigingMetRechtspersoonlijkheid();
+
         vereniging.AddEvent(
             new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
@@ -19,19 +37,41 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
                 verenigingVolgensKbo.Type.Code,
                 verenigingVolgensKbo.Naam ?? "",
                 verenigingVolgensKbo.KorteNaam ?? "",
-                verenigingVolgensKbo.StartDatum ?? null));
+                verenigingVolgensKbo.Startdatum ?? null));
 
-        vereniging.AddAdressAlsMaatschappelijkeZetel(verenigingVolgensKbo.Adres);
+        vereniging.VoegMaatschappelijkeZetelToe(verenigingVolgensKbo.Adres);
 
-        if (verenigingVolgensKbo.Contactgegevens is not null)
+        if (verenigingVolgensKbo.Contactgegevens is not null) // TODO: question: is this only for test purposes?
         {
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Email, ContactgegevenTypeVolgensKbo.Email);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Website, ContactgegevenTypeVolgensKbo.Website);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegevenTypeVolgensKbo.Telefoon);
-            vereniging.AddContactgegeven(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegevenTypeVolgensKbo.GSM);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.Telefoonnummer, ContactgegeventypeVolgensKbo.Telefoon);
+            vereniging.VoegContactgegevenToe(verenigingVolgensKbo.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
         }
 
+        vereniging.VoegVertegenwoordigersToe(verenigingVolgensKbo.Vertegenwoordigers);
+
+        vereniging.AddEvent(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(verenigingVolgensKbo.KboNummer));
+
         return vereniging;
+    }
+
+    public void SyncCompleted()
+    {
+        AddEvent(new SynchronisatieMetKboWasSuccesvol());
+    }
+
+    private void VoegVertegenwoordigersToe(VertegenwoordigerVolgensKbo[] vertegenwoordigers)
+    {
+        foreach (var (vertegenwoordiger, id) in vertegenwoordigers.Select((x, i) => (x, i)))
+        {
+            AddEvent(
+                new VertegenwoordigerWerdOvergenomenUitKBO(
+                    id + 1,
+                    vertegenwoordiger.Insz,
+                    vertegenwoordiger.Voornaam,
+                    vertegenwoordiger.Achternaam));
+        }
     }
 
     public void WijzigRoepnaam(string roepnaam)
@@ -72,9 +112,9 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
                 Locatie.Create(
                         string.Empty,
-                        false,
+                        isPrimair: false,
                         Locatietype.MaatschappelijkeZetelVolgensKbo,
-                        null,
+                        adresId: null,
                         adres)
                     with
                     {
@@ -84,38 +124,99 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         );
     }
 
-    private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegevenTypeVolgensKbo typeVolgensKbo)
+    public void WijzigMaatschappelijkeZetel(int locatieId, string? naam, bool? isPrimair)
+    {
+        var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, isPrimair);
+
+        if (gewijzigdeLocatie is null)
+            return;
+
+        Throw<ActieIsNietToegestaanVoorLocatieType>.If(gewijzigdeLocatie.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo);
+
+        AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
+    }
+
+    public void WijzigMaatschappelijkeZetelUitKbo(AdresVolgensKbo? adresVolgensKbo)
+    {
+        var maatschappelijkeZetel = State.Locaties.MaatschappelijkeZetel;
+
+        if (maatschappelijkeZetel is null)
+        {
+            VoegMaatschappelijkeZetelToe(adresVolgensKbo);
+
+            return;
+        }
+
+        if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty())
+        {
+            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
+
+            return;
+        }
+
+        var adres = Adres.TryCreateFromKbo(adresVolgensKbo);
+
+        if (adres is null)
+        {
+            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
+            AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adresVolgensKbo));
+
+            return;
+        }
+
+        if (adres == maatschappelijkeZetel.Adres)
+            return;
+
+        var gewijzigdeLocatie = maatschappelijkeZetel.Wijzig(adres: adres);
+        AddEvent(MaatschappelijkeZetelWerdGewijzigdInKbo.With(gewijzigdeLocatie));
+    }
+
+    private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
         AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
     }
 
-    private void VoegFoutiefContactgegevenToe(ContactgegevenTypeVolgensKbo type, string waarde)
+    private void VoegFoutiefContactgegevenToe(ContactgegeventypeVolgensKbo type, string waarde)
     {
-        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.ContactgegevenType.Waarde, type.Waarde, waarde));
+        AddEvent(new ContactgegevenKonNietOvergenomenWordenUitKBO(type.Contactgegeventype.Waarde, type.Waarde, waarde));
     }
 
-    private void VoegFoutieveMaatscheppelijkeZetelToe(AdresVolgensKbo adres)
+    private void VoegFoutieveMaatschappelijkeZetelToe(AdresVolgensKbo adres)
     {
         AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
     }
 
-    private void AddContactgegeven(string? waarde, ContactgegevenTypeVolgensKbo type)
+    private void VoegContactgegevenToe(string? waarde, ContactgegeventypeVolgensKbo type)
     {
         if (waarde is null) return;
 
         var contactgegeven = Contactgegeven.TryCreateFromKbo(waarde, type);
+
         if (contactgegeven is null)
         {
             VoegFoutiefContactgegevenToe(type, waarde);
+
             return;
         }
 
         VoegContactgegevenToe(contactgegeven, type);
     }
 
-    private void AddAdressAlsMaatschappelijkeZetel(AdresVolgensKbo? adresVolgensKbo)
+    public void WijzigContactgegeven(int contactgegevenId, string? beschrijving, bool? isPrimair)
+    {
+        var gewijzigdContactgegeven = State.Contactgegevens.Wijzig(contactgegevenId, beschrijving, isPrimair);
+
+        if (gewijzigdContactgegeven is null)
+            return;
+
+        Throw<ActieIsNietToegestaanVoorContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
+
+        AddEvent(ContactgegevenUitKBOWerdGewijzigd.With(gewijzigdContactgegeven));
+    }
+
+    private void VoegMaatschappelijkeZetelToe(AdresVolgensKbo? adresVolgensKbo)
     {
         if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty()) return;
 
@@ -123,25 +224,84 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (adres is null)
         {
-            VoegFoutieveMaatscheppelijkeZetelToe(adresVolgensKbo);
+            VoegFoutieveMaatschappelijkeZetelToe(adresVolgensKbo);
+
             return;
         }
 
         VoegMaatschappelijkeZetelToe(adres);
     }
 
-    public void Hydrate(VerenigingState obj)
+    public void WijzigNaamUitKbo(VerenigingsNaam naam)
     {
-        _allowedTypes = new[]
-        {
-            Verenigingstype.VZW,
-            Verenigingstype.IVZW,
-            Verenigingstype.PrivateStichting,
-            Verenigingstype.StichtingVanOpenbaarNut,
-        };
+        if (State.Naam == naam) return;
+        AddEvent(new NaamWerdGewijzigdInKbo(naam));
+    }
 
-        Throw<UnsupportedOperationForVerenigingstype>.If(
-            !_allowedTypes.Contains(obj.Verenigingstype));
-        State = obj;
+    public void WijzigRechtsvormUitKbo(Verenigingstype verenigingstype)
+    {
+        if (State.Verenigingstype == verenigingstype) return;
+        AddEvent(RechtsvormWerdGewijzigdInKBO.With(verenigingstype));
+    }
+
+    public void WijzigKorteNaamUitKbo(string? korteNaam)
+    {
+        if (State.KorteNaam == korteNaam) return;
+        AddEvent(new KorteNaamWerdGewijzigdInKbo(korteNaam));
+    }
+
+    public void WijzigStartdatum(Datum? startdatum)
+    {
+        if (State.Startdatum == startdatum) return;
+        AddEvent(StartdatumWerdGewijzigdInKbo.With(startdatum));
+    }
+
+    public void WijzigContactgegevenUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    {
+        var teWijzigenContactgegeven = State.Contactgegevens.GetContactgegevenOfKboType(typeVolgensKbo);
+
+        var newContactgegeven = waarde is null ? null : Contactgegeven.TryCreateFromKbo(waarde, typeVolgensKbo);
+
+        if (teWijzigenContactgegeven is null)
+        {
+            if (newContactgegeven is not null)
+            {
+                var equivalentContactgegeven = State.Contactgegevens.MetZelfdeWaarden(newContactgegeven);
+
+                if (equivalentContactgegeven is not null)
+                {
+                    AddEvent(ContactgegevenWerdInBeheerGenomenDoorKbo.With(equivalentContactgegeven, typeVolgensKbo));
+
+                    return;
+                }
+            }
+
+            VoegContactgegevenToe(waarde, typeVolgensKbo);
+
+            return;
+        }
+
+        if (newContactgegeven is null)
+        {
+            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven));
+
+            if (waarde is not null)
+                VoegFoutiefContactgegevenToe(typeVolgensKbo, waarde);
+
+            return;
+        }
+
+        var gewijzigdContactgegeven = State.Contactgegevens.WijzigUitKbo(teWijzigenContactgegeven.ContactgegevenId, waarde);
+
+        if (gewijzigdContactgegeven is null)
+            return;
+
+        AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
+    }
+
+    public void StopUitKbo(Datum eindDatum)
+    {
+        if (State.IsGestopt) return;
+        AddEvent(VerenigingWerdGestoptInKBO.With(eindDatum));
     }
 }

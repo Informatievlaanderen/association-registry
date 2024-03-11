@@ -16,6 +16,6 @@ public class Given_An_Incorrect_Modulo97
     public void Then_it_throws_an_InvalidKboNummerMod97Exception(string kboNummerString)
     {
         var factory = () => KboNummer.Create(kboNummerString);
-        factory.Should().Throw<InvalidKboNummerMod97>();
+        factory.Should().Throw<KboNummerMod97IsOngeldig>();
     }
 }

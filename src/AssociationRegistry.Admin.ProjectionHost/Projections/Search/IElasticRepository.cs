@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
-using System.Threading.Tasks;
 using Schema.Search;
 
 public interface IElasticRepository
@@ -13,7 +12,7 @@ public interface IElasticRepository
 
     void Update<TDocument>(string id, TDocument update) where TDocument : class;
     Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class;
-    Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie);
-    Task RemoveLocatie(string id, int locatieId);
-    Task ReplaceLocatie(string id, VerenigingZoekDocument.Locatie locatie);
+    Task AppendLocatie<TDocument>(string id, ILocatie locatie) where TDocument : class;
+    Task RemoveLocatie<TDocument>(string id, int locatieId) where TDocument : class;
+    Task UpdateLocatie<TDocument>(string id, ILocatie locatie) where TDocument : class;
 }

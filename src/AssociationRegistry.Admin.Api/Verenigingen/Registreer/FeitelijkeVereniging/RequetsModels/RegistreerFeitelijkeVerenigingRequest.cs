@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
+using Acties.RegistreerFeitelijkeVereniging;
+using Common;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Runtime.Serialization;
-using Acties.RegistreerFeitelijkeVereniging;
-using Common;
 using Vereniging;
 
 [DataContract]
@@ -14,19 +14,19 @@ public class RegistreerFeitelijkeVerenigingRequest
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
     [Required]
-    public string Naam { get; init; } = null!;
+    public string Naam { get; set; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
     [DataMember]
-    public string? KorteNaam { get; init; }
+    public string? KorteNaam { get; set; }
 
     /// <summary>Korte beschrijving van de vereniging</summary>
     [DataMember]
-    public string? KorteBeschrijving { get; init; }
+    public string? KorteBeschrijving { get; set; }
 
     /// <summary>Datum waarop de vereniging gestart is. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember]
-    public DateOnly? Startdatum { get; init; }
+    public DateOnly? Startdatum { get; set; }
 
     /// <summary>
     /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
@@ -61,7 +61,7 @@ public class RegistreerFeitelijkeVerenigingRequest
             VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
-            AssociationRegistry.Vereniging.Startdatum.Create(Startdatum),
+            Datum.CreateOptional(Startdatum),
             DoelgroepRequest.Map(Doelgroep),
             IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens.Select(ToeTeVoegenContactgegeven.Map).ToArray(),

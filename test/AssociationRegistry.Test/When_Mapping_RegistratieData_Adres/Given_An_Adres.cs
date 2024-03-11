@@ -19,12 +19,12 @@ public class Given_An_Adres
         var adres = fixture.Create<Adres>();
 
         Registratiedata.Adres.With(adres)
-            .Should().Be(new Registratiedata.Adres(
-                adres.Straatnaam,
-                adres.Huisnummer,
-                adres.Busnummer,
-                adres.Postcode,
-                adres.Gemeente,
-                adres.Land));
+                       .Should().Be(new Registratiedata.Adres(
+                                        adres.Straatnaam,
+                                        adres.Huisnummer,
+                                        adres.Busnummer,
+                                        adres.Postcode,
+                                        adres.Gemeente,
+                                        adres.Land));
     }
 }

@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using Fixtures;
 using FluentAssertions;
+using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,12 +22,13 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
         {
             Naam = "De nieuwe vereniging",
         };
+
         VCode = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.VCode;
 
         var jsonBody = $@"{{""naam"":""{Request.Naam}""}}";
 
         var saveVersionResult = fixture.V003FeitelijkeVerenigingWerdGeregistreerdForUseWithNoChanges.Result;
-        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version-1).GetAwaiter().GetResult();
+        Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody, saveVersionResult.Version - 1).GetAwaiter().GetResult();
     }
 
     private static When_WijzigBasisgegevens_With_A_NonMatching_ETag? called;
@@ -62,7 +64,7 @@ public class With_A_NonMatching_ETag
     [Fact]
     public void Then_it_returns_no_location_header()
     {
-        Response.Headers.Should().NotContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
     [Fact]
@@ -75,10 +77,11 @@ public class With_A_NonMatching_ETag
     public void Then_it_saves_no_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
+                                    .LightweightSession();
+
         var savedEvents = session.Events
-            .QueryRawEventDataOnly<NaamWerdGewijzigd>()
-            .SingleOrDefault(@event => @event.VCode == VCode);
+                                 .QueryRawEventDataOnly<NaamWerdGewijzigd>()
+                                 .SingleOrDefault(@event => @event.VCode == VCode);
 
         savedEvents.Should().BeNull();
     }

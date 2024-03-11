@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using Framework;
 using Moq;
@@ -24,10 +24,10 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(
-                "V001001",
-                1,
+                vCode: "V001001",
+                locatieId: 1,
                 null!,
-                new CommandMetadataProviderStub { Initiator= "OVO0001000" },
-                "M/\"1\""));
+                new CommandMetadataProviderStub { Initiator = "OVO0001000" },
+                ifMatch: "M/\"1\""));
     }
 }

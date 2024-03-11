@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
 
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Framework;
 using Vereniging;
-using AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : CommandhandlerScenarioBase
 {
@@ -12,9 +12,9 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
     public const string KorteNaam = "FOud";
     public readonly string Initiator = "Een initiator";
     public readonly string KorteBeschrijving = string.Empty;
-    public readonly  Registratiedata.Locatie Locatie;
+    public readonly Registratiedata.Locatie Locatie;
     public readonly DateOnly? Startdatum = null;
-    public override VCode VCode =>VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0009002");
 
     public FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario()
     {
@@ -33,7 +33,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
                 KorteBeschrijving,
                 Startdatum,
                 Registratiedata.Doelgroep.With(Doelgroep.Null),
-                false,
+                IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Locatie },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),

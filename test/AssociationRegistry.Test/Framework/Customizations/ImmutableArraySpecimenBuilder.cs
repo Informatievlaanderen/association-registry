@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
-using System.Collections.Immutable;
 using AutoFixture.Kernel;
+using System.Collections.Immutable;
 
 public class ImmutableArraySpecimenBuilder : ISpecimenBuilder
 {
@@ -14,6 +14,7 @@ public class ImmutableArraySpecimenBuilder : ISpecimenBuilder
             return new NoSpecimen();
 
         var typeArguments = t.GetGenericArguments();
+
         if (typeArguments.Length != 1)
             return new NoSpecimen();
 
@@ -21,6 +22,7 @@ public class ImmutableArraySpecimenBuilder : ISpecimenBuilder
             return new NoSpecimen();
 
         dynamic list = context.Resolve(typeof(IList<>).MakeGenericType(typeArguments));
+
         return ImmutableArray.ToImmutableArray(list);
     }
 }

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Magda.Models.GeefOnderneming;
 
+using Onderneming.GeefOnderneming;
 using System.Xml.Serialization;
-using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 
 [Serializable]
 public class GeefOndernemingResponseBody

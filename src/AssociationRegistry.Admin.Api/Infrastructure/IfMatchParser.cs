@@ -9,10 +9,12 @@ public static class IfMatchParser
     {
         if (ifMatch is null) return null;
         var tryParse = EntityTagHeaderValue.TryParse(ifMatch, out var parsedEtag);
+
         if (!tryParse)
             throw new EtagHeaderIsInvalidException();
 
         var tryParseNumber = long.TryParse(parsedEtag.Tag.Value.Trim(trimChar: '"'), out var etagAsNumber);
+
         if (!tryParseNumber || etagAsNumber < 0 || !parsedEtag.IsWeak)
             throw new EtagHeaderIsInvalidException();
 
@@ -22,7 +24,7 @@ public static class IfMatchParser
     public class EtagHeaderIsInvalidException : BadHttpRequestException
     {
         public EtagHeaderIsInvalidException() : base(
-            "Etag header bevat een ongeldige waarde, gelieve formaat 'W/\"[0-9]*\"' te gebruiken",
+            message: "Etag header bevat een ongeldige waarde, gelieve formaat 'W/\"[0-9]*\"' te gebruiken",
             StatusCodes.Status412PreconditionFailed)
         {
         }

@@ -15,6 +15,6 @@ public class Given_A_String_Not_Ending_With_Numbers
     public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
     {
         var ctor = () => VCode.Create(strCode);
-        ctor.Should().Throw<InvalidVCodeFormat>();
+        ctor.Should().Throw<VCodeFormaatIsOngeldig>();
     }
 }

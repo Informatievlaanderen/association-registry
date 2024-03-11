@@ -14,6 +14,7 @@ public static class AssemblyExtensions
         encoding ??= Encoding.UTF8;
 
         using var reader = new StreamReader(stream, encoding);
+
         return reader.ReadToEnd();
     }
 
@@ -31,6 +32,7 @@ public static class AssemblyExtensions
     {
         var manifestResourceNames = assembly.GetManifestResourceNames();
         var manifestResourceNamesList = string.Join(Environment.NewLine, manifestResourceNames);
+
         return new FileNotFoundException(
             $"Embedded resource {resourceName} not found in assembly {assembly.FullName}, " +
             $"these are valid resources:{Environment.NewLine}{manifestResourceNamesList}");

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using Framework;
 using Moq;
@@ -24,9 +24,9 @@ public class With_Null_Request
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Post(
-                "V001001",
+                vCode: "V001001",
                 null!,
                 new CommandMetadataProviderStub(),
-                "M/\"1\""));
+                ifMatch: "M/\"1\""));
     }
 }

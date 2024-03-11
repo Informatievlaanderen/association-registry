@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
@@ -19,28 +17,33 @@ public class Given_VertegenwoordigerWerdGewijzigd
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var vertegenwoordiger = fixture.Create<BeheerVerenigingDetailDocument.Vertegenwoordiger>();
+        var vert = fixture.Create<Vertegenwoordiger>();
 
-        var vertegenwoordigerWerdGewijzigd = new TestEvent<VertegenwoordigerWerdGewijzigd>(fixture.Create<VertegenwoordigerWerdGewijzigd>() with
-        {
-            VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
-        });
+        var vertegenwoordigerWerdGewijzigd = new TestEvent<VertegenwoordigerWerdGewijzigd>(
+            fixture.Create<VertegenwoordigerWerdGewijzigd>() with
+            {
+                VertegenwoordigerId = vert.VertegenwoordigerId,
+            });
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
 
         doc.Vertegenwoordigers = doc.Vertegenwoordigers.Append(
-            vertegenwoordiger
+            vert
         ).ToArray();
 
         BeheerVerenigingDetailProjector.Apply(vertegenwoordigerWerdGewijzigd, doc);
 
-        doc.Vertegenwoordigers.Should().Contain(
-            new BeheerVerenigingDetailDocument.Vertegenwoordiger
+        var vertegenwoordiger = doc.Vertegenwoordigers.Should().ContainSingle(v => v.VertegenwoordigerId == vert.VertegenwoordigerId)
+                                   .Subject;
+
+        vertegenwoordiger.Should().BeEquivalentTo(
+            new Vertegenwoordiger
             {
+                JsonLdMetadata = vert.JsonLdMetadata,
                 VertegenwoordigerId = vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                Achternaam = vertegenwoordiger.Achternaam,
-                Voornaam = vertegenwoordiger.Voornaam,
-                Insz = vertegenwoordiger.Insz,
+                Achternaam = vert.Achternaam,
+                Voornaam = vert.Voornaam,
+                Insz = vert.Insz,
                 Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                 Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
                 IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
@@ -48,11 +51,18 @@ public class Given_VertegenwoordigerWerdGewijzigd
                 Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
                 Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                 SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
-                Bron = vertegenwoordiger.Bron,
+                VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                {
+                    JsonLdMetadata = vert.VertegenwoordigerContactgegevens.JsonLdMetadata,
+                    IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
+                    Email = vertegenwoordigerWerdGewijzigd.Data.Email,
+                    Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
+                    Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
+                    SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
+                },
+                Bron = vert.Bron,
             });
 
         doc.Vertegenwoordigers.Should().BeInAscendingOrder(v => v.VertegenwoordigerId);
-        doc.DatumLaatsteAanpassing.Should().Be(vertegenwoordigerWerdGewijzigd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version));
     }
 }

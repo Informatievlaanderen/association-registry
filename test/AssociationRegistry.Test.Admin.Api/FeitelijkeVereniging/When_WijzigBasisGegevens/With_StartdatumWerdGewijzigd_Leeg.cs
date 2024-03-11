@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
-using Primitives;
 using Fixtures;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Net.Http.Headers;
+using Primitives;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,17 +24,17 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
         {
             Startdatum = NullOrEmpty<DateOnly>.Empty,
         };
-        VCode = fixture.V010FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode;
 
-        const string jsonBody = $@"{{
+        VCode = fixture.V046FeitelijkeVerenigingWerdGeregistreerdForWijzigStartdatum.VCode;
+
+        const string jsonBody = @"{
             ""startdatum"":"""",
-            ""Initiator"": ""OVO000001""}}";
+            ""Initiator"": ""OVO000001""}";
 
         Response = fixture.DefaultClient.PatchVereniging(VCode, jsonBody).GetAwaiter().GetResult();
     }
 
     private static When_WijzigBasisGegevens_WithStartdatumLeeg? called;
-
 
     public static When_WijzigBasisGegevens_WithStartdatumLeeg Called(EventsInDbScenariosFixture fixture)
         => called ??= new When_WijzigBasisGegevens_WithStartdatumLeeg(fixture);
@@ -63,11 +64,11 @@ public class With_StartdatumWerdGewijzigd_Leeg
     public void Then_it_saves_the_events()
     {
         using var session = _fixture.DocumentStore
-            .LightweightSession();
-        var startdatumWerdGewijzigd = session.Events
-            .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
-            .Single(@event => @event.VCode == VCode);
+                                    .LightweightSession();
 
+        var startdatumWerdGewijzigd = session.Events
+                                             .QueryRawEventDataOnly<StartdatumWerdGewijzigd>()
+                                             .Single(@event => @event.VCode == VCode);
 
         startdatumWerdGewijzigd.Startdatum.Should().BeNull();
     }
@@ -81,9 +82,10 @@ public class With_StartdatumWerdGewijzigd_Leeg
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        Response.Headers.Should().ContainKey(Microsoft.Net.Http.Headers.HeaderNames.Location);
+        Response.Headers.Should().ContainKey(HeaderNames.Location);
+
         Response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]

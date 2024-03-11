@@ -1,0 +1,6 @@
+{
+  "type": "{{type}}",
+  "title": "{{title}}",
+  "detail": "{{detail}}",
+  "status": {{status}}
+}

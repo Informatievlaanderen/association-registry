@@ -14,6 +14,20 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="EmbeddedResources.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmbeddedResources.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="templates\*.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="EmbeddedResources.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmbeddedResources.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

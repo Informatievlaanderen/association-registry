@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -21,6 +21,6 @@ public class With_An_Empty_Locatietype : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(x => x.Locatie.Locatietype)
-            .WithErrorMessage("'Locatietype' mag niet leeg zijn.");
+              .WithErrorMessage("'Locatietype' mag niet leeg zijn.");
     }
 }

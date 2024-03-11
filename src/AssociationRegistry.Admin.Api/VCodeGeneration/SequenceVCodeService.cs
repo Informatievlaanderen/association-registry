@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.VCodeGeneration;
 
+using Marten;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Marten;
 using Vereniging;
 using Weasel.Postgresql;
 
@@ -23,7 +23,7 @@ public class SequenceVCodeService : IVCodeService
 
     public async Task<VCode> GetNext()
     {
-        await using var session = _documentStore.OpenSession();
+        await using var session = _documentStore.LightweightSession();
 
         return VCode.Create(session.NextInSequence(_vCodeSequence));
     }

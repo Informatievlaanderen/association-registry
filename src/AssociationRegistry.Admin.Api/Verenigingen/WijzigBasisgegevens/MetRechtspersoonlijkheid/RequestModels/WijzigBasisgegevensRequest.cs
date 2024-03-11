@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 
+using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using Common;
 using System.Linq;
 using System.Runtime.Serialization;
-using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
-using Common;
 using Vereniging;
 
 [DataContract]

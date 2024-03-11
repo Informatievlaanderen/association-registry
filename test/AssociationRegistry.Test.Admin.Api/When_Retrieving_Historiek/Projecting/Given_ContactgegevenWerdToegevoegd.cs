@@ -23,13 +23,12 @@ public class Given_ContactgegevenWerdToegevoegd
 
         BeheerVerenigingHistoriekProjector.Apply(contactgegevenWerdToegevoegd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                $"{contactgegevenWerdToegevoegd.Data.Type} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd.",
+                $"{contactgegevenWerdToegevoegd.Data.Contactgegeventype} '{contactgegevenWerdToegevoegd.Data.Waarde}' werd toegevoegd.",
                 nameof(ContactgegevenWerdToegevoegd),
                 contactgegevenWerdToegevoegd.Data,
                 contactgegevenWerdToegevoegd.Initiator,
-                contactgegevenWerdToegevoegd.Tijdstip.ToBelgianDateAndTime()));
+                contactgegevenWerdToegevoegd.Tijdstip.ToZuluTime()));
     }
 }

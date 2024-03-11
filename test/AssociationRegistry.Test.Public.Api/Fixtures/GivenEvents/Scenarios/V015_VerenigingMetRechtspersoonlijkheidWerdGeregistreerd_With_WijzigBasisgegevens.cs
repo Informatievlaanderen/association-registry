@@ -8,12 +8,12 @@ using Vereniging;
 public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens : IScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
-        "V0001015",
-        "0987654321",
-        "VZW",
-        "Feesten Affligem",
+        VCode: "V0001015",
+        KboNummer: "0987654315",
+        Rechtsvorm: "VZW",
+        Naam: "Feesten Affligem",
         string.Empty,
-        null);
+        Startdatum: null);
 
     public readonly RoepnaamWerdGewijzigd RoepnaamWerdGewijzigd = new("The Affligem Party Squad");
 
@@ -30,5 +30,7 @@ public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijzi
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

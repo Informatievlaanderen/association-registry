@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Constants;
+using EventStore;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
-using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
+using Infrastructure.Swagger.Examples;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Historiek;
 using Swashbuckle.AspNetCore.Filters;
+using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -43,8 +44,8 @@ public class VerenigingenHistoriekController : ApiController
     /// Contactgegevens, locaties en vertegenwoordigers maken geen onderdeel uit van de basisgegevens.
     /// Wijzigingen op deze data genereren gebeurtenissen met de namen “WerdToegevoegd”, “WerdGewijzigd” en “WerdVerwijderd”.
     /// </remarks>
-
     /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">De historiek van een vereniging</response>
@@ -54,32 +55,35 @@ public class VerenigingenHistoriekController : ApiController
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("{vCode}/historiek")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(HistoriekPreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [ProducesResponseType(typeof(HistoriekResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [Produces(WellknownMediaTypes.Json)]
+    [ProducesJson]
     public async Task<IActionResult> Historiek(
         [FromServices] IDocumentStore documentStore,
+        [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingHistoriekDocument>(expectedSequence))
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
+            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Historiek);
 
         var maybeHistoriekVereniging = await session.Query<BeheerVerenigingHistoriekDocument>()
-            .WithVCode(vCode)
-            .SingleOrDefaultAsync();
+                                                    .WithVCode(vCode)
+                                                    .SingleOrDefaultAsync();
 
         if (maybeHistoriekVereniging is not { } historiek)
-            return NotFound();
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper);
 
         return Ok(
             _mapper.Map(vCode, historiek));
     }
-
-
 }

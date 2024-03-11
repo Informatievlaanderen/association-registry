@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Achternaam;
 
+using FluentAssertions;
 using Vereniging;
 using Vereniging.Exceptions;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

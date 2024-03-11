@@ -9,13 +9,14 @@ using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
-    private static void MustNotBeInFuture(Startdatum startdatum, DateOnly today)
-        => Throw<StardatumIsInFuture>.If(startdatum.IsInFuture(today));
+    private static void MustNotBeInFuture(Datum datum, DateOnly today)
+        => Throw<StartdatumMagNietInToekomstZijn>.If(datum.IsInFutureOf(today));
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
         => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
 
-    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
+    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
+        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
 
     private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
@@ -23,7 +24,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
         => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
-
 
     public void VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
@@ -55,9 +55,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
     }
 
-    public void WijzigVertegenwoordiger(int vertegenwoordigerId, string? rol, string? roepnaam, Email? email, TelefoonNummer? telefoonNummer, TelefoonNummer? mobiel, SocialMedia? socialMedia, bool? isPrimair)
+    public void WijzigVertegenwoordiger(
+        int vertegenwoordigerId,
+        string? rol,
+        string? roepnaam,
+        Email? email,
+        TelefoonNummer? telefoonNummer,
+        TelefoonNummer? mobiel,
+        SocialMedia? socialMedia,
+        bool? isPrimair)
     {
-        var gewijzigdeVertegenwoordiger = State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
+        var gewijzigdeVertegenwoordiger =
+            State.Vertegenwoordigers.Wijzig(vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair);
 
         if (gewijzigdeVertegenwoordiger is null)
             return;
@@ -73,7 +82,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
-        Throw<MaatschappelijkeZetelIsNotAllowed>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
@@ -82,7 +91,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
     {
-        Throw<MaatschappelijkeZetelIsNotAllowed>.If(locatietype is not null && locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelIsNietToegestaan>.If(locatietype is not null &&
+                                                        locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var gewijzigdeLocatie = State.Locaties.Wijzig(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
@@ -91,7 +101,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
     }
-
 
     public void VerwijderLocatie(int locatieId)
     {

@@ -19,7 +19,7 @@ public class VerwijderLocatieCommandHandler
         vereniging.VerwijderLocatie(message.Command.LocatieId);
 
         var result = await _repository.Save(vereniging, message.Metadata, cancellationToken);
+
         return CommandResult.Create(VCode.Create(message.Command.VCode), result);
     }
-
 }

@@ -10,8 +10,6 @@ using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
 {
-    public long Version { get; set; }
-
     [Identity]
     public string Identity
     {
@@ -25,7 +23,8 @@ public record VerenigingState : IHasVersion
     public string? Roepnaam { get; private init; }
     public string? KorteNaam { get; private init; }
     public string? KorteBeschrijving { get; private init; }
-    public Startdatum? Startdatum { get; private init; }
+    public Datum? Startdatum { get; private init; }
+    public Datum? Einddatum { get; private init; }
     public Doelgroep? Doelgroep { get; private init; }
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; private init; }
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
@@ -35,6 +34,10 @@ public record VerenigingState : IHasVersion
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
+    public bool IsGestopt => Einddatum is not null;
+    public bool IsVerwijderd { get; set; }
+    public long Version { get; set; }
+
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
@@ -43,23 +46,23 @@ public record VerenigingState : IHasVersion
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Hydrate(@event.Startdatum),
+            Startdatum = Datum.Hydrate(@event.Startdatum),
             Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
             IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = @event.Contactgegevens.Aggregate(
                 Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
+                func: (lijst, c) => Contactgegevens.Hydrate(
                     lijst.Append(
                         Contactgegeven.Hydrate(
                             c.ContactgegevenId,
-                            ContactgegevenType.Parse(c.Type),
+                            Contactgegeventype.Parse(c.Contactgegeventype),
                             c.Waarde,
                             c.Beschrijving,
                             c.IsPrimair,
                             Bron.Initiator)))),
             Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
                 Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
                     lijst.Append(
                         Vertegenwoordiger.Hydrate(
                             v.VertegenwoordigerId,
@@ -76,74 +79,7 @@ public record VerenigingState : IHasVersion
                         )))),
             Locaties = @event.Locaties.Aggregate(
                 Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
-                    lijst.Append(
-                        Locatie.Hydrate(
-                            l.LocatieId,
-                            l.Naam,
-                            l.IsPrimair,
-                            l.Locatietype,
-                            l.Adres is null
-                                ? null
-                                : Adres.Hydrate(
-                                    l.Adres.Straatnaam,
-                                    l.Adres.Huisnummer,
-                                    l.Adres.Busnummer,
-                                    l.Adres.Postcode,
-                                    l.Adres.Gemeente,
-                                    l.Adres.Land),
-                            l.AdresId is null
-                                ? null
-                                : AdresId.Hydrate(
-                                    Adresbron.Parse(l.AdresId.Broncode),
-                                    l.AdresId.Bronwaarde))))),
-            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
-                @event.HoofdactiviteitenVerenigingsloket.Select(
-                           h => HoofdactiviteitVerenigingsloket.Create(h.Code))
-                      .ToArray()),
-        };
-
-    public VerenigingState Apply(AfdelingWerdGeregistreerd @event)
-        => new()
-        {
-            Verenigingstype = Verenigingstype.Afdeling,
-            VCode = VCode.Hydrate(@event.VCode),
-            Naam = VerenigingsNaam.Hydrate(@event.Naam),
-            KorteNaam = @event.KorteNaam,
-            KorteBeschrijving = @event.KorteBeschrijving,
-            Startdatum = Startdatum.Hydrate(@event.Startdatum),
-            Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
-            Contactgegevens = @event.Contactgegevens.Aggregate(
-                Contactgegevens.Empty,
-                (lijst, c) => Contactgegevens.Hydrate(
-                    lijst.Append(
-                        Contactgegeven.Hydrate(
-                            c.ContactgegevenId,
-                            ContactgegevenType.Parse(c.Type),
-                            c.Waarde,
-                            c.Beschrijving,
-                            c.IsPrimair,
-                            Bron.Initiator)))),
-            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
-                Vertegenwoordigers.Empty,
-                (lijst, v) => Vertegenwoordigers.Hydrate(
-                    lijst.Append(
-                        Vertegenwoordiger.Hydrate(
-                            v.VertegenwoordigerId,
-                            Insz.Hydrate(v.Insz),
-                            v.Rol,
-                            v.Roepnaam,
-                            Voornaam.Hydrate(v.Voornaam),
-                            Achternaam.Hydrate(v.Achternaam),
-                            v.IsPrimair,
-                            Email.Hydrate(v.Email),
-                            TelefoonNummer.Hydrate(v.Telefoon),
-                            TelefoonNummer.Hydrate(v.Mobiel),
-                            SocialMedia.Hydrate(v.SocialMedia)
-                        )))),
-            Locaties = @event.Locaties.Aggregate(
-                Locaties.Empty,
-                (lijst, l) => Locaties.Hydrate(
+                func: (lijst, l) => Locaties.Hydrate(
                     lijst.Append(
                         Locatie.Hydrate(
                             l.LocatieId,
@@ -177,7 +113,11 @@ public record VerenigingState : IHasVersion
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
+            Startdatum = Datum.Hydrate(@event.Startdatum),
         };
+
+    public VerenigingState Apply(VerenigingWerdIngeschrevenOpWijzigingenUitKbo _)
+        => this;
 
     public VerenigingState Apply(NaamWerdGewijzigd @event)
         => this with { Naam = VerenigingsNaam.Hydrate(@event.Naam) };
@@ -189,7 +129,19 @@ public record VerenigingState : IHasVersion
         => this with { KorteBeschrijving = @event.KorteBeschrijving };
 
     public VerenigingState Apply(StartdatumWerdGewijzigd @event)
-        => this with { Startdatum = Startdatum.Hydrate(@event.Startdatum) };
+        => this with { Startdatum = Datum.Hydrate(@event.Startdatum) };
+
+    public VerenigingState Apply(VerenigingWerdGestopt @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
+
+    public VerenigingState Apply(VerenigingWerdGestoptInKBO @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
+
+    public VerenigingState Apply(VerenigingWerdVerwijderd @event)
+        => this with { IsVerwijderd = true };
+
+    public VerenigingState Apply(EinddatumWerdGewijzigd @event)
+        => this with { Einddatum = Datum.Hydrate(@event.Einddatum) };
 
     public VerenigingState Apply(DoelgroepWerdGewijzigd @event)
         => this with
@@ -206,7 +158,7 @@ public record VerenigingState : IHasVersion
                 Contactgegevens.Append(
                     Contactgegeven.Hydrate(
                         @event.ContactgegevenId,
-                        ContactgegevenType.Parse(@event.Type),
+                        Contactgegeventype.Parse(@event.Contactgegeventype),
                         @event.Waarde,
                         @event.Beschrijving,
                         @event.IsPrimair,
@@ -229,12 +181,30 @@ public record VerenigingState : IHasVersion
                    .Append(
                         Contactgegeven.Hydrate(
                             @event.ContactgegevenId,
-                            ContactgegevenType.Parse(@event.Type),
+                            Contactgegeventype.Parse(@event.Contactgegeventype),
                             @event.Waarde,
                             @event.Beschrijving,
                             @event.IsPrimair,
                             Bron.Initiator))),
         };
+
+    public VerenigingState Apply(ContactgegevenUitKBOWerdGewijzigd @event)
+    {
+        var contactgegeven = Contactgegevens.Single(c => c.ContactgegevenId == @event.ContactgegevenId);
+
+        return this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens
+                   .Without(@event.ContactgegevenId)
+                   .Append(
+                        contactgegeven with
+                        {
+                            Beschrijving = @event.Beschrijving,
+                            IsPrimair = @event.IsPrimair,
+                        })),
+        };
+    }
 
     public VerenigingState Apply(HoofdactiviteitenVerenigingsloketWerdenGewijzigd @event)
         => this with
@@ -331,6 +301,24 @@ public record VerenigingState : IHasVersion
             ),
         };
 
+    public VerenigingState Apply(MaatschappelijkeZetelVolgensKBOWerdGewijzigd @event)
+    {
+        var maatschappelijkeZetel = Locaties[@event.LocatieId];
+
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(maatschappelijkeZetel with
+                    {
+                        Naam = @event.Naam,
+                        IsPrimair = @event.IsPrimair,
+                    })
+            ),
+        };
+    }
+
     public VerenigingState Apply(LocatieWerdVerwijderd @event)
         => this with
         {
@@ -347,6 +335,30 @@ public record VerenigingState : IHasVersion
                    .AppendFromEventData(@event.Locatie)),
         };
 
+    public VerenigingState Apply(MaatschappelijkeZetelWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.Locatie.LocatieId)
+                   .AppendFromEventData(@event.Locatie)),
+        };
+
+    public VerenigingState Apply(MaatschappelijkeZetelWerdVerwijderdUitKbo @event)
+        => this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.Locatie.LocatieId)),
+        };
+
+    public VerenigingState Apply(VertegenwoordigerWerdOvergenomenUitKBO @event)
+        => this with
+        {
+            Vertegenwoordigers = Vertegenwoordigers.Hydrate(
+                Vertegenwoordigers.AppendFromEventData(@event)),
+        };
+
     public VerenigingState Apply(ContactgegevenWerdOvergenomenUitKBO @event)
         => this with
         {
@@ -354,11 +366,28 @@ public record VerenigingState : IHasVersion
                 Contactgegevens.Append(
                     Contactgegeven.Hydrate(
                         @event.ContactgegevenId,
-                        ContactgegevenType.Parse(@event.Type),
+                        Contactgegeventype.Parse(@event.Contactgegeventype),
                         @event.Waarde,
                         string.Empty,
-                        false,
-                        Bron.KBO))),
+                        isPrimair: false,
+                        Bron.KBO,
+                        ContactgegeventypeVolgensKbo.Parse(@event.TypeVolgensKbo)))),
+        };
+
+    public VerenigingState Apply(ContactgegevenWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens
+                   .Without(@event.ContactgegevenId)
+                   .Append(Contactgegeven.Hydrate(
+                               @event.ContactgegevenId,
+                               Contactgegeventype.Parse(@event.Contactgegeventype),
+                               @event.Waarde,
+                               string.Empty,
+                               isPrimair: false,
+                               Bron.KBO,
+                               ContactgegeventypeVolgensKbo.Parse(@event.TypeVolgensKbo)))),
         };
 
     public VerenigingState Apply(ContactgegevenKonNietOvergenomenWordenUitKBO @event)
@@ -369,4 +398,53 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(RoepnaamWerdGewijzigd @event)
         => this with { Roepnaam = @event.Roepnaam };
+
+    public VerenigingState Apply(SynchronisatieMetKboWasSuccesvol @event)
+        => this;
+
+    public VerenigingState Apply(NaamWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Naam = VerenigingsNaam.Hydrate(@event.Naam),
+        };
+
+    public VerenigingState Apply(RechtsvormWerdGewijzigdInKBO @event)
+        => this with
+        {
+            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
+        };
+
+    public VerenigingState Apply(KorteNaamWerdGewijzigdInKbo @event)
+        => this with
+        {
+            KorteNaam = @event.KorteNaam,
+        };
+
+    public VerenigingState Apply(StartdatumWerdGewijzigdInKbo @event)
+        => this with
+        {
+            Startdatum = Datum.Hydrate(@event.Startdatum),
+        };
+
+    public VerenigingState Apply(ContactgegevenWerdVerwijderdUitKBO @event)
+        => this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Without(@event.ContactgegevenId)),
+        };
+
+    public VerenigingState Apply(ContactgegevenWerdInBeheerGenomenDoorKbo @event)
+    {
+        var contactgegeven = Contactgegevens.Single(c => c.ContactgegevenId == @event.ContactgegevenId);
+
+        return this with
+        {
+            Contactgegevens = Contactgegevens.Hydrate(
+                Contactgegevens.Without(@event.ContactgegevenId)
+                               .Append(contactgegeven with
+                                {
+                                    Bron = Bron.KBO,
+                                })),
+        };
+    }
 }

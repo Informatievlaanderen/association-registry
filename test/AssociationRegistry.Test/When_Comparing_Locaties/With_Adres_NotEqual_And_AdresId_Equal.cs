@@ -6,7 +6,6 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-
 public class With_Adres_NotEqual_And_AdresId_Equal
 {
     [Fact]
@@ -15,20 +14,20 @@ public class With_Adres_NotEqual_And_AdresId_Equal
         var dezelfdeAdresIdWaarde = AdresId.DataVlaanderenAdresPrefix;
 
         var locatie1 = Locatie.Create(
-            "naam",
-            true,
+            naam: "naam",
+            isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde),
-            Adres.Create("straatnaam",
-                "huisnummer",
-                "busnummer",
-                "postCode",
-                "gemeente",
-                "land"));
+            Adres.Create(straatnaam: "straatnaam",
+                         huisnummer: "huisnummer",
+                         busnummer: "busnummer",
+                         postcode: "postCode",
+                         gemeente: "gemeente",
+                         land: "land"));
 
         var locatie2 = Locatie.Create(
-            "naam",
-            true,
+            naam: "naam",
+            isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde));
 

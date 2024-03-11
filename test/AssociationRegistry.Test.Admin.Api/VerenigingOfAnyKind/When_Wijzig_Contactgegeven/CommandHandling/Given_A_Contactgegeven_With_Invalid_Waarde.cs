@@ -2,13 +2,13 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Emails.Exceptions;
 using Vereniging.Websites;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -40,8 +40,9 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
                 _fixture.Create<string?>(),
                 IsPrimair: false));
 
-        var method = ()=> _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
+        var method = ()
+            => _commandHandler.Handle(new CommandEnvelope<WijzigContactgegevenCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        await method.Should().ThrowAsync<InvalidEmailFormat>();
+        await method.Should().ThrowAsync<EmailHeeftEenOngeldigFormaat>();
     }
 }

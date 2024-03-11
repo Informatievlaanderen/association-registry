@@ -1,13 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework;
 
-using System.Text.Json;
 using AssociationRegistry.Framework;
 using Marten.Events;
 using NodaTime;
+using System.Text.Json;
 using IEvent = Marten.Events.IEvent;
 
 public class TestEvent<T> : IEvent<T> where T : notnull
 {
+    public static implicit operator TestEvent<T>(T e) => new(e);
+
     public TestEvent(T data, string ovoNumber = "OVO001001", Instant? instant = null)
     {
         Data = data;
@@ -27,7 +29,6 @@ public class TestEvent<T> : IEvent<T> where T : notnull
         => typeof(T);
 
     public string EventTypeName { get; set; }
-
     public string DotNetTypeName { get; set; }
 
     public void SetHeader(string key, object value)
@@ -40,12 +41,12 @@ public class TestEvent<T> : IEvent<T> where T : notnull
     {
         var headers = Headers;
         object? obj = null;
+
         // ISSUE: explicit non-virtual call
         return (headers != null ? headers.TryGetValue(key, out obj) ? 1 : 0 : 0) == 0 ? null : obj;
     }
 
     public bool IsArchived { get; set; }
-
     public string? AggregateTypeName { get; set; }
 
     /// <summary>
@@ -95,8 +96,10 @@ public class TestEvent<T> : IEvent<T> where T : notnull
     {
         if (obj == null)
             return false;
+
         if (this == obj)
             return true;
+
         return !(obj.GetType() != GetType()) && Equals((TestEvent<T>)obj);
     }
 

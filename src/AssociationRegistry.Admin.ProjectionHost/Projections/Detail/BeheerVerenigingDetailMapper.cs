@@ -2,44 +2,65 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
 using Formatters;
+using JsonLdContext;
+using Schema;
 using Schema.Detail;
 using Vereniging;
 using Adres = Schema.Detail.Adres;
 using AdresId = Schema.Detail.AdresId;
+using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Locatie = Schema.Detail.Locatie;
+using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 
 public class BeheerVerenigingDetailMapper
 {
-    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc)
-        => new()
-        {
-            LocatieId = loc.LocatieId,
-            IsPrimair = loc.IsPrimair,
-            Naam = loc.Naam,
-            Locatietype = loc.Locatietype,
-            Adres = MapAdres(loc.Adres),
-            Adresvoorstelling = loc.Adres.ToAdresString(),
-            AdresId = MapAdresId(loc.AdresId),
-        };
+    // public static Locatie MapLocatie(Registratiedata.Locatie loc, string vCode)
+    //     => new()
+    //     {
+    //         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, loc.LocatieId.ToString()),
+    //         LocatieId = loc.LocatieId,
+    //         IsPrimair = loc.IsPrimair,
+    //         Naam = loc.Naam,
+    //         Locatietype = loc.Locatietype,
+    //         Adres = MapAdres(loc.Adres, vCode, loc.LocatieId),
+    //         Adresvoorstelling = loc.Adres.ToAdresString(),
+    //         AdresId = MapAdresId(loc.AdresId),
+    //     };
 
-    public static BeheerVerenigingDetailDocument.Locatie MapLocatie(Registratiedata.Locatie loc, string bron)
+    public static Locatie MapLocatie(Registratiedata.Locatie loc, string bron, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, loc.LocatieId.ToString()),
             LocatieId = loc.LocatieId,
             IsPrimair = loc.IsPrimair,
             Naam = loc.Naam,
+            VerwijstNaar = MapAdresVerwijzing(loc.AdresId),
             Locatietype = loc.Locatietype,
-            Adres = MapAdres(loc.Adres),
+            Adres = MapAdres(loc.Adres, vCode, loc.LocatieId),
             Adresvoorstelling = loc.Adres.ToAdresString(),
             AdresId = MapAdresId(loc.AdresId),
             Bron = bron,
         };
 
-    public static Adres? MapAdres(Registratiedata.Adres? adres)
+    public static AdresVerwijzing? MapAdresVerwijzing(Registratiedata.AdresId? adresId)
+    {
+        if (adresId is null)
+            return null;
+
+        return new AdresVerwijzing
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.AdresVerwijzing, adresId.Bronwaarde.Split('/').Last()),
+        };
+    }
+
+    public static Adres? MapAdres(Registratiedata.Adres? adres, string vCode, int locId)
         => adres is null
             ? null
             : new Adres
             {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Adres, vCode, locId.ToString()),
                 Straatnaam = adres.Straatnaam,
                 Huisnummer = adres.Huisnummer,
                 Busnummer = adres.Busnummer,
@@ -57,20 +78,22 @@ public class BeheerVerenigingDetailMapper
                 Broncode = locAdresId.Broncode,
             };
 
-    public static BeheerVerenigingDetailDocument.Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, string bron)
+    public static Contactgegeven MapContactgegeven(Registratiedata.Contactgegeven c, string bron, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Contactgegeven, vCode, c.ContactgegevenId.ToString()),
             ContactgegevenId = c.ContactgegevenId,
-            Type = c.Type,
+            Contactgegeventype = c.Contactgegeventype,
             Waarde = c.Waarde,
             Beschrijving = c.Beschrijving,
             IsPrimair = c.IsPrimair,
             Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string bron)
+    public static Vertegenwoordiger MapVertegenwoordiger(Registratiedata.Vertegenwoordiger v, string bron, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Vertegenwoordiger, vCode, v.VertegenwoordigerId.ToString()),
             VertegenwoordigerId = v.VertegenwoordigerId,
             Insz = v.Insz,
             IsPrimair = v.IsPrimair,
@@ -82,46 +105,73 @@ public class BeheerVerenigingDetailMapper
             Telefoon = v.Telefoon,
             Mobiel = v.Mobiel,
             SocialMedia = v.SocialMedia,
+            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.VertegenwoordigerContactgegeven, vCode, v.VertegenwoordigerId.ToString()),
+                Email = v.Email,
+                Telefoon = v.Telefoon,
+                Mobiel = v.Mobiel,
+                SocialMedia = v.SocialMedia,
+                IsPrimair = v.IsPrimair,
+            },
             Bron = bron,
         };
 
-    public static BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket h)
+    public static HoofdactiviteitVerenigingsloket MapHoofdactiviteitVerenigingsloket(
+        Registratiedata.HoofdactiviteitVerenigingsloket h)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, h.Code),
             Code = h.Code,
-            Beschrijving = h.Beschrijving,
+            Naam = h.Naam,
         };
 
-    public static BeheerVerenigingDetailDocument.VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
+    public static VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
         => new()
         {
             Code = verenigingstype.Code,
-            Beschrijving = verenigingstype.Beschrijving,
+            Naam = verenigingstype.Naam,
         };
 
-    public static BeheerVerenigingDetailDocument.Relatie MapMoederRelatie(AfdelingWerdGeregistreerd.MoederverenigingsData moederverenigingsData)
+    public static Sleutel MapKboSleutel(string kboNummer, string vCode)
         => new()
         {
-            Type = RelatieType.IsAfdelingVan.Beschrijving,
-            AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.KBO.Waarde),
+            Bron = Sleutelbron.KBO.Waarde,
+            Waarde = kboNummer,
+            CodeerSysteem = CodeerSysteem.KBO.Waarde,
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
             {
-                KboNummer = moederverenigingsData.KboNummer,
-                VCode = moederverenigingsData.VCode,
-                Naam = moederverenigingsData.Naam,
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.KBO.Waarde), Nummer = kboNummer,
             },
         };
 
-    public static BeheerVerenigingDetailDocument.Sleutel MapKboSleutel(string kboNummer)
+    public static Sleutel MapVrSleutel(string vCode)
         => new()
         {
-            Bron = Sleutelbron.Kbo.Waarde,
-            Waarde = kboNummer,
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, vCode, Sleutelbron.VR.Waarde),
+            Bron = Sleutelbron.VR.Waarde,
+            Waarde = vCode,
+            CodeerSysteem = CodeerSysteem.VR.Waarde,
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, vCode, Sleutelbron.VR.Waarde),
+                Nummer = vCode,
+            },
         };
 
-    public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep)
+    public static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, vCode),
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
+        };
+
+    public static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] idValues)
+        => new()
+        {
+            Id = jsonLdType.CreateWithIdValues(idValues),
+            Type = jsonLdType.Type,
         };
 }

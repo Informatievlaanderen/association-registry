@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.CommandHandling;
 
 using Acties.VerwijderVertegenwoordiger;
-using Events;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Events;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -29,7 +29,7 @@ public class With_A_Known_VertegenwoordigerId
         var commandHandler = new VerwijderVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
 
         commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata))
-            .GetAwaiter().GetResult();
+                      .GetAwaiter().GetResult();
     }
 
     [Fact]

@@ -78,15 +78,6 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een afdeling kan niet uit de publieke stroom worden uitgeschreven..
-        /// </summary>
-        public static string AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom {
-            get {
-                return ResourceManager.GetString("AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden..
         /// </summary>
         public static string ContactgegevenFromKboCannotBeRemoved {
@@ -146,6 +137,24 @@ namespace AssociationRegistry {
         public static string DuplicateLocatie {
             get {
                 return ResourceManager.GetString("DuplicateLocatie", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einddatum moet na startdatum liggen..
+        /// </summary>
+        public static string EinddatumIsBeforeStartdatum {
+            get {
+                return ResourceManager.GetString("EinddatumIsBeforeStartdatum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einddatum mag niet in de toekomst liggen..
+        /// </summary>
+        public static string EinddatumIsInFuture {
+            get {
+                return ResourceManager.GetString("EinddatumIsInFuture", resourceCulture);
             }
         }
         
@@ -240,7 +249,9 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens toegestaan &apos;!#$%&amp;&apos;*+/=?^_`{|}~-&apos;, in domein enkel &apos;.&apos; en &apos;-&apos;..
+        ///   Looks up a localized string similar to E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens
+        ///      toegestaan &apos;!#$%&amp;&apos;*+/=?^_`{|}~-&apos;, in domein enkel &apos;.&apos; en &apos;-&apos;.
+        ///    .
         /// </summary>
         public static string InvalidEmailFormat {
             get {
@@ -312,7 +323,7 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TelefoonNummer moet bestaan uit cijfers, whitespace en \&quot;. /( ) - + \&quot;.
+        ///   Looks up a localized string similar to TelefoonNummer moet bestaan uit cijfers, whitespace en &quot;. / ( ) - + &quot;.
         /// </summary>
         public static string InvalidTelefoonNummerCharacter {
             get {
@@ -420,6 +431,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registreer inschrijving voor KBO-nummer kon niet voltooid worden.
+        /// </summary>
+        public static string RegistreerInschrijvingKonNietVoltooidWorden {
+            get {
+                return ResourceManager.GetString("RegistreerInschrijvingKonNietVoltooidWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Social media url moet minsens één punt bevatten.
         /// </summary>
         public static string SocialMediaMissingPeriod {
@@ -429,11 +449,29 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Startdatum moet voor einddatum liggen..
+        /// </summary>
+        public static string StartdatumIsAfterEinddatum {
+            get {
+                return ResourceManager.GetString("StartdatumIsAfterEinddatum", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Startdatum mag niet in de toekomst liggen..
         /// </summary>
-        public static string StardatumIsInFuture {
+        public static string StartdatumIsInFuture {
             get {
-                return ResourceManager.GetString("StardatumIsInFuture", resourceCulture);
+                return ResourceManager.GetString("StartdatumIsInFuture", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
+        /// </summary>
+        public static string UnexpectedAggregateVersion {
+            get {
+                return ResourceManager.GetString("UnexpectedAggregateVersion", resourceCulture);
             }
         }
         
@@ -447,11 +485,83 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deze waarde bevat niet toegestane tekens..
+        /// </summary>
+        public static string UnsupportedContent {
+            get {
+                return ResourceManager.GetString("UnsupportedContent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit contactgegeven..
+        /// </summary>
+        public static string UnsupportedOperationForContactgegevenBron {
+            get {
+                return ResourceManager.GetString("UnsupportedOperationForContactgegevenBron", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op deze locatie..
+        /// </summary>
+        public static string UnsupportedOperationForLocatietype {
+            get {
+                return ResourceManager.GetString("UnsupportedOperationForLocatietype", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit type vereniging..
         /// </summary>
         public static string UnsupportedOperationForVerenigingstype {
             get {
                 return ResourceManager.GetString("UnsupportedOperationForVerenigingstype", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze vereniging kan niet verwijderd worden..
+        /// </summary>
+        public static string VerenigingKanNietVerwijderdWorden {
+            get {
+                return ResourceManager.GetString("VerenigingKanNietVerwijderdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Aan een KBO vereniging kunnen geen vertegenwoordigers toegevoegd worden..
+        /// </summary>
+        public static string VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers {
+            get {
+                return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden..
+        /// </summary>
+        public static string VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers {
+            get {
+                return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een KBO-vereniging kan niet gestopt worden..
+        /// </summary>
+        public static string VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden {
+            get {
+                return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze vereniging werd verwijderd..
+        /// </summary>
+        public static string VerenigingWerdVerwijderd {
+            get {
+                return ResourceManager.GetString("VerenigingWerdVerwijderd", resourceCulture);
             }
         }
         
@@ -479,6 +589,24 @@ namespace AssociationRegistry {
         public static string WebsiteMissingPeriod {
             get {
                 return ResourceManager.GetString("WebsiteMissingPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}.
+        /// </summary>
+        public static string ZoekOpdrachtBevatOnbekendeSorteerVelden {
+            get {
+                return ResourceManager.GetString("ZoekOpdrachtBevatOnbekendeSorteerVelden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze zoekopdracht kon niet uitgevoerd worden. Controleer alle parameters en probeer opnieuw..
+        /// </summary>
+        public static string ZoekOpdrachtWasIncorrect {
+            get {
+                return ResourceManager.GetString("ZoekOpdrachtWasIncorrect", resourceCulture);
             }
         }
     }

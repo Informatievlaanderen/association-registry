@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using System.Collections.Generic;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
+using System.Collections.Generic;
 
 public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProblemDetails>
 {
@@ -18,20 +18,22 @@ public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProb
                     new ValidationProblemDetails.Errors(
                         new List<ValidationError>
                         {
-                            new("NotEmptyValidator", "'Naam' mag niet leeg zijn."),
+                            new(code: "NotEmptyValidator", reason: "'Naam' mag niet leeg zijn."),
                         })
                 },
             },
         };
 }
-public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
+
+public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
 
-    public ProblemDetailsExamples(ProblemDetailsHelper helper)
+    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper)
     {
         _helper = helper;
     }
+
     public ProblemDetails GetExamples()
         => new()
         {
@@ -56,7 +58,7 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
         => new[]
         {
             SwaggerExample.Create(
-                "Problem details zonder validatie fouten",
+                name: "Problem details zonder validatie fouten",
                 new ProblemDetails
                 {
                     HttpStatus = StatusCodes.Status400BadRequest,
@@ -78,7 +80,7 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
                                 new ValidationProblemDetails.Errors(
                                     new List<ValidationError>
                                     {
-                                        new("NotEmptyValidator", "'Naam' mag niet leeg zijn."),
+                                        new(code: "NotEmptyValidator", reason: "'Naam' mag niet leeg zijn."),
                                     })
                             },
                         },

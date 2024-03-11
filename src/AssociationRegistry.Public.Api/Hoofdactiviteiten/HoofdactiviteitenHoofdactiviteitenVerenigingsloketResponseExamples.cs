@@ -2,7 +2,8 @@
 
 using Swashbuckle.AspNetCore.Filters;
 
-public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples : IExamplesProvider<HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse>
+public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples : IExamplesProvider<
+    HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse>
 {
     public HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse GetExamples()
         => new()
@@ -13,7 +14,7 @@ public class HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples 
                     new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket
                     {
                         Code = "BLA",
-                        Beschrijving = "Bijzonder Lange Afkortingen",
+                        Naam = "Bijzonder Lange Afkortingen",
                     },
                 },
         };

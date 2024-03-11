@@ -23,13 +23,12 @@ public class Given_DoelgroepWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(doelgroepWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Doelgroep werd gewijzigd naar '{doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd} - {doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd}'.",
                 nameof(DoelgroepWerdGewijzigd),
                 doelgroepWerdGewijzigd.Data,
                 doelgroepWerdGewijzigd.Initiator,
-                doelgroepWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                doelgroepWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

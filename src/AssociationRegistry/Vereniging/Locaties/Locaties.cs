@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Events;
 using Exceptions;
 using Framework;
 using System.Collections.ObjectModel;
@@ -9,6 +8,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 {
     private const int InitialId = 1;
     public int NextId { get; }
+    public Locatie? MaatschappelijkeZetel => this.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
     public static Locaties Empty
         => new(Array.Empty<Locatie>(), InitialId);
@@ -56,6 +56,8 @@ public class Locaties : ReadOnlyCollection<Locatie>
     {
         var locatie = Get(locatieId);
 
+        Throw<MaatschappelijkeZetelKanNietGewijzigdWorden>.If(locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+
         var gewijzigdeLocatie = locatie.Wijzig(naam, locatietype, isPrimair, adresId, adres);
 
         if (gewijzigdeLocatie.Equals(locatie))
@@ -67,7 +69,18 @@ public class Locaties : ReadOnlyCollection<Locatie>
     }
 
     public Locatie? Wijzig(int locatieId, string? naam, bool? isPrimair)
-        => throw new NotImplementedException();
+    {
+        var locatie = Get(locatieId);
+
+        var gewijzigdeLocatie = locatie.Wijzig(naam, isPrimair);
+
+        if (gewijzigdeLocatie.Equals(locatie))
+            return null;
+
+        ThrowIfCannotAppendOrUpdate(gewijzigdeLocatie);
+
+        return gewijzigdeLocatie;
+    }
 
     public Locatie? WijzigVanuitKbo(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
         => throw new NotImplementedException();
@@ -84,7 +97,8 @@ public class Locaties : ReadOnlyCollection<Locatie>
         MustContain(locatieId);
         var teVerwijderenLocatie = this[locatieId];
 
-        Throw<MaatschappelijkeZetelCanNotBeRemoved>.If(teVerwijderenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
+        Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype ==
+                                                               Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         return teVerwijderenLocatie;
     }
@@ -94,7 +108,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
 
     private void MustContain(int locatieId)
     {
-        Throw<UnknownLocatie>.If(!HasKey(locatieId), locatieId.ToString());
+        Throw<LocatieIsNietGekend>.If(!HasKey(locatieId), locatieId.ToString());
     }
 
     private bool HasKey(int locatieId)
@@ -108,52 +122,15 @@ public class Locaties : ReadOnlyCollection<Locatie>
     }
 
     private void MustNotHaveMultipleCorrespondentieLocaties(Locatie locatie)
-        => Throw<MultipleCorrespondentieLocaties>.If(
+        => Throw<MeerdereCorrespondentieLocatiesZijnNietToegestaan>.If(
             locatie.Locatietype == Locatietype.Correspondentie &&
             this.Without(locatie).HasCorrespondentieLocatie());
 
     private void MustNotHaveMultiplePrimaireLocaties(Locatie locatie)
-        => Throw<MultiplePrimaireLocaties>.If(
+        => Throw<MeerderePrimaireLocatiesZijnNietToegestaan>.If(
             locatie.IsPrimair &&
-            this.Without(locatie).HasPrimairelocatie());
+            this.Without(locatie).HasPrimaireLocatie());
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
-        => Throw<DuplicateLocatie>.If(this.Without(locatie).ContainsEquivalient(locatie));
-}
-
-public static class LocatieEnumerbleExtentions
-{
-    public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, Locatie locatie)
-        => locaties.Without(locatie.LocatieId);
-
-    public static IEnumerable<Locatie> Without(this IEnumerable<Locatie> locaties, int locatieId)
-        => locaties.Where(l => l.LocatieId != locatieId);
-
-    public static IEnumerable<Locatie> AppendFromEventData(this IEnumerable<Locatie> locaties, Registratiedata.Locatie eventData)
-        => locaties.Append(
-            Locatie.Hydrate(
-                eventData.LocatieId,
-                eventData.Naam,
-                eventData.IsPrimair,
-                eventData.Locatietype,
-                eventData.Adres is null
-                    ? null
-                    : Adres.Hydrate(
-                        eventData.Adres.Straatnaam,
-                        eventData.Adres.Huisnummer,
-                        eventData.Adres.Busnummer,
-                        eventData.Adres.Postcode,
-                        eventData.Adres.Gemeente,
-                        eventData.Adres.Land),
-                eventData.AdresId is null ? null : AdresId.Hydrate(eventData.AdresId.Broncode, eventData.AdresId.Bronwaarde))
-        );
-
-    public static bool ContainsEquivalient(this IEnumerable<Locatie> source, Locatie locatie)
-        => source.Any(locatie.IsEquivalentTo);
-
-    public static bool HasPrimairelocatie(this IEnumerable<Locatie> locaties)
-        => locaties.Any(l => l.IsPrimair);
-
-    public static bool HasCorrespondentieLocatie(this IEnumerable<Locatie> locaties)
-        => locaties.Any(l => l.Locatietype == Locatietype.Correspondentie);
+        => Throw<LocatieIsNietUniek>.If(this.Without(locatie).ContainsEquivalent(locatie));
 }

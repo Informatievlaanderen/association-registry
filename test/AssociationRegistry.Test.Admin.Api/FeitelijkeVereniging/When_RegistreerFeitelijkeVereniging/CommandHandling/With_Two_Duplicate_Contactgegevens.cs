@@ -2,12 +2,12 @@
 
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +22,9 @@ public class With_Two_Duplicate_Contactgegevens
         var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
 
-        var contactgegeven = Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, "test@example.org", fixture.Create<string>(), isPrimair: true);
+        var contactgegeven =
+            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
+                                               isPrimair: true);
 
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
@@ -31,11 +33,12 @@ public class With_Two_Duplicate_Contactgegevens
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
+
         _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(command.Startdatum.Datum!.Value));
+            new ClockStub(command.Startdatum.Value));
 
         _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
     }
@@ -44,6 +47,6 @@ public class With_Two_Duplicate_Contactgegevens
     public async Task Then_The_Result_Contains_The_Potential_Duplicates()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
-        await method.Should().ThrowAsync<DuplicateContactgegeven>();
+        await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

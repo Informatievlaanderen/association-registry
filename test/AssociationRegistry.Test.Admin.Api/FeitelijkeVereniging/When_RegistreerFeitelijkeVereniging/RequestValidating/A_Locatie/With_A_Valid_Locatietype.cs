@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_A_Valid_Locatietype : ValidatorTest
@@ -17,7 +18,8 @@ public class With_A_Valid_Locatietype : ValidatorTest
     [InlineData(nameof(Locatietype.Activiteiten))]
     public void Has_no_validation_errors(string locationType)
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
@@ -25,7 +27,7 @@ public class With_A_Valid_Locatietype : ValidatorTest
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = locationType,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = "dezeStraat",
                         Huisnummer = "23",
@@ -36,8 +38,10 @@ public class With_A_Valid_Locatietype : ValidatorTest
                 },
             },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}");
+        result.ShouldNotHaveValidationErrorFor(
+            $"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0].{nameof(ToeTeVoegenLocatie.Adres.Gemeente)}");
     }
 }

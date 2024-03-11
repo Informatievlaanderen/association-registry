@@ -4,6 +4,7 @@ using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using templates;
 using Xunit;
 using Xunit.Categories;
 
@@ -12,7 +13,6 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_BasisGegevenWerdGewijzigd
 {
-    private readonly string _goldenMasterWithOneVereniging;
     private readonly AdminApiClient _adminApiClient;
     private readonly V004_AlleBasisGegevensWerdenGewijzigd _scenario;
 
@@ -20,8 +20,6 @@ public class Given_BasisGegevenWerdGewijzigd
     {
         _scenario = fixture.V004AlleBasisGegevensWerdenGewijzigd;
         _adminApiClient = fixture.AdminApiClient;
-        _goldenMasterWithOneVereniging = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_BasisGegevenWerdGewijzigd)}_{nameof(Then_we_retrieve_one_vereniging_matching_the_name_searched)}");
     }
 
     [Fact]
@@ -29,12 +27,22 @@ public class Given_BasisGegevenWerdGewijzigd
         => (await _adminApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task Then_we_retrieve_one_vereniging_matching_the_name_searched()
+    public async Task Then_we_retrieve_one_vereniging_matching_the_vCode_searched()
     {
         var response = await _adminApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMasterWithOneVereniging
-            .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(_scenario.VCode)
+                          .WithVereniging(
+                               v => v
+                                   .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                                   .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
+                                   .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
+                                   .WithDoelgroep(_scenario.VCode, minimumleeftijd: _scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
+                                                  maximumleeftijd: _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
+                           );
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

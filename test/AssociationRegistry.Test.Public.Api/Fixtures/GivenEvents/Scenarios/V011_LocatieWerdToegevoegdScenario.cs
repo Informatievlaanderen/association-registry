@@ -11,19 +11,19 @@ public class V011_LocatieWerdToegevoegdScenario : IScenario
         Locatie: new Registratiedata.Locatie(
             LocatieId: 1,
             Locatietype.Activiteiten,
-            false,
-            "Naam locatie",
-            null,
-            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix)));
+            IsPrimair: false,
+            Naam: "Naam locatie",
+            Adres: null,
+            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1")));
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
-        "V0001011",
-        "Feesten Hulste",
+        VCode: "V0001011",
+        Naam: "Feesten Hulste",
         string.Empty,
         string.Empty,
         Startdatum: null,
         Registratiedata.Doelgroep.With(Doelgroep.Null),
-        false,
+        IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         Array.Empty<Registratiedata.Locatie>(),
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
@@ -42,5 +42,7 @@ public class V011_LocatieWerdToegevoegdScenario : IScenario
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               new DateTimeOffset(year: 2023, month: 01, day: 25, hour: 0, minute: 0, second: 0, TimeSpan.Zero).ToInstant(),
+               Guid.NewGuid());
 }

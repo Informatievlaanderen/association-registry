@@ -48,11 +48,12 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using System.Threading.Tasks;
 using Verenigingen.Search;
 
 public class Program
 {
-    public static void Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(
             new WebApplicationOptions
@@ -99,9 +100,8 @@ public class Program
            .UseEndpoints(routeBuilder => routeBuilder.MapControllers());
 
         ConfigureLifetimeHooks(app);
-        app.ConfigureElasticSearch();
 
-        app.Run();
+        await app.RunAsync();
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
@@ -207,7 +207,8 @@ public class Program
     {
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args)
@@ -301,7 +302,8 @@ public class Program
                         cfg.AddPolicy(
                             StartupConstants.AllowSpecificOrigin,
                             configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
+                                                                       Array.Empty<string>())
                                                           .WithMethods(StartupConstants.HttpMethodsAsString)
                                                           .WithHeaders(StartupConstants.Headers)
                                                           .WithExposedHeaders(StartupConstants.ExposedHeaders)

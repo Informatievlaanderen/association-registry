@@ -2,16 +2,20 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using EventStore;
 using Examples;
 using Infrastructure;
 using Infrastructure.Extensions;
-using Infrastructure.Swagger;
+using Infrastructure.Swagger.Annotations;
+using Infrastructure.Swagger.Examples;
 using Marten;
+using Marten.Linq.SoftDeletes;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using System.Linq;
 using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -32,6 +36,7 @@ public class DetailVerenigingenController : ApiController
     ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
     /// <response code="200">Het detail van een vereniging</response>
@@ -42,27 +47,37 @@ public class DetailVerenigingenController : ApiController
     [HttpGet("{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(BadRequestProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status404NotFound, typeof(NotFoundProblemDetailsExamples))]
+    [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(DetailPreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseHeader(StatusCodes.Status200OK, name: "ETag", type: "string", description: "De versie van de aangepaste vereniging.")]
     [ProducesResponseType(typeof(DetailVerenigingResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status404NotFound)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore documentStore,
+        [FromServices] ProblemDetailsHelper problemDetailsHelper,
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence)
     {
         await using var session = documentStore.LightweightSession();
 
         if (!await documentStore.HasReachedSequence<BeheerVerenigingDetailDocument>(expectedSequence))
-            return StatusCode(StatusCodes.Status412PreconditionFailed);
+            throw new UnexpectedAggregateVersionException(ValidationMessages.Status412Detail);
 
         var maybeVereniging = await session.Query<BeheerVerenigingDetailDocument>()
+                                           .Where(x => x.MaybeDeleted())
                                            .WithVCode(vCode)
                                            .SingleOrDefaultAsync();
 
         if (maybeVereniging is not { } vereniging)
-            return NotFound();
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper, ValidationMessages.Status404Detail);
+
+        if (maybeVereniging.Deleted)
+            return await Response.WriteNotFoundProblemDetailsAsync(problemDetailsHelper, ValidationMessages.Status404Deleted);
 
         Response.AddETagHeader(vereniging.Metadata.Version);
 

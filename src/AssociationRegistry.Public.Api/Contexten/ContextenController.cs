@@ -11,16 +11,38 @@ using Microsoft.AspNetCore.Mvc;
 public class ContextenController : ApiController
 {
     /// <summary>
-    ///     Vraag de JSON-LD context op voor een specifiek object
+    ///     Vraag de JSON-LD context op voor een specifiek object binnen de publieke api
     /// </summary>
     /// <param name="name">Dit is de naam van de specifieke context</param>
     /// <returns></returns>
-    [HttpGet("{name}")]
-    public IActionResult Detail([FromRoute] string name)
+    [HttpGet("publiek/{name}")]
+    public IActionResult PubliekContext([FromRoute] string name)
     {
         try
         {
-            var context = JsonLdContexts.GetContext(name);
+            var context = JsonLdContexts.GetContext(folder: "publiek", name);
+
+            return Content(
+                context,
+                WellknownMediaTypes.Json);
+        }
+        catch
+        {
+            return NotFound();
+        }
+    }
+
+    /// <summary>
+    ///     Vraag de JSON-LD context op voor een specifiek object binnen de beheer api
+    /// </summary>
+    /// <param name="name">Dit is de naam van de specifieke context</param>
+    /// <returns></returns>
+    [HttpGet("beheer/{name}")]
+    public IActionResult BeheerContext([FromRoute] string name)
+    {
+        try
+        {
+            var context = JsonLdContexts.GetContext(folder: "beheer", name);
 
             return Content(
                 context,

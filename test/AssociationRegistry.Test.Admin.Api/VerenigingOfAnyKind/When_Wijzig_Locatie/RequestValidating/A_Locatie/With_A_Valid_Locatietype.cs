@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Loc
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
+using Vereniging;
 using Xunit;
 
-public class With_A_Valid_Locatietype: ValidatorTest
+public class With_A_Valid_Locatietype : ValidatorTest
 {
     [Theory]
     [InlineData(nameof(Locatietype.Correspondentie))]

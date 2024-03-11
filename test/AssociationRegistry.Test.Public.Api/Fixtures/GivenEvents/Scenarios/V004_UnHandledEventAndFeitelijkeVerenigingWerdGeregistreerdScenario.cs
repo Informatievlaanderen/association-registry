@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
-using Events;
 using AssociationRegistry.Framework;
-using Vereniging;
+using Events;
 using NodaTime;
+using Vereniging;
 
 public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
@@ -12,8 +12,13 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
 
     public static readonly Registratiedata.HoofdactiviteitVerenigingsloket[] Hoofdactiviteiten =
     {
-        new("BLA", "Buitengewoon Leuke Afkortingen"),
+        new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
     };
+
+    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = CreateFeitelijkeVerenigingWerdGeregistreerd(
+        "V0001004",
+        Naam,
+        KorteNaam);
 
     public VCode VCode
         => VCode.Create("V0001004");
@@ -23,17 +28,17 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         return new IEvent[]
         {
             new EenEvent(),
-            FeitelijkeVerenigingWerdGeregistreerd(
-                VCode,
-                Naam,
-                KorteNaam),
+            FeitelijkeVerenigingWerdGeregistreerd,
         };
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new("OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
 
-    private static FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd(string vCode, string naam, string korteNaam)
+    private static FeitelijkeVerenigingWerdGeregistreerd CreateFeitelijkeVerenigingWerdGeregistreerd(
+        string vCode,
+        string naam,
+        string korteNaam)
         => new(
             vCode,
             naam,
@@ -41,7 +46,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
             string.Empty,
             Startdatum: null,
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),
             Array.Empty<Registratiedata.Vertegenwoordiger>(),

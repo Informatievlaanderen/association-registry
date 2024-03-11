@@ -10,13 +10,15 @@ open Fake.Core
 open Fake.Core.TargetOperators
 open Fake.IO.FileSystemOperators
 open Fake.DotNet
+open System
 open ``Build-generic``
+
+
 
 let product = "Basisregisters Vlaanderen"
 let copyright = "Copyright (c) Vlaamse overheid"
 let company = "Vlaamse overheid"
 
-let dockerRepository = "association-registry"
 let assemblyVersionNumber = (sprintf "%s.0")
 let nugetVersionNumber = (sprintf "%s")
 
@@ -27,8 +29,41 @@ let setVersions = (setSolutionVersions assemblyVersionNumber product copyright c
 let test = testSolution
 let publishSource = publish assemblyVersionNumber
 let pack = pack nugetVersionNumber
-let containerize = containerize dockerRepository
-let push = push dockerRepository
+
+let containerize project containerName =
+  let result1 =
+    [ "build"; "."; "--no-cache"; "--tag"; sprintf "%s/%s:%s" dockerRegistry containerName buildNumber; "--build-arg"; sprintf "build_number=%s" buildNumber]
+    |> CreateProcess.fromRawCommand "docker"
+    |> CreateProcess.withWorkingDirectory (buildDir @@ project @@ "linux")
+    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 5.)
+    |> Proc.run
+
+  if result1.ExitCode <> 0 then failwith "Failed result from Docker Build"
+
+  let result2 =
+    [ "tag"; sprintf "%s/%s:%s" dockerRegistry containerName buildNumber; sprintf "%s/%s:latest" dockerRegistry containerName]
+    |> CreateProcess.fromRawCommand "docker"
+    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 5.)
+    |> Proc.run
+
+  if result2.ExitCode <> 0 then failwith "Failed result from Docker Tag"
+
+let push containerName =
+  let result1 =
+    [ "push"; sprintf "%s/%s:%s" dockerRegistry containerName buildNumber]
+    |> CreateProcess.fromRawCommand "docker"
+    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 5.)
+    |> Proc.run
+
+  if result1.ExitCode <> 0 then failwith "Failed result from Docker Push"
+
+  let result2 =
+    [ "push"; sprintf "%s/%s:latest" dockerRegistry containerName]
+    |> CreateProcess.fromRawCommand "docker"
+    |> CreateProcess.withTimeout (TimeSpan.FromMinutes 5.)
+    |> Proc.run
+
+  if result2.ExitCode <> 0 then failwith "Failed result from Docker Push Latest"
 
 supportedRuntimeIdentifiers <- [ "msil"; "linux-x64" ]
 
@@ -44,6 +79,7 @@ let testSolution sln =
   testWithDotNet (sprintf "%s.sln" sln)
 
 // Solution -----------------------------------------------------------------------
+Target.create "SetAssemblyVersions" (fun _ -> setVersions "SolutionInfo.cs")
 
 Target.create "Restore_Solution" (fun _ -> restore "AssociationRegistry")
 
@@ -51,12 +87,16 @@ Target.create "Build_Solution" (fun _ ->
   setVersions "SolutionInfo.cs"
   buildSolution "AssociationRegistry")
 
-Target.create "SetSolutionInfo" (fun _ ->
-  setVersions "SolutionInfo.cs"
- )
-
+Target.create "SetSolutionInfo" (fun _ -> setVersions "SolutionInfo.cs")
 
 Target.create "Test_Solution" (fun _ -> testSolution "AssociationRegistry")
+
+Target.create "Pack_Solution" (fun _ ->
+  [
+    "AssociationRegistry"
+    "AssociationRegistry.Magda"
+  ] |> List.iter pack
+)
 
 Target.create "Publish_Solution" (fun _ ->
   [
@@ -67,20 +107,20 @@ Target.create "Publish_Solution" (fun _ ->
     "AssociationRegistry.Admin.ProjectionHost"
   ] |> List.iter publishSource)
 
-Target.create "Containerize_AcmApi" (fun _ -> containerize "AssociationRegistry.Acm.Api" "acm-api")
-Target.create "PushContainer_AcmApi" (fun _ -> push "acm-api")
+Target.create "Containerize_AcmApi" (fun _ -> containerize "AssociationRegistry.Acm.Api" "verenigingsregister-acmapi")
+Target.create "PushContainer_AcmApi" (fun _ -> push "verenigingsregister-acmapi")
 
-Target.create "Containerize_PublicApi" (fun _ -> containerize "AssociationRegistry.Public.Api" "public-api")
-Target.create "PushContainer_PublicApi" (fun _ -> push "public-api")
+Target.create "Containerize_PublicApi" (fun _ -> containerize "AssociationRegistry.Public.Api" "verenigingsregister-publicapi")
+Target.create "PushContainer_PublicApi" (fun _ -> push "verenigingsregister-publicapi")
 
-Target.create "Containerize_PublicProjections" (fun _ -> containerize "AssociationRegistry.Public.ProjectionHost" "public-projections")
-Target.create "PushContainer_PublicProjections" (fun _ -> push "public-projections")
+Target.create "Containerize_PublicProjections" (fun _ -> containerize "AssociationRegistry.Public.ProjectionHost" "verenigingsregister-publicprojections")
+Target.create "PushContainer_PublicProjections" (fun _ -> push "verenigingsregister-publicprojections")
 
-Target.create "Containerize_AdminApi" (fun _ -> containerize "AssociationRegistry.Admin.Api" "admin-api")
-Target.create "PushContainer_AdminApi" (fun _ -> push "admin-api")
+Target.create "Containerize_AdminApi" (fun _ -> containerize "AssociationRegistry.Admin.Api" "verenigingsregister-adminapi")
+Target.create "PushContainer_AdminApi" (fun _ -> push "verenigingsregister-adminapi")
 
-Target.create "Containerize_AdminProjections" (fun _ -> containerize "AssociationRegistry.Admin.ProjectionHost" "admin-projections")
-Target.create "PushContainer_AdminProjections" (fun _ -> push "admin-projections")
+Target.create "Containerize_AdminProjections" (fun _ -> containerize "AssociationRegistry.Admin.ProjectionHost" "verenigingsregister-adminprojections")
+Target.create "PushContainer_AdminProjections" (fun _ -> push "verenigingsregister-adminprojections")
 
 // --------------------------------------------------------------------------------
 

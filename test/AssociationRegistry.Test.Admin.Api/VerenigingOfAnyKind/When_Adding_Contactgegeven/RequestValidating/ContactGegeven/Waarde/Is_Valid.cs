@@ -3,8 +3,8 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Valid : ValidatorTest
@@ -13,15 +13,17 @@ public class Is_Valid : ValidatorTest
     public void Has_no_validation_error()
     {
         var validator = new VoegContactgegevenToeValidator();
+
         var result = validator.TestValidate(
             new VoegContactgegevenToeRequest
             {
                 Contactgegeven = new ToeTeVoegenContactgegeven
-                    {
-                        Waarde = "test waarde",
-                    },
+                {
+                    Waarde = "test waarde",
+                },
             });
 
-        result.ShouldNotHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." + nameof(ToeTeVoegenContactgegeven.Waarde));
+        result.ShouldNotHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
+                                               nameof(ToeTeVoegenContactgegeven.Waarde));
     }
 }

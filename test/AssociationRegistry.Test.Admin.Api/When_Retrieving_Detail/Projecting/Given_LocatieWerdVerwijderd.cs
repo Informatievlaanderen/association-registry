@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using Events;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
@@ -20,7 +18,7 @@ public class Given_LocatieWerdVerwijderd
         var fixture = new Fixture().CustomizeAdminApi();
         var locatieWerdVerwijderd = new TestEvent<LocatieWerdVerwijderd>(fixture.Create<LocatieWerdVerwijderd>());
 
-        var teVerwidjerenLocatie = fixture.Create<BeheerVerenigingDetailDocument.Locatie>();
+        var teVerwidjerenLocatie = fixture.Create<Locatie>();
         teVerwidjerenLocatie.LocatieId = locatieWerdVerwijderd.Data.Locatie.LocatieId;
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
@@ -31,7 +29,5 @@ public class Given_LocatieWerdVerwijderd
         doc.Locaties.Should().HaveCount(3);
         doc.Locaties.Should().NotContainEquivalentOf(teVerwidjerenLocatie);
         doc.Locaties.Should().BeInAscendingOrder(l => l.LocatieId);
-        doc.DatumLaatsteAanpassing.Should().Be(locatieWerdVerwijderd.Tijdstip.ToBelgianDate());
-        doc.Metadata.Should().BeEquivalentTo(new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version));
     }
 }

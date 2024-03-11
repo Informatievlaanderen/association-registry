@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://webservice.registreeruitschrijvingdienst-02_01.repertorium-02_01.vip.vlaanderen.be"
+                  xmlns="http://webservice.registreeruitschrijvingdienst-02_01.repertorium-02_01.vip.vlaanderen.be"                  
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+	<wsdl:types>
+		<xsd:schema targetNamespace="http://webservice.registreeruitschrijvingdienst-02_01.repertorium-02_01.vip.vlaanderen.be"
+		            xmlns="http://webservice.registreeruitschrijvingdienst-02_01.repertorium-02_01.vip.vlaanderen.be"
+		            xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+		            elementFormDefault="unqualified" 
+		            attributeFormDefault="unqualified"
+                version="2.01">
+		            
+			<xsd:include schemaLocation="RegistreerUitschrijving.xsd"/>
+			<xsd:include schemaLocation="RegistreerUitschrijvingResponse.xsd"/>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="RegistreerUitschrijvingRequest">
+		<wsdl:part name="Verzoek" element="RegistreerUitschrijving"/>
+	</wsdl:message>
+	<wsdl:message name="RegistreerUitschrijvingResponse">
+		<wsdl:part name="Repliek" element="RegistreerUitschrijvingResponse"/>
+	</wsdl:message>
+	<wsdl:portType name="Repertorium.RegistreerUitschrijvingPortType">
+		<wsdl:operation name="RegistreerUitschrijving">
+			<wsdl:input name="RegistreerUitschrijvingRequest" message="RegistreerUitschrijvingRequest"/>
+			<wsdl:output name="RegistreerUitschrijvingResponse" message="RegistreerUitschrijvingResponse"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="Repertorium.RegistreerUitschrijvingHttpBinding" type="Repertorium.RegistreerUitschrijvingPortType">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="RegistreerUitschrijving">
+			<soap:operation/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+		</wsdl:operation>
+	</wsdl:binding>
+	
+	<wsdl:service name="Repertorium.RegistreerUitschrijving">
+		<wsdl:port name="Repertorium.RegistreerUitschrijvingHttpPort" binding="Repertorium.RegistreerUitschrijvingHttpBinding">
+			<soap:address location="https://magdarepertoriumdienst.vlaanderen.be/RegistreerUitschrijvingDienst-02.01/soap/WebService"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>

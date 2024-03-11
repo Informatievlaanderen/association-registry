@@ -17,19 +17,20 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd
     public void Then_it_adds_a_new_gebeurtenis()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd = fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
+
+        var hoofdactiviteitenVerenigingsloketWerdenGewijzigd =
+            fixture.Create<TestEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>>();
 
         var doc = fixture.Create<BeheerVerenigingHistoriekDocument>();
 
         BeheerVerenigingHistoriekProjector.Apply(hoofdactiviteitenVerenigingsloketWerdenGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
-                "Hoofdactiviteiten verenigingsloket werden gewijzigd.",
+                Beschrijving: "Hoofdactiviteiten verenigingsloket werden gewijzigd.",
                 nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
                 hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data,
                 hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Initiator,
-                hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

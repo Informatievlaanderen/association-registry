@@ -1,18 +1,20 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.Contactgegevens.Type;
+﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.Contactgegevens.
+    Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
+using ValidatorTest = Framework.ValidatorTest;
 
 public class Is_Null : ValidatorTest
 {
     [Fact]
     public void Has_validation_error__contactgegevenValue_mag_niet_leeg_zijn()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var result = validator.TestValidate(
             new RegistreerFeitelijkeVerenigingRequest
             {
@@ -21,13 +23,14 @@ public class Is_Null : ValidatorTest
                     {
                         new ToeTeVoegenContactgegeven
                         {
-                            Type = null!,
+                            Contactgegeventype = null!,
                         },
                     },
             });
 
-        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Type)}")
-            .WithErrorMessage("'Type' is verplicht.")
-            .Only();
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Contactgegeventype)}")
+              .WithErrorMessage("'Contactgegeventype' is verplicht.")
+              .Only();
     }
 }

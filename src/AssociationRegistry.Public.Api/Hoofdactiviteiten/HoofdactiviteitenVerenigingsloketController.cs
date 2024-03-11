@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Public.Api.Hoofdactiviteiten;
 
-using System.Linq;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using System.Linq;
 using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -21,10 +21,10 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
     /// <response code="200">De gekende waarden voor hoofdactiviteit</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("")]
-    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     public IActionResult GetAll()
         => Ok(
             new HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse
@@ -33,10 +33,11 @@ public class HoofdactiviteitenVerenigingsloketController : ApiController
             }
         );
 
-    private static HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket ToDto(HoofdactiviteitVerenigingsloket arg)
+    private static HoofdactiviteitenHoofdactiviteitenVerenigingsloketResponse.HoofdactiviteitVerenigingsloket ToDto(
+        HoofdactiviteitVerenigingsloket arg)
         => new()
         {
             Code = arg.Code,
-            Beschrijving = arg.Beschrijving,
+            Naam = arg.Naam,
         };
 }

@@ -19,8 +19,8 @@ public class Given_A_List_Of_Vertegenwoordigers
         var vertegenwoordigersLijst = Vertegenwoordigers.Empty.VoegToe(listOfVertegenwoordigers);
 
         vertegenwoordigersLijst.Should()
-            .BeEquivalentTo(
-                listOfVertegenwoordigers,
-                options => options.Excluding(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId));
+                               .BeEquivalentTo(
+                                    listOfVertegenwoordigers,
+                                    config: options => options.Excluding(vertegenwoordiger => vertegenwoordiger.VertegenwoordigerId));
     }
 }

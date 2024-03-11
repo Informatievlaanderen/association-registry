@@ -1,19 +1,20 @@
 namespace AssociationRegistry.Admin.Api;
 
-using AssociationRegistry.Magda;
+using Amazon;
+using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Logging;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
-using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
 using DuplicateDetection;
 using DuplicateVerenigingDetection;
+using Events;
 using EventStore;
 using FluentValidation;
 using Framework;
@@ -21,13 +22,17 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
+using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
+using Infrastructure.HttpClients;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
+using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -73,6 +78,7 @@ using Wolverine;
 public class Program
 {
     private const string AdminGlobalPolicyName = "Admin Global";
+    public const string SuperAdminPolicyName = "Super Admin";
 
     public static async Task Main(string[] args)
     {
@@ -103,13 +109,13 @@ public class Program
         builder.Host.UseWolverine(
             options =>
             {
-                options.Handlers.Discovery(
-                    source => { source.IncludeAssembly(typeof(Vereniging).Assembly); });
+                options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
 
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
 
         var app = builder.Build();
+        var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
@@ -132,9 +138,40 @@ public class Program
         app.UseRouting()
            .UseAuthentication()
            .UseAuthorization()
-           .UseEndpoints(routeBuilder => routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName));
+           .UseEndpoints(routeBuilder =>
+            {
+                routeBuilder.MapControllers().RequireAuthorization(AdminGlobalPolicyName);
+            });
 
         ConfigureLifetimeHooks(app);
+
+        using var session = app.Services.GetRequiredService<IDocumentSession>();
+
+        var queryAllRawEvents = session
+                               .Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
+
+        queryAllRawEvents
+           .Select(x => x.VCode)
+           .ToList()
+           .ForEach(key =>
+            {
+                app.Services.GetRequiredService<ILogger<Program>>().LogInformation(message: "Archiving {Stream}", key);
+                session.Events.ArchiveStream(key);
+            });
+
+        session.SaveChanges();
+
+        var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+
+        try
+        {
+            await registreerInschrijvinCatchupService
+               .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"MAGDA Catchup Service: Fout bij het opstarten! ({ex.Message})");
+        }
 
         await app.RunOaktonCommands(args);
     }
@@ -205,6 +242,7 @@ public class Program
             {
                 new BadHttpRequestExceptionHandler(problemDetailsHelper),
                 new CouldNotParseRequestExceptionHandler(problemDetailsHelper),
+                new UnexpectedAggregateVersionExceptionHandler(problemDetailsHelper),
                 new JsonReaderExceptionHandler(problemDetailsHelper),
             },
             problemDetailsHelper);
@@ -246,7 +284,8 @@ public class Program
     {
         builder.Configuration
                .AddJsonFile("appsettings.json")
-               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
+               .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName.ToLowerInvariant()}.json", optional: true,
+                            reloadOnChange: false)
                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true, reloadOnChange: false)
                .AddEnvironmentVariables()
                .AddCommandLine(args)
@@ -271,6 +310,7 @@ public class Program
                 })
            .UseMiddleware<UnexpectedAggregateVersionMiddleware>()
            .UseMiddleware<InitiatorHeaderMiddleware>()
+           .UseMiddleware<CustomHeadersActivityMiddleware>()
            .UseResponseCompression();
     }
 
@@ -279,14 +319,20 @@ public class Program
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
+
+        var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
+        var sqsClient = new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
                .AddScoped<InitiatorProvider>()
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(appSettings)
+               .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
+               .AddSingleton<IAmazonSQS>(sqsClient)
+               .AddSingleton<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
                .AddScoped<ICommandMetadataProvider, CommandMetadataProvider>()
@@ -295,13 +341,22 @@ public class Program
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
                .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
-               .AddTransient<IMagdaFacade, MagdaFacade>()
+               .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
+               .AddTransient<IMagdaClient, MagdaClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
-               .AddMarten(postgreSqlOptionsSection, builder.Configuration)
+               .AddMarten(postgreSqlOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
-               .AddOpenTelemetry()
+               .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
+
+        builder.Services
+               .AddHttpClient<AdminProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl));
+
+        builder.Services
+               .AddHttpClient<PublicProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -353,7 +408,8 @@ public class Program
                         cfg.AddPolicy(
                             StartupConstants.AllowSpecificOrigin,
                             configurePolicy: corsPolicy => corsPolicy
-                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ?? Array.Empty<string>())
+                                                          .WithOrigins(builder.Configuration.GetValue<string[]>("Cors") ??
+                                                                       Array.Empty<string>())
                                                           .WithMethods(StartupConstants.HttpMethodsAsString)
                                                           .WithHeaders(StartupConstants.Headers)
                                                           .WithExposedHeaders(StartupConstants.ExposedHeaders)
@@ -363,16 +419,28 @@ public class Program
                .AddControllersAsServices()
                .AddAuthorization(
                     options =>
+                    {
                         options.AddPolicy(
                             AdminGlobalPolicyName,
                             new AuthorizationPolicyBuilder()
                                .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
-                               .Build()))
+                               .Build());
+
+                        options.AddPolicy(
+                            SuperAdminPolicyName,
+                            new AuthorizationPolicyBuilder()
+                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                               .RequireClaim(Security.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
+                               .Build());
+                    })
                .AddNewtonsoftJson(
                     opt =>
                     {
-                        opt.SerializerSettings.Converters.Add(new StringEnumConverter(new DefaultNamingStrategy(), allowIntegerValues: false));
+                        opt.SerializerSettings.Converters.Add(
+                            new StringEnumConverter(new DefaultNamingStrategy(), allowIntegerValues: false));
+
                         opt.SerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
+                        opt.SerializerSettings.Converters.Add(new NullableNullOrEmptyDateOnlyJsonConvertor());
                         opt.SerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                         opt.SerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
                         opt.SerializerSettings.NullValueHandling = NullValueHandling.Include;
@@ -393,7 +461,9 @@ public class Program
                     JwtBearerDefaults.AuthenticationScheme,
                     configureOptions: options =>
                     {
-                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions)).Get<OAuth2IntrospectionOptions>();
+                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                                   .Get<OAuth2IntrospectionOptions>();
+
                         options.ClientId = configOptions.ClientId;
                         options.ClientSecret = configOptions.ClientSecret;
                         options.Authority = configOptions.Authority;
@@ -514,18 +584,6 @@ public class Program
                .AddOpenTelemetry();
     }
 
-    private static void RunWithLock<T>(IWebHostBuilder webHostBuilder) where T : class
-    {
-        var webHost = webHostBuilder.Build();
-        var services = webHost.Services;
-        var logger = services.GetRequiredService<ILogger<T>>();
-
-        DistributedLock<T>.Run(
-            runFunc: () => webHost.Run(),
-            DistributedLockOptions.Defaults,
-            logger);
-    }
-
     private static void ConfigereKestrel(WebApplicationBuilder builder)
     {
         builder.WebHost.ConfigureKestrel(
@@ -552,6 +610,7 @@ public class Program
     {
         var jsonSerializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
         jsonSerializerSettings.Converters.Add(new NullOrEmptyDateOnlyJsonConvertor());
+        jsonSerializerSettings.Converters.Add(new NullableNullOrEmptyDateOnlyJsonConvertor());
         jsonSerializerSettings.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
         jsonSerializerSettings.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
         jsonSerializerSettings.NullValueHandling = NullValueHandling.Include;

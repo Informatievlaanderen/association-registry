@@ -1,14 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
 
-using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formatters;
 using Framework;
 using Microsoft.Net.Http.Headers;
 using System.Net;
-using Vereniging;
+using templates;
 using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
@@ -19,15 +18,12 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     private readonly AdminApiClient _adminApiClient;
-    private readonly HttpResponseMessage _response;
-    private readonly V029_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
         _scenario = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
-
         _adminApiClient = fixture.DefaultClient;
-        _response = fixture.DefaultClient.GetDetail(_scenario.VCode).GetAwaiter().GetResult();
     }
 
     [Fact]
@@ -49,105 +45,60 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     [Fact]
     public async Task Then_we_get_a_detail_response()
     {
-        var content = await _response.Content.ReadAsStringAsync();
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        var content = await response.Content.ReadAsStringAsync();
 
-        var vCode = _scenario.VCode;
-
-        var expected = $@"
-{{
-    ""@context"": ""{"http://127.0.0.1:11004/v1/contexten/detail-vereniging-context.json"}"",
-    ""vereniging"": {{
-            ""vCode"": ""{vCode}"",
-            ""type"": {{
-                ""code"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code}"",
-                ""beschrijving"": ""{Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Beschrijving}"",
-            }},
-            ""naam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
-            ""roepnaam"": """",
-            ""korteNaam"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
-            ""korteBeschrijving"": """",
-            ""startdatum"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
-            ""einddatum"": null,
-            ""doelgroep"" : {{ ""minimumleeftijd"": 0, ""maximumleeftijd"": 150 }},
-            ""status"": ""Actief"",
-            ""isUitgeschrevenUitPubliekeDatastroom"": false,
-            ""contactgegevens"": [{{
-                        ""contactgegevenId"": {_scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.EmailWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.EmailWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-                    }},
-{{
-                        ""contactgegevenId"": {_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.WebsiteWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-}},
-{{
-                        ""contactgegevenId"": {_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.TelefoonWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-}},
-{{
-                        ""contactgegevenId"": {_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId},
-                        ""type"": ""{_scenario.GSMWerdOvergenomenUitKBO.Type}"",
-                        ""waarde"": ""{_scenario.GSMWerdOvergenomenUitKBO.Waarde}"",
-                        ""beschrijving"": """",
-                        ""isPrimair"": false,
-                        ""bron"": ""{Bron.KBO.Waarde}"",
-                    }}],
-            ""locaties"":[
-                {{
-                ""locatieId"": {_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId},
-                ""locatietype"": ""Maatschappelijke zetel volgens KBO"",
-                ""isPrimair"": false,
-                ""naam"": ""{string.Empty}"",
-                ""adres"": {{
-                    ""straatnaam"": ""Stationsstraat"",
-                    ""huisnummer"": ""1"",
-                    ""busnummer"": ""B"",
-                    ""postcode"": ""1790"",
-                    ""gemeente"": ""Affligem"",
-                    ""land"": ""België""
-                }},
-                ""adresvoorstelling"": ""Stationsstraat 1 bus B, 1790 Affligem, België"",
-                ""adresId"": null,
-                ""bron"": ""{Bron.KBO.Waarde}"",
-            }}
-            ],
-            ""vertegenwoordigers"":[],
-            ""hoofdactiviteitenVerenigingsloket"":[],
-            ""sleutels"":[
-                {{
-                    ""bron"": ""KBO"",
-                    ""waarde"": ""{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer}""
-                }}],
-            ""relaties"":[],
-            ""bron"": ""{Bron.KBO.Waarde}"",
-        }},
-        ""metadata"": {{
-            ""datumLaatsteAanpassing"": ""{_scenario.Metadata.Tijdstip.ToBelgianDate()}"",
-        }}
-}}
-";
+        var expected = new DetailVerenigingResponseTemplate()
+                      .FromEvent(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
+                      .WithLocatie(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Locatietype,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Naam,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.ToAdresString(),
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Straatnaam,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Huisnummer,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Busnummer,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Postcode,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Gemeente,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.Adres.Land,
+                                   _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.IsPrimair,
+                                   Bron.KBO, _scenario.VCode)
+                      .WithContactgegeven(
+                           _scenario.EmailWerdOvergenomenUitKBO.ContactgegevenId,
+                           _scenario.EmailWerdOvergenomenUitKBO.Bron,
+                           _scenario.EmailWerdOvergenomenUitKBO.Contactgegeventype,
+                           _scenario.EmailWerdOvergenomenUitKBO.Waarde, _scenario.VCode,
+                           _scenario.EmailWerdGewijzigd.Beschrijving,
+                           _scenario.EmailWerdGewijzigd.IsPrimair)
+                      .WithContactgegeven(_scenario.WebsiteWerdOvergenomenUitKBO.ContactgegevenId,
+                                          _scenario.WebsiteWerdOvergenomenUitKBO.Bron,
+                                          _scenario.WebsiteWerdOvergenomenUitKBO.Contactgegeventype,
+                                          _scenario.WebsiteWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                      .WithContactgegeven(_scenario.TelefoonWerdOvergenomenUitKBO.ContactgegevenId,
+                                          _scenario.TelefoonWerdOvergenomenUitKBO.Bron,
+                                          _scenario.TelefoonWerdOvergenomenUitKBO.Contactgegeventype,
+                                          _scenario.TelefoonWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                      .WithContactgegeven(_scenario.GSMWerdOvergenomenUitKBO.ContactgegevenId,
+                                          _scenario.GSMWerdOvergenomenUitKBO.Bron,
+                                          _scenario.GSMWerdOvergenomenUitKBO.Contactgegeventype,
+                                          _scenario.GSMWerdOvergenomenUitKBO.Waarde, _scenario.VCode)
+                      .WithVertegenwoordiger(_scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
+                                             _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Voornaam,
+                                             _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Achternaam,
+                                             string.Empty,
+                                             string.Empty, _scenario.VertegenwoordigerWerdOvergenomenUitKBO.Insz, string.Empty,
+                                             string.Empty, string.Empty, string.Empty, isPrimair: false, bron: Bron.KBO, vCode: _scenario.VCode);
 
         content.Should().BeEquivalentJson(expected);
     }
 
     [Fact]
-    public void Then_it_returns_an_etag_header()
+    public async Task Then_it_returns_an_etag_header()
     {
-        _response.Headers.ETag.Should().NotBeNull();
-        var etagValues = _response.Headers.GetValues(HeaderNames.ETag).ToList();
-        etagValues.Should().HaveCount(expected: 1);
-        var etag = etagValues[index: 0];
+        var response = await _adminApiClient.GetDetail(_scenario.VCode);
+        response.Headers.ETag.Should().NotBeNull();
+
+        var etag = response.Headers.GetValues(HeaderNames.ETag).ToList().Should().ContainSingle().Subject;
         etag.Should().StartWith("W/\"").And.EndWith("\"");
     }
 }

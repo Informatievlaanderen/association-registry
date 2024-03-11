@@ -11,7 +11,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -44,6 +43,11 @@ jobs:
           path: ~/sonar/cache
           key: ${{ runner.os }}-sonar
           restore-keys: ${{ runner.os }}-sonar
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
 
       - name: Restore dotnet tools
         shell: bash
@@ -113,6 +117,17 @@ jobs:
           ]
 
     steps:
+      - name: Display disk space
+        run: |
+          df -h
+    
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Display disk space
+        run: |
+          df -h
+    
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -120,7 +135,7 @@ jobs:
         shell: bash
         if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
         run: |
-          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+          docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 
       - name: Run wiremock container
         shell: bash

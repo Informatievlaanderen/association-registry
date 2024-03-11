@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
-using System.Net.Http.Headers;
-using System.Reflection;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.Acm.Api.Constants;
 using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
@@ -23,14 +21,14 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using Polly;
+using System.Net.Http.Headers;
+using System.Reflection;
 using Xunit;
-using IEvent = global::AssociationRegistry.Framework.IEvent;
 
 public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "acmApiFixture";
-
+    private readonly string _identifier = "acmapifixture";
     private readonly WebApplicationFactory<Program> _webApplicationFactory;
 
     public IDocumentStore DocumentStore
@@ -48,43 +46,48 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     protected AcmApiFixture()
     {
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AcmApiFixture>(),
-                GetConnectionString(GetConfiguration(), RootDatabase))
-            .GetAwaiter().GetResult();
+                    new NullLogger<AcmApiFixture>(),
+                    GetConnectionString(GetConfiguration(), RootDatabase))
+               .GetAwaiter().GetResult();
 
-        EnsureDbExists(GetConfiguration().GetPostgreSqlOptionsSection());
+        EnsureDbExists(GetConfiguration());
 
         WaitFor.PostGreSQLToBecomeAvailable(
-                new NullLogger<AcmApiFixture>(),
-                GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
-            .GetAwaiter().GetResult();
+                    new NullLogger<AcmApiFixture>(),
+                    GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+               .GetAwaiter().GetResult();
 
         OaktonEnvironment.AutoStartHost = true;
 
         _webApplicationFactory = new WebApplicationFactory<Program>()
-            .WithWebHostBuilder(
+           .WithWebHostBuilder(
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
-                                .AddJsonFile("appsettings.json", optional: true)
-                                .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
-                                .AddInMemoryCollection(
+                               .AddJsonFile(path: "appsettings.json", optional: true)
+                               .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true)
+                               .AddInMemoryCollection(
                                     new[]
                                     {
-                                        new KeyValuePair<string, string>($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                        new KeyValuePair<string, string>(
+                                            $"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
                                     })
                     );
                 });
+
         var postgreSqlOptionsSection = _webApplicationFactory.Services.GetRequiredService<PostgreSqlOptionsSection>();
+
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AcmApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
-            .GetAwaiter().GetResult();
+               .GetAwaiter().GetResult();
+
         Clients = new Clients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
-                .Get<OAuth2IntrospectionOptions>(),
+                              .Get<OAuth2IntrospectionOptions>(),
             _webApplicationFactory.CreateClient);
     }
 
@@ -99,7 +102,6 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public virtual Task DisposeAsync()
         => Task.CompletedTask;
 
-
     public void Dispose()
     {
         GC.SuppressFinalize(this);
@@ -108,22 +110,29 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         DropDatabase();
     }
 
-    private static void EnsureDbExists(PostgreSqlOptionsSection postgreSqlOptionsSection)
+    private static void EnsureDbExists(IConfigurationRoot configuration)
     {
-        using var documentStore = Marten.DocumentStore.For(
-            options =>
-            {
-                options.Connection(postgreSqlOptionsSection.GetConnectionString());
-                options.CreateDatabasesForTenants(
-                    databaseConfig =>
-                    {
-                        databaseConfig.MaintenanceDatabase(GetRootConnectionString(postgreSqlOptionsSection));
-                        databaseConfig.ForTenant()
-                            .CheckAgainstPgDatabase()
-                            .WithOwner(postgreSqlOptionsSection.Username!);
-                    });
-                options.RetryPolicy(DefaultRetryPolicy.Times(maxRetryCount: 5, _ => true, i => TimeSpan.FromSeconds(i)));
-            });
+        var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
+        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
+
+        using var cmd = connection.CreateCommand();
+
+        try
+        {
+            connection.Open();
+            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+            cmd.ExecuteNonQuery();
+        }
+        catch (PostgresException ex)
+        {
+            if (ex.MessageText != $"database \"{postgreSqlOptionsSection.Database.ToLower()}\" already exists")
+                throw;
+        }
+        finally
+        {
+            connection.Close();
+            connection.Dispose();
+        }
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)
@@ -135,9 +144,11 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     private static string GetRootDirectoryOrThrow()
     {
         var maybeRootDirectory = Directory
-            .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
+                                .GetParent(Assembly.GetExecutingAssembly().Location)?.Parent?.Parent?.Parent?.FullName;
+
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
+
         return rootDirectory;
     }
 
@@ -146,24 +157,28 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         if (!eventsToAdd.Any())
             return StreamActionResult.Empty;
 
-        if (DocumentStore is not { })
+        if (DocumentStore is null)
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
         await daemon.StartAllShards();
 
-        if (daemon is not { })
+        if (daemon is null)
             throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(DocumentStore);
         var result = StreamActionResult.Empty;
-        foreach (var @event in eventsToAdd) result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, @event);
+
+        foreach (var @event in eventsToAdd)
+        {
+            result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, @event);
+        }
 
         var retry = Policy
-            .Handle<Exception>()
-            .WaitAndRetryAsync(retryCount: 3, i => TimeSpan.FromSeconds(10 * i));
+                   .Handle<Exception>()
+                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
             async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
@@ -174,21 +189,25 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     private IConfigurationRoot GetConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(GetRootDirectory())
-            .AddJsonFile("appsettings.json", optional: true)
-            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+                     .SetBasePath(GetRootDirectory())
+                     .AddJsonFile(path: "appsettings.json", optional: true)
+                     .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json", optional: true);
+
         var tempConfiguration = builder.Build();
         tempConfiguration["PostgreSQLOptions:database"] = _identifier;
         tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _identifier;
+
         return tempConfiguration;
     }
 
     private static string GetRootDirectory()
     {
         var maybeRootDirectory = Directory
-            .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+                                .GetParent(typeof(Program).GetTypeInfo().Assembly.Location)?.Parent?.Parent?.Parent?.FullName;
+
         if (maybeRootDirectory is not { } rootDirectory)
             throw new NullReferenceException("Root directory cannot be null");
+
         return rootDirectory;
     }
 
@@ -196,6 +215,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     {
         using var connection = new NpgsqlConnection(GetConnectionString(GetConfiguration(), RootDatabase));
         using var cmd = connection.CreateCommand();
+
         try
         {
             connection.Open();
@@ -229,17 +249,17 @@ public class Clients : IDisposable
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
 
-        Authenticated = new AcmApiClient(CreateMachine2MachineClientFor("acmClient", Security.Scopes.ACM, "secret").GetAwaiter().GetResult());
+        Authenticated = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.ACM, clientSecret: "secret")
+                                        .GetAwaiter().GetResult());
 
         Unauthenticated = new AcmApiClient(_createClientFunc());
 
-        Unauthorized = new AcmApiClient(CreateMachine2MachineClientFor("acmClient", Security.Scopes.Info, "secret").GetAwaiter().GetResult());
+        Unauthorized = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.Info, clientSecret: "secret")
+                                       .GetAwaiter().GetResult());
     }
 
     public AcmApiClient Authenticated { get; }
-
     public AcmApiClient Unauthenticated { get; }
-
     public AcmApiClient Unauthorized { get; }
 
     public void Dispose()
@@ -255,7 +275,7 @@ public class Clients : IDisposable
         string clientSecret)
     {
         var tokenClient = new TokenClient(
-            () => new HttpClient(),
+            client: () => new HttpClient(),
             new TokenClientOptions
             {
                 Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
@@ -264,7 +284,7 @@ public class Clients : IDisposable
                 Parameters = new Parameters(
                     new[]
                     {
-                        new KeyValuePair<string, string>("scope", scope),
+                        new KeyValuePair<string, string>(key: "scope", scope),
                     }),
             });
 
@@ -273,7 +293,8 @@ public class Clients : IDisposable
         var token = acmResponse.AccessToken;
         var httpClientFor = _createClientFunc();
         httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", token);
+
         return httpClientFor;
     }
 }

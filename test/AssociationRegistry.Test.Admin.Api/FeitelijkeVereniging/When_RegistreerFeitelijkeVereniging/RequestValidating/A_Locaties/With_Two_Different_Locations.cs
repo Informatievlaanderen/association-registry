@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locaties;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
 public class With_Two_Different_Locations : ValidatorTest
@@ -15,11 +16,12 @@ public class With_Two_Different_Locations : ValidatorTest
     [Fact]
     public void Has_no_validation_error()
     {
-        var validator = new RegistreerFeitelijkeVerenigingRequestValidator();
+        var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
+
         var eersteLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
-            Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+            Adres = new Adres
             {
                 Huisnummer = "23",
                 Gemeente = "Zonnedorp",
@@ -28,10 +30,11 @@ public class With_Two_Different_Locations : ValidatorTest
                 Land = "Belgie",
             },
         };
+
         var andereLocatie = new ToeTeVoegenLocatie
         {
             Locatietype = Locatietype.Activiteiten,
-            Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+            Adres = new Adres
             {
                 Huisnummer = "23",
                 Gemeente = "Anderdorp",
@@ -40,6 +43,7 @@ public class With_Two_Different_Locations : ValidatorTest
                 Land = "Belgie",
             },
         };
+
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Locaties = new[]
@@ -48,6 +52,7 @@ public class With_Two_Different_Locations : ValidatorTest
                 andereLocatie,
             },
         };
+
         var result = validator.TestValidate(request);
 
         result.ShouldNotHaveValidationErrorFor(r => r.Locaties);

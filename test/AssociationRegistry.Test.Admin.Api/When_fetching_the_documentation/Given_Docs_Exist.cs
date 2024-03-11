@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
 
-using System.Net;
 using Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,6 +19,7 @@ public sealed class When_RetrievingDocs
     }
 
     private static When_RetrievingDocs? called;
+
     public static When_RetrievingDocs Called(AdminApiFixture fixture)
         => called ??= new When_RetrievingDocs(fixture);
 }
@@ -37,7 +38,9 @@ public class Given_Docs_Exist
         => When_RetrievingDocs.Called(_fixture).Docs;
 
     public Given_Docs_Exist(EventsInDbScenariosFixture fixture)
-        => _fixture = fixture;
+    {
+        _fixture = fixture;
+    }
 
     [Fact]
     public async Task Then_theRootPath_returns_an_ok_response()
@@ -54,9 +57,12 @@ public class Given_Docs_Exist
     [Fact]
     public void Then_it_as_a_summary_for_each_path()
         => Docs!.Paths!
-            .ToList()
-            .ForEach(path =>
-                path.Value.ToList().ForEach(method => method.Value.Summary.Should().NotBeNullOrWhiteSpace(because: $"'[{method.Key}] {path.Key}' should have a summary.")));
+                .ToList()
+                .ForEach(path =>
+                             path.Value.ToList().ForEach(method => method.Value.Summary.Should()
+                                                                         .NotBeNullOrWhiteSpace(
+                                                                              because:
+                                                                              $"'[{method.Key}] {path.Key}' should have a summary.")));
 }
 
 public class Docs

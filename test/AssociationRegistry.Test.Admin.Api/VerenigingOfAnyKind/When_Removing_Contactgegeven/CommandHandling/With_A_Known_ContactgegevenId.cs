@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Removing_Contactgegeven.CommandHandling;
 
 using Acties.VerwijderContactgegeven;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -24,12 +24,16 @@ public class With_A_Known_ContactgegevenId
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new VerwijderContactgegevenCommand(_scenario.VCode, FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario.ContactgegevenId);
+
+        var command = new VerwijderContactgegevenCommand(_scenario.VCode,
+                                                         FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario
+                                                            .ContactgegevenId);
+
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new VerwijderContactgegevenCommandHandler(_verenigingRepositoryMock);
 
         commandHandler.Handle(new CommandEnvelope<VerwijderContactgegevenCommand>(command, commandMetadata))
-            .GetAwaiter().GetResult();
+                      .GetAwaiter().GetResult();
     }
 
     [Fact]

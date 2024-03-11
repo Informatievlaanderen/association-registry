@@ -11,16 +11,14 @@ public class AppSettings
         set => _baseUrl = value;
     }
 
+    public string NewsletterUrl { get; set; } = null!;
     public string ApiKeyRequestFormUrl { get; set; } = null!;
-
     public ApiDocsSettings ApiDocs { get; set; } = null!;
-
     public SearchSettings Search { get; set; } = new();
 
     public class ApiDocsSettings
     {
         public string Title { get; set; } = null!;
-
         public LicenseSettings License { get; set; } = null!;
         public ContactSettings Contact { get; set; } = null!;
 

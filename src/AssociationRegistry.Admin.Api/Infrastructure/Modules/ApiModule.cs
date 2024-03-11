@@ -17,10 +17,10 @@ public class ApiModule : Module
     protected override void Load(ContainerBuilder builder)
     {
         builder
-            .RegisterType<ProblemDetailsHelper>()
-            .AsSelf();
+           .RegisterType<ProblemDetailsHelper>()
+           .AsSelf();
 
         builder
-            .Populate(_services);
+           .Populate(_services);
     }
 }

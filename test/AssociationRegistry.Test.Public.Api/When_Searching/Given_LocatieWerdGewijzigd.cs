@@ -1,10 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
-using AssociationRegistry.Test.Framework;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
+using Formatters;
+using templates;
+using Test.Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,15 +17,12 @@ using Xunit.Categories;
 public class Given_LocatieWerdGewijzigd
 {
     private readonly V013_LocatieWerdGewijzigdScenario _scenario;
-    private readonly string _goldenMaster;
     private readonly PublicApiClient _publicApiClient;
 
     public Given_LocatieWerdGewijzigd(GivenEventsFixture fixture)
     {
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V013LocatieWerdGewijzigdScenario;
-        _goldenMaster = GetType().GetAssociatedResourceJson(
-            $"files.{nameof(Given_LocatieWerdGewijzigd)}_{nameof(Then_we_retrieve_one_vereniging_with_the_changed_Locatie)}");
     }
 
     [Fact]
@@ -34,8 +34,25 @@ public class Given_LocatieWerdGewijzigd
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-        var goldenMaster = _goldenMaster
-            .Replace("{{originalQuery}}", _scenario.VCode);
+
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(_scenario.VCode)
+                          .WithVereniging(
+                               v => v
+                                   .WithVCode(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
+                                   .WithType(Verenigingstype.FeitelijkeVereniging)
+                                   .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
+                                   .WithDoelgroep(_scenario.VCode)
+                                   .WithLocatie(_scenario.LocatieWerdGewijzigd.Locatie.Locatietype,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Naam,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.ToAdresString(),
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Postcode,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.Adres?.Gemeente,
+                                                _scenario.VCode,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.LocatieId,
+                                                _scenario.LocatieWerdGewijzigd.Locatie.IsPrimair)
+                           );
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

@@ -2,6 +2,7 @@
 
 using Framework;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {
@@ -12,18 +13,24 @@ public class VerenigingsRepository : IVerenigingsRepository
         _eventStore = eventStore;
     }
 
-    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, CommandMetadata metadata, CancellationToken cancellationToken = default)
+    public async Task<StreamActionResult> Save(
+        VerenigingsBase vereniging,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken = default)
     {
         var events = vereniging.UncommittedEvents.ToArray();
+
         if (!events.Any())
             return StreamActionResult.Empty;
 
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion) where TVereniging : IHydrate<VerenigingState>, new()
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
+        where TVereniging : IHydrate<VerenigingState>, new()
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
+        ThrowIfVerwijderd(verenigingState);
 
         var vereniging = new TVereniging();
         vereniging.Hydrate(verenigingState);
@@ -34,21 +41,21 @@ public class VerenigingsRepository : IVerenigingsRepository
         return vereniging;
     }
 
-    public async Task<VCodeAndNaam?> GetVCodeAndNaam(KboNummer kboNummer)
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer);
+        var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
+        verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
 
-        if (verenigingState == null)
-            return null;
+        if (expectedVersion is not null && verenigingState.Version != expectedVersion)
+            throw new UnexpectedAggregateVersionException();
 
-        return new VCodeAndNaam(verenigingState.VCode, verenigingState.Naam);
+        return verenigingMetRechtspersoonlijkheid;
     }
 
-    public record VCodeAndNaam(VCode? VCode, VerenigingsNaam VerenigingsNaam)
+    private void ThrowIfVerwijderd(VerenigingState verenigingState)
     {
-        public static VCodeAndNaam Fallback(KboNummer kboNummer)
-            => new(
-                null,
-                VerenigingsNaam.Create($"Moeder {kboNummer}"));
+        if (verenigingState.IsVerwijderd)
+            throw new VerenigingWerdVerwijderd(verenigingState.VCode);
     }
 }

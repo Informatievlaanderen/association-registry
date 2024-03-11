@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,6 +14,6 @@ public class With_A_Locatie : ValidatorTest
     public void Uses_ToeTeVoegenLocatieValidator()
     {
         var validator = new VoegLocatieToeValidator();
-        validator.ShouldHaveChildValidator(request => request.Locatie, typeof(ToeTeVoegenLocatieValidator));
+        validator.ShouldHaveChildValidator(expression: request => request.Locatie, typeof(ToeTeVoegenLocatieValidator));
     }
 }

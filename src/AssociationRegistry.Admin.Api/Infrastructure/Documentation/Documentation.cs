@@ -4,8 +4,6 @@ public static class Documentation
 {
     public static string GetHeadContent()
     {
-
-
         var lessSpaceBetweenSections = @"
 <script src=""https://cdn.redoc.ly/redoc/latest/bundles/redoc.standalone.js""> </script>
 <script>

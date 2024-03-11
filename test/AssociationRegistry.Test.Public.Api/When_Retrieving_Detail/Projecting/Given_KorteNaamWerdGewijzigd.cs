@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
@@ -24,24 +23,5 @@ public class Given_KorteNaamWerdGewijzigd
         PubliekVerenigingDetailProjector.Apply(korteNaamWerdGewijzigd, doc);
 
         doc.KorteNaam.Should().Be(korteNaamWerdGewijzigd.Data.KorteNaam);
-        doc.DatumLaatsteAanpassing.Should().Be(korteNaamWerdGewijzigd.Tijdstip.ToBelgianDate());
-    }
-}
-
-[UnitTest]
-public class Given_RoepnaamWerdGewijzigd
-{
-    [Fact]
-    public void Then_it_modifies_the_roepnaam()
-    {
-        var fixture = new Fixture().CustomizePublicApi();
-        var roepnaamWerdGewijzigd = fixture.Create<TestEvent<RoepnaamWerdGewijzigd>>();
-
-        var doc = fixture.Create<PubliekVerenigingDetailDocument>();
-
-        PubliekVerenigingDetailProjector.Apply(roepnaamWerdGewijzigd, doc);
-
-        doc.Roepnaam.Should().Be(roepnaamWerdGewijzigd.Data.Roepnaam);
-        doc.DatumLaatsteAanpassing.Should().Be(roepnaamWerdGewijzigd.Tijdstip.ToBelgianDate());
     }
 }

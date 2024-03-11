@@ -24,7 +24,7 @@ public class SearchVerenigingenResponseMapper
         string originalQuery)
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/zoek-verenigingen-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
                                          .Select(x => Map(x.Source, _appSettings))
                                          .ToArray(),
@@ -34,11 +34,13 @@ public class SearchVerenigingenResponseMapper
     private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
         => new()
         {
+            type = verenigingZoekDocument.JsonLdMetadataType,
             VCode = verenigingZoekDocument.VCode,
-            Type = Map(verenigingZoekDocument.Type),
+            Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
             Naam = verenigingZoekDocument.Naam,
             Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
+            Status = verenigingZoekDocument.Status,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                                                                       .Select(Map)
@@ -55,6 +57,8 @@ public class SearchVerenigingenResponseMapper
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()
         {
+            id = doelgroep.JsonLdMetadata.Id,
+            type = doelgroep.JsonLdMetadata.Type,
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
@@ -63,13 +67,19 @@ public class SearchVerenigingenResponseMapper
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
     private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
-        => new() { Code = h.Code, Beschrijving = h.Naam };
+        => new()
+        {
+            id = h.JsonLdMetadata.Id,
+            type = h.JsonLdMetadata.Type,
+            Code = h.Code,
+            Naam = h.Naam,
+        };
 
     private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
         => new()
         {
             Code = verenigingDocumentType.Code,
-            Beschrijving = verenigingDocumentType.Beschrijving,
+            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
@@ -84,7 +94,11 @@ public class SearchVerenigingenResponseMapper
         };
 
     // public for testing
-    public static string AddHoofdactiviteitToQuery(AppSettings appSettings, string hoofdactiviteitenVerenigingsloketCode, string originalQuery, string[] hoofdactiviteiten)
+    public static string AddHoofdactiviteitToQuery(
+        AppSettings appSettings,
+        string hoofdactiviteitenVerenigingsloketCode,
+        string originalQuery,
+        string[] hoofdactiviteiten)
         => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
@@ -95,6 +109,8 @@ public class SearchVerenigingenResponseMapper
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()
         {
+            id = loc.JsonLdMetadata.Id,
+            type = loc.JsonLdMetadata.Type,
             Locatietype = loc.Locatietype,
             IsPrimair = loc.IsPrimair,
             Adresvoorstelling = loc.Adresvoorstelling,
@@ -106,7 +122,16 @@ public class SearchVerenigingenResponseMapper
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
         {
+            id = s.JsonLdMetadata.Id,
+            type = s.JsonLdMetadata.Type,
             Bron = s.Bron,
             Waarde = s.Waarde,
+            CodeerSysteem = s.CodeerSysteem,
+            GestructureerdeIdentificator = new GestructureerdeIdentificator
+            {
+                id = s.GestructureerdeIdentificator.JsonLdMetadata.Id,
+                type = s.GestructureerdeIdentificator.JsonLdMetadata.Type,
+                Nummer = s.GestructureerdeIdentificator.Nummer,
+            },
         };
 }

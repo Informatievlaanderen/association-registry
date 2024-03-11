@@ -1,23 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
 using Acties.VoegContactgegevenToe;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 public class Given_A_Second_NietPrimair_Contactgegeven
 {
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario _scenario;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Second_NietPrimair_Contactgegeven()
     {
@@ -39,15 +39,16 @@ public class Given_A_Second_NietPrimair_Contactgegeven
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
             Contactgegeven.CreateFromInitiator(
-                ContactgegevenType.Parse(type),
+                Contactgegeventype.Parse(type),
                 waarde,
                 _fixture.Create<string?>(),
-                false));
+                isPrimair: false));
 
         await _commandHandler.Handle(new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new ContactgegevenWerdToegevoegd(2, command.Contactgegeven.Type, command.Contactgegeven.Waarde, command.Contactgegeven.Beschrijving, false)
+            new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
+                                             command.Contactgegeven.Beschrijving, IsPrimair: false)
         );
     }
 }

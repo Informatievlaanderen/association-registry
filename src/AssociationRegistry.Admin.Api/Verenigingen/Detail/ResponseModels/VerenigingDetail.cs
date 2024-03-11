@@ -1,18 +1,21 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
-using System.ComponentModel;
 using System.Runtime.Serialization;
 
 [DataContract]
 public class VerenigingDetail
 {
+    /// <summary>Het json-ld type</summary>
+    [DataMember(Name = "@type")]
+    public string type { get; init; }
+
     /// <summary>De unieke identificatie code van deze vereniging</summary>
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;
 
     /// <summary>Het type van deze vereniging</summary>
-    [DataMember(Name = "Type")]
-    public VerenigingsType Type { get; init; } = null!;
+    [DataMember(Name = "Verenigingstype")]
+    public VerenigingsType Verenigingstype { get; init; } = null!;
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -20,7 +23,6 @@ public class VerenigingDetail
 
     /// <summary>Roepnaam van de vereniging. Dit veld is enkel aanwezig bij verenigingen met rechtspersoonlijkheid</summary>
     [DataMember(Name = "Roepnaam", EmitDefaultValue = false)]
-    [DefaultValue(null)]
     public string Roepnaam { get; init; } = null!;
 
     /// <summary>Korte naam van de vereniging</summary>
@@ -39,7 +41,7 @@ public class VerenigingDetail
     [DataMember(Name = "Einddatum")]
     public string? Einddatum { get; init; }
 
-    /// <summary>De doelgroep waar de activiteiten van deze afdeling zich op concentreert</summary>
+    /// <summary>De doelgroep waar de activiteiten van deze vereniging zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;
 

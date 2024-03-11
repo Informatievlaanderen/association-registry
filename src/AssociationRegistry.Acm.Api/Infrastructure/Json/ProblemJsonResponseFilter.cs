@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 
-using System.Collections.Generic;
-using System.Linq;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ProblemJsonResponseFilter : IOperationFilter
 {
@@ -20,8 +20,9 @@ public class ProblemJsonResponseFilter : IOperationFilter
             var openApiMediaType = value.Content.First().Value;
 
             value.Content.Clear();
+
             value.Content.Add(
-                new KeyValuePair<string, OpenApiMediaType>("application/problem+json", openApiMediaType));
+                new KeyValuePair<string, OpenApiMediaType>(key: "application/problem+json", openApiMediaType));
         }
     }
 }

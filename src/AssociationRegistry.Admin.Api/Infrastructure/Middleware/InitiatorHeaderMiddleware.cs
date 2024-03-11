@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using System.Linq;
-using System.Threading.Tasks;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Extensions;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class InitiatorHeaderMiddleware
 {
@@ -28,13 +28,18 @@ public class InitiatorHeaderMiddleware
         var initiatorHeaderMissing = !context.Request.Headers.ContainsKey(WellknownHeaderNames.Initiator);
         var initiatorHeaderEmpty = string.IsNullOrWhiteSpace(context.Request.Headers[WellknownHeaderNames.Initiator]);
 
-
         if (!isV1Route || initiatorHeaderNotRequired)
+        {
             await _next(context);
+        }
         else if (initiatorHeaderMissing)
+        {
             await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"{WellknownHeaderNames.Initiator} is verplicht.");
+        }
         else if (initiatorHeaderEmpty)
+        {
             await context.Response.WriteProblemDetailsAsync(problemDetailsHelper, $"{WellknownHeaderNames.Initiator} mag niet leeg zijn.");
+        }
         else
         {
             initiatorProvider.Value = context.Request.Headers[WellknownHeaderNames.Initiator];
@@ -46,7 +51,6 @@ public class InitiatorHeaderMiddleware
 public interface IInitiatorProvider
 {
     string Value { get; set; }
-
 }
 
 public class InitiatorProvider : IInitiatorProvider

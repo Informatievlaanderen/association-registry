@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_Adding_Vertegenwoordiger;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
+using AutoFixture;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using Framework;
-using AutoFixture;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Newtonsoft.Json;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,7 +17,6 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _classFixture;
     private readonly string _jsonBody;
-
     public V002_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields Scenario { get; }
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
@@ -48,7 +47,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_New_Vertegenwoordiger:IClassFixture<Post_A_New_Vertegenwoordiger>
+public class Given_A_New_Vertegenwoordiger : IClassFixture<Post_A_New_Vertegenwoordiger>
 {
     private readonly Post_A_New_Vertegenwoordiger _classFixture;
 
@@ -61,25 +60,26 @@ public class Given_A_New_Vertegenwoordiger:IClassFixture<Post_A_New_Vertegenwoor
     public async Task Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
+
         var contactgegevenWerdToegevoegd = (await session.Events
-                .FetchStreamAsync(_classFixture.Scenario.VCode))
-            .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdToegevoegd));
+                                                         .FetchStreamAsync(_classFixture.Scenario.VCode))
+           .Single(e => e.Data.GetType() == typeof(VertegenwoordigerWerdToegevoegd));
 
         var toeTeVoegenVertegenwoordiger = _classFixture.Request.Vertegenwoordiger;
 
         contactgegevenWerdToegevoegd.Data.Should()
-            .BeEquivalentTo(new VertegenwoordigerWerdToegevoegd(
-                1,
-                toeTeVoegenVertegenwoordiger.Insz,
-                toeTeVoegenVertegenwoordiger.IsPrimair,
-                toeTeVoegenVertegenwoordiger.Roepnaam ?? string.Empty,
-                toeTeVoegenVertegenwoordiger.Rol ?? string.Empty,
-                toeTeVoegenVertegenwoordiger.Voornaam,
-                toeTeVoegenVertegenwoordiger.Achternaam,
-                toeTeVoegenVertegenwoordiger.Email ?? string.Empty,
-                toeTeVoegenVertegenwoordiger.Telefoon ?? string.Empty,
-                toeTeVoegenVertegenwoordiger.Mobiel ?? string.Empty,
-                toeTeVoegenVertegenwoordiger.SocialMedia ?? string.Empty));
+                                    .BeEquivalentTo(new VertegenwoordigerWerdToegevoegd(
+                                                        VertegenwoordigerId: 1,
+                                                        toeTeVoegenVertegenwoordiger.Insz,
+                                                        toeTeVoegenVertegenwoordiger.IsPrimair,
+                                                        toeTeVoegenVertegenwoordiger.Roepnaam ?? string.Empty,
+                                                        toeTeVoegenVertegenwoordiger.Rol ?? string.Empty,
+                                                        toeTeVoegenVertegenwoordiger.Voornaam,
+                                                        toeTeVoegenVertegenwoordiger.Achternaam,
+                                                        toeTeVoegenVertegenwoordiger.Email ?? string.Empty,
+                                                        toeTeVoegenVertegenwoordiger.Telefoon ?? string.Empty,
+                                                        toeTeVoegenVertegenwoordiger.Mobiel ?? string.Empty,
+                                                        toeTeVoegenVertegenwoordiger.SocialMedia ?? string.Empty));
     }
 
     [Fact]

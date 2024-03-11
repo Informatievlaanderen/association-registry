@@ -1,0 +1,13 @@
+{
+  "insz": "{{insz}}",
+  "verenigingen": [
+    {{ for vereniging in verenigingen }}
+    {
+      "vCode": "{{vereniging.vcode}}",
+      "naam": "{{vereniging.naam}}",
+      "status": "{{vereniging.status}}",
+      "kboNummer": "{{vereniging.kbonummer}}"
+    }
+    {{ end }}
+  ]
+}

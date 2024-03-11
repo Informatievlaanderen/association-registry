@@ -1,11 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.Request;
 
-using System.Globalization;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Primitives;
 using FluentValidation.TestHelper;
+using Primitives;
+using System.Globalization;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,6 +33,7 @@ public class With_Valid_Fields
         int? maximumLeeftijd)
     {
         var validator = new WijzigBasisgegevensRequestValidator();
+
         var result = validator.TestValidate(
             new WijzigBasisgegevensRequest
             {
@@ -54,5 +54,7 @@ public class With_Valid_Fields
     }
 
     private static NullOrEmpty<DateOnly> ToNullOrEmptyDateOnly(string? startdatum)
-        => startdatum is null ? NullOrEmpty<DateOnly>.Null : NullOrEmpty<DateOnly>.Create(DateOnly.ParseExact(startdatum, "yyyy-MM-dd", CultureInfo.InvariantCulture));
+        => startdatum is null
+            ? NullOrEmpty<DateOnly>.Null
+            : NullOrEmpty<DateOnly>.Create(DateOnly.ParseExact(startdatum, format: "yyyy-MM-dd", CultureInfo.InvariantCulture));
 }

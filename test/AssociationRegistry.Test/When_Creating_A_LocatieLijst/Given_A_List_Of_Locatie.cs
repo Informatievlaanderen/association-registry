@@ -13,13 +13,15 @@ public class Given_A_List_Of_Locatie
     {
         var listOfLocatie = new[]
         {
-            Locatie.Create("Kerker", true, Locatietype.Activiteiten, null, Adres.Create("kerkstraat", "1", "-1", "666", "penoze", "Nederland")),
+            Locatie.Create(naam: "Kerker", isPrimair: true, Locatietype.Activiteiten, adresId: null,
+                           Adres.Create(straatnaam: "kerkstraat", huisnummer: "1", busnummer: "-1", postcode: "666", gemeente: "penoze",
+                                        land: "Nederland")),
         };
 
         var locatieLijst = Locaties.Empty.Hydrate(listOfLocatie);
 
         locatieLijst.Should().BeEquivalentTo(
             listOfLocatie,
-            options => options.Excluding(locatie => locatie.LocatieId));
+            config: options => options.Excluding(locatie => locatie.LocatieId));
     }
 }

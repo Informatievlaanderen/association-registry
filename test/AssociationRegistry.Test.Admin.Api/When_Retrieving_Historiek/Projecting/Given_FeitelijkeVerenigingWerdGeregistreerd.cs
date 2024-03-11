@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
-using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
 using AutoFixture;
@@ -23,20 +22,15 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
 
         var document = BeheerVerenigingHistoriekProjector.Create(feitelijkeVerenigingWerdGeregistreerd);
 
-        document.Should().BeEquivalentTo(
-            new BeheerVerenigingHistoriekDocument
+        document.Gebeurtenissen.Should().BeEquivalentTo(
+            new List<BeheerVerenigingHistoriekGebeurtenis>
             {
-                VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-                Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>
-                {
-                    new(
-                        $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.",
-                        nameof(FeitelijkeVerenigingWerdGeregistreerd),
-                        FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
-                        feitelijkeVerenigingWerdGeregistreerd.Initiator,
-                        feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDateAndTime()),
-                },
-                Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
+                new(
+                    $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.",
+                    nameof(FeitelijkeVerenigingWerdGeregistreerd),
+                    FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
+                    feitelijkeVerenigingWerdGeregistreerd.Initiator,
+                    feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToZuluTime()),
             }
         );
     }

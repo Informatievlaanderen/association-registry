@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Framework;
 
-using global::AssociationRegistry.Framework;
+using AssociationRegistry.Framework;
 
 public class ClockStub : IClock
 {
@@ -9,6 +9,11 @@ public class ClockStub : IClock
     public ClockStub(DateTime now)
     {
         _now = now;
+    }
+
+    public ClockStub(DateOnly now)
+    {
+        _now = now.ToDateTime(new TimeOnly());
     }
 
     public DateOnly Today

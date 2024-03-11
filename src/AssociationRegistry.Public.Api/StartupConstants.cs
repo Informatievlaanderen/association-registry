@@ -9,9 +9,7 @@ public static class StartupConstants
 {
     public const string AllowAnyOrigin = "AllowAnyOrigin";
     public const string AllowSpecificOrigin = "AllowSpecificOrigin";
-
     public const string DatabaseTag = "db";
-
     public const string Culture = "en-GB";
 
     public static readonly string[] ExposedHeaders =

@@ -2,10 +2,12 @@
 
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
-using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
-using Framework;
 using AutoFixture;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
+using Framework;
+using Primitives;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -20,7 +22,7 @@ public class With_A_Startdatum_Null
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(scenario.VCode, Startdatum: null);
+        var command = new WijzigBasisgegevensCommand(scenario.VCode, Startdatum: NullOrEmpty<Datum>.Null);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 

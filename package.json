@@ -1,6 +1,6 @@
 {
   "name": "association-registry",
-  "version": "7.11.1",
+  "version": "8.81.1",
   "description": "Association registry.",
   "author": "Basisregisters Vlaanderen",
   "license": "EUPL-1.2",
@@ -9,16 +9,16 @@
     "url": "git@github.com:informatievlaanderen/association-registry.git"
   },
   "devDependencies": {
-    "@commitlint/cli": "17.6.7",
+    "@commitlint/cli": "17.8.0",
     "@commitlint/config-conventional": "17.6.6",
-    "@commitlint/prompt": "17.6.7",
+    "@commitlint/prompt": "17.8.0",
     "@semantic-release/changelog": "6.0.2",
-    "@semantic-release/commit-analyzer": "10.0.4",
+    "@semantic-release/commit-analyzer": "11.0.0",
     "@semantic-release/exec": "6.0.3",
     "@semantic-release/git": "10.0.1",
-    "@semantic-release/github": "8.0.7",
-    "@semantic-release/npm": "10.0.4",
-    "@semantic-release/release-notes-generator": "11.0.7",
+    "@semantic-release/github": "9.2.1",
+    "@semantic-release/npm": "11.0.0",
+    "@semantic-release/release-notes-generator": "12.0.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
     "form-data": "4.0.0",
@@ -26,7 +26,9 @@
     "lodash": "4.17.21",
     "merge": "2.1.1",
     "newman": "5.3.2",
-    "semantic-release": "21.0.7"
+    "semantic-release": "21.0.7",
+    "axios": "^1.5.1",
+    "jsonwebtoken": "^9.0.2"
   },
   "scripts": {
     "commit": "git-cz",

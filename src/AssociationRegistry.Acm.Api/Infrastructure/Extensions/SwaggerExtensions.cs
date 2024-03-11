@@ -1,74 +1,79 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using System;
-using System.IO;
-using System.Reflection;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using ConfigurationBindings;
+using Documentation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
+using System;
+using System.IO;
+using System.Reflection;
 
 public static class SwaggerExtensions
 {
     public static IServiceCollection AddAcmApiSwagger(this IServiceCollection services, AppSettings appSettings)
         => services
-            .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
-            .AddSwaggerGen(
-                options =>
-                {
-                    options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
-                    options.DescribeAllParametersInCamelCase();
-                    options.SupportNonNullableReferenceTypes();
-                    options.MapType<DateOnly>(
-                        () => new OpenApiSchema
-                        {
-                            Type = "string",
-                            Format = "date",
-                            Pattern = "yyyy-MM-dd",
-                        });
-                    options.CustomSchemaIds(type => type.FullName);
-                    options.SwaggerDoc(
-                        "v1",
-                        new OpenApiInfo
-                        {
-                            Version = "v1",
-                            Title = appSettings.ApiDocs.Title,
-                            Description = "---\n" +
-                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
-                                          "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
-                            Contact = new OpenApiContact
-                            {
-                                Name = appSettings.ApiDocs.Contact.Name,
-                                Email = appSettings.ApiDocs.Contact.Email,
-                                Url = new Uri(appSettings.ApiDocs.Contact.Url),
-                            },
-                        });
-                    options.ExampleFilters();
+          .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
+          .AddSwaggerGen(
+               options =>
+               {
+                   options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
+                   options.DescribeAllParametersInCamelCase();
+                   options.SupportNonNullableReferenceTypes();
 
-                    options.SchemaFilter<AutoRestSchemaFilter>();
+                   options.MapType<DateOnly>(
+                       () => new OpenApiSchema
+                       {
+                           Type = "string",
+                           Format = "date",
+                           Pattern = "yyyy-MM-dd",
+                       });
 
-                    options.OperationFilter<SwaggerDefaultValues>();
+                   options.CustomSchemaIds(type => type.FullName);
 
-                    options.OperationFilter<DescriptionOperationFilter>();
+                   options.SwaggerDoc(
+                       name: "v1",
+                       new OpenApiInfo
+                       {
+                           Version = "v1",
+                           Title = appSettings.ApiDocs.Title,
+                           Description = "---\n" +
+                                         "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
+                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
+                           Contact = new OpenApiContact
+                           {
+                               Name = appSettings.ApiDocs.Contact.Name,
+                               Email = appSettings.ApiDocs.Contact.Email,
+                               Url = new Uri(appSettings.ApiDocs.Contact.Url),
+                           },
+                       });
 
-                    options.OperationFilter<AddResponseHeadersFilter>();
+                   options.ExampleFilters();
 
-                    options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
+                   options.SchemaFilter<AutoRestSchemaFilter>();
 
-                    options.OperationFilter<AuthorizationResponseOperationFilter>();
+                   options.OperationFilter<SwaggerDefaultValues>();
 
-                    options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
-                    options.OrderActionsBy(SortByTag.Sort);
+                   options.OperationFilter<DescriptionOperationFilter>();
 
-                    options.DocInclusionPredicate((_, _) => true);
-                })
-            .AddSwaggerGenNewtonsoftSupport();
+                   options.OperationFilter<AddResponseHeadersFilter>();
+
+                   options.OperationFilter<TagByApiExplorerSettingsOperationFilter>();
+
+                   options.OperationFilter<AuthorizationResponseOperationFilter>();
+
+                   options.OperationFilter<AppendAuthorizeToSummaryOperationFilter>();
+                   options.OrderActionsBy(SortByTag.Sort);
+
+                   options.DocInclusionPredicate((_, _) => true);
+               })
+          .AddSwaggerGenNewtonsoftSupport();
 
     public static IApplicationBuilder ConfigureAcmApiSwagger(this IApplicationBuilder app)
         => app.UseSwaggerDocumentation(
@@ -76,7 +81,7 @@ public static class SwaggerExtensions
             {
                 ApiVersionDescriptionProvider = app.ApplicationServices.GetRequiredService<IApiVersionDescriptionProvider>(),
                 DocumentTitleFunc = groupName => $"Basisregisters Vlaanderen - Verenigingsregister ACM API {groupName}",
-                HeadContentFunc = _ => Documentation.Documentation.GetHeadContent(),
+                HeadContentFunc = _ => Documentation.GetHeadContent(),
                 FooterVersion = Assembly.GetExecutingAssembly().GetVersionText(),
                 CSharpClient =
                 {
@@ -104,11 +109,12 @@ public static class SwaggerExtensions
                 continue;
 
             swaggerGenOptions.IncludeXmlComments(possiblePath);
+
             return;
         }
 
         throw new ApplicationException(
-            $"Could not find swagger xml docs. Locations where I searched:\n\t- {string.Join("\n\t-", possiblePaths)}");
+            $"Could not find swagger xml docs. Locations where I searched:\n\t- {string.Join(separator: "\n\t-", possiblePaths)}");
     }
 
     private static string CreateXmlCommentsPath(string directory, string name)

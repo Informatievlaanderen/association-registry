@@ -20,7 +20,9 @@ public class Given_No_Adres_And_An_AdresId
         vereniging.Hydrate(givenState);
 
         var adresId = AdresId.Hydrate(Adresbron.Parse(gewijzigdeLocatie.AdresId!.Broncode), gewijzigdeLocatie.AdresId.Bronwaarde);
-        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype, gewijzigdeLocatie.IsPrimair, adresId, null);
+
+        vereniging.WijzigLocatie(gewijzigdeLocatie.LocatieId, gewijzigdeLocatie.Naam, gewijzigdeLocatie.Locatietype,
+                                 gewijzigdeLocatie.IsPrimair, adresId, adres: null);
 
         vereniging.UncommittedEvents.ToArray().ShouldCompare(
             new IEvent[]
@@ -35,6 +37,7 @@ public class Given_No_Adres_And_An_AdresId
         {
             var fixture = new Fixture().CustomizeDomain();
             var locatie = fixture.Create<Registratiedata.Locatie>() with { Locatietype = Locatietype.Activiteiten };
+
             var gewijzigdeLocatie = locatie with
             {
                 AdresId = fixture.Create<Registratiedata.AdresId>(),
@@ -43,15 +46,6 @@ public class Given_No_Adres_And_An_AdresId
 
             return new List<object[]>
             {
-                new object[]
-                {
-                    new VerenigingState().Apply(
-                        fixture.Create<AfdelingWerdGeregistreerd>() with
-                        {
-                            Locaties = new[] { locatie },
-                        }),
-                    gewijzigdeLocatie,
-                },
                 new object[]
                 {
                     new VerenigingState().Apply(

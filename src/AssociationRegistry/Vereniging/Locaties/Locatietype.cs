@@ -18,7 +18,6 @@ public sealed class Locatietype : IEquatable<Locatietype>
         );
 
     public static readonly Locatietype[] All = { Correspondentie, Activiteiten, MaatschappelijkeZetelVolgensKbo };
-
     public string Waarde { get; }
 
     private Locatietype(string value)
@@ -26,36 +25,33 @@ public sealed class Locatietype : IEquatable<Locatietype>
         Waarde = value;
     }
 
-
     public static bool CanParse(string? value)
     {
         if (value is null)
             return false;
 
-        return Array.Find(All, candidate => candidate == value) is not null;
+        return Array.Find(All, match: candidate => candidate == value) is not null;
     }
 
     public static bool TryParse(string? value, out Locatietype? parsed)
     {
         parsed = null;
+
         if (value is null)
             return false;
 
-        parsed = Array.Find(All, candidate => candidate == value) ?? null;
+        parsed = Array.Find(All, match: candidate => candidate == value) ?? null;
+
         return parsed is not null;
     }
 
     public static Locatietype Parse(string value)
     {
         if (value == null)
-        {
             throw new ArgumentNullException(nameof(value));
-        }
 
         if (!TryParse(value, out var parsed))
-        {
             throw new FormatException($"De waarde {value} is geen gekend locatie type.");
-        }
 
         return parsed!;
     }

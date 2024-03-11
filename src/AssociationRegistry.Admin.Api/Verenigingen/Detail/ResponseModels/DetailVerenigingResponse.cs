@@ -10,6 +10,5 @@ public class DetailVerenigingResponse
     public string Context { get; init; } = null!;
 
     [DataMember(Name = "Vereniging")] public VerenigingDetail Vereniging { get; init; } = null!;
-
     [DataMember(Name = "Metadata")] public Metadata Metadata { get; init; } = null!;
 }

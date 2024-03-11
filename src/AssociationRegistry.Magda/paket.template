@@ -1,0 +1,28 @@
+type file
+version 1.0.0
+
+id Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
+title Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
+
+authors Basisregisters.Vlaanderen
+owners Vlaamse overheid
+copyright Copyright (c) Vlaamse overheid
+requireLicenseAcceptance false
+projectUrl https://vlaanderen.be/digitaal-vlaanderen
+iconUrl https://raw.githubusercontent.com/Informatievlaanderen/build-pipeline/master/logo.png
+licenseUrl https://opensource.org/licenses/EUPL-1.2
+
+description Association Registry MAGDA
+
+dependencies
+  framework: net6.0
+    Microsoft.Extensions.Http >= LOCKEDVERSION
+    System.ServiceModel.Duplex 6.0.0
+    System.ServiceModel.Http 6.2.0
+    System.ServiceModel.NetTcp 6.2.0
+    System.ServiceModel.Security 6.0.0
+
+files
+
+  AssociationRegistry.Magda.dll => lib\net6.0
+  AssociationRegistry.Magda.pdb => lib\net6.0

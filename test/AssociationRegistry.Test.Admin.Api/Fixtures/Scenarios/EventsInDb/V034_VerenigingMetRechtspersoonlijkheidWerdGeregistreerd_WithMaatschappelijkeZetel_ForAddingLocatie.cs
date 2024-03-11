@@ -16,12 +16,14 @@ public class V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatsc
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999034";
+
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = VCode,
             KorteNaam = string.Empty,
             Startdatum = null,
         };
+
         MaatschappelijkeZetelWerdOvergenomenUitKbo = fixture.Create<MaatschappelijkeZetelWerdOvergenomenUitKbo>() with
         {
             Locatie = fixture.Create<Registratiedata.Locatie>() with
@@ -29,6 +31,7 @@ public class V034_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatsc
                 LocatieId = 1,
             },
         };
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

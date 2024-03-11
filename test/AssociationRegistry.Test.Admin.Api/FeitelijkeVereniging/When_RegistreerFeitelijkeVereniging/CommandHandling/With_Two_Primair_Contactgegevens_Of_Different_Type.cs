@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
 using Acties.RegistreerFeitelijkeVereniging;
-using Events;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Events;
 using Fakes;
 using Framework;
 using Vereniging;
-using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,32 +23,37 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _repositoryMock = new VerenigingRepositoryMock();
+
         _command = _fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
         {
             Contactgegevens = new[]
             {
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Email, "test@example.org", _fixture.Create<string>(), isPrimair: true),
-                Contactgegeven.CreateFromInitiator(ContactgegevenType.Website, "http://example.org", _fixture.Create<string>(), isPrimair: true),
+                Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
+                Contactgegeven.CreateFromInitiator(Contactgegeventype.Website, waarde: "http://example.org", _fixture.Create<string>(),
+                                                   isPrimair: true),
             },
         };
 
         _vCodeService = new InMemorySequentialVCodeService();
+
         _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
             _repositoryMock,
             _vCodeService,
             new NoDuplicateVerenigingDetectionService(),
-            new ClockStub(_command.Startdatum.Datum!.Value));
+            new ClockStub(_command.Startdatum.Value));
     }
 
     public async Task InitializeAsync()
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None);
+
+        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+                                     CancellationToken.None);
     }
 
     public Task DisposeAsync()
         => Task.CompletedTask;
-
 
     [Fact]
     public void Then_it_saves_the_event()
@@ -66,14 +71,14 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 {
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 1,
-                        ContactgegevenType.Email,
+                        Contactgegeventype.Email,
                         _command.Contactgegevens[0].Waarde,
                         _command.Contactgegevens[0].Beschrijving,
                         _command.Contactgegevens[0].IsPrimair
                     ),
                     new Registratiedata.Contactgegeven(
                         ContactgegevenId: 2,
-                        ContactgegevenType.Website,
+                        Contactgegeventype.Website,
                         _command.Contactgegevens[1].Waarde,
                         _command.Contactgegevens[1].Beschrijving,
                         _command.Contactgegevens[1].IsPrimair
@@ -82,7 +87,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.Locaties.Select(
                     (l, index) => Registratiedata.Locatie.With(l) with
                     {
-                        LocatieId = index +1,
+                        LocatieId = index + 1,
                     }).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
@@ -92,6 +97,6 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
-                        h.Beschrijving)).ToArray()));
+                        h.Naam)).ToArray()));
     }
 }

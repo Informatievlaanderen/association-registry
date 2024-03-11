@@ -19,7 +19,6 @@ using System.Reflection;
 
 public static class SwaggerExtensions
 {
-
     public static IServiceCollection AddAdminApiSwagger(this IServiceCollection services, AppSettings appSettings)
         => services
           .AddSwaggerExamplesFromAssemblies(Assembly.GetExecutingAssembly())
@@ -28,7 +27,9 @@ public static class SwaggerExtensions
                {
                    options.AddXmlComments(Assembly.GetExecutingAssembly().GetName().Name!);
                    options.DescribeAllParametersInCamelCase();
+                   options.UseAllOfToExtendReferenceSchemas();
                    options.SupportNonNullableReferenceTypes();
+                   options.SchemaFilter<DisableNullableFilter>();
                    options.SchemaFilter<ExampleSchemaFilter>();
                    options.OperationFilter<CapitalizeParameterFilter>();
 

@@ -17,12 +17,14 @@ public static class MagdaAutoFixtureCustomizations
 
         fixture.Customize<Onderneming2_0Type>(
             composer => composer
-                .With(o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray()));
+               .With(propertyPicker: o => o.Rechtsvormen, fixture.CreateMany<RechtsvormExtentieType>(1).ToArray()));
 
         fixture.Customize<NamenOndernemingType>(
             composer => composer
-                .With(o => o.MaatschappelijkeNamen, fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
-                .With(o => o.AfgekorteNamen, fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
+                       .With(propertyPicker: o => o.MaatschappelijkeNamen,
+                             fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
+                       .With(propertyPicker: o => o.AfgekorteNamen,
+                             fixture.CreateMany<NaamOndernemingType>(4).DistinctBy(n => n.Taalcode).ToArray())
         );
     }
 
@@ -30,20 +32,20 @@ public static class MagdaAutoFixtureCustomizations
     {
         fixture.Customize<NaamOndernemingType>(
             composer => composer
-                .FromFactory<int>(
-                    i => new NaamOndernemingType
-                    {
-                        Naam = fixture.Create<string>(),
-                        DatumBegin = null,
-                        DatumEinde = null,
-                        Taalcode = new[]
-                        {
-                            TaalCodes.Nederlands,
-                            TaalCodes.Frans,
-                            TaalCodes.Duits,
-                            TaalCodes.Engels,
-                        }[i % 4],
-                    }).OmitAutoProperties());
+                       .FromFactory<int>(
+                            i => new NaamOndernemingType
+                            {
+                                Naam = fixture.Create<string>(),
+                                DatumBegin = null,
+                                DatumEinde = null,
+                                Taalcode = new[]
+                                {
+                                    TaalCodes.Nederlands,
+                                    TaalCodes.Frans,
+                                    TaalCodes.Duits,
+                                    TaalCodes.Engels,
+                                }[i % 4],
+                            }).OmitAutoProperties());
     }
 
     private static void OnlyAllowRechtspersoon(this IFixture fixture)

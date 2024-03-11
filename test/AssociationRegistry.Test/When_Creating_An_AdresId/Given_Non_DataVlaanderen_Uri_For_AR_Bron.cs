@@ -13,8 +13,9 @@ public class Given_Non_DataVlaanderen_Uri_For_AR_Bron
     public void Then_It_Throws_InvalidBronwaardeForAR()
     {
         var ctor = () => AdresId.Create(
-            adresbron: Adresbron.AR,
+            Adresbron.AR,
             bronwaarde: "waarde");
-        ctor.Should().Throw<InvalidBronwaardeForAR>();
+
+        ctor.Should().Throw<BronwaardeVoorAdresIsOngeldig>();
     }
 }

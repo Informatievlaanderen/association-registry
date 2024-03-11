@@ -15,7 +15,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     [System.ServiceModel.ServiceContractAttribute(Name="Onderneming.GeefOndernemingPortType", Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "", ConfigurationName="AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingP" +
         "ortType")]
-    public interface OndernemingGeefOndernemingPortType
+    internal interface OndernemingGeefOndernemingPortType
     {
         
         [System.ServiceModel.OperationContractAttribute(Action="http://magdaondernemingdienst-intern-aip.vonet.be/GeefOndernemingDienst-02.00/soa" +
@@ -5963,9 +5963,8 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GeefOndernemingRequest
+    internal partial class GeefOndernemingRequest
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
@@ -5984,9 +5983,8 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
-    public partial class GeefOndernemingResponse1
+    internal partial class GeefOndernemingResponse1
     {
         
         [System.ServiceModel.MessageBodyMemberAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
@@ -6004,13 +6002,13 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public interface OndernemingGeefOndernemingPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType, System.ServiceModel.IClientChannel
+    internal interface OndernemingGeefOndernemingPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
-    public partial class OndernemingGeefOndernemingPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType>, AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType
+    internal partial class OndernemingGeefOndernemingPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType>, AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType
     {
         
         /// <summary>
@@ -6053,17 +6051,9 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
         {
         }
         
-        [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Advanced)]
-        System.Threading.Tasks.Task<AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse1> AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType.GeefOndernemingAsync(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest request)
+        public System.Threading.Tasks.Task<AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse1> GeefOndernemingAsync(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest request)
         {
             return base.Channel.GeefOndernemingAsync(request);
-        }
-        
-        public System.Threading.Tasks.Task<AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingResponse1> GeefOndernemingAsync(AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOnderneming GeefOnderneming)
-        {
-            AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest inValue = new AssociationRegistry.Magda.Onderneming.GeefOnderneming.GeefOndernemingRequest();
-            inValue.GeefOnderneming = GeefOnderneming;
-            return ((AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType)(this)).GeefOndernemingAsync(inValue);
         }
         
         public virtual System.Threading.Tasks.Task OpenAsync()

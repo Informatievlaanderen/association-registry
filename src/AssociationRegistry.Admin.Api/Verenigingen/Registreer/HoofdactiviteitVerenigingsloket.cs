@@ -1,27 +1,28 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using System.Runtime.Serialization;
 using DuplicateVerenigingDetection;
+using System.Runtime.Serialization;
 
 [DataContract]
 public class HoofdactiviteitVerenigingsloket
 {
     public HoofdactiviteitVerenigingsloket(
         string code,
-        string beschrijving)
+        string naam)
     {
         Code = code;
-        Beschrijving = beschrijving;
+        Naam = naam;
     }
 
-    public static HoofdactiviteitVerenigingsloket FromDuplicaatVereniging(DuplicaatVereniging.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
-        => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Beschrijving);
+    public static HoofdactiviteitVerenigingsloket FromDuplicaatVereniging(
+        DuplicaatVereniging.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
+        => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam);
 
     /// <summary>De code van de hoofdactivititeit</summary>
     [DataMember(Name = "Code")]
     public string Code { get; init; }
 
     /// <summary>De beschrijving van de hoofdactivititeit</summary>
-    [DataMember(Name = "Beschrijving")]
-    public string Beschrijving { get; init; }
+    [DataMember(Name = "Naam")]
+    public string Naam { get; init; }
 }

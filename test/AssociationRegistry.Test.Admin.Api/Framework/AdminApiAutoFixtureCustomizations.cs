@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.Afdeling.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
@@ -15,8 +14,8 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using Contactgegeven = Vereniging.Contactgegeven;
-using ToeTeVoegenContactgegeven = AssociationRegistry.Admin.Api.Verenigingen.Common.ToeTeVoegenContactgegeven;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 public static class AutoFixtureCustomizations
 {
@@ -25,7 +24,6 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDomain();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
-        fixture.CustomizeRegistreerAfdelingRequest();
         fixture.CustomizeRegistreerVerenigingUitKboRequest();
 
         fixture.CustomizeWijzigBasisgegevensRequest();
@@ -69,34 +67,43 @@ public static class AutoFixtureCustomizations
                                                        .ToArray(),
                 }).OmitAutoProperties());
 
-        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
-            composer => composer.With(
-                e => e.HoofdactiviteitenVerenigingsloket,
-                () => fixture
-                     .CreateMany<HoofdactiviteitVerenigingsloket>()
-                     .Distinct()
-                     .Select(h => h.Code)
-                     .ToArray()));
+        fixture
+           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
+                composer => composer.With(
+                    propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
+                    valueFactory: () => fixture
+                                       .CreateMany<HoofdactiviteitVerenigingsloket>()
+                                       .Distinct()
+                                       .Select(h => h.Code)
+                                       .ToArray()));
     }
 
     private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
     {
         fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ => new RegistreerFeitelijkeVerenigingRequest
+                _ =>
                 {
-                    Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
-                    Startdatum = fixture.Create<Startdatum>(),
-                    Naam = fixture.Create<string>(),
-                    Doelgroep = fixture.Create<DoelgroepRequest>(),
-                    Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
-                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                               .Select(x => x.Code)
-                                                               .Distinct()
-                                                               .ToArray(),
-                    KorteBeschrijving = fixture.Create<string>(),
-                    KorteNaam = fixture.Create<string>(),
+                    var datum = fixture.Create<Datum>();
+                    var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year), datum.Value.Month, datum.Value.Day);
+                    var request = new RegistreerFeitelijkeVerenigingRequest();
+
+                    request.Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray();
+                    request.Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray();
+                    request.Startdatum = startDatum;
+                    request.Naam = fixture.Create<string>();
+                    request.Doelgroep = fixture.Create<DoelgroepRequest>();
+                    request.Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray();
+
+                    request.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                                       .Select(x => x.Code)
+                                                                       .Distinct()
+                                                                       .ToArray();
+
+                    request.KorteBeschrijving = fixture.Create<string>();
+                    request.KorteNaam = fixture.Create<string>();
+
+                    return request;
                 }).OmitAutoProperties());
     }
 
@@ -110,7 +117,7 @@ public static class AutoFixtureCustomizations
 
                                                                  return new ToeTeVoegenContactgegeven
                                                                  {
-                                                                     Type = contactgegeven.Type,
+                                                                     Contactgegeventype = contactgegeven.Contactgegeventype,
                                                                      Waarde = contactgegeven.Waarde,
                                                                      Beschrijving = fixture.Create<string>(),
                                                                      IsPrimair = false,
@@ -147,7 +154,7 @@ public static class AutoFixtureCustomizations
                 {
                     Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = fixture.Create<string>(),
                         Huisnummer = fixture.Create<int>().ToString(),
@@ -156,7 +163,7 @@ public static class AutoFixtureCustomizations
                         Gemeente = fixture.Create<string>(),
                         Land = fixture.Create<string>(),
                     },
-                    AdresId = new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId
+                    AdresId = new AdresId
                     {
                         Broncode = Adresbron.All[value % Adresbron.All.Length],
                         Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
@@ -173,28 +180,6 @@ public static class AutoFixtureCustomizations
                 {
                     Minimumleeftijd = fixture.Create<int>() % 50,
                     Maximumleeftijd = 50 + fixture.Create<int>() % 50,
-                }).OmitAutoProperties());
-    }
-
-    private static void CustomizeRegistreerAfdelingRequest(this IFixture fixture)
-    {
-        fixture.Customize<RegistreerAfdelingRequest>(
-            composer => composer.FromFactory<int>(
-                _ => new RegistreerAfdelingRequest
-                {
-                    KboNummerMoedervereniging = fixture.Create<KboNummer>(),
-                    Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray(),
-                    Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray(),
-                    Startdatum = fixture.Create<Startdatum>(),
-                    Doelgroep = fixture.Create<DoelgroepRequest>(),
-                    Naam = fixture.Create<string>(),
-                    Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray(),
-                    HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                               .Select(x => x.Code)
-                                                               .Distinct()
-                                                               .ToArray(),
-                    KorteBeschrijving = fixture.Create<string>(),
-                    KorteNaam = fixture.Create<string>(),
                 }).OmitAutoProperties());
     }
 
@@ -238,7 +223,7 @@ public static class AutoFixtureCustomizations
                 {
                     Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = fixture.Create<string>(),
                         Huisnummer = fixture.Create<int>().ToString(),
@@ -247,7 +232,7 @@ public static class AutoFixtureCustomizations
                         Gemeente = fixture.Create<string>(),
                         Land = fixture.Create<string>(),
                     },
-                    AdresId = new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId
+                    AdresId = new AdresId
                     {
                         Broncode = Adresbron.All[value % Adresbron.All.Length],
                         Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),

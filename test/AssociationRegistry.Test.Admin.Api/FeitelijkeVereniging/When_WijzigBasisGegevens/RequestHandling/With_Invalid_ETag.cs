@@ -21,10 +21,10 @@ public class With_Invalid_ETag
     public With_Invalid_ETag()
     {
         Mock<IMessageBus> messageBusMock = new();
+
         _controller = new WijzigBasisgegevensController(messageBusMock.Object, new AppSettings())
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
-
 
     [Theory]
     [InlineData("Invalid eTag Value")]
@@ -35,8 +35,8 @@ public class With_Invalid_ETag
             await _controller.Patch(
                 new WijzigBasisgegevensRequestValidator(),
                 new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
-                "V0001001",
-                new CommandMetadataProviderStub { Initiator = "OVO0001001"},
+                vCode: "V0001001",
+                new CommandMetadataProviderStub { Initiator = "OVO0001001" },
                 eTagValue);
         };
 

@@ -44,10 +44,10 @@ public class With_UitgeschrevenUitPubliekeDatastroom
     public void Then_A_VerenigingWerdVerwijderdUitPubliekeDatastroom_Event_Is_Saved()
     {
         _verenigingRepositoryMock
-            .SaveInvocations[0]
-            .Vereniging
-            .UncommittedEvents
-            .Should()
-            .ContainSingle(e => e.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom));
+           .SaveInvocations[0]
+           .Vereniging
+           .UncommittedEvents
+           .Should()
+           .ContainSingle(e => e.GetType() == typeof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom));
     }
 }

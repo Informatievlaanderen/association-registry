@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using Constants;
-using Projections.Detail;
-using Projections.Search;
 using ConfigurationBindings;
+using Constants;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -11,23 +9,27 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
+using Projections;
+using Projections.Detail;
+using Projections.Search;
 using Schema.Detail;
 using Wolverine;
 
 public static class ConfigureMartenExtensions
 {
-    public static IServiceCollection ConfigureProjectionsWithMarten(this IServiceCollection source, ConfigurationManager configurationManager)
+    public static IServiceCollection ConfigureProjectionsWithMarten(
+        this IServiceCollection source,
+        ConfigurationManager configurationManager)
     {
         source
-            .AddTransient<IElasticRepository, ElasticRepository>();
+           .AddTransient<IElasticRepository, ElasticRepository>();
 
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-        {
-            martenConfiguration.AddAsyncDaemon(DaemonMode.Solo);
-        }
+            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return source;
     }
@@ -37,16 +39,15 @@ public static class ConfigureMartenExtensions
         ConfigurationManager configurationManager)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
-        {
-            return $"host={postgreSqlOptions.Host};" +
-                   $"database={postgreSqlOptions.Database};" +
-                   $"password={postgreSqlOptions.Password};" +
-                   $"username={postgreSqlOptions.Username}";
-        }
+            => $"host={postgreSqlOptions.Host};" +
+               $"database={postgreSqlOptions.Database};" +
+               $"password={postgreSqlOptions.Password};" +
+               $"username={postgreSqlOptions.Username}";
 
         static JsonNetSerializer CreateCustomMartenSerializer()
         {
             var jsonNetSerializer = new JsonNetSerializer();
+
             jsonNetSerializer.Customize(
                 s =>
                 {
@@ -54,6 +55,7 @@ public static class ConfigureMartenExtensions
                     s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
                     s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
                 });
+
             return jsonNetSerializer;
         }
 
@@ -61,7 +63,8 @@ public static class ConfigureMartenExtensions
             serviceProvider =>
             {
                 var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
-                    .Get<PostgreSqlOptionsSection>();
+                                                            .Get<PostgreSqlOptionsSection>();
+
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
                 var opts = new StoreOptions();
@@ -70,11 +73,14 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
+                opts.Projections.DaemonLockId = 3;
+
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.OnException(_ => true).Stop();
+                opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
 
                 opts.Projections.Add<PubliekVerenigingDetailProjection>(ProjectionLifecycle.Async);
+
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
@@ -82,19 +88,29 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    "PubliekVerenigingZoekenDocument");
+                    ProjectionNames.VerenigingZoeken);
+
+                opts.Projections.AsyncListeners.Add(
+                    new ProjectionStateListener(serviceProvider.GetRequiredService<PubliekInstrumentation>()));
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                }
                 else
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Static;
                     opts.SourceCodeWritingEnabled = false;
-                }                return opts;
+                }
+
+                return opts;
             });
+
+        martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
 
         return martenConfigurationExpression;
     }

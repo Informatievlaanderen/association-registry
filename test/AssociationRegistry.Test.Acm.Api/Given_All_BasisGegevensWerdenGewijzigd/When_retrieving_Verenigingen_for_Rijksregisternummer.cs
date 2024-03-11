@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_All_BasisGegevensWerdenGewijzigd;
 
-using System.Net;
 using Fixtures;
 using Fixtures.Scenarios;
-using Framework;
 using FluentAssertions;
+using Framework;
+using System.Net;
+using templates;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
@@ -22,11 +23,15 @@ public class When_Retrieving_Verenigingen_For_Insz
         _scenario = fixture.AlleBasisGegevensWerdenGewijzigdEventsInDbScenario;
         _response = fixture.DefaultClient.GetVerenigingenForInsz(_scenario.Insz).GetAwaiter().GetResult();
         helper.WriteLine($"INSZ: {_scenario.Insz}");
-        helper.WriteLine($"Vereniging: {_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode} met naam {_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}");
+
+        helper.WriteLine(
+            $"Vereniging: {_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode} met naam {_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}");
+
         foreach (var vertegenwoordiger in _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers)
         {
             helper.WriteLine($"\tVertegenwoordiger: {vertegenwoordiger.Insz}");
         }
+
         helper.WriteLine($"Vereniging {_scenario.NaamWerdGewijzigd.VCode} gewijzigd naar {_scenario.NaamWerdGewijzigd.Naam}");
     }
 
@@ -39,16 +44,13 @@ public class When_Retrieving_Verenigingen_For_Insz
     {
         var content = await _response.Content.ReadAsStringAsync();
 
-        var expected = $@"
-        {{
-            ""insz"":""{_scenario.Insz}"",
-            ""verenigingen"":[
-                {{
-                    ""vCode"":""{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}"",
-                    ""naam"":""{_scenario.NaamWerdGewijzigd.Naam}"",
-                }}
-            ]
-        }}";
+        var expected =
+            new VerenigingenPerInszResponseTemplate()
+               .WithInsz(_scenario.Insz)
+               .WithVereniging(
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                    _scenario.NaamWerdGewijzigd.Naam
+                );
 
         content.Should().BeEquivalentJson(expected);
     }

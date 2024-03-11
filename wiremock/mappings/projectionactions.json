@@ -1,0 +1,13 @@
+{
+    "priority": 1,
+    "request": {
+        "method": "POST",
+        "urlPattern": "^/v1/projections/.*"
+    },
+    "response": {
+        "status": 200,
+        "headers": {
+            "Content-Type": "application/json"
+        }
+    }
+}

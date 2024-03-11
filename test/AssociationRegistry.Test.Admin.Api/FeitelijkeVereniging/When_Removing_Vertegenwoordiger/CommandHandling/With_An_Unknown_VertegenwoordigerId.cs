@@ -2,12 +2,12 @@
 
 using Acties.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,6 +36,6 @@ public class With_An_Unknown_VertegenwoordigerId
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderVertegenwoordigerCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<UnknownVertegenwoordiger>();
+        await handle.Should().ThrowAsync<VertegenwoordigerIsNietGekend>();
     }
 }

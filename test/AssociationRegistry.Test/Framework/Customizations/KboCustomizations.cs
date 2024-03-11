@@ -29,8 +29,15 @@ public static class KboCustomizations
                                      KorteNaam = fixture.Create<string>(),
                                      Adres = new AdresVolgensKbo(),
                                      Contactgegevens = new ContactgegevensVolgensKbo(),
-                                     Type = new[] { Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting, Verenigingstype.StichtingVanOpenbaarNut }[i % 4], KboNummer = fixture.Create<KboNummer>(),
-                                     StartDatum = fixture.Create<DateOnly>(),
+                                     Type = new[]
+                                     {
+                                         Verenigingstype.IVZW, Verenigingstype.VZW, Verenigingstype.PrivateStichting,
+                                         Verenigingstype.StichtingVanOpenbaarNut,
+                                     }[i % 4],
+                                     KboNummer = fixture.Create<KboNummer>(),
+                                     Startdatum = fixture.Create<DateOnly>(),
+                                     IsActief = true,
+                                     EindDatum = null,
                                  };
                              })
                         .OmitAutoProperties());

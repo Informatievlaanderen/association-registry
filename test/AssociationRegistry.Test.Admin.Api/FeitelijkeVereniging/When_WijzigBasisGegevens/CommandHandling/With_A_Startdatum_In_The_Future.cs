@@ -2,13 +2,14 @@
 
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
+using Primitives;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,7 +28,7 @@ public class With_A_Startdatum_In_The_Future
 
         var command = fixture.Create<WijzigBasisgegevensCommand>() with
         {
-            Startdatum = fixture.Create<Startdatum>(),
+            Startdatum = NullOrEmpty<Datum>.Create(fixture.Create<Datum>()),
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -41,7 +42,8 @@ public class With_A_Startdatum_In_The_Future
         var method = () => _commandHandler.Handle(
             _commandEnvelope,
             _repositoryMock,
-            new ClockStub(_commandEnvelope.Command.Startdatum!.Datum!.Value.AddDays(-1)));
-        await method.Should().ThrowAsync<StardatumIsInFuture>();
+            new ClockStub(_commandEnvelope.Command.Startdatum.Value!.Value.AddDays(-1)));
+
+        await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
     }
 }

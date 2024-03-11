@@ -2,20 +2,19 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 public class With_An_Adres : ValidatorTest
 {
-
     [Fact]
     public void Uses_Child_Validator()
     {
         var validator = new TeWijzigenLocatieValidator();
 
-        validator.ShouldHaveChildValidator(request => request.Adres, typeof(AdresValidator));
+        validator.ShouldHaveChildValidator(expression: request => request.Adres, typeof(AdresValidator));
     }
 }

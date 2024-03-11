@@ -5,81 +5,71 @@ using Events;
 using Formatters;
 using Framework;
 using Infrastructure.Extensions;
+using JsonLdContext;
 using Marten.Events;
 using Schema;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
+using Vereniging.Bronnen;
+using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
+using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
+using IEvent = Marten.Events.IEvent;
+using Locatie = Schema.Detail.Locatie;
+using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 
 public class BeheerVerenigingDetailProjector
 {
     public static BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
         => new()
         {
+            JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
+                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
-                                                                   .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(c, feitelijkeVerenigingWerdGeregistreerd.Data.Bron))
+                                                                   .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(
+                                                                               c, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                               feitelijkeVerenigingWerdGeregistreerd.Data.VCode))
                                                                    .ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, feitelijkeVerenigingWerdGeregistreerd.Data.Bron)).ToArray(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties
+                                                            .Select(loc => BeheerVerenigingDetailMapper.MapLocatie(
+                                                                        loc, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode)).ToArray(),
             Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers
-                                                                      .Select(v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, feitelijkeVerenigingWerdGeregistreerd.Data.Bron))
+                                                                      .Select(v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(
+                                                                                  v, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode))
                                                                       .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
-                                                                                     .HoofdactiviteitenVerenigingsloket.Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
+                                                                                     .HoofdactiviteitenVerenigingsloket
+                                                                                     .Select(BeheerVerenigingDetailMapper
+                                                                                             .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
+            Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
-    public static BeheerVerenigingDetailDocument Create(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd)
+    public static BeheerVerenigingDetailDocument Create(
+        IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
         {
-            VCode = afdelingWerdGeregistreerd.Data.VCode,
-            Type = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.Afdeling),
-            Naam = afdelingWerdGeregistreerd.Data.Naam,
-            KorteNaam = afdelingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = afdelingWerdGeregistreerd.Data.KorteBeschrijving,
-            Startdatum = afdelingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(afdelingWerdGeregistreerd.Data.Doelgroep),
-            DatumLaatsteAanpassing = afdelingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
-            IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = afdelingWerdGeregistreerd.Data.Contactgegevens.Select(
-                                                            c => BeheerVerenigingDetailMapper.MapContactgegeven(c, afdelingWerdGeregistreerd.Data.Bron))
-                                                       .ToArray(),
-            Locaties = afdelingWerdGeregistreerd.Data.Locaties.Select(loc => BeheerVerenigingDetailMapper.MapLocatie(loc, afdelingWerdGeregistreerd.Data.Bron))
-                                                .ToArray(),
-            Vertegenwoordigers = afdelingWerdGeregistreerd.Data.Vertegenwoordigers.Select(
-                                                               v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(v, afdelingWerdGeregistreerd.Data.Bron))
-                                                          .ToArray(),
-            HoofdactiviteitenVerenigingsloket = afdelingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                                                                              BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket)
-                                                                         .ToArray(),
-            Relaties = new[]
-            {
-                BeheerVerenigingDetailMapper.MapMoederRelatie(afdelingWerdGeregistreerd.Data.Moedervereniging),
-            },
-            Bron = afdelingWerdGeregistreerd.Data.Bron,
-            Metadata = new Metadata(afdelingWerdGeregistreerd.Sequence, afdelingWerdGeregistreerd.Version),
-        };
-
-    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
-        => new()
-        {
+            JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Type = new BeheerVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
-                Beschrijving = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Beschrijving,
+                Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,
@@ -88,79 +78,82 @@ public class BeheerVerenigingDetailProjector
             Startdatum = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = new Doelgroep
             {
+                JsonLdMetadata =
+                    BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Doelgroep,
+                                                                      verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
                 Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
-            Status = "Actief",
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                                        .ToBelgianDate(),
+            Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = Array.Empty<BeheerVerenigingDetailDocument.Contactgegeven>(),
-            Locaties = Array.Empty<BeheerVerenigingDetailDocument.Locatie>(),
-            Vertegenwoordigers = Array.Empty<BeheerVerenigingDetailDocument.Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            Contactgegevens = Array.Empty<Contactgegeven>(),
+            Locaties = Array.Empty<Locatie>(),
+            Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
+            HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
             Sleutels = new[]
             {
-                BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer),
+                BeheerVerenigingDetailMapper.MapVrSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
+                BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
+                                                           verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
             },
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
-            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence, verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
+            Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence,
+                                    verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),
         };
 
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Naam = naamWerdGewijzigd.Data.Naam;
-        document.DatumLaatsteAanpassing = naamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(naamWerdGewijzigd.Sequence, naamWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<KorteNaamWerdGewijzigd> korteNaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteNaam = korteNaamWerdGewijzigd.Data.KorteNaam;
-        document.DatumLaatsteAanpassing = korteNaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(korteNaamWerdGewijzigd.Sequence, korteNaamWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<RoepnaamWerdGewijzigd> roepnaamWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Roepnaam = roepnaamWerdGewijzigd.Data.Roepnaam;
-        document.DatumLaatsteAanpassing = roepnaamWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(roepnaamWerdGewijzigd.Sequence, roepnaamWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<KorteBeschrijvingWerdGewijzigd> korteBeschrijvingWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.KorteBeschrijving = korteBeschrijvingWerdGewijzigd.Data.KorteBeschrijving;
-        document.DatumLaatsteAanpassing = korteBeschrijvingWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(korteBeschrijvingWerdGewijzigd.Sequence, korteBeschrijvingWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
-        document.DatumLaatsteAanpassing = startdatumWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(startdatumWerdGewijzigd.Sequence, startdatumWerdGewijzigd.Version);
+    }
+
+    public static void Apply(IEvent<StartdatumWerdGewijzigdInKbo> startdatumWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Startdatum = startdatumWerdGewijzigdInKbo.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
     }
 
     public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Doelgroep = new Doelgroep
         {
+            JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(JsonLdType.Doelgroep, doelgroepWerdGewijzigd.StreamKey!),
             Minimumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroepWerdGewijzigd.Data.Doelgroep.Maximumleeftijd,
         };
-
-        document.DatumLaatsteAanpassing = doelgroepWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(doelgroepWerdGewijzigd.Sequence, doelgroepWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.Append(
-                                                new BeheerVerenigingDetailDocument.Contactgegeven
+                                                new Contactgegeven
                                                 {
+                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                        JsonLdType.Contactgegeven, document.VCode,
+                                                        contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
                                                     Bron = contactgegevenWerdToegevoegd.Data.Bron,
@@ -168,9 +161,6 @@ public class BeheerVerenigingDetailProjector
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -178,7 +168,7 @@ public class BeheerVerenigingDetailProjector
         document.Contactgegevens = document.Contactgegevens
                                            .UpdateSingle(
                                                 identityFunc: c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId,
-                                                c => c with
+                                                update: c => c with
                                                 {
                                                     Waarde = contactgegevenWerdGewijzigd.Data.Waarde,
                                                     Beschrijving = contactgegevenWerdGewijzigd.Data.Beschrijving,
@@ -186,9 +176,6 @@ public class BeheerVerenigingDetailProjector
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactgegevenWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(contactgegevenWerdGewijzigd.Sequence, contactgegevenWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<ContactgegevenWerdVerwijderd> contactgegevenWerdVerwijderd, BeheerVerenigingDetailDocument document)
@@ -198,29 +185,26 @@ public class BeheerVerenigingDetailProjector
                                                 c => c.ContactgegevenId != contactgegevenWerdVerwijderd.Data.ContactgegevenId)
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
-
-        document.DatumLaatsteAanpassing = contactgegevenWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(contactgegevenWerdVerwijderd.Sequence, contactgegevenWerdVerwijderd.Version);
     }
 
-    public static void Apply(IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd,
+        BeheerVerenigingDetailDocument document)
     {
-        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket.Select(
-            h => new BeheerVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
-            {
-                Code = h.Code,
-                Beschrijving = h.Beschrijving,
-            }).ToArray();
-
-        document.DatumLaatsteAanpassing = hoofactiviteitenVerenigingloketWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(hoofactiviteitenVerenigingloketWerdenGewijzigd.Sequence, hoofactiviteitenVerenigingloketWerdenGewijzigd.Version);
+        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
+           .Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket).ToArray();
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
+        BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
-                                                   new BeheerVerenigingDetailDocument.Vertegenwoordiger
+                                                   new Vertegenwoordiger
                                                    {
+                                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                           JsonLdType.Vertegenwoordiger, document.VCode,
+                                                           vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),
                                                        VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
                                                        Insz = vertegenwoordigerWerdToegevoegd.Data.Insz,
                                                        Achternaam = vertegenwoordigerWerdToegevoegd.Data.Achternaam,
@@ -233,22 +217,30 @@ public class BeheerVerenigingDetailProjector
                                                        Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
                                                        SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
                                                        Bron = vertegenwoordigerWerdToegevoegd.Data.Bron,
+
+                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                                                       {
+                                                           JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                               JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
+                                                               vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId.ToString()),
+                                                           IsPrimair = vertegenwoordigerWerdToegevoegd.Data.IsPrimair,
+                                                           Email = vertegenwoordigerWerdToegevoegd.Data.Email,
+                                                           Telefoon = vertegenwoordigerWerdToegevoegd.Data.Telefoon,
+                                                           Mobiel = vertegenwoordigerWerdToegevoegd.Data.Mobiel,
+                                                           SocialMedia = vertegenwoordigerWerdToegevoegd.Data.SocialMedia,
+                                                       },
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(vertegenwoordigerWerdToegevoegd.Sequence, vertegenwoordigerWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<VertegenwoordigerWerdGewijzigd> vertegenwoordigerWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
-        var vertegenwoordigerToUpdate = document.Vertegenwoordigers.Single(v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId);
-
         document.Vertegenwoordigers = document.Vertegenwoordigers
                                               .UpdateSingle(
-                                                   identityFunc: v => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
-                                                   v => v with
+                                                   identityFunc: v
+                                                       => v.VertegenwoordigerId == vertegenwoordigerWerdGewijzigd.Data.VertegenwoordigerId,
+                                                   update: v => v with
                                                    {
                                                        Roepnaam = vertegenwoordigerWerdGewijzigd.Data.Roepnaam,
                                                        Rol = vertegenwoordigerWerdGewijzigd.Data.Rol,
@@ -257,65 +249,52 @@ public class BeheerVerenigingDetailProjector
                                                        Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
                                                        Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
                                                        SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
+                                                       VertegenwoordigerContactgegevens = v.VertegenwoordigerContactgegevens with
+                                                       {
+                                                           IsPrimair = vertegenwoordigerWerdGewijzigd.Data.IsPrimair,
+                                                           Email = vertegenwoordigerWerdGewijzigd.Data.Email,
+                                                           Telefoon = vertegenwoordigerWerdGewijzigd.Data.Telefoon,
+                                                           Mobiel = vertegenwoordigerWerdGewijzigd.Data.Mobiel,
+                                                           SocialMedia = vertegenwoordigerWerdGewijzigd.Data.SocialMedia,
+                                                       },
                                                    })
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(vertegenwoordigerWerdGewijzigd.Sequence, vertegenwoordigerWerdGewijzigd.Version);
     }
 
-    public static void Apply(IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdVerwijderd> vertegenwoordigerWerdVerwijderd,
+        BeheerVerenigingDetailDocument document)
     {
         document.Vertegenwoordigers = document.Vertegenwoordigers
                                               .Where(
                                                    c => c.VertegenwoordigerId != vertegenwoordigerWerdVerwijderd.Data.VertegenwoordigerId)
                                               .OrderBy(v => v.VertegenwoordigerId)
                                               .ToArray();
-
-        document.DatumLaatsteAanpassing = vertegenwoordigerWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(vertegenwoordigerWerdVerwijderd.Sequence, vertegenwoordigerWerdVerwijderd.Version);
     }
 
-    public static BeheerVerenigingDetailDocument Apply(IEvent<AfdelingWerdGeregistreerd> afdelingWerdGeregistreerd, BeheerVerenigingDetailDocument moeder)
-        => moeder with
-        {
-            Relaties = moeder.Relaties.Append(
-                new BeheerVerenigingDetailDocument.Relatie
-                {
-                    Type = RelatieType.IsAfdelingVan.InverseBeschrijving,
-                    AndereVereniging = new BeheerVerenigingDetailDocument.Relatie.GerelateerdeVereniging
-                    {
-                        KboNummer = string.Empty,
-                        Naam = afdelingWerdGeregistreerd.Data.Naam,
-                        VCode = afdelingWerdGeregistreerd.Data.VCode,
-                    },
-                }).ToArray(),
-        };
-
-    public static void Apply(IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom,
+        BeheerVerenigingDetailDocument document)
     {
         document.IsUitgeschrevenUitPubliekeDatastroom = true;
-        document.DatumLaatsteAanpassing = verenigingWerdVerwijderdUitPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(verenigingWerdVerwijderdUitPubliekeDatastroom.Sequence, verenigingWerdVerwijderdUitPubliekeDatastroom.Version);
     }
 
-    public static void Apply(IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdToegevoegdAanPubliekeDatastroom, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<VerenigingWerdIngeschrevenInPubliekeDatastroom> verenigingWerdToegevoegdAanPubliekeDatastroom,
+        BeheerVerenigingDetailDocument document)
     {
         document.IsUitgeschrevenUitPubliekeDatastroom = false;
-        document.DatumLaatsteAanpassing = verenigingWerdToegevoegdAanPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(verenigingWerdToegevoegdAanPubliekeDatastroom.Sequence, verenigingWerdToegevoegdAanPubliekeDatastroom.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie, locatieWerdToegevoegd.Data.Bron))
+                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie,
+                                                                                    locatieWerdToegevoegd.Data.Bron,
+                                                                                    document.VCode))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
-        document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(locatieWerdToegevoegd.Sequence, locatieWerdToegevoegd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, BeheerVerenigingDetailDocument document)
@@ -323,20 +302,21 @@ public class BeheerVerenigingDetailProjector
         document.Locaties = document.Locaties
                                     .UpdateSingle(
                                          identityFunc: l => l.LocatieId == locatieWerdGewijzigd.Data.Locatie.LocatieId,
-                                         l => l with
+                                         update: l => l with
                                          {
                                              IsPrimair = locatieWerdGewijzigd.Data.Locatie.IsPrimair,
                                              Locatietype = locatieWerdGewijzigd.Data.Locatie.Locatietype,
                                              Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
-                                             Adres = BeheerVerenigingDetailMapper.MapAdres(locatieWerdGewijzigd.Data.Locatie.Adres),
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(
+                                                 locatieWerdGewijzigd.Data.Locatie.Adres, document.VCode, l.LocatieId),
                                              Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
-                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(
+                                                 locatieWerdGewijzigd.Data.Locatie.AdresId),
+                                             VerwijstNaar =
+                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(locatieWerdGewijzigd.Data.Locatie.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
-        document.DatumLaatsteAanpassing = locatieWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(locatieWerdGewijzigd.Sequence, locatieWerdGewijzigd.Version);
     }
 
     public static void Apply(IEvent<LocatieWerdVerwijderd> locatieWerdVerwijderd, BeheerVerenigingDetailDocument document)
@@ -345,37 +325,221 @@ public class BeheerVerenigingDetailProjector
                                     .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.Locatie.LocatieId)
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
-        document.DatumLaatsteAanpassing = locatieWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(locatieWerdVerwijderd.Sequence, locatieWerdVerwijderd.Version);
     }
 
-    public static void Apply(IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
+        BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron))
+                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
+                                                                                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
+                                                                                    document.VCode))
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
-
-        document.DatumLaatsteAanpassing = maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(maatschappelijkeZetelWerdOvergenomenUitKbo.Sequence, maatschappelijkeZetelWerdOvergenomenUitKbo.Version);
     }
 
-    public static void Apply(IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelVolgensKBOWerdGewijzigd> maatschappelijkeZetelVolgensKboWerdGewijzigd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             IsPrimair = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.IsPrimair,
+                                             Naam = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.Naam,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdToegevoegd,
+        BeheerVerenigingDetailDocument document)
     {
         document.Contactgegevens = document.Contactgegevens.Append(
-                                                new BeheerVerenigingDetailDocument.Contactgegeven
+                                                new Contactgegeven
                                                 {
+                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                        JsonLdType.Contactgegeven, document.VCode,
+                                                        contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
                                                     ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Type = contactgegevenWerdToegevoegd.Data.Type,
+                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
                                                     Beschrijving = string.Empty,
                                                     Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
                                                     Bron = contactgegevenWerdToegevoegd.Data.Bron,
                                                 })
                                            .OrderBy(c => c.ContactgegevenId)
                                            .ToArray();
+    }
 
-        document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
-        document.Metadata = new Metadata(contactgegevenWerdToegevoegd.Sequence, contactgegevenWerdToegevoegd.Version);
+    public static void Apply(
+        IEvent<ContactgegevenUitKBOWerdGewijzigd> contactgegevenUitKboWerdGewijzigd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.UpdateSingle(
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenUitKboWerdGewijzigd.Data.ContactgegevenId,
+                                                update: contactgegeven => contactgegeven with
+                                                {
+                                                    IsPrimair = contactgegevenUitKboWerdGewijzigd.Data.IsPrimair,
+                                                    Beschrijving = contactgegevenUitKboWerdGewijzigd.Data.Beschrijving,
+                                                }
+                                            ).OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+    public static void Apply(IEvent<VerenigingWerdGestopt> verenigingWerdGestopt, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = VerenigingStatus.Gestopt;
+        document.Einddatum = verenigingWerdGestopt.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+    }
+
+    public static void Apply(IEvent<VerenigingWerdGestoptInKBO> verenigingWerdGestoptInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = VerenigingStatus.Gestopt;
+        document.Einddatum = verenigingWerdGestoptInKbo.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+    }
+
+    public static void Apply(IEvent<EinddatumWerdGewijzigd> einddatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Einddatum = einddatumWerdGewijzigd.Data.Einddatum.ToString(WellknownFormats.DateOnly);
+    }
+
+    public static void Apply(
+        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Vertegenwoordigers = document.Vertegenwoordigers.Append(
+                                                   new Vertegenwoordiger
+                                                   {
+                                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                           JsonLdType.Vertegenwoordiger, document.VCode,
+                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                                                       VertegenwoordigerId =
+                                                           vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
+                                                       Insz = vertegenwoordigerWerdOvergenomenUitKbo.Data.Insz,
+                                                       Achternaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Achternaam,
+                                                       Voornaam = vertegenwoordigerWerdOvergenomenUitKbo.Data.Voornaam,
+                                                       Roepnaam = string.Empty,
+                                                       Rol = string.Empty,
+                                                       IsPrimair = false,
+                                                       Email = string.Empty,
+                                                       Telefoon = string.Empty,
+                                                       Mobiel = string.Empty,
+                                                       SocialMedia = string.Empty,
+                                                       Bron = vertegenwoordigerWerdOvergenomenUitKbo.Data.Bron,
+                                                       VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+                                                       {
+                                                           JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                               JsonLdType.VertegenwoordigerContactgegeven, document.VCode,
+                                                               vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId.ToString()),
+                                                           IsPrimair = false,
+                                                           Email = string.Empty,
+                                                           Telefoon = string.Empty,
+                                                           Mobiel = string.Empty,
+                                                           SocialMedia = string.Empty,
+                                                       },
+                                                   })
+                                              .OrderBy(v => v.VertegenwoordigerId)
+                                              .ToArray();
+    }
+
+    public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
+    {
+        document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.Metadata = new Metadata(e.Sequence, e.Version);
+    }
+
+    public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Naam = naamWerdGewijzigdInKbo.Data.Naam;
+    }
+
+    public static void Apply(IEvent<KorteNaamWerdGewijzigdInKbo> korteNaamWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.KorteNaam = korteNaamWerdGewijzigdInKbo.Data.KorteNaam;
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> contactgegevenWerdGewijzigdUitKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens.UpdateSingle(
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId,
+                                                update: contactgegeven => contactgegeven with
+                                                {
+                                                    Waarde = contactgegevenWerdGewijzigdUitKbo.Data.Waarde,
+                                                }
+                                            ).OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> contactgegevenWerdVerwijderdUitKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+                                           .Where(
+                                                c => c.ContactgegevenId != contactgegevenWerdVerwijderdUitKbo.Data.ContactgegevenId)
+                                           .OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> contactgegevenWerdInBeheerGenomenDoorKbo,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Contactgegevens = document.Contactgegevens
+                                           .UpdateSingle(
+                                                identityFunc: c
+                                                    => c.ContactgegevenId == contactgegevenWerdInBeheerGenomenDoorKbo.Data.ContactgegevenId,
+                                                update: c => c with
+                                                {
+                                                    Bron = contactgegevenWerdInBeheerGenomenDoorKbo.Data.Bron,
+                                                })
+                                           .OrderBy(c => c.ContactgegevenId)
+                                           .ToArray();
+    }
+
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.LocatieId,
+                                         update: l => l with
+                                         {
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(
+                                                 maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres, document.VCode, l.LocatieId),
+                                             Adresvoorstelling = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(
+                                                 maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
+                                             VerwijstNaar =
+                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    {
+        document.Verenigingstype = new VerenigingsType
+        {
+            Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
+            Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
+        };
+
+        document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
     }
 }

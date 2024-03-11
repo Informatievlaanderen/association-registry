@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <root>
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+              xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
     <xsd:element name="root" msdata:IsDataSet="true">
 
     </xsd:element>
@@ -13,10 +14,14 @@
     <value>1.3</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+      PublicKeyToken=b77a5c561934e089
+    </value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral,
+      PublicKeyToken=b77a5c561934e089
+    </value>
   </resheader>
   <data name="WebsiteMissingPeriod">
     <value>Website url moet minsens één punt bevatten</value>
@@ -25,7 +30,7 @@
     <value>Website url moet beginnen met 'http://' of 'https://'</value>
   </data>
   <data name="InvalidTelefoonNummerCharacter">
-    <value>TelefoonNummer moet bestaan uit cijfers, whitespace en \". /( ) - + \"</value>
+    <value>TelefoonNummer moet bestaan uit cijfers, whitespace en ". / ( ) - + "</value>
   </data>
   <data name="NoNumbersInTelefoonNummer">
     <value>TelefoonNummer moet minstens één cijfer bevatten</value>
@@ -44,9 +49,6 @@
   </data>
   <data name="InvalidDoelgroepRange">
     <value>Minimum leeftijd moet kleiner of gelijk zijn aan maximum leeftijd.</value>
-  </data>
-  <data name="AfdelingCanNotBeUnsubscribedFromPubliekeDatastroom">
-    <value>Een afdeling kan niet uit de publieke stroom worden uitgeschreven.</value>
   </data>
   <data name="GeenGeldigeVerenigingInKbo">
     <value>Er werd voor dit KBO-nummer geen geldige vereniging gevonden.</value>
@@ -99,7 +101,7 @@
   <data name="MultiplePrimaireLocaties">
     <value>Er kan maar één primaire locatie zijn binnen de vereniging.</value>
   </data>
-  <data name="StardatumIsInFuture">
+  <data name="StartdatumIsInFuture">
     <value>Startdatum mag niet in de toekomst liggen.</value>
   </data>
   <data name="InvalidVCodeFormat">
@@ -133,7 +135,9 @@
     <value>Voornaam moet een letter bevatten.</value>
   </data>
   <data name="InvalidEmailFormat">
-    <value>E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens toegestaan '!#$%&amp;'*+/=?^_`{|}~-', in domein enkel '.' en '-'.</value>
+    <value>E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens
+      toegestaan '!#$%&amp;'*+/=?^_`{|}~-', in domein enkel '.' en '-'.
+    </value>
   </data>
   <data name="InvalidDateFormat">
     <value>Datum moet van het formaat 'yyyy-MM-dd' zijn.</value>
@@ -158,5 +162,50 @@
   </data>
   <data name="ContactgegevenFromKboCannotBeRemoved">
     <value>Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden.</value>
+  </data>
+  <data name="EinddatumIsInFuture">
+    <value>Einddatum mag niet in de toekomst liggen.</value>
+  </data>
+  <data name="EinddatumIsBeforeStartdatum">
+    <value>Einddatum moet na startdatum liggen.</value>
+  </data>
+  <data name="StartdatumIsAfterEinddatum">
+    <value>Startdatum moet voor einddatum liggen.</value>
+  </data>
+  <data name="VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden">
+    <value>Een KBO-vereniging kan niet gestopt worden.</value>
+  </data>
+  <data name="VerenigingKanNietVerwijderdWorden">
+    <value>Deze vereniging kan niet verwijderd worden.</value>
+  </data>
+  <data name="VerenigingWerdVerwijderd">
+    <value>Deze vereniging werd verwijderd.</value>
+  </data>
+  <data name="UnsupportedOperationForLocatietype">
+    <value>Deze actie kan niet uitgevoerd worden op deze locatie.</value>
+  </data>
+  <data name="UnsupportedOperationForContactgegevenBron">
+    <value>Deze actie kan niet uitgevoerd worden op dit contactgegeven.</value>
+  </data>
+  <data name="VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers">
+    <value>Aan een KBO vereniging kunnen geen vertegenwoordigers toegevoegd worden.</value>
+  </data>
+  <data name="VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers">
+    <value>Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden.</value>
+  </data>
+  <data name="ZoekOpdrachtWasIncorrect" xml:space="preserve">
+    <value>Deze zoekopdracht kon niet uitgevoerd worden. Controleer alle parameters en probeer opnieuw.</value>
+  </data>
+  <data name="ZoekOpdrachtBevatOnbekendeSorteerVelden" xml:space="preserve">
+    <value>Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}</value>
+  </data>
+  <data name="RegistreerInschrijvingKonNietVoltooidWorden" xml:space="preserve">
+    <value>Registreer inschrijving voor KBO-nummer kon niet voltooid worden</value>
+  </data>
+  <data name="UnexpectedAggregateVersion" xml:space="preserve">
+    <value>De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</value>
+  </data>
+  <data name="UnsupportedContent">
+    <value>Deze waarde bevat niet toegestane tekens.</value>
   </data>
 </root>

@@ -17,6 +17,6 @@ public class Given_A_String_With_Invalid_Start
     {
         var ctor = () => Website.Create(invalidWebsiteString);
 
-        ctor.Should().Throw<InvalidWebsiteStart>();
+        ctor.Should().Throw<WebsiteMoetStartenMetHttps>();
     }
 }

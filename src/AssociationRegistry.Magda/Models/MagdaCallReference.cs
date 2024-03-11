@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Magda.Models;
 
-using System;
-
 public class MagdaCallReference
 {
     public Guid Reference { get; set; }

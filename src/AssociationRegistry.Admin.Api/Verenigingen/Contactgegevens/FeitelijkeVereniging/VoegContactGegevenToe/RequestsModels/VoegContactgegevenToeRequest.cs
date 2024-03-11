@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 
-using System.Runtime.Serialization;
 using Acties.VoegContactgegevenToe;
 using Common;
+using System.Runtime.Serialization;
 using Vereniging;
 
 [DataContract]
@@ -16,7 +16,7 @@ public class VoegContactgegevenToeRequest
         => new(
             VCode.Create(vCode),
             AssociationRegistry.Vereniging.Contactgegeven.CreateFromInitiator(
-                ContactgegevenType.Parse(Contactgegeven.Type),
+                Contactgegeventype.Parse(Contactgegeven.Contactgegeventype),
                 Contactgegeven.Waarde,
                 Contactgegeven.Beschrijving,
                 Contactgegeven.IsPrimair));

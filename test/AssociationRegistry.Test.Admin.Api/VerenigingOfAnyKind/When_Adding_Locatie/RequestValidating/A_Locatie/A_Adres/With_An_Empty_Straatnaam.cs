@@ -3,11 +3,12 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using FluentValidation.TestHelper;
 using Framework;
 using Vereniging;
-using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [UnitTest]
 public class With_An_Empty_Straatnaam : ValidatorTest
@@ -16,13 +17,14 @@ public class With_An_Empty_Straatnaam : ValidatorTest
     public void Has_validation_error__straatnaam_mag_niet_leeg_zijn()
     {
         var validator = new VoegLocatieToeValidator();
+
         var request = new VoegLocatieToeRequest
         {
             Locatie =
                 new ToeTeVoegenLocatie
                 {
                     Locatietype = Locatietype.Activiteiten,
-                    Adres = new AssociationRegistry.Admin.Api.Verenigingen.Common.Adres
+                    Adres = new Adres
                     {
                         Straatnaam = string.Empty,
                         Huisnummer = "23",
@@ -32,9 +34,11 @@ public class With_An_Empty_Straatnaam : ValidatorTest
                     },
                 },
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
-            .WithErrorMessage("'Straatnaam' mag niet leeg zijn.");
+        result.ShouldHaveValidationErrorFor(
+                   $"{nameof(VoegLocatieToeRequest.Locatie)}.{nameof(ToeTeVoegenLocatie.Adres)}.{nameof(ToeTeVoegenLocatie.Adres.Straatnaam)}")
+              .WithErrorMessage("'Straatnaam' mag niet leeg zijn.");
     }
 }

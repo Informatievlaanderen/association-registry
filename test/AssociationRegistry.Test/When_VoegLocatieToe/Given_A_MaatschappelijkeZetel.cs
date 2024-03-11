@@ -19,17 +19,17 @@ public class Given_A_MaatschappelijkeZetel
         var vereniging = new VerenigingOfAnyKind();
         var locatie = fixture.Create<Registratiedata.Locatie>();
 
-        Assert.Throws<MaatschappelijkeZetelIsNotAllowed>(() => vereniging.VoegLocatieToe(
-            Locatie.Create(
-                locatie.Naam,
-                locatie.IsPrimair,
-                Locatietype.MaatschappelijkeZetelVolgensKbo,
-                AdresId.Create(locatie.AdresId!.Broncode, locatie.AdresId.Bronwaarde),
-                Adres.Create(locatie.Adres!.Straatnaam,
-                    locatie.Adres.Huisnummer,
-                    locatie.Adres.Busnummer,
-                    locatie.Adres.Postcode,
-                    locatie.Adres.Gemeente,
-                    locatie.Adres.Land))));
+        Assert.Throws<MaatschappelijkeZetelIsNietToegestaan>(() => vereniging.VoegLocatieToe(
+                                                                 Locatie.Create(
+                                                                     locatie.Naam,
+                                                                     locatie.IsPrimair,
+                                                                     Locatietype.MaatschappelijkeZetelVolgensKbo,
+                                                                     AdresId.Create(locatie.AdresId!.Broncode, locatie.AdresId.Bronwaarde),
+                                                                     Adres.Create(locatie.Adres!.Straatnaam,
+                                                                                  locatie.Adres.Huisnummer,
+                                                                                  locatie.Adres.Busnummer,
+                                                                                  locatie.Adres.Postcode,
+                                                                                  locatie.Adres.Gemeente,
+                                                                                  locatie.Adres.Land))));
     }
 }

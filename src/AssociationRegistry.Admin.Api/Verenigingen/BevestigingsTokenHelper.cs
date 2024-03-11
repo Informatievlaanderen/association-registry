@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
 
+using Infrastructure.ConfigurationBindings;
+using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;
 using System.Text;
-using Infrastructure.ConfigurationBindings;
-using Newtonsoft.Json;
 
 public class BevestigingsTokenHelper
 {
@@ -18,6 +18,7 @@ public class BevestigingsTokenHelper
     public bool IsValid(string? bevestigingsToken, object request)
     {
         if (bevestigingsToken is null) return false;
+
         return Calculate(request).Equals(bevestigingsToken);
     }
 
@@ -27,6 +28,7 @@ public class BevestigingsTokenHelper
 
         var provider = MD5.Create();
         var bytes = provider.ComputeHash(Encoding.Unicode.GetBytes(_salt + JsonConvert.SerializeObject(request)));
+
         return BitConverter.ToString(bytes);
     }
 }

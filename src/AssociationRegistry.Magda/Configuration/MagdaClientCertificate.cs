@@ -6,11 +6,11 @@ public class MagdaClientCertificate : X509Certificate2
 {
     private MagdaClientCertificate(string base64Cert, string password) :
         base(
-            rawData: Convert.FromBase64String(base64Cert),
-            password: password,
-            keyStorageFlags: X509KeyStorageFlags.MachineKeySet |
-                             X509KeyStorageFlags.PersistKeySet |
-                             X509KeyStorageFlags.Exportable)
+            Convert.FromBase64String(base64Cert),
+            password,
+            X509KeyStorageFlags.MachineKeySet |
+            X509KeyStorageFlags.PersistKeySet |
+            X509KeyStorageFlags.Exportable)
     {
     }
 

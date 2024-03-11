@@ -7,6 +7,16 @@ services:
     ports:
       - "5051:80"
 
+  seq:
+    image: datalust/seq
+    restart: always
+    ports:
+      - "9580:80"
+    environment:
+      ACCEPT_EULA: Y
+    volumes:
+      - seq-data:/data
+
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
     ports:
@@ -15,9 +25,9 @@ services:
       ELASTIC_PASSWORD: local_development
       discovery.type: single-node
       xpack.security.transport.ssl.enabled: false
-      cluster.routing.allocation.disk.watermark.low: 95%
-      cluster.routing.allocation.disk.watermark.high: 96%
-      cluster.routing.allocation.disk.watermark.flood_stage: 97%
+      cluster.routing.allocation.disk.watermark.low: 97%
+      cluster.routing.allocation.disk.watermark.high: 98%
+      cluster.routing.allocation.disk.watermark.flood_stage: 99%
     volumes:
       - es-data:/usr/share/elasticsearch/data
 
@@ -56,3 +66,4 @@ services:
 volumes:
   pg-data:
   es-data:
+  seq-data:

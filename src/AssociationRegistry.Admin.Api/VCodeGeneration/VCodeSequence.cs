@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.VCodeGeneration;
 
-using System.Collections.Generic;
 using Marten;
+using System.Collections.Generic;
 using Weasel.Core;
 using Weasel.Core.Migrations;
 using Weasel.Postgresql;

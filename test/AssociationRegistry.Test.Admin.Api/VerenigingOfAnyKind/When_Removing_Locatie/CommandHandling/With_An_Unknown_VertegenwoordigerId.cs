@@ -2,12 +2,12 @@
 
 using Acties.VerwijderLocatie;
 using AssociationRegistry.Framework;
+using AutoFixture;
 using Fakes;
-using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+using Fixtures.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -36,6 +36,6 @@ public class With_An_Unknown_LocatieId
 
         var handle = () => _commandHandler.Handle(new CommandEnvelope<VerwijderLocatieCommand>(command, commandMetadata));
 
-        await handle.Should().ThrowAsync<UnknownLocatie>();
+        await handle.Should().ThrowAsync<LocatieIsNietGekend>();
     }
 }

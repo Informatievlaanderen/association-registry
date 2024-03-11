@@ -17,69 +17,71 @@ public class V027_LocatieWerdGewijzigd : IEventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999027";
+
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            "Party in Brakeldorp",
-            "FBD",
-            "De party van Brakeldorp",
+            Naam: "Party in Brakeldorp",
+            KorteNaam: "FBD",
+            KorteBeschrijving: "De party van Brakeldorp",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
             Registratiedata.Doelgroep.With(Doelgroep.Null),
-            false,
+            IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             new[]
             {
                 new Registratiedata.Locatie(
-                    1,
-                    "Correspondentie",
+                    LocatieId: 1,
+                    Locatietype: "Correspondentie",
                     IsPrimair: true,
                     Naam: "Correspondentie",
-                    Adres: new Registratiedata.Adres(
-                        "Stationsstraat",
-                        "1",
-                        "B",
-                        "1790",
-                        "Affligem",
-                        "België"),
-                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    new Registratiedata.Adres(
+                        Straatnaam: "Stationsstraat",
+                        Huisnummer: "1",
+                        Busnummer: "B",
+                        Postcode: "1790",
+                        Gemeente: "Affligem",
+                        Land: "België"),
+                    new Registratiedata.AdresId(Adresbron.AR.Code, Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
-                    2,
-                    "Activiteiten",
+                    LocatieId: 2,
+                    Locatietype: "Activiteiten",
                     IsPrimair: false,
                     Naam: "Activiteiten",
                     Adres: null,
-                    AdresId: new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/0")),
+                    new Registratiedata.AdresId(Adresbron.AR.Code, Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
                 new Registratiedata.Locatie(
-                    3,
-                    "Activiteiten",
+                    LocatieId: 3,
+                    Locatietype: "Activiteiten",
                     IsPrimair: false,
                     Naam: "Activiteiten",
-                    Adres: new Registratiedata.Adres(
-                        "Dorpstraat",
-                        "1",
-                        "B",
-                        "1790",
-                        "Affligem",
-                        "België"),
+                    new Registratiedata.Adres(
+                        Straatnaam: "Dorpstraat",
+                        Huisnummer: "1",
+                        Busnummer: "B",
+                        Postcode: "1790",
+                        Gemeente: "Affligem",
+                        Land: "België"),
                     AdresId: null),
             },
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
-            Array.Empty< Registratiedata.HoofdactiviteitVerenigingsloket>());
+            Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
         LocatieWerdGewijzigd = new LocatieWerdGewijzigd(
             new Registratiedata.Locatie(
-                1,
+                LocatieId: 1,
                 Locatietype.Activiteiten,
-                false,
-                "Gewijzigd",
+                IsPrimair: false,
+                Naam: "Gewijzigd",
                 new Registratiedata.Adres(
-                    "straatnaam",
-                    "99",
-                    "A1",
-                    "0123",
-                    "Zonnedorp",
-                    "Frankrijk"),
-                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix+"4")
+                    Straatnaam: "straatnaam",
+                    Huisnummer: "99",
+                    Busnummer: "A1",
+                    Postcode: "0123",
+                    Gemeente: "Zonnedorp",
+                    Land: "Frankrijk"),
+                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "4")
             ));
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

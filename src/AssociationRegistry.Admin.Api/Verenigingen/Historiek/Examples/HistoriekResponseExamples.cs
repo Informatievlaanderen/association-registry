@@ -12,10 +12,11 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
     {
         _appSettings = appSettings;
     }
+
     public HistoriekResponse GetExamples()
         => new()
         {
-            Context = $"{_appSettings.BaseUrl}/v1/contexten/historiek-vereniging-context.json",
+            Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/historiek-vereniging-context.json",
             VCode = "V0000123",
             Gebeurtenissen = new HistoriekGebeurtenisResponse[]
             {
@@ -28,7 +29,7 @@ public class HistoriekResponseExamples : IExamplesProvider<HistoriekResponse>
                         Naam = "Eerste vereniging",
                     },
                     Initiator = "OVO0001001",
-                    Tijdstip = "11/30/2022 23:00:00",
+                    Tijdstip = "2023-08-23 07:20",
                 },
             },
         };

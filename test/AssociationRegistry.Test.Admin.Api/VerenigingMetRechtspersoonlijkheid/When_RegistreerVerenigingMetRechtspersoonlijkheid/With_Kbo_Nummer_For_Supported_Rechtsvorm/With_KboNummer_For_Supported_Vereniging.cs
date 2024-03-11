@@ -1,13 +1,16 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.With_Kbo_Nummer_For_Supported_Rechtsvorm;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+    With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
-using System.Net;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Magda.Models;
+using Events;
 using Fixtures;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using System.Net;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,33 +20,40 @@ using Xunit.Categories;
 public abstract class With_KboNummer_For_Supported_Vereniging
 {
     protected readonly EventsInDbScenariosFixture _fixture;
-    protected readonly RegistreerVereniginMetRechtspersoonlijkheidSetup _registreerVereniginMetRechtspersoonlijkheidSetup;
+    protected readonly RegistreerVereniginMetRechtspersoonlijkheidSetup RegistreerVerenigingMetRechtspersoonlijkheidSetup;
 
-    public With_KboNummer_For_Supported_Vereniging(EventsInDbScenariosFixture fixture, RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVereniginMetRechtspersoonlijkheidSetup)
+    public With_KboNummer_For_Supported_Vereniging(
+        EventsInDbScenariosFixture fixture,
+        RegistreerVereniginMetRechtspersoonlijkheidSetup registreerVerenigingMetRechtspersoonlijkheidSetup)
     {
         _fixture = fixture;
-        _registreerVereniginMetRechtspersoonlijkheidSetup = registreerVereniginMetRechtspersoonlijkheidSetup;
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup = registreerVerenigingMetRechtspersoonlijkheidSetup;
     }
 
     [Fact]
     public void Then_it_returns_an_accepted_response_with_correct_headers()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     [Fact]
     public void Then_it_returns_a_location_header()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(HeaderNames.Location);
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Location!.OriginalString.Should()
-            .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(HeaderNames.Location);
+
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Location!.OriginalString.Should()
+                                                         .StartWith(
+                                                              $"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
     }
 
     [Fact]
     public void Then_it_returns_a_sequence_header()
     {
-        _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
-        var sequenceValues = _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
+        RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
+
+        var sequenceValues = RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.GetValues(WellknownHeaderNames.Sequence)
+                                                                              .ToList();
+
         sequenceValues.Should().HaveCount(expected: 1);
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(expected: 0);
@@ -52,7 +62,9 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     [Fact]
     public async Task Then_it_stores_a_call_reference()
     {
-        var hasCorrelationIdHeader = _registreerVereniginMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(WellknownHeaderNames.CorrelationId, out var correlationIdValues);
+        var hasCorrelationIdHeader =
+            RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(
+                WellknownHeaderNames.CorrelationId, out var correlationIdValues);
 
         hasCorrelationIdHeader.Should().BeTrue();
 
@@ -60,24 +72,56 @@ public abstract class With_KboNummer_For_Supported_Vereniging
 
         var correlationId = Guid.Parse(correlationIdValues!.First());
 
-        var callReference = lightweightSession
-            .Query<MagdaCallReference>()
-            .Where(x => x.CorrelationId == correlationId)
-            .SingleOrDefault();
+        var callReferences = await lightweightSession
+                                  .Query<MagdaCallReference>()
+                                  .Where(x => x.CorrelationId == correlationId)
+                                  .ToListAsync();
 
-        callReference.Should().NotBeNull();
-        callReference.Should().BeEquivalentTo(
-            new MagdaCallReference
+        callReferences.Should().NotBeNull();
+
+        callReferences.Should().BeEquivalentTo(
+            new List<MagdaCallReference>
             {
-                CorrelationId = correlationId,
-                Context = "Registreer vereniging met rechtspersoonlijkheid",
-                AanroependeDienst = "Verenigingsregister Beheer Api",
-                OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
-                OpgevraagdOnderwerp = _registreerVereniginMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
-                Initiator = "OVO000001",
+                new()
+                {
+                    CorrelationId = correlationId,
+                    Context = "Registreer inschrijving voor vereniging met rechtspersoonlijkheid",
+                    AanroependeDienst = "Verenigingsregister Beheer Api",
+                    OpgevraagdeDienst = "RegistreerInschrijvingDienst-02.01",
+                    OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                    Initiator = "OVO000001",
+                },
+                new()
+                {
+                    CorrelationId = correlationId,
+                    Context = "Registreer vereniging met rechtspersoonlijkheid",
+                    AanroependeDienst = "Verenigingsregister Beheer Api",
+                    OpgevraagdeDienst = "GeefOndernemingDienst-02.00",
+                    OpgevraagdOnderwerp = RegistreerVerenigingMetRechtspersoonlijkheidSetup.UitKboRequest.KboNummer,
+                    Initiator = "OVO000001",
+                },
             },
-            options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
-        callReference!.Reference.Should().NotBeEmpty();
-        callReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
+            config: options => options.Excluding(x => x.CalledAt).Excluding(x => x.Reference));
+
+        foreach (var magdaCallReference in callReferences)
+        {
+            magdaCallReference!.Reference.Should().NotBeEmpty();
+            magdaCallReference.CalledAt.Should().BeWithin(TimeSpan.FromDays(1));
+        }
+    }
+
+    [Fact]
+    public void Then_it_saves_the_vereniging_werd_ingeschreven_op_wijzigingen_uit_kbo_event()
+    {
+        using var session = _fixture
+                           .DocumentStore
+                           .LightweightSession();
+
+        session
+           .Events
+           .QueryRawEventDataOnly<VerenigingWerdIngeschrevenOpWijzigingenUitKbo>()
+           .Should().ContainSingle(
+                e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
+                                   .UitKboRequest.KboNummer);
     }
 }

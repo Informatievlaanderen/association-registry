@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
-using Infrastructure.Validation;
-using Vereniging;
 using FluentValidation;
+using Infrastructure.Validation;
 using RequestsModels;
+using Vereniging;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegevenToeRequest>
@@ -11,20 +11,23 @@ public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegev
     public VoegContactgegevenToeValidator()
     {
         RuleFor(request => request.Contactgegeven).NotNull()
-            .WithMessage("'Contactgegeven' is verplicht.");
+                                                  .WithMessage("'Contactgegeven' is verplicht.");
+
         When(
-            request => request.Contactgegeven is not null,
-            () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Waarde)
+            predicate: request => request.Contactgegeven is not null,
+            action: () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Waarde)
         );
+
         When(
-            request => request.Contactgegeven is not null,
-            () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Type)
+            predicate: request => request.Contactgegeven is not null,
+            action: () => this.RequireNotNullOrEmpty(request => request.Contactgegeven.Contactgegeventype)
         );
+
         When(
-            request => request.Contactgegeven is not null && !string.IsNullOrEmpty(request.Contactgegeven.Type),
-            () => RuleFor(request => request.Contactgegeven.Type)
-                .Must(ContactgegevenType.CanParse)
-                .WithMessage(t => $"De waarde '{t.Contactgegeven.Type}' is geen gekend contactgegeven type.")
+            predicate: request => request.Contactgegeven is not null && !string.IsNullOrEmpty(request.Contactgegeven.Contactgegeventype),
+            action: () => RuleFor(request => request.Contactgegeven.Contactgegeventype)
+                         .Must(Contactgegeventype.CanParse)
+                         .WithMessage(t => $"De waarde '{t.Contactgegeven.Contactgegeventype}' is geen gekend contactgegeven type.")
         );
     }
 }

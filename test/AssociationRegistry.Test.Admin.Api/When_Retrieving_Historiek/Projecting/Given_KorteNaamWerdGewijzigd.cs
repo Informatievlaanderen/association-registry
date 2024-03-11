@@ -23,13 +23,12 @@ public class Given_KorteNaamWerdGewijzigd
 
         BeheerVerenigingHistoriekProjector.Apply(korteNaamWerdGewijzigd, doc);
 
-
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
                 $"Korte naam werd gewijzigd naar '{korteNaamWerdGewijzigd.Data.KorteNaam}'.",
                 nameof(KorteNaamWerdGewijzigd),
                 korteNaamWerdGewijzigd.Data,
                 korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToBelgianDateAndTime()));
+                korteNaamWerdGewijzigd.Tijdstip.ToZuluTime()));
     }
 }

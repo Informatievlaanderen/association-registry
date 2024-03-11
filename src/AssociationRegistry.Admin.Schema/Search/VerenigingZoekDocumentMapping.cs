@@ -1,27 +1,43 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
 using Nest;
+using Public.Schema.Search;
 
 public static class VerenigingZoekDocumentMapping
 {
+    public const string BeheerZoekenNormalizer = "beheer_zoeken_normalizer";
+
     public static TypeMappingDescriptor<VerenigingZoekDocument> Get(TypeMappingDescriptor<VerenigingZoekDocument> map)
         => map.Properties(
             descriptor => descriptor
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.VCode))
+                                                   .Normalizer(BeheerZoekenNormalizer)
+                                                   .Name(document => document.VCode))
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Naam))
+                                                   .Name(document => document.Naam)
+                                                   .WithKeyword(BeheerZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.KorteNaam))
+                                                   .Name(document => document.KorteNaam)
+                                                   .WithKeyword(BeheerZoekenNormalizer))
                          .Text(
                               propertyDescriptor => propertyDescriptor
-                                 .Name(document => document.Roepnaam))
+                                                   .Name(document => document.Roepnaam)
+                                                   .WithKeyword(BeheerZoekenNormalizer))
+                         .Keyword(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.Status))
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsUitgeschrevenUitPubliekeDatastroom))
+                         .Boolean(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.IsVerwijderd))
+                         .Text(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.JsonLdMetadataType))
                          .Nested<Doelgroep>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Doelgroep)
@@ -29,7 +45,7 @@ public static class VerenigingZoekDocumentMapping
                                                    .Properties(DoelgroepMapping.Get))
                          .Nested<VerenigingZoekDocument.VerenigingsType>(
                               propertyDescriptor => propertyDescriptor
-                                                   .Name(document => document.Type)
+                                                   .Name(document => document.Verenigingstype)
                                                    .IncludeInRoot()
                                                    .Properties(VerenigingsTypeMapping.Get))
                          .Nested<VerenigingZoekDocument.Locatie>(
@@ -53,79 +69,161 @@ public static class VerenigingZoekDocumentMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie> map)
             => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    descriptor => descriptor
-                      .Name(document => document.LocatieId))
+                                .Name(document => document.LocatieId)
+                                .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Naam))
+                                        .Name(document => document.Naam)
+                                        .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Adresvoorstelling))
+                                        .Name(document => document.Adresvoorstelling)
+                                        .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.IsPrimair))
+                                        .Name(document => document.IsPrimair)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Locatietype))
+                                        .Name(document => document.Postcode)
+                                        .WithKeyword())
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Postcode))
+                                        .Name(document => document.Gemeente)
+                                        .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertyDescriptor => propertyDescriptor
-                      .Name(document => document.Gemeente));
+                                        .Name(document => document.Locatietype)
+                                        .WithKeyword(BeheerZoekenNormalizer));
+    }
+
+    private static class LocationTypeMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Locatie.LocatieType> map)
+            => map.Nested<JsonLdMetadata>(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.JsonLdMetadata)
+                                            .IncludeInRoot()
+                                            .Properties(JsonLdMetadataMapping.Get))
+                  .Text(
+                       propertyDescriptor => propertyDescriptor
+                                            .Name(document => document.Naam)
+                                            .WithKeyword());
     }
 
     private static class HoofdactiviteitMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
             => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Code)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Naam));
+                                          .Name(document => document.Naam)
+                                          .WithKeyword(BeheerZoekenNormalizer));
     }
 
     private static class VerenigingsTypeMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.VerenigingsType> map)
             => map
+              .Keyword(
+                   propertiesDescriptor => propertiesDescriptor
+                      .Name(document => document.Code)
+                                          .Normalizer(BeheerZoekenNormalizer)
+               )
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Code)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .Name(document => document.Naam)
+                                          .WithKeyword(BeheerZoekenNormalizer));
+    }
+
+    private static class JsonLdMetadataMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<JsonLdMetadata> map)
+            => map
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Beschrijving));
+                      .Name(document => document.Id))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                      .Name(document => document.Type));
     }
 
     private static class DoelgroepMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<Doelgroep> map)
             => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
               .Number(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Minimumleeftijd)
-                                          .Type(NumberType.Integer))
+                                          .Type(NumberType.Integer)
+                                          .WithKeyword())
               .Number(
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Maximumleeftijd)
-                                          .Type(NumberType.Integer));
+                                          .Type(NumberType.Integer)
+                                          .WithKeyword());
     }
 
     private static class SleutelMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Sleutel> map)
             => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Keyword(
+                   propertiesDescriptor => propertiesDescriptor
+                      .Name(document => document.Bron)
+                                          .Normalizer(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                                          .Name(document => document.Bron)
-                                          .Fields(x => x.Keyword(y => y.Name("keyword"))))
+                                          .Name(document => document.Waarde)
+                                          .WithKeyword(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Waarde));
+                      .Name(document => document.CodeerSysteem))
+              .Nested<VerenigingZoekDocument.GestructureerdeIdentificator>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(GestructureerdeIdentificatorMapping.Get));
+    }
+
+    private static class GestructureerdeIdentificatorMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.GestructureerdeIdentificator> map)
+            => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Nummer)
+                                          .Fields(x => x.Keyword(y => y.Name("keyword"))));
     }
 }
