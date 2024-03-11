@@ -53,6 +53,15 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
+            }
+        );
+
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
@@ -89,6 +98,15 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                IsGestopt = true,
+            }
+        );
+
     public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
@@ -100,6 +118,12 @@ public class DuplicateDetectionProjectionHandler
 
     public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdOvergenomenUitKbo> message)
         => await _elasticRepository.AppendLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie));
+
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdGewijzigdInKbo> message)
+        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(message.VCode, Map(message.Data.Locatie));
+
+    public async Task Handle(EventEnvelope<MaatschappelijkeZetelWerdVerwijderdUitKbo> message)
+        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.Locatie.LocatieId);
 
     private static DuplicateDetectionDocument.Locatie Map(Registratiedata.Locatie locatie)
         => new()

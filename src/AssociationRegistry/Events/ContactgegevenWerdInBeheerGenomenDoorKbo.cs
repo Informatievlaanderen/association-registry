@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.Bronnen;
 
-public record ContactgegevenWerdOvergenomenUitKBO(
+public record ContactgegevenWerdInBeheerGenomenDoorKbo(
     int ContactgegevenId,
     string Contactgegeventype,
     string TypeVolgensKbo,
@@ -15,7 +15,7 @@ public record ContactgegevenWerdOvergenomenUitKBO(
     public Bron Bron
         => Bron.KBO;
 
-    public static ContactgegevenWerdOvergenomenUitKBO With(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
+    public static ContactgegevenWerdInBeheerGenomenDoorKbo With(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
         => new(
             contactgegeven.ContactgegevenId,
             contactgegeven.Contactgegeventype,
