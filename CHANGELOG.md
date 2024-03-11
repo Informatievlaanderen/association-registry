@@ -1,3 +1,11 @@
+# [8.82.0](https://github.com/informatievlaanderen/association-registry/compare/v8.81.1...v8.82.0) (2024-03-11)
+
+
+### Features
+
+* enable renovate ([9c155c9](https://github.com/informatievlaanderen/association-registry/commit/9c155c9e9e5faccc8fbb10e3fe1fe42532e50bd8))
+* or-1818 notify when KboSync fails ([5db46b7](https://github.com/informatievlaanderen/association-registry/commit/5db46b78d579f113d6e4ef44c4b4b3a02a52243d))
+
 ## [8.81.1](https://github.com/informatievlaanderen/association-registry/compare/v8.81.0...v8.81.1) (2024-03-08)
 
 
