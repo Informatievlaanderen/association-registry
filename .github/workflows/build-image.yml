@@ -149,7 +149,7 @@ jobs:
 
       - name: Archive code coverage results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: ${{matrix.projects}}/TestResults/*.html
@@ -201,7 +201,7 @@ jobs:
 
       - name: Upload Api artifact
         if: inputs.semver != 'none'
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ${{ inputs.image-name }}
           path: ~/${{ inputs.image-file }}

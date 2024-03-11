@@ -120,14 +120,14 @@ jobs:
       - name: Display disk space
         run: |
           df -h
-    
+
       - name: Delete huge unnecessary tools folder
         run: rm -rf /opt/hostedtoolcache
 
       - name: Display disk space
         run: |
           df -h
-    
+
       - name: Checkout Code
         uses: actions/checkout@v3
 
@@ -238,7 +238,7 @@ jobs:
 
       - name: Archive code coverage results
         if: ${{ always() }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: test-report
           path: ${{matrix.projects}}/TestResults/*.html
