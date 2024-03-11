@@ -399,19 +399,19 @@ jobs:
         uses: actions/download-artifact@v4.1.4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
-          path: ~/
+          path: /dist/nuget
 
       - name: Download NuGet package 'association-registry-magda'
         uses: actions/download-artifact@v4.1.4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.release.outputs.version }}
-          path: ~/
+          path: /dist/nuget
 
       - name: Publish packages to NuGet
         shell: bash
         run: |
-          dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
-          dotnet nuget push ~/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+          dotnet nuget push /dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+          dotnet nuget push /dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
         env:
           SEMVER: ${{  needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
