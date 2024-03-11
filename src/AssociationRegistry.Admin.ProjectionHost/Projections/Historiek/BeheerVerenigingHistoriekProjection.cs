@@ -107,6 +107,21 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
+        IEvent<ContactgegevenWerdGewijzigdInKbo> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(
+        IEvent<ContactgegevenWerdVerwijderdUitKBO> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(
+        IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(
         IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> @event,
         IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);

@@ -29,9 +29,12 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(LocatieWerdToegevoegd):
                 case nameof(LocatieWerdVerwijderd):
                 case nameof(MaatschappelijkeZetelWerdOvergenomenUitKbo):
+                case nameof(MaatschappelijkeZetelWerdGewijzigdInKbo):
+                case nameof(MaatschappelijkeZetelWerdVerwijderdUitKbo):
                 case nameof(NaamWerdGewijzigd):
                 case nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd):
                 case nameof(VerenigingWerdGestopt):
+                case nameof(VerenigingWerdGestoptInKBO):
                 case nameof(VerenigingWerdVerwijderd):
                 case nameof(NaamWerdGewijzigdInKbo):
                 case nameof(KorteNaamWerdGewijzigdInKbo):
