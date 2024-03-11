@@ -252,8 +252,8 @@ jobs:
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
-      test-project: AssociationRegistry.Test.EmptyPack
       build-project: AssociationRegistry
+      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -264,8 +264,8 @@ jobs:
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
-      test-project: AssociationRegistry.Test.EmptyPack
       build-project: AssociationRegistry.Magda
+      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -399,19 +399,27 @@ jobs:
         uses: actions/download-artifact@v4.1.4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
-          path: /dist/nuget
+          path: dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.${{ needs.release.outputs.version }}.nupkg
+
+      - name: Publish packages to NuGet 'association-registry'
+        shell: bash
+        run: |
+          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+        env:
+          SEMVER: ${{  needs.release.outputs.version }}
+          WORKSPACE: ${{ github.workspace }}
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Download NuGet package 'association-registry-magda'
         uses: actions/download-artifact@v4.1.4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.release.outputs.version }}
-          path: /dist/nuget
+          path: dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.${{ needs.release.outputs.version }}.nupkg
 
-      - name: Publish packages to NuGet
+      - name: Publish packages to NuGet 'association-registry-magda'
         shell: bash
         run: |
-          dotnet nuget push /dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
-          dotnet nuget push /dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
         env:
           SEMVER: ${{  needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
