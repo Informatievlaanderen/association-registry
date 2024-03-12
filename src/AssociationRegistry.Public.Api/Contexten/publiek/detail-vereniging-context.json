@@ -58,5 +58,5 @@
     "@type": "xsd:dateTime",
     "@id": "pav:lastUpdateOn"
   },
-  "nummer": "generiek:lokaleIdentificator",
+  "nummer": "generiek:lokaleIdentificator"
 }
