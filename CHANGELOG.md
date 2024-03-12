@@ -1,3 +1,19 @@
+# [8.83.0](https://github.com/informatievlaanderen/association-registry/compare/v8.82.1...v8.83.0) (2024-03-12)
+
+
+### Bug Fixes
+
+* minor change on workflow file ([7f504c6](https://github.com/informatievlaanderen/association-registry/commit/7f504c64e01dc9592d9e1df4ec79d83ef0a11162))
+* or-1282 disable code coverage results in pipeline ([d287b5f](https://github.com/informatievlaanderen/association-registry/commit/d287b5fa5141e5d439f5e2b1bbfaa8db44e4a1fc))
+* or-2107 attempt nuget pipeline ([28e37d1](https://github.com/informatievlaanderen/association-registry/commit/28e37d1119ad28ce34533a69239e11be61441fc4))
+
+
+### Features
+
+* or-1282 small final changes ([b624cff](https://github.com/informatievlaanderen/association-registry/commit/b624cffd0bd98ea4e9bee5bff853667f8d5d99bc))
+* or-1818 add missing projections ([c08a965](https://github.com/informatievlaanderen/association-registry/commit/c08a9656affdefb99c411059fec21581bfd3db3a))
+* or-2127 add isHoofdvertegenwoordigerVan ([6df4052](https://github.com/informatievlaanderen/association-registry/commit/6df40528288b9ff0f16b4ee214390caecb858f79))
+
 ## [8.82.1](https://github.com/informatievlaanderen/association-registry/compare/v8.82.0...v8.82.1) (2024-03-11)
 
 
