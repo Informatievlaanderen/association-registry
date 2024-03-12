@@ -253,7 +253,6 @@ jobs:
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
       build-project: AssociationRegistry
-      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -265,7 +264,6 @@ jobs:
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
       build-project: AssociationRegistry.Magda
-      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 

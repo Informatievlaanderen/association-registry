@@ -1,4 +1,4 @@
-name: Main
+name: Publish Nuget
 
 on:
   push:
@@ -61,7 +61,7 @@ jobs:
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
       build-project: AssociationRegistry
-      # dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
