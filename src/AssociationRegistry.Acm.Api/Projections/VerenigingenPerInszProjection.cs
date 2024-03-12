@@ -106,6 +106,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
                 KboNummer = string.Empty,
+                IsHoofdvertegenwoordigerVan = true,
             };
 
             foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
@@ -165,6 +166,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
                     KboNummer = vereniging.KboNummer,
+                    IsHoofdvertegenwoordigerVan = true,
                 });
 
             return document;
@@ -197,6 +199,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
                     KboNummer = vereniging.KboNummer,
+                    IsHoofdvertegenwoordigerVan = true,
                 });
 
             return document;

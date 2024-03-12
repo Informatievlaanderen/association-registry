@@ -20,7 +20,8 @@ public class VerenigingenPerInszResponseTemplate
         string vCode,
         string naam,
         string status = VerenigingStatus.Actief,
-        string kboNummer = "")
+        string kboNummer = "",
+        bool isHoofdvertegenwoordigerVan = true)
     {
         _verenigingen.Add(new
         {
@@ -28,6 +29,7 @@ public class VerenigingenPerInszResponseTemplate
             naam = naam,
             status = status,
             kbonummer = kboNummer,
+            ishoofdvertegenwoordigervan = isHoofdvertegenwoordigerVan,
         });
 
         return this;

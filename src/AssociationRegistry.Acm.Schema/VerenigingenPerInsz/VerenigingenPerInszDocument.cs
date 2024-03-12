@@ -36,4 +36,6 @@ public class Vereniging
     /// Het kbo nummer van de vereniging
     /// </summary>
     public string KboNummer { get; set; } = null!;
+
+    public bool IsHoofdvertegenwoordigerVan { get; set; }
 }
