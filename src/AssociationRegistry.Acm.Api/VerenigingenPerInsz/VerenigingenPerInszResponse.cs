@@ -42,5 +42,11 @@ public class VerenigingenPerInszResponse
         /// </summary>
         [DataMember]
         public string? KboNummer { get; init; }
+
+        /// <summary>
+        /// Is True als deze persoon een hoofdvertegenwoordiger is van deze vereniging
+        /// </summary>
+        [DataMember]
+        public bool IsHoofdvertegenwoordigerVan { get; init; }
     }
 }
