@@ -236,12 +236,12 @@ jobs:
           IGNORE_MAGDA_TESTS: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE == '' && 'true' || 'false' }}
         run: dotnet test ${{matrix.projects}} --logger html
 
-      - name: Archive code coverage results
-        if: ${{ always() }}
-        uses: actions/upload-artifact@v4
-        with:
-          name: test-report
-          path: ${{matrix.projects}}/TestResults/*.html
+#      - name: Archive code coverage results
+#        if: ${{ always() }}
+#        uses: actions/upload-artifact@v4
+#        with:
+#          name: test-report
+#          path: ${{matrix.projects}}/TestResults/*.html
 
       - name: Shows logs ACM container
         if: ${{ failure() }}
