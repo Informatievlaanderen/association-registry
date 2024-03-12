@@ -1,3 +1,10 @@
+## [8.83.1](https://github.com/informatievlaanderen/association-registry/compare/v8.83.0...v8.83.1) (2024-03-12)
+
+
+### Bug Fixes
+
+* prevent double name in path ([eb16f80](https://github.com/informatievlaanderen/association-registry/commit/eb16f805e72c6f991231dd556010f3fa9c29a321))
+
 # [8.83.0](https://github.com/informatievlaanderen/association-registry/compare/v8.82.1...v8.83.0) (2024-03-12)
 
 
