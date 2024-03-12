@@ -99,8 +99,8 @@ jobs:
       - name: Download NuGet package 'association-registry'
         uses: actions/download-artifact@v4.1.4
         with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
-          path: dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.${{ needs.release.outputs.version }}.nupkg
+          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}.nupkg
+          path: dist/nuget/
 
       - name: Publish packages to NuGet 'association-registry'
         shell: bash
