@@ -56,6 +56,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using Notifications;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
@@ -74,6 +75,7 @@ using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Wolverine;
+using IMessage = Notifications.IMessage;
 
 public class Program
 {
@@ -344,6 +346,7 @@ public class Program
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddTransient<IMagdaClient, MagdaClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
+               .AddTransient<INotifier, NullNotifier>()
                .AddMarten(postgreSqlOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddOpenTelemetry(new Instrumentation())
@@ -652,4 +655,9 @@ public class Program
             eventArgs.Cancel = true;
         };
     }
+}
+
+public class NullNotifier : INotifier
+{
+    public Task Notify(IMessage message) => Task.CompletedTask;
 }
