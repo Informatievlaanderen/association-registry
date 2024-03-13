@@ -1,3 +1,10 @@
+## [8.83.2](https://github.com/informatievlaanderen/association-registry/compare/v8.83.1...v8.83.2) (2024-03-13)
+
+
+### Bug Fixes
+
+* add notifier registration ([df63f3f](https://github.com/informatievlaanderen/association-registry/commit/df63f3fad9b02d4f7af3670c1bf5c66246cbe365))
+
 ## [8.83.1](https://github.com/informatievlaanderen/association-registry/compare/v8.83.0...v8.83.1) (2024-03-12)
 
 
