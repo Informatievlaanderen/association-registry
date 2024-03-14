@@ -417,7 +417,7 @@ jobs:
       - name: Publish packages to NuGet 'association-registry-magda'
         shell: bash
         run: |
-          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
+          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
         env:
           SEMVER: ${{  needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
