@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using Amazon.SQS;
+using AWS;
 using ConfigurationBindings;
 using Events;
 using Kbo;
@@ -16,16 +17,14 @@ public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschri
 {
     private readonly AppSettings _appSettings;
     private readonly IDocumentStore _documentStore;
-    private readonly IAmazonSQS _sqsClient;
+    private readonly SqsClientWrapper _sqsClient;
     private readonly ILogger<MagdaRegistreerInschrijvingCatchupService> _logger;
 
     public MagdaRegistreerInschrijvingCatchupService(
-        AppSettings appSettings,
+        SqsClientWrapper sqsClient,
         IDocumentStore documentStore,
-        IAmazonSQS sqsClient,
         ILogger<MagdaRegistreerInschrijvingCatchupService> logger)
     {
-        _appSettings = appSettings;
         _documentStore = documentStore;
         _sqsClient = sqsClient;
         _logger = logger;
@@ -41,10 +40,7 @@ public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschri
 
             foreach (var kboNummer in kboNummers)
             {
-                await _sqsClient.SendMessageAsync(
-                    _appSettings.KboSyncQueueUrl,
-                    JsonSerializer.Serialize(
-                        new TeSynchroniserenKboNummerMessage(kboNummer)));
+                await _sqsClient.QueueKboNummerToSynchronise(kboNummer);
 
                 _logger.LogInformation(
                     $"MAGDA RegistreerInschrijving Catchup Service : KBO nummer {kboNummer} werd op de sync queue geplaatst");

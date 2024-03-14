@@ -20,6 +20,7 @@ using FluentValidation;
 using Framework;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
+using Infrastructure.AWS;
 using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.ExceptionHandlers;
@@ -334,6 +335,7 @@ public class Program
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddSingleton<IAmazonSQS>(sqsClient)
+               .AddTransient<SqsClientWrapper>()
                .AddSingleton<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
                .AddScoped<InitiatorProvider>()
