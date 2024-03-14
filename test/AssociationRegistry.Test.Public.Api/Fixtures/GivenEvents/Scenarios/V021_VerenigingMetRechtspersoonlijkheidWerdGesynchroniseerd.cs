@@ -10,35 +10,36 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new(
         VCode: "V0001021",
         KboNummer: "0987654420",
-        Rechtsvorm: Verenigingstype.VZW.Code,
+        Verenigingstype.VZW.Code,
         Naam: "Feesten Affligem",
         string.Empty,
         Startdatum: null);
 
     public readonly MaatschappelijkeZetelWerdOvergenomenUitKbo MaatschappelijkeZetelWerdOvergenomenUitKbo =
-        new(new Registratiedata.Locatie(1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                        false, "",
+        new(new Registratiedata.Locatie(LocatieId: 1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                        IsPrimair: false, Naam: "",
                                         new Registratiedata.Adres(
-                                            "maatstraat", "1", null, "1000", "Brussel",
-                                            "Belgie"), null));
+                                            Straatnaam: "maatstraat", Huisnummer: "1", Busnummer: null, Postcode: "1000",
+                                            Gemeente: "Brussel",
+                                            Land: "Belgie"), AdresId: null));
 
     public readonly MaatschappelijkeZetelWerdGewijzigdInKbo MaatschappelijkeZetelWerdGewijzigdInKbo =
-        new(new Registratiedata.Locatie(1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
-                                        false, "",
+        new(new Registratiedata.Locatie(LocatieId: 1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
+                                        IsPrimair: false, Naam: "",
                                         new Registratiedata.Adres(
-                                            "beterlaan", "42", "b", "2000", "Antwerpen",
-                                            "Belgie"), null));
+                                            Straatnaam: "beterlaan", Huisnummer: "42", Busnummer: "b", Postcode: "2000",
+                                            Gemeente: "Antwerpen",
+                                            Land: "Belgie"), AdresId: null));
 
     public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO = new(Verenigingstype.IVZW.Code);
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");
     public readonly KorteNaamWerdGewijzigdInKbo KorteNaamWerdGewijzigdInKbo = new("FA");
 
     public readonly ContactgegevenWerdOvergenomenUitKBO ContactgegevenWerdOvergenomenUitKbo =
-        new(1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, "example.me@example.org");
+        new(ContactgegevenId: 1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, Waarde: "example.me@example.org");
 
     public readonly ContactgegevenWerdGewijzigdInKbo ContactgegevenWerdGewijzigdInKbo =
-        new(1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, "test.me@example.org");
-
+        new(ContactgegevenId: 1, Contactgegeventype.Email, ContactgegeventypeVolgensKbo.Email, Waarde: "test.me@example.org");
 
     public VCode VCode
         => VCode.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
@@ -55,7 +56,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
             KorteNaamWerdGewijzigdInKbo,
             MaatschappelijkeZetelWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
-            new SynchronisatieMetKboWasSuccesvol(),
+            new SynchronisatieMetKboWasSuccesvol(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
         };
     }
 

@@ -5,6 +5,6 @@
       "vCode": "{{gebeurtenis.vcode}}",
       "beschrijving": "{{gebeurtenis.beschrijving}}",
       "tijdstip": "{{gebeurtenis.tijdstip}}"
-    }
+    },
     {{end}}
 ]

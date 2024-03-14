@@ -58,7 +58,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     public void SyncCompleted()
     {
-        AddEvent(new SynchronisatieMetKboWasSuccesvol());
+        AddEvent(new SynchronisatieMetKboWasSuccesvol(State.KboNummer!));
     }
 
     private void VoegVertegenwoordigersToe(VertegenwoordigerVolgensKbo[] vertegenwoordigers)

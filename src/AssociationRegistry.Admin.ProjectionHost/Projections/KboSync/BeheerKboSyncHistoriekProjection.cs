@@ -20,5 +20,16 @@ public class BeheerKboSyncHistoriekProjection : EventProjection
                                   geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
                               ));
         });
+
+        Project<IEvent<SynchronisatieMetKboWasSuccesvol>>((geregistreerd, operations) =>
+        {
+            operations.Insert(new BeheerKboSyncHistoriekGebeurtenisDocument(
+                                  geregistreerd.Sequence.ToString(),
+                                  geregistreerd.Data.KboNummer,
+                                  geregistreerd.StreamKey!,
+                                  Beschrijving: "Vereniging succesvol up to date gebracht met data uit de KBO",
+                                  geregistreerd.GetHeaderString(MetadataHeaderNames.Tijdstip)
+                              ));
+        });
     }
 }

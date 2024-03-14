@@ -2,4 +2,4 @@
 
 using Framework;
 
-public record SynchronisatieMetKboWasSuccesvol : IEvent;
+public record SynchronisatieMetKboWasSuccesvol(string KboNummer) : IEvent;

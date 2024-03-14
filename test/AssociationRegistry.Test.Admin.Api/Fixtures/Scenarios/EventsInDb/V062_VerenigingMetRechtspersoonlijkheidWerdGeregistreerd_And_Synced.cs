@@ -53,13 +53,14 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
             ContactgegevenId = 1,
         };
 
-        ContactgegevenWerdGewijzigdInKbo = new ContactgegevenWerdGewijzigdInKbo(1, ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
+        ContactgegevenWerdGewijzigdInKbo = new ContactgegevenWerdGewijzigdInKbo(ContactgegevenId: 1,
+                                                                                ContactgegevenWerdOvergenomenUitKbo.Contactgegeventype,
                                                                                 ContactgegevenWerdOvergenomenUitKbo.TypeVolgensKbo,
                                                                                 fixture.CreateContactgegevenVolgensType(
                                                                                     ContactgegevenWerdOvergenomenUitKbo
                                                                                        .Contactgegeventype).Waarde);
 
-        VerenigingWerdGestoptInKbo = new VerenigingWerdGestoptInKBO(new DateOnly(2024, 03, 07));
+        VerenigingWerdGestoptInKbo = new VerenigingWerdGestoptInKBO(new DateOnly(year: 2024, month: 03, day: 07));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -71,6 +72,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
             MaatschappelijkeZetelWerdOvergenomenUitKbo,
             ContactgegevenWerdOvergenomenUitKbo,
             RechtsvormWerdGewijzigdInKBO,
@@ -79,7 +81,7 @@ public class V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
             MaatschappelijkeZetelWerdGewijzigdInKbo,
             ContactgegevenWerdGewijzigdInKbo,
             VerenigingWerdGestoptInKbo,
-            new SynchronisatieMetKboWasSuccesvol(),
+            new SynchronisatieMetKboWasSuccesvol(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer),
         };
 
     public CommandMetadata GetCommandMetadata()

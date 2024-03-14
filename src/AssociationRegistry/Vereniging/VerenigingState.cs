@@ -19,6 +19,7 @@ public record VerenigingState : IHasVersion
 
     public Verenigingstype Verenigingstype { get; init; } = null!;
     public VCode VCode { get; private set; } = null!;
+    public KboNummer? KboNummer { get; private init; }
     public VerenigingsNaam Naam { get; private init; } = null!;
     public string? Roepnaam { get; private init; }
     public string? KorteNaam { get; private init; }
@@ -111,6 +112,7 @@ public record VerenigingState : IHasVersion
         {
             Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
             VCode = VCode.Hydrate(@event.VCode),
+            KboNummer = KboNummer.Hydrate(@event.KboNummer),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             Startdatum = Datum.Hydrate(@event.Startdatum),
