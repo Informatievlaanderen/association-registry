@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
-using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Events;
@@ -8,7 +7,6 @@ using Historiek.Examples;
 using Infrastructure.AWS;
 using Infrastructure.Swagger.Annotations;
 using Marten;
-using Marten.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -84,9 +82,9 @@ public class KboSyncHistoriekController : ApiController
         await using var session = documentStore.LightweightSession();
 
         var kboNummersToSync = await session
-                                  .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                  .Select(x => x.KboNummer)
-                                  .ToListAsync();
+                                    .Events.QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                                    .Select(x => x.KboNummer)
+                                    .ToListAsync();
 
         foreach (var kboNummer in kboNummersToSync)
         {
@@ -118,11 +116,11 @@ public class KboSyncHistoriekController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = await session
-                                                                       .Events
-                                                                       .QueryRawEventDataOnly<
-                                                                            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
-                                                                       .SingleOrDefaultAsync(x => x.VCode == vCode);
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            await session
+                 .Events
+                 .QueryRawEventDataOnly<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                 .SingleOrDefaultAsync(x => x.VCode == vCode);
 
         if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
             return NotFound();
