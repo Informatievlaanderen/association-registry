@@ -1,3 +1,15 @@
+# [8.85.0](https://github.com/informatievlaanderen/association-registry/compare/v8.84.0...v8.85.0) (2024-03-14)
+
+
+### Bug Fixes
+
+* or-2107 don't duplicate path in nuget artifact download ([9555235](https://github.com/informatievlaanderen/association-registry/commit/9555235f2d48b8fb946fa1aa7ca0e032ec9a4301))
+
+
+### Features
+
+* or-2032 show synced verenigingen in kbo sync historiek ([f8efcd6](https://github.com/informatievlaanderen/association-registry/commit/f8efcd606c2f0f15709f0b4afca0c69eb8a0270f))
+
 # [8.84.0](https://github.com/informatievlaanderen/association-registry/compare/v8.83.2...v8.84.0) (2024-03-14)
 
 
