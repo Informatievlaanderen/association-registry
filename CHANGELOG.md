@@ -1,3 +1,10 @@
+## [8.85.1](https://github.com/informatievlaanderen/association-registry/compare/v8.85.0...v8.85.1) (2024-03-14)
+
+
+### Bug Fixes
+
+* try fix nuget package artifacts ([0c06f74](https://github.com/informatievlaanderen/association-registry/commit/0c06f7497d340ba0c2ef2b2e50774a3b89186e24))
+
 # [8.85.0](https://github.com/informatievlaanderen/association-registry/compare/v8.84.0...v8.85.0) (2024-03-14)
 
 
