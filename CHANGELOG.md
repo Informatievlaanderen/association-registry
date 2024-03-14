@@ -1,3 +1,10 @@
+## [8.85.2](https://github.com/informatievlaanderen/association-registry/compare/v8.85.1...v8.85.2) (2024-03-14)
+
+
+### Bug Fixes
+
+* try fix nuget package artifacts for magda ([7f61d9c](https://github.com/informatievlaanderen/association-registry/commit/7f61d9cb4046b152bcddfaba29e15704480859ae))
+
 ## [8.85.1](https://github.com/informatievlaanderen/association-registry/compare/v8.85.0...v8.85.1) (2024-03-14)
 
 
