@@ -15,11 +15,13 @@ using Xunit.Categories;
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     private readonly HttpResponseMessage _response;
-    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _scenario;
+    private readonly V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data _inschrijvingZonderSync;
+    private readonly V062_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced _inschrijvingMetSync;
 
     public Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
+        _inschrijvingZonderSync = fixture.V029VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAllData;
+        _inschrijvingMetSync = fixture.V062VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAndSynced;
         _response = fixture.SuperAdminApiClient.GetKboSyncHistoriek().GetAwaiter().GetResult();
     }
 
@@ -30,10 +32,21 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 
         var expected = new KboSyncHistoriekTemplate(
                 new KboSyncHistoriekGebeurtenis(
-                    _scenario.KboNummer,
-                    _scenario.VCode,
+                    _inschrijvingZonderSync.KboNummer,
+                    _inschrijvingZonderSync.VCode,
                     Beschrijving: "Registreer inschrijving geslaagd",
-                    _scenario.GetCommandMetadata().Tijdstip.ToZuluTime()))
+                    _inschrijvingZonderSync.GetCommandMetadata().Tijdstip.ToZuluTime()),
+                new KboSyncHistoriekGebeurtenis(
+                    _inschrijvingMetSync.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
+                    _inschrijvingMetSync.VCode,
+                    Beschrijving: "Registreer inschrijving geslaagd",
+                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.ToZuluTime()),
+                new KboSyncHistoriekGebeurtenis(
+                    _inschrijvingMetSync.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
+                    _inschrijvingMetSync.VCode,
+                    Beschrijving: "Vereniging succesvol up to date gebracht met data uit de KBO",
+                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.ToZuluTime())
+            )
            .Build();
 
         content.Should().BeEquivalentJson(expected);

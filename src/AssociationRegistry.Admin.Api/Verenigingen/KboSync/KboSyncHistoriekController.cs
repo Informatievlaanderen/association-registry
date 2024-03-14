@@ -53,7 +53,6 @@ public class KboSyncHistoriekController : ApiController
 
         var gebeurtenissen = await session
                                   .Query<BeheerKboSyncHistoriekGebeurtenisDocument>()
-                                  .OrderByDescending(nameof(BeheerKboSyncHistoriekGebeurtenisDocument.Sequence))
                                   .ToListAsync();
 
         var response = _mapper.Map(gebeurtenissen);
