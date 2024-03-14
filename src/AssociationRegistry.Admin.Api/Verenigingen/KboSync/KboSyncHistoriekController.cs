@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Events;
@@ -7,6 +8,7 @@ using Historiek.Examples;
 using Infrastructure.AWS;
 using Infrastructure.Swagger.Annotations;
 using Marten;
+using Marten.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -92,6 +94,43 @@ public class KboSyncHistoriekController : ApiController
         {
             await clientWrapper.QueueKboNummerToSynchronise(kboNummer);
         }
+
+        return Accepted();
+    }
+
+    /// <summary>
+    /// Synchroniseer vereniging met rechtspersoonlijkheid via de Magda GeefOnderneming dienst.
+    /// Indien de vereniging nog inschrijving heeft geregistreerd zal die door deze actie ook automatisch ingeschreven worden op wijzigingen uit de KBO.
+    /// </summary>
+    /// <param name="documentStore"></param>
+    /// <param name="problemDetailsHelper"></param>
+    /// <param name="clientWrapper"></param>
+    /// <response code="200">De historiek van de KBO sync</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpGet("sync/{vCode}")]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [ProducesResponseType(typeof(KboSyncHistoriekResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [ProducesJson]
+    public async Task<IActionResult> SyncVereniging(
+        [FromServices] IDocumentStore documentStore,
+        [FromServices] SqsClientWrapper clientWrapper,
+        [FromRoute] string vCode
+    )
+    {
+        await using var session = documentStore.LightweightSession();
+
+        var verenigingMetRechtspersoonlijkheidWerdGeregistreerd = await session
+                                                                       .Events
+                                                                       .QueryRawEventDataOnly<
+                                                                            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>()
+                                                                       .SingleOrDefaultAsync(x => x.VCode == vCode);
+
+        if (verenigingMetRechtspersoonlijkheidWerdGeregistreerd is null)
+            return NotFound();
+
+        await clientWrapper.QueueKboNummerToSynchronise(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer);
 
         return Accepted();
     }
