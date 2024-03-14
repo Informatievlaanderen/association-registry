@@ -68,14 +68,12 @@ public class KboSyncHistoriekController : ApiController
     /// Verenigingen die nog geen inschrijving hebben geregistreerd zullen door deze actie ook automatisch ingeschreven worden op wijzigingen uit de KBO.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="problemDetailsHelper"></param>
     /// <param name="clientWrapper"></param>
-    /// <response code="200">De historiek van de KBO sync</response>
+    /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpGet("sync")]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [HttpPost("sync")]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [ProducesResponseType(typeof(KboSyncHistoriekResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> SyncAllVerenigingen(
@@ -103,14 +101,13 @@ public class KboSyncHistoriekController : ApiController
     /// Indien de vereniging nog inschrijving heeft geregistreerd zal die door deze actie ook automatisch ingeschreven worden op wijzigingen uit de KBO.
     /// </summary>
     /// <param name="documentStore"></param>
-    /// <param name="problemDetailsHelper"></param>
     /// <param name="clientWrapper"></param>
-    /// <response code="200">De historiek van de KBO sync</response>
+    /// <param name="vCode">De VCode van de te synchroniseren vereniging.</param>
+    /// <response code="202">Indien er geen fouten zijn opgetreden.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpGet("sync/{vCode}")]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(HistoriekResponseExamples))]
+    [HttpPost("sync/{vCode}")]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [ProducesResponseType(typeof(KboSyncHistoriekResponse), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesJson]
     public async Task<IActionResult> SyncVereniging(
