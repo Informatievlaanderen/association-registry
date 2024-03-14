@@ -1,3 +1,12 @@
+# [8.84.0](https://github.com/informatievlaanderen/association-registry/compare/v8.83.2...v8.84.0) (2024-03-14)
+
+
+### Features
+
+* or-2103 add sync endpoint ([a0cf11b](https://github.com/informatievlaanderen/association-registry/commit/a0cf11b3e2b4adcc3340dcbb22e36c61736bb84e))
+* or-2103 allow sync of individual vereniging ([a27af1a](https://github.com/informatievlaanderen/association-registry/commit/a27af1aadfb170e8e3aed426a25a932dbcd8e8ff))
+* or-2103 update swagger docs ([5b1efdd](https://github.com/informatievlaanderen/association-registry/commit/5b1efddd97ad59feb332ac2e7a4529db5c22e6be))
+
 ## [8.83.2](https://github.com/informatievlaanderen/association-registry/compare/v8.83.1...v8.83.2) (2024-03-13)
 
 
