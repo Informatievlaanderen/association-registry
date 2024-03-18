@@ -148,7 +148,35 @@ public class Program
 
         ConfigureLifetimeHooks(app);
 
-        using var session = app.Services.GetRequiredService<IDocumentSession>();
+        await RunPreStartupTasks(app, logger);
+
+        await app.RunOaktonCommands(args);
+    }
+
+    private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
+    {
+        await ArchiveAfdelingen(app);
+        await RegistreerOntbrekendeInschrijvingen(app, logger);
+    }
+
+    private static async Task RegistreerOntbrekendeInschrijvingen(WebApplication app, ILogger<Program> logger)
+    {
+        try
+        {
+            var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
+
+            await registreerInschrijvinCatchupService
+               .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
+        }
+        catch (Exception ex)
+        {
+            logger.LogWarning($"MAGDA Catchup Service: Fout bij het opstarten! ({ex.Message})");
+        }
+    }
+
+    private static async Task ArchiveAfdelingen(WebApplication app)
+    {
+        await using var session = app.Services.GetRequiredService<IDocumentSession>();
 
         var queryAllRawEvents = session
                                .Events.QueryRawEventDataOnly<AfdelingWerdGeregistreerd>();
@@ -162,21 +190,7 @@ public class Program
                 session.Events.ArchiveStream(key);
             });
 
-        session.SaveChanges();
-
-        var registreerInschrijvinCatchupService = app.Services.GetRequiredService<IMagdaRegistreerInschrijvingCatchupService>();
-
-        try
-        {
-            await registreerInschrijvinCatchupService
-               .RegistreerInschrijvingVoorVerenigingenMetRechtspersoonlijkheidDieNogNietIngeschrevenZijn();
-        }
-        catch (Exception ex)
-        {
-            logger.LogWarning($"MAGDA Catchup Service: Fout bij het opstarten! ({ex.Message})");
-        }
-
-        await app.RunOaktonCommands(args);
+        await session.SaveChangesAsync();
     }
 
     private static void ConfigureRequestLocalization(WebApplication app)
