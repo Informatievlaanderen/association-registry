@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
+using Constants;
 using Infrastructure.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
@@ -43,6 +44,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         },
                     },
                     Status = VerenigingStatus.Actief,
+                    Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                    Einddatum = null,
                     Doelgroep = new DoelgroepResponse
                     {
                         id = JsonLdType.Doelgroep.CreateWithIdValues("V0001001"),
@@ -114,6 +117,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         Code = Verenigingstype.VZW.Code,
                         Naam = Verenigingstype.VZW.Naam,
                     },
+                    Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                    Einddatum = null,
                     Doelgroep = new DoelgroepResponse
                     {
                         id = JsonLdType.FeitelijkeVereniging.CreateWithIdValues("V00036651"),

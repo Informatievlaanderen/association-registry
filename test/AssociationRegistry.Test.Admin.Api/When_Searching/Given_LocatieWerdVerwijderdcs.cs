@@ -48,6 +48,7 @@ public class Given_LocatieWerdVerwijderd
                                     .WithType(Verenigingstype.FeitelijkeVereniging)
                                     .WithNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam)
                                     .WithKorteNaam(_scenario.FeitelijkeVerenigingWerdGeregistreerd.KorteNaam)
+                                    .WithStartdatum(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Startdatum)
                                     .WithDoelgroep(_scenario.VCode)
                                     .WithLocatie(l2.Locatietype, l2.Naam, l2.Adres.ToAdresString(), l2.Adres?.Postcode, l2.Adres?.Gemeente,
                                                  _scenario.VCode,

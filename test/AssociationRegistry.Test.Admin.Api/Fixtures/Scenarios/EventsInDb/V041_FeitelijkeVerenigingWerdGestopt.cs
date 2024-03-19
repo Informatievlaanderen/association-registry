@@ -15,6 +15,7 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
 
     public V041_FeitelijkeVerenigingWerdGestopt()
     {
+        var startdatum = new DateOnly(year: 2023, month: 09, day: 06);
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = "V9999041";
 
@@ -23,7 +24,7 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
             Naam: "De dulste van Hulste",
             KorteNaam: "",
             KorteBeschrijving: "",
-            Startdatum: null,
+            startdatum,
             new Registratiedata.Doelgroep(Minimumleeftijd: 0, Maximumleeftijd: 150),
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
@@ -32,8 +33,8 @@ public class V041_FeitelijkeVerenigingWerdGestopt : IEventsInDbScenario
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
         );
 
-        VerenigingWerdGestopt = new VerenigingWerdGestopt(new DateOnly(year: 2023, month: 09, day: 06));
-        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(year: 1990, month: 01, day: 01));
+        VerenigingWerdGestopt = new VerenigingWerdGestopt(new DateOnly(year: 2023, month: 10, day: 06));
+        EinddatumWerdGewijzigd = new EinddatumWerdGewijzigd(new DateOnly(year: 2023, month: 10, day: 07));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
