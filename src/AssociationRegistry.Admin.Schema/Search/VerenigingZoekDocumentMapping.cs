@@ -26,6 +26,12 @@ public static class VerenigingZoekDocumentMapping
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Roepnaam)
                                                    .WithKeyword(BeheerZoekenNormalizer))
+                         .Date(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.Startdatum))
+                         .Date(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.Einddatum))
                          .Keyword(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.Status))
@@ -143,7 +149,7 @@ public static class VerenigingZoekDocumentMapping
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Code)
+                                          .Name(document => document.Code)
                                           .Normalizer(BeheerZoekenNormalizer)
                )
               .Text(
@@ -196,7 +202,7 @@ public static class VerenigingZoekDocumentMapping
                                         .Properties(JsonLdMetadataMapping.Get))
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
-                      .Name(document => document.Bron)
+                                          .Name(document => document.Bron)
                                           .Normalizer(BeheerZoekenNormalizer))
               .Text(
                    propertiesDescriptor => propertiesDescriptor
