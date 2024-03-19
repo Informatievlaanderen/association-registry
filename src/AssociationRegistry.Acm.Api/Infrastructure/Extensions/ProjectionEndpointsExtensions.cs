@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 
 public static class ProjectionEndpointsExtensions
 {
-    //TODO toevoegen aan program.cs om endpoints te activeren
     public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
         var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
@@ -29,10 +28,6 @@ public static class ProjectionEndpointsExtensions
 
                 return Results.Accepted();
             });
-
-        app.MapGet(
-            pattern: "v1/projections/status", handler: (IDocumentStore store, ILogger<Program> _, CancellationToken cancellationToken)
-                => store.Advanced.AllProjectionProgress(token: cancellationToken));
     }
 
     private static void StartRebuild(ILogger logger, string projectionName, Func<Task> rebuildFunc)
