@@ -503,7 +503,7 @@ jobs:
 
       - name: Login to Amazon ECR (Test)
         if: needs.release.outputs.version != 'none'
-        uses: aws-actions/amazon-ecr-login@v1.5.3
+        uses: aws-actions/amazon-ecr-login@v1.7.1
 
       - name: Download Acm Api artifact
         uses: actions/download-artifact@v4.1.4
