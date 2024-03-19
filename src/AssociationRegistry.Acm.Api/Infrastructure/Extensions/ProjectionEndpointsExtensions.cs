@@ -14,7 +14,7 @@ public static class ProjectionEndpointsExtensions
 {
     public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
-        var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
+        var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInSeconds);
 
         app.MapPost(
             pattern: "v1/projections/verenigingperinsz/rebuild",
@@ -23,7 +23,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<VerenigingenPerInszProjection>(shardTimeout,CancellationToken.None);
+                    await projectionDaemon.RebuildProjection<VerenigingenPerInszProjection>(shardTimeout, CancellationToken.None);
                 });
 
                 return Results.Accepted();
