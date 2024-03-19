@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.templates;
 
+using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formatters;
@@ -171,6 +172,20 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate WithStartdatum(DateOnly? startdatum)
+        {
+            _vereniging.startdatum = startdatum?.ToString(WellknownFormats.DateOnly);
+
+            return this;
+        }
+
+        public VerenigingTemplate WithEinddatum(DateOnly? einddatum)
+        {
+            _vereniging.einddatum = einddatum?.ToString(WellknownFormats.DateOnly);
+
+            return this;
+        }
+
         public VerenigingTemplate WithDoelgroep(string vCode, int minimumleeftijd = 0, int maximumleeftijd = 150)
         {
             _vereniging.doelgroep = new
@@ -223,8 +238,9 @@ public class ZoekVerenigingenResponseTemplate
                           .WithType(Verenigingstype.FeitelijkeVereniging)
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
-                          .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd,
-                                         maximumleeftijd: e.Doelgroep.Maximumleeftijd);
+                          .WithStartdatum(e.Startdatum)
+                          .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd,
+                                         e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
@@ -249,6 +265,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithRoepnaam(string.Empty)
                           .WithKorteNaam(e.KorteNaam)
                           .WithKboNummer(e.KboNummer, e.VCode)
+                          .WithStartdatum(e.Startdatum)
+                          .WithEinddatum(null)
                           .WithDoelgroep(e.VCode);
 
             return template;

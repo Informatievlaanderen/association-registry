@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
+using Constants;
 using Events;
 using Formatters;
 using JsonLdContext;
@@ -33,6 +34,8 @@ public class BeheerZoekProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Status = VerenigingStatus.Actief,
                 Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
+                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Einddatum = null,
                 Doelgroep = Map(message.Data.Doelgroep, message.VCode),
                 IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
@@ -82,6 +85,8 @@ public class BeheerZoekProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
                 Status = VerenigingStatus.Actief,
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Einddatum = null,
                 Doelgroep = new Doelgroep
                 {
                     JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Doelgroep, message.VCode),
@@ -143,6 +148,33 @@ public class BeheerZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 KorteNaam = message.Data.KorteNaam,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<StartdatumWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            }
+        );
+
+    public async Task Handle(EventEnvelope<StartdatumWerdGewijzigdInKbo> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            }
+        );
+
+    public async Task Handle(EventEnvelope<EinddatumWerdGewijzigd> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             }
         );
 
@@ -272,6 +304,7 @@ public class BeheerZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 Status = VerenigingStatus.Gestopt,
+                Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             });
     }
 
@@ -282,6 +315,7 @@ public class BeheerZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 Status = VerenigingStatus.Gestopt,
+                Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             });
     }
 
@@ -312,6 +346,7 @@ public class BeheerZoekProjectionHandler
                 KorteNaam = message.Data.KorteNaam,
             }
         );
+
     public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,

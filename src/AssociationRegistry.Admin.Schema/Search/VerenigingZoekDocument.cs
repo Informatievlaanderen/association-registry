@@ -9,6 +9,8 @@ public class VerenigingZoekDocument
     public string Roepnaam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public string Status { get; set; } = null!;
+    public string? Startdatum { get; set; } = null!;
+    public string? Einddatum { get; set; } = null!;
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
@@ -26,11 +28,11 @@ public class VerenigingZoekDocument
         public bool IsPrimair { get; init; }
         public string Postcode { get; init; } = null!;
         public string Gemeente { get; init; } = null!;
+
         public class LocatieType
         {
             public JsonLdMetadata JsonLdMetadata { get; set; }
             public string Naam { get; set; }
-
         }
     }
 

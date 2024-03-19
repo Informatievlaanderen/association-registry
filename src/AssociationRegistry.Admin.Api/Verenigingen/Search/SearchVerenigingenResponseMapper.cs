@@ -41,6 +41,8 @@ public class SearchVerenigingenResponseMapper
             Roepnaam = verenigingZoekDocument.Roepnaam,
             KorteNaam = verenigingZoekDocument.KorteNaam,
             Status = verenigingZoekDocument.Status,
+            Startdatum = verenigingZoekDocument.Startdatum,
+            Einddatum = verenigingZoekDocument.Einddatum,
             Doelgroep = Map(verenigingZoekDocument.Doelgroep),
             HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                                                                       .Select(Map)

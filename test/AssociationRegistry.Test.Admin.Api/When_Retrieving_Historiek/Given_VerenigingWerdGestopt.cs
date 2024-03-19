@@ -70,19 +70,19 @@ public class Given_VerenigingWerdGestopt
                         ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
                     }},
 {{
-      ""beschrijving"": ""De vereniging werd gestopt met einddatum '2023-09-06'."",
+      ""beschrijving"": ""De vereniging werd gestopt met einddatum '2023-10-06'."",
       ""gebeurtenis"": ""VerenigingWerdGestopt"",
       ""data"": {{
-        ""einddatum"": ""2023-09-06""
+        ""einddatum"": ""2023-10-06""
       }},
       ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
     }},
     {{
-      ""beschrijving"": ""De einddatum van de vereniging werd gewijzigd naar '1990-01-01'."",
+      ""beschrijving"": ""De einddatum van de vereniging werd gewijzigd naar '2023-10-07'."",
       ""gebeurtenis"": ""EinddatumWerdGewijzigd"",
       ""data"": {{
-        ""einddatum"": ""1990-01-01""
+        ""einddatum"": ""2023-10-07""
       }},
       ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""

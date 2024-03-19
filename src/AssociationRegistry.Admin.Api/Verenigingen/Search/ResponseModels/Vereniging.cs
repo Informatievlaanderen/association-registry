@@ -38,6 +38,14 @@ public class Vereniging
     [DataMember(Name = "Status")]
     public string Status { get; init; } = null!;
 
+    /// <summary>Datum waarop de vereniging gestart is</summary>
+    [DataMember(Name = "Startdatum")]
+    public string? Startdatum { get; init; }
+
+    /// <summary>Datum waarop de vereniging gestopt is</summary>
+    [DataMember(Name = "Einddatum")]
+    public string? Einddatum { get; init; }
+
     /// <summary>De doelgroep waar de activiteiten van deze vereniging zich op concentreert</summary>
     [DataMember(Name = "Doelgroep")]
     public DoelgroepResponse Doelgroep { get; init; } = null!;

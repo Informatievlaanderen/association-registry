@@ -38,6 +38,7 @@ public class Given_VerenigingWerdGestopt
                           .WithVereniging(
                                v => v
                                    .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                                   .WithEinddatum(_scenario.EinddatumWerdGewijzigd.Einddatum)
                                    .WithStatus(VerenigingStatus.Gestopt));
 
         content.Should().BeEquivalentJson(goldenMaster);

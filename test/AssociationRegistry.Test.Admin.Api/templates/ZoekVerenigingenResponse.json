@@ -23,6 +23,8 @@
         },
         {{end}}
       ],
+      "startdatum": {{if vereniging.startdatum}}"{{vereniging.startdatum}}",{{else}}null,{{end}}
+      "einddatum": {{if vereniging.einddatum}}"{{vereniging.einddatum}}",{{else}}null,{{end}}
       "doelgroep": {
         "@id": "{{vereniging.doelgroep.jsonldid}}",
         "@type": "{{vereniging.doelgroep.jsonldtype}}","minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},

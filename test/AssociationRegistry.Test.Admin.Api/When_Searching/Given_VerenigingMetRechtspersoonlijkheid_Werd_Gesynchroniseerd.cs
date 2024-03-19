@@ -50,6 +50,7 @@ public class Given_VerenigingMetRechtspersoonlijkheid_Werd_Gesynchroniseerd
                                                 _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.Adres.Gemeente,
                                                 _scenario.VCode,
                                                 _scenario.MaatschappelijkeZetelWerdGewijzigdInKbo.Locatie.LocatieId)
+                                   .WithEinddatum(_scenario.VerenigingWerdGestoptInKbo.Einddatum)
                                    .WithStatus(VerenigingStatus.Gestopt)
                            );
 
