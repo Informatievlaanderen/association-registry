@@ -25,7 +25,7 @@ jobs:
 
       - name: Login to Amazon ECR (Production)
         if: env.RELEASE_VERSION != 'none'
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Push AWS-CLI to Production
         if: env.RELEASE_VERSION != 'none'
@@ -48,7 +48,7 @@ jobs:
 
       - name: Login to Amazon ECR (Staging)
         if: env.RELEASE_VERSION != 'none'
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Push AWS-CLI to Staging
         if: env.RELEASE_VERSION != 'none'
@@ -71,7 +71,7 @@ jobs:
 
       - name: Login to Amazon ECR (Test)
         if: env.RELEASE_VERSION != 'none'
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
 
       - name: Push AWS-CLI to Test
         if: env.RELEASE_VERSION != 'none'
