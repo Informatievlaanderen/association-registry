@@ -1,3 +1,13 @@
+## [8.85.4](https://github.com/informatievlaanderen/association-registry/compare/v8.85.3...v8.85.4) (2024-03-19)
+
+
+### Bug Fixes
+
+* or-2056 add default rebuild configuration values ([a1f8869](https://github.com/informatievlaanderen/association-registry/commit/a1f8869303c5500728ac5564b3f57483690c5b63))
+* or-2056 add entry in VerenigingZoekDocumentMapping to include startdatum and einddatum ([c50ca8b](https://github.com/informatievlaanderen/association-registry/commit/c50ca8b4898a7f0d275f62cc0d8aba30ad77522b))
+* or-2056 add rebuild capability for acm projection ([174022f](https://github.com/informatievlaanderen/association-registry/commit/174022f0a663f8678664e9c370aad61f1594c295))
+* or-2056 add startdatum and einddatum in beheer zoek ([4dfb701](https://github.com/informatievlaanderen/association-registry/commit/4dfb701a1b4a745af681595f6f8a27cb9c993171))
+
 ## [8.85.3](https://github.com/informatievlaanderen/association-registry/compare/v8.85.2...v8.85.3) (2024-03-18)
 
 ## [8.85.2](https://github.com/informatievlaanderen/association-registry/compare/v8.85.1...v8.85.2) (2024-03-14)
