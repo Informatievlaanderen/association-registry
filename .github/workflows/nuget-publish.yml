@@ -17,9 +17,9 @@ jobs:
       version: ${{ steps.set-version.outputs.version }}
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
 
       - name: Node version
         shell: bash
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2

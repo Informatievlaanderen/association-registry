@@ -59,7 +59,7 @@ jobs:
           df -h
 
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run es container
         shell: bash
@@ -86,7 +86,7 @@ jobs:
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
 
       - name: Cache Paket
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         env:
           cache-name: cache-paket
         with:
@@ -100,7 +100,7 @@ jobs:
         shell: bash
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
 
