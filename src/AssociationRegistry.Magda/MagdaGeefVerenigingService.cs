@@ -77,8 +77,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
                 {
                     KboNummer = KboNummer.Create(kboNummer),
                     Type = rechtsvormMap[GetActiveRechtsvorm(magdaOnderneming)!.Code.Value],
-                    Naam = naamOndernemingType.Naam,
-                    KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam,
+                    Naam = naamOndernemingType.Naam ?? string.Empty,
+                    KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam ?? string.Empty,
                     Startdatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
                     EindDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Stopzetting?.Datum, Formats.DateOnly),
                     IsActief = IsActiefOfInOprichting(magdaOnderneming),
