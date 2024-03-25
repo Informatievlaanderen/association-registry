@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
+using Constants;
 using Nest;
 using Schema.Search;
 
@@ -44,6 +45,22 @@ public class ElasticRepository : IElasticRepository
     public async Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(id, selector: u => u.Doc(update));
+
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
+    public async Task UpdateStartdatum<TDocument>(string id, DateOnly? startdatum) where TDocument : class
+    {
+        var response = await _elasticClient.UpdateAsync<TDocument>(
+            id,
+            selector: u => u.Script(
+                s => startdatum.HasValue
+                    ? s.Source("ctx._source.startdatum = params.item")
+                       .Params(objects => objects.Add(key: "item", startdatum?.ToString(WellknownFormats.DateOnly)))
+                    : s.Source("ctx._source.startdatum = null")
+            ));
 
         if (!response.IsValid)
             // todo: log ? (should never happen in test/staging/production)

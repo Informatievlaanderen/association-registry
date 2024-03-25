@@ -11,7 +11,6 @@ using Schema;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
-using Vereniging.Bronnen;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
@@ -53,7 +52,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                             .MapHoofdactiviteitVerenigingsloket)
+                                                                                         .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -126,12 +125,16 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<StartdatumWerdGewijzigd> startdatumWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
-        document.Startdatum = startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        document.Startdatum = !string.IsNullOrEmpty(startdatumWerdGewijzigd.Data.Startdatum?.ToString())
+            ? startdatumWerdGewijzigd.Data.Startdatum?.ToString(WellknownFormats.DateOnly)
+            : null;
     }
 
     public static void Apply(IEvent<StartdatumWerdGewijzigdInKbo> startdatumWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
     {
-        document.Startdatum = startdatumWerdGewijzigdInKbo.Data.Startdatum?.ToString(WellknownFormats.DateOnly);
+        document.Startdatum = !string.IsNullOrEmpty(startdatumWerdGewijzigdInKbo.Data.Startdatum?.ToString())
+            ? startdatumWerdGewijzigdInKbo.Data.Startdatum?.ToString(WellknownFormats.DateOnly)
+            : null;
     }
 
     public static void Apply(IEvent<DoelgroepWerdGewijzigd> doelgroepWerdGewijzigd, BeheerVerenigingDetailDocument document)

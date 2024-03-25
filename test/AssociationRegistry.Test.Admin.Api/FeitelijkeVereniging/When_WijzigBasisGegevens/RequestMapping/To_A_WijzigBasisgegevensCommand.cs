@@ -38,7 +38,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value)));
 
         doelgroep.Should().BeEquivalentTo(request.Doelgroep);
 
@@ -75,7 +75,7 @@ public class To_A_WijzigBasisgegevensCommand
         korteNaam.Should().Be(request.KorteNaam);
         korteBeschrijving.Should().Be(request.KorteBeschrijving);
 
-        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value.Value)));
+        startdatum.Should().Be(NullOrEmpty<Datum>.Create(Datum.Create(request.Startdatum!.Value)));
 
         doelgroep.Should().BeNull();
 
