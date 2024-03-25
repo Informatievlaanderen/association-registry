@@ -40,7 +40,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
             ""naam"":""{Request.Naam}"",
             ""korteNaam"":""{Request.KorteNaam}"",
             ""korteBeschrijving"":""{Request.KorteBeschrijving}"",
-            ""startdatum"":""{Request.Startdatum!.Value.Value.ToString(WellknownFormats.DateOnly)}"",
+            ""startdatum"":""{Request.Startdatum!.Value.ToString(WellknownFormats.DateOnly)}"",
             ""doelgroep"": {{
                 ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
                 ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
@@ -116,7 +116,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         naamWerdGewijzigd.Naam.Should().Be(_request.Naam);
         korteNaamWerdGewijzigd.KorteNaam.Should().Be(_request.KorteNaam);
         korteBeschrijvingWerdGewijzigd.KorteBeschrijving.Should().Be(_request.KorteBeschrijving);
-        startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum!.Value.Value);
+        startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum!.Value);
 
         hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(

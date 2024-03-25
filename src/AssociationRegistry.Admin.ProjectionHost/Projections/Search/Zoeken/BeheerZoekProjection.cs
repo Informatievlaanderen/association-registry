@@ -152,21 +152,15 @@ public class BeheerZoekProjectionHandler
         );
 
     public async Task Handle(EventEnvelope<StartdatumWerdGewijzigd> message)
-        => await _elasticRepository.UpdateAsync(
+        => await _elasticRepository.UpdateStartdatum<VerenigingZoekDocument>(
             message.VCode,
-            new VerenigingZoekDocument
-            {
-                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            }
+            message.Data.Startdatum
         );
 
     public async Task Handle(EventEnvelope<StartdatumWerdGewijzigdInKbo> message)
-        => await _elasticRepository.UpdateAsync(
+        => await _elasticRepository.UpdateStartdatum<VerenigingZoekDocument>(
             message.VCode,
-            new VerenigingZoekDocument
-            {
-                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
-            }
+            message.Data.Startdatum
         );
 
     public async Task Handle(EventEnvelope<EinddatumWerdGewijzigd> message)

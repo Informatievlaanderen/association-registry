@@ -24,8 +24,8 @@ public class WijzigBasisgegevensRequest
     public string? KorteBeschrijving { get; set; }
 
     /// <summary>Nieuwe startdatum van de vereniging. Deze datum mag niet later zijn dan vandaag</summary>
-    [DataMember]
-    public NullOrEmpty<DateOnly>? Startdatum { get; set; }
+    [DataMember(IsRequired = false)]
+    public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
     /// <summary>
     /// De doelgroep waar de activiteiten van deze vereniging zich op concentreert
@@ -51,7 +51,7 @@ public class WijzigBasisgegevensRequest
             Naam is null ? null : VerenigingsNaam.Create(Naam),
             KorteNaam,
             KorteBeschrijving,
-            Startdatum is { IsNull: false } ? Startdatum.Value.Map(Datum.Create) : NullOrEmpty<Datum>.Null,
+            Startdatum is { IsNull: false } ? Startdatum.Map(Datum.Create) : NullOrEmpty<Datum>.Null,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom
