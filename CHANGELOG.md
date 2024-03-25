@@ -1,3 +1,10 @@
+## [8.85.6](https://github.com/informatievlaanderen/association-registry/compare/v8.85.5...v8.85.6) (2024-03-25)
+
+
+### Bug Fixes
+
+* or-2056 correct startdatum ([0bf910c](https://github.com/informatievlaanderen/association-registry/commit/0bf910cd04d0648dbe0b868edac24fc39e010e47))
+
 ## [8.85.5](https://github.com/informatievlaanderen/association-registry/compare/v8.85.4...v8.85.5) (2024-03-25)
 
 
