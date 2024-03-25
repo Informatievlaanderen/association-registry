@@ -1,3 +1,10 @@
+## [8.85.5](https://github.com/informatievlaanderen/association-registry/compare/v8.85.4...v8.85.5) (2024-03-25)
+
+
+### Bug Fixes
+
+* or-2151 Names should not return null ([f8cd6ec](https://github.com/informatievlaanderen/association-registry/commit/f8cd6ec8147cefe31e78437d6466c199f0d528e9))
+
 ## [8.85.4](https://github.com/informatievlaanderen/association-registry/compare/v8.85.3...v8.85.4) (2024-03-19)
 
 
