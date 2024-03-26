@@ -57,6 +57,9 @@ using System.Threading.Tasks;
 
 public class Program
 {
+    private const string AdminGlobalPolicyName = "Admin Global";
+    public const string SuperAdminPolicyName = "Super Admin";
+
     public static async Task Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(
