@@ -1,3 +1,10 @@
+## [8.85.7](https://github.com/informatievlaanderen/association-registry/compare/v8.85.6...v8.85.7) (2024-03-26)
+
+
+### Bug Fixes
+
+* or-2130 add authorization and api explorer settings ([23f93c1](https://github.com/informatievlaanderen/association-registry/commit/23f93c1e459655280acd8eb5753a062cb045a5b4))
+
 ## [8.85.6](https://github.com/informatievlaanderen/association-registry/compare/v8.85.5...v8.85.6) (2024-03-25)
 
 
