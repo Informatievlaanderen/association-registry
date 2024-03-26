@@ -17,17 +17,19 @@ public static class ProjectionEndpointsExtensions
         var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInSeconds);
 
         app.MapPost(
-            pattern: "v1/projections/verenigingperinsz/rebuild",
-            handler: async (IDocumentStore store, ILogger<Program> logger) =>
-            {
-                StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
+                pattern: "v1/projections/verenigingperinsz/rebuild",
+                handler: async (IDocumentStore store, ILogger<Program> logger) =>
                 {
-                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.RebuildProjection<VerenigingenPerInszProjection>(shardTimeout, CancellationToken.None);
-                });
+                    StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
+                    {
+                        var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                        await projectionDaemon.RebuildProjection<VerenigingenPerInszProjection>(shardTimeout, CancellationToken.None);
+                    });
 
-                return Results.Accepted();
-            });
+                    return Results.Accepted();
+                })
+           .RequireAuthorization(Program.SuperAdminPolicyName)
+           .ExcludeFromDescription();
     }
 
     private static void StartRebuild(ILogger logger, string projectionName, Func<Task> rebuildFunc)
