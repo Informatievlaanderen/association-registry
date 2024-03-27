@@ -1,14 +1,19 @@
 version: '3'
 services:
+
   acm:
     image: ghcr.io/informatievlaanderen/identity-server-fake:1284967
+    container_name: vr_acm
     volumes:
       - ./identityserver:/home/identityserver
     ports:
       - "5051:80"
+    networks:
+      - vr-net
 
   seq:
     image: datalust/seq
+    container_name: vr_seq
     restart: always
     ports:
       - "9580:80"
@@ -16,9 +21,12 @@ services:
       ACCEPT_EULA: Y
     volumes:
       - seq-data:/data
+    networks:
+      - vr-net
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+    container_name: vr_elasticsearch
     ports:
       - "9200:9200"
     environment:
@@ -30,10 +38,12 @@ services:
       cluster.routing.allocation.disk.watermark.flood_stage: 99%
     volumes:
       - es-data:/usr/share/elasticsearch/data
+    networks:
+      - vr-net
 
   db:
-    container_name: pg_container
     image: postgres:15.0
+    container_name: vr_postgres
     restart: always
     environment:
       POSTGRES_USER: root
@@ -43,6 +53,8 @@ services:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
+    networks:
+      - vr-net
 
   wiremock:
     image: wiremock/wiremock:2.35.1-1
@@ -62,8 +74,13 @@ services:
       - ./otel-collector-config.yaml:/etc/otel-collector-config.yaml
     ports:
       - "4317:4317"   # OTLP gRPC receiver
+    networks:
+      - vr-net
 
 volumes:
   pg-data:
   es-data:
   seq-data:
+
+networks:
+  vr-net:
