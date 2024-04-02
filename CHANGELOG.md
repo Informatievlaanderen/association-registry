@@ -1,3 +1,10 @@
+## [8.85.8](https://github.com/informatievlaanderen/association-registry/compare/v8.85.7...v8.85.8) (2024-04-02)
+
+
+### Bug Fixes
+
+* add security policy name and application settings ([a6358cf](https://github.com/informatievlaanderen/association-registry/commit/a6358cf7ff211b70e5e6bc8328ef0c0f8274edb1))
+
 ## [8.85.7](https://github.com/informatievlaanderen/association-registry/compare/v8.85.6...v8.85.7) (2024-03-26)
 
 
