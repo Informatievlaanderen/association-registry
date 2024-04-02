@@ -6,6 +6,8 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Framework;
+using Moq;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,8 +31,11 @@ public class With_All_Fields
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock, _vCodeService,
-                                                             new NoDuplicateVerenigingDetectionService(), clock);
+            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock,
+                                                             _vCodeService,
+                                                             new NoDuplicateVerenigingDetectionService(),
+                                                             Mock.Of<IMartenOutbox>(),
+                                                             clock);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)

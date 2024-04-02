@@ -6,7 +6,9 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Framework;
+using Moq;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -41,6 +43,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             _repositoryMock,
             _vCodeService,
             new NoDuplicateVerenigingDetectionService(),
+            Mock.Of<IMartenOutbox>(),
             new ClockStub(_command.Startdatum.Value));
     }
 

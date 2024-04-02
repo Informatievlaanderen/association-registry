@@ -11,6 +11,7 @@ using Framework;
 using Moq;
 using ResultNet;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -51,6 +52,7 @@ public class With_A_PotentialDuplicate
             new VerenigingRepositoryMock(scenario.GetVerenigingState()),
             new InMemorySequentialVCodeService(),
             duplicateChecker.Object,
+            Mock.Of<IMartenOutbox>(),
             new ClockStub(command.Startdatum.Value));
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata),

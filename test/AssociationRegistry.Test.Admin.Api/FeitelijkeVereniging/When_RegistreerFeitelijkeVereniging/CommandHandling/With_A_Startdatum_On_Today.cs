@@ -7,7 +7,9 @@ using Events;
 using Fakes;
 using FluentAssertions;
 using Framework;
+using Moq;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,6 +33,7 @@ public class With_A_Startdatum_On_Today
             _verenigingRepositoryMock,
             vCodeService,
             new NoDuplicateVerenigingDetectionService(),
+            Mock.Of<IMartenOutbox>(),
             new ClockStub(command.Startdatum.Value));
 
         commandHandler
