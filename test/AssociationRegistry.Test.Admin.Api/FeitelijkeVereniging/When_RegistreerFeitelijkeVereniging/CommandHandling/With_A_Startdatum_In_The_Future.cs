@@ -6,8 +6,10 @@ using AutoFixture;
 using Fakes;
 using FluentAssertions;
 using Framework;
+using Moq;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -34,6 +36,7 @@ public class With_A_Startdatum_In_The_Future
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
+            Mock.Of<IMartenOutbox>(),
             new ClockStub(today));
 
         _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
