@@ -125,6 +125,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RegistreerInschrijvingRespo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.EmptyPack", "test\AssociationRegistry.Test.EmptyPack\AssociationRegistry.Test.EmptyPack.csproj", "{7F27E962-B067-4086-B730-4D94173EA2ED}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "localstack", "localstack", "{4D444ED0-6735-4DDC-B3AC-7586B420130B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "init", "init", "{E2C1D6C3-9594-45D1-832D-E83BBCB71A32}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "boot", "boot", "{74A2617E-BA79-459C-ABCE-1EBB4B2BC826}"
+	ProjectSection(SolutionItems) = preProject
+		.localstack\init\boot.d\update-bin.sh = .localstack\init\boot.d\update-bin.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ready", "ready", "{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778}"
+	ProjectSection(SolutionItems) = preProject
+		.localstack\init\ready.d\01_sqs-init.redrive.json = .localstack\init\ready.d\01_sqs-init.redrive.json
+		.localstack\init\ready.d\01_sqs-init.sh = .localstack\init\ready.d\01_sqs-init.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -229,5 +244,9 @@ Global
 		{F0853B2C-FEAB-4ACF-92D5-D9FBC3DA1427} = {20B970CD-1737-4427-A924-D299A42346FE}
 		{598628E9-81AA-41EE-8F2A-C9607A2D294A} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 		{7F27E962-B067-4086-B730-4D94173EA2ED} = {C812C887-6495-405A-8B99-4F686D243126}
+		{4D444ED0-6735-4DDC-B3AC-7586B420130B} = {C9AFE263-FC5F-4243-BC1F-737B0CCB6DE6}
+		{E2C1D6C3-9594-45D1-832D-E83BBCB71A32} = {4D444ED0-6735-4DDC-B3AC-7586B420130B}
+		{74A2617E-BA79-459C-ABCE-1EBB4B2BC826} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
+		{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
 	EndGlobalSection
 EndGlobal

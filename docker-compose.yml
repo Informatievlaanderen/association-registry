@@ -11,6 +11,25 @@ services:
     networks:
       - vr-net
 
+  localstack:
+    image: localstack/localstack
+    container_name: vr_localstack
+    ports:
+      - 127.0.0.1:4566:4566            # LocalStack Gateway
+      - 127.0.0.1:4510-4559:4510-4559  # external services port range
+    environment:
+      SERVICES: sqs
+      DOCKER_HOST: unix:///var/run/docker.sock
+      DEFAULT_REGION: us-east-1
+      DEBUG: 1
+      PORT_WEB_UI: 8080
+    volumes:
+      - .localstack/init:/etc/localstack/init
+      - localstack-data:/var/lib/localstack
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - vr-net
+
   seq:
     image: datalust/seq
     container_name: vr_seq
@@ -81,6 +100,7 @@ volumes:
   pg-data:
   es-data:
   seq-data:
+  localstack-data:
 
 networks:
   vr-net:

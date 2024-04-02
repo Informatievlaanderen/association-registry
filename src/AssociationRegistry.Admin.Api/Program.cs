@@ -122,6 +122,14 @@ public class Program
                 options.UseAmazonSqsTransport();
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
                        .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+
+                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, queue =>
+                        {
+                            // queue.Configuration.Attributes[QueueAttributeName.DelaySeconds] = "5";
+                            // queue.Configuration.Attributes[QueueAttributeName.MessageRetentionPeriod] = 4.Days().TotalSeconds.ToString();
+                        })
+                       // .ListenerCount(5)
+                       ;
             });
 
         var app = builder.Build();
