@@ -107,7 +107,8 @@ nuget NEST 7.17.4
 
   nuget Marten > 6.0.0
   nuget Marten.CommandLine > 6.0.0
-  nuget WolverineFx
+  nuget WolverineFx ~> 1.0
+  nuget WolverineFx.AmazonSqs ~> 1.0
 
 // Because linked in multiple groups
 nuget Microsoft.Extensions.FileProviders.Physical >= 7.0

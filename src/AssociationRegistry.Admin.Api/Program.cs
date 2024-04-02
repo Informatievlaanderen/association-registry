@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
+using AddressMatch.Messages;
 using Amazon;
 using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -76,6 +77,7 @@ using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
 using Wolverine;
+using Wolverine.AmazonSqs;
 using IMessage = Notifications.IMessage;
 
 public class Program
@@ -110,11 +112,16 @@ public class Program
         builder.Host.UseLamar();
 
         builder.Host.UseWolverine(
-            options =>
+            (context, options) =>
             {
-                options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
+                var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
 
+                options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+
+                options.UseAmazonSqsTransport();
+                options.PublishMessage<TeSynchroniserenAdresMessage>()
+                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
             });
 
         var app = builder.Build();
@@ -336,6 +343,7 @@ public class Program
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
+        var addressMatchOptionsSection = builder.Configuration.GetAddressMatchOptionsSection();
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
@@ -345,6 +353,7 @@ public class Program
                .AddScoped<InitiatorProvider>()
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
+               .AddSingleton(addressMatchOptionsSection)
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
