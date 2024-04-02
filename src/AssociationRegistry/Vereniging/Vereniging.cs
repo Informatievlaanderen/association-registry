@@ -181,4 +181,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
         State = obj;
     }
+
+    public void ProbeerAdresTeMatchen()
+    {
+        AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
+    }
 }

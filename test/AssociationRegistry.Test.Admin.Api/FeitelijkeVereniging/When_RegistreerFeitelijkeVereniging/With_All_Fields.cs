@@ -245,6 +245,11 @@ public class With_All_Fields
     [Fact]
     public void Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
+        using var session = _fixture.DocumentStore
+                                    .LightweightSession();
 
+        var savedEvent = session.Events
+                                .QueryRawEventDataOnly<AdresKonNietGematchedWorden>()
+                                .Single();
     }
 }
