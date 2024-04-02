@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
 
+using System;
+
 public class AppSettings
 {
     private string? _baseUrl;
@@ -11,6 +13,7 @@ public class AppSettings
     }
 
     public ApiDocsSettings ApiDocs { get; set; } = null!;
+    public string[] SuperAdminClientIds { get; set; } = Array.Empty<string>();
 
     public class ApiDocsSettings
     {

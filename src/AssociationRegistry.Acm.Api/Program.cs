@@ -320,11 +320,19 @@ public class Program
                                                           .AllowCredentials());
                     })
                .AddControllersAsServices()
-               .AddAuthorization(
-                    options =>
-                        options.DefaultPolicy = new AuthorizationPolicyBuilder()
-                                               .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.ACM)
-                                               .Build())
+               .AddAuthorization(options =>
+                {
+                    options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                                           .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.ACM)
+                                           .Build();
+
+                    options.AddPolicy(
+                        SuperAdminPolicyName,
+                        new AuthorizationPolicyBuilder()
+                           .RequireClaim(Security.ClaimTypes.Scope, Security.Scopes.Admin)
+                           .RequireClaim(Security.ClaimTypes.ClientId, appSettings.SuperAdminClientIds)
+                           .Build());
+                })
                .AddNewtonsoftJson(
                     opt =>
                     {
