@@ -17,6 +17,7 @@ using Schema.Historiek;
 using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
+using Wolverine.Marten;
 
 public static class MartenExtensions
 {
@@ -24,39 +25,42 @@ public static class MartenExtensions
         this IServiceCollection services,
         PostgreSqlOptionsSection postgreSqlOptions)
     {
-        var martenConfiguration = services.AddMarten(
-            serviceProvider =>
-            {
-                var opts = new StoreOptions();
-                opts.Connection(postgreSqlOptions.GetConnectionString());
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
-                opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-                opts.Serializer(CreateCustomMartenSerializer());
-                opts.Events.MetadataConfig.EnableAll();
+        var martenConfiguration = services
+            .AddMarten(
+                 serviceProvider =>
+                 {
+                     var opts = new StoreOptions();
+                     opts.Connection(postgreSqlOptions.GetConnectionString());
+                     opts.Events.StreamIdentity = StreamIdentity.AsString;
+                     opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+                     opts.Serializer(CreateCustomMartenSerializer());
+                     opts.Events.MetadataConfig.EnableAll();
 
-                opts.Listeners.Add(new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
+                     opts.Listeners.Add(
+                         new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                     opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                     opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
 
-                opts.RegisterDocumentType<VerenigingState>();
+                     opts.RegisterDocumentType<VerenigingState>();
 
-                opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+                     opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
-                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                }
-                else
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                    opts.SourceCodeWritingEnabled = false;
-                }
+                     if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                     {
+                         opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                     }
+                     else
+                     {
+                         opts.GeneratedCodeMode = TypeLoadMode.Auto;
+                         opts.SourceCodeWritingEnabled = false;
+                     }
 
-                opts.AutoCreateSchemaObjects = AutoCreate.All;
+                     opts.AutoCreateSchemaObjects = AutoCreate.All;
 
-                return opts;
-            });
+                     return opts;
+                 })
+            .IntegrateWithWolverine();
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 

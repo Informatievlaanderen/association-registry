@@ -1,14 +1,10 @@
-﻿namespace AssociationRegistry.AddressMatch.Messages;
+﻿namespace AssociationRegistry.AddressMatch;
 
-using Acties.RegistreerFeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
 using DuplicateVerenigingDetection;
 using Framework;
 using NodaTime;
-using ResultNet;
+using Vereniging;
 using IClock = Framework.IClock;
-
-public record TeSynchroniserenAdresMessage(VCode VCode, int LocatieId);
 
 public class TeSynchroniserenAdresMessageHandler
 {
@@ -39,6 +35,6 @@ public class TeSynchroniserenAdresMessageHandler
 
         vereniging.ProbeerAdresTeMatchen();
 
-        await _verenigingsRepository.Save(vereniging, new CommandMetadata("", SystemClock.Instance.GetCurrentInstant(), Guid.Empty, null), CancellationToken.None) ;
+        await _verenigingsRepository.Save(vereniging, new CommandMetadata("AGV", SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null), CancellationToken.None);
     }
 }
