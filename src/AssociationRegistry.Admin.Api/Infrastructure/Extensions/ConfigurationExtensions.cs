@@ -20,11 +20,36 @@ public static class ConfigurationExtensions
 
         postgreSqlOptionsSection.ThrowIfInvalid();
 
-        return postgreSqlOptionsSection;
+        return postgreSqlOptionsSection!;
     }
 
-    private static void ThrowIfInvalid(this PostgreSqlOptionsSection postgreSqlOptions)
+    public static AddressMatchOptionsSection GetAddressMatchOptionsSection(this IConfiguration configuration)
     {
+        var addressMatchOptionsSection = configuration
+                                      .GetSection(AddressMatchOptionsSection.SectionName)
+                                      .Get<AddressMatchOptionsSection>();
+
+        addressMatchOptionsSection.ThrowIfInvalid();
+
+        return addressMatchOptionsSection!;
+    }
+
+    private static void ThrowIfInvalid(this AddressMatchOptionsSection? addressMatchOptionsSection)
+    {
+        const string sectionName = nameof(AddressMatchOptionsSection);
+
+        if (addressMatchOptionsSection == null)
+            throw new ArgumentNullException(nameof(addressMatchOptionsSection));
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(addressMatchOptionsSection.AddressMatchSqsQueueName, $"{sectionName}.{nameof(AddressMatchOptionsSection.AddressMatchSqsQueueName)}");
+    }
+
+    private static void ThrowIfInvalid(this PostgreSqlOptionsSection? postgreSqlOptions)
+    {
+        if (postgreSqlOptions == null)
+            throw new ArgumentNullException(nameof(postgreSqlOptions));
+
         const string sectionName = nameof(PostgreSqlOptionsSection);
 
         Throw<ArgumentNullException>
