@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api;
 
-using AddressMatch.Messages;
+using AddressMatch;
 using Amazon;
 using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
@@ -117,19 +117,21 @@ public class Program
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
 
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
+                options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
+                options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
+
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
 
-                options.UseAmazonSqsTransport();
+                options.UseAmazonSqsTransport()
+                       .UseLocalStackIfDevelopment()
+                       .AutoProvision();
+
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
                        .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
 
-                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, queue =>
-                        {
-                            // queue.Configuration.Attributes[QueueAttributeName.DelaySeconds] = "5";
-                            // queue.Configuration.Attributes[QueueAttributeName.MessageRetentionPeriod] = 4.Days().TotalSeconds.ToString();
-                        })
-                       // .ListenerCount(5)
-                       ;
+                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+
+                options.LogMessageStarting(LogLevel.Information);
             });
 
         var app = builder.Build();

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
-using AddressMatch.Messages;
+using AddressMatch;
 using DuplicateVerenigingDetection;
 using Framework;
 using ResultNet;
