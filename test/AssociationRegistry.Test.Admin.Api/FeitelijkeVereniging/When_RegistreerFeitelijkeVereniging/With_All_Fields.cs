@@ -241,4 +241,10 @@ public class With_All_Fields
         var sequence = Convert.ToInt64(sequenceValues.Single());
         sequence.Should().BeGreaterThan(expected: 0);
     }
+
+    [Fact]
+    public void Then_it_should_have_placed_message_on_sqs_for_address_match()
+    {
+
+    }
 }
