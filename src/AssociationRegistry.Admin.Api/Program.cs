@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api;
 
 using AddressMatch;
 using Amazon;
+using Amazon.Runtime;
 using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -78,6 +79,7 @@ using VCodeGeneration;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
+using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using IMessage = Notifications.IMessage;
 
 public class Program
@@ -122,12 +124,16 @@ public class Program
 
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
 
-                options.UseAmazonSqsTransport()
-                       .UseLocalStackIfDevelopment()
+                options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
+                options.UseAmazonSqsTransport(config =>
+                        {
+                            config.ServiceURL = "http://127.0.0.1:4566";
+                        })
+                       .Credentials(new BasicAWSCredentials("dummy", "dummy"))
                        .AutoProvision();
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
-                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
 
                 options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
 
