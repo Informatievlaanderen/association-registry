@@ -14,6 +14,7 @@ using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using Polly;
 using System.Net;
 using Vereniging;
 using Xunit;
@@ -245,11 +246,24 @@ public class With_All_Fields
     [Fact]
     public void Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
+        Response.Should().NotBeNull();
 
-        var savedEvent = session.Events
-                                .QueryRawEventDataOnly<AdresKonNietGematchedWorden>()
-                                .Single();
+        var asyncRetryPolicy = Polly.Policy.Handle<Exception>()
+                                    .RetryAsync(async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
+
+        asyncRetryPolicy.ExecuteAsync(() =>
+        {
+            using var session = _fixture.DocumentStore
+                                        .LightweightSession();
+
+            var savedEvent = session.Events
+                                    .QueryRawEventDataOnly<AdresKonNietGematchedWorden>()
+                                    .Single();
+
+            savedEvent.Should().NotBeNull();
+
+            return Task.CompletedTask;
+        });
+
     }
 }

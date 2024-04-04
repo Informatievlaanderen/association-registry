@@ -113,15 +113,16 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
 
-        Log.Logger.Information("Created logger");
+        Log.Logger.Error("Created logger");
 
         builder.Host.UseWolverine(
             (context, options) =>
             {
-                Log.Logger.Information("Use wolverine");
+                Log.Logger.Error("Use wolverine");
 
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
 
+                options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
