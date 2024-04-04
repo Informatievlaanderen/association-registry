@@ -20,6 +20,8 @@ using Events;
 using EventStore;
 using FluentValidation;
 using Framework;
+using Grar;
+using Grar.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -109,6 +111,7 @@ public class Program
         ConfigureLogger(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
+        Config
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
@@ -366,9 +369,11 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var addressMatchOptionsSection = builder.Configuration.GetAddressMatchOptionsSection();
+        var grarOptions = builder.Configuration.GetGrarOptionsSection();
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
+
         var sqsClient = new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
@@ -407,6 +412,10 @@ public class Program
         builder.Services
                .AddHttpClient<PublicProjectionHostHttpClient>()
                .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
+
+        builder.Services
+               .AddHttpClient<GrarHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.BaseUrl));
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
