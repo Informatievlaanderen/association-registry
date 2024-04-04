@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.EventStore;
 
 using Framework;
+using Marten;
 using Vereniging;
 using Vereniging.Exceptions;
 
@@ -25,6 +26,21 @@ public class VerenigingsRepository : IVerenigingsRepository
 
         return await _eventStore.Save(vereniging.VCode, metadata, cancellationToken, events);
     }
+
+    public async Task<StreamActionResult> Save(
+        VerenigingsBase vereniging,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
+    {
+        var events = vereniging.UncommittedEvents.ToArray();
+
+        if (!events.Any())
+            return StreamActionResult.Empty;
+
+        return await _eventStore.Save(vereniging.VCode, session, metadata, cancellationToken, events);
+    }
+
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()

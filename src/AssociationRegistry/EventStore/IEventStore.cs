@@ -1,13 +1,21 @@
 namespace AssociationRegistry.EventStore;
 
 using Framework;
+using Marten;
 using Vereniging;
 
 public interface IEventStore
 {
     Task<StreamActionResult> Save(
         string aggregateId,
-        CommandMetadata commandMetadata,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events);
+
+    Task<StreamActionResult> Save(
+        string aggregateId,
+        IDocumentSession session,
+        CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events);
 

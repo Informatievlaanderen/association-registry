@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using EventStore;
+using Marten;
 using Vereniging;
 
 public class EventStoreMock : IEventStore
@@ -27,6 +28,14 @@ public class EventStoreMock : IEventStore
 
         return Task.FromResult(new StreamActionResult(Sequence: -1, Version: -1));
     }
+
+    public async Task<StreamActionResult> Save(
+        string aggregateId,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events)
+        => await Save(aggregateId, metadata, cancellationToken, events);
 
     public Task<T> Load<T>(string aggregateId) where T : class, IHasVersion, new()
     {

@@ -184,6 +184,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void ProbeerAdresTeMatchen()
     {
-        AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
+        AddEvent(new AdresKonNietGematchedWorden());
     }
 }
