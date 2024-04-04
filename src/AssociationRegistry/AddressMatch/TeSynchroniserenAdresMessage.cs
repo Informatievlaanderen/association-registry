@@ -2,4 +2,4 @@
 
 using Vereniging;
 
-public record TeSynchroniserenAdresMessage(VCode VCode, int LocatieId);
+public record TeSynchroniserenAdresMessage(string VCode, int LocatieId);

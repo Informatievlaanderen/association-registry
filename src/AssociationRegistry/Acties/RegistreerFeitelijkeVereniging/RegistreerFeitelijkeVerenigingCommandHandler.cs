@@ -3,6 +3,8 @@
 using AddressMatch;
 using DuplicateVerenigingDetection;
 using Framework;
+using Marten;
+using Microsoft.Extensions.Logging;
 using ResultNet;
 using Vereniging;
 using Wolverine.Marten;
@@ -10,8 +12,10 @@ using Wolverine.Marten;
 public class RegistreerFeitelijkeVerenigingCommandHandler
 {
     private readonly IClock _clock;
+    private readonly ILogger<RegistreerFeitelijkeVerenigingCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
+    private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
@@ -20,19 +24,25 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         IVCodeService vCodeService,
         IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
         IMartenOutbox outbox,
-        IClock clock)
+        IDocumentSession session,
+        IClock clock,
+        ILogger<RegistreerFeitelijkeVerenigingCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
         _duplicateVerenigingDetectionService = duplicateVerenigingDetectionService;
         _outbox = outbox;
+        _session = session;
         _clock = clock;
+        _logger = logger;
     }
 
     public async Task<Result> Handle(
         CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message,
         CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation("Handle RegistreerFeitelijkeVerenigingCommandHandler start");
+
         var command = message.Command;
 
         if (!command.SkipDuplicateDetection)
@@ -44,6 +54,8 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         }
 
         var vCode = await _vCodeService.GetNext();
+
+        await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, 1));
 
         var vereniging = Vereniging.RegistreerFeitelijkeVereniging(
             vCode,
@@ -59,9 +71,9 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.HoofdactiviteitenVerenigingsloket,
             _clock);
 
-        var result = await _verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
+        var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
 
-        await _outbox.PublishAsync(new TeSynchroniserenAdresMessage(vCode, 1));
+        _logger.LogInformation("Handle RegistreerFeitelijkeVerenigingCommandHandler end");
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

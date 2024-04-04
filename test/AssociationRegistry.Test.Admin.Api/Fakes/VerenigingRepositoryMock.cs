@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using EventStore;
 using FluentAssertions;
+using Marten;
 using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
@@ -38,6 +39,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
 
         return await Task.FromResult(StreamActionResult.Empty);
     }
+
+    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken)
+        => await Save(vereniging, metadata, cancellationToken);
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()

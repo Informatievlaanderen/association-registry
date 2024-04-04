@@ -28,6 +28,16 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.LightweightSession();
 
+        return await Save(aggregateId, session, metadata , cancellationToken, events);
+    }
+
+    public async Task<StreamActionResult> Save(
+        string aggregateId,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        params IEvent[] events)
+    {
         try
         {
             SetHeaders(metadata, session);
@@ -46,7 +56,7 @@ public class EventStore : IEventStore
         }
     }
 
-    private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
+private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
             session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });

@@ -6,6 +6,8 @@ using AutoFixture;
 using Fakes;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
 using Vereniging.Exceptions;
@@ -37,7 +39,9 @@ public class With_A_Startdatum_In_The_Future
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
             Mock.Of<IMartenOutbox>(),
-            new ClockStub(today));
+            Mock.Of<IDocumentSession>(),
+            new ClockStub(today),
+            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
     }

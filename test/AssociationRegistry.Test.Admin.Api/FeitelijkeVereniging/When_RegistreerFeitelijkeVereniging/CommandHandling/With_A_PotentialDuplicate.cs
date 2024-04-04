@@ -8,6 +8,8 @@ using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
 using Vereniging;
@@ -53,7 +55,9 @@ public class With_A_PotentialDuplicate
             new InMemorySequentialVCodeService(),
             duplicateChecker.Object,
             Mock.Of<IMartenOutbox>(),
-            new ClockStub(command.Startdatum.Value));
+            Mock.Of<IDocumentSession>(),
+            new ClockStub(command.Startdatum.Value),
+            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata),
                                         CancellationToken.None)

@@ -7,6 +7,8 @@ using Events;
 using Fakes;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
 using Wolverine.Marten;
@@ -34,7 +36,9 @@ public class With_A_Startdatum_On_Today
             vCodeService,
             new NoDuplicateVerenigingDetectionService(),
             Mock.Of<IMartenOutbox>(),
-            new ClockStub(command.Startdatum.Value));
+            Mock.Of<IDocumentSession>(),
+            new ClockStub(command.Startdatum.Value),
+            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)

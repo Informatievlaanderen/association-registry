@@ -113,9 +113,13 @@ public class Program
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
 
+        Log.Logger.Information("Created logger");
+
         builder.Host.UseWolverine(
             (context, options) =>
             {
+                Log.Logger.Information("Use wolverine");
+
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
 
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
@@ -129,13 +133,14 @@ public class Program
                         {
                             config.ServiceURL = "http://127.0.0.1:4566";
                         })
-                       .Credentials(new BasicAWSCredentials("dummy", "dummy"))
-                       .AutoProvision();
+                       .Credentials(new BasicAWSCredentials("dummy", "dummy"));
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
                        .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
+                       .SendInline();
 
-                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
+                       .ProcessInline();
 
                 options.LogMessageStarting(LogLevel.Information);
             });

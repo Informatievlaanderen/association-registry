@@ -6,6 +6,8 @@ using AutoFixture;
 using Events;
 using Fakes;
 using Framework;
+using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
@@ -35,7 +37,9 @@ public class With_All_Fields
                                                              _vCodeService,
                                                              new NoDuplicateVerenigingDetectionService(),
                                                              Mock.Of<IMartenOutbox>(),
-                                                             clock);
+                                                             Mock.Of<IDocumentSession>(),
+                                                             clock,
+                                                             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
