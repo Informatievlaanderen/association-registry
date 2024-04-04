@@ -1,0 +1,4 @@
+﻿{
+  "naam": "{{vereniging.naam}}",
+  "locaties": {{vereniging.locaties}}
+}

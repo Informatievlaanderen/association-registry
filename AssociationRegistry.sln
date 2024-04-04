@@ -140,6 +140,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ready", "ready", "{24B63C4D
 		.localstack\init\ready.d\01_sqs-init.sh = .localstack\init\ready.d\01_sqs-init.sh
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Grar", "src\AssociationRegistry.Grar\AssociationRegistry.Grar.csproj", "{8B61EDCB-907D-402B-8CC2-C51EBCE7696F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -217,6 +219,10 @@ Global
 		{7F27E962-B067-4086-B730-4D94173EA2ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F27E962-B067-4086-B730-4D94173EA2ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7F27E962-B067-4086-B730-4D94173EA2ED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B61EDCB-907D-402B-8CC2-C51EBCE7696F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B61EDCB-907D-402B-8CC2-C51EBCE7696F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B61EDCB-907D-402B-8CC2-C51EBCE7696F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B61EDCB-907D-402B-8CC2-C51EBCE7696F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -248,5 +254,6 @@ Global
 		{E2C1D6C3-9594-45D1-832D-E83BBCB71A32} = {4D444ED0-6735-4DDC-B3AC-7586B420130B}
 		{74A2617E-BA79-459C-ABCE-1EBB4B2BC826} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
 		{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
+		{8B61EDCB-907D-402B-8CC2-C51EBCE7696F} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal

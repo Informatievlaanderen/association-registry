@@ -8,6 +8,7 @@ nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
 nuget Microsoft.Extensions.Configuration.FileExtensions 6.0.0
 nuget Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.1
 nuget Microsoft.Extensions.Configuration.Json 6.0.0
+nuget Microsoft.AspNetCore.Http 2.2.2
 
 nuget AspNetCore.HealthChecks.SqlServer 6.0.2
 

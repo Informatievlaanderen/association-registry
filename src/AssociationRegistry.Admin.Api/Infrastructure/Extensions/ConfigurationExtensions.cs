@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
+using Grar.Configuration;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -34,6 +35,17 @@ public static class ConfigurationExtensions
         return addressMatchOptionsSection!;
     }
 
+    public static GrarOptionsSection GetGrarOptionsSection(this IConfiguration configuration)
+    {
+        var grarOptionsSection = configuration
+                                      .GetSection(GrarOptionsSection.SectionName)
+                                      .Get<GrarOptionsSection>();
+
+        grarOptionsSection.ThrowIfInvalid();
+
+        return grarOptionsSection!;
+    }
+
     private static void ThrowIfInvalid(this AddressMatchOptionsSection? addressMatchOptionsSection)
     {
         const string sectionName = nameof(AddressMatchOptionsSection);
@@ -43,6 +55,15 @@ public static class ConfigurationExtensions
 
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(addressMatchOptionsSection.AddressMatchSqsQueueName, $"{sectionName}.{nameof(AddressMatchOptionsSection.AddressMatchSqsQueueName)}");
+    }
+
+    private static void ThrowIfInvalid(this GrarOptionsSection? grarOptionsSection)
+    {
+        if (grarOptionsSection == null)
+            throw new ArgumentNullException(nameof(grarOptionsSection));
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(grarOptionsSection.BaseUrl, $"{GrarOptionsSection.SectionName}.{nameof(GrarOptionsSection.BaseUrl)}");
     }
 
     private static void ThrowIfInvalid(this PostgreSqlOptionsSection? postgreSqlOptions)

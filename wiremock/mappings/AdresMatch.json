@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/v2/adresmatch"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "AdresMatch/200.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}
