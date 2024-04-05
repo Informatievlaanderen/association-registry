@@ -1,8 +1,11 @@
 ﻿namespace AssociationRegistry.Grar;
 
 using Microsoft.AspNetCore.Http;
+using Models;
+using Newtonsoft.Json;
 using System;
 using System.Net.Http;
+using System.Net.Http.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -17,14 +20,13 @@ public class GrarHttpClient : IDisposable
 
     public async Task<HttpResponseMessage> GetAddress(string gemeentenaam, string straatnaam, string huisnummer,CancellationToken cancellationToken)
     {
-        var requestQuery = new QueryString();
-        requestQuery.Add("Gemeentenaam", gemeentenaam);
-        requestQuery.Add("Straatnaam", straatnaam);
-        requestQuery.Add("Huisnummer", huisnummer);
+        var response = await _httpClient.GetAsync($"/v2/adresmatch?Gemeentenaam={gemeentenaam}&Straatnaam={straatnaam}&Huisnummer={huisnummer}", cancellationToken);
 
-        var request = new HttpRequestMessage(HttpMethod.Get, $"/v2/adresmatch{requestQuery.Value}");
+        var str = await response.Content.ReadAsStringAsync();
 
-        var response = await _httpClient.SendAsync(request, cancellationToken);
+        var json = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(str);
+
+        var responsejson = await response.Content.ReadFromJsonAsync<AddressMatchOsloCollection>();
 
         return response;
     }

@@ -27,33 +27,16 @@ public class Given_Geslaagd
 
         _verenigingNaam = _fixture.Create<string>();
 
-        var responseEnvelope = CreateResponseEnvelope();
-
         _client = new GrarClient(new GrarOptionsSection()
         {
             Timeout = 30,
-            BaseUrl = "http://localhost:8080"
+            BaseUrl = "http://localhost:8080",
         }, NullLogger<GrarClient>.Instance);
-    }
-
-    private ResponseEnvelope<RegistreerInschrijvingResponseBody> CreateResponseEnvelope()
-    {
-        var responseEnvelope = _fixture.Create<ResponseEnvelope<RegistreerInschrijvingResponseBody>>();
-
-        responseEnvelope.Body!.RegistreerInschrijvingResponse!.Repliek.Antwoorden.Antwoord.Inhoud = new AntwoordInhoudType
-        {
-            Resultaat = new ResultaatCodeType
-            {
-                Value = ResultaatEnumType.Item1,
-                Beschrijving = "Wel geslaagd",
-            },
-        };
-
-        return responseEnvelope;
     }
 
     [Fact]
     public async Task Then_It_Returns_A_SuccessResult()
     {
+       await  _client.GetAddress("Dendermonde", "Leopold II-laan", "99");
     }
 }
