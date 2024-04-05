@@ -1,0 +1,22 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPath": "/v2/adresmatch",
+    "queryParameters": {
+      "Gemeentenaam": {
+        "equalTo": "Dendermonde"
+      },
+      "Postcode": {
+        "equalTo": "9200"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "AdresMatch/Exact_Match_Dendermonde.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

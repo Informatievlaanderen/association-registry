@@ -4,13 +4,10 @@ using Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
-using System.Net.Http.Json;
-using System.Text.Json;
 
 public class GrarClient : IGrarClient
 {
     private readonly GrarOptionsSection _grarOptions;
-    private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly ILogger<GrarClient> _logger;
 
     public GrarClient(
@@ -18,19 +15,31 @@ public class GrarClient : IGrarClient
         ILogger<GrarClient> logger)
     {
         _grarOptions = grarOptions;
-        _jsonSerializerOptions = new JsonSerializerOptions();
         _logger = logger;
     }
 
-    public async Task GetAddress(string gemeentenaam, string straatnaam, string huisNummer)
+    public async Task<IReadOnlyCollection<AddressMatch>> GetAddress(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam)
     {
         using var client = GetHttpClient();
 
         try
         {
-            var response =  await client.GetAddress(gemeentenaam, straatnaam, huisNummer, CancellationToken.None);
+            var response = await client.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
-           // var result = await response.Content.ReadFromJsonAsync<AddressMatchOsloCollection>(_jsonSerializerOptions);
+            var result = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync());
+
+            var matches = result.AdresMatches.Select(s => new AddressMatch(
+                                                         Score: s.Score,
+                                                         AdresId: s.Identificator.ObjectId,
+                                                         AdresStatus: s.AdresStatus,
+                                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                                         s.Huisnummer,
+                                                         s.Busnummer,
+                                                         s.Postinfo.ObjectId,
+                                                         s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+                                                     )).ToArray();
+
+            return matches;
         }
         catch (TaskCanceledException ex)
         {
@@ -47,12 +56,12 @@ public class GrarClient : IGrarClient
     }
 
     private GrarHttpClient GetHttpClient()
-         {
-             var client = new GrarHttpClient(new HttpClient()
-             {
-                 BaseAddress = new Uri(_grarOptions.BaseUrl)
-             });
+    {
+        var client = new GrarHttpClient(new HttpClient()
+        {
+            BaseAddress = new Uri(_grarOptions.BaseUrl)
+        });
 
-             return client;
-         }
+        return client;
+    }
 }
