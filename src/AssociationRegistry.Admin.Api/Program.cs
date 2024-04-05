@@ -118,40 +118,7 @@ public class Program
 
         Log.Logger.Error("Created logger");
 
-        builder.Host.UseWolverine(
-            (context, options) =>
-            {
-                Log.Logger.Error("Use wolverine");
-
-                var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
-
-                options.ApplicationAssembly = typeof(Program).Assembly;
-                options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
-                options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
-                options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
-
-                options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
-
-                options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
-
-                options.UseAmazonSqsTransport(config =>
-                        {
-                            config.ServiceURL = "http://127.0.0.1:4566";
-                            // config.RegionEndpoint = RegionEndpoint.USEast1;
-                        })
-                       .Credentials(new BasicAWSCredentials("dummy", "dummy"))
-                       .AutoProvision()
-                    ;
-
-                options.PublishMessage<TeSynchroniserenAdresMessage>()
-                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
-                       .SendInline();
-
-                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
-                       .ProcessInline();
-
-                options.LogMessageStarting(LogLevel.Information);
-            });
+        builder.AddWolverine();
 
         var app = builder.Build();
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
