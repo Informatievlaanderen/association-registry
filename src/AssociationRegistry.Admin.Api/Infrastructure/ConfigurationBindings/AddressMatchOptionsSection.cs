@@ -4,4 +4,5 @@ public class AddressMatchOptionsSection
 {
     public const string SectionName = "AddressMatchOptions";
     public string AddressMatchSqsQueueName { get; set; }
+    public bool UseLocalStack { get; set; }
 }
