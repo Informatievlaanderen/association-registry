@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Grar;
 
-using Configuration;
 using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
@@ -18,7 +17,7 @@ public class GrarClient : IGrarClient
         _logger = logger;
     }
 
-    public async Task<IReadOnlyCollection<AddressMatch>> GetAddress(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam)
+    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddress(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam)
     {
         using var client = GetHttpClient();
 
@@ -28,7 +27,7 @@ public class GrarClient : IGrarClient
 
             var result = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync());
 
-            var matches = result.AdresMatches.Select(s => new AddressMatch(
+            var matches = result.AdresMatches.Select(s => new AddressMatchResponse(
                                                          Score: s.Score,
                                                          AdresId: s.Identificator.ObjectId,
                                                          AdresStatus: s.AdresStatus,

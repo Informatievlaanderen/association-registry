@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_Address_Match.Fixtures;
 
 using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Configuration;
 using AssociationRegistry.Grar.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
@@ -22,7 +21,7 @@ public class WithNoExactMatchFixture : IAsyncLifetime
         }, NullLogger<GrarClient>.Instance);
     }
 
-    public IReadOnlyCollection<AddressMatch> Result { get; private set; }
+    public IReadOnlyCollection<AddressMatchResponse> Result { get; private set; }
 
     public async Task InitializeAsync()
     {

@@ -3,7 +3,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda.Configuration;
 using ConfigurationBindings;
-using Grar.Configuration;
+using Grar;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

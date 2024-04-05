@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Grar.Configuration;
+﻿namespace AssociationRegistry.Grar;
 
 public class GrarOptionsSection
 {

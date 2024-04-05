@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.AddressMatch;
+﻿namespace AssociationRegistry.Grar.AddressMatch;
 
 using DuplicateVerenigingDetection;
 using Framework;
@@ -12,6 +12,7 @@ public class TeSynchroniserenAdresMessageHandler
     private readonly IClock _clock;
     private readonly ILogger<TeSynchroniserenAdresMessageHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
+    private readonly IGrarClient _grarClient;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
@@ -19,12 +20,14 @@ public class TeSynchroniserenAdresMessageHandler
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
         IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
+        IGrarClient grarClient,
         IClock clock,
         ILogger<TeSynchroniserenAdresMessageHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
         _duplicateVerenigingDetectionService = duplicateVerenigingDetectionService;
+        _grarClient = grarClient;
         _clock = clock;
         _logger = logger;
     }
@@ -36,8 +39,6 @@ public class TeSynchroniserenAdresMessageHandler
         _logger.LogInformation("Handle TeSynchroniserenAdresMessageHandler");
 
         var vereniging = await _verenigingsRepository.Load<Vereniging>(VCode.Hydrate(message.VCode), null);
-
-        // adresmatch
 
         vereniging.ProbeerAdresTeMatchen();
 
