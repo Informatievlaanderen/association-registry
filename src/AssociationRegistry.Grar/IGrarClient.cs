@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Grar;
 
+using Models;
+
 public interface IGrarClient
 {
-    Task GetAddress(string gemeentenaam, string straatnaam, string huisNummer);
+    Task<IReadOnlyCollection<AddressMatch>> GetAddress(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam);
 }

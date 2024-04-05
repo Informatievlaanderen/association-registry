@@ -1,14 +1,5 @@
 ﻿namespace AssociationRegistry.Grar;
 
-using Microsoft.AspNetCore.Http;
-using Models;
-using Newtonsoft.Json;
-using System;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Threading;
-using System.Threading.Tasks;
-
 public class GrarHttpClient : IDisposable
 {
     private readonly HttpClient _httpClient;
@@ -18,16 +9,25 @@ public class GrarHttpClient : IDisposable
         _httpClient = httpClient;
     }
 
-    public async Task<HttpResponseMessage> GetAddress(string gemeentenaam, string straatnaam, string huisnummer,CancellationToken cancellationToken)
+    public async Task<HttpResponseMessage> GetAddress(
+        string straatnaam,
+        string huisnummer,
+        string busnummer,
+        string postcode,
+        string gemeentenaam,
+        CancellationToken cancellationToken)
     {
-        var response = await _httpClient.GetAsync($"/v2/adresmatch?Gemeentenaam={gemeentenaam}&Straatnaam={straatnaam}&Huisnummer={huisnummer}", cancellationToken);
+        var queryDict = new Dictionary<string, string>();
 
-        var str = await response.Content.ReadAsStringAsync();
+        if(!string.IsNullOrEmpty(straatnaam)) queryDict.Add("Straatnaam", straatnaam);
+        if(!string.IsNullOrEmpty(huisnummer)) queryDict.Add("Huisnummer", huisnummer);
+        if(!string.IsNullOrEmpty(busnummer)) queryDict.Add("Busnummer", busnummer);
+        if(!string.IsNullOrEmpty(postcode)) queryDict.Add("Postcode", postcode);
+        if(!string.IsNullOrEmpty(gemeentenaam)) queryDict.Add("Gemeentenaam", gemeentenaam);
 
-        var json = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(str);
+        var requestUri = $"/v2/adresmatch?{string.Join('&', queryDict.Select(queryItem => $"{queryItem.Key}={queryItem.Value}"))}";
 
-        var responsejson = await response.Content.ReadFromJsonAsync<AddressMatchOsloCollection>();
-
+        var response = await _httpClient.GetAsync(requestUri, cancellationToken);
         return response;
     }
 

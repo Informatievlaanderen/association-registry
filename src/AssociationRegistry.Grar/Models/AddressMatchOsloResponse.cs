@@ -3,8 +3,6 @@
     using Newtonsoft.Json;
     using System.ComponentModel.DataAnnotations;
     using System.Runtime.Serialization;
-    using System.Web;
-    using System.Xml.Serialization;
 
     [DataContract(Name = "AdresMatchCollectie", Namespace = "")]
     public class AddressMatchOsloCollection
@@ -13,10 +11,7 @@
         [JsonProperty(Required = Required.DisallowNull)]
         public string Context { get; set; }
 
-        [XmlArray(ElementName = "AdresMatches")]
-        [XmlArrayItem(ElementName = "AdresMatch")]
         [JsonProperty(PropertyName = "AdresMatches")]
-        [DataMember(Name = "AdresMatches", Order = 1)]
         public List<AdresMatchOsloItem> AdresMatches { get; set; }
     }
 
@@ -95,15 +90,6 @@
         [DataMember(Name = "Straatnaam", Order = 3)]
         [JsonProperty(Required = Required.DisallowNull)]
         public Straatnaam Straatnaam { get; set; }
-
-        public static AdresMatchOsloItemStraatnaam
-            Create(string objectId, string detail, GeografischeNaam straatnaam) =>
-            new AdresMatchOsloItemStraatnaam
-            {
-                ObjectId = objectId,
-                Detail = detail,
-                Straatnaam = new Straatnaam(straatnaam)
-            };
     }
 
     [DataContract(Name = "Straatnaam", Namespace = "")]
@@ -112,11 +98,6 @@
         [DataMember(Name = "GeografischeNaam")]
         [JsonProperty(Required = Required.DisallowNull)]
         public GeografischeNaam GeografischeNaam { get; set; }
-
-        public Straatnaam(GeografischeNaam geografischeNaam)
-        {
-            GeografischeNaam = geografischeNaam;
-        }
     }
 
     [DataContract(Name = "AdresMatchItemPostinfo", Namespace = "")]
@@ -129,13 +110,6 @@
         [DataMember(Name = "Detail", Order = 2)]
         [JsonProperty(Required = Required.DisallowNull)]
         public string Detail { get; set; }
-
-        public static AdresMatchOsloItemPostinfo Create(string objectId, string detail) =>
-            new AdresMatchOsloItemPostinfo
-            {
-                ObjectId = objectId,
-                Detail = detail,
-            };
     }
 
     [DataContract(Name = "Gemeentenaam", Namespace = "")]
@@ -144,9 +118,6 @@
         [DataMember(Name = "GeografischeNaam")]
         [JsonProperty(Required = Required.DisallowNull)]
         public GeografischeNaam GeografischeNaam { get; set; }
-
-        public Gemeentenaam(GeografischeNaam geografischeNaam)
-            => GeografischeNaam = geografischeNaam;
     }
 
     [DataContract(Name = "GeografischeNaam", Namespace = "")]
@@ -159,12 +130,6 @@
         [DataMember(Name = "Taal", Order = 2)]
         [JsonProperty(Required = Required.DisallowNull)]
         public Taal Taal { get; set; }
-
-        public GeografischeNaam(string spelling, Taal taalCode)
-        {
-            Spelling = spelling;
-            Taal = taalCode;
-        }
     }
 
     [DataContract(Name = "Taal", Namespace = "")]
@@ -217,36 +182,10 @@
         [DataMember(Name = "VersieId", Order = 4)]
         [JsonProperty(Required = Required.DisallowNull)]
         public string Versie { get; set; }
-
-        public Identificator(
-            string naamruimte,
-            string objectId,
-            DateTimeOffset? versie)
-            : this(
-                naamruimte,
-                objectId,
-                versie.HasValue ? versie.Value.ToString() : DateTimeOffset.MinValue.ToString())
-        { }
-
-        public Identificator(
-            string naamruimte,
-            string objectId,
-            string versie)
-        {
-            Naamruimte = naamruimte;
-            Id = $"{naamruimte}/{HttpUtility.UrlEncode(objectId)}";
-            ObjectId = objectId;
-            Versie = versie;
-        }
     }
 
     [DataContract(Name = "Identificator", Namespace = "")]
     public class AdresIdentificator : Identificator
     {
-        public AdresIdentificator(string naamruimte, string objectId, DateTimeOffset? versie)
-            : base(naamruimte, objectId, versie) { }
-
-        public AdresIdentificator(string naamruimte, string objectId, string versie)
-            : base(naamruimte, objectId, versie) { }
     }
 }

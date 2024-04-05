@@ -1,0 +1,655 @@
+{
+    "@context": "https://docs.basisregisters.staging-vlaanderen.be/context/adresmatch/2023-03-13/adresmatch.jsonld",
+    "adresMatches": [
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/3213019",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "3213019",
+          "versieId": "2022-04-29T11:39:45+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/3213019",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 100,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=3213019",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=3213019",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/20055852",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "20055852",
+          "versieId": "2022-05-04T03:31:01+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/20055852",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "1",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 1, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=20055852",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=20055852",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5459542",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5459542",
+          "versieId": "2022-05-02T13:46:34+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5459542",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "2",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 2, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5459542",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5459542",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5556720",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5556720",
+          "versieId": "2022-05-03T15:48:07+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5556720",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "3",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 3, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5556720",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5556720",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5435137",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5435137",
+          "versieId": "2022-05-04T21:52:30+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5435137",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "6",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 6, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5435137",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5435137",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5451858",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5451858",
+          "versieId": "2022-05-04T20:29:15+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5451858",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "7",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 7, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5451858",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5451858",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/19038299",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "19038299",
+          "versieId": "2022-05-04T00:49:52+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/19038299",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "8",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 8, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=19038299",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=19038299",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/20172048",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "20172048",
+          "versieId": "2022-05-04T04:18:29+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/20172048",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "9",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 9, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=20172048",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=20172048",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5656904",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5656904",
+          "versieId": "2022-05-03T22:15:44+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5656904",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "10",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 10, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5656904",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5656904",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      },
+      {
+        "@type": "Adres",
+        "identificator": {
+          "id": "https://data.vlaanderen.be/id/adres/5512213",
+          "naamruimte": "https://data.vlaanderen.be/id/adres",
+          "objectId": "5512213",
+          "versieId": "2022-05-02T16:31:43+02:00"
+        },
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/adressen/5512213",
+        "gemeente": {
+          "objectId": "42006",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+          "gemeentenaam": {
+            "geografischeNaam": {
+              "spelling": "Dendermonde",
+              "taal": "nl"
+            }
+          }
+        },
+        "postinfo": {
+          "objectId": "9200",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo/9200"
+        },
+        "straatnaam": {
+          "objectId": "65236",
+          "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/65236",
+          "straatnaam": {
+            "geografischeNaam": {
+              "spelling": "Leopold II-laan",
+              "taal": "nl"
+            }
+          }
+        },
+        "huisnummer": "99",
+        "busnummer": "11",
+        "volledigAdres": {
+          "geografischeNaam": {
+            "spelling": "Leopold II-laan 99 bus 11, 9200 Dendermonde",
+            "taal": "nl"
+          }
+        },
+        "adresPositie": {
+          "geometrie": {
+            "type": "Point",
+            "gml": "\u003Cgml:Point srsName=\"https://www.opengis.net/def/crs/EPSG/0/31370\" xmlns:gml=\"http://www.opengis.net/gml/3.2\"\u003E\u003Cgml:pos\u003E131590.00 191300.33\u003C/gml:pos\u003E\u003C/gml:Point\u003E"
+          },
+          "positieGeometrieMethode": "aangeduidDoorBeheerder",
+          "positieSpecificatie": "gebouweenheid"
+        },
+        "adresStatus": "inGebruik",
+        "officieelToegekend": true,
+        "score": 90.4587751895828,
+        "links": [
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/percelen?adresobjectid=5512213",
+            "rel": "percelen",
+            "type": "GET"
+          },
+          {
+            "href": "https://api.basisregisters.staging-vlaanderen.be/v2/gebouweenheden?adresobjectid=5512213",
+            "rel": "gebouweenheden",
+            "type": "GET"
+          }
+        ]
+      }
+    ],
+    "warnings": []
+  }
