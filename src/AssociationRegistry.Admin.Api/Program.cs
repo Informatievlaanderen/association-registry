@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api;
 
-using AddressMatch;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
@@ -21,7 +20,7 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using Grar;
-using Grar.Configuration;
+using Grar.AddressMatch;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -91,6 +90,8 @@ public class Program
 
     public static async Task Main(string[] args)
     {
+        AWSConfigs.AWSRegion = RegionEndpoint.EUWest1.SystemName;
+
         var builder = WebApplication.CreateBuilder(
             new WebApplicationOptions
             {
@@ -132,11 +133,15 @@ public class Program
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
 
                 options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
+
                 options.UseAmazonSqsTransport(config =>
                         {
                             config.ServiceURL = "http://127.0.0.1:4566";
+                            // config.RegionEndpoint = RegionEndpoint.USEast1;
                         })
-                       .Credentials(new BasicAWSCredentials("dummy", "dummy"));
+                       .Credentials(new BasicAWSCredentials("dummy", "dummy"))
+                       .AutoProvision()
+                    ;
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
                        .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
@@ -376,10 +381,23 @@ public class Program
         var sqsClient = new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
+               .AddHttpClient<AdminProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl));
+
+        builder.Services
+               .AddHttpClient<PublicProjectionHostHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
+
+        builder.Services
+               .AddHttpClient<GrarHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.BaseUrl));
+
+        builder.Services
                .AddScoped<InitiatorProvider>()
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(addressMatchOptionsSection)
+               .AddSingleton(grarOptions)
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
@@ -396,6 +414,7 @@ public class Program
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddTransient<IMagdaClient, MagdaClient>()
+               .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, NullNotifier>()
                .AddMarten(postgreSqlOptionsSection)
@@ -403,18 +422,6 @@ public class Program
                .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
-
-        builder.Services
-               .AddHttpClient<AdminProjectionHostHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.BeheerProjectionHostBaseUrl));
-
-        builder.Services
-               .AddHttpClient<PublicProjectionHostHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
-
-        builder.Services
-               .AddHttpClient<GrarHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.BaseUrl));
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 

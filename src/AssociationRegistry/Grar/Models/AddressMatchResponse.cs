@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.Models;
 
-public record AddressMatch(
+public record AddressMatchResponse(
     double Score,
     string AdresId,
     AdresStatus? AdresStatus,

@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Set variables
-REGION="us-east-1"
+REGION="eu-west-1"
 ACCOUNT_ID="000000000000" # Default account ID used by LocalStack
 MAX_RECEIVE_COUNT=3
 
