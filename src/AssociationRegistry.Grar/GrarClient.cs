@@ -2,10 +2,15 @@ namespace AssociationRegistry.Grar;
 
 using Configuration;
 using Microsoft.Extensions.Logging;
+using Models;
+using Newtonsoft.Json;
+using System.Net.Http.Json;
+using System.Text.Json;
 
 public class GrarClient : IGrarClient
 {
     private readonly GrarOptionsSection _grarOptions;
+    private readonly JsonSerializerOptions _jsonSerializerOptions;
     private readonly ILogger<GrarClient> _logger;
 
     public GrarClient(
@@ -13,6 +18,7 @@ public class GrarClient : IGrarClient
         ILogger<GrarClient> logger)
     {
         _grarOptions = grarOptions;
+        _jsonSerializerOptions = new JsonSerializerOptions();
         _logger = logger;
     }
 
@@ -22,7 +28,9 @@ public class GrarClient : IGrarClient
 
         try
         {
-            await client.GetAddress(gemeentenaam, straatnaam, huisNummer, CancellationToken.None);
+            var response =  await client.GetAddress(gemeentenaam, straatnaam, huisNummer, CancellationToken.None);
+
+           // var result = await response.Content.ReadFromJsonAsync<AddressMatchOsloCollection>(_jsonSerializerOptions);
         }
         catch (TaskCanceledException ex)
         {
@@ -37,6 +45,7 @@ public class GrarClient : IGrarClient
             throw new Exception(ex.Message, ex);
         }
     }
+
     private GrarHttpClient GetHttpClient()
          {
              var client = new GrarHttpClient(new HttpClient()

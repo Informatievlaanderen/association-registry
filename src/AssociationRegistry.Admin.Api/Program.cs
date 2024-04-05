@@ -111,7 +111,6 @@ public class Program
         ConfigureLogger(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
-        Config
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
