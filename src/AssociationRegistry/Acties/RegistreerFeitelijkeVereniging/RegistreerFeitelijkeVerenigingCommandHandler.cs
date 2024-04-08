@@ -70,12 +70,15 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.HoofdactiviteitenVerenigingsloket,
             _clock);
 
-
         var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<FeitelijkeVerenigingWerdGeregistreerd>()
                                             .Single().Locaties;
+
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
         {
-            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
+            if (teSynchroniserenLocatie.Adres is not null)
+            {
+                await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
+            }
         }
 
         var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
