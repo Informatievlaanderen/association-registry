@@ -40,7 +40,7 @@ public class TeSynchroniserenAdresMessageHandler
 
         var vereniging = await _verenigingsRepository.Load<Vereniging>(VCode.Hydrate(message.VCode), null);
 
-        vereniging.ProbeerAdresTeMatchen();
+        vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
 
         await _verenigingsRepository.Save(vereniging, new CommandMetadata("AGV", SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null), CancellationToken.None);
     }

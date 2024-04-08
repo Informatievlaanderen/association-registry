@@ -257,7 +257,7 @@ public class With_All_Fields
                                         .LightweightSession();
 
             var savedEvent = session.Events
-                                    .QueryRawEventDataOnly<AdresKonNietGematchedWorden>()
+                                    .QueryRawEventDataOnly<AdresKonNietGematchtWorden>()
                                     .Single();
 
             savedEvent.Should().NotBeNull();

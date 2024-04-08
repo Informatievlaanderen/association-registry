@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
 using DuplicateVerenigingDetection;
+using Events;
 using Framework;
 using Grar.AddressMatch;
 using Marten;
@@ -55,8 +56,6 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         var vCode = await _vCodeService.GetNext();
 
-        await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, 1));
-
         var vereniging = Vereniging.RegistreerFeitelijkeVereniging(
             vCode,
             command.Naam,
@@ -70,6 +69,14 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             message.Command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
             _clock);
+
+
+        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<LocatieWerdToegevoegd>();
+        foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
+        {
+            var teSynchroniserenAdres = teSynchroniserenLocatie.Locatie.Adres;
+            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, teSynchroniserenLocatie.Locatie.LocatieId));
+        }
 
         var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
 
