@@ -197,13 +197,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         IEvent @event = result.Count switch
         {
             0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId),
-            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, new AdresMatchUitGrar(result.Single()),
+            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, AdresMatchUitGrar.FromResponse(result.Single()),
                                                              Array.Empty<AdresMatchUitGrar>()),
             _ => result.Count(c => c.Score == 100).Equals(1)
-                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, new AdresMatchUitGrar(result.Single(s => s.Score == 100)),
+                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, AdresMatchUitGrar.FromResponse(result.Single(s => s.Score == 100)),
                                                               result.Where(w => w.Score != 100)
-                                                                    .Select(match => new AdresMatchUitGrar(match)).ToArray())
-                : new AdresNietUniekInAdressenregister(VCode, locatieId, result.Select(match => new AdresMatchUitGrar(match)).ToArray())
+                                                                    .Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
+                : new AdresNietUniekInAdressenregister(VCode, locatieId, result.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
         };
 
         AddEvent(@event);

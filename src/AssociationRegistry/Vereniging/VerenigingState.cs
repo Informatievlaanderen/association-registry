@@ -458,7 +458,7 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(Locaties.Single(locatie => locatie.LocatieId == @event.LocatieId) with
                     {
-                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitGrar.AdresId, Adresbron.AR),
+                        AdresId = AdresId.Hydrate(Adresbron.AR.Code, @event.OvergenomenAdresUitGrar.AdresId),
                         Adres = Adres.Hydrate(
                             @event.OvergenomenAdresUitGrar.Straatnaam,
                             @event.OvergenomenAdresUitGrar.Huisnummer,

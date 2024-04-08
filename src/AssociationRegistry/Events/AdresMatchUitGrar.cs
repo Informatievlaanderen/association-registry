@@ -4,17 +4,18 @@ using Grar.Models;
 
 public record AdresMatchUitGrar
 {
-    public AdresMatchUitGrar(AddressMatchResponse response)
-    {
-        AdresId = response.AdresId;
-        AdresStatus = response.AdresStatus;
-        Score = response.Score;
-        Straatnaam = response.Straatnaam;
-        Huisnummer = response.Huisnummer;
-        Busnummer = response.Busnummer;
-        Postcode = response.Postcode;
-        Gemeentenaam = response.Gemeentenaam;
-    }
+    public static AdresMatchUitGrar FromResponse(AddressMatchResponse response)
+        => new()
+        {
+            AdresId = response.AdresId,
+            AdresStatus = response.AdresStatus,
+            Score = response.Score,
+            Straatnaam = response.Straatnaam,
+            Huisnummer = response.Huisnummer,
+            Busnummer = response.Busnummer,
+            Postcode = response.Postcode,
+            Gemeentenaam = response.Gemeentenaam
+        };
 
     public string AdresId { get; init; }
     public AdresStatus? AdresStatus { get; init; }
