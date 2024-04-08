@@ -7,7 +7,10 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;
+using Marten;
+using Moq;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,7 +30,10 @@ public class Given_All_Fields
 
         _fixture = new Fixture().CustomizeAdminApi();
 
-        _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock);
+        _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
+                                                          Mock.Of<IMartenOutbox>(),
+                                                          Mock.Of<IDocumentSession>()
+        );
 
         _locatie = new WijzigLocatieCommand.Locatie(
             _scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
