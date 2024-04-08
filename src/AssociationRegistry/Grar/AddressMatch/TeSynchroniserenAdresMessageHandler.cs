@@ -38,10 +38,20 @@ public class TeSynchroniserenAdresMessageHandler
     {
         _logger.LogInformation("Handle TeSynchroniserenAdresMessageHandler");
 
-        var vereniging = await _verenigingsRepository.Load<Vereniging>(VCode.Hydrate(message.VCode), null);
+        try
+        {
+            var vereniging = await _verenigingsRepository.Load<Vereniging>(VCode.Hydrate(message.VCode), null);
 
-        await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
+            await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
 
-        await _verenigingsRepository.Save(vereniging, new CommandMetadata("AGV", SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null), CancellationToken.None);
+            await _verenigingsRepository.Save(
+                vereniging, new CommandMetadata("AGV", SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null),
+                CancellationToken.None);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex.Message);
+            throw;
+        }
     }
 }
