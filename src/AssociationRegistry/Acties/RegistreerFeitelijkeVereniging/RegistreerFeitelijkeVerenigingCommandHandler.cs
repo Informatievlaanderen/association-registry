@@ -74,7 +74,6 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<LocatieWerdToegevoegd>();
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
         {
-            var teSynchroniserenAdres = teSynchroniserenLocatie.Locatie.Adres;
             await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, teSynchroniserenLocatie.Locatie.LocatieId));
         }
 

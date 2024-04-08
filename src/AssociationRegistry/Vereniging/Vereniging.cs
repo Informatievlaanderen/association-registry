@@ -186,45 +186,26 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)
     {
         var adresTeMatchen = State.Locaties.Single(s => s.LocatieId == locatieId).Adres;
-        var getAddressResults = await grarClient.GetAddress(
+
+        var result = await grarClient.GetAddress(
             adresTeMatchen.Straatnaam,
             adresTeMatchen.Huisnummer,
             adresTeMatchen.Busnummer,
             adresTeMatchen.Postcode,
             adresTeMatchen.Gemeente);
 
-        switch (getAddressResults.Count)
+        IEvent @event = result.Count switch
         {
-            // Geen resultaten gevonden
-            case 0:
-                AddEvent(new AdresKonNietGematchtWorden());
-                break;
+            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId),
+            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, new AdresMatchUitGrar(result.Single()),
+                                                             Array.Empty<AdresMatchUitGrar>()),
+            _ => result.Count(c => c.Score == 100).Equals(1)
+                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, new AdresMatchUitGrar(result.Single(s => s.Score == 100)),
+                                                              result.Where(w => w.Score != 100)
+                                                                    .Select(match => new AdresMatchUitGrar(match)).ToArray())
+                : new AdresNietUniekInAdressenregister(VCode, locatieId, result.Select(match => new AdresMatchUitGrar(match)).ToArray())
+        };
 
-            // Als er 1 resultaat over blijft, neem dan dat resultaat over, ook al is de score <> 100
-            case 1:
-                break;
-
-            // Als er meerdere resultaten zijn:
-            default:
-                // Er is maar exact 1 resultaat met score 100
-                if (getAddressResults.Count(c => c.Score == 100.0) == 1)
-                {
-                    var exactMatch = getAddressResults.Single(s => s.Score == 100.0);
-                    AddEvent(new AdresWerdOvergenomenUitGrar(VCode,
-                                                             locatieId,
-                                                             new AdresMatchUitGrar(exactMatch.AdresId,
-                                                                                   exactMatch.AdresStatus,
-                                                                                   exactMatch.Score,
-                                                                                   exactMatch.Straatnaam,
-                                                                                   exactMatch.Huisnummer,
-                                                                                   exactMatch.Busnummer,
-                                                                                   exactMatch.Postcode,
-                                                                                   exactMatch.Gemeentenaam),
-                                                            Array.Empty<AdresMatchUitGrar>()));
-                }
-
-                break;
-        }
-
+        AddEvent(@event);
     }
 }
