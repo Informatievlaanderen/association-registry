@@ -449,4 +449,27 @@ public record VerenigingState : IHasVersion
                                 })),
         };
     }
+
+    public VerenigingState Apply(AdresWerdOvergenomenUitAdressenregister @event)
+    {
+        return this with {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .AppendFromEventData(@event.Locatie)
+        };
+    }
+    public VerenigingState Apply(AdresWerdNietGevondenInAdressenregister @event)
+    {
+        return this;
+    }
+    public VerenigingState Apply(AdresKonNietOvergenomenWordenUitAdressenregister @event)
+    {
+        return this;
+    }
+
+    public VerenigingState Apply(AdresNietUniekInAdressenregister @event)
+    {
+        return this;
+    }
 }

@@ -262,47 +262,47 @@ public class With_All_Fields
         Response.Should().NotBeNull();
 
         var asyncRetryPolicy = Policy.Handle<Exception>()
-                                    .RetryAsync(async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
+                                     .RetryAsync(async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
 
-        await Task.Delay(3000);
-
-        using var session = _fixture.DocumentStore
-                                    .LightweightSession();
-
-        session.Events
-               .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-               .SingleOrDefault()
-               .Should().NotBeNull();
-
-        session.Events
-               .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-               .SingleOrDefault().Should().NotBeNull();
-
-        session.Events
-               .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-               .SingleOrDefault().Should().BeNull();
-
-        // var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
-        // {
-        //     using var session = _fixture.DocumentStore
-        //                                 .LightweightSession();
+        // await Task.Delay(3000);
         //
-        //     session.Events
-        //            .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-        //            .SingleOrDefault()
-        //            .Should().NotBeNull();
+        // using var session = _fixture.DocumentStore
+        //                             .LightweightSession();
         //
-        //     session.Events
-        //            .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-        //            .SingleOrDefault().Should().NotBeNull();
+        // session.Events
+        //        .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
+        //        .SingleOrDefault()
+        //        .Should().NotBeNull();
         //
-        //     session.Events
-        //            .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-        //            .SingleOrDefault().Should().BeNull();
+        // session.Events
+        //        .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
+        //        .SingleOrDefault().Should().NotBeNull();
         //
-        //     return Task.CompletedTask;
-        // });
-        //
-        // policyResult.FinalException.Should().BeNull();
+        // session.Events
+        //        .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
+        //        .SingleOrDefault().Should().BeNull();
+
+        var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
+        {
+            using var session = _fixture.DocumentStore
+                                        .LightweightSession();
+
+            session.Events
+                   .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
+                   .SingleOrDefault()
+                   .Should().NotBeNull();
+
+            session.Events
+                   .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
+                   .SingleOrDefault().Should().NotBeNull();
+
+            session.Events
+                   .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
+                   .SingleOrDefault().Should().BeNull();
+
+            return Task.CompletedTask;
+        });
+
+        policyResult.FinalException.Should().BeNull();
     }
 }
