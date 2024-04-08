@@ -63,6 +63,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                     {
                         Straatnaam = "Leopold II-laan",
                         Huisnummer = "99",
+                        Busnummer = "",
                         Postcode = "9200",
                         Gemeente = "Dendermonde",
                         Land = "Belgie",
@@ -77,6 +78,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                     {
                         Straatnaam = "Leopold II-laan",
                         Huisnummer = "99",
+                        Busnummer = "",
                         Postcode = "1234",
                         Gemeente = "Dendermonde",
                         Land = "Belgie",
@@ -210,10 +212,11 @@ public class With_All_Fields
         savedEvent.Contactgegevens[0].Should()
                   .BeEquivalentTo(Request.Contactgegevens[0], config: options => options.ComparingEnumsByName());
 
-        savedEvent.Locaties.Should().HaveCount(expected: 3);
+        savedEvent.Locaties.Should().HaveCount(expected: 4);
         savedEvent.Locaties[0].Should().BeEquivalentTo(Request.Locaties[0]);
         savedEvent.Locaties[1].Should().BeEquivalentTo(Request.Locaties[1]);
         savedEvent.Locaties[2].Should().BeEquivalentTo(Request.Locaties[2]);
+        savedEvent.Locaties[3].Should().BeEquivalentTo(Request.Locaties[3]);
         savedEvent.Locaties.ForEach(x => x.LocatieId.Should().BePositive());
         savedEvent.Locaties.Select(x => x.LocatieId).ToList().Should().OnlyHaveUniqueItems();
 
@@ -262,35 +265,19 @@ public class With_All_Fields
         Response.Should().NotBeNull();
 
         var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
-
-        // await Task.Delay(3000);
-        //
-        // using var session = _fixture.DocumentStore
-        //                             .LightweightSession();
-        //
-        // session.Events
-        //        .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-        //        .SingleOrDefault()
-        //        .Should().NotBeNull();
-        //
-        // session.Events
-        //        .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-        //        .SingleOrDefault().Should().NotBeNull();
-        //
-        // session.Events
-        //        .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-        //        .SingleOrDefault().Should().BeNull();
+                                     .RetryAsync(5, async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
 
         var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
         {
             using var session = _fixture.DocumentStore
                                         .LightweightSession();
 
-            session.Events
-                   .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-                   .SingleOrDefault()
-                   .Should().NotBeNull();
+            var werdOvergenomen = session.Events
+                                         .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
+                                         .SingleOrDefault();
+
+            werdOvergenomen.Should().NotBeNull();
+            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
 
             session.Events
                    .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
