@@ -95,6 +95,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\RegistreerInschrijving.json = wiremock\mappings\RegistreerInschrijving.json
 		wiremock\mappings\RegistreerInschrijving.connection-failure.json = wiremock\mappings\RegistreerInschrijving.connection-failure.json
 		wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json = wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json
+		wiremock\mappings\AdresMatch.exact-match-dendermonde.json = wiremock\mappings\AdresMatch.exact-match-dendermonde.json
+		wiremock\mappings\AdresMatch.no-exact-match-dendermonde.json = wiremock\mappings\AdresMatch.no-exact-match-dendermonde.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -138,6 +140,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ready", "ready", "{24B63C4D
 	ProjectSection(SolutionItems) = preProject
 		.localstack\init\ready.d\01_sqs-init.redrive.json = .localstack\init\ready.d\01_sqs-init.redrive.json
 		.localstack\init\ready.d\01_sqs-init.sh = .localstack\init\ready.d\01_sqs-init.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresMatch", "AdresMatch", "{CB723987-9ECB-446A-832A-18CA30D7B8FE}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json
+		wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json
 	EndProjectSection
 EndProject
 Global
@@ -248,5 +256,6 @@ Global
 		{E2C1D6C3-9594-45D1-832D-E83BBCB71A32} = {4D444ED0-6735-4DDC-B3AC-7586B420130B}
 		{74A2617E-BA79-459C-ABCE-1EBB4B2BC826} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
 		{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
+		{CB723987-9ECB-446A-832A-18CA30D7B8FE} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 	EndGlobalSection
 EndGlobal
