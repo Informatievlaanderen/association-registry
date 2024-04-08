@@ -24,4 +24,5 @@ public record AdresMatchUitGrar
     public string Busnummer { get; init; }
     public string Postcode { get; init; }
     public string Gemeentenaam { get; init; }
+    public string Land { get; init; } = "België";
 }

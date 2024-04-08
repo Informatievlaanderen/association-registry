@@ -456,7 +456,17 @@ public record VerenigingState : IHasVersion
             Locaties = Locaties.Hydrate(
                 Locaties
                    .Without(@event.LocatieId)
-                   .AppendFromEventData(@event.Locatie)
+                   .Append(Locaties.Single(locatie => locatie.LocatieId == @event.LocatieId) with
+                    {
+                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitGrar.AdresId, Adresbron.AR),
+                        Adres = Adres.Hydrate(
+                            @event.OvergenomenAdresUitGrar.Straatnaam,
+                            @event.OvergenomenAdresUitGrar.Huisnummer,
+                            @event.OvergenomenAdresUitGrar.Busnummer,
+                            @event.OvergenomenAdresUitGrar.Postcode,
+                            @event.OvergenomenAdresUitGrar.Gemeentenaam,
+                            @event.OvergenomenAdresUitGrar.Land),
+                    }))
         };
     }
     public VerenigingState Apply(AdresWerdNietGevondenInAdressenregister @event)

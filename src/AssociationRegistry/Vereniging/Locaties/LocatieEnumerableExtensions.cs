@@ -30,25 +30,6 @@ public static class LocatieEnumerableExtensions
                 eventData.AdresId is null ? null : AdresId.Hydrate(eventData.AdresId.Broncode, eventData.AdresId.Bronwaarde))
         );
 
-    public static IEnumerable<Locatie> AppendFromEventData(this IEnumerable<Locatie> locaties, int locatie AdresMatchUitGrar eventData)
-        => locaties.Append(
-            Locatie.Hydrate(
-                eventData.,
-                eventData.Naam,
-                eventData.IsPrimair,
-                eventData.Locatietype,
-                eventData.Adres is null
-                    ? null
-                    : Adres.Hydrate(
-                        eventData.Adres.Straatnaam,
-                        eventData.Adres.Huisnummer,
-                        eventData.Adres.Busnummer,
-                        eventData.Adres.Postcode,
-                        eventData.Adres.Gemeente,
-                        eventData.Adres.Land),
-                eventData.AdresId is null ? null : AdresId.Hydrate(eventData.AdresId.Broncode, eventData.AdresId.Bronwaarde))
-        );
-
     public static bool ContainsEquivalent(this IEnumerable<Locatie> source, Locatie locatie)
         => source.Any(locatie.IsEquivalentTo);
 
