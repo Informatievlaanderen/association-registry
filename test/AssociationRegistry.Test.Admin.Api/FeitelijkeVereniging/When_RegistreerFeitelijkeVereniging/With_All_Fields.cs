@@ -255,11 +255,14 @@ public class With_All_Fields
             using var session = _fixture.DocumentStore
                                         .LightweightSession();
 
-            var savedEvent = session.Events
-                                    .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-                                    .Single();
+            session.Events
+                   .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
+                   .SingleOrDefault()
+                   .Should().NotBeNull();
 
-            savedEvent.Should().NotBeNull();
+            session.Events
+                   .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
+                   .SingleOrDefault().Should().NotBeNull();
 
             return Task.CompletedTask;
         });
