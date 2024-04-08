@@ -61,11 +61,10 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                     Naam = "Kantoor",
                     Adres = new Adres
                     {
-                        Straatnaam = "dorpstraat",
-                        Huisnummer = "69",
-                        Busnummer = "42",
-                        Postcode = "0123",
-                        Gemeente = "Nothingham",
+                        Straatnaam = "Leopold II-laan",
+                        Huisnummer = "99",
+                        Postcode = "9200",
+                        Gemeente = "Dendermonde",
                         Land = "Belgie",
                     },
                     IsPrimair = true,
@@ -257,7 +256,7 @@ public class With_All_Fields
                                         .LightweightSession();
 
             var savedEvent = session.Events
-                                    .QueryRawEventDataOnly<AdresKonNietGematchtWorden>()
+                                    .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
                                     .Single();
 
             savedEvent.Should().NotBeNull();
