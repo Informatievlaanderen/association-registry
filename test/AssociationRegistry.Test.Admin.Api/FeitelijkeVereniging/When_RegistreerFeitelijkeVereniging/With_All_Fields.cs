@@ -289,9 +289,11 @@ public class With_All_Fields
                        .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
                        .SingleOrDefault().Should().NotBeNull();
 
-                session.Events
-                       .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-                       .SingleOrDefault().Should().NotBeNull();
+                var werdNietGevonden = session.Events
+                       .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>().ToArray();
+
+                werdNietGevonden
+                    .SingleOrDefault().Should().NotBeNull();
             }
 
             return Task.CompletedTask;

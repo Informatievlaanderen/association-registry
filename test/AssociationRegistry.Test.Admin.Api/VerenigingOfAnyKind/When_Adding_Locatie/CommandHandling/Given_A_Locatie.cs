@@ -7,7 +7,10 @@ using Events;
 using Fakes;
 using Fixtures.Scenarios.CommandHandling;
 using Framework;
+using Marten;
+using Moq;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +25,10 @@ public class Given_A_Locatie
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock);
+        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
+                                                              Mock.Of<IMartenOutbox>(),
+                                                              Mock.Of<IDocumentSession>()
+        );
         var command = new VoegLocatieToeCommand(scenario.VCode, fixture.Create<Locatie>());
 
         await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));
