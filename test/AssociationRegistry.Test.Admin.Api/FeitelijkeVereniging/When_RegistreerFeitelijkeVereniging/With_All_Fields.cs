@@ -9,6 +9,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using FluentAssertions;
+using FluentAssertions.Execution;
 using Framework;
 using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
@@ -265,7 +266,10 @@ public class With_All_Fields
         Response.Should().NotBeNull();
 
         var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(5, async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
+                                     .RetryAsync(5, async (exception, i) =>
+                                      {
+                                          await Task.Delay(TimeSpan.FromSeconds(i));
+                                      });
 
         var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
         {
@@ -276,16 +280,19 @@ public class With_All_Fields
                                          .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
                                          .SingleOrDefault();
 
-            werdOvergenomen.Should().NotBeNull();
-            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+            using (new AssertionScope())
+            {
+                werdOvergenomen.Should().NotBeNull();
+                werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
 
-            session.Events
-                   .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-                   .SingleOrDefault().Should().NotBeNull();
+                session.Events
+                       .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
+                       .SingleOrDefault().Should().NotBeNull();
 
-            session.Events
-                   .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-                   .SingleOrDefault().Should().BeNull();
+                session.Events
+                       .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
+                       .SingleOrDefault().Should().NotBeNull();
+            }
 
             return Task.CompletedTask;
         });
