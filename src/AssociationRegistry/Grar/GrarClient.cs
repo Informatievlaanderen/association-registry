@@ -47,11 +47,42 @@ public class GrarClient : IGrarClient
         {
             _logger.LogError(ex, message: "{Message}", ex.Message);
 
-            throw new Exception(message: "A timeout occurred when calling the Magda services", ex);
+            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, message: "An error occurred when calling the Magda services: {Message}", ex.Message);
+            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
+
+            throw new Exception(ex.Message, ex);
+        }
+    }
+
+    public async Task<PostalInformationResponse> GetPostalInformation(string postcode)
+    {
+        using var client = GetHttpClient();
+
+        try
+        {
+            var response = await client.GetPostInfo(postcode, CancellationToken.None);
+
+            var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(await response.Content.ReadAsStringAsync());
+
+            //TODO: null checks
+            var matches = new PostalInformationResponse(postcode,
+                                                        result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
+                                                        result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray());
+
+            return matches;
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, message: "{Message}", ex.Message);
+
+            throw new Exception(message: "A timeout occurred when calling the postal information endpoint", ex);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, message: "An error occurred when calling the postal information endpoint: {Message}", ex.Message);
 
             throw new Exception(ex.Message, ex);
         }

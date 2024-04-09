@@ -1,0 +1,22 @@
+{
+  "priority": 3,
+  "request": {
+    "method": "GET",
+    "urlPath": "/v2/adresmatch",
+    "queryParameters": {
+      "Gemeentenaam": {
+        "equalTo": "Affligem"
+      },
+      "Postcode": {
+        "equalTo": "1790"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "AdresMatch/Exact_Match_Affligem.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -17,6 +17,12 @@ public record AdresMatchUitGrar
             Gemeentenaam = response.Gemeentenaam
         };
 
+    public AdresMatchUitGrar DecorateWithPostalInformation(PostalInformationResponse postalInformationResponse)
+    {
+
+        return this;
+    }
+
     public string AdresId { get; init; }
     public AdresStatus? AdresStatus { get; init; }
     public double Score { get; init; }
@@ -24,6 +30,6 @@ public record AdresMatchUitGrar
     public string Huisnummer { get; init; }
     public string Busnummer { get; init; }
     public string Postcode { get; init; }
-    public string Gemeentenaam { get; init; }
+    public string Gemeentenaam { get; private set; }
     public string Land { get; init; } = "België";
 }

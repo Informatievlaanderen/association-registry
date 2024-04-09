@@ -1,0 +1,7 @@
+{
+  "type": "urn:be.vlaanderen.basisregisters.api:postalcodeoslo:not-found",
+  "title": "Er heeft zich een fout voorgedaan!",
+  "detail": "Onbestaande postcode.",
+  "status": 404,
+  "instance": "https://api.basisregisters.staging-vlaanderen.be/v2/foutmeldingen/a7fcc48d733148ed9c5538d760ee5007"
+}

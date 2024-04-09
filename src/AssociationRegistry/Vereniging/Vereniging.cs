@@ -5,6 +5,7 @@ using Events;
 using Exceptions;
 using Framework;
 using Grar;
+using Grar.Models;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
@@ -187,24 +188,34 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         var adresTeMatchen = State.Locaties.Single(s => s.LocatieId == locatieId).Adres;
 
-        var result = await grarClient.GetAddress(
+        var adresMatch = await grarClient.GetAddress(
             adresTeMatchen.Straatnaam,
             adresTeMatchen.Huisnummer,
             adresTeMatchen.Busnummer,
             adresTeMatchen.Postcode,
             adresTeMatchen.Gemeente);
 
-        IEvent @event = result.Count switch
+        var postalInformation = await grarClient.GetPostalInformation(adresTeMatchen.Postcode);
+
+        IEvent @event = adresMatch.Count switch
         {
             0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId),
-            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, AdresMatchUitGrar.FromResponse(result.Single()),
+            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                             AdresMatchUitGrar
+                                                                .FromResponse(adresMatch.Single())
+                                                                .DecorateWithPostalInformation(postalInformation),
                                                              Array.Empty<AdresMatchUitGrar>()),
-            _ => result.Count(c => c.Score == 100).Equals(1)
-                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId, AdresMatchUitGrar.FromResponse(result.Single(s => s.Score == 100)),
-                                                              result.Where(w => w.Score != 100)
+            _ => adresMatch.Count(c => c.Score == 100).Equals(1)
+                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                              AdresMatchUitGrar
+                                                                 .FromResponse(adresMatch.Single(s => s.Score == 100))
+                                                                 .DecorateWithPostalInformation(postalInformation),
+                                                              adresMatch.Where(w => w.Score != 100)
                                                                     .Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
-                : new AdresNietUniekInAdressenregister(VCode, locatieId, result.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
+                : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
         };
+
+
 
         AddEvent(@event);
     }
