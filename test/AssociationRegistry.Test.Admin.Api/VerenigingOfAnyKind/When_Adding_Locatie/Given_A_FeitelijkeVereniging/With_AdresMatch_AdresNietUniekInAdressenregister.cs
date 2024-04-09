@@ -1,37 +1,34 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.Given_A_FeitelijkeVereniging;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Events;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
-using Marten.Internal.Sessions;
-using Nest;
 using Polly;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
-using Policy = Polly.Policy;
 
-public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
+public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
 
-    public V066_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdOvergenomenUitAdressenregister
-        Scenario { get; }
+    public V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister Scenario
+    {
+        get;
+    }
 
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-    public Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup(EventsInDbScenariosFixture fixture)
+    public Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
-        Scenario = fixture
-           .V066FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdOvergenomenUitAdressenregister;
-
+        Scenario = fixture.V065FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresNietUniekInAdressenregister;
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -43,7 +40,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                     ""straatnaam"": ""Leopold II-laan"",
                     ""huisnummer"": ""99"",
                     ""busnummer"": """",
-                    ""postcode"": ""9200"",
+                    ""postcode"": ""1234"",
                     ""gemeente"": ""Dendermonde"",
                     ""land"": ""België"",
                 }
@@ -63,13 +60,13 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
-    Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup>
+public class With_AdresMatch_AdresNietUniekInAdressenregister : IClassFixture<
+    Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
 {
-    private readonly Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup _classFixture;
+    private readonly Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup _classFixture;
 
-    public Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister(
-        Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup classFixture)
+    public With_AdresMatch_AdresNietUniekInAdressenregister(
+        Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -95,7 +92,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                                                      Straatnaam: "Leopold II-laan",
                                                      Huisnummer: "99",
                                                      Busnummer: "",
-                                                     Postcode: "9200",
+                                                     Postcode: "1234",
                                                      Gemeente: "Dendermonde",
                                                      Land: "België"),
                                                  null)));
@@ -116,12 +113,10 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                                         {
                                             await using var session = _classFixture.DocumentStore.LightweightSession();
 
-                                            var werdOvergenomen =
-                                                session.SingleOrDefaultFromStream<AdresWerdOvergenomenUitAdressenregister>(
-                                                    _classFixture.Scenario.VCode);
-
-                                            werdOvergenomen.Should().NotBeNull();
-                                            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+                                            session
+                                               .SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(_classFixture.Scenario.VCode)
+                                               .Should()
+                                               .NotBeNull();
                                         });
 
         policyResult.FinalException.Should().BeNull();

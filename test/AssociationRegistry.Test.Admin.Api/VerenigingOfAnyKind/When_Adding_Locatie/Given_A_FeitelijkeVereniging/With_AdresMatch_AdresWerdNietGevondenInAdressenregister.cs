@@ -1,15 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.Given_A_FeitelijkeVereniging;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Events;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Polly;
-using ResultNet;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -62,12 +60,12 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenre
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister : IClassFixture<
+public class With_AdresMatch_AdresWerdNietGevondenInAdressenregister : IClassFixture<
     Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister_Setup>
 {
     private readonly Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister_Setup _classFixture;
 
-    public Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister(
+    public With_AdresMatch_AdresWerdNietGevondenInAdressenregister(
         Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister_Setup classFixture)
     {
         _classFixture = classFixture;

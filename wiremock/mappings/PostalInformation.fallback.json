@@ -1,12 +1,12 @@
 {
-  "priority": 4,
+  "priority": 2,
   "request": {
     "method": "GET",
-    "urlPath": "/v2/adresmatch"
+    "urlPattern": "/v2/postinfo/.*"
   },
   "response": {
-    "status": 200,
-    "bodyFileName": "AdresMatch/fallback.json",
+    "status": 404,
+    "bodyFileName": "PostalInformation/fallback.json",
     "headers": {
       "Content-Type": "application/json"
     }

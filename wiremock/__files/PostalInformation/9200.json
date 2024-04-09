@@ -1,0 +1,72 @@
+{
+    "@context": "https://docs.basisregisters.staging-vlaanderen.be/context/postinfo/2023-10-16/postinfo_detail.jsonld",
+    "@type": "PostInfo",
+    "identificator": {
+      "id": "https://data.vlaanderen.be/id/postinfo/9200",
+      "naamruimte": "https://data.vlaanderen.be/id/postinfo",
+      "objectId": "9200",
+      "versieId": "2019-11-21T10:04:45+01:00"
+    },
+    "gemeente": {
+      "objectId": "42006",
+      "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/42006",
+      "gemeentenaam": {
+        "geografischeNaam": {
+          "spelling": "Dendermonde",
+          "taal": "nl"
+        }
+      }
+    },
+    "postnamen": [
+      {
+        "geografischeNaam": {
+          "spelling": "Appels",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Baasrode",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "DENDERMONDE",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Grembergen",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Mespelare",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Oudegem",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Schoonaarde",
+          "taal": "nl"
+        }
+      },
+      {
+        "geografischeNaam": {
+          "spelling": "Sint-Gillis-Dendermonde",
+          "taal": "nl"
+        }
+      }
+    ],
+    "postInfoStatus": "gerealiseerd",
+    "nuts3": "BE232"
+  }

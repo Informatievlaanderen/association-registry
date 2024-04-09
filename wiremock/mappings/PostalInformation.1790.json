@@ -1,12 +1,12 @@
 {
-  "priority": 4,
+  "priority": 1,
   "request": {
     "method": "GET",
-    "urlPath": "/v2/adresmatch"
+    "urlPath": "/v2/postinfo/1790"
   },
   "response": {
     "status": 200,
-    "bodyFileName": "AdresMatch/fallback.json",
+    "bodyFileName": "PostalInformation/1790.json",
     "headers": {
       "Content-Type": "application/json"
     }
