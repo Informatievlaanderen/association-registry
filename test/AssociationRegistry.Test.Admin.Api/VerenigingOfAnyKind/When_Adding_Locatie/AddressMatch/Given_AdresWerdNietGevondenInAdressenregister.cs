@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.Given_A_FeitelijkeVereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.AddressMatch;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -11,24 +11,24 @@ using System.Net;
 using Xunit;
 using Xunit.Categories;
 
-public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup : IAsyncLifetime
+public class Given_With_AdresWerdNietGevondenInAdressenregister_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
 
-    public V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister Scenario
-    {
-        get;
-    }
+    public V067_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdNietGevondenInAdressenregister
+        Scenario { get; }
 
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-    public Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup(EventsInDbScenariosFixture fixture)
+    public Given_With_AdresWerdNietGevondenInAdressenregister_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
-        Scenario = fixture.V065FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresNietUniekInAdressenregister;
+        Scenario = fixture
+           .V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister;
+
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -37,11 +37,11 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
                 ""isPrimair"": true,
                 ""naam"": ""nieuwe locatie"",
                 ""adres"": {
-                    ""straatnaam"": ""Leopold II-laan"",
-                    ""huisnummer"": ""99"",
-                    ""busnummer"": """",
-                    ""postcode"": ""1234"",
-                    ""gemeente"": ""Dendermonde"",
+                    ""straatnaam"": ""Dorpelstraat"",
+                    ""huisnummer"": ""169"",
+                    ""busnummer"": ""2"",
+                    ""postcode"": ""4567"",
+                    ""gemeente"": ""Nothingham"",
                     ""land"": ""België"",
                 }
             }
@@ -60,13 +60,13 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class With_AdresMatch_AdresNietUniekInAdressenregister : IClassFixture<
-    Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
+public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<
+    Given_With_AdresWerdNietGevondenInAdressenregister_Setup>
 {
-    private readonly Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup _classFixture;
+    private readonly Given_With_AdresWerdNietGevondenInAdressenregister_Setup _classFixture;
 
-    public With_AdresMatch_AdresNietUniekInAdressenregister(
-        Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup classFixture)
+    public Given_AdresWerdNietGevondenInAdressenregister(
+        Given_With_AdresWerdNietGevondenInAdressenregister_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -89,11 +89,11 @@ public class With_AdresMatch_AdresNietUniekInAdressenregister : IClassFixture<
                                                  IsPrimair: true,
                                                  Naam: "nieuwe locatie",
                                                  new Registratiedata.Adres(
-                                                     Straatnaam: "Leopold II-laan",
-                                                     Huisnummer: "99",
-                                                     Busnummer: "",
-                                                     Postcode: "1234",
-                                                     Gemeente: "Dendermonde",
+                                                     Straatnaam: "Dorpelstraat",
+                                                     Huisnummer: "169",
+                                                     Busnummer: "2",
+                                                     Postcode: "4567",
+                                                     Gemeente: "Nothingham",
                                                      Land: "België"),
                                                  null)));
     }
@@ -114,8 +114,9 @@ public class With_AdresMatch_AdresNietUniekInAdressenregister : IClassFixture<
                                             await using var session = _classFixture.DocumentStore.LightweightSession();
 
                                             session
-                                               .SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(_classFixture.Scenario.VCode)
-                                               .Should()
+                                               .SingleOrDefaultFromStream<AdresWerdNietGevondenInAdressenregister>(
+                                                    _classFixture.Scenario.VCode)
+                                                .Should()
                                                .NotBeNull();
                                         });
 

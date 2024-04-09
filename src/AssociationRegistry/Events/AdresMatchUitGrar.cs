@@ -17,10 +17,33 @@ public record AdresMatchUitGrar
             Gemeentenaam = response.Gemeentenaam
         };
 
-    public AdresMatchUitGrar DecorateWithPostalInformation(PostalInformationResponse postalInformationResponse)
+    public AdresMatchUitGrar DecorateWithPostalInformation(PostalInformationResponse? postalInformationResponse)
     {
+        if (postalInformationResponse is null) return this;
 
-        return this;
+        var postNaam =
+            postalInformationResponse.Postnamen.SingleOrDefault(
+                sod => sod.Equals(Gemeentenaam, StringComparison.InvariantCultureIgnoreCase));
+
+        if (postNaam is not null)
+        {
+            // Gemeentenaam komt voor in de postnamen
+            if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
+            {
+                // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
+                return this with { Gemeentenaam = postalInformationResponse.Gemeentenaam };
+            }
+            else
+            {
+                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+                return this with { Gemeentenaam = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" };
+            }
+        }
+        else
+        {
+            // Hoofdgemeente overnemen, postcode wint altijd
+            return this with { Gemeentenaam = postalInformationResponse.Gemeentenaam };
+        }
     }
 
     public string AdresId { get; init; }
