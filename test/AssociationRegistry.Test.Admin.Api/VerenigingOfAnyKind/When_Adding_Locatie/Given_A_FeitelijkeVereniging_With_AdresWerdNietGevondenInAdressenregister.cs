@@ -1,12 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Polly;
+using ResultNet;
 using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -14,7 +17,10 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenre
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V067_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdNietGevondenInAdressenregister Scenario { get; }
+
+    public V067_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdNietGevondenInAdressenregister
+        Scenario { get; }
+
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -22,7 +28,9 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenre
     {
         _fixture = fixture;
 
-        Scenario = fixture.V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister;
+        Scenario = fixture
+           .V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister;
+
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -101,25 +109,18 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenre
     [Fact]
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
-        var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(5, async (exception, i) =>
-                                      {
-                                          await Task.Delay(TimeSpan.FromSeconds(i));
-                                      });
+        var policyResult = await Policy.Handle<Exception>()
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .ExecuteAndCaptureAsync(async () =>
+                                        {
+                                            await using var session = _classFixture.DocumentStore.LightweightSession();
 
-        var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
-        {
-            using var session = _classFixture.DocumentStore
-                                             .LightweightSession();
-
-            session.Events
-                   .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>()
-                   .SingleOrDefault()
-                   .Should()
-                   .NotBeNull();
-
-            return Task.CompletedTask;
-        });
+                                            session
+                                               .SingleOrDefaultFromStream<AdresWerdNietGevondenInAdressenregister>(
+                                                    _classFixture.Scenario.VCode)
+                                                .Should()
+                                               .NotBeNull();
+                                        });
 
         policyResult.FinalException.Should().BeNull();
     }

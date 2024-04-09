@@ -159,6 +159,15 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         V067_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdNietGevondenInAdressenregister
         V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister = new();
 
+    public readonly V068_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresNietUniekInAdressenregister
+        V068FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresNietUniekInAdressenregister = new();
+
+    public readonly V069_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresWerdOvergenomenUitAdressenregister
+        V069FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdOvergenomenUitAdressenregister = new();
+
+    public readonly V070_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresWerdNietGevondenInAdressenregister
+        V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -215,7 +224,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V064VerenigingMetRechtspersoonlijkheidWerdGeregistreerdAndEinddatumWerdGewijzigd,
             V065FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresNietUniekInAdressenregister,
             V066FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdOvergenomenUitAdressenregister,
-            V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister
+            V067FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdNietGevondenInAdressenregister,
+            V068FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresNietUniekInAdressenregister,
+            V069FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdOvergenomenUitAdressenregister,
+            V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister
         };
 
         foreach (var scenario in scenarios)
