@@ -1,20 +1,27 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
+using Marten.Internal.Sessions;
+using Nest;
 using Polly;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
+using Policy = Polly.Policy;
 
 public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V066_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdOvergenomenUitAdressenregister Scenario { get; }
+
+    public V066_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdOvergenomenUitAdressenregister
+        Scenario { get; }
+
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -24,6 +31,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
 
         Scenario = fixture
            .V066FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdOvergenomenUitAdressenregister;
+
         DocumentStore = _fixture.DocumentStore;
 
         _jsonBody = @"{
@@ -102,26 +110,19 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
     [Fact]
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
-        var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(5, async (exception, i) =>
-                                      {
-                                          await Task.Delay(TimeSpan.FromSeconds(i));
-                                      });
+        var policyResult = await Policy.Handle<Exception>()
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .ExecuteAndCaptureAsync(async () =>
+                                        {
+                                            await using var session = _classFixture.DocumentStore.LightweightSession();
 
-        var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
-        {
-            using var session = _classFixture.DocumentStore
-                                             .LightweightSession();
+                                            var werdOvergenomen =
+                                                session.SingleOrDefaultFromStream<AdresWerdOvergenomenUitAdressenregister>(
+                                                    _classFixture.Scenario.VCode);
 
-            var werdOvergenomen = session.Events
-                                         .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-                                         .SingleOrDefault();
-
-            werdOvergenomen.Should().NotBeNull();
-            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
-
-            return Task.CompletedTask;
-        });
+                                            werdOvergenomen.Should().NotBeNull();
+                                            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+                                        });
 
         policyResult.FinalException.Should().BeNull();
     }

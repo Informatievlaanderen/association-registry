@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie;
 
+using AssociationRegistry.Framework;
 using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
@@ -14,7 +15,12 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
-    public V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister Scenario { get; }
+
+    public V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister Scenario
+    {
+        get;
+    }
+
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
@@ -54,11 +60,13 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister : IClassFixture<Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
+public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister : IClassFixture<
+    Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
 {
     private readonly Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup _classFixture;
 
-    public Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister(Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup classFixture)
+    public Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister(
+        Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -99,25 +107,17 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister 
     [Fact]
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
-        var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(5, async (exception, i) =>
-                                      {
-                                          await Task.Delay(TimeSpan.FromSeconds(i));
-                                      });
+        var policyResult = await Policy.Handle<Exception>()
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .ExecuteAndCaptureAsync(async () =>
+                                        {
+                                            await using var session = _classFixture.DocumentStore.LightweightSession();
 
-        var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
-        {
-            using var session = _classFixture.DocumentStore
-                                             .LightweightSession();
-
-            session.Events
-                   .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-                   .SingleOrDefault()
-                   .Should()
-                   .NotBeNull();
-
-            return Task.CompletedTask;
-        });
+                                            session
+                                               .SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(_classFixture.Scenario.VCode)
+                                               .Should()
+                                               .NotBeNull();
+                                        });
 
         policyResult.FinalException.Should().BeNull();
     }

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
+using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -87,12 +88,9 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_Locatie_Given_
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
-        var locatieWerdGewijzigd = (await session.Events
-                                                 .FetchStreamAsync(_classFixture.Scenario.VCode))
-           .Single(e => e.Data.GetType() == typeof(LocatieWerdGewijzigd));
+        var locatieWerdGewijzigd = session.SingleOrDefaultFromStream<LocatieWerdGewijzigd>(_classFixture.Scenario.VCode);
 
-        locatieWerdGewijzigd.Data.Should()
-                            .BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));
+        locatieWerdGewijzigd.Should().BeEquivalentTo(new LocatieWerdGewijzigd(_classFixture.TeWijzigenLocatie));
     }
 
     [Fact]

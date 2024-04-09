@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Fixtures;
@@ -152,6 +153,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
         };
 
         Response ??= fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
+
+        using var session = fixture.DocumentStore.LightweightSession();
     }
 
     public static When_RegistreerFeitelijkeVereniging_WithAllFields Called(AdminApiFixture fixture)
@@ -263,42 +266,43 @@ public class With_All_Fields
     [Fact]
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
+        var savedEvent = GetFeitelijkeVerenigingWerdGeregistreerdEvent();
+
         Response.Should().NotBeNull();
 
-        var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(5, async (exception, i) =>
-                                      {
-                                          await Task.Delay(TimeSpan.FromSeconds(i));
-                                      });
+        var policyResult = await Policy.Handle<Exception>()
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .ExecuteAndCaptureAsync(async () =>
+                                        {
+                                            await using var session = _fixture.DocumentStore.LightweightSession();
 
-        var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
-        {
-            using var session = _fixture.DocumentStore
-                                        .LightweightSession();
+                                            var werdOvergenomen =
+                                                session.SingleOrDefaultFromStream<AdresWerdOvergenomenUitAdressenregister>(
+                                                    savedEvent.VCode);
 
-            var werdOvergenomen = session.Events
-                                         .QueryRawEventDataOnly<AdresWerdOvergenomenUitAdressenregister>()
-                                         .SingleOrDefault();
+                                            using (new AssertionScope())
+                                            {
+                                                werdOvergenomen.Should().NotBeNull();
+                                                werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
 
-            using (new AssertionScope())
-            {
-                werdOvergenomen.Should().NotBeNull();
-                werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+                                                session.SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(savedEvent.VCode)
+                                                       .Should().NotBeNull();
 
-                session.Events
-                       .QueryRawEventDataOnly<AdresNietUniekInAdressenregister>()
-                       .SingleOrDefault().Should().NotBeNull();
-
-                var werdNietGevonden = session.Events
-                       .QueryRawEventDataOnly<AdresWerdNietGevondenInAdressenregister>().ToArray();
-
-                werdNietGevonden
-                    .SingleOrDefault().Should().NotBeNull();
-            }
-
-            return Task.CompletedTask;
-        });
+                                                session.SingleOrDefaultFromStream<AdresWerdNietGevondenInAdressenregister>(savedEvent.VCode)
+                                                       .Should().NotBeNull();
+                                            }
+                                        });
 
         policyResult.FinalException.Should().BeNull();
+    }
+
+    private FeitelijkeVerenigingWerdGeregistreerd? GetFeitelijkeVerenigingWerdGeregistreerdEvent()
+    {
+        using var session = _fixture.DocumentStore
+                                    .LightweightSession();
+
+        return session.Events
+                      .QueryRawEventDataOnly<FeitelijkeVerenigingWerdGeregistreerd>()
+                      .SingleOrDefault(e => e.Naam == Request.Naam);
     }
 }
