@@ -3,6 +3,7 @@ namespace AssociationRegistry.Grar;
 using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
+using System.Net;
 
 public class GrarClient : IGrarClient
 {
@@ -57,7 +58,7 @@ public class GrarClient : IGrarClient
         }
     }
 
-    public async Task<PostalInformationResponse> GetPostalInformation(string postcode)
+    public async Task<PostalInformationResponse?> GetPostalInformation(string postcode)
     {
         using var client = GetHttpClient();
 
@@ -65,14 +66,22 @@ public class GrarClient : IGrarClient
         {
             var response = await client.GetPostInfo(postcode, CancellationToken.None);
 
-            var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(await response.Content.ReadAsStringAsync());
+            switch (response.StatusCode)
+            {
 
-            //TODO: null checks
-            var matches = new PostalInformationResponse(postcode,
-                                                        result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
-                                                        result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray());
-
-            return matches;
+                case HttpStatusCode.OK:
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
+                    var postalInformationResponse = new PostalInformationResponse(postcode,
+                                                                result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
+                                                                result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray());
+                    return postalInformationResponse;
+                }
+                case HttpStatusCode.NotFound:
+                default:
+                    return null;
+            }
         }
         catch (TaskCanceledException ex)
         {

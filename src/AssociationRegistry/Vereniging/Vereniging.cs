@@ -215,8 +215,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
         };
 
-
-
         AddEvent(@event);
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.Given_A_FeitelijkeVereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.PostalInformation;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
@@ -12,23 +12,23 @@ using Xunit;
 using Xunit.Categories;
 using Policy = Polly.Policy;
 
-public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
+public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly string _jsonBody;
 
-    public V066_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresWerdOvergenomenUitAdressenregister
+    public V071_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_PostalInformation
         Scenario { get; }
 
     public IDocumentStore DocumentStore { get; }
     public HttpResponseMessage Response { get; private set; } = null!;
 
-    public Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup(EventsInDbScenariosFixture fixture)
+    public Given_AdresWerdOvergenomenUitAdressenregister_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
 
         Scenario = fixture
-           .V066FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForAdresWerdOvergenomenUitAdressenregister;
+           .V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation;
 
         DocumentStore = _fixture.DocumentStore;
 
@@ -38,11 +38,11 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                 ""isPrimair"": true,
                 ""naam"": ""nieuwe locatie"",
                 ""adres"": {
-                    ""straatnaam"": ""Leopold II-laan"",
-                    ""huisnummer"": ""99"",
+                    ""straatnaam"": ""Fosselstraat"",
+                    ""huisnummer"": ""48"",
                     ""busnummer"": """",
-                    ""postcode"": ""9200"",
-                    ""gemeente"": ""Dendermonde"",
+                    ""postcode"": ""1790"",
+                    ""gemeente"": ""Affligem"",
                     ""land"": ""België"",
                 }
             }
@@ -61,13 +61,13 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
-public class With_AdresMatch_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
-    Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup>
+public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
+    Given_AdresWerdOvergenomenUitAdressenregister_Setup>
 {
-    private readonly Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup _classFixture;
+    private readonly Given_AdresWerdOvergenomenUitAdressenregister_Setup _classFixture;
 
-    public With_AdresMatch_AdresWerdOvergenomenUitAdressenregister(
-        Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup classFixture)
+    public Given_AdresWerdOvergenomenUitAdressenregister(
+        Given_AdresWerdOvergenomenUitAdressenregister_Setup classFixture)
     {
         _classFixture = classFixture;
     }
@@ -90,11 +90,11 @@ public class With_AdresMatch_AdresWerdOvergenomenUitAdressenregister : IClassFix
                                                  IsPrimair: true,
                                                  Naam: "nieuwe locatie",
                                                  new Registratiedata.Adres(
-                                                     Straatnaam: "Leopold II-laan",
-                                                     Huisnummer: "99",
+                                                     Straatnaam: "Fosselstraat",
+                                                     Huisnummer: "48",
                                                      Busnummer: "",
-                                                     Postcode: "9200",
-                                                     Gemeente: "Dendermonde",
+                                                     Postcode: "1790",
+                                                     Gemeente: "Affligem",
                                                      Land: "België"),
                                                  null)));
     }
@@ -119,7 +119,7 @@ public class With_AdresMatch_AdresWerdOvergenomenUitAdressenregister : IClassFix
                                                     _classFixture.Scenario.VCode);
 
                                             werdOvergenomen.Should().NotBeNull();
-                                            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+                                            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
                                         });
 
         policyResult.FinalException.Should().BeNull();

@@ -97,6 +97,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json = wiremock\mappings\RegistreerInschrijving.uitzondering.fout.json
 		wiremock\mappings\AdresMatch.exact-match-dendermonde.json = wiremock\mappings\AdresMatch.exact-match-dendermonde.json
 		wiremock\mappings\AdresMatch.no-exact-match-dendermonde.json = wiremock\mappings\AdresMatch.no-exact-match-dendermonde.json
+		wiremock\mappings\AdresMatch.exact-match-affligem.json = wiremock\mappings\AdresMatch.exact-match-affligem.json
+		wiremock\mappings\PostalInformation.1790.json = wiremock\mappings\PostalInformation.1790.json
+		wiremock\mappings\PostalInformation.9200.json = wiremock\mappings\PostalInformation.9200.json
+		wiremock\mappings\PostalInformation.fallback.json = wiremock\mappings\PostalInformation.fallback.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -146,6 +150,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresMatch", "AdresMatch", 
 	ProjectSection(SolutionItems) = preProject
 		wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json
 		wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json
+		wiremock\__files\AdresMatch\Exact_Match_Affligem.json = wiremock\__files\AdresMatch\Exact_Match_Affligem.json
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostalInformation", "PostalInformation", "{DBB70D11-0133-4322-B34E-0B8E0433E4A5}"
+	ProjectSection(SolutionItems) = preProject
+		wiremock\__files\PostalInformation\1790.json = wiremock\__files\PostalInformation\1790.json
+		wiremock\__files\PostalInformation\9200.json = wiremock\__files\PostalInformation\9200.json
+		wiremock\__files\PostalInformation\fallback.json = wiremock\__files\PostalInformation\fallback.json
 	EndProjectSection
 EndProject
 Global
@@ -257,5 +269,6 @@ Global
 		{74A2617E-BA79-459C-ABCE-1EBB4B2BC826} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
 		{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778} = {E2C1D6C3-9594-45D1-832D-E83BBCB71A32}
 		{CB723987-9ECB-446A-832A-18CA30D7B8FE} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
+		{DBB70D11-0133-4322-B34E-0B8E0433E4A5} = {A30C8928-5F0D-459A-BB1B-0AE24A160CBB}
 	EndGlobalSection
 EndGlobal
