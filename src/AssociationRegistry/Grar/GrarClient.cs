@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Grar;
 
+using Events;
 using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
 using System.Net;
+using Vereniging;
 
 public class GrarClient : IGrarClient
 {
@@ -18,7 +20,12 @@ public class GrarClient : IGrarClient
         _logger = logger;
     }
 
-    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddress(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam)
+    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddress(
+        string straatnaam,
+        string huisnummer,
+        string busnummer,
+        string postcode,
+        string gemeentenaam)
     {
         using var client = GetHttpClient();
 
@@ -33,7 +40,10 @@ public class GrarClient : IGrarClient
                                 .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
                                 .Select(s => new AddressMatchResponse(
                                             Score: s.Score,
-                                            AdresId: s.Identificator.ObjectId,
+                                            AdresId: new Registratiedata.AdresId(
+                                                Adresbron.AR.Code,
+                                                s.Identificator.Id
+                                            ),
                                             AdresStatus: s.AdresStatus,
                                             s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                             s.Huisnummer,
@@ -68,16 +78,19 @@ public class GrarClient : IGrarClient
 
             switch (response.StatusCode)
             {
-
                 case HttpStatusCode.OK:
                 {
                     var jsonContent = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
+
                     var postalInformationResponse = new PostalInformationResponse(postcode,
-                                                                result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
-                                                                result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray());
+                                                                                  result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
+                                                                                  result.Postnamen.Select(s => s.GeografischeNaam.Spelling)
+                                                                                        .ToArray());
+
                     return postalInformationResponse;
                 }
+
                 case HttpStatusCode.NotFound:
                 default:
                     return null;

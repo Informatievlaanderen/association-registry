@@ -166,6 +166,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<VerenigingWerdGestoptInKBO> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+    
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
         => ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
 
