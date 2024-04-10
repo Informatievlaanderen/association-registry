@@ -33,6 +33,8 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
 
+        _logger.LogInformation($"MAGDA Call Reference - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+
         var unsignedEnvelope = MakeEnvelope(GeefOndernemingVKBOBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
