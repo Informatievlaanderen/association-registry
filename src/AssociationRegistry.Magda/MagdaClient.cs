@@ -33,7 +33,7 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
 
-        _logger.LogInformation($"MAGDA Call Reference - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+        _logger.LogInformation($"MAGDA Call Reference - GeefOndernemingVKBO - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(GeefOndernemingVKBOBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
@@ -49,6 +49,8 @@ public class MagdaClient : IMagdaClient
     {
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingEndpoint)}");
+
+        _logger.LogInformation($"MAGDA Call Reference - GeefOnderneming - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(GeefOndernemingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
@@ -67,6 +69,8 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
 
+        _logger.LogInformation($"MAGDA Call Reference - RegistreerUitschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+
         var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
@@ -84,6 +88,8 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
                                $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
+
+        _logger.LogInformation($"MAGDA Call Reference - RegistreerInschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
