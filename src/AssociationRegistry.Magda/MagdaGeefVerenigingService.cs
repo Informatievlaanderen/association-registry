@@ -50,6 +50,8 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer,
                                                   cancellationToken);
 
+            _logger.LogInformation($"MAGDA Call Reference - GeefOnderneming Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
+
             var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, reference);
 
             if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
