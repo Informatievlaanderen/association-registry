@@ -233,19 +233,19 @@ public class With_All_Fields_And_PostalInformation
                                                     var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
                                                     werdOvergenomenAffligem.Should().NotBeNull();
                                                     werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.Gemeentenaam.Should().Be("Affligem");
+                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
 
                                                     // Hekene locatie
                                                     var werdOvergenomenHekene = werdenOvergenomen.ElementAt(1);
                                                     werdOvergenomenHekene.Should().NotBeNull();
                                                     werdOvergenomenHekene.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenHekene.OvergenomenAdresUitGrar.Gemeentenaam.Should().Be("Hekene (Affligem)");
+                                                    werdOvergenomenHekene.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Hekene (Affligem)");
 
                                                     // Nothingham locatie
                                                     var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
                                                     werdOvergenomenNothingham.Should().NotBeNull();
                                                     werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.Gemeentenaam.Should().Be("Affligem");
+                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
                                                 }
                                             }
                                         });

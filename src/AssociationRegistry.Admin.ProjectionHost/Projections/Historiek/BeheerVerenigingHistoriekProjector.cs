@@ -469,6 +469,7 @@ public class BeheerVerenigingHistoriekProjector
             $"In KBO werd contactgegeven ‘{contactgegevenWerdVerwijderdUitKbo.Data.TypeVolgensKbo}' verwijderd."
         );
     }
+
     public static void Apply(
         IEvent<ContactgegevenWerdInBeheerGenomenDoorKbo> contactgegevenWerdInBeheerGenomenDoorKbo,
         BeheerVerenigingHistoriekDocument document)
@@ -502,6 +503,50 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdVerwijderd,
             document,
             beschrijving: "Deze vereniging werd verwijderd."
+        );
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdOvergenomenUitAdressenregister> adresWerdOvergenomenUitAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresWerdOvergenomenUitAdressenregister,
+            document,
+            $"Adres voor locatie {adresWerdOvergenomenUitAdressenregister.Data.LocatieId} werd overgenomen uit het adressenregister. ({adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId})"
+        );
+    }
+
+    public static void Apply(
+        IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> adresKonNietOvergenomenWordenUitAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresKonNietOvergenomenWordenUitAdressenregister,
+            document,
+            $"Adres voor locatie {adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId} kon niet overgenomen worden uit het adressenregister. {adresKonNietOvergenomenWordenUitAdressenregister.Data.Reden}"
+        );
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresWerdNietGevondenInAdressenregister,
+            document,
+            $"Adres voor locatie {adresWerdNietGevondenInAdressenregister.Data.LocatieId} kon niet gevonden worden in het adressenregister."
+        );
+    }
+
+    public static void Apply(
+        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresNietUniekInAdressenregister,
+            document,
+            $"Adres voor locatie {adresNietUniekInAdressenregister.Data.LocatieId} bij het matchen niet uniek in het adressenregister."
         );
     }
 

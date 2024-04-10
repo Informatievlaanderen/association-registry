@@ -458,14 +458,14 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(Locaties.Single(locatie => locatie.LocatieId == @event.LocatieId) with
                     {
-                        AdresId = AdresId.Hydrate(Adresbron.AR.Code, @event.OvergenomenAdresUitGrar.AdresId),
+                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitGrar.AdresId.Broncode, @event.OvergenomenAdresUitGrar.AdresId.Bronwaarde),
                         Adres = Adres.Hydrate(
-                            @event.OvergenomenAdresUitGrar.Straatnaam,
-                            @event.OvergenomenAdresUitGrar.Huisnummer,
-                            @event.OvergenomenAdresUitGrar.Busnummer,
-                            @event.OvergenomenAdresUitGrar.Postcode,
-                            @event.OvergenomenAdresUitGrar.Gemeentenaam,
-                            @event.OvergenomenAdresUitGrar.Land),
+                            @event.OvergenomenAdresUitGrar.Adres.Straatnaam,
+                            @event.OvergenomenAdresUitGrar.Adres.Huisnummer,
+                            @event.OvergenomenAdresUitGrar.Adres.Busnummer,
+                            @event.OvergenomenAdresUitGrar.Adres.Postcode,
+                            @event.OvergenomenAdresUitGrar.Adres.Gemeente,
+                            @event.OvergenomenAdresUitGrar.Adres.Land),
                     }))
         };
     }

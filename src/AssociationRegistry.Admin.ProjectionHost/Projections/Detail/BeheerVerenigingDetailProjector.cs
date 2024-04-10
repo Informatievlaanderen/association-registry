@@ -535,6 +535,21 @@ public class BeheerVerenigingDetailProjector
                                     .ToArray();
     }
 
+    public static void Apply(IEvent<AdresWerdOvergenomenUitAdressenregister> adresWerdOvergenomenUitAdressenregister, BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres, document.VCode, l.LocatieId),
+                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres.ToAdresString(),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                             VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();    }
+
     public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = new VerenigingsType

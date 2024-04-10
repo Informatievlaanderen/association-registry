@@ -6,6 +6,7 @@ using Framework;
 using Infrastructure.Extensions;
 using JsonLdContext;
 using Marten.Events;
+using Nest;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
@@ -461,6 +462,53 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
+    public static void Apply(
+        IEvent<AdresWerdOvergenomenUitAdressenregister> adresWerdOvergenomenUitAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+        var @event = adresWerdOvergenomenUitAdressenregister.Data;
+        var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != adresWerdOvergenomenUitAdressenregister.Data.LocatieId)
+                                    .Append(locatie with
+                                     {
+                                         JsonLdMetadata = new JsonLdMetadata(
+                                             JsonLdType.Locatie.CreateWithIdValues(adresWerdOvergenomenUitAdressenregister.Data.VCode,
+                                                                                   adresWerdOvergenomenUitAdressenregister.Data.LocatieId
+                                                                                      .ToString()),
+                                             JsonLdType.Locatie.Type),
+                                         Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
+                                                     adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
+                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres),
+                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres
+                                            .ToAdresString(),
+                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                         VerwijstNaar =
+                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                     })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> adresKonNietOvergenomenWordenUitAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+    }
+
+    public static void Apply(
+        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+    }
+
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {
@@ -512,6 +560,15 @@ public static class PubliekVerenigingDetailProjector
             {
                 Bronwaarde = locAdresId.Bronwaarde,
                 Broncode = locAdresId.Broncode,
+            };
+
+    private static PubliekVerenigingDetailDocument.AdresId? Map(string broncode, string bronwaarde)
+        => string.IsNullOrEmpty(bronwaarde)
+            ? null
+            : new PubliekVerenigingDetailDocument.AdresId
+            {
+                Bronwaarde = bronwaarde,
+                Broncode = broncode,
             };
 
     private static Doelgroep MapDoelgroep(Registratiedata.Doelgroep doelgroep, string vCode)
