@@ -42,8 +42,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (duplicateResult.IsFailure())
             return duplicateResult;
 
-        // TODO Enable after fix with MAGDA
-        // await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
+        await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
 
         var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
 
