@@ -1,3 +1,11 @@
+## [8.85.10](https://github.com/informatievlaanderen/association-registry/compare/v8.85.9...v8.85.10) (2024-04-10)
+
+
+### Bug Fixes
+
+* add logging for magda call references ([8ebfb8a](https://github.com/informatievlaanderen/association-registry/commit/8ebfb8a2677432afa81357e7cc39c9246eb891fa))
+* production magda call references ([2df5946](https://github.com/informatievlaanderen/association-registry/commit/2df59468bc5d566dbfbb87a215addff501f2d1a4))
+
 ## [8.85.9](https://github.com/informatievlaanderen/association-registry/compare/v8.85.8...v8.85.9) (2024-04-10)
 
 
