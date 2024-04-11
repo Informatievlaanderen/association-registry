@@ -88,6 +88,10 @@ private static void TryLockForKboNumber(string vCode, IDocumentSession session, 
             typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
             typeof(ContactgegevenKonNietOvergenomenWordenUitKBO),
             typeof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
+            typeof(AdresWerdOvergenomenUitAdressenregister),
+            typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
+            typeof(AdresWerdNietGevondenInAdressenregister),
+            typeof(AdresNietUniekInAdressenregister)
         }.Contains(eventType);
 
     public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()

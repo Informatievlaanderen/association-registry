@@ -199,7 +199,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         IEvent @event = adresMatch.Count switch
         {
-            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId),
+            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                             adresTeMatchen.Straatnaam,
+                                                             adresTeMatchen.Huisnummer,
+                                                             adresTeMatchen.Busnummer,
+                                                             adresTeMatchen.Postcode,
+                                                             adresTeMatchen.Gemeente),
             1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                              AdresMatchUitGrar
                                                                 .FromResponse(adresMatch.Single())
