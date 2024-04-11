@@ -1,3 +1,11 @@
+## [8.87.6](https://github.com/informatievlaanderen/association-registry/compare/v8.87.5...v8.87.6) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 deelgemeente in postal information decorator ([a1f8487](https://github.com/informatievlaanderen/association-registry/commit/a1f84874a7c1dcf80ae27e89e6f4a6e4d94a0aa5))
+* or-1821 ovo code for address match initiator ([4c6120a](https://github.com/informatievlaanderen/association-registry/commit/4c6120a487cda201753e5a33ee062a8ef50a143e))
+
 ## [8.87.5](https://github.com/informatievlaanderen/association-registry/compare/v8.87.4...v8.87.5) (2024-04-11)
 
 
