@@ -26,12 +26,11 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
 
-                options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+                // options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+
+                // options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
 
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
-
-                //options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
-
                 if (addressMatchOptionsSection.UseLocalStack)
                 {
                     options.UseAmazonSqsTransport(config =>
@@ -46,8 +45,7 @@ public static class WolverineExtensions
                     options.UseAmazonSqsTransport(config =>
                     {
                         config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
-                    })
-                   .AutoProvision();
+                    });
                 }
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
