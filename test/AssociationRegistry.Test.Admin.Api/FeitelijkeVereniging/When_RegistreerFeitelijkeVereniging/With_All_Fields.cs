@@ -283,7 +283,9 @@ public class With_All_Fields
                                             using (new AssertionScope())
                                             {
                                                 werdOvergenomen.Should().NotBeNull();
-                                                werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().Be("3213019");
+                                                werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should() .BeEquivalentTo(
+                                                    new Registratiedata.AdresId(
+                                                        "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 
                                                 session.SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(savedEvent.VCode)
                                                        .Should().NotBeNull();
