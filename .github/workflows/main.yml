@@ -166,8 +166,9 @@ jobs:
       run-docker-acm: true
       run-docker-wiremock: false
       run-docker-db: true
-      pre-gen-marten: true
       run-docker-elasticsearch: false
+      run-docker-localstack: false
+      pre-gen-marten: true
     secrets: inherit
 
   build-public-api:
@@ -185,8 +186,9 @@ jobs:
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
-      pre-gen-marten: false
       run-docker-elasticsearch: true
+      run-docker-localstack: true
+      pre-gen-marten: false
     secrets: inherit
 
   build-public-projections:
@@ -204,8 +206,9 @@ jobs:
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
-      pre-gen-marten: true
       run-docker-elasticsearch: true
+      run-docker-localstack: false
+      pre-gen-marten: true
     secrets: inherit
 
   build-admin-api:
@@ -224,6 +227,7 @@ jobs:
       run-docker-wiremock: true
       run-docker-db: true
       run-docker-elasticsearch: true
+      run-docker-localstack: true
       pre-gen-marten: true
     secrets: inherit
 
@@ -242,8 +246,9 @@ jobs:
       run-docker-acm: true
       run-docker-wiremock: true
       run-docker-db: true
-      pre-gen-marten: true
       run-docker-elasticsearch: true
+      run-docker-localstack: false
+      pre-gen-marten: true
     secrets: inherit
 
   pack-association-registry:
