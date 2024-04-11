@@ -46,7 +46,8 @@ public static class WolverineExtensions
                     options.UseAmazonSqsTransport(config =>
                     {
                         config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
-                    });
+                    })
+                   .AutoProvision();
                 }
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
