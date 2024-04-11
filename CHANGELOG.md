@@ -1,3 +1,10 @@
+## [8.87.2](https://github.com/informatievlaanderen/association-registry/compare/v8.87.1...v8.87.2) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 fix sqs transport service url ([38e6ae0](https://github.com/informatievlaanderen/association-registry/commit/38e6ae003aab6d62409ed0956f87356fad660ba1))
+
 ## [8.87.1](https://github.com/informatievlaanderen/association-registry/compare/v8.87.0...v8.87.1) (2024-04-11)
 
 
