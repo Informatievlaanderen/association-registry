@@ -15,6 +15,9 @@ on:
       run-docker-elasticsearch:
         required: true
         type: boolean
+      run-docker-localstack:
+        required: true
+        type: boolean
       pre-gen-marten:
         type: boolean
       build-target:
@@ -60,6 +63,12 @@ jobs:
 
       - name: Checkout Code
         uses: actions/checkout@v4
+
+      - name: Run localstack container
+        shell: bash
+        if: ${{ inputs.run-docker-localstack }}
+        run: |
+          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=eu-west-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
 
       - name: Run es container
         shell: bash
