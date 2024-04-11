@@ -1,3 +1,10 @@
+## [8.87.4](https://github.com/informatievlaanderen/association-registry/compare/v8.87.3...v8.87.4) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 remove wolverine artifact workflow optimization ([8a5e5fc](https://github.com/informatievlaanderen/association-registry/commit/8a5e5fc745942deac5c757cc10d930c5b73ac461))
+
 ## [8.87.3](https://github.com/informatievlaanderen/association-registry/compare/v8.87.2...v8.87.3) (2024-04-11)
 
 
