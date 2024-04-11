@@ -491,24 +491,6 @@ public static class PubliekVerenigingDetailProjector
                                     .ToArray();
     }
 
-    public static void Apply(
-        IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> adresKonNietOvergenomenWordenUitAdressenregister,
-        PubliekVerenigingDetailDocument document)
-    {
-    }
-
-    public static void Apply(
-        IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
-        PubliekVerenigingDetailDocument document)
-    {
-    }
-
-    public static void Apply(
-        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
-        PubliekVerenigingDetailDocument document)
-    {
-    }
-
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {

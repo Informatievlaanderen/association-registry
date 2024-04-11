@@ -368,6 +368,19 @@ public class BeheerZoekProjectionHandler
             message.Data.Locatie.LocatieId);
     }
 
+    public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
+    {
+        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            new VerenigingZoekDocument.Locatie
+            {
+                LocatieId = message.Data.LocatieId,
+                Postcode = message.Data.OvergenomenAdresUitGrar.Adres.Postcode,
+                Gemeente = message.Data.OvergenomenAdresUitGrar.Adres.Gemeente,
+                Adresvoorstelling = message.Data.OvergenomenAdresUitGrar.Adres.ToAdresString()
+            });
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {

@@ -155,6 +155,18 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
+        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(
+            message.VCode,
+            new DuplicateDetectionDocument.Locatie()
+            {
+                LocatieId = message.Data.LocatieId,
+                Adresvoorstelling = message.Data.OvergenomenAdresUitGrar.Adres.ToAdresString(),
+                Postcode = message.Data.OvergenomenAdresUitGrar.Adres?.Postcode ?? string.Empty,
+                Gemeente = message.Data.OvergenomenAdresUitGrar.Adres?.Gemeente ?? string.Empty,
+            }
+        );
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {
