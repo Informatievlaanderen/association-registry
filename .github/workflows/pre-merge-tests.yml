@@ -262,6 +262,12 @@ jobs:
         run: |
           docker logs elasticsearch
 
+      - name: Shows logs localstack container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs localstack
+
       - name: Shows logs wiremock container
         if: ${{ failure() }}
         shell: bash
