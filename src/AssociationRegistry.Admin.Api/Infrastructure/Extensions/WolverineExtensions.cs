@@ -26,36 +26,41 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
 
-                // options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
-
                 // options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
 
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
+                Log.Logger.Information("Address match configuration: {@Config}", addressMatchOptionsSection);
+
+                if (addressMatchOptionsSection.OptimizeArtifactWorkflow)
+                {
+                    options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+                }
+
+                var transportConfiguration = options.UseAmazonSqsTransport(config =>
+                {
+                    Log.Logger.Information("Wolverine SQS configuration: {@Config}", config);
+                    config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
+                });
+
                 if (addressMatchOptionsSection.UseLocalStack)
                 {
-                    options.UseAmazonSqsTransport(config =>
-                            {
-                                config.ServiceURL = "http://127.0.0.1:4566";
-                            })
-                           .AutoProvision()
-                           .Credentials(new BasicAWSCredentials("dummy", "dummy"));
+                    transportConfiguration.Credentials(new BasicAWSCredentials("dummy", "dummy"));
                 }
-                else
+                if (addressMatchOptionsSection.AutoProvision)
                 {
-                    options.UseAmazonSqsTransport(config =>
-                    {
-                        config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
-                    });
+                    transportConfiguration.AutoProvision();
                 }
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
-                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
-                       .SendInline();
+                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
 
-                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName)
-                       .ProcessInline();
+                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, configure =>
+                {
+                    configure.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
+                });
 
                 options.LogMessageStarting(LogLevel.Information);
+                Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);
             });
     }
 }
