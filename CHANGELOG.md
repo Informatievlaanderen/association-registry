@@ -1,3 +1,10 @@
+# [8.87.0](https://github.com/informatievlaanderen/association-registry/compare/v8.86.0...v8.87.0) (2024-04-11)
+
+
+### Features
+
+* or-1821 fix data and text from beheer historiek ([423b055](https://github.com/informatievlaanderen/association-registry/commit/423b055bd2261eadac11e156c0114a40168c9dea))
+
 # [8.86.0](https://github.com/informatievlaanderen/association-registry/compare/v8.85.10...v8.86.0) (2024-04-11)
 
 
