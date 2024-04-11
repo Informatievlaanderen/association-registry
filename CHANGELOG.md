@@ -1,3 +1,11 @@
+## [8.87.5](https://github.com/informatievlaanderen/association-registry/compare/v8.87.4...v8.87.5) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 fix configuration options for tests admin api ([ad42712](https://github.com/informatievlaanderen/association-registry/commit/ad4271270dea3fae0b23bb876979edf7857aa610))
+* or-1821 wolverine transport configuration ([8a89fb0](https://github.com/informatievlaanderen/association-registry/commit/8a89fb0e94effebb45a595c9aabb71236cef878f))
+
 ## [8.87.4](https://github.com/informatievlaanderen/association-registry/compare/v8.87.3...v8.87.4) (2024-04-11)
 
 
