@@ -247,7 +247,7 @@ jobs:
       run-docker-wiremock: true
       run-docker-db: true
       run-docker-elasticsearch: true
-      run-docker-localstack: false
+      run-docker-localstack: true
       pre-gen-marten: true
     secrets: inherit
 
