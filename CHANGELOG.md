@@ -1,3 +1,10 @@
+## [8.87.1](https://github.com/informatievlaanderen/association-registry/compare/v8.87.0...v8.87.1) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 sqs transport should have correct region endpoint ([1e30317](https://github.com/informatievlaanderen/association-registry/commit/1e303170fd6d5503ba11f4e58763a96a53c509b1))
+
 # [8.87.0](https://github.com/informatievlaanderen/association-registry/compare/v8.86.0...v8.87.0) (2024-04-11)
 
 
