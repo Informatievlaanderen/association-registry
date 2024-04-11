@@ -1,3 +1,26 @@
+# [8.86.0](https://github.com/informatievlaanderen/association-registry/compare/v8.85.10...v8.86.0) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 add log output from localstack container ([68693ed](https://github.com/informatievlaanderen/association-registry/commit/68693edb644857aab7c6abd27b6677735e9b7c05))
+* or-1821 localstack eu-west-1 region and work without autoprovision ([e558ed5](https://github.com/informatievlaanderen/association-registry/commit/e558ed5a5c5b9e813b9da6040c874aca03df212a))
+* or-1821 projection update for adres match events ([488f1ba](https://github.com/informatievlaanderen/association-registry/commit/488f1ba19fa3254c538002664d05078d540e73c5))
+* or-1821 tests grar integration ([00f3981](https://github.com/informatievlaanderen/association-registry/commit/00f3981b959003c7c1ade51b53bd60abefa42e78))
+* or-1832 address match for location added and location changed ([ff4865a](https://github.com/informatievlaanderen/association-registry/commit/ff4865ac088fdbb5a6e08a32300bf1403b3af7ed))
+* use polly retry on wolverine message handling ([d7bf023](https://github.com/informatievlaanderen/association-registry/commit/d7bf023bcd75ed4b1a99e51faa77714bd2441017))
+
+
+### Features
+
+* address match implementation ([e4f3e89](https://github.com/informatievlaanderen/association-registry/commit/e4f3e89294a175925ec47bae8044d483ddda2ac2))
+* or-1821 add addressmatch projection handling ([7326d6f](https://github.com/informatievlaanderen/association-registry/commit/7326d6fabaae44a048d3c71c5d3219195f194288))
+* or-1821 add localstack in premerge tests and main workflow ([ec6c302](https://github.com/informatievlaanderen/association-registry/commit/ec6c302cd668cb7fa12f8205b99d1173de178375))
+* or-1821 address match ([9858cff](https://github.com/informatievlaanderen/association-registry/commit/9858cffa501aa04663ee42305d524b459e1919b2))
+* or-1821 adres match testing cases for RegistreerFeitelijkeVereniging, LocatieWerdGewijzigd, LocatieWerdToegevoegd ([a6d48dd](https://github.com/informatievlaanderen/association-registry/commit/a6d48ddcf5d97baf16c37a0af8bb576261e4ba3c))
+* or-1821 implementation and tests for postal information ([99af06c](https://github.com/informatievlaanderen/association-registry/commit/99af06c27d29f2838b8c15163a6e2a78f39444de))
+* or-1821 wolverine startup ([2223743](https://github.com/informatievlaanderen/association-registry/commit/22237434245bf0e66e3fe7cc49632b8df811d19c))
+
 ## [8.85.10](https://github.com/informatievlaanderen/association-registry/compare/v8.85.9...v8.85.10) (2024-04-10)
 
 
