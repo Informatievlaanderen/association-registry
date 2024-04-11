@@ -1,3 +1,10 @@
+## [8.87.3](https://github.com/informatievlaanderen/association-registry/compare/v8.87.2...v8.87.3) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 autoprovision sqs queue ([c2f3ee5](https://github.com/informatievlaanderen/association-registry/commit/c2f3ee51d525be2b566493ecba06724a0b788b9c))
+
 ## [8.87.2](https://github.com/informatievlaanderen/association-registry/compare/v8.87.1...v8.87.2) (2024-04-11)
 
 
