@@ -208,13 +208,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                              AdresMatchUitGrar
                                                                 .FromResponse(adresMatch.Single())
-                                                                .DecorateWithPostalInformation(postalInformation),
+                                                                .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation),
                                                              Array.Empty<AdresMatchUitGrar>()),
             _ => adresMatch.Count(c => c.Score == 100).Equals(1)
                 ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                               AdresMatchUitGrar
                                                                  .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                 .DecorateWithPostalInformation(postalInformation),
+                                                                 .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation),
                                                               adresMatch.Where(w => w.Score != 100)
                                                                     .Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
                 : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
