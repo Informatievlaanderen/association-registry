@@ -45,7 +45,7 @@ public static class WolverineExtensions
                 {
                     options.UseAmazonSqsTransport(config =>
                     {
-                        config.RegionEndpoint = RegionEndpoint.EUWest1;
+                        config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
                     });
                 }
 
