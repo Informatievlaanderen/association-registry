@@ -513,7 +513,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             adresWerdOvergenomenUitAdressenregister,
             document,
-            $"Adres voor locatie {adresWerdOvergenomenUitAdressenregister.Data.LocatieId} werd overgenomen uit het adressenregister. ({adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId})"
+            $"Adres werd overgenomen uit het adressenregister."
         );
     }
 
@@ -524,7 +524,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             adresKonNietOvergenomenWordenUitAdressenregister,
             document,
-            $"Adres voor locatie {adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId} kon niet overgenomen worden uit het adressenregister. {adresKonNietOvergenomenWordenUitAdressenregister.Data.Reden}"
+            $"Adres kon niet overgenomen worden uit het adressenregister."
         );
     }
 
@@ -535,7 +535,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             adresWerdNietGevondenInAdressenregister,
             document,
-            $"Adres voor locatie {adresWerdNietGevondenInAdressenregister.Data.LocatieId} kon niet gevonden worden in het adressenregister."
+            $"Adres kon niet gevonden worden in het adressenregister."
         );
     }
 
@@ -546,7 +546,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             adresNietUniekInAdressenregister,
             document,
-            $"Adres voor locatie {adresNietUniekInAdressenregister.Data.LocatieId} bij het matchen niet uniek in het adressenregister."
+            $"Adres niet uniek in het adressenregister."
         );
     }
 
