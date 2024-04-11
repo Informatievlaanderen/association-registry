@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Amazon;
 using Amazon.Runtime;
+using Amazon.SQS;
 using Grar.AddressMatch;
 using JasperFx.CodeGeneration;
 using Microsoft.AspNetCore.Builder;
@@ -41,7 +43,10 @@ public static class WolverineExtensions
                 }
                 else
                 {
-                    options.UseAmazonSqsTransport();
+                    options.UseAmazonSqsTransport(config =>
+                    {
+                        config.RegionEndpoint = RegionEndpoint.EUWest1;
+                    });
                 }
 
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
