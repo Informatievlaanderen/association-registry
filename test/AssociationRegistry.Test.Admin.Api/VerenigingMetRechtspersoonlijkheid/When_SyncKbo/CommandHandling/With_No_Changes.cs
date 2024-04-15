@@ -2,6 +2,7 @@
 
 using Acties.SyncKbo;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -9,6 +10,7 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Notifications.Messages;
@@ -24,6 +26,8 @@ public class With_No_Changes
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
     private readonly Mock<INotifier> _notifierMock;
+    private Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingServiceMock;
+    private SyncKboCommand _command;
 
     public With_No_Changes()
     {
@@ -34,16 +38,31 @@ public class With_No_Changes
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
+        _command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler = new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(
+        _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
+
+        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
-                                                       ), _notifierMock.Object);
+                                                       ), _notifierMock.Object,
+                                                       NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
-            new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
+            new CommandEnvelope<SyncKboCommand>(_command, commandMetadata),
             _verenigingRepositoryMock).GetAwaiter().GetResult();
+    }
+
+    [Fact]
+    public void Then_The_Vereniging_Is_IsGeregistreerdBijMagda()
+    {
+        _magdaRegistreerInschrijvingServiceMock
+           .Verify(
+                service => service.RegistreerInschrijving(
+                    _command.KboNummer,
+                    It.IsAny<CommandMetadata>(),
+                    It.IsAny<CancellationToken>()),
+                Times.Once);
     }
 
     [Fact]
@@ -97,7 +116,7 @@ public class With_FailureResultFromMagda
         var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler = new SyncKboCommandHandler(_magdaGeefVerenigingService.Object, _notifierMock.Object);
+        var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),_magdaGeefVerenigingService.Object, _notifierMock.Object, NullLogger<SyncKboCommandHandler>.Instance);
 
         _action = async () => await commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
