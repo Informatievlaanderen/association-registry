@@ -2,6 +2,7 @@
 
 using Acties.SyncKbo;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Magda;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -9,6 +10,7 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Vereniging;
@@ -46,7 +48,7 @@ public class With_A_Removed_Contactgegeven
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new SyncKboCommandHandler(new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object);
+            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object, NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

@@ -45,7 +45,7 @@ public class TeSynchroniserenAdresMessageHandler
             await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
 
             await _verenigingsRepository.Save(
-                vereniging, new CommandMetadata("AGV", SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null),
+                vereniging, new CommandMetadata(EventStore.EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null),
                 CancellationToken.None);
         }
         catch (Exception ex)

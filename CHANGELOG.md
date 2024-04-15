@@ -1,3 +1,25 @@
+# [8.89.0](https://github.com/informatievlaanderen/association-registry/compare/v8.88.0...v8.89.0) (2024-04-15)
+
+
+### Features
+
+* or-2134 add sub-packages ([31b2708](https://github.com/informatievlaanderen/association-registry/commit/31b270859b8da74b5a14dec693a7e4356415d160))
+
+# [8.88.0](https://github.com/informatievlaanderen/association-registry/compare/v8.87.6...v8.88.0) (2024-04-15)
+
+
+### Features
+
+* or-2134 registreer inschrijving when syncing from kbo ([a32180d](https://github.com/informatievlaanderen/association-registry/commit/a32180d912a2e40ce1a9fdcf94cb01a405c14a81))
+
+## [8.87.6](https://github.com/informatievlaanderen/association-registry/compare/v8.87.5...v8.87.6) (2024-04-11)
+
+
+### Bug Fixes
+
+* or-1821 deelgemeente in postal information decorator ([a1f8487](https://github.com/informatievlaanderen/association-registry/commit/a1f84874a7c1dcf80ae27e89e6f4a6e4d94a0aa5))
+* or-1821 ovo code for address match initiator ([4c6120a](https://github.com/informatievlaanderen/association-registry/commit/4c6120a487cda201753e5a33ee062a8ef50a143e))
+
 ## [8.87.5](https://github.com/informatievlaanderen/association-registry/compare/v8.87.4...v8.87.5) (2024-04-11)
 
 

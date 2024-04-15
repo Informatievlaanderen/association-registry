@@ -19,15 +19,16 @@ public record AdresMatchUitGrar
                 "België")
         };
 
-    public AdresMatchUitGrar DecorateWithPostalInformation(PostalInformationResponse? postalInformationResponse)
+    public AdresMatchUitGrar DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
     {
         if (postalInformationResponse is null) return this;
 
         var postNaam =
             postalInformationResponse.Postnamen.SingleOrDefault(
-                sod => sod.Equals(Adres.Gemeente, StringComparison.InvariantCultureIgnoreCase));
+                sod => sod.Equals(origineleGemeentenaam, StringComparison.InvariantCultureIgnoreCase));
+        var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
 
-        if (postNaam is not null)
+        if (origineleGemeentenaamKomtVoorInPostalInformationResult)
         {
             // Gemeentenaam komt voor in de postnamen
             if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))

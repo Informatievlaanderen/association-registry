@@ -2,23 +2,31 @@
 
 using Framework;
 using Kbo;
+using Microsoft.Extensions.Logging;
 using Notifications;
 using Notifications.Messages;
+using Resources;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
 
 public class SyncKboCommandHandler
 {
+    private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly INotifier _notifier;
+    private readonly ILogger<SyncKboCommandHandler> _logger;
 
     public SyncKboCommandHandler(
+        IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaGeefVerenigingService magdaGeefVerenigingService,
-        INotifier notifier)
+        INotifier notifier,
+        ILogger<SyncKboCommandHandler> logger)
     {
+        _registreerInschrijvingService = registreerInschrijvingService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
         _notifier = notifier;
+        _logger = logger;
     }
 
     public async Task<CommandResult> Handle(
@@ -27,6 +35,8 @@ public class SyncKboCommandHandler
         CancellationToken cancellationToken = default)
     {
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
+
+        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         var verenigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
@@ -66,4 +76,27 @@ public class SyncKboCommandHandler
 
         vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
     }
+
+        private async Task RegistreerInschrijving(
+            KboNummer kboNummer,
+            CommandMetadata messageMetadata,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                var result = await _registreerInschrijvingService.RegistreerInschrijving(
+                    kboNummer, messageMetadata, cancellationToken);
+
+                if (result.IsFailure())
+                    throw new RegistreerInschrijvingKonNietVoltooidWorden();
+
+                _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, kboNummer);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNummer);
+
+                throw new RegistreerInschrijvingKonNietVoltooidWorden();
+            }
+        }
 }
