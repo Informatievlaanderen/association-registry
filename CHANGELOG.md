@@ -1,3 +1,10 @@
+# [8.89.0](https://github.com/informatievlaanderen/association-registry/compare/v8.88.0...v8.89.0) (2024-04-15)
+
+
+### Features
+
+* or-2134 add sub-packages ([31b2708](https://github.com/informatievlaanderen/association-registry/commit/31b270859b8da74b5a14dec693a7e4356415d160))
+
 # [8.88.0](https://github.com/informatievlaanderen/association-registry/compare/v8.87.6...v8.88.0) (2024-04-15)
 
 
