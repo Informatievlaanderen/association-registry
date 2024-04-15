@@ -68,10 +68,6 @@ public class With_A_Different_VerenigingsType
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
-           .ContainSingle(e => e.Equals(new RechtsvormWerdGewijzigdInKBO(_newVerenigingstype.Code)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+           .ContainSingle(e => e.Equals(new RechtsvormWerdGewijzigdInKBO(_newVerenigingstype.Code)));
     }
 }

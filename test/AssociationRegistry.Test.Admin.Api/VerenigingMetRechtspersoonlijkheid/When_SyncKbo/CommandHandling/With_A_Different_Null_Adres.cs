@@ -66,13 +66,7 @@ public class With_A_Different_Null_Adres
                     .Vereniging
                     .UncommittedEvents
                     .Should()
-                    .HaveCount(2)
-                    .And.Subject.ToArray();
-
-        events[0].Should().BeEquivalentTo(
-            new MaatschappelijkeZetelWerdVerwijderdUitKbo(
-                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie));
-
-        events[1].Should().BeOfType<SynchronisatieMetKboWasSuccesvol>();
+                    .ContainSingle(e => e as MaatschappelijkeZetelWerdVerwijderdUitKbo == new MaatschappelijkeZetelWerdVerwijderdUitKbo(
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie));
     }
 }

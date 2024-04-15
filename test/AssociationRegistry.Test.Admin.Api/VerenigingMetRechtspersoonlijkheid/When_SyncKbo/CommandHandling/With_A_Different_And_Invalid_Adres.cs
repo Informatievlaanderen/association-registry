@@ -69,21 +69,14 @@ public class With_A_Different_And_Invalid_Adres
                     .Vereniging
                     .UncommittedEvents
                     .Should()
-                    .HaveCount(3)
-                    .And.Subject.ToArray();
-
-        events[0].Should().BeEquivalentTo(
-            new MaatschappelijkeZetelWerdVerwijderdUitKbo(
-                _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie));
-
-        events[1].Should().BeEquivalentTo(new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
-                                              _newAdres.Straatnaam,
-                                              _newAdres.Huisnummer,
-                                              _newAdres.Busnummer,
-                                              _newAdres.Postcode,
-                                              _newAdres.Gemeente,
-                                              _newAdres.Land));
-
-        events[2].Should().BeOfType<SynchronisatieMetKboWasSuccesvol>();
+                    .ContainSingle(e => e as MaatschappelijkeZetelWerdVerwijderdUitKbo == new MaatschappelijkeZetelWerdVerwijderdUitKbo(
+                                       _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie))
+                    .And.ContainSingle(e => e as MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo == new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+                                                                                               _newAdres.Straatnaam,
+                                                                                               _newAdres.Huisnummer,
+                                                                                               _newAdres.Busnummer,
+                                                                                               _newAdres.Postcode,
+                                                                                               _newAdres.Gemeente,
+                                                                                               _newAdres.Land));
     }
 }

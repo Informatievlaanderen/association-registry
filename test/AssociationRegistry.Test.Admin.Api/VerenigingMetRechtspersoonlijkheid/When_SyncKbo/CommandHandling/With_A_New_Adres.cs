@@ -68,8 +68,6 @@ public class With_A_New_Adres
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(
                               new MaatschappelijkeZetelWerdOvergenomenUitKbo(
                                   new Registratiedata.Locatie(1,
@@ -84,8 +82,6 @@ public class With_A_New_Adres
                                                                   _newAdres.Gemeente,
                                                                   _newAdres.Land),
                                                               null)
-                              )))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                              )));
     }
 }

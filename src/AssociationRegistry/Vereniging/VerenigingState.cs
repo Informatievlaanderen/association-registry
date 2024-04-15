@@ -36,6 +36,8 @@ public record VerenigingState : IHasVersion
         HoofdactiviteitenVerenigingsloket.Empty;
 
     public bool IsGestopt => Einddatum is not null;
+
+    public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public bool IsVerwijderd { get; set; }
     public long Version { get; set; }
 
@@ -119,7 +121,7 @@ public record VerenigingState : IHasVersion
         };
 
     public VerenigingState Apply(VerenigingWerdIngeschrevenOpWijzigingenUitKbo _)
-        => this;
+        => this with { IsIngeschrevenOpWijzigingenUitKbo = true };
 
     public VerenigingState Apply(NaamWerdGewijzigd @event)
         => this with { Naam = VerenigingsNaam.Hydrate(@event.Naam) };

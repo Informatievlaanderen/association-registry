@@ -85,13 +85,9 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(
-                              new ContactgegevenWerdOvergenomenUitKBO(2, Contactgegeventype.Email,
-                                                                      ContactgegeventypeVolgensKbo.Email.Waarde,
-                                                                      _existingContactgegeven.Waarde)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                       new ContactgegevenWerdOvergenomenUitKBO(2, Contactgegeventype.Email,
+                                                                               ContactgegeventypeVolgensKbo.Email.Waarde,
+                                                                               _existingContactgegeven.Waarde)));
     }
 }

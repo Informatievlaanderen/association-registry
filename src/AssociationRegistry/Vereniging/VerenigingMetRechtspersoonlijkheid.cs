@@ -304,4 +304,10 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (State.IsGestopt) return;
         AddEvent(VerenigingWerdGestoptInKBO.With(eindDatum));
     }
+
+    public void MarkeerAlsIngeschreven(KboNummer kboNummer)
+    {
+        if(!State.IsIngeschrevenOpWijzigingenUitKbo)
+            AddEvent(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(kboNummer));
+    }
 }

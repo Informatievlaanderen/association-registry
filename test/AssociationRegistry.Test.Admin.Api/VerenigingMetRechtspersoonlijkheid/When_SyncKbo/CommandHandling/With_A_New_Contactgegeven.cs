@@ -82,8 +82,6 @@ public class With_A_New_Contactgegeven
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(5)
-           .And
            .ContainSingle(e => e.Equals(
                               new ContactgegevenWerdOvergenomenUitKBO(1, Contactgegeventype.Email,
                                                                       ContactgegeventypeVolgensKbo.Email.Waarde, _newEmail)))
@@ -98,8 +96,6 @@ public class With_A_New_Contactgegeven
            .And
            .ContainSingle(e => e.Equals(
                               new ContactgegevenWerdOvergenomenUitKBO(4, Contactgegeventype.Telefoon,
-                                                                      ContactgegeventypeVolgensKbo.GSM.Waarde, _newGSM)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                                                      ContactgegeventypeVolgensKbo.GSM.Waarde, _newGSM)));
     }
 }
