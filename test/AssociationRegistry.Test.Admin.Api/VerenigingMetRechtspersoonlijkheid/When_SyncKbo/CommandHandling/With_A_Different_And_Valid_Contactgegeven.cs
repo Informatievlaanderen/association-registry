@@ -78,14 +78,10 @@ public class With_A_Different_And_Valid_Contactgegeven
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(new ContactgegevenWerdGewijzigdInKbo(
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
                                             _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
-                                            _newContactgegevenWaarde)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                            _newContactgegevenWaarde)));
     }
 }

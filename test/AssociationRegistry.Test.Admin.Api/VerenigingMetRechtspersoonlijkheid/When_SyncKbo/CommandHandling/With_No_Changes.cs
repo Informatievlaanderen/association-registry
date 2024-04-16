@@ -78,16 +78,18 @@ public class With_No_Changes
     }
 
     [Fact]
-    public void Then_Only_A_SynchronisatieMetKboWasSuccesvol_Event_Is_Saved()
+    public void Then_Only_A_SynchronisatieMetKboWasSuccesvol_And_VerenigingWerdIngeschrevenOpWijzigingenUitKbo_Event_Is_Saved()
     {
         _verenigingRepositoryMock
            .SaveInvocations[0]
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(1)
+           .HaveCount(2)
            .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol))
+           .And
+           .ContainSingle(e => e.GetType() == typeof(VerenigingWerdIngeschrevenOpWijzigingenUitKbo));
     }
 }
 

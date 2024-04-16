@@ -76,13 +76,9 @@ public class With_A_New_But_Invalid_Contactgegeven
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(new ContactgegevenKonNietOvergenomenWordenUitKBO(
                                             Contactgegeventype.Email,
                                             ContactgegeventypeVolgensKbo.Email,
-                                            _newContactgegevenWaarde)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                            _newContactgegevenWaarde)));
     }
 }

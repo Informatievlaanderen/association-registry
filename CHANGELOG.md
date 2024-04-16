@@ -1,3 +1,10 @@
+# [8.90.0](https://github.com/informatievlaanderen/association-registry/compare/v8.89.0...v8.90.0) (2024-04-15)
+
+
+### Features
+
+* or-2134 registreer inschrijving when syncing with kbo ([0b012b7](https://github.com/informatievlaanderen/association-registry/commit/0b012b7f77c0918aba848de1c2e7d0a3538bfa4d))
+
 # [8.89.0](https://github.com/informatievlaanderen/association-registry/compare/v8.88.0...v8.89.0) (2024-04-15)
 
 

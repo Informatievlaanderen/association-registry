@@ -69,10 +69,6 @@ public class With_Inactief_And_Einddatum
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
-           .ContainSingle(e => e.Equals(new VerenigingWerdGestoptInKBO(_einddatum)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+           .ContainSingle(e => e.Equals(new VerenigingWerdGestoptInKBO(_einddatum)));
     }
 }

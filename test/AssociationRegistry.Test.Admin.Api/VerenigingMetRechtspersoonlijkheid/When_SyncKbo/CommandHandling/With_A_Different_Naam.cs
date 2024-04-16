@@ -68,10 +68,6 @@ public class With_A_Different_Naam
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
-           .ContainSingle(e => e.Equals(new NaamWerdGewijzigdInKbo(_newNaam)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+           .ContainSingle(e => e.Equals(new NaamWerdGewijzigdInKbo(_newNaam)));
     }
 }

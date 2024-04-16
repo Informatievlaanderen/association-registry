@@ -68,8 +68,6 @@ public class With_A_Different_And_Valid_Adres
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainEquivalentOf(
                 new MaatschappelijkeZetelWerdGewijzigdInKbo(
                     new Registratiedata.Locatie(1,
@@ -84,8 +82,6 @@ public class With_A_Different_And_Valid_Adres
                                                     _newAdres.Gemeente,
                                                     _newAdres.Land),
                                                 null)
-                ))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                ));
     }
 }

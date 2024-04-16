@@ -44,8 +44,11 @@ public class SyncKboCommandHandler
         if (verenigingVolgensMagda.IsFailure())
         {
             await _notifier.Notify(new KboSynchronisatieMisluktMessage(message.Command.KboNummer));
+
             throw new GeenGeldigeVerenigingInKbo();
         }
+
+        vereniging.MarkeerAlsIngeschreven(message.Command.KboNummer);
 
         vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
         vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));

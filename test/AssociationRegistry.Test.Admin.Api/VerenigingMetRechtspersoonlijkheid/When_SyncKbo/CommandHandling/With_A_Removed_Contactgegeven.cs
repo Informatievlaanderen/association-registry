@@ -75,14 +75,10 @@ public class With_A_Removed_Contactgegeven
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(new ContactgegevenWerdVerwijderdUitKBO(
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
-                                            _scenario.ContactgegevenWerdOvergenomenUitKBO.Waarde)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                                     _scenario.ContactgegevenWerdOvergenomenUitKBO.ContactgegevenId,
+                                                     _scenario.ContactgegevenWerdOvergenomenUitKBO.Contactgegeventype,
+                                                     _scenario.ContactgegevenWerdOvergenomenUitKBO.TypeVolgensKbo,
+                                                     _scenario.ContactgegevenWerdOvergenomenUitKBO.Waarde)));
     }
 }

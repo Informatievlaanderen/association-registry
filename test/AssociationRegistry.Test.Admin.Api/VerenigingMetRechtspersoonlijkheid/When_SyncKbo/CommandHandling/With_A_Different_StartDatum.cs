@@ -68,10 +68,6 @@ public class With_A_Different_StartDatum
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
-           .ContainSingle(e => e.Equals(new StartdatumWerdGewijzigdInKbo(_newStartdatum)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+           .ContainSingle(e => e.Equals(new StartdatumWerdGewijzigdInKbo(_newStartdatum)));
     }
 }

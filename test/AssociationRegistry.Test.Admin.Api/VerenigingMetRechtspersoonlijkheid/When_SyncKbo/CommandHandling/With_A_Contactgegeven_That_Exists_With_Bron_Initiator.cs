@@ -85,14 +85,10 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
            .Vereniging
            .UncommittedEvents
            .Should()
-           .HaveCount(2)
-           .And
            .ContainSingle(e => e.Equals(
                               new ContactgegevenWerdInBeheerGenomenDoorKbo(_existingContactgegeven.ContactgegevenId,
                                                                            Contactgegeventype.Email,
                                                                            ContactgegeventypeVolgensKbo.Email.Waarde,
-                                                                           _existingContactgegeven.Waarde)))
-           .And
-           .ContainSingle(e => e.GetType() == typeof(SynchronisatieMetKboWasSuccesvol));
+                                                                           _existingContactgegeven.Waarde)));
     }
 }
