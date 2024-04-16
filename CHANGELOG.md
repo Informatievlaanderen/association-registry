@@ -1,3 +1,10 @@
+## [8.90.1](https://github.com/informatievlaanderen/association-registry/compare/v8.90.0...v8.90.1) (2024-04-16)
+
+
+### Bug Fixes
+
+* or-1821 wolverine transport configuration ([f226101](https://github.com/informatievlaanderen/association-registry/commit/f22610120d3744bd4d3d3346dc2f13ab93cab047))
+
 # [8.90.0](https://github.com/informatievlaanderen/association-registry/compare/v8.89.0...v8.90.0) (2024-04-15)
 
 
