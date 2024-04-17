@@ -1,0 +1,22 @@
+{
+  "priority": 4,
+  "request": {
+    "method": "GET",
+    "urlPath": "/v2/adresmatch",
+    "queryParameters": {
+      "Gemeentenaam": {
+        "equalTo": "Hekelgem"
+      },
+      "Postcode": {
+        "equalTo": "1790"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "AdresMatch/Exact_Match_Hekelgem.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

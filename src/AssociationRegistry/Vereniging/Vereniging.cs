@@ -197,8 +197,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var postalInformation = await grarClient.GetPostalInformation(adresTeMatchen.Postcode);
 
-        IEvent @event = adresMatch.Count switch
+        IEvent @event = adresMatch?.Count switch
         {
+            null => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                             adresTeMatchen.Straatnaam,
+                                                             adresTeMatchen.Huisnummer,
+                                                             adresTeMatchen.Busnummer,
+                                                             adresTeMatchen.Postcode,
+                                                             adresTeMatchen.Gemeente),
             0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
                                                              adresTeMatchen.Straatnaam,
                                                              adresTeMatchen.Huisnummer,

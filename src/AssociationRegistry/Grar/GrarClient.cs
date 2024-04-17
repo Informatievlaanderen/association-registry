@@ -33,26 +33,25 @@ public class GrarClient : IGrarClient
         {
             var response = await client.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
-            var result = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync());
-
-            var matches = result.AdresMatches
-                                .Where(w => !string.IsNullOrEmpty(w.Identificator.ObjectId))
-                                .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
-                                .Select(s => new AddressMatchResponse(
-                                            Score: s.Score,
-                                            AdresId: new Registratiedata.AdresId(
-                                                Adresbron.AR.Code,
-                                                s.Identificator.Id
-                                            ),
-                                            AdresStatus: s.AdresStatus,
-                                            s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                            s.Huisnummer,
-                                            s.Busnummer,
-                                            s.Postinfo.ObjectId,
-                                            s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-                                        )).ToArray();
-
-            return matches;
+            return response.IsSuccessStatusCode
+                ? JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
+                             .AdresMatches
+                             .Where(w => !string.IsNullOrEmpty(w.Identificator.ObjectId))
+                             .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
+                             .Select(s => new AddressMatchResponse(
+                                         Score: s.Score,
+                                         AdresId: new Registratiedata.AdresId(
+                                             Adresbron.AR.Code,
+                                             s.Identificator.Id
+                                         ),
+                                         AdresStatus: s.AdresStatus,
+                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                         s.Huisnummer,
+                                         s.Busnummer,
+                                         s.Postinfo.ObjectId,
+                                         s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+                                     )).ToArray()
+                : Array.Empty<AddressMatchResponse>();
         }
         catch (TaskCanceledException ex)
         {
