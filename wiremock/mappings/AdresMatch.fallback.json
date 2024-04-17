@@ -1,5 +1,5 @@
 {
-  "priority": 4,
+  "priority": 10,
   "request": {
     "method": "GET",
     "urlPath": "/v2/adresmatch"

@@ -82,7 +82,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_Postal
                         Huisnummer = "48",
                         Busnummer = "",
                         Postcode = "1790",
-                        Gemeente = "Hekene",
+                        Gemeente = "Hekelgem",
                         Land = "Belgie",
                     },
                     IsPrimair = false,
@@ -221,32 +221,40 @@ public class With_All_Fields_And_PostalInformation
                                             await using var session = _fixture.DocumentStore.LightweightSession();
                                             var stream = await session.Events.FetchStreamAsync(savedEvent.VCode);
 
+                                            _testOutputHelper.WriteLine($"Stream: {JsonConvert.SerializeObject(stream)}");
+
                                             var werdenOvergenomen = stream.OfType<AdresWerdOvergenomenUitAdressenregister>();
+                                            var werdenOvergenomenCount = werdenOvergenomen.Count();
 
-                                            _testOutputHelper.WriteLine($"Number of events found: " + werdenOvergenomen);
+                                            _testOutputHelper.WriteLine($"Number of events found: " + werdenOvergenomenCount);
 
-                                            if (werdenOvergenomen.Count() == Request.Locaties.Length)
+                                            if (werdenOvergenomenCount > 0)
                                             {
-                                                using (new AssertionScope())
-                                                {
-                                                    // Affligem locatie
-                                                    var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
-                                                    werdOvergenomenAffligem.Should().NotBeNull();
-                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
+                                                _testOutputHelper.WriteLine($"Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
+                                            }
 
-                                                    // Hekene locatie
-                                                    var werdOvergenomenHekene = werdenOvergenomen.ElementAt(1);
-                                                    werdOvergenomenHekene.Should().NotBeNull();
-                                                    werdOvergenomenHekene.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenHekene.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Hekene (Affligem)");
 
-                                                    // Nothingham locatie
-                                                    var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
-                                                    werdOvergenomenNothingham.Should().NotBeNull();
-                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
-                                                }
+                                            using (new AssertionScope())
+                                            {
+                                                // Affligem locatie
+                                                var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
+                                                werdOvergenomenAffligem.Should().NotBeNull();
+                                                werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+                                                werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
+
+                                                // Hekelgem locatie
+                                                var werdOvergenomenHekelgem = werdenOvergenomen.ElementAt(1);
+                                                werdOvergenomenHekelgem.Should().NotBeNull();
+                                                werdOvergenomenHekelgem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+
+                                                werdOvergenomenHekelgem.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
+                                                                     .Be("Rumbeke (Roeselare)");
+
+                                                // Nothingham locatie
+                                                var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
+                                                werdOvergenomenNothingham.Should().NotBeNull();
+                                                werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+                                                werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
                                             }
                                         });
 

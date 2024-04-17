@@ -101,6 +101,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "mappings", "mappings", "{9E
 		wiremock\mappings\PostalInformation.1790.json = wiremock\mappings\PostalInformation.1790.json
 		wiremock\mappings\PostalInformation.9200.json = wiremock\mappings\PostalInformation.9200.json
 		wiremock\mappings\PostalInformation.fallback.json = wiremock\mappings\PostalInformation.fallback.json
+		wiremock\mappings\AdresMatch.exact-match-hekelgem.json = wiremock\mappings\AdresMatch.exact-match-hekelgem.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Magda", "src\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj", "{85139412-485D-4B23-8423-A0C2021B60DE}"
@@ -151,6 +152,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresMatch", "AdresMatch", 
 		wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\Exact_Match_Dendermonde.json
 		wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json = wiremock\__files\AdresMatch\No_Exact_Match_Dendermonde.json
 		wiremock\__files\AdresMatch\Exact_Match_Affligem.json = wiremock\__files\AdresMatch\Exact_Match_Affligem.json
+		wiremock\__files\AdresMatch\Exact_Match_Hekelgem.json = wiremock\__files\AdresMatch\Exact_Match_Hekelgem.json
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PostalInformation", "PostalInformation", "{DBB70D11-0133-4322-B34E-0B8E0433E4A5}"
