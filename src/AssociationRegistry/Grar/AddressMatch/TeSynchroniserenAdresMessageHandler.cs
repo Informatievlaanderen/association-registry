@@ -2,6 +2,7 @@
 
 using DuplicateVerenigingDetection;
 using Framework;
+using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using Vereniging;
@@ -14,6 +15,7 @@ public class TeSynchroniserenAdresMessageHandler
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IGrarClient _grarClient;
     private readonly IVCodeService _vCodeService;
+    private readonly IDocumentSession _documentSession;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
     public TeSynchroniserenAdresMessageHandler(
