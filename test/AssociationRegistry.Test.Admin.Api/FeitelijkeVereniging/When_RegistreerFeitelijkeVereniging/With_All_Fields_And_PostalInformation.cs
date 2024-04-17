@@ -210,8 +210,6 @@ public class With_All_Fields_And_PostalInformation
     {
         var savedEvent = GetFeitelijkeVerenigingWerdGeregistreerdEvent();
 
-        _testOutputHelper.WriteLine($"FeitelijkeVerenigingWerdGeregistreerd: " + JsonConvert.SerializeObject(savedEvent));
-
         Response.Should().NotBeNull();
 
         var policyResult = await Policy.Handle<Exception>()
@@ -221,40 +219,45 @@ public class With_All_Fields_And_PostalInformation
                                             await using var session = _fixture.DocumentStore.LightweightSession();
                                             var stream = await session.Events.FetchStreamAsync(savedEvent.VCode);
 
-                                            _testOutputHelper.WriteLine($"Stream: {JsonConvert.SerializeObject(stream)}");
+                                            _testOutputHelper.WriteLine($"Number of events found in stream: " + stream.Count());
+                                            _testOutputHelper.WriteLine("");
 
                                             var werdenOvergenomen = stream.OfType<AdresWerdOvergenomenUitAdressenregister>();
                                             var werdenOvergenomenCount = werdenOvergenomen.Count();
 
-                                            _testOutputHelper.WriteLine($"Number of events found: " + werdenOvergenomenCount);
-
                                             if (werdenOvergenomenCount > 0)
                                             {
                                                 _testOutputHelper.WriteLine($"Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
+                                                _testOutputHelper.WriteLine("");
+
+                                                using (new AssertionScope())
+                                                {
+                                                    // Affligem locatie
+                                                    var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
+                                                    werdOvergenomenAffligem.Should().NotBeNull();
+                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
+
+                                                    // Hekelgem locatie
+                                                    var werdOvergenomenHekelgem = werdenOvergenomen.ElementAt(1);
+                                                    werdOvergenomenHekelgem.Should().NotBeNull();
+                                                    werdOvergenomenHekelgem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+
+                                                    werdOvergenomenHekelgem.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
+                                                                           .Be("Rumbeke (Roeselare)");
+
+                                                    // Nothingham locatie
+                                                    var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
+                                                    werdOvergenomenNothingham.Should().NotBeNull();
+                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+
+                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
+                                                                             .Be("Affligem");
+                                                }
                                             }
-
-
-                                            using (new AssertionScope())
+                                            else
                                             {
-                                                // Affligem locatie
-                                                var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
-                                                werdOvergenomenAffligem.Should().NotBeNull();
-                                                werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
-
-                                                // Hekelgem locatie
-                                                var werdOvergenomenHekelgem = werdenOvergenomen.ElementAt(1);
-                                                werdOvergenomenHekelgem.Should().NotBeNull();
-                                                werdOvergenomenHekelgem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-
-                                                werdOvergenomenHekelgem.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
-                                                                     .Be("Rumbeke (Roeselare)");
-
-                                                // Nothingham locatie
-                                                var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
-                                                werdOvergenomenNothingham.Should().NotBeNull();
-                                                werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
+                                                throw new NotImplementedException();
                                             }
                                         });
 
