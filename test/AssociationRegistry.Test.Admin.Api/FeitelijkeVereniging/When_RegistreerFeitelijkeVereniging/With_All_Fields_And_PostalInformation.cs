@@ -13,12 +13,14 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
 using JasperFx.Core;
+using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Polly;
 using System.Net;
 using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
@@ -213,7 +215,7 @@ public class With_All_Fields_And_PostalInformation
         Response.Should().NotBeNull();
 
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 3)))
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 1)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
                                             await using var session = _fixture.DocumentStore.LightweightSession();
@@ -222,42 +224,43 @@ public class With_All_Fields_And_PostalInformation
                                             _testOutputHelper.WriteLine($"Number of events found in stream: " + stream.Count());
                                             _testOutputHelper.WriteLine("");
 
-                                            var werdenOvergenomen = stream.OfType<AdresWerdOvergenomenUitAdressenregister>();
-                                            var werdenOvergenomenCount = werdenOvergenomen.Count();
+                                            var werdenOvergenomen = stream.OfType<IEvent<AdresWerdOvergenomenUitAdressenregister>>();
+                                            var nietGevonden = stream.OfType<IEvent<AdresWerdNietGevondenInAdressenregister>>();
 
-                                            if (werdenOvergenomenCount > 0)
+                                            _testOutputHelper.WriteLine(
+                                                $"Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
+
+                                            _testOutputHelper.WriteLine("");
+
+                                            using (new AssertionScope())
                                             {
-                                                _testOutputHelper.WriteLine($"Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
-                                                _testOutputHelper.WriteLine("");
+                                                stream.Should().HaveCount(4);
+                                                // Affligem locatie
+                                                var werdOvergenomenAffligem =
+                                                    werdenOvergenomen.SingleOrDefault(
+                                                        x => x.Data.OvergenomenAdresUitGrar.Adres.Gemeente == "Affligem");
 
-                                                using (new AssertionScope())
-                                                {
-                                                    // Affligem locatie
-                                                    var werdOvergenomenAffligem = werdenOvergenomen.ElementAt(0);
-                                                    werdOvergenomenAffligem.Should().NotBeNull();
-                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
-                                                    werdOvergenomenAffligem.OvergenomenAdresUitGrar.Adres.Gemeente.Should().Be("Affligem");
+                                                werdOvergenomenAffligem.Should().NotBeNull();
 
-                                                    // Hekelgem locatie
-                                                    var werdOvergenomenHekelgem = werdenOvergenomen.ElementAt(1);
-                                                    werdOvergenomenHekelgem.Should().NotBeNull();
-                                                    werdOvergenomenHekelgem.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+                                                werdOvergenomenAffligem.Data.OvergenomenAdresUitGrar.AdresId.Should()
+                                                                       .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
+                                                                               "https://data.vlaanderen.be/id/adres/2208355"));
 
-                                                    werdOvergenomenHekelgem.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
-                                                                           .Be("Rumbeke (Roeselare)");
+                                                // Hekelgem locatie
+                                                var werdOvergenomenHekelgem =
+                                                    werdenOvergenomen.SingleOrDefault(
+                                                        x => x.Data.OvergenomenAdresUitGrar.Adres.Gemeente == "Hekelgem (Affligem)");
 
-                                                    // Nothingham locatie
-                                                    var werdOvergenomenNothingham = werdenOvergenomen.ElementAt(2);
-                                                    werdOvergenomenNothingham.Should().NotBeNull();
-                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.AdresId.Should().Be("2208355");
+                                                werdOvergenomenHekelgem.Should().NotBeNull();
 
-                                                    werdOvergenomenNothingham.OvergenomenAdresUitGrar.Adres.Gemeente.Should()
-                                                                             .Be("Affligem");
-                                                }
-                                            }
-                                            else
-                                            {
-                                                throw new NotImplementedException();
+                                                werdOvergenomenHekelgem.Data.OvergenomenAdresUitGrar.AdresId.Should()
+                                                                       .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
+                                                                               "https://data.vlaanderen.be/id/adres/2208355"));
+;
+
+                                                // Nothingham locatie
+                                                var nietGevondenNothingham = nietGevonden.SingleOrDefault();
+                                                nietGevondenNothingham.Should().NotBeNull();
                                             }
                                         });
 
