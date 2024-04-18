@@ -26,13 +26,13 @@ using Xunit.Abstractions;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
-public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation
+public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed
 {
-    private static When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation? called;
+    private static When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed? called;
     public readonly RegistreerFeitelijkeVerenigingRequest Request;
     public readonly HttpResponseMessage Response;
 
-    private When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation(AdminApiFixture fixture)
+    private When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed(AdminApiFixture fixture)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -109,10 +109,21 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_Postal
         };
 
         Response ??= fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();
+
+        var headers = Response.Headers;
+
+        var vCode = headers.Location.ToString()
+                           .Replace($"{fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/", "");
+
+        fixture.DefaultClient.DeleteLocatie(
+                    vCode,
+                    1,
+                    @"{""initiator"":""OVO000001""}")
+               .GetAwaiter().GetResult();
     }
 
-    public static When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation Called(AdminApiFixture fixture)
-        => called ??= new When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation(fixture);
+    public static When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed Called(AdminApiFixture fixture)
+        => called ??= new When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed(fixture);
 
     private string GetJsonBody(RegistreerFeitelijkeVerenigingRequest request)
         => GetType()
@@ -135,22 +146,22 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_Postal
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class With_All_Fields_And_PostalInformation
+public class With_All_Fields_And_PostalInformation_But_One_Location_Removed
 {
     private readonly EventsInDbScenariosFixture _fixture;
     private readonly ITestOutputHelper _testOutputHelper;
 
-    public With_All_Fields_And_PostalInformation(EventsInDbScenariosFixture fixture, ITestOutputHelper testOutputHelper)
+    public With_All_Fields_And_PostalInformation_But_One_Location_Removed(EventsInDbScenariosFixture fixture, ITestOutputHelper testOutputHelper)
     {
         _fixture = fixture;
         _testOutputHelper = testOutputHelper;
     }
 
     private RegistreerFeitelijkeVerenigingRequest Request
-        => When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation.Called(_fixture).Request;
+        => When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed.Called(_fixture).Request;
 
     private HttpResponseMessage Response
-        => When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation.Called(_fixture).Response;
+        => When_RegistreerFeitelijkeVereniging_WithAllFields_And_PostalInformation_But_One_Location_Removed.Called(_fixture).Response;
 
     [Fact]
     public void Then_it_saves_the_events()
@@ -232,17 +243,13 @@ public class With_All_Fields_And_PostalInformation
 
                                             using (new AssertionScope())
                                             {
-                                                stream.Should().HaveCount(4);
+                                                stream.Should().HaveCount(5);
                                                 // Affligem locatie
                                                 var werdOvergenomenAffligem =
                                                     werdenOvergenomen.SingleOrDefault(
                                                         x => x.Data.OvergenomenAdresUitGrar.Adres.Gemeente == "Affligem");
 
-                                                werdOvergenomenAffligem.Should().NotBeNull();
-
-                                                werdOvergenomenAffligem.Data.OvergenomenAdresUitGrar.AdresId.Should()
-                                                                       .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
-                                                                               "https://data.vlaanderen.be/id/adres/2208355"));
+                                                werdOvergenomenAffligem.Should().BeNull();
 
                                                 // Hekelgem locatie
                                                 var werdOvergenomenHekelgem =

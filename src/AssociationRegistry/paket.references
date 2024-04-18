@@ -3,6 +3,8 @@ Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 
 Result.Net
 
+Polly
+
 Marten
 WolverineFx.Marten
 WolverineFx.AmazonSqs

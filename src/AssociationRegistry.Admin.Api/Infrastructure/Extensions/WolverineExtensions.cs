@@ -3,14 +3,17 @@
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
+using EventStore;
 using Grar.AddressMatch;
 using JasperFx.CodeGeneration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using System;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
+using Wolverine.ErrorHandling;
 
 public static class WolverineExtensions
 {
@@ -26,7 +29,12 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
                 options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
 
-                // options.UseNewtonsoftForSerialization(conf => ConfigureJsonSerializerSettings());
+                options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
+                    TimeSpan.FromSeconds(1),
+                    TimeSpan.FromSeconds(2),
+                    TimeSpan.FromSeconds(3),
+                    TimeSpan.FromSeconds(5)
+                );
 
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
                 Log.Logger.Information("Address match configuration: {@Config}", addressMatchOptionsSection);
