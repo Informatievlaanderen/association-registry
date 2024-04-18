@@ -57,7 +57,7 @@ public static class WolverineExtensions
                 options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, configure =>
                 {
                     configure.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
-                });
+                }).MaximumParallelMessages(1);
 
                 options.LogMessageStarting(LogLevel.Information);
                 Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);
