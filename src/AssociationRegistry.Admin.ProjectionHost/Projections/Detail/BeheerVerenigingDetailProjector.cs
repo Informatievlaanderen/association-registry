@@ -508,7 +508,9 @@ public class BeheerVerenigingDetailProjector
                                            .ToArray();
     }
 
-    public static void Apply(IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdGewijzigdInKbo> maatschappelijkeZetelWerdGewijzigdInKbo,
+        BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
                                     .UpdateSingle(
@@ -521,13 +523,16 @@ public class BeheerVerenigingDetailProjector
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
                                              VerwijstNaar =
-                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
+                                             BeheerVerenigingDetailMapper.MapAdresVerwijzing(
+                                                 maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
 
-    public static void Apply(IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<MaatschappelijkeZetelWerdVerwijderdUitKbo> maatschappelijkeZetelWerdVerwijderdUitKbo,
+        BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
                                     .Where(l => l.LocatieId != maatschappelijkeZetelWerdVerwijderdUitKbo.Data.Locatie.LocatieId)
@@ -535,20 +540,28 @@ public class BeheerVerenigingDetailProjector
                                     .ToArray();
     }
 
-    public static void Apply(IEvent<AdresWerdOvergenomenUitAdressenregister> adresWerdOvergenomenUitAdressenregister, BeheerVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<AdresWerdOvergenomenUitAdressenregister> adresWerdOvergenomenUitAdressenregister,
+        BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
                                     .UpdateSingle(
                                          identityFunc: l => l.LocatieId == adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
                                          update: l => l with
                                          {
-                                             Adres = BeheerVerenigingDetailMapper.MapAdres(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres, document.VCode, l.LocatieId),
-                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres.ToAdresString(),
-                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
-                                             VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                             Adres = BeheerVerenigingDetailMapper.MapAdres(
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres, document.VCode,
+                                                 l.LocatieId),
+                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres
+                                                .ToAdresString(),
+                                             AdresId = BeheerVerenigingDetailMapper.MapAdresId(
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                             VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
-                                    .ToArray();    }
+                                    .ToArray();
+    }
 
     public static void Apply(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, BeheerVerenigingDetailDocument document)
     {
@@ -559,5 +572,35 @@ public class BeheerVerenigingDetailProjector
         };
 
         document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == adresWerdNietGevondenInAdressenregister.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             AdresId = null,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == adresNietUniekInAdressenregister.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             AdresId = null,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
     }
 }

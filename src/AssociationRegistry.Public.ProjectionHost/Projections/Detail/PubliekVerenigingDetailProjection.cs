@@ -164,6 +164,10 @@ public class PubliekVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+    public async Task Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+    public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     private static async Task Update<T>(
         IEvent<T> @event,
