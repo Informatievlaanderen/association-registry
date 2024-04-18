@@ -584,6 +584,7 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              AdresId = null,
+                                             VerwijstNaar = null,
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
@@ -599,6 +600,7 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              AdresId = null,
+                                             VerwijstNaar = null
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
