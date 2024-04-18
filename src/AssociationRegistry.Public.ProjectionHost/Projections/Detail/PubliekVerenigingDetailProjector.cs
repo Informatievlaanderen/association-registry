@@ -6,7 +6,6 @@ using Framework;
 using Infrastructure.Extensions;
 using JsonLdContext;
 using Marten.Events;
-using Nest;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
@@ -490,6 +489,36 @@ public static class PubliekVerenigingDetailProjector
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
+
+    public static void Apply(IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister, PubliekVerenigingDetailDocument document)
+    {
+        var @event = adresWerdNietGevondenInAdressenregister.Data;
+        var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != adresWerdNietGevondenInAdressenregister.Data.LocatieId)
+                                    .Append(locatie with
+                                     {
+                                         AdresId = null,
+                                         VerwijstNaar = null,
+                                     })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();    }
+
+    public static void Apply(IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister, PubliekVerenigingDetailDocument document)
+    {
+        var @event = adresNietUniekInAdressenregister.Data;
+        var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != adresNietUniekInAdressenregister.Data.LocatieId)
+                                    .Append(locatie with
+                                     {
+                                         AdresId = null,
+                                         VerwijstNaar = null,
+                                     })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();    }
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
