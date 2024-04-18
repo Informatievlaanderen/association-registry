@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.AddressMatch;
 
 using DuplicateVerenigingDetection;
+using EventStore;
 using Framework;
 using Marten;
 using Microsoft.Extensions.Logging;
@@ -47,8 +48,14 @@ public class TeSynchroniserenAdresMessageHandler
             await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
 
             await _verenigingsRepository.Save(
-                vereniging, new CommandMetadata(EventStore.EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(), null),
+                vereniging,
+                new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
+                                    vereniging.Version),
                 CancellationToken.None);
+        }
+        catch (UnexpectedAggregateVersionException)
+        {
+            throw new UnexpectedAggregateVersionDuringSyncException();
         }
         catch (Exception ex)
         {

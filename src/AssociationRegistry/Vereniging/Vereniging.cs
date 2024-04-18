@@ -186,7 +186,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)
     {
-        var adresTeMatchen = State.Locaties.Single(s => s.LocatieId == locatieId).Adres;
+        var locatieVoorTeMatchenAdres = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
+
+        if (locatieVoorTeMatchenAdres is null)
+        {
+            AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, string.Empty,
+                         "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd."));
+
+            return;
+        }
+
+        var adresTeMatchen = locatieVoorTeMatchenAdres.Adres;
 
         var adresMatch = await grarClient.GetAddress(
             adresTeMatchen.Straatnaam,
@@ -228,4 +238,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(@event);
     }
+
+    public long Version => State.Version;
 }
