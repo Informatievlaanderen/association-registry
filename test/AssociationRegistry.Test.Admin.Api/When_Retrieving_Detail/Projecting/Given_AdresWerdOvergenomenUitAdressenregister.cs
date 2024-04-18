@@ -46,6 +46,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
                 Type = JsonLdType.Locatie.Type,
             },
             LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
+            IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
             Adres = new Adres
