@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Grar;
 
-public class GrarHttpClient : IDisposable
+public class GrarHttpClient : IGrarHttpClient
 {
     private readonly HttpClient _httpClient;
 

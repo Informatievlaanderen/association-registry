@@ -35,6 +35,7 @@
           }
         },
         "huisnummer": "99",
+        "busnummer": null,
         "volledigAdres": {
           "geografischeNaam": {
             "spelling": "Leopold II-laan 99, 9200 Dendermonde",

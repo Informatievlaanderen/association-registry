@@ -14,11 +14,10 @@ public class WithNoExactMatchFixture : IAsyncLifetime
 
     public WithNoExactMatchFixture()
     {
-        _client = new GrarClient(new GrarOptionsSection()
+        _client = new GrarClient(new GrarHttpClient(new HttpClient()
         {
-            BaseUrl = "http://localhost:8080",
-            Timeout = 30,
-        }, NullLogger<GrarClient>.Instance);
+            BaseAddress = new Uri("http://localhost:8080/")
+        }), NullLogger<GrarClient>.Instance);
     }
 
     public IReadOnlyCollection<AddressMatchResponse> Result { get; private set; }
