@@ -46,7 +46,7 @@ public class GrarClient : IGrarClient
                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                          s.Huisnummer,
-                                         s.Busnummer ,//?? "",
+                                         s.Busnummer ?? "",
                                          s.Postinfo.ObjectId,
                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
                                      )).ToArray()

@@ -382,7 +382,7 @@ public class Program
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddTransient<IMagdaClient, MagdaClient>()
-               .AddSingleton<IGrarHttpClient, GrarHttpClient>()
+               .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, NullNotifier>()
