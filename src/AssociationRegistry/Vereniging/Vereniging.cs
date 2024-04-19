@@ -222,18 +222,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                              adresTeMatchen.Postcode,
                                                              adresTeMatchen.Gemeente),
             1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                             AdresMatchUitGrar
+                                                             AdresMatchUitAdressenregister
                                                                 .FromResponse(adresMatch.Single())
-                                                                .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation),
-                                                             Array.Empty<AdresMatchUitGrar>()),
+                                                                .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation)),
             _ => adresMatch.Count(c => c.Score == 100).Equals(1)
                 ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                              AdresMatchUitGrar
+                                                              AdresMatchUitAdressenregister
                                                                  .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                 .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation),
-                                                              adresMatch.Where(w => w.Score != 100)
-                                                                    .Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
-                : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => AdresMatchUitGrar.FromResponse(match)).ToArray())
+                                                                 .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation))
+                : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => NietUniekeAdresMatchUitAdressenregister.FromResponse(match)).ToArray())
         };
 
         AddEvent(@event);

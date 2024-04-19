@@ -115,7 +115,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
             var werdOvergenomen = session.SingleOrDefaultFromStream<AdresWerdOvergenomenUitAdressenregister>(_classFixture.Scenario.VCode);
 
             werdOvergenomen.Should().NotBeNull();
-            werdOvergenomen.OvergenomenAdresUitGrar.AdresId.Should().BeEquivalentTo(
+            werdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId.Should().BeEquivalentTo(
                 new Registratiedata.AdresId(
                     "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 

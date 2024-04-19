@@ -6,9 +6,10 @@ public record AddressMatchResponse(
     double Score,
     Registratiedata.AdresId? AdresId,
     AdresStatus? AdresStatus,
+    string Adresvoorstelling,
     string Straatnaam,
     string Huisnummer,
     string Busnummer,
     string Postcode,
-    string Gemeentenaam
+    string Gemeente
 );

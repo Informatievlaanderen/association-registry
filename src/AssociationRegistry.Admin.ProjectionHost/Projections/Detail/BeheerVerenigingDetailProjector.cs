@@ -550,14 +550,14 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres, document.VCode,
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres, document.VCode,
                                                  l.LocatieId),
-                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres
+                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres
                                                 .ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();

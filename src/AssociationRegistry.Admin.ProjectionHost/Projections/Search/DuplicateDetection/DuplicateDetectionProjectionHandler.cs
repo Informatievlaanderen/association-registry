@@ -161,9 +161,9 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument.Locatie()
             {
                 LocatieId = message.Data.LocatieId,
-                Adresvoorstelling = message.Data.OvergenomenAdresUitGrar.Adres.ToAdresString(),
-                Postcode = message.Data.OvergenomenAdresUitGrar.Adres?.Postcode ?? string.Empty,
-                Gemeente = message.Data.OvergenomenAdresUitGrar.Adres?.Gemeente ?? string.Empty,
+                Adresvoorstelling = message.Data.OvergenomenAdresUitAdressenregister.Adres.ToAdresString(),
+                Postcode = message.Data.OvergenomenAdresUitAdressenregister.Adres?.Postcode ?? string.Empty,
+                Gemeente = message.Data.OvergenomenAdresUitAdressenregister.Adres?.Gemeente ?? string.Empty,
             }
         );
 

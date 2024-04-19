@@ -2,24 +2,22 @@
 
 using Grar.Models;
 
-public record AdresMatchUitGrar
+public record AdresMatchUitAdressenregister
 {
-    public static AdresMatchUitGrar FromResponse(AddressMatchResponse response)
+    public static AdresMatchUitAdressenregister FromResponse(AddressMatchResponse response)
         => new()
         {
-            Score = response.Score,
-            AdresStatus = response.AdresStatus,
             AdresId = response.AdresId,
             Adres = new Registratiedata.Adres(
                 response.Straatnaam,
                 response.Huisnummer,
                 response.Busnummer,
                 response.Postcode,
-                response.Gemeentenaam,
+                response.Gemeente,
                 "België")
         };
 
-    public AdresMatchUitGrar DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
+    public AdresMatchUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
     {
         if (postalInformationResponse is null) return this;
 
@@ -57,6 +55,20 @@ public record AdresMatchUitGrar
 
     public Registratiedata.AdresId? AdresId { get; init; }
     public Registratiedata.Adres Adres { get; init; }
-    public AdresStatus? AdresStatus { get; init; }
+}
+
+public record NietUniekeAdresMatchUitAdressenregister
+{
+    public static NietUniekeAdresMatchUitAdressenregister FromResponse(AddressMatchResponse response)
+        => new()
+        {
+            Score = response.Score,
+            AdresId = response.AdresId,
+            Adresvoorstelling = response.Adresvoorstelling,
+
+        };
+
+    public Registratiedata.AdresId? AdresId { get; init; }
+    public string Adresvoorstelling { get; init; }
     public double Score { get; init; }
 }
