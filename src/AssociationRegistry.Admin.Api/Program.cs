@@ -72,6 +72,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
@@ -381,6 +382,7 @@ public class Program
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddTransient<IMagdaClient, MagdaClient>()
+               .AddSingleton<IGrarHttpClient, GrarHttpClient>()
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, NullNotifier>()

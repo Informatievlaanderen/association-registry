@@ -9,14 +9,14 @@ using Vereniging;
 
 public class GrarClient : IGrarClient
 {
-    private readonly GrarOptionsSection _grarOptions;
+    private readonly IGrarHttpClient _grarHttpClient;
     private readonly ILogger<GrarClient> _logger;
 
     public GrarClient(
-        GrarOptionsSection grarOptions,
+        IGrarHttpClient grarHttpClient,
         ILogger<GrarClient> logger)
     {
-        _grarOptions = grarOptions;
+        _grarHttpClient = grarHttpClient;
         _logger = logger;
     }
 
@@ -27,11 +27,9 @@ public class GrarClient : IGrarClient
         string postcode,
         string gemeentenaam)
     {
-        using var client = GetHttpClient();
-
         try
         {
-            var response = await client.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
+            var response = await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
             return response.IsSuccessStatusCode
                 ? JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
@@ -48,7 +46,7 @@ public class GrarClient : IGrarClient
                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                          s.Huisnummer,
-                                         s.Busnummer ?? "",
+                                         s.Busnummer ,//?? "",
                                          s.Postinfo.ObjectId,
                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
                                      )).ToArray()
@@ -70,11 +68,9 @@ public class GrarClient : IGrarClient
 
     public async Task<PostalInformationResponse?> GetPostalInformation(string postcode)
     {
-        using var client = GetHttpClient();
-
         try
         {
-            var response = await client.GetPostInfo(postcode, CancellationToken.None);
+            var response = await _grarHttpClient.GetPostInfo(postcode, CancellationToken.None);
 
             switch (response.StatusCode)
             {
@@ -108,15 +104,5 @@ public class GrarClient : IGrarClient
 
             throw new Exception(ex.Message, ex);
         }
-    }
-
-    private GrarHttpClient GetHttpClient()
-    {
-        var client = new GrarHttpClient(new HttpClient()
-        {
-            BaseAddress = new Uri(_grarOptions.BaseUrl)
-        });
-
-        return client;
     }
 }

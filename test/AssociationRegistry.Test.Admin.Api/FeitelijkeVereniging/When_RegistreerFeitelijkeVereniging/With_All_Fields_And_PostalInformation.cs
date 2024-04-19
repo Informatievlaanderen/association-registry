@@ -244,6 +244,8 @@ public class With_All_Fields_And_PostalInformation
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
                                                                                "https://data.vlaanderen.be/id/adres/2208355"));
 
+                                                werdOvergenomenAffligem.Data.OvergenomenAdresUitAdressenregister.Adres.Busnummer.Should().BeEmpty();
+
                                                 // Hekelgem locatie
                                                 var werdOvergenomenHekelgem =
                                                     werdenOvergenomen.SingleOrDefault(
