@@ -454,11 +454,18 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(AdresWerdOvergenomenUitAdressenregister @event)
     {
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
         return this with {
             Locaties = Locaties.Hydrate(
                 Locaties
                    .Without(@event.LocatieId)
-                   .Append(Locaties.Single(locatie => locatie.LocatieId == @event.LocatieId) with
+                   .Append(locatie with
                     {
                         AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitGrar.AdresId.Broncode, @event.OvergenomenAdresUitGrar.AdresId.Bronwaarde),
                         Adres = Adres.Hydrate(
@@ -468,20 +475,71 @@ public record VerenigingState : IHasVersion
                             @event.OvergenomenAdresUitGrar.Adres.Postcode,
                             @event.OvergenomenAdresUitGrar.Adres.Gemeente,
                             @event.OvergenomenAdresUitGrar.Adres.Land),
-                    }))
+                    })),
         };
     }
     public VerenigingState Apply(AdresWerdNietGevondenInAdressenregister @event)
     {
-        return this;
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(locatie with
+                    {
+                        AdresId = null,
+                    })
+            ),
+        };
     }
     public VerenigingState Apply(AdresKonNietOvergenomenWordenUitAdressenregister @event)
     {
-        return this;
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(locatie with
+                    {
+                        AdresId = null,
+                    })
+            ),
+        };
     }
 
     public VerenigingState Apply(AdresNietUniekInAdressenregister @event)
     {
-        return this;
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+        
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(locatie with
+                    {
+                        AdresId = null,
+                    })
+            ),
+        };
     }
 }
