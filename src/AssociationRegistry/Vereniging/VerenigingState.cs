@@ -467,14 +467,14 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(locatie with
                     {
-                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitGrar.AdresId.Broncode, @event.OvergenomenAdresUitGrar.AdresId.Bronwaarde),
+                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitAdressenregister.AdresId.Broncode, @event.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde),
                         Adres = Adres.Hydrate(
-                            @event.OvergenomenAdresUitGrar.Adres.Straatnaam,
-                            @event.OvergenomenAdresUitGrar.Adres.Huisnummer,
-                            @event.OvergenomenAdresUitGrar.Adres.Busnummer,
-                            @event.OvergenomenAdresUitGrar.Adres.Postcode,
-                            @event.OvergenomenAdresUitGrar.Adres.Gemeente,
-                            @event.OvergenomenAdresUitGrar.Adres.Land),
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Straatnaam,
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Huisnummer,
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Busnummer,
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Postcode,
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Gemeente,
+                            @event.OvergenomenAdresUitAdressenregister.Adres.Land),
                     })),
         };
     }

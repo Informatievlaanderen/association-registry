@@ -358,9 +358,9 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument.Locatie
             {
                 LocatieId = message.Data.LocatieId,
-                Postcode = message.Data.OvergenomenAdresUitGrar.Adres.Postcode,
-                Gemeente = message.Data.OvergenomenAdresUitGrar.Adres.Gemeente,
-                Adresvoorstelling = message.Data.OvergenomenAdresUitGrar.Adres.ToAdresString()
+                Postcode = message.Data.OvergenomenAdresUitAdressenregister.Adres.Postcode,
+                Gemeente = message.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente,
+                Adresvoorstelling = message.Data.OvergenomenAdresUitAdressenregister.Adres.ToAdresString()
             });
     }
 

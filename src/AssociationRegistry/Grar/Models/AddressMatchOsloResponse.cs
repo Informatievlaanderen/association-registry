@@ -48,7 +48,11 @@
 
         [DataMember(Name = "Busnummer", Order = 8, EmitDefaultValue = false)]
         [JsonProperty(Required = Required.Default)]
-        public string Busnummer { get; set; }
+        public string? Busnummer { get; set; }
+
+        [DataMember(Name = "VolledigAdres", Order = 9, EmitDefaultValue = false)]
+        [JsonProperty(Required = Required.Default)]
+        public VolledigAdres VolledigAdres { get; set; }
 
         [DataMember(Name = "AdresStatus", Order = 13, EmitDefaultValue = false)]
         [JsonProperty(Required = Required.Default)]
@@ -187,5 +191,54 @@
     [DataContract(Name = "Identificator", Namespace = "")]
     public class AdresIdentificator : Identificator
     {
+    }
+
+    [DataContract(Name = "VolledigAdres", Namespace = "")]
+    public class VolledigAdres
+    {
+        /// <summary>
+        /// De geografische naam.
+        /// </summary>
+        [DataMember(Name = "GeografischeNaam")]
+        [JsonProperty(Required = Required.DisallowNull)]
+        public GeografischeNaam GeografischeNaam { get; set; }
+
+        public VolledigAdres()
+        {
+        }
+
+        public VolledigAdres(GeografischeNaam geografischeNaam)
+        {
+            GeografischeNaam = geografischeNaam;
+        }
+
+        public VolledigAdres(
+            string straatnaam,
+            string huisnummer,
+            string busnummer,
+            string postcode,
+            string gemeentenaam,
+            Taal taal)
+        {
+            var representation = string.IsNullOrEmpty(busnummer)
+                ? $"{straatnaam} {huisnummer}, {postcode} {gemeentenaam}"
+                : $"{straatnaam} {huisnummer} {TranslateBus(taal)} {busnummer}, {postcode} {gemeentenaam}";
+
+            GeografischeNaam = new()
+            {
+                Spelling = representation,
+                Taal = taal
+            };
+        }
+
+        private static string TranslateBus(Taal taalCode)
+        {
+            return taalCode switch
+            {
+                Taal.DE => "pf",
+                Taal.FR => "bte",
+                _ => "bus"
+            };
+        }
     }
 }

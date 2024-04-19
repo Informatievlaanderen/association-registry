@@ -47,6 +47,10 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(StartdatumWerdGewijzigd):
                 case nameof(StartdatumWerdGewijzigdInKbo):
                 case nameof(EinddatumWerdGewijzigd):
+                case nameof(AdresWerdOvergenomenUitAdressenregister):
+                case nameof(AdresKonNietOvergenomenWordenUitAdressenregister):
+                case nameof(AdresNietUniekInAdressenregister):
+                case nameof(AdresWerdNietGevondenInAdressenregister):
                     await _zoekProjectionHandler.Handle(eventEnvelope);
 
                     break;

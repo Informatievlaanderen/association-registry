@@ -479,12 +479,12 @@ public static class PubliekVerenigingDetailProjector
                                              JsonLdType.Locatie.Type),
                                          Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
                                                      adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
-                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres),
-                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.Adres
+                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres),
+                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres
                                             .ToAdresString(),
-                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
                                          VerwijstNaar =
-                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitGrar.AdresId),
+                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
                                      })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
