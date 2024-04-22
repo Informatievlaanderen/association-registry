@@ -10,10 +10,12 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -42,7 +44,12 @@ public class With_Inactief_And_Einddatum
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object, NullLogger<SyncKboCommandHandler>.Instance);
+            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+                                      new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+                                      Mock.Of<IMartenOutbox>(),
+                                      Mock.Of<IDocumentSession>(),
+                                      _notifierMock.Object,
+                                      NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

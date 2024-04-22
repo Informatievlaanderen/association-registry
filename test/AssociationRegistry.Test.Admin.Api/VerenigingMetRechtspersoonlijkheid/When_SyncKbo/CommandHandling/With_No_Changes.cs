@@ -10,12 +10,14 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Notifications.Messages;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -45,7 +47,10 @@ public class With_No_Changes
 
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
-                                                       ), _notifierMock.Object,
+                                                       ),
+                                                       Mock.Of<IMartenOutbox>(),
+                                                       Mock.Of<IDocumentSession>(),
+                                                       _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
@@ -118,7 +123,12 @@ public class With_FailureResultFromMagda
         var command = new SyncKboCommand(KboNummer.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer));
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),_magdaGeefVerenigingService.Object, _notifierMock.Object, NullLogger<SyncKboCommandHandler>.Instance);
+        var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+                                                       _magdaGeefVerenigingService.Object,
+                                                       Mock.Of<IMartenOutbox>(),
+                                                       Mock.Of<IDocumentSession>(),
+                                                       _notifierMock.Object,
+                                                       NullLogger<SyncKboCommandHandler>.Instance);
 
         _action = async () => await commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),

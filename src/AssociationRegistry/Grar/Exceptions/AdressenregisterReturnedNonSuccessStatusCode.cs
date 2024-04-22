@@ -1,12 +1,17 @@
 ﻿namespace AssociationRegistry.Grar.Exceptions;
 
+using System.Net;
+
 public class AdressenregisterReturnedNonSuccessStatusCode : ApplicationException
 {
-    public AdressenregisterReturnedNonSuccessStatusCode() : base(ExceptionMessages.AdresKonNietOvergenomenWorden)
+    public HttpStatusCode StatusCode { get; }
+
+    public AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode statusCode) : this(statusCode, ExceptionMessages.AdresKonNietOvergenomenWorden)
     {
     }
 
-    public AdressenregisterReturnedNonSuccessStatusCode(string message) : base(message)
+    public AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode statusCode, string message) : base(message)
     {
+        StatusCode = statusCode;
     }
 }

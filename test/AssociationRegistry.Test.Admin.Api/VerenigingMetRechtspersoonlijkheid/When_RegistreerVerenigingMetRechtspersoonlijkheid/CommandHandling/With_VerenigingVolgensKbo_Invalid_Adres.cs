@@ -8,8 +8,11 @@ using Events;
 using Fakes;
 using Framework;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging;
+using Moq;
 using ResultNet;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -52,6 +55,8 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

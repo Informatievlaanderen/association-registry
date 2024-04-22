@@ -8,6 +8,7 @@ using Grar;
 using Grar.Exceptions;
 using Grar.Models;
 using SocialMedias;
+using System.Net;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
@@ -212,12 +213,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
             IEvent @event = adresMatch?.Count switch
             {
-                null => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                                    adresTeMatchen.Straatnaam,
-                                                                    adresTeMatchen.Huisnummer,
-                                                                    adresTeMatchen.Busnummer,
-                                                                    adresTeMatchen.Postcode,
-                                                                    adresTeMatchen.Gemeente),
                 0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
                                                                  adresTeMatchen.Straatnaam,
                                                                  adresTeMatchen.Huisnummer,
@@ -246,7 +241,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
-            var @event = new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, adresTeMatchen.ToAdresString(), ex.Message);
+            IEvent @event = ex.StatusCode switch
+            {
+                HttpStatusCode.NotFound => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                                                       adresTeMatchen.Straatnaam,
+                                                                                       adresTeMatchen.Huisnummer,
+                                                                                       adresTeMatchen.Busnummer,
+                                                                                       adresTeMatchen.Postcode,
+                                                                                       adresTeMatchen.Gemeente),
+                _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, adresTeMatchen.ToAdresString(), ex.Message)
+            };
+
             AddEvent(@event);
         }
     }

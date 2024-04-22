@@ -10,12 +10,14 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Notifications.Messages;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -42,7 +44,10 @@ public class With_No_Changes_ReedsIngeschreven
 
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
-                                                       ), _notifierMock.Object,
+                                                       ),
+                                                       Mock.Of<IMartenOutbox>(),
+                                                       Mock.Of<IDocumentSession>(),
+                                                       _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(

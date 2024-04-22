@@ -1,7 +1,10 @@
 ﻿namespace AssociationRegistry.Acties.SyncKbo;
 
+using Events;
 using Framework;
+using Grar.AddressMatch;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging;
 using Notifications;
 using Notifications.Messages;
@@ -9,22 +12,29 @@ using Resources;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 
 public class SyncKboCommandHandler
 {
     private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
+    private readonly IMartenOutbox _outbox;
+    private readonly IDocumentSession _session;
     private readonly INotifier _notifier;
     private readonly ILogger<SyncKboCommandHandler> _logger;
 
     public SyncKboCommandHandler(
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaGeefVerenigingService magdaGeefVerenigingService,
+        IMartenOutbox outbox,
+        IDocumentSession session,
         INotifier notifier,
         ILogger<SyncKboCommandHandler> logger)
     {
         _registreerInschrijvingService = registreerInschrijvingService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
+        _outbox = outbox;
+        _session = session;
         _notifier = notifier;
         _logger = logger;
     }
@@ -34,6 +44,8 @@ public class SyncKboCommandHandler
         IVerenigingsRepository repository,
         CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
+
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
 
         await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
@@ -62,7 +74,16 @@ public class SyncKboCommandHandler
 
         vereniging.SyncCompleted();
 
+        var maatschappelijkeZetelWerdOvergenomenUitKbo = vereniging.UncommittedEvents.OfType<MaatschappelijkeZetelWerdOvergenomenUitKbo>().SingleOrDefault();
+
+        if (maatschappelijkeZetelWerdOvergenomenUitKbo is not null)
+        {
+            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vereniging.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId));
+        }
+
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
+
+        _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
 
         return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }

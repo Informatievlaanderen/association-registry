@@ -42,7 +42,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Handle RegistreerFeitelijkeVerenigingCommandHandler start");
+        _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} start");
 
         var command = message.Command;
 
@@ -83,7 +83,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
 
-        _logger.LogInformation("Handle RegistreerFeitelijkeVerenigingCommandHandler end");
+        _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} end");
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

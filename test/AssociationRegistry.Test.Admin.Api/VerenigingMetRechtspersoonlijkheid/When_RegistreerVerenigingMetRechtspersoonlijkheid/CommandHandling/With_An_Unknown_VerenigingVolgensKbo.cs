@@ -7,9 +7,12 @@ using AutoFixture;
 using Fakes;
 using FluentAssertions;
 using Framework;
+using Marten;
 using Microsoft.Extensions.Logging;
+using Moq;
 using ResultNet;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,6 +40,8 @@ public class With_An_Unknown_VerenigingVolgensKbo
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 
