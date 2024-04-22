@@ -55,4 +55,9 @@ public record Adres
             return null;
         }
     }
+
+    public string ToAdresString()
+        => $"{Straatnaam} {Huisnummer}" +
+           (!string.IsNullOrWhiteSpace(Busnummer) ? $" bus {Busnummer}" : string.Empty) +
+           $", {Postcode} {Gemeente}, {Land}";
 }
