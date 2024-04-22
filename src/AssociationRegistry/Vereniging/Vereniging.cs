@@ -188,72 +188,116 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)
     {
-        var locatieVoorTeMatchenAdres = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
-
-        if (locatieVoorTeMatchenAdres is null)
-        {
-            AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, string.Empty,
-                                                                          "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd."));
-
-            return;
-        }
-
-        var adresTeMatchen = locatieVoorTeMatchenAdres.Adres;
+        var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
 
         try
         {
-            var adresMatch = await grarClient.GetAddress(
-                adresTeMatchen.Straatnaam,
-                adresTeMatchen.Huisnummer,
-                adresTeMatchen.Busnummer,
-                adresTeMatchen.Postcode,
-                adresTeMatchen.Gemeente);
+            var @event = await GetAdresMatchEvent(locatieId, locatie, grarClient);
 
-            var postalInformation = await grarClient.GetPostalInformation(adresTeMatchen.Postcode);
-
-            IEvent @event = adresMatch?.Count switch
+            if (@event is AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomenUitAdressenregister)
             {
-                0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                                 adresTeMatchen.Straatnaam,
-                                                                 adresTeMatchen.Huisnummer,
-                                                                 adresTeMatchen.Busnummer,
-                                                                 adresTeMatchen.Postcode,
-                                                                 adresTeMatchen.Gemeente),
-                1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                                 AdresMatchUitAdressenregister
-                                                                    .FromResponse(adresMatch.Single())
-                                                                    .DecorateWithPostalInformation(
-                                                                         adresTeMatchen.Gemeente, postalInformation)),
-                _ => adresMatch.Count(c => c.Score == 100).Equals(1)
-                    ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                                  AdresMatchUitAdressenregister
-                                                                     .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                     .DecorateWithPostalInformation(
-                                                                          adresTeMatchen.Gemeente, postalInformation))
-                    : new AdresNietUniekInAdressenregister(VCode, locatieId,
-                                                           adresMatch.Select(
-                                                                          match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
-                                                                              match))
-                                                                     .ToArray())
-            };
+                if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomenUitAdressenregister, locatie)) return;
+            }
 
             AddEvent(@event);
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
-            IEvent @event = ex.StatusCode switch
-            {
-                HttpStatusCode.NotFound => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                                                       adresTeMatchen.Straatnaam,
-                                                                                       adresTeMatchen.Huisnummer,
-                                                                                       adresTeMatchen.Busnummer,
-                                                                                       adresTeMatchen.Postcode,
-                                                                                       adresTeMatchen.Gemeente),
-                _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, adresTeMatchen.ToAdresString(), ex.Message)
-            };
+            var @event = GetAdresMatchExceptionEvent(locatieId, ex, locatie);
 
             AddEvent(@event);
         }
+    }
+
+    private async Task<IEvent> GetAdresMatchEvent(
+        int locatieId,
+        Locatie locatie,
+        IGrarClient grarClient)
+    {
+        if (locatie is null)
+        {
+            return new AdresKonNietOvergenomenWordenUitAdressenregister(VCode,
+                                                                        locatieId,
+                                                                        string.Empty,
+                                                                        "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd.");
+        }
+
+        var adresMatch = await grarClient.GetAddress(
+            locatie.Adres.Straatnaam,
+            locatie.Adres.Huisnummer,
+            locatie.Adres.Busnummer,
+            locatie.Adres.Postcode,
+            locatie.Adres.Gemeente);
+
+        var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
+
+        return adresMatch?.Count switch
+        {
+            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                             locatie.Adres.Straatnaam,
+                                                             locatie.Adres.Huisnummer,
+                                                             locatie.Adres.Busnummer,
+                                                             locatie.Adres.Postcode,
+                                                             locatie.Adres.Gemeente),
+            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                             AdresMatchUitAdressenregister
+                                                                .FromResponse(adresMatch.Single())
+                                                                .DecorateWithPostalInformation(
+                                                                     locatie.Adres.Gemeente, postalInformation)),
+            _ => adresMatch.Count(c => c.Score == 100).Equals(1)
+                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                              AdresMatchUitAdressenregister
+                                                                 .FromResponse(adresMatch.Single(s => s.Score == 100))
+                                                                 .DecorateWithPostalInformation(
+                                                                      locatie.Adres.Gemeente, postalInformation))
+                : new AdresNietUniekInAdressenregister(VCode, locatieId,
+                                                       adresMatch.Select(
+                                                                      match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
+                                                                          match))
+                                                                 .ToArray())
+        };
+    }
+
+    private IEvent GetAdresMatchExceptionEvent(
+        int locatieId,
+        AdressenregisterReturnedNonSuccessStatusCode ex,
+        Locatie locatieVoorTeMatchenAdres)
+    {
+        IEvent @event = ex.StatusCode switch
+        {
+            HttpStatusCode.NotFound => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                                                   locatieVoorTeMatchenAdres.Adres.Straatnaam,
+                                                                                   locatieVoorTeMatchenAdres.Adres.Huisnummer,
+                                                                                   locatieVoorTeMatchenAdres.Adres.Busnummer,
+                                                                                   locatieVoorTeMatchenAdres.Adres.Postcode,
+                                                                                   locatieVoorTeMatchenAdres.Adres.Gemeente),
+            _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
+                                                                      ex.Message)
+        };
+
+        return @event;
+    }
+
+    private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)
+    {
+        return HeeftVerschillenBinnenAdres(@event.OvergenomenAdresUitAdressenregister.Adres) ||
+               HeeftVerschillenBinnenAdresId(@event.OvergenomenAdresUitAdressenregister.AdresId);
+
+        bool HeeftVerschillenBinnenAdres(Registratiedata.Adres adresUitAdressenregister)
+            => (
+                adresUitAdressenregister.Straatnaam != locatie.Adres.Straatnaam ||
+                adresUitAdressenregister.Huisnummer != locatie.Adres.Huisnummer ||
+                adresUitAdressenregister.Busnummer != locatie.Adres.Busnummer ||
+                adresUitAdressenregister.Postcode != locatie.Adres.Postcode ||
+                adresUitAdressenregister.Gemeente != locatie.Adres.Gemeente ||
+                adresUitAdressenregister.Land != locatie.Adres.Land
+                );
+
+        bool HeeftVerschillenBinnenAdresId(Registratiedata.AdresId? adresIdUitAdressenregister)
+            => (
+                adresIdUitAdressenregister?.Broncode != locatie.AdresId?.Adresbron.Code ||
+                adresIdUitAdressenregister?.Bronwaarde != locatie.AdresId?.Bronwaarde
+                );
     }
 
     public long Version => State.Version;
