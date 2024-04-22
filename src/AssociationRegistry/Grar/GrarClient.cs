@@ -34,7 +34,7 @@ public class GrarClient : IGrarClient
                 await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
             if (!response.IsSuccessStatusCode)
-                throw new AdressenregisterReturnedNonSuccessStatusCode();
+                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
 
             return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
                               .AdresMatches

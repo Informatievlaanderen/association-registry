@@ -7,10 +7,11 @@ using Framework.Customizations;
 using Grar;
 using Grar.Exceptions;
 using Moq;
+using System.Net;
 using Vereniging;
 using Xunit;
 
-public class Given_GrarClient_Returned_NonSuccessStatusCode
+public class Given_GrarClient_Returned_BadRequest
 {
     [Fact]
     public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
@@ -24,7 +25,7 @@ public class Given_GrarClient_Returned_NonSuccessStatusCode
 
         grarClient.Setup(x => x.GetAddress(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                                            It.IsAny<string>()))
-                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode());
+                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.BadRequest));
 
         vereniging.Hydrate(
             new VerenigingState()
@@ -33,6 +34,7 @@ public class Given_GrarClient_Returned_NonSuccessStatusCode
         await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId);
 
         var @event = vereniging.UncommittedEvents.OfType<AdresKonNietOvergenomenWordenUitAdressenregister>().SingleOrDefault();
+
         @event.Should().NotBeNull();
         @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWorden);
     }

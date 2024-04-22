@@ -10,11 +10,13 @@ using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
 using Kbo;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Test.Framework.Customizations;
 using Vereniging;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -58,7 +60,12 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(), new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo), _notifierMock.Object, NullLogger<SyncKboCommandHandler>.Instance);
+            new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
+                                      new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
+                                      Mock.Of<IMartenOutbox>(),
+                                      Mock.Of<IDocumentSession>(),
+                                      _notifierMock.Object,
+                                      NullLogger<SyncKboCommandHandler>.Instance);
 
         commandHandler.Handle(
             new CommandEnvelope<SyncKboCommand>(command, commandMetadata),
