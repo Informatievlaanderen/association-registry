@@ -29,6 +29,7 @@ public class With_BoxNumber_Is_Null
 
         var result = await sut.GetAddress("Fosselstraat", "48", null, "1790", "Affligem");
 
+        result.First().Busnummer.Should().NotBeNull();
         result.First().Busnummer.Should().BeEmpty();
     }
 
