@@ -67,6 +67,14 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task<VerenigingZoekDocument.Locatie> GetLocatie(string id, int locatieId)
+    {
+        var response = await _elasticClient.GetAsync<VerenigingZoekDocument>(id);
+
+        var locatie = response.Source.Locaties.SingleOrDefault(sod => sod.LocatieId == locatieId);
+        return locatie;
+    }
+
     public async Task AppendLocatie<T>(string id, ILocatie locatie) where T : class
     {
         var response = await _elasticClient.UpdateAsync<T>(

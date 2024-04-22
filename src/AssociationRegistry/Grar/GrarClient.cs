@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Grar;
 
 using Events;
+using Exceptions;
 using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
@@ -29,34 +30,42 @@ public class GrarClient : IGrarClient
     {
         try
         {
-            var response = await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
+            var response =
+                await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
-            return response.IsSuccessStatusCode
-                ? JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
-                             .AdresMatches
-                             .Where(w => !string.IsNullOrEmpty(w.Identificator.ObjectId))
-                             .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
-                             .Select(s => new AddressMatchResponse(
-                                         Score: s.Score,
-                                         AdresId: new Registratiedata.AdresId(
-                                             Adresbron.AR.Code,
-                                             s.Identificator.Id
-                                         ),
-                                         AdresStatus: s.AdresStatus,
-                                         Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
-                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                         s.Huisnummer,
-                                         s.Busnummer ?? "",
-                                         s.Postinfo.ObjectId,
-                                         s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-                                     )).ToArray()
-                : Array.Empty<AddressMatchResponse>();
+            if (!response.IsSuccessStatusCode)
+                throw new AdresKonNietOvergenomenWorden();
+
+            return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
+                              .AdresMatches
+                              .Where(w => !string.IsNullOrEmpty(w.Identificator.ObjectId))
+                              .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
+                              .Select(s => new AddressMatchResponse(
+                                          Score: s.Score,
+                                          AdresId: new Registratiedata.AdresId(
+                                              Adresbron.AR.Code,
+                                              s.Identificator.Id
+                                          ),
+                                          AdresStatus: s.AdresStatus,
+                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
+                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                          s.Huisnummer,
+                                          s.Busnummer ?? "",
+                                          s.Postinfo.ObjectId,
+                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+                                      )).ToArray();
         }
         catch (TaskCanceledException ex)
         {
             _logger.LogError(ex, message: "{Message}", ex.Message);
 
             throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
+        }
+        catch (AdresKonNietOvergenomenWorden ex)
+        {
+            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}", ex.Message);
+
+            throw;
         }
         catch (Exception ex)
         {

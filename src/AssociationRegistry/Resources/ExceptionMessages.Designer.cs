@@ -78,6 +78,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adressenregister niet bereikbaar of foutieve request..
+        /// </summary>
+        public static string AdresKonNietGevondenWorden {
+            get {
+                return ResourceManager.GetString("AdresKonNietGevondenWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden..
         /// </summary>
         public static string ContactgegevenFromKboCannotBeRemoved {

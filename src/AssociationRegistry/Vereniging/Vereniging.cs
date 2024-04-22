@@ -5,6 +5,7 @@ using Events;
 using Exceptions;
 using Framework;
 using Grar;
+using Grar.Exceptions;
 using Grar.Models;
 using SocialMedias;
 using TelefoonNummers;
@@ -191,49 +192,63 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (locatieVoorTeMatchenAdres is null)
         {
             AddEvent(new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, string.Empty,
-                         "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd."));
+                                                                          "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd."));
 
             return;
         }
 
         var adresTeMatchen = locatieVoorTeMatchenAdres.Adres;
 
-        var adresMatch = await grarClient.GetAddress(
-            adresTeMatchen.Straatnaam,
-            adresTeMatchen.Huisnummer,
-            adresTeMatchen.Busnummer,
-            adresTeMatchen.Postcode,
-            adresTeMatchen.Gemeente);
-
-        var postalInformation = await grarClient.GetPostalInformation(adresTeMatchen.Postcode);
-
-        IEvent @event = adresMatch?.Count switch
+        try
         {
-            null => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                             adresTeMatchen.Straatnaam,
-                                                             adresTeMatchen.Huisnummer,
-                                                             adresTeMatchen.Busnummer,
-                                                             adresTeMatchen.Postcode,
-                                                             adresTeMatchen.Gemeente),
-            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                             adresTeMatchen.Straatnaam,
-                                                             adresTeMatchen.Huisnummer,
-                                                             adresTeMatchen.Busnummer,
-                                                             adresTeMatchen.Postcode,
-                                                             adresTeMatchen.Gemeente),
-            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                             AdresMatchUitAdressenregister
-                                                                .FromResponse(adresMatch.Single())
-                                                                .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation)),
-            _ => adresMatch.Count(c => c.Score == 100).Equals(1)
-                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                              AdresMatchUitAdressenregister
-                                                                 .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                 .DecorateWithPostalInformation(adresTeMatchen.Gemeente, postalInformation))
-                : new AdresNietUniekInAdressenregister(VCode, locatieId, adresMatch.Select(match => NietUniekeAdresMatchUitAdressenregister.FromResponse(match)).ToArray())
-        };
+            var adresMatch = await grarClient.GetAddress(
+                adresTeMatchen.Straatnaam,
+                adresTeMatchen.Huisnummer,
+                adresTeMatchen.Busnummer,
+                adresTeMatchen.Postcode,
+                adresTeMatchen.Gemeente);
 
-        AddEvent(@event);
+            var postalInformation = await grarClient.GetPostalInformation(adresTeMatchen.Postcode);
+
+            IEvent @event = adresMatch?.Count switch
+            {
+                null => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                                    adresTeMatchen.Straatnaam,
+                                                                    adresTeMatchen.Huisnummer,
+                                                                    adresTeMatchen.Busnummer,
+                                                                    adresTeMatchen.Postcode,
+                                                                    adresTeMatchen.Gemeente),
+                0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
+                                                                 adresTeMatchen.Straatnaam,
+                                                                 adresTeMatchen.Huisnummer,
+                                                                 adresTeMatchen.Busnummer,
+                                                                 adresTeMatchen.Postcode,
+                                                                 adresTeMatchen.Gemeente),
+                1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                                 AdresMatchUitAdressenregister
+                                                                    .FromResponse(adresMatch.Single())
+                                                                    .DecorateWithPostalInformation(
+                                                                         adresTeMatchen.Gemeente, postalInformation)),
+                _ => adresMatch.Count(c => c.Score == 100).Equals(1)
+                    ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                                  AdresMatchUitAdressenregister
+                                                                     .FromResponse(adresMatch.Single(s => s.Score == 100))
+                                                                     .DecorateWithPostalInformation(
+                                                                          adresTeMatchen.Gemeente, postalInformation))
+                    : new AdresNietUniekInAdressenregister(VCode, locatieId,
+                                                           adresMatch.Select(
+                                                                          match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
+                                                                              match))
+                                                                     .ToArray())
+            };
+
+            AddEvent(@event);
+        }
+        catch (AdresKonNietOvergenomenWorden ex)
+        {
+            var @event = new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, ex.Message);
+            AddEvent(@event);
+        }
     }
 
     public long Version => State.Version;
