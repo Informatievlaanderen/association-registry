@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formatters;
+using JasperFx.Core;
 using JsonLdContext;
 using Schema.Constants;
 using Schema.Detail;
@@ -255,6 +256,19 @@ public class PubliekZoekProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
+    private static VerenigingZoekDocument.Locatie Map(VerenigingZoekDocument.Locatie locatie, AdresMatchUitAdressenregister adresMatchUitAdressenregister, string vCode)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
+            LocatieId = locatie.LocatieId,
+            Locatietype = locatie.Locatietype,
+            Naam = locatie.Naam,
+            Adresvoorstelling = adresMatchUitAdressenregister.Adres.ToAdresString(),
+            IsPrimair = locatie.IsPrimair,
+            Postcode = adresMatchUitAdressenregister.Adres?.Postcode ?? string.Empty,
+            Gemeente = adresMatchUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+        };
+
     private static Doelgroep Map(Registratiedata.Doelgroep doelgroep, string vCode)
         => new()
         {
@@ -353,15 +367,11 @@ public class PubliekZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
     {
+        var locatie = await _elasticRepository.GetLocatie(message.VCode, message.Data.LocatieId);
+
         await _elasticRepository.UpdateLocatie(
             message.VCode,
-            new VerenigingZoekDocument.Locatie
-            {
-                LocatieId = message.Data.LocatieId,
-                Postcode = message.Data.OvergenomenAdresUitAdressenregister.Adres.Postcode,
-                Gemeente = message.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente,
-                Adresvoorstelling = message.Data.OvergenomenAdresUitAdressenregister.Adres.ToAdresString()
-            });
+            Map(locatie, message.Data.OvergenomenAdresUitAdressenregister, message.VCode));
     }
 
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
