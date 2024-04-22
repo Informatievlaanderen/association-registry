@@ -246,7 +246,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
-            var @event = new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, null, ex.Message);
+            var @event = new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, adresTeMatchen.ToAdresString(), ex.Message);
             AddEvent(@event);
         }
     }
