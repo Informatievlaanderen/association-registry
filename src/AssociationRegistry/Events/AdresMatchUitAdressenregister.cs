@@ -21,6 +21,25 @@ public record AdresMatchUitAdressenregister
     {
         if (postalInformationResponse is null) return this;
 
+        if (postalInformationResponse.Postnamen.Length == 1)
+        {
+            if (string.Equals(postalInformationResponse.Gemeentenaam, postalInformationResponse.Postnamen.Single(),
+                              StringComparison.CurrentCultureIgnoreCase))
+            {
+                // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
+                return this with {
+                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+                };
+            }
+            else
+            {
+                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+                return this with {
+                    Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
+                };
+            }
+        }
+
         var postNaam =
             postalInformationResponse.Postnamen.SingleOrDefault(
                 sod => sod.Equals(origineleGemeentenaam, StringComparison.InvariantCultureIgnoreCase));
