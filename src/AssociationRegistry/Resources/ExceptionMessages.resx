@@ -208,7 +208,7 @@
   <data name="UnsupportedContent">
     <value>Deze waarde bevat niet toegestane tekens.</value>
   </data>
-  <data name="AdresKonNietGevondenWorden" xml:space="preserve">
+  <data name="AdresKonNietOvergenomenWorden" xml:space="preserve">
     <value>Adressenregister niet bereikbaar of foutieve request.</value>
   </data>
 </root>
