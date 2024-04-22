@@ -34,7 +34,7 @@ public class GrarClient : IGrarClient
                 await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
 
             if (!response.IsSuccessStatusCode)
-                throw new AdresKonNietOvergenomenWorden();
+                throw new AdressenregisterReturnedNonSuccessStatusCode();
 
             return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
                               .AdresMatches
@@ -61,7 +61,7 @@ public class GrarClient : IGrarClient
 
             throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
         }
-        catch (AdresKonNietOvergenomenWorden ex)
+        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
             _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}", ex.Message);
 
