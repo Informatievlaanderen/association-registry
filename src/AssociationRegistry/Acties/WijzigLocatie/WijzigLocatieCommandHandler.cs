@@ -34,7 +34,10 @@ public class WijzigLocatieCommandHandler
         var (locatieId, locatietype, isPrimair, naam, adres, adresId) = envelope.Command.TeWijzigenLocatie;
         vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
 
-        await _outbox.SendAsync(new TeSynchroniserenAdresMessage(envelope.Command.VCode, locatieId));
+        if (adres is not null || adresId is not null)
+        {
+            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(envelope.Command.VCode, locatieId));
+        }
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 

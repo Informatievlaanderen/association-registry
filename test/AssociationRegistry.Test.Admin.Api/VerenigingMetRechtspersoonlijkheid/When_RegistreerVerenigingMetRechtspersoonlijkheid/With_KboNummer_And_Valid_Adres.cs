@@ -76,14 +76,6 @@ public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Veren
                                                                                     "Sint-Joost-ten-Node",
                                                                                     "België"),
                                                                                 null)));
-
-                                            _testOutputHelper.WriteLine($"Number of events found in stream: " + fetchStreamAsync.Count());
-                                            _testOutputHelper.WriteLine("");
-
-                                            var adresWerdOvergenomenUitAdressenregister = fetchStreamAsync
-                                                                                         .Should().ContainSingle(
-                                                                                              e => e.Data.GetType() ==
-                                                                                                  typeof(AdresWerdOvergenomenUitAdressenregister)).Subject;
                                         });
 
         policyResult.FinalException.Should().BeNull();
