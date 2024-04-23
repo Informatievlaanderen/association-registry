@@ -1,3 +1,22 @@
+# [8.91.0](https://github.com/informatievlaanderen/association-registry/compare/v8.90.1...v8.91.0) (2024-04-23)
+
+
+### Bug Fixes
+
+* or-1821 conditionally send adres match message if location name changed ([aa4d8f8](https://github.com/informatievlaanderen/association-registry/commit/aa4d8f8fac7132d2473f96b7e886b4bd7f3e726c))
+* or-1821 duplicate detection evenst consumer did not listen to address match events ([9c8ecc2](https://github.com/informatievlaanderen/association-registry/commit/9c8ecc27831c1e139a5b0c9f9c45f86c22d5b103))
+* or-1821 fix grarhttpclient registration ([ce95afe](https://github.com/informatievlaanderen/association-registry/commit/ce95afe97dbca3b32e4a8ba9825d094ebe8244bc))
+* OR-1821 Fix remove/sync concurrency bug ([17bf827](https://github.com/informatievlaanderen/association-registry/commit/17bf827e1150f3b444c23b3e40b4c87aa4f45d5c))
+* OR-1821 fixed concurrency issue by decreasing parallellism ([5d09fc6](https://github.com/informatievlaanderen/association-registry/commit/5d09fc6b6903d4b4e38359df32bd0ef09f18975b))
+* or-1821 isPrimair reset on elastic projections, add bad request handling for grar client ([7587dba](https://github.com/informatievlaanderen/association-registry/commit/7587dbae2e0fa82da952059c0dfce7b829aed019))
+* or-1821 perform address match for KBO registration and sync updates ([2d9a556](https://github.com/informatievlaanderen/association-registry/commit/2d9a55622620fd8d64053df878bc69f86a232a85))
+
+
+### Features
+
+* or-1821 remove addres id on addressmatch events in state ([049452b](https://github.com/informatievlaanderen/association-registry/commit/049452b27532b2bee8ff3d057a9450b7e9ab16db))
+* or-1821 remove address id in projections when address not found ([acbf093](https://github.com/informatievlaanderen/association-registry/commit/acbf09320655100aff36c190434b5e937f69c625))
+
 ## [8.90.1](https://github.com/informatievlaanderen/association-registry/compare/v8.90.0...v8.90.1) (2024-04-16)
 
 
