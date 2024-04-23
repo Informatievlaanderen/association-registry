@@ -38,6 +38,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdVerwijderd):
                 case nameof(NaamWerdGewijzigdInKbo):
                 case nameof(KorteNaamWerdGewijzigdInKbo):
+                case nameof(AdresWerdOvergenomenUitAdressenregister):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
                     break;
             }
