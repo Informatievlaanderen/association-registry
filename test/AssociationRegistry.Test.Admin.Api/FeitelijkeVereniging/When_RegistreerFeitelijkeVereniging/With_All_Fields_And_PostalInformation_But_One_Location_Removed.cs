@@ -244,11 +244,13 @@ public class With_All_Fields_And_PostalInformation_But_One_Location_Removed
                                             using (new AssertionScope())
                                             {
                                                 stream.Should().HaveCount(5);
+
                                                 // Affligem locatie
                                                 var werdOvergenomenAffligem =
                                                     werdenOvergenomen.SingleOrDefault(
                                                         x => x.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente == "Affligem");
 
+                                                // Affligem locatie werd verwijderd en mag niet meer teruggevonden worden
                                                 werdOvergenomenAffligem.Should().BeNull();
 
                                                 // Hekelgem locatie
