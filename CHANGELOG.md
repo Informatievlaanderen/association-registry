@@ -1,3 +1,10 @@
+## [8.91.1](https://github.com/informatievlaanderen/association-registry/compare/v8.91.0...v8.91.1) (2024-04-24)
+
+
+### Bug Fixes
+
+* or-1821 don't handle unused events ([b6c1ff1](https://github.com/informatievlaanderen/association-registry/commit/b6c1ff1c9dcc5ac71d4092f5f10493f28c1c9f07))
+
 # [8.91.0](https://github.com/informatievlaanderen/association-registry/compare/v8.90.1...v8.91.0) (2024-04-23)
 
 
