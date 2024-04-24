@@ -7,10 +7,12 @@ using Zoeken;
 public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
 {
     private readonly BeheerZoekProjectionHandler _zoekProjectionHandler;
+    private readonly ILogger<BeheerZoekenEventsConsumer> _logger;
 
-    public BeheerZoekenEventsConsumer(BeheerZoekProjectionHandler zoekProjectionHandler)
+    public BeheerZoekenEventsConsumer(BeheerZoekProjectionHandler zoekProjectionHandler, ILogger<BeheerZoekenEventsConsumer> logger)
     {
         _zoekProjectionHandler = zoekProjectionHandler;
+        _logger = logger;
     }
 
     public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
@@ -48,12 +50,18 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(StartdatumWerdGewijzigdInKbo):
                 case nameof(EinddatumWerdGewijzigd):
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
-                case nameof(AdresKonNietOvergenomenWordenUitAdressenregister):
-                case nameof(AdresNietUniekInAdressenregister):
-                case nameof(AdresWerdNietGevondenInAdressenregister):
-                    await _zoekProjectionHandler.Handle(eventEnvelope);
+                    try
+                    {
+                        await _zoekProjectionHandler.Handle(eventEnvelope);
 
-                    break;
+                        break;
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError(ex, ExceptionMessages.FoutBijProjecteren);
+
+                        throw;
+                    }
             }
         }
     }
