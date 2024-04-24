@@ -98,8 +98,9 @@ public static class ConfigureMartenExtensions
                     new MartenSubscription(
                         new BeheerZoekenEventsConsumer(
                             new BeheerZoekProjectionHandler(
-                                serviceProvider.GetRequiredService<IElasticRepository>())
-                        )
+                                serviceProvider.GetRequiredService<IElasticRepository>()
+                            ),
+                            serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>())
                     ),
                     ProjectionLifecycle.Async,
                     ProjectionNames.VerenigingZoeken);
