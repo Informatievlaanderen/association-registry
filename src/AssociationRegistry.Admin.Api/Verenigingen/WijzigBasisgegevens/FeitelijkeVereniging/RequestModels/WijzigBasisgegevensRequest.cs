@@ -23,7 +23,7 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? KorteBeschrijving { get; set; }
 
-    /// <summary>Nieuwe startdatum van de vereniging. Deze datum mag niet later zijn dan vandaag</summary>
+    /// <summary>Nieuwe startdatum (yyyy-MM-dd) van de vereniging. Deze datum mag niet later zijn dan vandaag</summary>
     [DataMember(IsRequired = false)]
     public NullOrEmpty<DateOnly> Startdatum { get; set; }
 
