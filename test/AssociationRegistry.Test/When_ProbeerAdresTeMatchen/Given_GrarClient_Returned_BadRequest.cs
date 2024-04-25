@@ -19,7 +19,7 @@ public class Given_GrarClient_Returned_BadRequest
         var fixture = new Fixture().CustomizeDomain();
 
         var grarClient = new Mock<IGrarClient>();
-        var vereniging = new Vereniging();
+        var vereniging = new VerenigingOfAnyKind();
 
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
