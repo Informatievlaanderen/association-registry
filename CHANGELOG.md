@@ -1,3 +1,11 @@
+## [8.91.2](https://github.com/informatievlaanderen/association-registry/compare/v8.91.1...v8.91.2) (2024-04-25)
+
+
+### Bug Fixes
+
+* or-1821 fix take over original municipality name adresmatch ([21658a6](https://github.com/informatievlaanderen/association-registry/commit/21658a6f1417fb3cf7767036046da0e75600fecd))
+* or-2147 remove startdatum format and pattern from patch vereniging ([5c98ebe](https://github.com/informatievlaanderen/association-registry/commit/5c98ebeba3a72f5c032bbac22fe9ee4d2cd9305a))
+
 ## [8.91.1](https://github.com/informatievlaanderen/association-registry/compare/v8.91.0...v8.91.1) (2024-04-24)
 
 
