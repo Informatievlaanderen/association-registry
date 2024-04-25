@@ -85,10 +85,7 @@ public class Program
         await app.EnsureElasticSearchIsInitialized();
         ConfigureHealtChecks(app);
 
-        await DistributedLock<Program>.RunAsync(
-            runFunc: async () => await app.RunOaktonCommands(args),
-            DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
-            app.Services.GetRequiredService<ILogger<Program>>());
+        await app.RunOaktonCommands(args);
     }
 
     private static void ConfigureEncoding()

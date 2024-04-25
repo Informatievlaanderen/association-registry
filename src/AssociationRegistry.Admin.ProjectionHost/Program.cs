@@ -50,7 +50,7 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(
             options =>
-                options.AddEndpoint(IPAddress.Any, port: 11006));
+                options.AddEndpoint(IPAddress.Any, port: 11000 + new Random().Next(10,999)));
 
         builder.Host.ApplyOaktonExtensions();
 
@@ -84,10 +84,7 @@ public class Program
         app.SetUpSwagger();
         ConfigureHealtChecks(app);
 
-        await DistributedLock<Program>.RunAsync(
-            runFunc: async () => await app.RunOaktonCommands(args),
-            DistributedLockOptions.LoadFromConfiguration(builder.Configuration),
-            app.Services.GetRequiredService<ILogger<Program>>());
+        await app.RunOaktonCommands(args);
     }
 
     private static void ConfigureEncoding()
