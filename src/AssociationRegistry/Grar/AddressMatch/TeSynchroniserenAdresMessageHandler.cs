@@ -43,7 +43,7 @@ public class TeSynchroniserenAdresMessageHandler
 
         try
         {
-            var vereniging = await _verenigingsRepository.Load<Vereniging>(VCode.Hydrate(message.VCode), null);
+            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode), null);
 
             await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
 
