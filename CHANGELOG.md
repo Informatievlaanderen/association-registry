@@ -1,3 +1,10 @@
+## [8.91.4](https://github.com/informatievlaanderen/association-registry/compare/v8.91.3...v8.91.4) (2024-04-25)
+
+
+### Bug Fixes
+
+* or-2134 allow matching address on kbo verenigingen ([64a512a](https://github.com/informatievlaanderen/association-registry/commit/64a512aa08d1aa9129b9b42196e8fb572ce953cc))
+
 ## [8.91.3](https://github.com/informatievlaanderen/association-registry/compare/v8.91.2...v8.91.3) (2024-04-25)
 
 
