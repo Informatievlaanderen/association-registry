@@ -45,8 +45,6 @@ public static class SwaggerExtensions
                        () => new OpenApiSchema
                        {
                            Type = "string",
-                           Format = "date",
-                           Pattern = "yyyy-MM-dd",
                            Nullable = true,
                        });
 
