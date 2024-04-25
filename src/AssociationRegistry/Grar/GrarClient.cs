@@ -38,7 +38,7 @@ public class GrarClient : IGrarClient
 
             return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
                               .AdresMatches
-                              .Where(w => !string.IsNullOrEmpty(w.Identificator.ObjectId))
+                              .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
                               .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
                               .Select(s => new AddressMatchResponse(
                                           Score: s.Score,
