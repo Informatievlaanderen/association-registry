@@ -32,4 +32,33 @@ public class With_One_PostalName
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }
+
+    [Theory]
+    [InlineData("Hekelgem (Affligem)")]
+    [InlineData("Hekelgem (afg)")]
+    [InlineData("Hekelgem")]
+    public void And_Municipality_Already_Correctly_Formatted(string origineleGemeentenaam)
+    {
+        var sut = new AdresMatchUitAdressenregister()
+        {
+            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie")
+        };
+
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam, new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+
+        result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
+    }
+
+    [Fact]
+    public void And_Municipality_Already_Incorrectly_Formatted()
+    {
+        var sut = new AdresMatchUitAdressenregister()
+        {
+            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie")
+        };
+
+        var result = sut.DecorateWithPostalInformation("Hekelgem Affligem", new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+
+        result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
+    }
 }

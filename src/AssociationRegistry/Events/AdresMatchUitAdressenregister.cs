@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
 using Grar.Models;
+using System.Text.RegularExpressions;
 
 public record AdresMatchUitAdressenregister
 {
@@ -20,6 +21,8 @@ public record AdresMatchUitAdressenregister
     public AdresMatchUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
     {
         if (postalInformationResponse is null) return this;
+
+        var origineleGemeenteNaamClean = new Regex("\\(.*?\\)").Replace(origineleGemeentenaam, "").Trim();
 
         if (postalInformationResponse.Postnamen.Length == 1)
         {
@@ -42,7 +45,7 @@ public record AdresMatchUitAdressenregister
 
         var postNaam =
             postalInformationResponse.Postnamen.SingleOrDefault(
-                sod => sod.Equals(origineleGemeentenaam, StringComparison.InvariantCultureIgnoreCase));
+                sod => sod.Equals(origineleGemeenteNaamClean, StringComparison.InvariantCultureIgnoreCase));
         var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
 
         if (origineleGemeentenaamKomtVoorInPostalInformationResult)
