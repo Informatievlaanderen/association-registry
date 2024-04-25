@@ -1,0 +1,31 @@
+{
+  "@context": "https://docs.basisregisters.staging-vlaanderen.be/context/adresmatch/2023-03-13/adresmatch.jsonld",
+  "adresMatches": [
+    {
+      "@type": "Adres",
+      "gemeente": {
+        "objectId": "44013",
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/gemeenten/44013",
+        "gemeentenaam": {
+          "geografischeNaam": {
+            "spelling": "Destelbergen",
+            "taal": "nl"
+          }
+        }
+      },
+      "straatnaam": {
+        "objectId": "68713",
+        "detail": "https://api.basisregisters.staging-vlaanderen.be/v2/straatnamen/68713",
+        "straatnaam": {
+          "geografischeNaam": {
+            "spelling": "Dendermondesteenweg",
+            "taal": "nl"
+          }
+        }
+      },
+      "score": 87.9911986967736,
+      "links": []
+    }
+  ],
+  "warnings": []
+}

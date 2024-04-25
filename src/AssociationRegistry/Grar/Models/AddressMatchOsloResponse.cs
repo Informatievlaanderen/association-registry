@@ -24,7 +24,7 @@
 
         [DataMember(Name = "Identificator", Order = 1, EmitDefaultValue = false)]
         [JsonProperty(Required = Required.Default)]
-        public AdresIdentificator Identificator { get; set; }
+        public AdresIdentificator? Identificator { get; set; }
 
         [DataMember(Name = "Detail", Order = 2, EmitDefaultValue = false)]
         [JsonProperty(Required = Required.Default)]
