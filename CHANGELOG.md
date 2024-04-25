@@ -1,3 +1,10 @@
+## [8.91.3](https://github.com/informatievlaanderen/association-registry/compare/v8.91.2...v8.91.3) (2024-04-25)
+
+
+### Bug Fixes
+
+* or-1821 fix identificator nullref on get address adresmatch ([ead2f25](https://github.com/informatievlaanderen/association-registry/commit/ead2f25965fe7976e532de965015eb073cb6ed15))
+
 ## [8.91.2](https://github.com/informatievlaanderen/association-registry/compare/v8.91.1...v8.91.2) (2024-04-25)
 
 
