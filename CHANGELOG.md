@@ -1,3 +1,10 @@
+## [8.91.5](https://github.com/informatievlaanderen/association-registry/compare/v8.91.4...v8.91.5) (2024-04-29)
+
+
+### Bug Fixes
+
+* or-2183 don't use distributed locks since marten already handles this ([3e2ed2e](https://github.com/informatievlaanderen/association-registry/commit/3e2ed2e041d93b7eaaf6d4808884cd0dd6b08792))
+
 ## [8.91.4](https://github.com/informatievlaanderen/association-registry/compare/v8.91.3...v8.91.4) (2024-04-25)
 
 
