@@ -50,7 +50,7 @@ public class Program
 
         builder.WebHost.ConfigureKestrel(
             options =>
-                options.AddEndpoint(IPAddress.Any, port: 11000 + new Random().Next(10,999)));
+                options.AddEndpoint(IPAddress.Any, port: 11006));
 
         builder.Host.ApplyOaktonExtensions();
 
