@@ -1,3 +1,10 @@
+## [8.91.6](https://github.com/informatievlaanderen/association-registry/compare/v8.91.5...v8.91.6) (2024-04-29)
+
+
+### Bug Fixes
+
+* or-2183 port admin projectionhost ([bdbf63e](https://github.com/informatievlaanderen/association-registry/commit/bdbf63e7f451a9a2739af43662aba1d8967e8c37))
+
 ## [8.91.5](https://github.com/informatievlaanderen/association-registry/compare/v8.91.4...v8.91.5) (2024-04-29)
 
 
