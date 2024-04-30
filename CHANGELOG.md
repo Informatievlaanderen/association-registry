@@ -1,3 +1,10 @@
+## [8.91.7](https://github.com/informatievlaanderen/association-registry/compare/v8.91.6...v8.91.7) (2024-04-30)
+
+
+### Bug Fixes
+
+* skip address match on maatschappelijke zetel werd overgenomen ([44f9aa2](https://github.com/informatievlaanderen/association-registry/commit/44f9aa2325c8c85b41f36716e1e978136657ecdb))
+
 ## [8.91.6](https://github.com/informatievlaanderen/association-registry/compare/v8.91.5...v8.91.6) (2024-04-29)
 
 
