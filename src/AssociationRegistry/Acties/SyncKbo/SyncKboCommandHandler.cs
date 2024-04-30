@@ -74,13 +74,6 @@ public class SyncKboCommandHandler
 
         vereniging.SyncCompleted();
 
-        var maatschappelijkeZetelWerdOvergenomenUitKbo = vereniging.UncommittedEvents.OfType<MaatschappelijkeZetelWerdOvergenomenUitKbo>().SingleOrDefault();
-
-        if (maatschappelijkeZetelWerdOvergenomenUitKbo is not null)
-        {
-            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vereniging.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId));
-        }
-
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} end");
