@@ -96,13 +96,6 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var maatschappelijkeZetelWerdOvergenomenUitKbo = vereniging.UncommittedEvents.OfType<MaatschappelijkeZetelWerdOvergenomenUitKbo>().SingleOrDefault();
-
-        if (maatschappelijkeZetelWerdOvergenomenUitKbo is not null)
-        {
-            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, maatschappelijkeZetelWerdOvergenomenUitKbo.Locatie.LocatieId));
-        }
-
         var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
 
         return Result.Success(CommandResult.Create(vCode, result));
