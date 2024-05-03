@@ -175,6 +175,21 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
+    public async Task Project(IEvent<SynchronisatieMetKboWasSuccesvol> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
+    public async Task Project(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
+    public async Task Project(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
+    public async Task Project(IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> @event, IDocumentOperations ops)
+        => await UpdateMetadataOnly(@event, ops);
+
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
         => ops.Delete<BeheerVerenigingDetailDocument>(streamKey);
 
@@ -193,6 +208,17 @@ public class BeheerVerenigingDetailProjection : EventProjection
         var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(vCode))!;
 
         action(@event, doc);
+        BeheerVerenigingDetailProjector.UpdateMetadata(@event, doc);
+
+        ops.Store(doc);
+    }
+
+    private static async Task UpdateMetadataOnly<T>(
+        IEvent<T> @event,
+        IDocumentOperations ops) where T : notnull
+    {
+        var doc = (await ops.LoadAsync<BeheerVerenigingDetailDocument>(@event.StreamKey))!;
+
         BeheerVerenigingDetailProjector.UpdateMetadata(@event, doc);
 
         ops.Store(doc);
