@@ -1,3 +1,10 @@
+# [8.92.0](https://github.com/informatievlaanderen/association-registry/compare/v8.91.7...v8.92.0) (2024-05-03)
+
+
+### Features
+
+* hotfix workflow manually triggered ([499fcbb](https://github.com/informatievlaanderen/association-registry/commit/499fcbb7390765b2050b303c7445d2384fd5a65f))
+
 ## [8.91.7](https://github.com/informatievlaanderen/association-registry/compare/v8.91.6...v8.91.7) (2024-04-30)
 
 
