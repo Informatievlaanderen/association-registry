@@ -1,3 +1,10 @@
+## [8.92.1](https://github.com/informatievlaanderen/association-registry/compare/v8.92.0...v8.92.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* or-2187 update metadata when syncing with kbo and grar ([b17b0d6](https://github.com/informatievlaanderen/association-registry/commit/b17b0d67952e43a5e68d1f05ccf3ca39ac5b5ace))
+
 # [8.92.0](https://github.com/informatievlaanderen/association-registry/compare/v8.91.7...v8.92.0) (2024-05-03)
 
 
