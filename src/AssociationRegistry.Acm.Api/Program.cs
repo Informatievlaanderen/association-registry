@@ -11,6 +11,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
+using EventStore;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure.Configuration;

@@ -34,6 +34,9 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public IDocumentStore DocumentStore
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
 
+    public EventConflictResolver EventConflictResolver
+        => new EventConflictResolver(Array.Empty<IEventConflictResolutionStrategy>());
+
     public AcmApiClient AcmApiClient
         => Clients.Authenticated;
 
@@ -168,7 +171,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(DocumentStore, EventConflictResolver);
         var result = StreamActionResult.Empty;
 
         foreach (var @event in eventsToAdd)

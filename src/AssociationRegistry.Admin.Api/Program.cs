@@ -591,8 +591,12 @@ public class Program
                .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
+
         builder.Services.AddAdminApiSwagger(appSettings);
         builder.Services.AddSingleton<ProblemDetailsHelper>();
+
+        builder.Services.AddSingleton<IEventConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
+        builder.Services.AddSingleton<EventConflictResolver>();
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
