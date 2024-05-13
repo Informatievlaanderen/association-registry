@@ -1,3 +1,10 @@
+# [8.93.0](https://github.com/informatievlaanderen/association-registry/compare/v8.92.2...v8.93.0) (2024-05-13)
+
+
+### Features
+
+* or-2195 add event conflict resolution ([c726e7e](https://github.com/informatievlaanderen/association-registry/commit/c726e7e9fefd2ea213f2de892b265315ed2dc622))
+
 ## [8.92.2](https://github.com/informatievlaanderen/association-registry/compare/v8.92.1...v8.92.2) (2024-05-13)
 
 
