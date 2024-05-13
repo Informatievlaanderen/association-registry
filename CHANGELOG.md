@@ -1,3 +1,10 @@
+## [8.92.2](https://github.com/informatievlaanderen/association-registry/compare/v8.92.1...v8.92.2) (2024-05-13)
+
+
+### Bug Fixes
+
+* update faulty nightly build workflow ([c2189a9](https://github.com/informatievlaanderen/association-registry/commit/c2189a9ae13ee77f8d8afa16df6955ea01b80dd7))
+
 ## [8.92.1](https://github.com/informatievlaanderen/association-registry/compare/v8.92.0...v8.92.1) (2024-05-03)
 
 
