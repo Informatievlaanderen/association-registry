@@ -53,8 +53,6 @@ public class With_VerenigingVolgensKbo_No_Adres
                 _verenigingVolgensKbo
             ),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance);
 
         commandHandler

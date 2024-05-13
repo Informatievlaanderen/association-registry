@@ -41,30 +41,23 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, session, metadata, cancellationToken, events);
     }
 
-
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(vCode);
+        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, expectedVersion);
         ThrowIfVerwijderd(verenigingState);
 
         var vereniging = new TVereniging();
         vereniging.Hydrate(verenigingState);
-
-        if (expectedVersion is not null && verenigingState.Version != expectedVersion)
-            throw new UnexpectedAggregateVersionException();
 
         return vereniging;
     }
 
     public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer);
+        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer, expectedVersion);
         var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
         verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
-
-        if (expectedVersion is not null && verenigingState.Version != expectedVersion)
-            throw new UnexpectedAggregateVersionException();
 
         return verenigingMetRechtspersoonlijkheid;
     }

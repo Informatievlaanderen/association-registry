@@ -40,8 +40,6 @@ public class With_An_Unknown_VerenigingVolgensKbo
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

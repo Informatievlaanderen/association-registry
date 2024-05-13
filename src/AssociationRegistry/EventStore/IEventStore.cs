@@ -19,6 +19,6 @@ public interface IEventStore
         CancellationToken cancellationToken,
         params IEvent[] events);
 
-    Task<T> Load<T>(string id) where T : class, IHasVersion, new();
-    Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new();
+    Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new();
+    Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new();
 }

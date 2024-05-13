@@ -30,7 +30,7 @@ public class EventStore : IEventStore
     {
         await using var session = _documentStore.LightweightSession();
 
-        return await Save(aggregateId, session, metadata , cancellationToken, events);
+        return await Save(aggregateId, session, metadata, cancellationToken, events);
     }
 
     public async Task<StreamActionResult> Save(
@@ -62,7 +62,7 @@ public class EventStore : IEventStore
             {
                 session.PendingChanges.Streams().Clear();
 
-                var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Count() + eventsDiff.Count,
+                var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length + eventsDiff.Count,
                                                          events);
 
                 await session.SaveChangesAsync(cancellationToken);
@@ -74,7 +74,7 @@ public class EventStore : IEventStore
         }
     }
 
-private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
+    private static void TryLockForKboNumber(string vCode, IDocumentSession session, IEvent? registreerEvent)
     {
         if (registreerEvent is VerenigingMetRechtspersoonlijkheidWerdGeregistreerd evnt)
             session.Events.StartStream<KboNummer>(evnt.KboNummer, new { VCode = vCode });
@@ -109,18 +109,29 @@ private static void TryLockForKboNumber(string vCode, IDocumentSession session, 
             typeof(AdresWerdOvergenomenUitAdressenregister),
             typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
             typeof(AdresWerdNietGevondenInAdressenregister),
-            typeof(AdresNietUniekInAdressenregister)
+            typeof(AdresNietUniekInAdressenregister),
         }.Contains(eventType);
 
-    public async Task<T> Load<T>(string id) where T : class, IHasVersion, new()
+    public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()
     {
         await using var session = _documentStore.LightweightSession();
 
-        return await session.Events.AggregateStreamAsync<T>(id) ??
-               throw new AggregateNotFoundException(id, typeof(T));
+        var aggregate = await session.Events.AggregateStreamAsync<T>(id) ??
+                        throw new AggregateNotFoundException(id, typeof(T));
+
+        if (expectedVersion is not null && aggregate.Version != expectedVersion)
+        {
+            var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
+               .Where(x => x.Version > expectedVersion);
+
+            if (!new AddressMatchConflictResolutionStrategy().IsAllowedConflict(Array.Empty<IEvent>(), eventsInNewVersion))
+                throw new UnexpectedAggregateVersionException();
+        }
+
+        return aggregate;
     }
 
-    public async Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
+    public async Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
     {
         await using var session = _documentStore.LightweightSession();
 
@@ -131,6 +142,6 @@ private static void TryLockForKboNumber(string vCode, IDocumentSession session, 
         if (string.IsNullOrEmpty(id))
             throw new AggregateNotFoundException(kboNummer, typeof(T));
 
-        return await Load<T>(id);
+        return await Load<T>(id, expectedVersion);
     }
 }

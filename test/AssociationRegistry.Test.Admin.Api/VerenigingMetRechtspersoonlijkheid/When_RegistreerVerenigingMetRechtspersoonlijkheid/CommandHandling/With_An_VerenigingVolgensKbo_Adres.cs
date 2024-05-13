@@ -47,8 +47,6 @@ public class With_An_VerenigingVolgensKbo_Adres
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

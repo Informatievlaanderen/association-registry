@@ -55,8 +55,6 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object,
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger);
     }
 
