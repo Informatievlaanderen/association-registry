@@ -25,6 +25,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier = "p_";
     private readonly IConfigurationRoot _configurationRoot;
     public IDocumentStore DocumentStore { get; }
+    public EventConflictResolver EventConflictResolver { get; }
     public WebApplicationFactory<ProjectionHostProgram> ProjectionHost { get; }
     private readonly IElasticClient _elasticClient;
 
@@ -52,6 +53,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
            .GetAwaiter().GetResult();
 
         DocumentStore = ProjectionHost.Services.GetRequiredService<IDocumentStore>();
+        EventConflictResolver = ProjectionHost.Services.GetRequiredService<EventConflictResolver>();
     }
 
     private IConfigurationRoot GetConfiguration()
@@ -84,7 +86,7 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode, new DateTime(year: 2022, month: 1, day: 1).ToUniversalTime().ToInstant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(DocumentStore);
+        var eventStore = new EventStore(DocumentStore, EventConflictResolver);
         await eventStore.Save(vCode, metadata, CancellationToken.None, eventToAdd);
 
         using var daemon = await DocumentStore.BuildProjectionDaemonAsync();

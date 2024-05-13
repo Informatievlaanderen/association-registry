@@ -29,7 +29,7 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(_fixture.DocumentStore);
+        var eventStore = new EventStore(_fixture.DocumentStore, _fixture.EventConflictResolver);
 
         // act
         var tijdstip = new Instant();

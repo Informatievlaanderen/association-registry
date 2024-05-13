@@ -41,6 +41,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public IDocumentStore DocumentStore
         => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
 
+    public EventConflictResolver EventConflictResolver
+        => _adminApiServer.Services.GetRequiredService<EventConflictResolver>();
+
     public AdminApiClient AdminApiClient
         => new(Clients.GetAuthenticatedHttpClient());
 
@@ -205,7 +208,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy

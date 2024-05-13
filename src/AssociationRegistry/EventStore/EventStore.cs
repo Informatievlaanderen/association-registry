@@ -14,10 +14,12 @@ public class EventStore : IEventStore
 {
     public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
+    private readonly EventConflictResolver _conflictResolver;
 
-    public EventStore(IDocumentStore documentStore)
+    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver)
     {
         _documentStore = documentStore;
+        _conflictResolver = conflictResolver;
     }
 
     public async Task<StreamActionResult> Save(
@@ -52,6 +54,22 @@ public class EventStore : IEventStore
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
+            var eventsDiff =
+                await session.Events.FetchStreamAsync(aggregateId, fromVersion: metadata.ExpectedVersion.Value + 1,
+                                                      token: cancellationToken);
+
+            if (_conflictResolver.IsAllowedConflict(events, eventsDiff))
+            {
+                session.PendingChanges.Streams().Clear();
+
+                var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Count() + eventsDiff.Count,
+                                                         events);
+
+                await session.SaveChangesAsync(cancellationToken);
+
+                return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
+            }
+
             throw new UnexpectedAggregateVersionException();
         }
     }

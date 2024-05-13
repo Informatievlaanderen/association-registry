@@ -35,6 +35,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
     private IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
 
+    private EventConflictResolver EventConflictResolver
+        => _projectionHostServer.Services.GetRequiredService<EventConflictResolver>();
+
     public PublicApiClient PublicApiClient
         => new(_publicApiServer.CreateClient());
 
@@ -119,7 +122,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore);
+        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver);
 
         foreach (var @event in eventsToAdd)
         {
