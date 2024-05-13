@@ -56,8 +56,6 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 _verenigingVolgensKbo
             ),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

@@ -37,7 +37,7 @@ public class EventStoreMock : IEventStore
         params IEvent[] events)
         => await Save(aggregateId, metadata, cancellationToken, events);
 
-    public Task<T> Load<T>(string aggregateId) where T : class, IHasVersion, new()
+    public Task<T> Load<T>(string aggregateId, long? expectedVersion) where T : class, IHasVersion, new()
     {
         var result = new T();
 
@@ -50,6 +50,6 @@ public class EventStoreMock : IEventStore
         return Task.FromResult(result);
     }
 
-    public Task<T?> Load<T>(KboNummer kboNummer) where T : class, IHasVersion, new()
+    public Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
         => Task.FromException<T?>(new NotImplementedException());
 }

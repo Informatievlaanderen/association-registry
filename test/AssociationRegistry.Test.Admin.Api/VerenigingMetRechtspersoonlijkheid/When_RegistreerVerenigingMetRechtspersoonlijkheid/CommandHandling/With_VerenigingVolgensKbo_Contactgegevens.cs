@@ -47,8 +47,6 @@ public class With_VerenigingVolgensKbo_Contactgegevens
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 
@@ -135,8 +133,6 @@ public class With_VerenigingVolgensKbo_No_Contactgegevens
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            Mock.Of<IMartenOutbox>(),
-            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

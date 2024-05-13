@@ -19,8 +19,6 @@ public class RegistreerVerenigingUitKboCommandHandler
     private readonly IVCodeService _vCodeService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly IMagdaRegistreerInschrijvingService _magdaRegistreerInschrijvingService;
-    private readonly IMartenOutbox _outbox;
-    private readonly IDocumentSession _session;
     private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
@@ -29,16 +27,12 @@ public class RegistreerVerenigingUitKboCommandHandler
         IVCodeService vCodeService,
         IMagdaGeefVerenigingService magdaGeefVerenigingService,
         IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
-        IMartenOutbox outbox,
-        IDocumentSession session,
         ILogger<RegistreerVerenigingUitKboCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
         _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;
-        _outbox = outbox;
-        _session = session;
         _logger = logger;
     }
 
