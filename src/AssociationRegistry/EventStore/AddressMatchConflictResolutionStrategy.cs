@@ -3,9 +3,12 @@
 using Events;
 using Framework;
 
-public class AddressMatchConflictResolutionStrategy : IEventConflictResolutionStrategy
+public class AddressMatchConflictResolutionStrategy : IEventPostConflictResolutionStrategy, IEventPreConflictResolutionStrategy
 {
     public bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)
+        => conflictingEvents.All(e => IsAllowedEventType(e.EventType));
+
+    public bool IsAllowedConflict(IEnumerable<Marten.Events.IEvent> conflictingEvents)
         => conflictingEvents.All(e => IsAllowedEventType(e.EventType));
 
     private bool IsAllowedEventType(Type eventType)
@@ -16,4 +19,6 @@ public class AddressMatchConflictResolutionStrategy : IEventConflictResolutionSt
             typeof(AdresWerdNietGevondenInAdressenregister),
             typeof(AdresNietUniekInAdressenregister)
         }.Contains(eventType);
+
+
 }

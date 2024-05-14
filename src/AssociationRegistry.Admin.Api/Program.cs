@@ -595,7 +595,8 @@ public class Program
         builder.Services.AddAdminApiSwagger(appSettings);
         builder.Services.AddSingleton<ProblemDetailsHelper>();
 
-        builder.Services.AddSingleton<IEventConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
+        builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
+        builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
     }
 

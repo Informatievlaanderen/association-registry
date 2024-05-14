@@ -4,9 +4,8 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using EventStore;
+using FluentAssertions;
 using Framework;
-using Marten;
-using Marten.Events;
 using NodaTime;
 using Xunit;
 
@@ -22,13 +21,9 @@ public class When_AdresMatch_Occurred
     [Fact]
     public async Task ThenItSavesTheLocation()
     {
-        using var documentStore = DocumentStore.For(options =>
-        {
-            options.Connection(GetConnectionString());
-            options.Events.StreamIdentity = StreamIdentity.AsString;
-        });
+        var documentStore = TestDocumentStoreFactory.Create();
 
-        var eventConflictResolver = new EventConflictResolver(new IEventConflictResolutionStrategy[]
+        var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
         {
             new AddressMatchConflictResolutionStrategy()
         });
@@ -44,16 +39,12 @@ public class When_AdresMatch_Occurred
         await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
 
-        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), 1), CancellationToken.None,
+        var result = await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), 1), CancellationToken.None,
                               locatieWerdToegevoegd);
 
         var savedEvents = await session.Events.FetchStreamAsync(vCode);
         Assert.Equal(3, savedEvents.Count);
+        result.Version.Should().Be(3);
+        documentStore.Dispose();
     }
-
-    private static string GetConnectionString()
-        => $"host=127.0.0.1;" +
-           $"database=verenigingsregister;" +
-           $"password=root;" +
-           $"username=root";
 }
