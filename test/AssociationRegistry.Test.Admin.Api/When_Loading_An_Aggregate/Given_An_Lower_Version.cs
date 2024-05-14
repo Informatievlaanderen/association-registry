@@ -6,6 +6,8 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Marten.Events;
 using NodaTime;
 using Vereniging;
 using Xunit;
@@ -36,8 +38,12 @@ public class Given_An_Lower_Version
     [Fact(Skip = "")]
     public async Task Then_it_Throws_Exception()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
-
+        //var documentStore = TestDocumentStoreFactory.Create();
+        var documentStore = DocumentStore.For(options =>
+        {
+            options.Connection(GetConnectionString());
+            options.Events.StreamIdentity = StreamIdentity.AsString;
+        });
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -52,11 +58,15 @@ public class Given_An_Lower_Version
         documentStore.Dispose();
     }
 
-    [Fact(Skip = "")]
+    [Fact]
     public async Task With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
-
+        //var documentStore = TestDocumentStoreFactory.Create();
+        var documentStore = DocumentStore.For(options =>
+        {
+            options.Connection(GetConnectionString());
+            options.Events.StreamIdentity = StreamIdentity.AsString;
+        });
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -71,4 +81,10 @@ public class Given_An_Lower_Version
         aggregate.Version.Should().Be(2);
         documentStore.Dispose();
     }
+
+    private static string GetConnectionString()
+        => $"host=127.0.0.1;" +
+           $"database=verenigingsregister;" +
+           $"password=root;" +
+           $"username=root";
 }
