@@ -1,3 +1,10 @@
+# [8.94.0](https://github.com/informatievlaanderen/association-registry/compare/v8.93.0...v8.94.0) (2024-05-14)
+
+
+### Features
+
+* or-2195 resolve pre-conflicts ([1f3415f](https://github.com/informatievlaanderen/association-registry/commit/1f3415feae1fc55d069ac210141dccebd123f7d8))
+
 # [8.93.0](https://github.com/informatievlaanderen/association-registry/compare/v8.92.2...v8.93.0) (2024-05-13)
 
 
