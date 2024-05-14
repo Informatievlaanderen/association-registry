@@ -58,7 +58,7 @@ public class EventStore : IEventStore
                 await session.Events.FetchStreamAsync(aggregateId, fromVersion: metadata.ExpectedVersion.Value + 1,
                                                       token: cancellationToken);
 
-            if (_conflictResolver.IsAllowedConflict(events, eventsDiff))
+            if (_conflictResolver.IsAllowedPostConflict(events, eventsDiff))
             {
                 session.PendingChanges.Streams().Clear();
 
@@ -124,7 +124,7 @@ public class EventStore : IEventStore
             var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
                .Where(x => x.Version > expectedVersion);
 
-            if (!new AddressMatchConflictResolutionStrategy().IsAllowedConflict(Array.Empty<IEvent>(), eventsInNewVersion))
+            if (!_conflictResolver.IsAllowedPreConflict(eventsInNewVersion))
                 throw new UnexpectedAggregateVersionException();
         }
 

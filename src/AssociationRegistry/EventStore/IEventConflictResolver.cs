@@ -4,18 +4,33 @@ using Framework;
 
 public class EventConflictResolver
 {
-    private readonly IEventConflictResolutionStrategy[] _strategies;
+    private readonly IEventPostConflictResolutionStrategy[] _postStrategies;
+    private readonly IEventPreConflictResolutionStrategy[] _preStrategies;
 
-    public EventConflictResolver(IEventConflictResolutionStrategy[] strategies)
+    public EventConflictResolver(IEventPreConflictResolutionStrategy[] preStrategies, IEventPostConflictResolutionStrategy[] postStrategies)
     {
-        _strategies = strategies;
+        _postStrategies = postStrategies;
+        _preStrategies = preStrategies;
     }
 
-    public bool IsAllowedConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    public bool IsAllowedPostConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)
     {
-        foreach (var strategy in _strategies)
+        foreach (var strategy in _postStrategies)
         {
             if (strategy.IsAllowedConflict(intendedEvents, conflictingEvents))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public bool IsAllowedPreConflict(IEnumerable<Marten.Events.IEvent> conflictingEvents)
+    {
+        foreach (var strategy in _preStrategies)
+        {
+            if (strategy.IsAllowedConflict(conflictingEvents))
             {
                 return true;
             }
