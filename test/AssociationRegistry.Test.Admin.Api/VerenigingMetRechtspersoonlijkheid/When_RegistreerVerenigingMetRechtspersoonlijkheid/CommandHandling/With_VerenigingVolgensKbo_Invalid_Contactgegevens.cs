@@ -39,7 +39,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
 
         _verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
         {
-            Email = fixture.Create<string>(),
+            Email = "bla",
             Website = fixture.Create<string>(),
             Telefoonnummer = fixture.Create<string>(),
             GSM = fixture.Create<string>(),

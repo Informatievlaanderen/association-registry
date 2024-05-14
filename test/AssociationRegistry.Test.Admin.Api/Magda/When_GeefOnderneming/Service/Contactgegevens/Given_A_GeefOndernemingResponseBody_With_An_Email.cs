@@ -32,7 +32,7 @@ public class Given_A_GeefOndernemingResponseBody_With_An_Email
 
         var magdaFacade = new Mock<IMagdaClient>();
         var envelope = _fixture.Create<ResponseEnvelope<GeefOndernemingResponseBody>>();
-        _email = _fixture.Create<string>();
+        _email = "koekoek";
 
         envelope.Body!.GeefOndernemingResponse!.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming.Adressen = new[]
         {
