@@ -6,7 +6,10 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Marten.Events;
 using NodaTime;
+using Weasel.Core;
 using Xunit;
 
 public class When_AdresMatch_Occurred
@@ -18,10 +21,12 @@ public class When_AdresMatch_Occurred
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-    [Fact(Skip = "")]
+    [Fact]
     public async Task ThenItSavesTheLocation()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
+        var documentStore = TestDocumentStoreFactory.Create(nameof(When_AdresMatch_Occurred));
+
+        documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
         {
@@ -47,4 +52,6 @@ public class When_AdresMatch_Occurred
         result.Version.Should().Be(3);
         documentStore.Dispose();
     }
+
+
 }
