@@ -7,11 +7,11 @@ using Weasel.Core;
 
 public static class TestDocumentStoreFactory
 {
-    private const string DatabaseName = "integrationtests";
+    private const string DatabaseName = "verenigingsregister";
 
     public static DocumentStore Create()
     {
-        EnsureDbExists(GetRootConnectionString(), DatabaseName);
+        // EnsureDbExists(GetRootConnectionString(), DatabaseName);
         var documentStore = DocumentStore.For(options =>
         {
             options.Connection(GetConnectionString(DatabaseName));
@@ -19,18 +19,8 @@ public static class TestDocumentStoreFactory
 
             options.AutoCreateSchemaObjects = AutoCreate.All;
 
-            options.CreateDatabasesForTenants(c =>
-            {
-                // Specify a db to which to connect in case database needs to be created.
-                // If not specified, defaults to 'postgres' on the connection for a tenant.
-                c.MaintenanceDatabase(GetRootConnectionString());
-
-                c.ForTenant()
-                 .CheckAgainstPgDatabase()
-                 .WithOwner("root")
-                 .WithEncoding("UTF-8")
-                 .ConnectionLimit(-1);
-            });
+            options.DatabaseSchemaName = "test";
+            options.Events.DatabaseSchemaName = "test";
         });
 
         return documentStore;
