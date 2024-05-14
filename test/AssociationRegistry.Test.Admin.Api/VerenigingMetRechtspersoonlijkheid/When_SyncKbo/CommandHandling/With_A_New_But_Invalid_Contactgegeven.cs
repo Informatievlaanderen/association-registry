@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Vereniging;
+using Vereniging.Emails;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -35,7 +36,7 @@ public class With_A_New_But_Invalid_Contactgegeven
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _newContactgegevenWaarde = fixture.Create<string>();
+        _newContactgegevenWaarde = "jos..@example.com";
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
