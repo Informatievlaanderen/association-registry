@@ -27,19 +27,13 @@ public static class TestDocumentStoreFactory
 
                 c.ForTenant()
                  .CheckAgainstPgDatabase()
-                 .OnDatabaseCreated(connection =>
-                  {
-                      var x = 1;
-                  })
                  .WithOwner("root")
                  .WithEncoding("UTF-8")
                  .ConnectionLimit(-1);
             });
         });
 
-        documentStore.Storage.FindOrCreateDatabase("adminapifixture-tests");
-
-return documentStore;
+        return documentStore;
     }
 
     private static void EnsureDbExists(string rootConnectionString, string databaseName)
