@@ -6,6 +6,7 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Marten;
 using NodaTime;
 using Vereniging;
 using Xunit;
@@ -36,7 +37,7 @@ public class Given_An_Lower_Version
     [Fact]
     public async Task Then_it_Throws_Exception()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
+        var documentStore = TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver);
@@ -55,7 +56,7 @@ public class Given_An_Lower_Version
     [Fact]
     public async Task With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
+        var documentStore = TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver);
