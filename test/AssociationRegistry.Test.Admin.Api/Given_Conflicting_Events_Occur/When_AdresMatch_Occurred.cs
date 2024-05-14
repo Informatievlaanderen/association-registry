@@ -6,6 +6,8 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Marten;
+using Marten.Events;
 using NodaTime;
 using Xunit;
 
@@ -18,10 +20,16 @@ public class When_AdresMatch_Occurred
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-    [Fact(Skip = "")]
+    [Fact]
     public async Task ThenItSavesTheLocation()
     {
-        var documentStore = TestDocumentStoreFactory.Create();
+        //var documentStore = TestDocumentStoreFactory.Create();
+
+        var documentStore = DocumentStore.For(options =>
+        {
+            options.Connection(GetConnectionString());
+            options.Events.StreamIdentity = StreamIdentity.AsString;
+        });
 
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
         {
@@ -47,4 +55,10 @@ public class When_AdresMatch_Occurred
         result.Version.Should().Be(3);
         documentStore.Dispose();
     }
+
+    private static string GetConnectionString()
+        => $"host=127.0.0.1;" +
+           $"database=verenigingsregister;" +
+           $"password=root;" +
+           $"username=root";
 }
