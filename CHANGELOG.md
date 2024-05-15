@@ -1,3 +1,10 @@
+# [8.96.0](https://github.com/informatievlaanderen/association-registry/compare/v8.95.0...v8.96.0) (2024-05-15)
+
+
+### Features
+
+* or-1437 add event handlers for location lookup projection ([8adc314](https://github.com/informatievlaanderen/association-registry/commit/8adc3145760a64e8554709ea87481e3e7ccf4410))
+
 # [8.95.0](https://github.com/informatievlaanderen/association-registry/compare/v8.94.1...v8.95.0) (2024-05-15)
 
 
