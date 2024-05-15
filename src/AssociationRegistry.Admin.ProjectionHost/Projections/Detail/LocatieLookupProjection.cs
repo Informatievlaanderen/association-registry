@@ -39,7 +39,7 @@ public class LocatieLookupProjection : EventProjection
         string key,
         Action<IEvent<T>, LocatieLookupDocument> action) where T : notnull
     {
-        var doc = (await ops.LoadAsync<LocatieLookupDocument>(key))!;
+        var doc = await ops.LoadAsync<LocatieLookupDocument>(key);
 
         if (doc is null)
         {
