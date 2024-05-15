@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 [ApiRoute("projections")]
 [ApiExplorerSettings(IgnoreApi = true)]
 [Authorize(Policy = Program.SuperAdminPolicyName)]
-public class ProjectionHostController : ApiController
+public partial class ProjectionController : ApiController
 {
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
     private readonly PublicProjectionHostHttpClient _publicHttpClient;
     private readonly JsonSerializerOptions _jsonSerializerOptions;
 
-    public ProjectionHostController(AdminProjectionHostHttpClient adminHttpClient, PublicProjectionHostHttpClient publicHttpClient)
+    public ProjectionController(AdminProjectionHostHttpClient adminHttpClient, PublicProjectionHostHttpClient publicHttpClient)
     {
         _adminHttpClient = adminHttpClient;
         _publicHttpClient = publicHttpClient;
@@ -49,7 +49,7 @@ public class ProjectionHostController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
-    [HttpPost("admin/locatie/lookup/rebuild")]
+    [HttpPost("admin/locaties/lookup/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionLocatieDetail(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildLocatieLookupProjection(cancellationToken);
