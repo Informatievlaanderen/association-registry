@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
+using Constants;
 using Events;
 using Framework;
 using Infrastructure.Extensions;
@@ -16,7 +17,7 @@ public class LocatieLookupProjector
    {
        document.AdresId = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde.Split('/').Last();
        document.LocatieId = adresWerdOvergenomenUitAdressenregister.Data.LocatieId;
-    }
+   }
 
     public static void UpdateMetadata(IEvent e, LocatieLookupDocument document)
     {

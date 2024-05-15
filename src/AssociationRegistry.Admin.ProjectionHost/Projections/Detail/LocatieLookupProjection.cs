@@ -19,32 +19,34 @@ public class LocatieLookupProjection : EventProjection
     }
 
     public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
-        => await Upsert(@event, ops, LocatieLookupProjector.Apply);
+        => await Upsert(@event, ops, LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId), LocatieLookupProjector.Apply);
 
-    // public async Task Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
-    //     => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
-    //
-    // public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
-    //     => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
-    //
-    // public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
-    //     => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
-    //
-    // public async Task Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
-    //     => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
+    public void Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
+        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId));
+
+    public void Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
+        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId));
+
+    public void Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
+        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.Locatie.LocatieId));
+
+    public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
+        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey);
 
     private static async Task Upsert<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
+        string key,
         Action<IEvent<T>, LocatieLookupDocument> action) where T : notnull
     {
-        var doc = (await ops.LoadAsync<LocatieLookupDocument>(@event.StreamKey))!;
+        var doc = (await ops.LoadAsync<LocatieLookupDocument>(key))!;
 
         if (doc is null)
         {
             doc = new LocatieLookupDocument()
             {
-                VCode = @event.StreamKey
+                Key = key,
+                VCode = @event.StreamKey,
             };
 
             ops.Insert(doc);
