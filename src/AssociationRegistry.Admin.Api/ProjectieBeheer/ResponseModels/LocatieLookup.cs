@@ -13,16 +13,9 @@ public record LocatiesMetAdresIdVolgensVCode
 
 public record LocatiesMetAdresIdVolgensAdresId
 {
-    public record LocatieLookup(string VCode, int LocatieId);
+    public record LocatieLookup(int LocatieId, string VCode);
 
     public string AdresId { get; set; }
     public IEnumerable<LocatieLookup> Data { get; set; }
 }
 
-public record LocatiesMetAdresIdVolgensLocatieId
-{
-    public record LocatieLookup(string VCode, string AdresId);
-
-    public int LocatieId { get; set; }
-    public IEnumerable<LocatieLookup> Data { get; set; }
-}

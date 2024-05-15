@@ -54,27 +54,7 @@ public partial class ProjectionController : ApiController
             AdresId = adresId,
             Data = session.Query<LocatieLookupDocument>()
                           .Where(w => w.AdresId == adresId)
-                          .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.VCode, s.LocatieId))
-                          .ToArray(),
-        };
-
-        return Ok(response);
-    }
-
-    [HttpGet("admin/locaties/lookup/locatieId/{locatieId}")]
-    public async Task<IActionResult> GetLocatiesMetAdresIdVolgensLocatieId(
-        [FromServices] IDocumentStore documentStore,
-        [FromRoute] int locatieId,
-        CancellationToken cancellationToken)
-    {
-        await using var session = documentStore.LightweightSession();
-
-        var response = new LocatiesMetAdresIdVolgensLocatieId
-        {
-            LocatieId = locatieId,
-            Data = session.Query<LocatieLookupDocument>()
-                          .Where(w => w.LocatieId == locatieId)
-                          .Select(s => new LocatiesMetAdresIdVolgensLocatieId.LocatieLookup(s.VCode, s.AdresId))
+                          .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
                           .ToArray(),
         };
 
