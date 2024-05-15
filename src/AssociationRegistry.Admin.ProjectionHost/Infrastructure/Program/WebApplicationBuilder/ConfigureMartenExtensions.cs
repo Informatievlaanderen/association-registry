@@ -92,6 +92,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+                opts.Projections.Add<LocatieLookupProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerKboSyncHistoriekProjection>(ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
