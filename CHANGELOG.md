@@ -1,3 +1,10 @@
+# [8.95.0](https://github.com/informatievlaanderen/association-registry/compare/v8.94.1...v8.95.0) (2024-05-15)
+
+
+### Features
+
+* or-1437 add locatie lookup projection endpoins ([3afb815](https://github.com/informatievlaanderen/association-registry/commit/3afb81586d1d7b549b788e7da0ce96da0ff5c48e))
+
 ## [8.94.1](https://github.com/informatievlaanderen/association-registry/compare/v8.94.0...v8.94.1) (2024-05-15)
 
 
