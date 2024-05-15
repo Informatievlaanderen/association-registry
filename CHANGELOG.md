@@ -1,3 +1,11 @@
+## [8.96.2](https://github.com/informatievlaanderen/association-registry/compare/v8.96.1...v8.96.2) (2024-05-15)
+
+
+### Bug Fixes
+
+* or-1437 incorrect delete statement inside location lookup ([9bb339f](https://github.com/informatievlaanderen/association-registry/commit/9bb339f8d52344c57dc557278cf313edd1837825))
+* or-1437 incorrect delete statement inside location lookup ([c05a823](https://github.com/informatievlaanderen/association-registry/commit/c05a8232f32a9b257e54d3aa95cc8242f76f6832))
+
 ## [8.96.1](https://github.com/informatievlaanderen/association-registry/compare/v8.96.0...v8.96.1) (2024-05-15)
 
 
