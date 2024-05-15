@@ -15,20 +15,20 @@ public class LocatieLookupProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
-        Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
+        Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
     }
 
     public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
         => await Upsert(@event, ops, LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId), LocatieLookupProjector.Apply);
 
     public void Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
-        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId));
+        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.LocatieId);
 
     public void Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
-        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId));
+        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.LocatieId);
 
     public void Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
-        => ops.Delete<LocatieLookupDocument>(LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.Locatie.LocatieId));
+        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.Locatie.LocatieId);
 
     public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
         => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey);
