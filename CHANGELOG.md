@@ -1,3 +1,10 @@
+## [8.94.1](https://github.com/informatievlaanderen/association-registry/compare/v8.94.0...v8.94.1) (2024-05-15)
+
+
+### Bug Fixes
+
+* or-2184 remove native wolverine dlq ([2e55801](https://github.com/informatievlaanderen/association-registry/commit/2e558010b0eb719ed1bc4ec3864efbdd0cff2941))
+
 # [8.94.0](https://github.com/informatievlaanderen/association-registry/compare/v8.93.0...v8.94.0) (2024-05-14)
 
 
