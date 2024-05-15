@@ -49,6 +49,14 @@ public class ProjectionHostController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("admin/locatie/lookup/rebuild")]
+    public async Task<IActionResult> RebuildAdminProjectionLocatieDetail(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildLocatieLookupProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpPost("admin/historiek/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionHistoriek(CancellationToken cancellationToken)
     {

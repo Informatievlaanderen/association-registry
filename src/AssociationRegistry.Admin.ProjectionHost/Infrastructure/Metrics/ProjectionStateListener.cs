@@ -37,6 +37,9 @@ public class ProjectionStateListener : DocumentSessionListenerBase
             if (range.ShardName.ProjectionName == typeof(BeheerVerenigingDetailProjection).FullName)
                 _adminInstrumentation.VerenigingDetailEventValue = range.SequenceCeiling;
 
+            if (range.ShardName.ProjectionName == typeof(LocatieLookupProjection).FullName)
+                _adminInstrumentation.LocatieLookupEventValue = range.SequenceCeiling;
+
             if (range.ShardName.ProjectionName == typeof(BeheerVerenigingHistoriekProjection).FullName)
                 _adminInstrumentation.VerenigingHistoriekEventValue = range.SequenceCeiling;
         }

@@ -29,15 +29,25 @@ public class AdminInstrumentation : IInstrumentation, IDisposable
                                                         description: "Beheer detail projection",
                                                         observeValue: () => VerenigingDetailEventValue);
 
+        _locatieLookup = meter.CreateObservableGauge(name: "ar.beheer.p.locatielookup.g", unit: "events",
+                                                        description: "Locatie lookup projection",
+                                                        observeValue: () => LocatieLookupEventValue);
+
         _historiek = meter.CreateObservableGauge(name: "ar.beheer.p.historiek.g", unit: "events", description: "Beheer detail projection",
                                                  observeValue: () => VerenigingHistoriekEventValue);
     }
 
     public ActivitySource ActivitySource { get; }
+
     private ObservableGauge<long> _verenigingZoeken;
     public long VerenigingZoekenEventValue { get; set; }
+
     private ObservableGauge<long> _verenigingDetail;
     public long VerenigingDetailEventValue { get; set; }
+
+    private ObservableGauge<long> _locatieLookup;
+    public long LocatieLookupEventValue { get; set; }
+
     private ObservableGauge<long> _historiek;
     public long VerenigingHistoriekEventValue { get; set; }
 
