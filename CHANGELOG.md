@@ -1,3 +1,10 @@
+## [8.96.4](https://github.com/informatievlaanderen/association-registry/compare/v8.96.3...v8.96.4) (2024-05-16)
+
+
+### Bug Fixes
+
+* or-1437 register missing document types ([ee14d47](https://github.com/informatievlaanderen/association-registry/commit/ee14d47df8da51707556c4d38fcb822a6426cede))
+
 ## [8.96.3](https://github.com/informatievlaanderen/association-registry/compare/v8.96.2...v8.96.3) (2024-05-16)
 
 
