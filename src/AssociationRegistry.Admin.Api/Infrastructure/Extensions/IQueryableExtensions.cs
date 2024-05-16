@@ -42,6 +42,9 @@ public static class IDocumentExtensions
         if (typeof(T) == typeof(BeheerKboSyncHistoriekGebeurtenisDocument))
             return new ShardName("AssociationRegistry.Admin.ProjectionHost.Projections.KboSync.BeheerKboSyncHistoriekProjection");
 
+        if (typeof(T) == typeof(LocatieLookupDocument))
+            return new ShardName("AssociationRegistry.Admin.ProjectionHost.Projections.Detail.LocatieLookupProjection");
+
         throw new NotImplementedException("ExpectedSequence is voor deze projectie niet ondersteund.");
     }
 }

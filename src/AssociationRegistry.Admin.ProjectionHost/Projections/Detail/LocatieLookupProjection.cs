@@ -4,7 +4,6 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
-using Nest;
 using Schema.Detail;
 
 public class LocatieLookupProjection : EventProjection

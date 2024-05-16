@@ -121,6 +121,7 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                 opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
+                opts.RegisterDocumentType<LocatieLookupDocument>();
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
