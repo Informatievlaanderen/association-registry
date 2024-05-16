@@ -1,3 +1,10 @@
+## [8.96.3](https://github.com/informatievlaanderen/association-registry/compare/v8.96.2...v8.96.3) (2024-05-16)
+
+
+### Bug Fixes
+
+* or-1437 upsert and delete locatie lookup projections ([5649813](https://github.com/informatievlaanderen/association-registry/commit/5649813f789e2d19a652a289da4dd2b3720bbb84))
+
 ## [8.96.2](https://github.com/informatievlaanderen/association-registry/compare/v8.96.1...v8.96.2) (2024-05-15)
 
 
