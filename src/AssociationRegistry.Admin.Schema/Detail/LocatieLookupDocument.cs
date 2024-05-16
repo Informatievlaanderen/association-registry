@@ -5,14 +5,15 @@ using Marten.Schema;
 public record LocatieLookupDocument : IVCode, IMetadata
 {
     [Identity]
-    public string Key { get; init; }
-
     public string VCode { get; init; } = null!;
-    public int LocatieId { get; set; }
-    public string AdresId { get; set; }
+
+    public LocatieLookupEntry[] Locaties { get; set; } = Array.Empty<LocatieLookupEntry>();
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Metadata Metadata { get; set; } = null!;
+}
 
-    public static string GetKey(string vCode, int locatieId)
-        => $"{vCode}_{locatieId}";
+public record LocatieLookupEntry
+{
+    public int LocatieId { get; set; }
+    public string AdresId { get; set; }
 }

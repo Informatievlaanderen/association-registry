@@ -1,20 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.ProjectieBeheer;
 
 using Be.Vlaanderen.Basisregisters.Api;
-using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using EventStore;
-using Infrastructure;
-using Infrastructure.Extensions;
-using Infrastructure.HttpClients;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
+using System;
 using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Json;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -29,13 +22,12 @@ public partial class ProjectionController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
+        var doc = await session.LoadAsync<LocatieLookupDocument>(vCode);
+
         var response = new LocatiesMetAdresIdVolgensVCode
         {
             VCode = vCode,
-            Data = session.Query<LocatieLookupDocument>()
-                          .Where(w => w.VCode == vCode)
-                          .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
-                          .ToArray(),
+            Data = doc.Locaties.Select(loc => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(loc.LocatieId, loc.AdresId)),
         };
 
         return Ok(response);
@@ -52,11 +44,20 @@ public partial class ProjectionController : ApiController
         var response = new LocatiesMetAdresIdVolgensAdresId
         {
             AdresId = adresId,
-            Data = session.Query<LocatieLookupDocument>()
-                          .Where(w => w.AdresId == adresId)
-                          .Select(s => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(s.LocatieId, s.VCode))
-                          .ToArray(),
+            Data = Array.Empty<LocatiesMetAdresIdVolgensAdresId.LocatieLookup>(),
         };
+
+        var docs = session.Query<LocatieLookupDocument>()
+                          .Where(w => w.Locaties.Any(loc => loc.AdresId == adresId))
+                          .ToArray();
+
+        foreach (var doc in docs)
+        {
+            var locaties = doc.Locaties
+                .Where(loc => loc.AdresId == adresId)
+                .Select(loc => new LocatiesMetAdresIdVolgensAdresId.LocatieLookup(loc.LocatieId, doc.VCode));
+            foreach(var locatie in locaties) response.Data = response.Data.Append(locatie);
+        }
 
         return Ok(response);
     }

@@ -4,6 +4,7 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Nest;
 using Schema.Detail;
 
 public class LocatieLookupProjection : EventProjection
@@ -19,37 +20,30 @@ public class LocatieLookupProjection : EventProjection
     }
 
     public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
-        => await Upsert(@event, ops, LocatieLookupDocument.GetKey(@event.StreamKey, @event.Data.LocatieId), LocatieLookupProjector.Apply);
+        => await Upsert(@event, ops, LocatieLookupProjector.Apply);
 
-    public void Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
-        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.LocatieId);
+    public async Task Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
+        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
 
-    public void Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
-        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.LocatieId);
+    public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
+        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
 
-    public void Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
-        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey && doc.LocatieId == @event.Data.Locatie.LocatieId);
+    public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
+        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.Locatie.LocatieId, @event, ops);
 
     public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
-        => ops.DeleteWhere<LocatieLookupDocument>(doc => doc.VCode == @event.StreamKey);
+        => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
 
     private static async Task Upsert<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
-        string key,
         Action<IEvent<T>, LocatieLookupDocument> action) where T : notnull
     {
-
-        var doc = await ops.LoadAsync<LocatieLookupDocument>(key);
+        var doc = await ops.LoadAsync<LocatieLookupDocument>(@event.StreamKey);
 
         if (doc is null)
         {
-            doc = new LocatieLookupDocument()
-            {
-                Key = key,
-                VCode = @event.StreamKey,
-            };
-
+            doc = new LocatieLookupDocument { VCode = @event.StreamKey };
             ops.Insert(doc);
         }
 
@@ -57,5 +51,24 @@ public class LocatieLookupProjection : EventProjection
         LocatieLookupProjector.UpdateMetadata(@event, doc);
 
         ops.Store(doc);
+    }
+
+    private static async Task UpdateOrDeleteEntryOrDeleteDocument(string vCode, int locatieId, IEvent @event, IDocumentOperations ops)
+    {
+        var doc = await ops.LoadAsync<LocatieLookupDocument>(vCode);
+
+        if (doc is not null)
+        {
+            if (doc.Locaties.Any(loc => loc.LocatieId != locatieId))
+            {
+                doc.Locaties = doc.Locaties.Where(w => w.LocatieId != locatieId).ToArray();
+                LocatieLookupProjector.UpdateMetadata(@event, doc);
+                ops.Store(doc);
+
+                return;
+            }
+
+            ops.Delete<LocatieLookupDocument>(vCode);
+        }
     }
 }
