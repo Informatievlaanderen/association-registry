@@ -41,6 +41,7 @@ public static class MartenExtensions
 
                      opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                      opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                     opts.RegisterDocumentType<LocatieLookupDocument>();
 
                      opts.RegisterDocumentType<VerenigingState>();
 
