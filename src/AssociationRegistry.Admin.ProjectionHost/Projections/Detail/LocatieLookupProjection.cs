@@ -3,10 +3,11 @@
 using Events;
 using Marten;
 using Marten.Events;
+using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Schema.Detail;
 
-public class LocatieLookupProjection : EventProjection
+public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
     public LocatieLookupProjection()
     {
@@ -16,58 +17,30 @@ public class LocatieLookupProjection : EventProjection
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
-    }
 
-    public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
-        => await Upsert(@event, ops, LocatieLookupProjector.Apply);
+        Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+        // Identity<LocatieWerdVerwijderd>(x =>
+        // {
+        //
+        //     return $"{x.StreamKey}-{x.Data.Locatie.LocatieId}";
+        // });
 
-    public async Task Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
-
-    public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
-
-    public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.Locatie.LocatieId, @event, ops);
-
-    public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
-        => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
-
-    private static async Task Upsert<T>(
-        IEvent<T> @event,
-        IDocumentOperations ops,
-        Action<IEvent<T>, LocatieLookupDocument> action) where T : notnull
-    {
-        var doc = await ops.LoadAsync<LocatieLookupDocument>(@event.StreamKey);
-
-        if (doc is null)
+        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x =>
         {
-            doc = new LocatieLookupDocument { VCode = @event.StreamKey };
-            ops.Insert(doc);
-        }
-
-        action(@event, doc);
-        LocatieLookupProjector.UpdateMetadata(@event, doc);
-
-        ops.Store(doc);
-    }
-
-    private static async Task UpdateOrDeleteEntryOrDeleteDocument(string vCode, int locatieId, IEvent @event, IDocumentOperations ops)
-    {
-        var doc = await ops.LoadAsync<LocatieLookupDocument>(vCode);
-
-        if (doc is not null)
-        {
-            if (doc.Locaties.Any(loc => loc.LocatieId != locatieId))
+            return new LocatieLookupDocument
             {
-                doc.Locaties = doc.Locaties.Where(w => w.LocatieId != locatieId).ToArray();
-                LocatieLookupProjector.UpdateMetadata(@event, doc);
-                ops.Store(doc);
+                AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde.Split('/').Last(),
+                LocatieId = x.LocatieId,
+                VCode = x.VCode
+            };
+        });
 
-                return;
-            }
 
-            ops.Delete<LocatieLookupDocument>(vCode);
-        }
     }
+
+    public void Apply(LocatieWerdVerwijderd @event, LocatieLookupDocument doc)
+    {
+
+    }
+
 }

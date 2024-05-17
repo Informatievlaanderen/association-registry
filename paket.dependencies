@@ -106,8 +106,8 @@ nuget NpgSql.OpenTelemetry 7.0.0
 nuget NEST 7.17.4
 
 
-  nuget Marten ~> 6.0
-  nuget Marten.CommandLine ~> 6.0
+  nuget Marten ~> 7.0
+  nuget Marten.CommandLine ~> 7.0
   nuget WolverineFx ~> 1.0
   nuget WolverineFx.Marten ~> 1.0
   nuget WolverineFx.Postgresql ~> 1.0
