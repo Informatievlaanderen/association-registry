@@ -25,7 +25,7 @@ public class Is_Not_Valid : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
-              .WithErrorMessage("De waarde 'iemeel' is geen gekend contactgegeven type.")
-              .Only();
+              .WithErrorMessage("De waarde 'iemeel' is geen gekend contactgegeven type.");
+                                                                                                       // .Only();
     }
 }

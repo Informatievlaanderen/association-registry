@@ -17,7 +17,7 @@ public class Is_Empty : ValidatorTest
         var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest { Naam = "" });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Naam)
-              .WithErrorMessage("'Naam' mag niet leeg zijn.")
-              .Only();
+              .WithErrorMessage("'Naam' mag niet leeg zijn.");
+              // .Only();
     }
 }

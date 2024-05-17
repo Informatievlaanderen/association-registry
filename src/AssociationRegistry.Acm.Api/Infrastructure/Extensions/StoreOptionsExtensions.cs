@@ -12,6 +12,5 @@ public static class StoreOptionsExtensions
     public static void AddPostgresProjections(this StoreOptions source, IServiceProvider serviceProvider)
     {
         source.Projections.Add(new VerenigingenPerInszProjection(), ProjectionLifecycle.Async);
-        source.Projections.AsyncListeners.Add(new ProjectionStateListener(serviceProvider.GetRequiredService<AcmInstrumentation>()));
     }
 }

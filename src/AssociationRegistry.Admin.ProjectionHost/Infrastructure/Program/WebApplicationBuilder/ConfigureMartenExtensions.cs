@@ -84,17 +84,18 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
+                // opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
 
                 opts.Projections.DaemonLockId = 1;
 
-                opts.Projections.AsyncListeners.Add(
-                    new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
+                // opts.Projections.AsyncListeners.Add(
+                //     new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
 
-                opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
-                opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
+
+                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
-                opts.Projections.Add<BeheerKboSyncHistoriekProjection>(ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(
@@ -123,7 +124,6 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                 opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                 opts.RegisterDocumentType<LocatieLookupDocument>();
-
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {

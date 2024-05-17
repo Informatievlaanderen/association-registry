@@ -1,6 +1,7 @@
 framework: net6.0, net472
 source https://api.nuget.org/v3/index.json
-
+// lowest_matching: true
+strategy: min
 // PRODUCTION STUFF
 nuget Result.Net 1.4.0
 nuget Microsoft.Extensions.Configuration 6.0.1
@@ -21,7 +22,6 @@ nuget Be.Vlaanderen.Basisregisters.Testing.Infrastructure.Events 3.0.0 content: 
 
 nuget Microsoft.Extensions.DependencyInjection 6.0.0
 nuget Microsoft.NETCore.Platforms 6.0.2
-
 nuget Be.Vlaanderen.Basisregisters.AggregateSource 6.2.2
 nuget Be.Vlaanderen.Basisregisters.AggregateSource.ExplicitRouting 6.2.2
 nuget Be.Vlaanderen.Basisregisters.AggregateSource.SqlStreamStore 6.2.2
@@ -106,36 +106,39 @@ nuget NpgSql.OpenTelemetry 7.0.0
 nuget NEST 7.17.4
 
 
-  nuget Marten ~> 6.0
-  nuget Marten.CommandLine ~> 6.0
+  nuget Marten ~> 7
+  nuget Marten.CommandLine
   nuget WolverineFx ~> 1.0
-  nuget WolverineFx.Marten ~> 1.0
-  nuget WolverineFx.Postgresql ~> 1.0
-  nuget WolverineFx.RDBMS ~> 1.0
-  nuget WolverineFx.AmazonSqs ~> 1.0
-
+  nuget WolverineFx.Marten < 2.0.0
+  nuget WolverineFx.Postgresql < 2.0.0
+  nuget WolverineFx.RDBMS < 2.0.0
+  nuget WolverineFx.AmazonSqs < 2.0.0
+nuget System.Diagnostics.DiagnosticSource ~> 8.0
+nuget Microsoft.Bcl.AsyncInterfaces 8.0.0
+nuget Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset 4.0.0
+nuget System.Collections.Immutable ~> 8.0
+nuget System.Reflection.Metadata ~> 8.0
+nuget Npgsql ~> 8.0
+nuget Microsoft.Net.Http.Headers 2.2.8
 // Because linked in multiple groups
 nuget Microsoft.Extensions.FileProviders.Physical >= 7.0
 
 //
 nuget System.Reflection.Metadata >= 7.0
 nuget System.IO.Pipelines >= 7.0
+nuget Microsoft.AspNetCore.Mvc.NewtonsoftJson ~> 6.0
+nuget Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore ~> 6.0
+nuget Microsoft.AspNetCore.WebUtilities ~> 2.2
+nuget Microsoft.EntityFrameworkCore.Abstractions ~> 6.0
+nuget Microsoft.EntityFrameworkCore ~> 6.0
+nuget Microsoft.EntityFrameworkCore.Relational ~> 6.0
+nuget Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore ~> 6.0
 
-group Testing
-  framework: net6.0, net472
-  source https://api.nuget.org/v3/index.json
+nuget Scriban
+nuget Microsoft.AspNetCore.TestHost 6.0.4
+nuget Microsoft.AspNetCore.Hosting 2.2.7
 
-  nuget Scriban
-  nuget Microsoft.AspNetCore.TestHost 6.0.4
-  nuget Microsoft.AspNetCore.Hosting 2.2.7
-
-  nuget Microsoft.Extensions.Configuration 6.0.1
-  nuget Microsoft.Extensions.Configuration.CommandLine 6.0.0
-  nuget Microsoft.Extensions.Configuration.FileExtensions >= 6
-  nuget Microsoft.Extensions.FileProviders.Physical >= 7.0
-  nuget Microsoft.Extensions.FileSystemGlobbing >= 7.0
-  nuget Microsoft.Extensions.Configuration.EnvironmentVariables 6.0.1
-  nuget Microsoft.Extensions.Configuration.Json 6.0.0
-
-  nuget Microsoft.Extensions.DependencyInjection 6.0.0
-  nuget System.Collections.Immutable ~> 7.0
+// transitive helpers
+nuget  Humanizer.Core  >= 2.8.26
+nuget NuGet.Frameworks >= 6.9.1
+nuget Microsoft.Extensions.Hosting.Abstractions 7.0.0

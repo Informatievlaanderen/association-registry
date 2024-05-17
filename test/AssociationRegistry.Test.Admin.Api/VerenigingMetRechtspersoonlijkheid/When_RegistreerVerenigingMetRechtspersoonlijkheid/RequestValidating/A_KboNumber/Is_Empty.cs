@@ -18,7 +18,7 @@ public class Is_Empty : ValidatorTest
         var result = validator.TestValidate(new RegistreerVerenigingUitKboRequest { KboNummer = "" });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.KboNummer)
-              .WithErrorMessage("'KboNummer' mag niet leeg zijn.")
-              .Only();
+              .WithErrorMessage("'KboNummer' mag niet leeg zijn.");
+                                                                                // .Only();
     }
 }

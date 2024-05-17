@@ -5,7 +5,6 @@ AutoFixture
 FluentAssertions.Json
 Moq
 Microsoft.AspNetCore.Mvc.Testing
-group Testing
 Scriban
 Microsoft.AspNetCore.Hosting
 Microsoft.AspNetCore.TestHost

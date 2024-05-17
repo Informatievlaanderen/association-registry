@@ -19,12 +19,12 @@ public class BeheerVerenigingDetailProjection : EventProjection
     }
 
     public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
-        => Create(@event, ops, BeheerVerenigingDetailProjector.Create);
+        => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
     public void Project(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
-        => Create(@event, ops, BeheerVerenigingDetailProjector.Create);
+        => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
     {
@@ -224,7 +224,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    private static void Create<T>(
+    private static void DoCreate<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
         Func<IEvent<T>, BeheerVerenigingDetailDocument> action) where T : notnull

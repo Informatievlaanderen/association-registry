@@ -9,6 +9,5 @@ Microsoft.NET.Test.Sdk
 NEST
 xunit.runner.visualstudio
 xunit.categories
-group Testing
 Microsoft.AspNetCore.Hosting
 Microsoft.AspNetCore.TestHost

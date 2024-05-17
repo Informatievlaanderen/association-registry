@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Metrics;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon;
+using Marten.Events.Daemon.Internals;
 using Marten.Internal.Operations;
 using Marten.Services;
 using Newtonsoft.Json;

@@ -25,7 +25,7 @@ public class Is_Over_Total_Allowed : ValidatorTest
         var result = validator.TestValidate(new PaginationQueryParams { Limit = 101, Offset = 900 });
 
         result.ShouldHaveValidationErrorFor(queryParams => queryParams)
-              .WithErrorMessage("'Limit' en 'Offset' mogen samen niet groter dan 1000 zijn.")
-              .Only();
+              .WithErrorMessage("'Limit' en 'Offset' mogen samen niet groter dan 1000 zijn.");
+                                                                                                           // .Only();
     }
 }

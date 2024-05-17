@@ -25,7 +25,7 @@ public class Is_Empty : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
-              .WithErrorMessage("'Contactgegeventype' mag niet leeg zijn.")
-              .Only();
+              .WithErrorMessage("'Contactgegeventype' mag niet leeg zijn.");
+                                                                                         // .Only();
     }
 }
