@@ -43,7 +43,7 @@ public class With_A_Known_LocatieId
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdVerwijderd(
-                _scenario.LocatieWerdToegevoegd.Locatie)
+                _scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie)
         );
     }
 }

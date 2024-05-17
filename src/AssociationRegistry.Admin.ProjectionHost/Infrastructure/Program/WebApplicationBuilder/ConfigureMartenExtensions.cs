@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 
 using ConfigurationBindings;
 using Constants;
+using Events;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -92,7 +93,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add<BeheerVerenigingHistoriekProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerVerenigingDetailProjection>(ProjectionLifecycle.Async);
-                opts.Projections.Add<LocatieLookupProjection>(ProjectionLifecycle.Async);
+                opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
                 opts.Projections.Add<BeheerKboSyncHistoriekProjection>(ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
@@ -122,6 +123,7 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                 opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                 opts.RegisterDocumentType<LocatieLookupDocument>();
+
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {

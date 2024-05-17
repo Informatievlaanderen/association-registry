@@ -8,7 +8,7 @@ using Vereniging;
 public class V012_LocatieWerdVerwijderdScenario : IScenario
 {
     public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd = new(
-        Locatie: teVerwijderenLocatie);
+        "V0001012", Locatie: teVerwijderenLocatie);
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001012",

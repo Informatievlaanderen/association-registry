@@ -93,7 +93,7 @@ public class V025_LocatieWerdVerwijderd : IEventsInDbScenario
                 new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
             });
 
-        LocatieWerdVerwijderd = new LocatieWerdVerwijderd(teVerwijderenLocatie);
+        LocatieWerdVerwijderd = new LocatieWerdVerwijderd(VCode, teVerwijderenLocatie);
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

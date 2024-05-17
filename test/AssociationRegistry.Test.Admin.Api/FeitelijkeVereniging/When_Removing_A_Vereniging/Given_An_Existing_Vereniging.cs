@@ -55,7 +55,7 @@ public class Given_An_Existing_Vereniging : IClassFixture<Remove_An_Existing_Ver
            .Single(e => e.Data.GetType() == typeof(VerenigingWerdVerwijderd));
 
         verenigingWerdVerwijderd.Data.Should()
-                                .BeEquivalentTo(new VerenigingWerdVerwijderd("Omdat"));
+                                .BeEquivalentTo(new VerenigingWerdVerwijderd(_classFixture.Scenario.VCode, "Omdat"));
     }
 
     [Fact]

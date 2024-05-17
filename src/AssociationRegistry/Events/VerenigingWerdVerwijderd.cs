@@ -2,8 +2,8 @@
 
 using Framework;
 
-public record VerenigingWerdVerwijderd(string Reden) : IEvent
+public record VerenigingWerdVerwijderd(string VCode, string Reden) : IEvent
 {
-    public static VerenigingWerdVerwijderd With(string reden)
-        => new(reden);
+    public static VerenigingWerdVerwijderd With(string vCode, string reden)
+        => new(vCode, reden);
 }

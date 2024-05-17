@@ -44,7 +44,7 @@ public class With_A_Reden
     public void Then_A_VerenigingWerdVerwijderd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdVerwijderd("Omdat weg moet")
+            new VerenigingWerdVerwijderd(_scenario.VCode, "Omdat weg moet")
         );
     }
 }

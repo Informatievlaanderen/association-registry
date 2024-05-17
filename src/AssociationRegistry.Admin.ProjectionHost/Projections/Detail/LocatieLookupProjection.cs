@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
+using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -9,38 +10,81 @@ using Schema.Detail;
 
 public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
-    public LocatieLookupProjection()
+    public LocatieLookupProjection(ILogger<LocatieLookupProjection> logger)
     {
-        // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
-        // the newly persisted document from xxxWerdGeregistreerd is not in the
-        // Query yet when we handle NaamWerdGewijzigd.
-        // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
+        Options.EnableDocumentTrackingByIdentity = true;
+        Options.MaximumHopperSize = 1;
+
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
 
         Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        // Identity<LocatieWerdVerwijderd>(x =>
-        // {
-        //
-        //     return $"{x.StreamKey}-{x.Data.Locatie.LocatieId}";
-        // });
+        Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
+        Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+        Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
 
-        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x =>
+        CustomGrouping(new LocatieLookupGrouper(logger));
+
+        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
-            return new LocatieLookupDocument
-            {
-                AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde.Split('/').Last(),
-                LocatieId = x.LocatieId,
-                VCode = x.VCode
-            };
+            AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde.Split('/').Last(),
+            LocatieId = x.LocatieId,
+            VCode = x.VCode
         });
 
+        DeleteEvent<LocatieWerdVerwijderd>();
+        DeleteEvent<AdresWerdNietGevondenInAdressenregister>();
+        DeleteEvent<AdresNietUniekInAdressenregister>();
+        DeleteEvent<VerenigingWerdVerwijderd>();
 
+        DeleteEvent<VerenigingWerdVerwijderd>();
     }
-
-    public void Apply(LocatieWerdVerwijderd @event, LocatieLookupDocument doc)
-    {
-
-    }
-
 }
+
+public class LocatieLookupGrouper: IAggregateGrouper<string>
+{
+    private readonly ILogger _logger;
+
+    public LocatieLookupGrouper(ILogger logger)
+    {
+        _logger = logger;
+    }
+    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
+    {
+        var verwijderdEvents = events
+            .OfType<IEvent<VerenigingWerdVerwijderd>>()
+            .ToList();
+
+        if (!verwijderdEvents.Any())
+        {
+            return;
+        }
+
+        foreach (var verwijderd in verwijderdEvents)
+        {
+            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound Verwijderd event with id {verwijderd.Sequence}");
+        }
+
+        var vCodes = verwijderdEvents
+            .Select(e => e.Data.VCode)
+            .ToList();
+
+        var result = await session.Query<LocatieLookupDocument>()
+            .Where(x => vCodes.Contains(x.VCode))
+            .ToListAsync();
+
+        foreach (var verwijderd in verwijderdEvents)
+        {
+            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound {result.Count} related lookup documents");
+        }
+
+        foreach (var locatieLookupDocument in result)
+        {
+            var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
+            grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
+            _logger.LogInformation($"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
+        }
+    }
+}
+
+
