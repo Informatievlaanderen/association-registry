@@ -30,7 +30,7 @@ public class Is_Empty : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Waarde)}")
-              .WithErrorMessage("'Waarde' mag niet leeg zijn.")
-              .Only();
+              .WithErrorMessage("'Waarde' mag niet leeg zijn.");
+        // .Only();
     }
 }

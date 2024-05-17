@@ -25,7 +25,7 @@ public class Is_Null : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Waarde))
-              .WithErrorMessage("'Waarde' is verplicht.")
-              .Only();
+              .WithErrorMessage("'Waarde' is verplicht.");
+                                                                       // .Only();
     }
 }

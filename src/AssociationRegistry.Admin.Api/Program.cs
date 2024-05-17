@@ -346,7 +346,10 @@ public class Program
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
 
-        var sqsClient = new AmazonSQSClient(RegionEndpoint.EUWest1);
+        var sqsClient = addressMatchOptionsSection.UseLocalStack ?
+            new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1) :
+            new AmazonSQSClient(RegionEndpoint.EUWest1);
+
 
         builder.Services
                .AddHttpClient<AdminProjectionHostHttpClient>()

@@ -22,3 +22,4 @@ FluentValidation
 Polly
 Marten.CommandLine
 WolverineFx
+Microsoft.Extensions.Hosting.Abstractions

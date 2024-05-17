@@ -21,12 +21,12 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public void Project(
         IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event,
         IDocumentOperations ops)
-        => Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
+        => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
     public void Project(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
-        => Create(@event, ops, BeheerVerenigingHistoriekProjector.Create);
+        => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
     public async Task Project(IEvent<NaamWerdGewijzigd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
@@ -204,7 +204,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
-    private static void Create<T>(
+    private static void DoCreate<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
         Func<IEvent<T>, BeheerVerenigingHistoriekDocument> action) where T : notnull
