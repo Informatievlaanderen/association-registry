@@ -1,14 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.templates;
 
-using Scriban;
 using System.Dynamic;
-using Test.Framework;
 
-public class LocatieLookupResponseTemplate
+public class LocatieLookupResponseTemplate : ResponseTemplate
 {
     private readonly dynamic _vereniging;
 
     public LocatieLookupResponseTemplate()
+        : base("templates.LocatieLookupResponse.json")
     {
         _vereniging = new ExpandoObject();
         _vereniging.locatielookups = new List<object>();
@@ -32,18 +31,9 @@ public class LocatieLookupResponseTemplate
         return this;
     }
 
-    public static implicit operator string(LocatieLookupResponseTemplate source)
-        => source.Build();
-
-    public string Build()
-    {
-        var json = GetType().Assembly.GetAssemblyResource(name: "templates.LocatieLookupResponse.json");
-
-        var responseTemplate = Template.Parse(json);
-
-        return responseTemplate.Render(new
+    protected override dynamic BuildModel()
+        => new
         {
             vereniging = _vereniging,
-        });
-    }
+        };
 }

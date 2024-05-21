@@ -2,15 +2,14 @@
 
 using EventStore;
 using Microsoft.AspNetCore.Http;
-using Scriban;
 using System.Dynamic;
-using Test.Framework;
 
-public class ProblemDetailsResponseTemplate
+public class ProblemDetailsResponseTemplate : ResponseTemplate
 {
     private readonly dynamic _problemDetails;
 
     public ProblemDetailsResponseTemplate()
+        : base("templates.ProblemDetailsResponse.json")
     {
         _problemDetails = new ExpandoObject();
 
@@ -52,21 +51,12 @@ public class ProblemDetailsResponseTemplate
         => WithStatus(StatusCodes.Status412PreconditionFailed)
            .WithDetail(ex.Message);
 
-    public static implicit operator string(ProblemDetailsResponseTemplate source)
-        => source.Build();
-
-    public string Build()
-    {
-        var json = GetType().Assembly.GetAssemblyResource(name: "templates.ProblemDetailsResponse.json");
-
-        var responseTemplate = Template.Parse(json);
-
-        return responseTemplate.Render(new
+    protected override dynamic BuildModel()
+        => new
         {
             type = _problemDetails.type,
             title = _problemDetails.title,
             detail = _problemDetails.detail,
             status = _problemDetails.status,
-        });
-    }
+        };
 }

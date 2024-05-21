@@ -5,18 +5,17 @@ using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formatters;
 using JsonLdContext;
-using Scriban;
 using System.Dynamic;
-using Test.Framework;
 using Vereniging;
 
-public class ZoekVerenigingenResponseTemplate
+public class ZoekVerenigingenResponseTemplate : ResponseTemplate
 {
     private readonly List<object> _verenigingen = new();
     private object _pagination = new { };
     private string _query = string.Empty;
 
     public ZoekVerenigingenResponseTemplate()
+    : base("templates.ZoekVerenigingenResponse.json")
     {
         WithPagination();
     }
@@ -46,22 +45,13 @@ public class ZoekVerenigingenResponseTemplate
         return this;
     }
 
-    public string Build()
-    {
-        var json = GetType().Assembly.GetAssemblyResource(name: "templates.ZoekVerenigingenResponse.json");
-
-        var responseTemplate = Template.Parse(json);
-
-        return responseTemplate.Render(new
+    protected override dynamic BuildModel()
+        => new
         {
             verenigingen = _verenigingen,
             pagination = _pagination,
             query = _query,
-        });
-    }
-
-    public static implicit operator string(ZoekVerenigingenResponseTemplate source)
-        => source.Build();
+        };
 
     public class VerenigingTemplate
     {
