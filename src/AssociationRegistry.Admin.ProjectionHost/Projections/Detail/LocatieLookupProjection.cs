@@ -27,9 +27,9 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
 
         CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
-            AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde.Split('/').Last(),
+            AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde,
             LocatieId = x.LocatieId,
-            VCode = x.VCode
+            VCode = x.VCode,
         });
 
         DeleteEvent<LocatieWerdVerwijderd>();

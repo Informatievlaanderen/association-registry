@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail;
+﻿namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_LocatieLookup;
 
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
-using FluentAssertions;
 using Framework;
 using templates;
+using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,7 +37,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
                       .WithVCode(_scenario.VCode)
                       .WithLocatieLookup(_scenario.AdresWerdOvergenomenUitAdressenregister.LocatieId,
                                          _scenario.AdresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister.AdresId
-                                                  .Bronwaarde.Split('/').Last())
+                                                  .Bronwaarde)
                       .Build();
 
         content.Should().BeEquivalentJson(expected);
