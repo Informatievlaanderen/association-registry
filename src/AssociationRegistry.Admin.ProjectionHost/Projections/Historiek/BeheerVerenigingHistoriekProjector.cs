@@ -503,7 +503,7 @@ public class BeheerVerenigingHistoriekProjector
             verenigingWerdVerwijderd,
             new
             {
-                verenigingWerdVerwijderd.Data.Reden
+                verenigingWerdVerwijderd.Data.Reden,
             },
             document,
             beschrijving: "Deze vereniging werd verwijderd."
