@@ -131,14 +131,15 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         await Given();
     }
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    public virtual async Task DisposeAsync()
+    {
+    }
 
     public void Dispose()
     {
         GC.SuppressFinalize(this);
         Clients.SafeDispose();
-        ;
+
         _adminApiServer.SafeDispose();
         _projectionHostServer.SafeDispose();
     }
