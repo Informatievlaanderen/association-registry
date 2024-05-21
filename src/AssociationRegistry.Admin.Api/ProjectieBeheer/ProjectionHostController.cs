@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 [ApiRoute("projections")]
 [ApiExplorerSettings(IgnoreApi = true)]
 [Authorize(Policy = Program.SuperAdminPolicyName)]
-public partial class ProjectionController : ApiController
+public class ProjectionController : ApiController
 {
     private readonly AdminProjectionHostHttpClient _adminHttpClient;
     private readonly PublicProjectionHostHttpClient _publicHttpClient;

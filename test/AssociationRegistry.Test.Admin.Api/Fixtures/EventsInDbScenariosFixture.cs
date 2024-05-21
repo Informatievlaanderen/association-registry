@@ -174,6 +174,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresKonNietOvergenomenWordenUitAdressenregister
         V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister = new();
 
+    public readonly V073_AdresWerdOvergenomenUitAdressenregister
+        V073_AdresWerdOvergenomenUitAdressenregister = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -235,7 +238,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V069FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdOvergenomenUitAdressenregister,
             V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister,
             V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation,
-            V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister
+            V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
+            V073_AdresWerdOvergenomenUitAdressenregister
         };
 
         foreach (var scenario in scenarios)
