@@ -9,13 +9,23 @@ using Framework;
 public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
-    public readonly AdresWerdOvergenomenUitAdressenregister AdresWerdOvergenomenUitAdressenregister;
-    // public readonly AdresNietUniekInAdressenregister AdresNietUniekInAdressenregister;
-    // public readonly AdresWerdNietGevondenInAdressenregister AdresWerdNietGevondenInAdressenregister;
-    // public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd;
+    public readonly List<AdresWerdOvergenomenUitAdressenregister> AdresWerdOvergenomenUitAdressenregisterList;
+    public readonly AdresNietUniekInAdressenregister AdresNietUniekInAdressenregister;
+    public readonly AdresWerdNietGevondenInAdressenregister AdresWerdNietGevondenInAdressenregister;
+    public readonly AdresKonNietOvergenomenWordenUitAdressenregister AdresKonNietOvergenomenWordenUitAdressenregister;
+    public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd;
     // public readonly VerenigingWerdVerwijderd VerenigingWerdVerwijderd;
 
     public readonly CommandMetadata Metadata;
+
+    private class WellKnownLocatieIndices
+    {
+        public const int EnkelGeregistreerd = 0;
+        public const int NietUniek = 1;
+        public const int NietGevonden = 2;
+        public const int KonNietOvergenomenWorden = 3;
+        public const int Verwijderd = 4;
+    }
 
     public V073_AdresWerdOvergenomenUitAdressenregister()
     {
@@ -27,7 +37,7 @@ public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
         {
             VCode = VCode,
             Naam = Naam,
-            Locaties = fixture.CreateMany<Registratiedata.Locatie>().Select(
+            Locaties = fixture.CreateMany<Registratiedata.Locatie>(5).Select(
                 (locatie, w) => locatie with
                 {
                     IsPrimair = w == 0,
@@ -36,28 +46,48 @@ public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
             ).ToArray(),
         };
 
-        AdresWerdOvergenomenUitAdressenregister = fixture.Create<AdresWerdOvergenomenUitAdressenregister>()
-            with
-            {
-                VCode = VCode,
-                LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
-            };
-        // AdresNietUniekInAdressenregister = fixture.Create<AdresNietUniekInAdressenregister>() with
-        //
-        // {
-        //     LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
-        // };
-        // AdresWerdNietGevondenInAdressenregister = fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
-        //
-        // {
-        //     LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
-        // };
-        //
-        // LocatieWerdVerwijderd = fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
-        //
-        // {
-        //     LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
-        // };
+        AdresWerdOvergenomenUitAdressenregisterList = new List<AdresWerdOvergenomenUitAdressenregister>();
+
+        foreach (var locatie in FeitelijkeVerenigingWerdGeregistreerd.Locaties)
+        {
+            AdresWerdOvergenomenUitAdressenregisterList.Add(
+                fixture.Create<AdresWerdOvergenomenUitAdressenregister>()
+                    with
+                    {
+                        VCode = VCode,
+                        LocatieId = locatie.LocatieId,
+                    });
+        }
+
+        AdresNietUniekInAdressenregister = fixture.Create<AdresNietUniekInAdressenregister>() with
+        {
+            VCode = VCode,
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties[WellKnownLocatieIndices.NietUniek].LocatieId,
+        };
+
+        AdresWerdNietGevondenInAdressenregister = fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
+        {
+            VCode = VCode,
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties[WellKnownLocatieIndices.NietGevonden].LocatieId,
+        };
+
+        AdresKonNietOvergenomenWordenUitAdressenregister = fixture.Create<AdresKonNietOvergenomenWordenUitAdressenregister>() with
+        {
+            VCode = VCode,
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties[WellKnownLocatieIndices.KonNietOvergenomenWorden].LocatieId,
+        };
+
+        LocatieWerdVerwijderd = fixture.Create<LocatieWerdVerwijderd>() with
+        {
+            VCode = VCode,
+            Locatie = FeitelijkeVerenigingWerdGeregistreerd.Locaties[WellKnownLocatieIndices.Verwijderd],
+        };
+
+        ExpectedLocaties = new[]
+        {
+            AdresWerdOvergenomenUitAdressenregisterList[WellKnownLocatieIndices.EnkelGeregistreerd],
+            AdresWerdOvergenomenUitAdressenregisterList[WellKnownLocatieIndices.KonNietOvergenomenWorden],
+        };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -65,13 +95,21 @@ public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
     public string Naam { get; set; }
+    public AdresWerdOvergenomenUitAdressenregister[] ExpectedLocaties { get; set; }
 
     public IEvent[] GetEvents()
         => new IEvent[]
-        {
-            FeitelijkeVerenigingWerdGeregistreerd,
-            AdresWerdOvergenomenUitAdressenregister,
-        };
+            {
+                FeitelijkeVerenigingWerdGeregistreerd,
+            }.Concat(AdresWerdOvergenomenUitAdressenregisterList.ToArray())
+             .Concat(new IEvent[]
+              {
+                  AdresNietUniekInAdressenregister,
+                  AdresKonNietOvergenomenWordenUitAdressenregister,
+                  AdresWerdNietGevondenInAdressenregister,
+                  LocatieWerdVerwijderd,
+              })
+             .ToArray();
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

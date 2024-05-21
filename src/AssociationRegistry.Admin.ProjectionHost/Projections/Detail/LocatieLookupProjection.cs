@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
-using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -35,13 +34,12 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
         DeleteEvent<LocatieWerdVerwijderd>();
         DeleteEvent<AdresWerdNietGevondenInAdressenregister>();
         DeleteEvent<AdresNietUniekInAdressenregister>();
-        DeleteEvent<VerenigingWerdVerwijderd>();
 
         DeleteEvent<VerenigingWerdVerwijderd>();
     }
 }
 
-public class LocatieLookupGrouper: IAggregateGrouper<string>
+public class LocatieLookupGrouper : IAggregateGrouper<string>
 {
     private readonly ILogger _logger;
 
@@ -49,16 +47,15 @@ public class LocatieLookupGrouper: IAggregateGrouper<string>
     {
         _logger = logger;
     }
+
     public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
     {
         var verwijderdEvents = events
-            .OfType<IEvent<VerenigingWerdVerwijderd>>()
-            .ToList();
+                              .OfType<IEvent<VerenigingWerdVerwijderd>>()
+                              .ToList();
 
         if (!verwijderdEvents.Any())
-        {
             return;
-        }
 
         foreach (var verwijderd in verwijderdEvents)
         {
@@ -66,12 +63,12 @@ public class LocatieLookupGrouper: IAggregateGrouper<string>
         }
 
         var vCodes = verwijderdEvents
-            .Select(e => e.Data.VCode)
-            .ToList();
+                    .Select(e => e.Data.VCode)
+                    .ToList();
 
         var result = await session.Query<LocatieLookupDocument>()
-            .Where(x => vCodes.Contains(x.VCode))
-            .ToListAsync();
+                                  .Where(x => vCodes.Contains(x.VCode))
+                                  .ToListAsync();
 
         foreach (var verwijderd in verwijderdEvents)
         {
@@ -82,9 +79,9 @@ public class LocatieLookupGrouper: IAggregateGrouper<string>
         {
             var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
             grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
-            _logger.LogInformation($"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
+
+            _logger.LogInformation(
+                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
         }
     }
 }
-
-

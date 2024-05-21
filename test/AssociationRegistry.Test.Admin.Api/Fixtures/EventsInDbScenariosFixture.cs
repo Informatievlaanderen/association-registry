@@ -1,7 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using EventStore;
+using Marten.Events.Daemon;
+using Nest;
+using Polly;
 using Scenarios.EventsInDb;
+using Policy = Polly.Policy;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -175,7 +179,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister = new();
 
     public readonly V073_AdresWerdOvergenomenUitAdressenregister
-        V073_AdresWerdOvergenomenUitAdressenregister = new();
+        V073AdresWerdOvergenomenUitAdressenregister = new();
+
+    public readonly V074_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd
+        V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd = new();
 
     protected override async Task Given()
     {
@@ -239,8 +246,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister,
             V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation,
             V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
-            V073_AdresWerdOvergenomenUitAdressenregister
         };
+
+        using var daemon = await PreAddEvents();
 
         foreach (var scenario in scenarios)
         {
@@ -252,6 +260,51 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         {
             await AddEvents(vCode, events);
         }
+
+        await PostAddEvents(daemon);
+    }
+
+    private async Task<IProjectionDaemon?> PreAddEvents()
+    {
+        IProjectionDaemon? daemon = null;
+
+        try
+        {
+            daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
+            await daemon.StartAllShards();
+
+            if (daemon is null)
+                throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+            return daemon;
+        }
+        catch
+        {
+            daemon?.Dispose();
+
+            throw;
+        }
+    }
+
+    private async Task PostAddEvents(IProjectionDaemon daemon)
+    {
+        var retry = Policy
+                   .Handle<Exception>()
+                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
+
+        await retry.ExecuteAsync(
+            () => daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 10)));
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
+    }
+
+    public async Task Initialize(IEventsInDbScenario scenario)
+    {
+        using var daemon = await PreAddEvents();
+
+        scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+
+        await PostAddEvents(daemon);
     }
 }
 

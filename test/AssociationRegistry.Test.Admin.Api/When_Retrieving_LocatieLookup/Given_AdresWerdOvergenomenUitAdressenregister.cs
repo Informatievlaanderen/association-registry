@@ -2,16 +2,33 @@
 
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
+using FluentAssertions;
 using Framework;
 using templates;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
+
+public class Given_AdresWerdOvergenomenUitAdressenregister_Setup: IAsyncLifetime
+{
+    private readonly EventsInDbScenariosFixture _fixture;
+
+    public Given_AdresWerdOvergenomenUitAdressenregister_Setup(EventsInDbScenariosFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
+    public async Task InitializeAsync()
+        => await _fixture.Initialize(_fixture.V073AdresWerdOvergenomenUitAdressenregister);
+
+    public async Task DisposeAsync()
+    {
+    }
+}
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_AdresWerdOvergenomenUitAdressenregister
+public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<Given_AdresWerdOvergenomenUitAdressenregister_Setup>
 {
     private readonly AdminApiClient _superAdminApiClient;
     private readonly V073_AdresWerdOvergenomenUitAdressenregister _scenario;
@@ -19,7 +36,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
     public Given_AdresWerdOvergenomenUitAdressenregister(EventsInDbScenariosFixture fixture)
     {
         _superAdminApiClient = fixture.SuperAdminApiClient;
-        _scenario = fixture.V073_AdresWerdOvergenomenUitAdressenregister;
+        _scenario = fixture.V073AdresWerdOvergenomenUitAdressenregister;
     }
 
     [Fact]
@@ -33,13 +50,19 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
         var response = await _superAdminApiClient.GetLocatieLookup(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
 
-        var expected = new LocatieLookupResponseTemplate()
-                      .WithVCode(_scenario.VCode)
-                      .WithLocatieLookup(_scenario.AdresWerdOvergenomenUitAdressenregister.LocatieId,
-                                         _scenario.AdresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister.AdresId
-                                                  .Bronwaarde)
-                      .Build();
+        var locatieLookupResponseTemplate = new LocatieLookupResponseTemplate()
+           .WithVCode(_scenario.VCode);
 
+        foreach (var adresWerdOvergenomenUitAdressenregister in _scenario.ExpectedLocaties)
+        {
+            locatieLookupResponseTemplate = locatieLookupResponseTemplate
+               .WithLocatieLookup(adresWerdOvergenomenUitAdressenregister.LocatieId,
+                                  adresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister
+                                                                         .AdresId
+                                                                         .Bronwaarde);
+        }
+
+        var expected = locatieLookupResponseTemplate.Build();
         content.Should().BeEquivalentJson(expected);
     }
 }
