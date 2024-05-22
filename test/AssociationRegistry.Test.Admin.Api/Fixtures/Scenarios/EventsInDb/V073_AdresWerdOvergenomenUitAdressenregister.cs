@@ -14,7 +14,6 @@ public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
     public readonly AdresWerdNietGevondenInAdressenregister AdresWerdNietGevondenInAdressenregister;
     public readonly AdresKonNietOvergenomenWordenUitAdressenregister AdresKonNietOvergenomenWordenUitAdressenregister;
     public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd;
-    // public readonly VerenigingWerdVerwijderd VerenigingWerdVerwijderd;
 
     public readonly CommandMetadata Metadata;
 

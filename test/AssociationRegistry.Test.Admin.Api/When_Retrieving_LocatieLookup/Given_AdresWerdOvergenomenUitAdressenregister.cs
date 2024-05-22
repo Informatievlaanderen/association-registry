@@ -57,9 +57,8 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<Given
         {
             locatieLookupResponseTemplate = locatieLookupResponseTemplate
                .WithLocatieLookup(adresWerdOvergenomenUitAdressenregister.LocatieId,
-                                  adresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister
-                                                                         .AdresId
-                                                                         .Bronwaarde);
+                                  new Uri(adresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/')
+                                  );
         }
 
         var expected = locatieLookupResponseTemplate.Build();
