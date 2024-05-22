@@ -1,11 +1,14 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
+using Framework;
+using Infrastructure.Extensions;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Schema.Detail;
+using IEvent = Marten.Events.IEvent;
 
 public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
@@ -26,7 +29,8 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
 
         CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
-            AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde,
+            AdresPuri = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde,
+            AdresId = new Uri(x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/'),
             LocatieId = x.LocatieId,
             VCode = x.VCode,
         });
