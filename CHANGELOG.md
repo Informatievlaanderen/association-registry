@@ -1,3 +1,10 @@
+## [8.97.1](https://github.com/informatievlaanderen/association-registry/compare/v8.97.0...v8.97.1) (2024-05-22)
+
+
+### Bug Fixes
+
+* or-1437 add adres puri to locatie lookup ([9c88651](https://github.com/informatievlaanderen/association-registry/commit/9c886511c06a04f325e3b16de61c84cbdf436d66))
+
 # [8.97.0](https://github.com/informatievlaanderen/association-registry/compare/v8.96.4...v8.97.0) (2024-05-22)
 
 
