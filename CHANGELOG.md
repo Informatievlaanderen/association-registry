@@ -1,3 +1,15 @@
+# [8.97.0](https://github.com/informatievlaanderen/association-registry/compare/v8.96.4...v8.97.0) (2024-05-22)
+
+
+### Bug Fixes
+
+* paket downgrade marten to 6.0 ([91d9c02](https://github.com/informatievlaanderen/association-registry/commit/91d9c027caa6b5d1058c9ddb5434a2fda3139a19))
+
+
+### Features
+
+* or-1437 refactor locatie lookup projections ([29963ad](https://github.com/informatievlaanderen/association-registry/commit/29963ad12d3a7cf01d330879e0c87dbd5ec59454))
+
 ## [8.96.4](https://github.com/informatievlaanderen/association-registry/compare/v8.96.3...v8.96.4) (2024-05-16)
 
 
