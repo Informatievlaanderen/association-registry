@@ -60,7 +60,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
 
         locatieWerdVerwijderd.Data.Should()
                              .BeEquivalentTo(
-                                  new LocatieWerdVerwijderd(locatie));
+                                  new LocatieWerdVerwijderd(_classFixture.Scenario.VCode, locatie));
     }
 
     [Fact]

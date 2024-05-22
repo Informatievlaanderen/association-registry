@@ -22,10 +22,8 @@ using Nest;
 using NodaTime;
 using Npgsql;
 using Oakton;
-using Polly;
 using System.Net.Http.Headers;
 using Xunit;
-using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
@@ -35,7 +33,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
 
-    private IElasticClient ElasticClient
+    internal IElasticClient ElasticClient
         => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
 
     public IDocumentStore DocumentStore
@@ -129,15 +127,19 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => Clients.Authenticated;
 
     public async Task InitializeAsync()
-        => await Given();
+    {
+        await Given();
+    }
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    public virtual async Task DisposeAsync()
+    {
+    }
 
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        Clients.SafeDispose();;
+        Clients.SafeDispose();
+
         _adminApiServer.SafeDispose();
         _projectionHostServer.SafeDispose();
     }
@@ -199,25 +201,10 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         if (ProjectionsDocumentStore is null)
             throw new NullReferenceException("DocumentStore cannot be null when adding an event");
 
-        using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
-
-        if (daemon is null)
-            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
-
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
         var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver);
         var result = await eventStore.Save(vCode.ToUpperInvariant(), metadata, CancellationToken.None, eventsToAdd);
-
-        var retry = Policy
-                   .Handle<Exception>()
-                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
-
-        await retry.ExecuteAsync(
-            async () => { await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60)); });
-
-        await ElasticClient.Indices.RefreshAsync(Indices.All);
 
         return result;
     }

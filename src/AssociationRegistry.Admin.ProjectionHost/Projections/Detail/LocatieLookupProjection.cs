@@ -3,71 +3,85 @@
 using Events;
 using Marten;
 using Marten.Events;
+using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Schema.Detail;
 
-public class LocatieLookupProjection : EventProjection
+public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
-    public LocatieLookupProjection()
+    public LocatieLookupProjection(ILogger<LocatieLookupProjection> logger)
     {
-        // Needs a batch size of 1, because otherwise if Registered and NameChanged arrive in 1 batch/slice,
-        // the newly persisted document from xxxWerdGeregistreerd is not in the
-        // Query yet when we handle NaamWerdGewijzigd.
-        // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
+        Options.EnableDocumentTrackingByIdentity = true;
+        Options.MaximumHopperSize = 1;
+
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
+
+        Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+        Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
+        Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+        Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+
+        CustomGrouping(new LocatieLookupGrouper(logger));
+
+        CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
+        {
+            AdresId = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde,
+            LocatieId = x.LocatieId,
+            VCode = x.VCode,
+        });
+
+        DeleteEvent<LocatieWerdVerwijderd>();
+        DeleteEvent<AdresWerdNietGevondenInAdressenregister>();
+        DeleteEvent<AdresNietUniekInAdressenregister>();
+
+        DeleteEvent<VerenigingWerdVerwijderd>();
+    }
+}
+
+public class LocatieLookupGrouper : IAggregateGrouper<string>
+{
+    private readonly ILogger _logger;
+
+    public LocatieLookupGrouper(ILogger logger)
+    {
+        _logger = logger;
     }
 
-    public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
-        => await Upsert(@event, ops, LocatieLookupProjector.Apply);
-
-    public async Task Project(IEvent<AdresWerdNietGevondenInAdressenregister> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
-
-    public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.LocatieId, @event, ops);
-
-    public async Task Project(IEvent<LocatieWerdVerwijderd> @event, IDocumentOperations ops)
-        => await UpdateOrDeleteEntryOrDeleteDocument(@event.StreamKey, @event.Data.Locatie.LocatieId, @event, ops);
-
-    public void Project(IEvent<VerenigingWerdVerwijderd> @event, IDocumentOperations ops)
-        => ops.Delete<LocatieLookupDocument>(@event.StreamKey);
-
-    private static async Task Upsert<T>(
-        IEvent<T> @event,
-        IDocumentOperations ops,
-        Action<IEvent<T>, LocatieLookupDocument> action) where T : notnull
+    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
     {
-        var doc = await ops.LoadAsync<LocatieLookupDocument>(@event.StreamKey);
+        var verwijderdEvents = events
+                              .OfType<IEvent<VerenigingWerdVerwijderd>>()
+                              .ToList();
 
-        if (doc is null)
+        if (!verwijderdEvents.Any())
+            return;
+
+        foreach (var verwijderd in verwijderdEvents)
         {
-            doc = new LocatieLookupDocument { VCode = @event.StreamKey };
-            ops.Insert(doc);
+            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound Verwijderd event with id {verwijderd.Sequence}");
         }
 
-        action(@event, doc);
-        LocatieLookupProjector.UpdateMetadata(@event, doc);
+        var vCodes = verwijderdEvents
+                    .Select(e => e.Data.VCode)
+                    .ToList();
 
-        ops.Store(doc);
-    }
+        var result = await session.Query<LocatieLookupDocument>()
+                                  .Where(x => vCodes.Contains(x.VCode))
+                                  .ToListAsync();
 
-    private static async Task UpdateOrDeleteEntryOrDeleteDocument(string vCode, int locatieId, IEvent @event, IDocumentOperations ops)
-    {
-        var doc = await ops.LoadAsync<LocatieLookupDocument>(vCode);
-
-        if (doc is not null)
+        foreach (var verwijderd in verwijderdEvents)
         {
-            if (doc.Locaties.Any(loc => loc.LocatieId != locatieId))
-            {
-                doc.Locaties = doc.Locaties.Where(w => w.LocatieId != locatieId).ToArray();
-                LocatieLookupProjector.UpdateMetadata(@event, doc);
-                ops.Store(doc);
+            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound {result.Count} related lookup documents");
+        }
 
-                return;
-            }
+        foreach (var locatieLookupDocument in result)
+        {
+            var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
+            grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
 
-            ops.Delete<LocatieLookupDocument>(vCode);
+            _logger.LogInformation(
+                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
         }
     }
 }

@@ -108,7 +108,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void VerwijderLocatie(int locatieId)
     {
         var locatie = State.Locaties.Verwijder(locatieId);
-        AddEvent(LocatieWerdVerwijderd.With(locatie));
+        AddEvent(LocatieWerdVerwijderd.With(State.VCode, locatie));
     }
 
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)

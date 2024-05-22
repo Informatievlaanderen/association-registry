@@ -117,7 +117,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void Verwijder(string reden)
     {
         Throw<VerenigingKanNietVerwijderdWorden>.If(State.IsVerwijderd);
-        AddEvent(VerenigingWerdVerwijderd.With(reden));
+        AddEvent(VerenigingWerdVerwijderd.With(VCode, reden));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)

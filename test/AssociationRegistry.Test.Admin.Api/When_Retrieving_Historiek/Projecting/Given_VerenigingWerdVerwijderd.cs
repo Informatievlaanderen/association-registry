@@ -29,7 +29,7 @@ public class Given_VerenigingWerdVerwijderd
             new BeheerVerenigingHistoriekGebeurtenis(
                 Beschrijving: "Deze vereniging werd verwijderd.",
                 nameof(VerenigingWerdVerwijderd),
-                verenigingWerdVerwijderd.Data,
+                new { verenigingWerdVerwijderd.Data.Reden },
                 verenigingWerdVerwijderd.Initiator,
                 verenigingWerdVerwijderd.Tijdstip.ToZuluTime()));
     }

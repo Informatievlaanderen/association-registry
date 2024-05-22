@@ -3,9 +3,11 @@ namespace AssociationRegistry.Events;
 using Framework;
 using Vereniging;
 
-public record LocatieWerdVerwijderd(
+public record LocatieWerdVerwijderd(string VCode,
     Registratiedata.Locatie Locatie) : IEvent
 {
-    public static LocatieWerdVerwijderd With(Locatie locatie)
-        => new(Registratiedata.Locatie.With(locatie));
+    public static LocatieWerdVerwijderd With(VCode vCode, Locatie locatie)
+        => new(vCode, Registratiedata.Locatie.With(locatie));
 }
+public record LocatieWerdVerwijderdMetVCode(string VCode,
+    Registratiedata.Locatie Locatie) : IEvent;

@@ -7,18 +7,17 @@ using Events;
 using Formatters;
 using JsonLdContext;
 using NodaTime;
-using Scriban;
 using System.Dynamic;
-using Test.Framework;
 using Vereniging;
 using Vereniging.Bronnen;
 
-public class DetailVerenigingResponseTemplate
+public class DetailVerenigingResponseTemplate : ResponseTemplate
 {
     private object _datumLaatsteAanpassing;
     private readonly dynamic _vereniging;
 
     public DetailVerenigingResponseTemplate()
+        : base("templates.DetailVerenigingResponse.json")
     {
         _vereniging = new ExpandoObject();
         _vereniging.locaties = new List<object>();
@@ -417,21 +416,12 @@ public class DetailVerenigingResponseTemplate
         return this;
     }
 
-    public static implicit operator string(DetailVerenigingResponseTemplate source)
-        => source.Build();
-
-    public string Build()
-    {
-        var json = GetType().Assembly.GetAssemblyResource(name: "templates.DetailVerenigingResponse.json");
-
-        var responseTemplate = Template.Parse(json);
-
-        return responseTemplate.Render(new
+    protected override dynamic BuildModel()
+        => new
         {
             vereniging = _vereniging,
             datumlaatsteaanpassing = _datumLaatsteAanpassing,
-        });
-    }
+        };
 
     private DetailVerenigingResponseTemplate WithLocatie(Registratiedata.Locatie l, Bron bron, string vCode)
     {

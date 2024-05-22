@@ -1,7 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 
 using EventStore;
+using Marten.Events.Daemon;
+using Nest;
+using Polly;
 using Scenarios.EventsInDb;
+using Policy = Polly.Policy;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {
@@ -174,6 +178,12 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresKonNietOvergenomenWordenUitAdressenregister
         V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister = new();
 
+    public readonly V073_AdresWerdOvergenomenUitAdressenregister
+        V073AdresWerdOvergenomenUitAdressenregister = new();
+
+    public readonly V074_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd
+        V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -235,8 +245,10 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V069FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdOvergenomenUitAdressenregister,
             V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister,
             V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation,
-            V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister
+            V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
         };
+
+        using var daemon = await PreAddEvents();
 
         foreach (var scenario in scenarios)
         {
@@ -248,6 +260,46 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         {
             await AddEvents(vCode, events);
         }
+
+        await PostAddEvents(daemon);
+    }
+
+    private async Task<IProjectionDaemon?> PreAddEvents()
+    {
+        IProjectionDaemon? daemon = null;
+
+        try
+        {
+            daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
+            await daemon.StartAllShards();
+
+            if (daemon is null)
+                throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+
+            return daemon;
+        }
+        catch
+        {
+            daemon?.Dispose();
+
+            throw;
+        }
+    }
+
+    private async Task PostAddEvents(IProjectionDaemon daemon)
+    {
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60));
+
+        await ElasticClient.Indices.RefreshAsync(Indices.All);
+    }
+
+    public async Task Initialize(IEventsInDbScenario scenario)
+    {
+        using var daemon = await PreAddEvents();
+
+        scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+
+        await PostAddEvents(daemon);
     }
 }
 
