@@ -284,7 +284,9 @@ public class Program
                             cfg.AllowedHeaderNames.Add(header);
                         }
                     })
-               .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
+               .TryAddEnumerable(ServiceDescriptor
+                                    .Transient<IConfigureOptions<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>,
+                                         ProblemDetailsOptionsSetup>());
 
         builder.Services
                .AddMvcCore(
@@ -386,19 +388,24 @@ public class Program
 
                         opts.FallBackToParentCultures = true;
                         opts.FallBackToParentUICultures = true;
+                    });
+
+        builder.Services
+               .AddApiVersioning(
+                    cfg =>
+                    {
+                        cfg.ReportApiVersions = true;
+                        // TODO
+                        // cfg.ErrorResponses = new ProblemDetailsResponseProvider();
                     })
-               // .AddVersionedApiExplorer(
-               //      cfg =>
-               //      {
-               //          cfg.GroupNameFormat = "'v'VVV";
-               //          cfg.SubstituteApiVersionInUrl = true;
-               //      })
-               // .AddApiVersioning(
-               //      cfg =>
-               //      {
-               //          cfg.ReportApiVersions = true;
-               //          cfg.ErrorResponses = new ProblemDetailsResponseProvider();
-               //      })
+               .AddApiExplorer(
+                    cfg =>
+                    {
+                        cfg.GroupNameFormat = "'v'VVV";
+                        cfg.SubstituteApiVersionInUrl = true;
+                    });
+
+        builder.Services
                .AddEndpointsApiExplorer()
                .AddResponseCompression(
                     cfg =>

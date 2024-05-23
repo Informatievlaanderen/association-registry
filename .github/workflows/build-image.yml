@@ -30,7 +30,7 @@ on:
         required: true
         type: string
       test-project: #AssociationRegistry.Test.Acm.Api
-        required: true
+        required: false
         type: string
       build-project: #AssociationRegistry.Acm.Api/
         required: true
@@ -111,7 +111,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
 
       - name: .NET version
         shell: bash
@@ -134,10 +134,12 @@ jobs:
         run: dotnet paket restore
 
       - name: Dotnet restore tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
         shell: bash
         run: dotnet restore test/${{ inputs.test-project }} --runtime linux-x64
 
       - name: Dotnet build tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
         shell: bash
         run: dotnet build --no-restore --runtime 'linux-x64' test/${{ inputs.test-project }}
 
@@ -147,6 +149,7 @@ jobs:
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
       - name: Run all tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
         env:
           LIVEMAGDAOPTIONS__CLIENTCERTIFICATE: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE }}
           LIVEMAGDAOPTIONS__CLIENTCERTIFICATEPASSWORD: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATEPASSWORD }}
@@ -157,7 +160,7 @@ jobs:
         run: dotnet test test/${{ inputs.test-project }} --logger html
 
       - name: Archive code coverage results
-        if: ${{ always() }}
+        if: ${{ always() && inputs.test-project != '' && inputs.test-project != 'none' }}
         uses: actions/upload-artifact@v4
         with:
           name: test-report-${{matrix.projects}}
