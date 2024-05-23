@@ -29,7 +29,6 @@ nuget Microsoft.AspNetCore.Authentication.JwtBearer
 nuget Microsoft.AspNetCore.Hosting
 nuget Microsoft.AspNetCore.TestHost
 nuget Microsoft.AspNetCore.Mvc.Testing
-nuget Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 nuget Microsoft.Extensions.Diagnostics.HealthChecks
 nuget Microsoft.Extensions.Http
 nuget Microsoft.NETCore.Platforms
@@ -66,10 +65,11 @@ nuget xunit.assert
 nuget xunit.runner.visualstudio
 nuget xunit.categories
 
+nuget Asp.Versioning.Mvc
+nuget Asp.Versioning.Mvc.ApiExplorer
 
 nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 nuget Be.Vlaanderen.Basisregisters.Converters.TrimString
-nuget Microsoft.AspNetCore.Mvc.Versioning
 nuget Microsoft.AspNetCore.Mvc.NewtonsoftJson
 nuget NodaTime.Serialization.JsonNet
 nuget Serilog.Formatting.Compact

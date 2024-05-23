@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure;
 
+using Asp.Versioning;
 using Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;

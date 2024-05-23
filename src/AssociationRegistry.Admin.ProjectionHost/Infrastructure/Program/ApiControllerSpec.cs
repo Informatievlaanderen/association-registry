@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program;
 
+using Asp.Versioning.ApplicationModels;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using System.Reflection;
