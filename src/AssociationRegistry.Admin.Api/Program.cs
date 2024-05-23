@@ -348,10 +348,9 @@ public class Program
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
 
-        var sqsClient = addressMatchOptionsSection.UseLocalStack ?
-            new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1) :
-            new AmazonSQSClient(RegionEndpoint.EUWest1);
-
+        var sqsClient = addressMatchOptionsSection.UseLocalStack
+            ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1)
+            : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
                .AddHttpClient<AdminProjectionHostHttpClient>()
@@ -545,19 +544,23 @@ public class Program
 
                         opts.FallBackToParentCultures = true;
                         opts.FallBackToParentUICultures = true;
-                    })
-               .AddVersionedApiExplorer(
-                    cfg =>
-                    {
-                        cfg.GroupNameFormat = "'v'VVV";
-                        cfg.SubstituteApiVersionInUrl = true;
-                    })
+                    });
+
+        builder.Services
                .AddApiVersioning(
                     cfg =>
                     {
                         cfg.ReportApiVersions = true;
-                        cfg.ErrorResponses = new ProblemDetailsResponseProvider();
+                        // cfg.ErrorResponses = new Be.Vlaanderen.Basisregisters.Api.Exceptions.ProblemDetailsHelper();
                     })
+               .AddApiExplorer(
+                    cfg =>
+                    {
+                        cfg.GroupNameFormat = "'v'VVV";
+                        cfg.SubstituteApiVersionInUrl = true;
+                    });
+
+        builder.Services
                .AddEndpointsApiExplorer()
                .AddResponseCompression(
                     cfg =>
@@ -595,7 +598,6 @@ public class Program
                .Configure<GzipCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
                .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
-
 
         builder.Services.AddAdminApiSwagger(appSettings);
         builder.Services.AddSingleton<ProblemDetailsHelper>();

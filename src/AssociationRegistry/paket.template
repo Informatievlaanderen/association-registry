@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 description Association Registry
 
 dependencies
-  framework: net6.0
+  framework: net8.0
     Be.Vlaanderen.Basisregisters.AggregateSource >= LOCKEDVERSION
     Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic >= LOCKEDVERSION
     Result.Net >= LOCKEDVERSION
@@ -25,5 +25,5 @@ dependencies
 
 files
 
-  AssociationRegistry.dll => lib\net6.0
-  AssociationRegistry.pdb => lib\net6.0
+  AssociationRegistry.dll => lib\net8.0
+  AssociationRegistry.pdb => lib\net8.0

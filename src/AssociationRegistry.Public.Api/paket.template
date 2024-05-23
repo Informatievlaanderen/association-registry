@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 description Association Registry.
 
 files
-  AssociationRegistry.Public.Api.dll => lib\net6.0
-  AssociationRegistry.Public.Api.pdb => lib\net6.0
-  AssociationRegistry.Public.Api.xml => lib\net6.0
+  AssociationRegistry.Public.Api.dll => lib\net8.0
+  AssociationRegistry.Public.Api.pdb => lib\net8.0
+  AssociationRegistry.Public.Api.xml => lib\net8.0
   AssociationRegistry.Public.Api.xml => content

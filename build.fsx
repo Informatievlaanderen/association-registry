@@ -1,6 +1,6 @@
 #r "paket:
 version 7.0.2
-framework: net6.0
+framework: net8.0
 source https://api.nuget.org/v3/index.json
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.3 //"
 

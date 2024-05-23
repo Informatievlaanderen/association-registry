@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <LangVersion>latest</LangVersion>
+    <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>8.0.2</RuntimeFrameworkVersion>
+    <DisableImplicitFrameworkReferences>false</DisableImplicitFrameworkReferences>
+    <PublishReadyToRun>true</PublishReadyToRun>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <PackageProjectUrl>https://github.com/informatievlaanderen/association-registry.git</PackageProjectUrl>
@@ -9,34 +17,57 @@
     <RepositoryType>git</RepositoryType>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <OutputType>Library</OutputType>
+    <IsTestProject>false</IsTestProject>
   </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
+  </PropertyGroup>
+
+<!--  <ItemGroup>-->
+<!--    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0"/>-->
+<!--    <PackageReference Include="System.ServiceModel.Http" Version="6.2.0"/>-->
+<!--    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.2.0"/>-->
+<!--    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0"/>-->
+<!--  </ItemGroup>-->
+
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Duplex" Version="6.0.0" />
-    <PackageReference Include="System.ServiceModel.Http" Version="6.2.0" />
-    <PackageReference Include="System.ServiceModel.NetTcp" Version="6.2.0" />
-    <PackageReference Include="System.ServiceModel.Security" Version="6.0.0" />
+    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
+    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition=""/>
   </ItemGroup>
+
   <ItemGroup>
-    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition="" />
+    <Folder Include="WSDL\Generiek-02.00\"/>
+    <Folder Include="WSDL\Onderneming-02.00\"/>
+    <Folder Include="WSDL\Repertorium-02.01\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\Service\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\WebService\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\Service\"/>
+    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\"/>
+    <Folder Include="WSDL\Sleutel-02.00\"/>
   </ItemGroup>
+
   <ItemGroup>
-    <Folder Include="WSDL\Generiek-02.00\" />
-    <Folder Include="WSDL\Onderneming-02.00\" />
-    <Folder Include="WSDL\Repertorium-02.01\" />
-    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\Service\" />
-    <Folder Include="WSDL\Repertorium.RegistreerInschrijvingDienst-02.01\WebService\" />
-    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\Service\" />
-    <Folder Include="WSDL\Repertorium.RegistreerUitschrijvingDienst-02.01\WebService\" />
-    <Folder Include="WSDL\Sleutel-02.00\" />
+    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*"/>
   </ItemGroup>
+
   <ItemGroup>
-    <PackageReference Include="System.ServiceModel.Federation" Version="4.10.*" />
+    <Folder Include="Wsdl\"/>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Wsdl\" />
-  </ItemGroup>
-  <Import Project="..\..\.paket\Paket.Restore.targets" />
+
+  <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>

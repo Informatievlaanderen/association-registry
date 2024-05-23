@@ -1,1 +1,5 @@
 Microsoft.Extensions.Http
+System.ServiceModel.Duplex
+System.ServiceModel.Http
+System.ServiceModel.NetTcp
+System.ServiceModel.Security
