@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
 
 using Acties.VerwijderVereniging;
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using FluentValidation;
 using Framework;

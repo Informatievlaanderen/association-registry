@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api;
 
+using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -55,6 +56,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
 public class Program
 {
@@ -274,7 +276,7 @@ public class Program
                         },
                     })
                .ConfigureOptions<ProblemDetailsSetup>()
-               .Configure<ProblemDetailsOptions>(
+               .Configure<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>(
                     cfg =>
                     {
                         foreach (var header in StartupConstants.ExposedHeaders)
@@ -282,7 +284,7 @@ public class Program
                             cfg.AllowedHeaderNames.Add(header);
                         }
                     })
-               .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
+               .TryAddEnumerable(ServiceDescriptor.Transient<IConfigureOptions<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>, ProblemDetailsOptionsSetup>());
 
         builder.Services
                .AddMvcCore(
@@ -293,7 +295,7 @@ public class Program
 
                         cfg.Filters.Add(new LoggingFilterFactory(StartupConstants.HttpMethodsAsString));
 
-                        cfg.Filters.Add<OperationCancelledExceptionFilter>();
+                        cfg.Filters.Add<OperationCancelledExceptionFilterAttribute>();
 
                         cfg.EnableEndpointRouting = false;
                     })
@@ -385,18 +387,18 @@ public class Program
                         opts.FallBackToParentCultures = true;
                         opts.FallBackToParentUICultures = true;
                     })
-               .AddVersionedApiExplorer(
-                    cfg =>
-                    {
-                        cfg.GroupNameFormat = "'v'VVV";
-                        cfg.SubstituteApiVersionInUrl = true;
-                    })
-               .AddApiVersioning(
-                    cfg =>
-                    {
-                        cfg.ReportApiVersions = true;
-                        cfg.ErrorResponses = new ProblemDetailsResponseProvider();
-                    })
+               // .AddVersionedApiExplorer(
+               //      cfg =>
+               //      {
+               //          cfg.GroupNameFormat = "'v'VVV";
+               //          cfg.SubstituteApiVersionInUrl = true;
+               //      })
+               // .AddApiVersioning(
+               //      cfg =>
+               //      {
+               //          cfg.ReportApiVersions = true;
+               //          cfg.ErrorResponses = new ProblemDetailsResponseProvider();
+               //      })
                .AddEndpointsApiExplorer()
                .AddResponseCompression(
                     cfg =>

@@ -40,13 +40,13 @@ public class JsonReaderExceptionHandler : DefaultExceptionHandler<JsonReaderExce
         _problemDetailsHelper = problemDetailsHelper;
     }
 
-    protected override ProblemDetails GetApiProblemFor(JsonReaderException exception)
+    protected override ProblemDetails GetApiProblemFor(HttpContext context, JsonReaderException exception)
         => new()
         {
             HttpStatus = StatusCodes.Status400BadRequest,
             Title = ProblemDetails.DefaultTitle,
             Detail = "Request body bevat een ongeldig JSON formaat.",
             ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
-            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri(context)}/{ProblemDetails.GetProblemNumber()}",
         };
 }

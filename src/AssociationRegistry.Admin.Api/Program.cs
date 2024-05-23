@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
+using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -83,6 +84,7 @@ using Wolverine;
 using Wolverine.AmazonSqs;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using IMessage = Notifications.IMessage;
+using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
 public class Program
 {
@@ -426,7 +428,7 @@ public class Program
 
                         cfg.Filters.Add(new LoggingFilterFactory(StartupConstants.HttpMethodsAsString));
 
-                        cfg.Filters.Add<OperationCancelledExceptionFilter>();
+                        cfg.Filters.Add<OperationCancelledExceptionFilterAttribute>();
 
                         cfg.EnableEndpointRouting = false;
                     })
@@ -518,13 +520,13 @@ public class Program
                                        .GetSection("ConnectionStrings")
                                        .GetChildren();
 
-        foreach (var connectionString in connectionStrings)
-        {
-            healthChecksBuilder.AddSqlServer(
-                connectionString.Value,
-                name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
-                tags: new[] { StartupConstants.DatabaseTag, "sql", "sqlserver" });
-        }
+        // foreach (var connectionString in connectionStrings)
+        // {
+        //     healthChecksBuilder.AddSqlServer(
+        //         connectionString.Value,
+        //         name: $"sqlserver-{connectionString.Key.ToLowerInvariant()}",
+        //         tags: new[] { StartupConstants.DatabaseTag, "sql", "sqlserver" });
+        // }
 
         // health.AddDbContextCheck<LegacyContext>(
         //     $"dbcontext-{nameof(LegacyContext).ToLowerInvariant()}",

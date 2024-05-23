@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Events;

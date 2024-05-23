@@ -38,7 +38,7 @@ public static class HttpResponseExtensions
                     Title = ProblemDetails.DefaultTitle,
                     Detail = problemDetailsMessage,
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+                    ProblemInstanceUri = $"{problemDetailsHelper.GetInstanceBaseUri(response.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
                 },
                 JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi()));
     }

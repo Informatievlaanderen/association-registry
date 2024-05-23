@@ -1,4 +1,5 @@
 Microsoft.NET.Test.Sdk
+xunit.assert
 xunit.runner.visualstudio
 xunit.categories
 AutoFixture
@@ -6,9 +7,9 @@ FluentAssertions.Json
 Moq
 NEST
 Microsoft.AspNetCore.Mvc.Testing
-Be.Vlaanderen.Basisregisters.AggregateSource.Testing.SqlStreamStore.Autofac
-Be.Vlaanderen.Basisregisters.EventHandling.Autofac
+
 Marten
 Scriban
 Microsoft.AspNetCore.Hosting
 Microsoft.AspNetCore.TestHost
+Weasel.Core

@@ -8,11 +8,13 @@ using Swashbuckle.AspNetCore.Filters;
 public abstract class PreconditionFailedProblemDetailsExamplesBase : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
+    private readonly IHttpContextAccessor _contextAccessor;
     private readonly string _message;
 
-    protected PreconditionFailedProblemDetailsExamplesBase(ProblemDetailsHelper helper, string message)
+    protected PreconditionFailedProblemDetailsExamplesBase(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor, string message)
     {
         _helper = helper;
+        _contextAccessor = contextAccessor;
         _message = message;
     }
 
@@ -23,30 +25,30 @@ public abstract class PreconditionFailedProblemDetailsExamplesBase : IExamplesPr
             Title = ProblemDetails.DefaultTitle,
             Detail = _message,
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
         };
 }
 
 public class PreconditionFailedProblemDetailsExamples : PreconditionFailedProblemDetailsExamplesBase
 {
-    public PreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper) :
-        base(helper, ValidationMessages.Status412PreconditionFailed)
+    public PreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor) :
+        base(helper, contextAccessor, ValidationMessages.Status412PreconditionFailed)
     {
     }
 }
 
 public class HistoriekPreconditionFailedProblemDetailsExamples : PreconditionFailedProblemDetailsExamplesBase
 {
-    public HistoriekPreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper) :
-        base(helper, ValidationMessages.Status412Historiek)
+    public HistoriekPreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor) :
+        base(helper, contextAccessor, ValidationMessages.Status412Historiek)
     {
     }
 }
 
 public class DetailPreconditionFailedProblemDetailsExamples : PreconditionFailedProblemDetailsExamplesBase
 {
-    public DetailPreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper) :
-        base(helper, ValidationMessages.Status412Detail)
+    public DetailPreconditionFailedProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor) :
+        base(helper, contextAccessor, ValidationMessages.Status412Detail)
     {
     }
 }

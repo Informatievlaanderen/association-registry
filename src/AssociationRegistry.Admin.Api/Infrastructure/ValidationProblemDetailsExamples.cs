@@ -28,10 +28,12 @@ public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProb
 public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper)
+    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
     {
         _helper = helper;
+        _contextAccessor = contextAccessor;
     }
 
     public ProblemDetails GetExamples()
@@ -41,17 +43,19 @@ public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails
             Title = ProblemDetails.DefaultTitle,
             Detail = "Beschrijving van het probleem",
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
         };
 }
 
 public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public ProblemAndValidationProblemDetailsExamples(ProblemDetailsHelper helper)
+    public ProblemAndValidationProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
     {
         _helper = helper;
+        _contextAccessor = contextAccessor;
     }
 
     public IEnumerable<SwaggerExample<ProblemDetails>> GetExamples()
@@ -65,7 +69,7 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
                     Title = ProblemDetails.DefaultTitle,
                     Detail = "Beschrijving van het probleem",
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+                    ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
                 }),
             new SwaggerExample<ProblemDetails>
             {

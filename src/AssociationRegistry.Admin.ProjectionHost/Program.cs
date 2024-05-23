@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost;
 
-using Be.Vlaanderen.Basisregisters.Aws.DistributedMutex;
 using Extensions;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

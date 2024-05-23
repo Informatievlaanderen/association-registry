@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Asp.Versioning.ApiExplorer;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;

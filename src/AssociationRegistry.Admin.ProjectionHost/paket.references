@@ -1,5 +1,4 @@
 NEST
-Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 Be.Vlaanderen.Basisregisters.Converters.TrimString
 Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
 Microsoft.AspNetCore.Mvc.Versioning
