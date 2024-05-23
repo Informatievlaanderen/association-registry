@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.Api;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
+using Asp.Versioning;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -544,24 +545,7 @@ public class Program
 
                         opts.FallBackToParentCultures = true;
                         opts.FallBackToParentUICultures = true;
-                    });
-
-        builder.Services
-               .AddApiVersioning(
-                    cfg =>
-                    {
-                        cfg.ReportApiVersions = true;
-                        // TODO
-                        // cfg.ErrorResponses = new ProblemDetailsResponseProvider();
                     })
-               .AddApiExplorer(
-                    cfg =>
-                    {
-                        cfg.GroupNameFormat = "'v'VVV";
-                        cfg.SubstituteApiVersionInUrl = true;
-                    });
-
-        builder.Services
                .AddEndpointsApiExplorer()
                .AddResponseCompression(
                     cfg =>
@@ -599,6 +583,19 @@ public class Program
                .Configure<GzipCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
                .Configure<BrotliCompressionProviderOptions>(cfg => cfg.Level = CompressionLevel.Fastest)
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
+
+        builder.Services
+               .AddApiVersioning(
+                    cfg =>
+                    {
+                        cfg.ReportApiVersions = true;
+                    })
+               .AddApiExplorer(
+                    cfg =>
+                    {
+                        cfg.GroupNameFormat = "'v'VVV";
+                        cfg.SubstituteApiVersionInUrl = true;
+                    });
 
         builder.Services.AddAdminApiSwagger(appSettings);
         builder.Services.AddSingleton<ProblemDetailsHelper>();

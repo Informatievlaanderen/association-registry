@@ -2,7 +2,8 @@ NEST
 Be.Vlaanderen.Basisregisters.Converters.TrimString
 Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
 Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
-Microsoft.AspNetCore.Mvc.Versioning
+Asp.Versioning.Mvc
+Asp.Versioning.Mvc.ApiExplorer
 Microsoft.AspNetCore.Mvc.NewtonsoftJson
 Microsoft.Extensions.Diagnostics.HealthChecks
 Swashbuckle.AspNetCore.SwaggerGen

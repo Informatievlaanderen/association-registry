@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost;
 
+using Asp.Versioning.ApplicationModels;
 using Extensions;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;
