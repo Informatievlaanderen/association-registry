@@ -72,7 +72,6 @@ jobs:
       build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
-      test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
@@ -112,7 +111,6 @@ jobs:
       build-target: Containerize_AdminProjections
       image-file: ar-admin-projections-image.tar
       image-name: verenigingsregister-adminprojections
-      test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true

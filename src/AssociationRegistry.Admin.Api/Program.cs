@@ -551,7 +551,8 @@ public class Program
                     cfg =>
                     {
                         cfg.ReportApiVersions = true;
-                        // cfg.ErrorResponses = new Be.Vlaanderen.Basisregisters.Api.Exceptions.ProblemDetailsHelper();
+                        // TODO
+                        // cfg.ErrorResponses = new ProblemDetailsResponseProvider();
                     })
                .AddApiExplorer(
                     cfg =>

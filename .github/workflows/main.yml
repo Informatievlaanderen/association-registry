@@ -41,7 +41,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
         with:
-          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
 
       - name: .NET version
         shell: bash
@@ -200,7 +200,6 @@ jobs:
       build-target: Containerize_PublicProjections
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
-      test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
@@ -240,7 +239,6 @@ jobs:
       build-target: Containerize_AdminProjections
       image-file: ar-admin-projections-image.tar
       image-name: verenigingsregister-adminprojections
-      test-project: AssociationRegistry.Test.Admin.Api
       build-project: AssociationRegistry.Admin.ProjectionHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
@@ -393,7 +391,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
 
       - name: .NET version
         shell: bash

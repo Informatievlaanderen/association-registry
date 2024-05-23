@@ -61,7 +61,7 @@ jobs:
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry
       build-project: AssociationRegistry
-      dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+      dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -73,7 +73,7 @@ jobs:
     with:
       pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
       build-project: AssociationRegistry.Magda
-      # dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+      # dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
@@ -90,7 +90,7 @@ jobs:
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v2
         with:
-          dotnet-version: ${{ secrets.VBR_DOTNET_VERSION }}
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
 
       - name: .NET version
         shell: bash
