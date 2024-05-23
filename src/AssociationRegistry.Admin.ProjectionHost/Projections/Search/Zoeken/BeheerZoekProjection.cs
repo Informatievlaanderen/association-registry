@@ -14,7 +14,9 @@ public class BeheerZoekProjectionHandler
 {
     private readonly IElasticRepository _elasticRepository;
 
-    public BeheerZoekProjectionHandler(IElasticRepository elasticRepository)
+    public BeheerZoekProjectionHandler(
+        IElasticRepository elasticRepository
+        )
     {
         _elasticRepository = elasticRepository;
     }

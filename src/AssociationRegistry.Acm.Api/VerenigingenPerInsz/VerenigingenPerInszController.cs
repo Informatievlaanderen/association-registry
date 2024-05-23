@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Marten;

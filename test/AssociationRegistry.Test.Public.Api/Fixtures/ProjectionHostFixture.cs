@@ -16,7 +16,6 @@ using NodaTime.Extensions;
 using Npgsql;
 using System.Reflection;
 using Xunit;
-using Xunit.Sdk;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 
 public class ProjectionHostFixture : IDisposable, IAsyncLifetime
@@ -79,10 +78,10 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
     protected async Task AddEvent(string vCode, IEvent eventToAdd, CommandMetadata? metadata = null)
     {
         if (DocumentStore is null)
-            throw new NullException("DocumentStore cannot be null when adding an event");
+            throw new ArgumentNullException("DocumentStore cannot be null when adding an event");
 
         if (_elasticClient is null)
-            throw new NullException("Elastic client cannot be null when adding an event");
+            throw new ArgumentNullException("Elastic client cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode, new DateTime(year: 2022, month: 1, day: 1).ToUniversalTime().ToInstant(), Guid.NewGuid());
 

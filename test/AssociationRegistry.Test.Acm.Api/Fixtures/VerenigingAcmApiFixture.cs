@@ -1,8 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
-using Amazon.S3;
-using Amazon.S3.Model;
-using Amazon.S3.Util;
 using AssociationRegistry.Acm.Api;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -39,8 +36,6 @@ public class VerenigingAcmApiFixture : IDisposable
                     builder.ConfigureServices(
                         (context, services) => { services.AddSingleton(context.Configuration); });
                 });
-
-        CreateS3BucketsIfNeeded();
     }
 
     private static string GetRootDirectoryOrThrow()
@@ -52,21 +47,6 @@ public class VerenigingAcmApiFixture : IDisposable
             throw new NullReferenceException("Root directory cannot be null");
 
         return rootDirectory;
-    }
-
-    private void CreateS3BucketsIfNeeded()
-    {
-        var amazonS3Client = Server.Services.GetRequiredService<AmazonS3Client>();
-        var bucketName = Configuration["S3BlobClientOptions:Buckets:Verenigingen:Name"];
-
-        var bucketExists = AmazonS3Util.DoesS3BucketExistV2Async(amazonS3Client, bucketName).GetAwaiter().GetResult();
-
-        if (!bucketExists)
-            amazonS3Client.PutBucketAsync(
-                new PutBucketRequest
-                {
-                    BucketName = bucketName,
-                }).GetAwaiter().GetResult();
     }
 
     public void Dispose()

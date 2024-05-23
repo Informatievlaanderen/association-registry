@@ -151,7 +151,7 @@ public class Given_Geslaagd
             verenigingVolgensKbo.Type.Should().Be(Verenigingstype.IVZW);
             verenigingVolgensKbo.Naam.Should().Be(_verenigingNaam);
             verenigingVolgensKbo.KorteNaam.Should().Be(_verenigingKorteNaam);
-            verenigingVolgensKbo.Startdatum.Should().BeEquivalentTo(_startDatum);
+            verenigingVolgensKbo.Startdatum.Should().Be(_startDatum); // before: BeEquivalent
             verenigingVolgensKbo.Adres.Should().BeEquivalentTo(_adres);
             verenigingVolgensKbo.Contactgegevens.Should().BeEquivalentTo(_contactgegevens);
         }

@@ -1,7 +1,5 @@
 Be.Vlaanderen.Basisregisters.Api
-Be.Vlaanderen.Basisregisters.BlobStore
 
-AspNetCore.HealthChecks.SqlServer
 AWSSDK.SQS
 IdentityModel.AspNetCore.OAuth2Introspection
 Marten.CommandLine
@@ -11,3 +9,4 @@ SourceLink.Copy.PdbFiles
 SourceLink.Embed.AllSourceFiles
 WolverineFx
 WolverineFx.AmazonSqs
+Weasel.Core

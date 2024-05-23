@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 
 using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;

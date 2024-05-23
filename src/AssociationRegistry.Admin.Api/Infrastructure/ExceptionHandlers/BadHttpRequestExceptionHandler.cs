@@ -13,13 +13,13 @@ public class BadHttpRequestExceptionHandler : DefaultExceptionHandler<BadHttpReq
         _problemDetailsHelper = problemDetailsHelper;
     }
 
-    protected override ProblemDetails GetApiProblemFor(BadHttpRequestException exception)
+    protected override ProblemDetails GetApiProblemFor(HttpContext context, BadHttpRequestException exception)
         => new()
         {
             HttpStatus = StatusCodes.Status400BadRequest,
             Title = ProblemDetails.DefaultTitle,
             Detail = exception.Message,
             ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
-            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri(context)}/{ProblemDetails.GetProblemNumber()}",
         };
 }

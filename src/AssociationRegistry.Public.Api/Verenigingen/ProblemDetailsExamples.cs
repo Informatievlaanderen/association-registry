@@ -8,10 +8,12 @@ using Swashbuckle.AspNetCore.Filters;
 public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public ProblemDetailsExamples(ProblemDetailsHelper helper)
+    public ProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
     {
         _helper = helper;
+        _contextAccessor = contextAccessor;
     }
 
     public ProblemDetails GetExamples()
@@ -21,6 +23,6 @@ public class ProblemDetailsExamples : IExamplesProvider<ProblemDetails>
             Title = ProblemDetails.DefaultTitle,
             Detail = "Beschrijving van het probleem",
             ProblemTypeUri = "urn:associationregistry.public.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
         };
 }

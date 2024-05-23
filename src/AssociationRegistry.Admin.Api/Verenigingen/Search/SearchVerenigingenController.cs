@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;

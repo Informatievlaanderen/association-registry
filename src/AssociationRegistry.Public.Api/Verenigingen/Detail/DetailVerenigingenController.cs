@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;

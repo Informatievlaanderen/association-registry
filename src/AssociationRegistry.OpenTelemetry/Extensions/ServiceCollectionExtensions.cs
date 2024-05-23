@@ -53,22 +53,22 @@ public static class ServiceCollectionExtensions
         string collectorUrl,
         Action<MeterProviderBuilder>? extraConfig = null)
     {
-        return services.AddOpenTelemetryMetrics(
-            options =>
-            {
-                options
-                   .ConfigureResource(configureResource)
-                   .AddRuntimeInstrumentation()
-                   .AddHttpClientInstrumentation()
-                   .AddAspNetCoreInstrumentation()
-                   .AddOtlpExporter(
-                        exporter =>
-                        {
-                            exporter.Protocol = OtlpExportProtocol.Grpc;
-                            exporter.Endpoint = new Uri(collectorUrl);
-                        })
-                   .InvokeIfNotNull(extraConfig);
-            });
+        return services;//.AddOpenTelemetryMetrics(
+            // options =>
+            // {
+            //     options
+            //        .ConfigureResource(configureResource)
+            //        .AddRuntimeInstrumentation()
+            //        .AddHttpClientInstrumentation()
+            //        .AddAspNetCoreInstrumentation()
+            //        .AddOtlpExporter(
+            //             exporter =>
+            //             {
+            //                 exporter.Protocol = OtlpExportProtocol.Grpc;
+            //                 exporter.Endpoint = new Uri(collectorUrl);
+            //             })
+            //        .InvokeIfNotNull(extraConfig);
+            // });
     }
 
     private static T InvokeIfNotNull<T>(this T obj, Action<T>? method)
@@ -89,18 +89,18 @@ public static class ServiceCollectionExtensions
                    .AddOpenTelemetry(
                         options =>
                         {
-                            options.ConfigureResource(configureResource);
+                            // options.ConfigureResource(configureResource);
 
                             options.IncludeScopes = true;
                             options.IncludeFormattedMessage = true;
                             options.ParseStateValues = true;
 
-                            options.AddOtlpExporter(
-                                exporter =>
-                                {
-                                    exporter.Protocol = OtlpExportProtocol.Grpc;
-                                    exporter.Endpoint = new Uri(collectorUrl);
-                                });
+                            // options.AddOtlpExporter(
+                            //     exporter =>
+                            //     {
+                            //         exporter.Protocol = OtlpExportProtocol.Grpc;
+                            //         exporter.Endpoint = new Uri(collectorUrl);
+                            //     });
                         }));
     }
 
@@ -110,35 +110,35 @@ public static class ServiceCollectionExtensions
         string collectorUrl,
         string serviceName)
     {
-        return services.AddOpenTelemetryTracing(
-            builder =>
-            {
-                builder
-                   .AddSource(serviceName)
-                   .ConfigureResource(configureResource).AddHttpClientInstrumentation()
-                   .AddAspNetCoreInstrumentation(
-                        options =>
-                        {
-                            options.EnrichWithHttpRequest =
-                                (activity, request) =>
-                                {
-                                    activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
-                                    activity.SetCustomProperty(XCorrelationIdHeaderName, request.Headers[XCorrelationIdHeaderName]);
-                                    activity.SetCustomProperty(BevestigingsTokenHeaderName, request.Headers[BevestigingsTokenHeaderName]);
-                                    activity.SetParentId(request.Headers["traceparent"]);
-                                };
-
-                            options.Filter = context => context.Request.Method != HttpMethods.Options;
-                        })
-                   .AddNpgsql()
-                   .AddOtlpExporter(
-                        options =>
-                        {
-                            options.Protocol = OtlpExportProtocol.Grpc;
-                            options.Endpoint = new Uri(collectorUrl);
-                        })
-                   .AddSource("Wolverine");
-            });
+        return services;//.AddOpenTelemetryTracing(
+            // builder =>
+            // {
+            //     builder
+            //        .AddSource(serviceName)
+            //        .ConfigureResource(configureResource).AddHttpClientInstrumentation()
+            //        .AddAspNetCoreInstrumentation(
+            //             options =>
+            //             {
+            //                 options.EnrichWithHttpRequest =
+            //                     (activity, request) =>
+            //                     {
+            //                         activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
+            //                         activity.SetCustomProperty(XCorrelationIdHeaderName, request.Headers[XCorrelationIdHeaderName]);
+            //                         activity.SetCustomProperty(BevestigingsTokenHeaderName, request.Headers[BevestigingsTokenHeaderName]);
+            //                         activity.SetParentId(request.Headers["traceparent"]);
+            //                     };
+            //
+            //                 options.Filter = context => context.Request.Method != HttpMethods.Options;
+            //             })
+            //        .AddNpgsql()
+            //        .AddOtlpExporter(
+            //             options =>
+            //             {
+            //                 options.Protocol = OtlpExportProtocol.Grpc;
+            //                 options.Endpoint = new Uri(collectorUrl);
+            //             })
+            //        .AddSource("Wolverine");
+            // });
     }
 
     private static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()

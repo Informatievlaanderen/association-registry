@@ -1,4 +1,5 @@
 Microsoft.NET.Test.Sdk
+xunit.assert
 xunit.runner.visualstudio
 xunit.categories
 AutoFixture

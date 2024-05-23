@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 
 using Acties.RegistreerFeitelijkeVereniging;
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DuplicateVerenigingDetection;

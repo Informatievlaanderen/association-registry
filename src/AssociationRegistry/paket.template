@@ -22,9 +22,6 @@ dependencies
     Marten >= LOCKEDVERSION
     WolverineFx >= LOCKEDVERSION
     WolverineFx.AmazonSqs >= LOCKEDVERSION
-    WolverineFx.Marten >= LOCKEDVERSION
-    WolverineFx.Postgresql >= LOCKEDVERSION
-    WolverineFx.RDBMS >= LOCKEDVERSION
 
 files
 

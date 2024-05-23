@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using AssociationRegistry.Magda.Models;
 using ConfigurationBindings;
 using Constants;
 using JasperFx.CodeGeneration;
 using Json;
+using Magda.Models;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -26,42 +26,42 @@ public static class MartenExtensions
         PostgreSqlOptionsSection postgreSqlOptions)
     {
         var martenConfiguration = services
-            .AddMarten(
-                 serviceProvider =>
-                 {
-                     var opts = new StoreOptions();
-                     opts.Connection(postgreSqlOptions.GetConnectionString());
-                     opts.Events.StreamIdentity = StreamIdentity.AsString;
-                     opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
-                     opts.Serializer(CreateCustomMartenSerializer());
-                     opts.Events.MetadataConfig.EnableAll();
+                                 .AddMarten(
+                                      serviceProvider =>
+                                      {
+                                          var opts = new StoreOptions();
+                                          opts.Connection(postgreSqlOptions.GetConnectionString());
+                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
+                                          opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
+                                          opts.Serializer(CreateCustomMartenSerializer());
+                                          opts.Events.MetadataConfig.EnableAll();
 
-                     opts.Listeners.Add(
-                         new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
+                                          opts.Listeners.Add(
+                                              new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                     opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                     opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                     opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                                          opts.RegisterDocumentType<LocatieLookupDocument>();
 
-                     opts.RegisterDocumentType<VerenigingState>();
+                                          opts.RegisterDocumentType<VerenigingState>();
 
-                     opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
+                                          opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
-                     if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                     {
-                         opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                     }
-                     else
-                     {
-                         opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                         opts.SourceCodeWritingEnabled = false;
-                     }
+                                          if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                                          {
+                                              opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                                          }
+                                          else
+                                          {
+                                              opts.GeneratedCodeMode = TypeLoadMode.Auto;
+                                              opts.SourceCodeWritingEnabled = false;
+                                          }
 
-                     opts.AutoCreateSchemaObjects = AutoCreate.All;
+                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
 
-                     return opts;
-                 })
-            .IntegrateWithWolverine();
+                                          return opts;
+                                      })
+                                 .UseLightweightSessions();
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
@@ -72,7 +72,7 @@ public static class MartenExtensions
         => $"host={postgreSqlOptions.Host};" +
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username}";
+           $"username={postgreSqlOptions.Username};Persist Security Info=true";
 
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {

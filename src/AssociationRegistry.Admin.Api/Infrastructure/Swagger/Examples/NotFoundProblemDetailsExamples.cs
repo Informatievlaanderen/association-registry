@@ -8,10 +8,12 @@ using Swashbuckle.AspNetCore.Filters;
 public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
+    private readonly IHttpContextAccessor _contextAccessor;
 
-    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper)
+    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
     {
         _helper = helper;
+        _contextAccessor = contextAccessor;
     }
 
     public ProblemDetails GetExamples()
@@ -21,6 +23,6 @@ public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
             Title = ProblemDetails.DefaultTitle,
             Detail = "De gevraagde vereniging werd niet gevonden.",
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri()}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
         };
 }
