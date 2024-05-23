@@ -29,6 +29,7 @@ nuget Microsoft.AspNetCore.Authentication.JwtBearer
 nuget Microsoft.AspNetCore.Hosting
 nuget Microsoft.AspNetCore.TestHost
 nuget Microsoft.AspNetCore.Mvc.Testing
+nuget Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer
 nuget Microsoft.Extensions.Diagnostics.HealthChecks
 nuget Microsoft.Extensions.Http
 nuget Microsoft.NETCore.Platforms
@@ -51,7 +52,9 @@ nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
 
 nuget Scriban
 
-nuget Swashbuckle.AspNetCore.ReDoc 6.3.0
+nuget Swashbuckle.AspNetCore.SwaggerGen 6.2.3
+nuget Swashbuckle.AspNetCore.SwaggerUI 6.2.3
+nuget Swashbuckle.AspNetCore.ReDoc 6.2.3
 
 nuget WolverineFx
 nuget WolverineFx.AmazonSqs
@@ -68,7 +71,6 @@ nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 nuget Be.Vlaanderen.Basisregisters.Converters.TrimString
 nuget Microsoft.AspNetCore.Mvc.Versioning
 nuget Microsoft.AspNetCore.Mvc.NewtonsoftJson
-nuget Swashbuckle.AspNetCore.SwaggerUI
 nuget NodaTime.Serialization.JsonNet
 nuget Serilog.Formatting.Compact
 nuget Serilog.Enrichers.Environment
@@ -79,15 +81,15 @@ nuget Serilog.Sinks.Console
 nuget Serilog.Sinks.File
 nuget FluentValidation
 
+nuget System.ServiceModel.Duplex 6.0.0
+nuget System.ServiceModel.Http 6.2.0
+nuget System.ServiceModel.NetTcp 6.2.0
+nuget System.ServiceModel.Security 6.0.0
+
 // ELASTICSEARCH
 nuget NEST 7.17.4
 
 nuget Npgsql
 
-
-
-
-
-nuget Swashbuckle.AspNetCore.SwaggerGen 6.2.3
 
 

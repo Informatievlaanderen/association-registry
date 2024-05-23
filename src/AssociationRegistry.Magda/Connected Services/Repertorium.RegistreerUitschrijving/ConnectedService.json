@@ -11,7 +11,7 @@
       "*, AssociationRegistry.Magda.Repertorium.RegistreerUitschrijving"
     ],
     "outputFile": "Repertorium.RegistreerInschrijving",
-    "targetFramework": "net6.0",
+    "targetFramework": "net8.0",
     "typeReuseMode": "All"
   }
 }

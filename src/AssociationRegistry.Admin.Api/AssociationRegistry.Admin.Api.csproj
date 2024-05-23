@@ -2,20 +2,46 @@
   <Import Project="..\..\packages\Be.Vlaanderen.Basisregisters.Build.Pipeline\Content\Be.Vlaanderen.Basisregisters.Build.Pipeline.Settings.App.props" />
 
   <PropertyGroup>
-    <ServerGarbageCollection>true</ServerGarbageCollection>
-    <UserSecretsId>265231d5-e072-4985-b56a-085e838c6e99</UserSecretsId>
+    <TargetFramework>net8.0</TargetFramework>
+    <TargetLatestRuntimePatch>true</TargetLatestRuntimePatch>
+    <LangVersion>latest</LangVersion>
+    <RuntimeIdentifier>$(MyRuntimeIdentifier)</RuntimeIdentifier>
+    <RuntimeIdentifiers>win-x64;linux-x64</RuntimeIdentifiers>
+    <RuntimeFrameworkVersion>8.0.2</RuntimeFrameworkVersion>
+    <DisableImplicitFrameworkReferences>false</DisableImplicitFrameworkReferences>
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <PackageProjectUrl>https://github.com/informatievlaanderen/association-registry.git</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/informatievlaanderen/association-registry.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
     <EnableDefaultContentItems>false</EnableDefaultContentItems>
     <ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+    <ServerGarbageCollection>true</ServerGarbageCollection>
+    <RunAnalyzersDuringBuild>true</RunAnalyzersDuringBuild>
+    <RunAnalyzersDuringLiveAnalysis>true</RunAnalyzersDuringLiveAnalysis>
+    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <OutputType>Exe</OutputType>
+    <IsTestProject>false</IsTestProject>
+    <UserSecretsId>265231d5-e072-4985-b56a-085e838c6e99</UserSecretsId>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>bin\Debug\net6.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <DocumentationFile>bin\Debug\net8.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
     <DefineConstants>TRACE;DEBUG;NETCOREAPP;NET6_0</DefineConstants>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DocumentationFile>bin\Release\net6.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
-    <NoWarn>1701;1702;1705;1591</NoWarn>
+    <DocumentationFile>bin\Release\net8.0\AssociationRegistry.Admin.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

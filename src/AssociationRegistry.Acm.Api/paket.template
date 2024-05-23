@@ -15,7 +15,7 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 description Association Registry.
 
 files
-  AssociationRegistry.Acm.Api.dll => lib\net6.0
-  AssociationRegistry.Acm.Api.pdb => lib\net6.0
-  AssociationRegistry.Acm.Api.xml => lib\net6.0
+  AssociationRegistry.Acm.Api.dll => lib\net8.0
+  AssociationRegistry.Acm.Api.pdb => lib\net8.0
+  AssociationRegistry.Acm.Api.xml => lib\net8.0
   AssociationRegistry.Acm.Api.xml => content

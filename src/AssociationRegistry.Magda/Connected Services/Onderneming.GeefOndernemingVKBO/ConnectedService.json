@@ -11,7 +11,7 @@
       "*, AssociationRegistry.Magda.Onderneming.GeefOndernemingVKBO"
     ],
     "outputFile": "Onderneming.GeefOndernemingVKBO",
-    "targetFramework": "net6.0",
+    "targetFramework": "net8.0",
     "typeReuseMode": "All"
   }
 }
