@@ -2,18 +2,20 @@
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
 
 public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
-    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly AppSettings _appSettings;
 
-    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
+    public NotFoundProblemDetailsExamples(ProblemDetailsHelper helper, AppSettings appSettings)
     {
         _helper = helper;
-        _contextAccessor = contextAccessor;
+        _appSettings = appSettings;
+
     }
 
     public ProblemDetails GetExamples()
@@ -23,6 +25,6 @@ public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
             Title = ProblemDetails.DefaultTitle,
             Detail = "De gevraagde vereniging werd niet gevonden.",
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_appSettings.BaseUrl}/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
         };
 }

@@ -2,6 +2,7 @@
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Generic;
@@ -28,12 +29,12 @@ public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProb
 public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
-    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly AppSettings _appSettings;
 
-    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
+    public BadRequestProblemDetailsExamples(ProblemDetailsHelper helper, AppSettings appSettings)
     {
         _helper = helper;
-        _contextAccessor = contextAccessor;
+        _appSettings = appSettings;
     }
 
     public ProblemDetails GetExamples()
@@ -43,19 +44,20 @@ public class BadRequestProblemDetailsExamples : IExamplesProvider<ProblemDetails
             Title = ProblemDetails.DefaultTitle,
             Detail = "Beschrijving van het probleem",
             ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-            ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
+            ProblemInstanceUri = $"{_appSettings.BaseUrl}/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
         };
 }
 
 public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvider<ProblemDetails>
 {
     private readonly ProblemDetailsHelper _helper;
-    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly AppSettings _appSettings;
 
-    public ProblemAndValidationProblemDetailsExamples(ProblemDetailsHelper helper, IHttpContextAccessor contextAccessor)
+    public ProblemAndValidationProblemDetailsExamples(ProblemDetailsHelper helper, AppSettings appSettings)
     {
         _helper = helper;
-        _contextAccessor = contextAccessor;
+        _appSettings = appSettings;
+
     }
 
     public IEnumerable<SwaggerExample<ProblemDetails>> GetExamples()
@@ -69,7 +71,7 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
                     Title = ProblemDetails.DefaultTitle,
                     Detail = "Beschrijving van het probleem",
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{_helper.GetInstanceBaseUri(_contextAccessor.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
+                    ProblemInstanceUri = $"{_appSettings.BaseUrl}/v1/foutmeldingen/{ProblemDetails.GetProblemNumber()}",
                 }),
             new SwaggerExample<ProblemDetails>
             {
