@@ -37,10 +37,11 @@ public static class ServiceCollectionExtensions
                                  .AddService(builder.Environment.ApplicationName);
 
             logging.SetResourceBuilder(resourceBuilder)
-
-                    // ConsoleExporter is used for demo purpose only.
-                    // In production environment, ConsoleExporter should be replaced with other exporters (e.g. OTLP Exporter).
-                   .AddConsoleExporter();
+                   .AddOtlpExporter((options, processorOptions) =>
+                    {
+                        options.Endpoint = new Uri(collectorUrl);
+                        options.Protocol = OtlpExportProtocol.Grpc;
+                    });
         });
 
         return services.AddOpenTelemetry()
@@ -51,7 +52,7 @@ public static class ServiceCollectionExtensions
                                                       .AddHttpClientInstrumentation()
                                                       .AddOtlpExporter(options =>
                                                        {
-                                                           options.Endpoint = new Uri("http://localhost:4317");
+                                                           options.Endpoint = new Uri(collectorUrl);
                                                            options.Protocol = OtlpExportProtocol.Grpc;
                                                        }))
                        .WithTracing(builder =>
