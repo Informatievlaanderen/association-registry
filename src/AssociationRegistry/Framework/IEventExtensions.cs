@@ -28,5 +28,5 @@ public static class IEventExtensions
     }
 
     private static bool HasHeader(this Marten.Events.IEvent source, string propertyName)
-        => !source.Headers?.Keys.Contains(propertyName) ?? false;
+        => source.Headers?.Keys.Contains(propertyName) ?? false;
 }
