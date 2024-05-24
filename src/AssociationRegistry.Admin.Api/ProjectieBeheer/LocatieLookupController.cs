@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.ProjectieBeheer;
 
+using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
