@@ -1,8 +1,8 @@
 #r "paket:
-version 7.0.2
-framework: net8.0
+version 8.0.3
+framework: auto-detect
 source https://api.nuget.org/v3/index.json
-nuget Be.Vlaanderen.Basisregisters.Build.Pipeline 6.0.3 //"
+nuget Be.Vlaanderen.Basisregisters.Build.Pipeline //"
 
 #load "packages/Be.Vlaanderen.Basisregisters.Build.Pipeline/Content/build-generic.fsx"
 

@@ -223,9 +223,17 @@ jobs:
         run: |
           dotnet tool restore
 
-      - name: Build
+      - name: Paket restore
         shell: bash
-        run: ./build.sh Build
+        run: dotnet paket restore
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore --runtime linux-x64
+
+      - name: Dotnet build
+        shell: bash
+        run: dotnet build --no-restore
 
       - name: Wait for db container
         shell: bash
