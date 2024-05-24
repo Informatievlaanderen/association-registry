@@ -15,7 +15,6 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVer
     public Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd_Setup(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
-        //fixture.Initialize(fixture.V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd).GetAwaiter().GetResult();
     }
 
         public async Task InitializeAsync()
