@@ -61,6 +61,7 @@ public static class MartenExtensions
 
                                           return opts;
                                       })
+                                 .IntegrateWithWolverine()
                                  .UseLightweightSessions();
 
         martenConfiguration.ApplyAllDatabaseChangesOnStartup();
