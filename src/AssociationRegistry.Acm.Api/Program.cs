@@ -257,10 +257,11 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var appSettings = builder.Configuration.Get<AppSettings>();
 
+        builder.ConfigureOpenTelemetry(new AcmInstrumentation());
+
         builder.Services
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
-               .AddOpenTelemetry(new AcmInstrumentation())
                .AddHttpContextAccessor()
                .AddControllers();
 

@@ -9,6 +9,7 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -82,13 +83,10 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                // opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
+                opts.Projections.Errors.SkipApplyErrors = false;
+                opts.Projections.Errors.SkipSerializationErrors = false;
 
                 opts.Projections.DaemonLockId = 1;
-
-                // opts.Projections.AsyncListeners.Add(
-                //     new ProjectionStateListener(serviceProvider.GetRequiredService<AdminInstrumentation>()));
-
 
                 opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);

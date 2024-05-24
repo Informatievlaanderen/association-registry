@@ -5,3 +5,5 @@ OpenTelemetry.Instrumentation.AspNetCore
 OpenTelemetry.Instrumentation.Http
 OpenTelemetry.Instrumentation.Runtime
 Npgsql.OpenTelemetry
+OpenTelemetry.Exporter.OpenTelemetryProtocol
+OpenTelemetry
