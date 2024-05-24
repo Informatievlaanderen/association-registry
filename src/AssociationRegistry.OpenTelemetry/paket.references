@@ -4,5 +4,4 @@ OpenTelemetry.Extensions.Hosting
 OpenTelemetry.Instrumentation.AspNetCore
 OpenTelemetry.Instrumentation.Http
 OpenTelemetry.Instrumentation.Runtime
-OpenTelemetry
 Npgsql.OpenTelemetry
