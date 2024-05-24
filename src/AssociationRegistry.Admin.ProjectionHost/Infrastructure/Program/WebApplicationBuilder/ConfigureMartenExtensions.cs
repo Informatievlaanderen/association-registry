@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 
 using ConfigurationBindings;
 using Constants;
-using Events;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -10,7 +9,6 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
-using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
@@ -23,7 +21,7 @@ using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
 using System.Configuration;
-using ConfigurationManager = Microsoft.Extensions.Configuration.ConfigurationManager;
+using ConfigurationManager = ConfigurationManager;
 
 public static class ConfigureMartenExtensions
 {
