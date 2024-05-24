@@ -51,9 +51,11 @@ nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
 
 nuget Scriban
 
+nuget Be.Vlaanderen.Basisregisters.AspNetCore.Swagger 5.0.0
+nuget Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc 5.0.0
+nuget Swashbuckle.AspNetCore.Swagger 6.2.3
 nuget Swashbuckle.AspNetCore.SwaggerGen 6.2.3
 nuget Swashbuckle.AspNetCore.SwaggerUI 6.2.3
-nuget Swashbuckle.AspNetCore.ReDoc 6.2.3
 
 nuget WolverineFx
 nuget WolverineFx.AmazonSqs
@@ -65,8 +67,7 @@ nuget xunit.assert
 nuget xunit.runner.visualstudio
 nuget xunit.categories
 
-nuget Asp.Versioning.Mvc
-nuget Asp.Versioning.Mvc.ApiExplorer
+nuget Asp.Versioning.Mvc.ApiExplorer 8.0.0
 
 nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 nuget Be.Vlaanderen.Basisregisters.Converters.TrimString

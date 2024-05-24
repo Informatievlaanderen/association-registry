@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplication;
 
+using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
 
 public static class UseSwaggerExtensions

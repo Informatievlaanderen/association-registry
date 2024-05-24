@@ -8,4 +8,3 @@ Moq
 Microsoft.AspNetCore.Mvc.Testing
 Scriban
 Microsoft.AspNetCore.Hosting
-Microsoft.AspNetCore.TestHost

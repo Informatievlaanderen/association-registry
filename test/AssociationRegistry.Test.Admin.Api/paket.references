@@ -7,9 +7,6 @@ FluentAssertions.Json
 Moq
 NEST
 Microsoft.AspNetCore.Mvc.Testing
-
 Marten
 Scriban
 Microsoft.AspNetCore.Hosting
-Microsoft.AspNetCore.TestHost
-Weasel.Core
