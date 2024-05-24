@@ -62,9 +62,10 @@ public class Program
                 options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
             });
 
+        builder.ConfigureOpenTelemetry(new PubliekInstrumentation());
+
         builder.Services
                .ConfigureRequestLocalization()
-               .AddOpenTelemetry(new PubliekInstrumentation())
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)

@@ -36,12 +36,15 @@ nuget Moq
 
 nuget NpgSql.OpenTelemetry
 
+nuget OpenTelemetry
+nuget OpenTelemetry.Exporter.OpenTelemetryProtocol
 nuget OpenTelemetry.Exporter.Console
 nuget OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs
 nuget OpenTelemetry.Extensions.Hosting
 nuget OpenTelemetry.Instrumentation.AspNetCore
 nuget OpenTelemetry.Instrumentation.Http
 nuget OpenTelemetry.Instrumentation.Runtime
+
 
 nuget Polly
 nuget Result.Net 1.4.0

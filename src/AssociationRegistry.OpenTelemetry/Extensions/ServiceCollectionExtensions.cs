@@ -7,6 +7,7 @@ using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using System.Reflection;
@@ -17,18 +18,11 @@ public static class ServiceCollectionExtensions
     private const string XCorrelationIdHeaderName = "X-Correlation-Id";
     private const string BevestigingsTokenHeaderName = "VR-BevestigingsToken";
 
-    public static IServiceCollection AddOpenTelemetry(this IServiceCollection services)
-    {
-        var (serviceName, collectorUrl, configureResource) = GetResources();
-
-        return services.AddTracking(configureResource, collectorUrl, serviceName)
-                       .AddLogging(configureResource, collectorUrl)
-                       .AddMetrics(configureResource, collectorUrl);
-    }
-
-    public static IServiceCollection AddOpenTelemetry<T>(this IServiceCollection services, params T[] instrumentations)
+    public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
         where T : class, IInstrumentation
     {
+        var services = builder.Services;
+
         var (serviceName, collectorUrl, configureResource) = GetResources();
 
         foreach (var instrumentation in instrumentations)
@@ -36,109 +30,64 @@ public static class ServiceCollectionExtensions
             services.AddSingleton(instrumentation);
         }
 
-        return services.AddTracking(configureResource, collectorUrl, serviceName)
-                       .AddLogging(configureResource, collectorUrl)
-                       .AddMetrics(configureResource, collectorUrl, extraConfig: builder =>
+        builder.Logging.AddOpenTelemetry(logging =>
+        {
+            var resourceBuilder = ResourceBuilder
+                                 .CreateDefault()
+                                 .AddService(builder.Environment.ApplicationName);
+
+            logging.SetResourceBuilder(resourceBuilder)
+
+                    // ConsoleExporter is used for demo purpose only.
+                    // In production environment, ConsoleExporter should be replaced with other exporters (e.g. OTLP Exporter).
+                   .AddConsoleExporter();
+        });
+
+        return services.AddOpenTelemetry()
+                       .ConfigureResource(configureResource)
+                       .WithMetrics(providerBuilder => providerBuilder
+                                                      .AddRuntimeInstrumentation()
+                                                      .AddAspNetCoreInstrumentation()
+                                                      .AddHttpClientInstrumentation()
+                                                      .AddOtlpExporter(options =>
+                                                       {
+                                                           options.Endpoint = new Uri("http://localhost:4317");
+                                                           options.Protocol = OtlpExportProtocol.Grpc;
+                                                       }))
+                       .WithTracing(builder =>
                         {
-                            foreach (var instrumentation in instrumentations)
-                            {
-                                builder.AddMeter(instrumentation.MeterName);
-                            }
-                        });
-    }
+                            builder
+                               .AddSource(serviceName)
+                               .ConfigureResource(configureResource).AddHttpClientInstrumentation()
+                               .AddAspNetCoreInstrumentation(
+                                    options =>
+                                    {
+                                        options.EnrichWithHttpRequest =
+                                            (activity, request) =>
+                                            {
+                                                activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
 
-    private static IServiceCollection AddMetrics(
-        this IServiceCollection services,
-        Action<ResourceBuilder> configureResource,
-        string collectorUrl,
-        Action<MeterProviderBuilder>? extraConfig = null)
-    {
-        return services;//.AddOpenTelemetryMetrics(
-            // options =>
-            // {
-            //     options
-            //        .ConfigureResource(configureResource)
-            //        .AddRuntimeInstrumentation()
-            //        .AddHttpClientInstrumentation()
-            //        .AddAspNetCoreInstrumentation()
-            //        .AddOtlpExporter(
-            //             exporter =>
-            //             {
-            //                 exporter.Protocol = OtlpExportProtocol.Grpc;
-            //                 exporter.Endpoint = new Uri(collectorUrl);
-            //             })
-            //        .InvokeIfNotNull(extraConfig);
-            // });
-    }
+                                                activity.SetCustomProperty(XCorrelationIdHeaderName,
+                                                                           request.Headers[XCorrelationIdHeaderName]);
 
-    private static T InvokeIfNotNull<T>(this T obj, Action<T>? method)
-    {
-        method?.Invoke(obj);
+                                                activity.SetCustomProperty(BevestigingsTokenHeaderName,
+                                                                           request.Headers[BevestigingsTokenHeaderName]);
 
-        return obj;
-    }
+                                                activity.SetParentId(request.Headers["traceparent"]);
+                                            };
 
-    private static IServiceCollection AddLogging(
-        this IServiceCollection services,
-        Action<ResourceBuilder> configureResource,
-        string collectorUrl)
-    {
-        return services.AddLogging(
-            builder =>
-                builder
-                   .AddOpenTelemetry(
-                        options =>
-                        {
-                            // options.ConfigureResource(configureResource);
-
-                            options.IncludeScopes = true;
-                            options.IncludeFormattedMessage = true;
-                            options.ParseStateValues = true;
-
-                            // options.AddOtlpExporter(
-                            //     exporter =>
-                            //     {
-                            //         exporter.Protocol = OtlpExportProtocol.Grpc;
-                            //         exporter.Endpoint = new Uri(collectorUrl);
-                            //     });
-                        }));
-    }
-
-    private static IServiceCollection AddTracking(
-        this IServiceCollection services,
-        Action<ResourceBuilder> configureResource,
-        string collectorUrl,
-        string serviceName)
-    {
-        return services;//.AddOpenTelemetryTracing(
-            // builder =>
-            // {
-            //     builder
-            //        .AddSource(serviceName)
-            //        .ConfigureResource(configureResource).AddHttpClientInstrumentation()
-            //        .AddAspNetCoreInstrumentation(
-            //             options =>
-            //             {
-            //                 options.EnrichWithHttpRequest =
-            //                     (activity, request) =>
-            //                     {
-            //                         activity.SetCustomProperty(VrInitiatorHeaderName, request.Headers[VrInitiatorHeaderName]);
-            //                         activity.SetCustomProperty(XCorrelationIdHeaderName, request.Headers[XCorrelationIdHeaderName]);
-            //                         activity.SetCustomProperty(BevestigingsTokenHeaderName, request.Headers[BevestigingsTokenHeaderName]);
-            //                         activity.SetParentId(request.Headers["traceparent"]);
-            //                     };
-            //
-            //                 options.Filter = context => context.Request.Method != HttpMethods.Options;
-            //             })
-            //        .AddNpgsql()
-            //        .AddOtlpExporter(
-            //             options =>
-            //             {
-            //                 options.Protocol = OtlpExportProtocol.Grpc;
-            //                 options.Endpoint = new Uri(collectorUrl);
-            //             })
-            //        .AddSource("Wolverine");
-            // });
+                                        options.Filter = context => context.Request.Method != HttpMethods.Options;
+                                    })
+                               .AddNpgsql()
+                               .AddOtlpExporter(
+                                    options =>
+                                    {
+                                        options.Protocol = OtlpExportProtocol.Grpc;
+                                        options.Endpoint = new Uri(collectorUrl);
+                                    })
+                               .AddSource("Wolverine");
+                        })
+                       .Services;
     }
 
     private static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()

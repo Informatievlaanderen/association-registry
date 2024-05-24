@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
-using Asp.Versioning;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -22,7 +21,6 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using Grar;
-using Grar.AddressMatch;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -34,29 +32,21 @@ using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Middleware;
-using JasperFx.CodeGeneration;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -67,22 +57,14 @@ using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
 using Serilog.Debugging;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using VCodeGeneration;
 using Vereniging;
-using Wolverine;
-using Wolverine.AmazonSqs;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using IMessage = Notifications.IMessage;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
@@ -365,6 +347,8 @@ public class Program
                .AddHttpClient<GrarHttpClient>()
                .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.BaseUrl));
 
+        builder.ConfigureOpenTelemetry(new Instrumentation());
+
         builder.Services
                .AddScoped<InitiatorProvider>()
                .AddSingleton(postgreSqlOptionsSection)
@@ -393,7 +377,6 @@ public class Program
                .AddTransient<INotifier, NullNotifier>()
                .AddMarten(postgreSqlOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
-               .AddOpenTelemetry(new Instrumentation())
                .AddHttpContextAccessor()
                .AddControllers(options => options.Filters.Add<JsonRequestFilter>());
 
@@ -622,10 +605,6 @@ public class Program
         var logger = loggerConfig.CreateLogger();
 
         Log.Logger = logger;
-
-        builder.Logging
-                //.AddSerilog(logger)
-               .AddOpenTelemetry();
     }
 
     private static void ConfigereKestrel(WebApplicationBuilder builder)
