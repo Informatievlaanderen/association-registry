@@ -20,9 +20,6 @@ on:
         type: boolean
       pre-gen-marten:
         type: boolean
-      build-target:
-        required: true
-        type: string
       image-file: #ar-acm-api-image.tar
         required: true
         type: string
@@ -198,10 +195,11 @@ jobs:
 
       - name: Containerize Api
         shell: bash
-        run: CI_BUILD_NUMBER=$SEMVER ./build.sh ${{ inputs.build-target }}
+        run: |
+          .github/build-scripts/build-docker.sh ${{ inputs.build-project }} ${{ inputs.image-name}}
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ inputs.semver }}
+          CI_BUILD_NUMBER: ${{ inputs.semver }}
 
       - name: Show images
         shell: bash
