@@ -14,12 +14,6 @@
         "paket"
       ]
     },
-    "dotnet-ef": {
-      "version": "8.0.2",
-      "commands": [
-        "dotnet-ef"
-      ]
-    },
     "dotnet-coverage": {
       "version": "17.10.3",
       "commands": [
