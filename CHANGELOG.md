@@ -1,3 +1,31 @@
+# [8.98.0](https://github.com/informatievlaanderen/association-registry/compare/v8.97.1...v8.98.0) (2024-05-27)
+
+
+### Bug Fixes
+
+* or-1566 add using swagger redoc ([6d91dd1](https://github.com/informatievlaanderen/association-registry/commit/6d91dd120272fe4d7a937aeadb2f79793320942d))
+* or-1566 build docker with script ([3a14e45](https://github.com/informatievlaanderen/association-registry/commit/3a14e45e2cfae49ae186f4a9b8bcc4261fa6213b))
+* or-1566 integrate marten with wolverine ([975ccc1](https://github.com/informatievlaanderen/association-registry/commit/975ccc1c232dd5ba705732346f8334cd8d1a51d4))
+* or-1566 publish from within src dir ([03629e2](https://github.com/informatievlaanderen/association-registry/commit/03629e205a9b6aa37d3cad9b41ec14b08f7675d6))
+* or-1566 publish in release config ([6595a36](https://github.com/informatievlaanderen/association-registry/commit/6595a36075e1ac7757f8e4cfbe86c2b3a2b3b429))
+* or-1566 readd opentelemetry ([d33a6db](https://github.com/informatievlaanderen/association-registry/commit/d33a6db70013bf2e2e1abd8153ce392f2f89760b))
+* or-1566 remove duplicate initialize in tests ([161e9ae](https://github.com/informatievlaanderen/association-registry/commit/161e9ae9ab31953ccc7a6ae0920d0a2d0766713d))
+* or-1566 update from main branch ([f8114f7](https://github.com/informatievlaanderen/association-registry/commit/f8114f7eec28f53192a9d2677f783c7631c3ce16))
+* or-1566 update pre merge tests workflow ([7b1b6af](https://github.com/informatievlaanderen/association-registry/commit/7b1b6af2b8d2fce56dc4745e402725797e33b6f5))
+* or-1566 upgrade to 8.0.5 ([317b73d](https://github.com/informatievlaanderen/association-registry/commit/317b73d29f982be7a0b44347ce6f6a66a4881910))
+* or-1566 use collectorUrl io hard-coded string ([97e43df](https://github.com/informatievlaanderen/association-registry/commit/97e43df1ddd2293351ae8d86f62c7af2ae1bc449))
+* or-1566 use configuration instead of http context to determine base uri ([a8f2f60](https://github.com/informatievlaanderen/association-registry/commit/a8f2f607792a805cde5cc00cd354f08447d3d800))
+* or-1566 use correct condition for HasHeader ([aa669cb](https://github.com/informatievlaanderen/association-registry/commit/aa669cb5d08ea5ae372000ca29c27abd76cfec0e))
+* or-1566 use csharp script for solution info ([822bc4d](https://github.com/informatievlaanderen/association-registry/commit/822bc4de3d187b5429d1789aa0c7803b6f11a4de))
+* or-1566 use separate db ([bcfc4e7](https://github.com/informatievlaanderen/association-registry/commit/bcfc4e726780013a64fa85c3f3a6898440f7760d))
+* or-1566 use vbr library to fix swagger docs ([16aed7d](https://github.com/informatievlaanderen/association-registry/commit/16aed7dbe53ba8a89a808de90666637a1d5d1343))
+
+
+### Features
+
+* or-1566 update to net8.0 for github workflows and docker files ([24c6eef](https://github.com/informatievlaanderen/association-registry/commit/24c6eefd7208c53ab4b31bf5d0bae48479d6fa56))
+* update dotnet version with net8.0 ([ce42529](https://github.com/informatievlaanderen/association-registry/commit/ce425296a0dc0b9f1c74f82424c76f9c6e576b78))
+
 ## [8.97.1](https://github.com/informatievlaanderen/association-registry/compare/v8.97.0...v8.97.1) (2024-05-22)
 
 
