@@ -73,7 +73,7 @@ public static class MartenExtensions
         => $"host={postgreSqlOptions.Host};" +
            $"database={postgreSqlOptions.Database};" +
            $"password={postgreSqlOptions.Password};" +
-           $"username={postgreSqlOptions.Username};Persist Security Info=true";
+           $"username={postgreSqlOptions.Username};";
 
     public static JsonNetSerializer CreateCustomMartenSerializer()
     {
