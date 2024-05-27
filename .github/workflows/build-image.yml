@@ -182,12 +182,12 @@ jobs:
       - name: Pre-build Marten models
         if: ${{ inputs.pre-gen-marten }}
         shell: bash
-        run: dotnet run --project src/${{ inputs.build-project }} -- codegen write
+        run: dotnet run -c Release --project src/${{ inputs.build-project }} -- codegen write
 
 
       - name: Dotnet build
         shell: bash
-        run: dotnet build --no-restore --runtime 'linux-x64' --self-contained -f net8.0 src/${{ inputs.build-project }}
+        run: dotnet build -c Release --no-restore --runtime 'linux-x64' --self-contained -f net8.0 src/${{ inputs.build-project }}
 
       - name: Dotnet publish
         shell: bash
