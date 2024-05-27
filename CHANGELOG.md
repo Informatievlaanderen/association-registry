@@ -1,3 +1,11 @@
+## [8.98.3](https://github.com/informatievlaanderen/association-registry/compare/v8.98.2...v8.98.3) (2024-05-27)
+
+
+### Bug Fixes
+
+* or-1566 don't persist ([d800a1b](https://github.com/informatievlaanderen/association-registry/commit/d800a1b29326a495b7192d97ba292d8565110bb3))
+* or-1566 include sln info ([fd8c581](https://github.com/informatievlaanderen/association-registry/commit/fd8c5812c6e594d19d0a0157917ac46644e3d6dd))
+
 ## [8.98.2](https://github.com/informatievlaanderen/association-registry/compare/v8.98.1...v8.98.2) (2024-05-27)
 
 
