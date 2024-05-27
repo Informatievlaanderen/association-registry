@@ -31,6 +31,12 @@
       "commands": [
         "dotnet-dotcover"
       ]
+    },
+    "dotnet-script": {
+      "version": "1.5.0",
+      "commands": [
+        "dotnet-script"
+      ]
     }
   }
 }

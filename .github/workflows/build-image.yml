@@ -173,10 +173,11 @@ jobs:
       - name: Set solution info
         shell: bash
         if: inputs.semver != 'none'
-        run: CI_BUILD_NUMBER=$SEMVER ./build.sh SetSolutionInfo
+        run: |
+          docker run --network host -e CI_BUILD_NUMBER -e GIT_HASH --rm -v $(pwd):/app -w /app/ mcr.microsoft.com/dotnet/sdk:6.0.201 /bin/sh .github/build-scripts/set-solution-info.sh
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ inputs.semver }}
+          CI_BUILD_NUMBER: ${{ inputs.semver }}
 
       - name: Pre-build Marten models
         if: ${{ inputs.pre-gen-marten }}
