@@ -1,3 +1,10 @@
+## [8.98.1](https://github.com/informatievlaanderen/association-registry/compare/v8.98.0...v8.98.1) (2024-05-27)
+
+
+### Bug Fixes
+
+* or-1566 re-include appsettings.json ([7b4b6a8](https://github.com/informatievlaanderen/association-registry/commit/7b4b6a8e860852030d9fb8506f6139ab92aabc0a))
+
 # [8.98.0](https://github.com/informatievlaanderen/association-registry/compare/v8.97.1...v8.98.0) (2024-05-27)
 
 
