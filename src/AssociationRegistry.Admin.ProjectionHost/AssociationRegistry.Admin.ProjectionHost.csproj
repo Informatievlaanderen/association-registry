@@ -50,6 +50,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="..\..\SolutionInfo.cs" Link="Properties\SolutionInfo.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Dockerfile"/>
     <Content Include="Dockerfile">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
