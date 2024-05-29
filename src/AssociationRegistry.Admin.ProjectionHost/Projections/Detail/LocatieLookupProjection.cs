@@ -12,20 +12,21 @@ using IEvent = Marten.Events.IEvent;
 
 public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocument, string>
 {
-    public LocatieLookupProjection(ILogger<LocatieLookupProjection> logger)
+    public LocatieLookupProjection()
     {
         Options.BatchSize = 1;
-        Options.EnableDocumentTrackingByIdentity = true;
         Options.MaximumHopperSize = 1;
 
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
+
+        Options.EnableDocumentTrackingByIdentity = false;
 
         Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
         Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
 
-        CustomGrouping(new LocatieLookupGrouper(logger));
+        CustomGrouping(new LocatieLookupGrouper());
 
         CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
@@ -45,11 +46,9 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
 
 public class LocatieLookupGrouper : IAggregateGrouper<string>
 {
-    private readonly ILogger _logger;
 
-    public LocatieLookupGrouper(ILogger logger)
+    public LocatieLookupGrouper()
     {
-        _logger = logger;
     }
 
     public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
@@ -61,11 +60,6 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
         if (!verwijderdEvents.Any())
             return;
 
-        foreach (var verwijderd in verwijderdEvents)
-        {
-            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound Verwijderd event with id {verwijderd.Sequence}");
-        }
-
         var vCodes = verwijderdEvents
                     .Select(e => e.Data.VCode)
                     .ToList();
@@ -74,18 +68,10 @@ public class LocatieLookupGrouper : IAggregateGrouper<string>
                                   .Where(x => vCodes.Contains(x.VCode))
                                   .ToListAsync();
 
-        foreach (var verwijderd in verwijderdEvents)
-        {
-            _logger.LogInformation($"[{verwijderd.StreamKey}]\tFound {result.Count} related lookup documents");
-        }
-
         foreach (var locatieLookupDocument in result)
         {
             var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
             grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
-
-            _logger.LogInformation(
-                $"[{verwijderd.StreamKey}]\tAdding event {verwijderd.Sequence} to lookup document {locatieLookupDocument.Id}");
         }
     }
 }
