@@ -1,3 +1,10 @@
+## [8.98.4](https://github.com/informatievlaanderen/association-registry/compare/v8.98.3...v8.98.4) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 decrease log levels for public api ([1cf7680](https://github.com/informatievlaanderen/association-registry/commit/1cf7680adfc82162e68e26b128c561116bab3967))
+
 ## [8.98.3](https://github.com/informatievlaanderen/association-registry/compare/v8.98.2...v8.98.3) (2024-05-27)
 
 
