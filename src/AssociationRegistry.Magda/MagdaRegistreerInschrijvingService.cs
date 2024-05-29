@@ -25,9 +25,9 @@ public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingSe
         IMagdaClient magdaClient,
         ILogger<MagdaRegistreerInschrijvingService> logger)
     {
-        _magdaCallReferenceRepository = magdaCallReferenceRepository ?? throw new ArgumentNullException(nameof(magdaCallReferenceRepository));
-        _magdaClient = magdaClient ?? throw new ArgumentNullException(nameof(magdaClient));
-        _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        _magdaCallReferenceRepository = magdaCallReferenceRepository;
+        _magdaClient = magdaClient;
+        _logger = logger;
     }
 
     public async Task<Result> RegistreerInschrijving(
