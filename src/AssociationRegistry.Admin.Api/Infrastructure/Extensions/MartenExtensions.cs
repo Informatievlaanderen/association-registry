@@ -44,9 +44,6 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
 
-                                          opts.Schema.For<LocatieLookupDocument>().Identity(document => document.Id)
-                                              .UseOptimisticConcurrency(false)
-                                              .UseNumericRevisions(true);
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
                                           if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())

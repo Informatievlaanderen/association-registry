@@ -26,14 +26,11 @@ public class LocatieLookupController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>()
-                               .Where(w => w.VCode == vCode)
-                               .ToListAsync(token: cancellationToken);
-
         var response = new LocatiesMetAdresIdVolgensVCode
         {
             VCode = vCode,
-            Data = locatieLookupDocuments
+            Data = session.Query<LocatieLookupDocument>()
+                          .Where(w => w.VCode == vCode)
                           .Select(s => new LocatiesMetAdresIdVolgensVCode.LocatieLookup(s.LocatieId, s.AdresId))
                           .ToArray(),
         };
