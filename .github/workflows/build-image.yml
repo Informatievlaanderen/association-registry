@@ -160,8 +160,8 @@ jobs:
         if: ${{ always() && inputs.test-project != '' && inputs.test-project != 'none' }}
         uses: actions/upload-artifact@v4
         with:
-          name: test-report-${{inputs.test-project}}
-          path: ${{inputs.test-project}}/TestResults/*.html
+          name: test-report-${{matrix.projects}}
+          path: ${{matrix.projects}}/TestResults/*.html
 
       - name: Dotnet restore
         shell: bash
