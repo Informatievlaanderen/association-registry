@@ -1,3 +1,10 @@
+## [8.98.8](https://github.com/informatievlaanderen/association-registry/compare/v8.98.7...v8.98.8) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 apply changes on startup in projection host ([7f9c52e](https://github.com/informatievlaanderen/association-registry/commit/7f9c52ec621d002a06cbe3189d848b38bce15625))
+
 ## [8.98.7](https://github.com/informatievlaanderen/association-registry/compare/v8.98.6...v8.98.7) (2024-05-29)
 
 
