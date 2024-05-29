@@ -1,3 +1,10 @@
+## [8.98.7](https://github.com/informatievlaanderen/association-registry/compare/v8.98.6...v8.98.7) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 use numeric revisions in both api and projection host ([47766e0](https://github.com/informatievlaanderen/association-registry/commit/47766e0e206408bf3f7e73bcd101486f64fc4ec4))
+
 ## [8.98.6](https://github.com/informatievlaanderen/association-registry/compare/v8.98.5...v8.98.6) (2024-05-29)
 
 
