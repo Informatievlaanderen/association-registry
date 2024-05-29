@@ -134,6 +134,8 @@ public static class ConfigureMartenExtensions
                 return opts;
             });
 
+        martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
+
         return martenConfigurationExpression;
     }
 }

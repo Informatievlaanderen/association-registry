@@ -39,10 +39,6 @@ public static class MartenExtensions
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          opts.RegisterDocumentType<LocatieLookupDocument>();
-
                                           opts.RegisterDocumentType<VerenigingState>();
 
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
@@ -57,14 +53,11 @@ public static class MartenExtensions
                                               opts.SourceCodeWritingEnabled = false;
                                           }
 
-                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
-
                                           return opts;
                                       })
                                  .IntegrateWithWolverine()
-                                 .UseLightweightSessions();
-
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+                                 .UseLightweightSessions()
+                                 .ApplyAllDatabaseChangesOnStartup();
 
         return services;
     }
