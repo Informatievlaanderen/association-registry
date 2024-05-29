@@ -9,12 +9,14 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using Metrics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
-using Schema.KboSync;
 using VCodeGeneration;
 using Vereniging;
+using Weasel.Core;
 using Wolverine.Marten;
 
 public static class MartenExtensions
@@ -38,11 +40,6 @@ public static class MartenExtensions
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
                                           opts.RegisterDocumentType<VerenigingState>();
-
-                                          opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                                          opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-                                          opts.RegisterDocumentType<LocatieLookupDocument>();
 
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
