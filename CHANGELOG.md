@@ -1,3 +1,10 @@
+## [8.98.5](https://github.com/informatievlaanderen/association-registry/compare/v8.98.4...v8.98.5) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 set up opentel for public api ([0b1b53a](https://github.com/informatievlaanderen/association-registry/commit/0b1b53a5efb92f614702e01f9268adb57ba08a37))
+
 ## [8.98.4](https://github.com/informatievlaanderen/association-registry/compare/v8.98.3...v8.98.4) (2024-05-29)
 
 
