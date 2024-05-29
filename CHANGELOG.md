@@ -1,3 +1,21 @@
+## [8.98.9](https://github.com/informatievlaanderen/association-registry/compare/v8.98.8...v8.98.9) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 use inputs ([56c6ace](https://github.com/informatievlaanderen/association-registry/commit/56c6acec4474e01beed0160ec6611d32880828bb))
+* or-1566 use numeric revisions in both api and projection host ([16e641e](https://github.com/informatievlaanderen/association-registry/commit/16e641eba9cba117c37e48c0b13a5ec42d3c2600))
+
+
+### Reverts
+
+* Revert "fix: or-1566 split up responsibility for proj/event store ddl" ([4581132](https://github.com/informatievlaanderen/association-registry/commit/4581132e9f8229040793a16fcce59959fed0f481))
+* Revert "fix: or-1566 add null argument checks" ([c2a6001](https://github.com/informatievlaanderen/association-registry/commit/c2a6001fa2d781dd7c9204622c96dc1e6f04c901))
+* Revert "fix: or-1566 archive using inputs" ([50ebcb8](https://github.com/informatievlaanderen/association-registry/commit/50ebcb82e5be44a7fde8ab58934cf211b27cd503))
+* Revert "fix: or-1566 register in both projection host and api" ([ff805ad](https://github.com/informatievlaanderen/association-registry/commit/ff805adce4336d8ca2b0a6728d85d0117166ff2e))
+* Revert "fix: or-1566 use numeric revisions in both api and projection host" ([7d170cc](https://github.com/informatievlaanderen/association-registry/commit/7d170ccb24d91858504ad7c34ebc2ae131eb9738))
+* Revert "fix: or-1566 apply changes on startup in projection host" ([36e690b](https://github.com/informatievlaanderen/association-registry/commit/36e690b72d273142b4d1c86b4a8efddfbadc8dc3))
+
 ## [8.98.8](https://github.com/informatievlaanderen/association-registry/compare/v8.98.7...v8.98.8) (2024-05-29)
 
 
