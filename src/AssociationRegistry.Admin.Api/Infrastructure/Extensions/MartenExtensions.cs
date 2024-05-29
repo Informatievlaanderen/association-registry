@@ -9,12 +9,14 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using Metrics;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
-using Schema.KboSync;
 using VCodeGeneration;
 using Vereniging;
+using Weasel.Core;
 using Wolverine.Marten;
 
 public static class MartenExtensions
@@ -37,16 +39,15 @@ public static class MartenExtensions
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
 
-                                          opts.RegisterDocumentType<VerenigingState>();
-
                                           opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                                           opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                                          opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-                                          opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          opts.RegisterDocumentType<VerenigingState>();
 
+                                          opts.RegisterDocumentType<LocatieLookupDocument>();
                                           opts.Schema.For<LocatieLookupDocument>().Identity(document => document.Id)
                                               .UseOptimisticConcurrency(false)
                                               .UseNumericRevisions(true);
+
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
                                           if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
@@ -59,11 +60,14 @@ public static class MartenExtensions
                                               opts.SourceCodeWritingEnabled = false;
                                           }
 
+                                          opts.AutoCreateSchemaObjects = AutoCreate.All;
+
                                           return opts;
                                       })
                                  .IntegrateWithWolverine()
-                                 .UseLightweightSessions()
-                                 .ApplyAllDatabaseChangesOnStartup();
+                                 .UseLightweightSessions();
+
+        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return services;
     }
