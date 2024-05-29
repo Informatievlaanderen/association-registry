@@ -190,7 +190,7 @@ jobs:
         shell: bash
         run: |
           pushd src/${{ inputs.build-project }}
-          dotnet publish -c Release -o ../../dist/${{ inputs.build-project }}/linux --no-build --no-restore --runtime 'linux-x64' --self-contained -f net8.0 
+          dotnet publish -c Release -o ../../dist/${{ inputs.build-project }}/linux --no-build --no-restore --runtime 'linux-x64' --self-contained -f net8.0
           popd
 
       - name: Containerize Api
