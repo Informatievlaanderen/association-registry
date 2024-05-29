@@ -16,6 +16,7 @@ using Infrastructure.Caching;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
+using Infrastructure.Metrics;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
@@ -249,9 +250,10 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
-                //.AddOpenTelemetry()
                .AddHttpContextAccessor()
                .AddControllers();
+
+        builder.ConfigureOpenTelemetry(new Instrumentation());
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -420,10 +422,6 @@ public class Program
         var logger = loggerConfig.CreateLogger();
 
         Log.Logger = logger;
-
-        builder.Logging
-                //.AddSerilog(logger)
-               .AddOpenTelemetry();
     }
 
     private static void ConfigureKestrel(WebApplicationBuilder builder)
