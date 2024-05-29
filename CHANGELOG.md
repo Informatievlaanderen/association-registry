@@ -1,3 +1,10 @@
+## [8.98.10](https://github.com/informatievlaanderen/association-registry/compare/v8.98.9...v8.98.10) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 add null argument checks ([9721a3d](https://github.com/informatievlaanderen/association-registry/commit/9721a3d66cb21f5bbc9559ec65c9ae9dfdcad984))
+
 ## [8.98.9](https://github.com/informatievlaanderen/association-registry/compare/v8.98.8...v8.98.9) (2024-05-29)
 
 
