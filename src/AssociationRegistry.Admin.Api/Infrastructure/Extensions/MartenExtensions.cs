@@ -43,6 +43,10 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
 
+                                          opts.Schema.For<LocatieLookupDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
+
                                           opts.RegisterDocumentType<VerenigingState>();
 
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
