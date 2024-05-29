@@ -1,3 +1,13 @@
+## [8.98.6](https://github.com/informatievlaanderen/association-registry/compare/v8.98.5...v8.98.6) (2024-05-29)
+
+
+### Bug Fixes
+
+* or-1566 add null argument checks ([bc72245](https://github.com/informatievlaanderen/association-registry/commit/bc72245adb6a10bc242e9156dee8a79c1e115b31))
+* or-1566 archive using inputs ([56e626e](https://github.com/informatievlaanderen/association-registry/commit/56e626e9e0f3ab976aef849f916b6b5b3df587ad))
+* or-1566 register in both projection host and api ([f2eb37b](https://github.com/informatievlaanderen/association-registry/commit/f2eb37b5fc3fe03902a6be358ff6583be9986391))
+* or-1566 split up responsibility for proj/event store ddl ([e60ecd2](https://github.com/informatievlaanderen/association-registry/commit/e60ecd236acd0eaa39d129f2395d4e7b6e7af5d7))
+
 ## [8.98.5](https://github.com/informatievlaanderen/association-registry/compare/v8.98.4...v8.98.5) (2024-05-29)
 
 
