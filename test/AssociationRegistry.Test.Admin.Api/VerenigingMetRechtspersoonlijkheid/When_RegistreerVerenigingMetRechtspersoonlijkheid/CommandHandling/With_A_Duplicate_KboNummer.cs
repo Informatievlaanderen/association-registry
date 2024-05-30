@@ -48,18 +48,20 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
 
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
-        _commandHandler = new RegistreerVerenigingUitKboCommandHandler();
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
+        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
+            new VerenigingRepositoryMock(_moederVCodeAndNaam),
+            new InMemorySequentialVCodeService(),
+            _magdaGeefVerenigingService.Object,
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger);
     }
 
     public async Task InitializeAsync()
     {
-        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
         _result = await _commandHandler
-           .Handle(_envelope, new VerenigingRepositoryMock(_moederVCodeAndNaam),
-                                          new InMemorySequentialVCodeService(),
-                                          _magdaGeefVerenigingService.Object,
-                                          new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-                                          commandHandlerLogger, CancellationToken.None);
+           .Handle(_envelope, CancellationToken.None);
     }
 
     [Fact]

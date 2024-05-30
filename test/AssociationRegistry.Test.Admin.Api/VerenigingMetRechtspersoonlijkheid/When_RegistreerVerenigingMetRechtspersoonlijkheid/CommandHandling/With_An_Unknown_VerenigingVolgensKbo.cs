@@ -31,28 +31,27 @@ public class With_An_Unknown_VerenigingVolgensKbo
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
+
+        _commandHandler = new RegistreerVerenigingUitKboCommandHandler(
+            _verenigingRepositoryMock,
+            _vCodeService,
+            new MagdaGeefVerenigingNumberNotFoundServiceMock(),
+            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            commandHandlerLogger
+        );
+
+        _envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
+                                                                           fixture.Create<CommandMetadata>());
     }
 
     [Fact]
     public async Task Then_It_Throws_GeenGeldigeVerenigingInKbo()
     {
-        var fixture = new Fixture().CustomizeAdminApi();
-
-        var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
-
-        var commandHandler = new RegistreerVerenigingUitKboCommandHandler();
-
-        var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(fixture.Create<RegistreerVerenigingUitKboCommand>(),
-                                                                              fixture.Create<CommandMetadata>());
-
-        var handle = () => commandHandler
-           .Handle(envelope,
-                   _verenigingRepositoryMock,
-                   _vCodeService,
-                   new MagdaGeefVerenigingNumberNotFoundServiceMock(),
-                   new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-                   commandHandlerLogger
-                 , CancellationToken.None);
+        var handle = () => _commandHandler
+           .Handle(_envelope, CancellationToken.None);
 
         await handle.Should().ThrowAsync<GeenGeldigeVerenigingInKbo>();
     }
