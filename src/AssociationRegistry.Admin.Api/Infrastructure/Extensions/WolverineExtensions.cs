@@ -55,11 +55,6 @@ public static class WolverineExtensions
                     transportConfiguration.Credentials(new BasicAWSCredentials("dummy", "dummy"));
                 }
 
-                if (addressMatchOptionsSection.AutoProvision)
-                {
-                    transportConfiguration.AutoProvision();
-                }
-
                 options.PublishMessage<TeSynchroniserenAdresMessage>()
                        .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
 
@@ -72,6 +67,11 @@ public static class WolverineExtensions
                             queue.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
                         })
                        .MaximumParallelMessages(1);
+
+                if (addressMatchOptionsSection.AutoProvision)
+                {
+                    transportConfiguration.AutoProvision();
+                }
 
                 options.LogMessageStarting(LogLevel.Trace);
                 Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);

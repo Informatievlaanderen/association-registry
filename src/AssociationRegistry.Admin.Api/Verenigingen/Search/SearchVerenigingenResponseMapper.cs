@@ -19,6 +19,7 @@ public class SearchVerenigingenResponseMapper
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
+        ILogger<SearchVerenigingenController> logger,
         ISearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery)
@@ -26,35 +27,48 @@ public class SearchVerenigingenResponseMapper
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
-                                         .Select(x => Map(x.Source, _appSettings))
+                                         .Select(x => Map(logger, x.Source, _appSettings))
                                          .ToArray(),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
 
-    private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
-        => new()
+    private static Vereniging Map(
+        ILogger<SearchVerenigingenController> logger,
+        VerenigingZoekDocument verenigingZoekDocument,
+        AppSettings appSettings)
+    {
+        try
         {
-            type = verenigingZoekDocument.JsonLdMetadataType,
-            VCode = verenigingZoekDocument.VCode,
-            Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
-            Naam = verenigingZoekDocument.Naam,
-            Roepnaam = verenigingZoekDocument.Roepnaam,
-            KorteNaam = verenigingZoekDocument.KorteNaam,
-            Status = verenigingZoekDocument.Status,
-            Startdatum = verenigingZoekDocument.Startdatum,
-            Einddatum = verenigingZoekDocument.Einddatum,
-            Doelgroep = Map(verenigingZoekDocument.Doelgroep),
-            HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                                                                      .Select(Map)
-                                                                      .ToArray(),
-            Locaties = verenigingZoekDocument.Locaties
-                                             .Select(Map)
-                                             .ToArray(),
-            Sleutels = verenigingZoekDocument.Sleutels
-                                             .Select(Map)
-                                             .ToArray(),
-            Links = Map(verenigingZoekDocument.VCode, appSettings),
-        };
+            return new Vereniging
+            {
+                type = verenigingZoekDocument.JsonLdMetadataType,
+                VCode = verenigingZoekDocument.VCode,
+                Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
+                Naam = verenigingZoekDocument.Naam,
+                Roepnaam = verenigingZoekDocument.Roepnaam,
+                KorteNaam = verenigingZoekDocument.KorteNaam,
+                Status = verenigingZoekDocument.Status,
+                Startdatum = verenigingZoekDocument.Startdatum,
+                Einddatum = verenigingZoekDocument.Einddatum,
+                Doelgroep = Map(verenigingZoekDocument.Doelgroep),
+                HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
+                                                                          .Select(Map)
+                                                                          .ToArray(),
+                Locaties = verenigingZoekDocument.Locaties
+                                                 .Select(Map)
+                                                 .ToArray(),
+                Sleutels = verenigingZoekDocument.Sleutels
+                                                 .Select(Map)
+                                                 .ToArray(),
+                Links = Map(verenigingZoekDocument.VCode, appSettings),
+            };
+        }
+        catch
+        {
+            logger.LogError("Could not map {VCode}: \n{@Doc}", verenigingZoekDocument.VCode, verenigingZoekDocument);
+            throw;
+        }
+    }
 
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()
@@ -109,7 +123,14 @@ public class SearchVerenigingenResponseMapper
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
-        => new()
+    {
+        if (loc == null)
+            throw new ArgumentNullException(nameof(loc));
+
+        if(loc.JsonLdMetadata == null)
+            throw new ArgumentNullException(nameof(loc.JsonLdMetadata));
+
+        return new()
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,
@@ -120,6 +141,7 @@ public class SearchVerenigingenResponseMapper
             Postcode = loc.Postcode,
             Gemeente = loc.Gemeente,
         };
+    }
 
     private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
         => new()
