@@ -1,3 +1,10 @@
+## [8.98.13](https://github.com/informatievlaanderen/association-registry/compare/v8.98.12...v8.98.13) (2024-05-30)
+
+
+### Bug Fixes
+
+* or-1566 register magda services and client as scoped ([e6ea834](https://github.com/informatievlaanderen/association-registry/commit/e6ea834aef303111cf83bb04b7d0b12b92e67151))
+
 ## [8.98.12](https://github.com/informatievlaanderen/association-registry/compare/v8.98.11...v8.98.12) (2024-05-30)
 
 
