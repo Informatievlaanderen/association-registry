@@ -1,6 +1,6 @@
 {
   "providerId": "Microsoft.Tools.ServiceModel.Svcutil",
-  "version": "2.0.3",
+  "version": "2.1.0",
   "ExtendedData": {
     "inputs": [
       "../../WSDL/Onderneming.GeefOndernemingVKBODienst-02.00/WebService/GeefOndernemingVKBO.wsdl"

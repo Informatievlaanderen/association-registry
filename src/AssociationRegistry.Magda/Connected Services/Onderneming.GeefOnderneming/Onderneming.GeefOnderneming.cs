@@ -11,7 +11,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
 {
     
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.ServiceContractAttribute(Name="Onderneming.GeefOndernemingPortType", Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "", ConfigurationName="AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingP" +
         "ortType")]
@@ -32,7 +32,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -57,7 +57,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -98,7 +98,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class ContextType
@@ -171,7 +171,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class BerichtType
@@ -243,7 +243,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum BerichtTypeType
     {
@@ -271,7 +271,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class TijdstipType
@@ -311,7 +311,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class UitzonderingType
@@ -449,7 +449,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum UitzonderingTypeType
     {
@@ -465,7 +465,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AnnotatieType
@@ -505,7 +505,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAmbtshalveDoorhalingTypeRedenType
@@ -545,7 +545,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AmbtshalveDoorhalingTypeRedenType
@@ -585,7 +585,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class OmschrijvingAlgemeenType
@@ -641,7 +641,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AmbtshalveDoorhalingKBOType
@@ -697,7 +697,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BijhuisType
@@ -769,7 +769,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingType : AdresOndernemingBasisType
@@ -859,7 +859,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class TypeAdresOndernemingType
@@ -899,7 +899,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeTypeAdresOndernemingType
@@ -939,7 +939,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DescriptieType
@@ -1012,7 +1012,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingBasisType : AdresBasisType
@@ -1036,7 +1036,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class Land2_0Type
@@ -1095,7 +1095,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingDeelnemingInType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingBasisType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(AdresOndernemingType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresBasisType
@@ -1183,7 +1183,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StraatRR2_0Type
@@ -1223,7 +1223,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class GemeenteOptioneel2_0Type
@@ -1279,7 +1279,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresOndernemingDeelnemingInType : AdresBasisType
@@ -1303,7 +1303,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DeelnemingInLand2_0Type
@@ -1359,7 +1359,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ContactType
@@ -1447,7 +1447,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresDoorhalingKBOType
@@ -1503,7 +1503,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AdresDoorhalingRedenType
@@ -1543,7 +1543,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAdresDoorhalingRedenType
@@ -1583,7 +1583,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StopzettingExtentieType : StopzettingType
@@ -1608,7 +1608,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(StopzettingExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StopzettingType
@@ -1648,7 +1648,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeStopzettingType
@@ -1688,7 +1688,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ExterneIdentificatieType
@@ -1728,7 +1728,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeBeeindigingHoedanigheidType
@@ -1768,7 +1768,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BeeindigingHoedanigheidType
@@ -1808,7 +1808,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeFaseHoedanigheidType
@@ -1848,7 +1848,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FaseHoedanigheidType
@@ -1888,7 +1888,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeHoedanigheidType
@@ -1929,7 +1929,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(HoedanigheidExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class HoedanigheidType
@@ -1969,7 +1969,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class HoedanigheidExtentieType : HoedanigheidType
@@ -2089,7 +2089,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumInschrijvingType
@@ -2113,7 +2113,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class GerelateerdeOndernemingType
@@ -2201,7 +2201,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RelatieExtentieType : RelatieType
@@ -2241,7 +2241,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public enum VlagEnumType
     {
@@ -2257,7 +2257,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RelatieExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RelatieType
@@ -2297,7 +2297,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRelatieType
@@ -2337,7 +2337,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeTypeActiviteitType
@@ -2377,7 +2377,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class TypeActiviteitType
@@ -2417,7 +2417,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeNaceType
@@ -2458,7 +2458,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(NaceExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaceType
@@ -2498,7 +2498,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaceExtentieType : NaceType
@@ -2522,7 +2522,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class ActiviteitType
@@ -2610,7 +2610,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctieOndernemingType
@@ -2650,7 +2650,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NaamOndernemingType
@@ -2722,7 +2722,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctiePersoonType
@@ -2794,7 +2794,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAardFunctieType
@@ -2834,7 +2834,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AardFunctieType
@@ -2874,7 +2874,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeEindeFunctieType
@@ -2914,7 +2914,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class EindeFunctieType
@@ -2954,7 +2954,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class VlagCodeType
@@ -2994,7 +2994,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeVrijstellingType
@@ -3035,7 +3035,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(VrijstellingExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VrijstellingType
@@ -3075,7 +3075,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VrijstellingExtentieType : VrijstellingType
@@ -3115,7 +3115,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAanduidingPersoonOndernemingType
@@ -3155,7 +3155,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AanduidingPersoonOndernemingType
@@ -3195,7 +3195,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class FunctieType
@@ -3347,7 +3347,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class BankrekeningType
@@ -3467,7 +3467,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class VestigingType
@@ -3620,7 +3620,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class StatusKBOType
@@ -3660,7 +3660,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeStatusKBOType
@@ -3700,7 +3700,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class MaatschappelijkeZetelType
@@ -3788,7 +3788,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class NamenOndernemingType
@@ -3847,7 +3847,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumAfsluitingType
@@ -3871,7 +3871,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRechtstoestandType
@@ -3912,7 +3912,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RechtstoestandExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtstoestandType
@@ -3952,7 +3952,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtstoestandExtentieType : RechtstoestandType
@@ -4008,7 +4008,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeRechtsvormType
@@ -4049,7 +4049,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(RechtsvormExtentieType))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtsvormType
@@ -4089,7 +4089,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class RechtsvormExtentieType : RechtsvormType
@@ -4145,7 +4145,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class DatumStartType
@@ -4169,7 +4169,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeSoortOndernemingType
@@ -4209,7 +4209,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class SoortOndernemingType
@@ -4249,7 +4249,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeOndernemingOfVestigingType
@@ -4289,7 +4289,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingOfVestigingType
@@ -4313,7 +4313,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CodeAuthentiekBronType
@@ -4353,7 +4353,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class AuthentiekBronType
@@ -4395,7 +4395,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(OndernemingAlgemeenType))]
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Onderneming2_0Type))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingBasisType
@@ -4452,7 +4452,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     
     /// <remarks/>
     [System.Xml.Serialization.XmlIncludeAttribute(typeof(Onderneming2_0Type))]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class OndernemingAlgemeenType : OndernemingBasisType
@@ -4638,7 +4638,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class Onderneming2_0Type : OndernemingAlgemeenType
@@ -4815,7 +4815,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -4840,7 +4840,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -4898,7 +4898,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -4923,7 +4923,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -4981,7 +4981,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class PeriodeOptioneelType
@@ -5021,7 +5021,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaDatumsType
@@ -5046,7 +5046,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaOmschrijvingenType
@@ -5070,7 +5070,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaHoedanighedenType
@@ -5110,7 +5110,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaGerelateerdeOndernemingenType
@@ -5166,7 +5166,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaFunctiesType
@@ -5238,7 +5238,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaVestigingenType
@@ -5294,7 +5294,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://onderneming-02_00.vip.vlaanderen.be")]
     public partial class CriteriaGeefOnderneming2_0Type
@@ -5622,7 +5622,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -5663,7 +5663,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -5704,7 +5704,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -5729,7 +5729,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class OntvangerAdresType
@@ -5833,7 +5833,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(Namespace="http://generiek-02_00.vip.vlaanderen.be")]
     public partial class AfzenderAdresType
@@ -5937,7 +5937,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     /// <remarks/>
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.Diagnostics.DebuggerStepThroughAttribute()]
     [System.Xml.Serialization.XmlTypeAttribute(AnonymousType=true, Namespace="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be" +
         "")]
@@ -5962,7 +5962,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     internal partial class GeefOndernemingRequest
     {
@@ -5982,7 +5982,7 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     [System.ServiceModel.MessageContractAttribute(IsWrapped=false)]
     internal partial class GeefOndernemingResponse1
     {
@@ -6001,13 +6001,13 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
         }
     }
     
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     internal interface OndernemingGeefOndernemingPortTypeChannel : AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType, System.ServiceModel.IClientChannel
     {
     }
     
     [System.Diagnostics.DebuggerStepThroughAttribute()]
-    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.0.3")]
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Tools.ServiceModel.Svcutil", "2.1.0")]
     internal partial class OndernemingGeefOndernemingPortTypeClient : System.ServiceModel.ClientBase<AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType>, AssociationRegistry.Magda.Onderneming.GeefOnderneming.OndernemingGeefOndernemingPortType
     {
         
@@ -6059,11 +6059,6 @@ namespace AssociationRegistry.Magda.Onderneming.GeefOnderneming
         public virtual System.Threading.Tasks.Task OpenAsync()
         {
             return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginOpen(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndOpen));
-        }
-        
-        public virtual System.Threading.Tasks.Task CloseAsync()
-        {
-            return System.Threading.Tasks.Task.Factory.FromAsync(((System.ServiceModel.ICommunicationObject)(this)).BeginClose(null, null), new System.Action<System.IAsyncResult>(((System.ServiceModel.ICommunicationObject)(this)).EndClose));
         }
         
         private static System.ServiceModel.Channels.Binding GetBindingForEndpoint(EndpointConfiguration endpointConfiguration)
