@@ -1,3 +1,10 @@
+## [8.98.12](https://github.com/informatievlaanderen/association-registry/compare/v8.98.11...v8.98.12) (2024-05-30)
+
+
+### Bug Fixes
+
+* or-1566 add NPE checks ([1232f07](https://github.com/informatievlaanderen/association-registry/commit/1232f07c714f2cbacf4201e5a77d9da6faf611e0))
+
 ## [8.98.11](https://github.com/informatievlaanderen/association-registry/compare/v8.98.10...v8.98.11) (2024-05-30)
 
 
