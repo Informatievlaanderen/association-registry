@@ -1,3 +1,15 @@
+## [8.98.15](https://github.com/informatievlaanderen/association-registry/compare/v8.98.14...v8.98.15) (2024-05-30)
+
+
+### Bug Fixes
+
+* or-1566 use handler directly ([9ba30a2](https://github.com/informatievlaanderen/association-registry/commit/9ba30a29658c3f4b69bff50b1324b96b00b6fca0))
+
+
+### Reverts
+
+* Revert "fix: or-1566 use method injection" ([1240a57](https://github.com/informatievlaanderen/association-registry/commit/1240a57149bb097361ec676f3148fde02e708b3a))
+
 ## [8.98.14](https://github.com/informatievlaanderen/association-registry/compare/v8.98.13...v8.98.14) (2024-05-30)
 
 
