@@ -1,3 +1,10 @@
+## [8.98.14](https://github.com/informatievlaanderen/association-registry/compare/v8.98.13...v8.98.14) (2024-05-30)
+
+
+### Bug Fixes
+
+* or-1566 use method injection ([b6e9968](https://github.com/informatievlaanderen/association-registry/commit/b6e99681126ff988236738d9f4600dc0ef08d26a))
+
 ## [8.98.13](https://github.com/informatievlaanderen/association-registry/compare/v8.98.12...v8.98.13) (2024-05-30)
 
 

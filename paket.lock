@@ -943,7 +943,7 @@ NUGET
     Weasel.Postgresql (7.4.1)
       Npgsql (>= 8.0.3)
       Weasel.Core (>= 7.4.1)
-    WolverineFx (2.10)
+    WolverineFx (2.9)
       FastExpressionCompiler (>= 4.1)
       JasperFx.CodeGeneration.Commands (>= 3.5.2)
       JasperFx.Core (>= 1.5.1)
