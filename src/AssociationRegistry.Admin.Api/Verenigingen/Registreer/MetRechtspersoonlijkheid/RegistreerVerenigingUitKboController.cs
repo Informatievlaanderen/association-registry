@@ -32,15 +32,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 public class RegistreerVerenigingUitKboController : ApiController
 {
     private readonly AppSettings _appSettings;
-    private readonly IMessageBus _bus;
     private readonly IValidator<RegistreerVerenigingUitKboRequest> _validator;
 
     public RegistreerVerenigingUitKboController(
-        IMessageBus bus,
         IValidator<RegistreerVerenigingUitKboRequest> validator,
         AppSettings appSettings)
     {
-        _bus = bus;
         _validator = validator;
         _appSettings = appSettings;
     }
@@ -82,6 +79,7 @@ public class RegistreerVerenigingUitKboController : ApiController
     public async Task<IActionResult> Post(
         [FromBody] RegistreerVerenigingUitKboRequest? request,
         [FromServices] ICommandMetadataProvider commandMetadataProvider,
+        [FromServices] RegistreerVerenigingUitKboCommandHandler handler,
         [FromServices] InitiatorProvider initiator)
     {
         await _validator.NullValidateAndThrowAsync(request);
@@ -90,7 +88,7 @@ public class RegistreerVerenigingUitKboController : ApiController
 
         var metadata = commandMetadataProvider.GetMetadata();
         var envelope = new CommandEnvelope<RegistreerVerenigingUitKboCommand>(command, metadata);
-        var registratieResult = await _bus.InvokeAsync<Result>(envelope);
+        var registratieResult = await handler.Handle(envelope);
 
         return registratieResult switch
         {
