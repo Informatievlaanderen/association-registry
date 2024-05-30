@@ -14,10 +14,12 @@ using Relatie = ResponseModels.Relatie;
 public class SearchVerenigingenResponseMapper
 {
     private readonly AppSettings _appSettings;
+    private readonly ILogger<SearchVerenigingenResponseMapper> _logger;
 
-    public SearchVerenigingenResponseMapper(AppSettings appSettings)
+    public SearchVerenigingenResponseMapper(AppSettings appSettings, ILogger<SearchVerenigingenResponseMapper> logger)
     {
         _appSettings = appSettings;
+        _logger = logger;
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
@@ -106,12 +108,19 @@ public class SearchVerenigingenResponseMapper
             },
         };
 
-    private static HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
+    private HoofdactiviteitVerenigingsloketFacetItem[] GetHoofdActiviteitFacets(
         AppSettings appSettings,
         ISearchResponse<VerenigingZoekDocument> searchResponse,
         string originalQuery,
         string[] hoofdactiviteiten)
     {
+        if(appSettings is null) throw new ArgumentException("Search response is null", nameof(appSettings));
+        if(searchResponse is null) throw new ArgumentException("Search response is null", nameof(searchResponse));
+        if(searchResponse.Aggregations is null) throw new ArgumentException("Search response is null", nameof(searchResponse.Aggregations));
+
+        _logger.LogInformation($"Original query: {originalQuery}");
+        _logger.LogInformation(string.Join(", ", hoofdactiviteiten));
+
         return searchResponse.Aggregations
                              .Filter(WellknownFacets.GlobalAggregateName)
                              .Filter(WellknownFacets.FilterAggregateName)
