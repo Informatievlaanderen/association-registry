@@ -73,7 +73,7 @@ public static class WolverineExtensions
                         })
                        .MaximumParallelMessages(1);
 
-                options.LogMessageStarting(LogLevel.Information);
+                options.LogMessageStarting(LogLevel.Trace);
                 Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);
             });
     }

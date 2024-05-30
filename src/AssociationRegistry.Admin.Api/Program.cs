@@ -370,7 +370,7 @@ public class Program
                .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
                .AddTransient<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddTransient<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
-               .AddTransient<IMagdaClient, MagdaClient>()
+               .AddScoped<IMagdaClient, MagdaClient>()
                .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
