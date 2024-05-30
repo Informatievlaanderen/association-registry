@@ -1,3 +1,10 @@
+## [8.98.16](https://github.com/informatievlaanderen/association-registry/compare/v8.98.15...v8.98.16) (2024-05-30)
+
+
+### Bug Fixes
+
+* or-1566 add logger and some checks to verenigingen response mapper ([63797ac](https://github.com/informatievlaanderen/association-registry/commit/63797aced6ed01007fcfab1e14db7cbc090fbe1d))
+
 ## [8.98.15](https://github.com/informatievlaanderen/association-registry/compare/v8.98.14...v8.98.15) (2024-05-30)
 
 
