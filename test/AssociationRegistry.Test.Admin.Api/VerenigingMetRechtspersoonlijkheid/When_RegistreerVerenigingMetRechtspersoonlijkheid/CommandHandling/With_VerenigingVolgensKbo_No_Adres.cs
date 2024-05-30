@@ -46,17 +46,18 @@ public class With_VerenigingVolgensKbo_No_Adres
 
         _command = new RegistreerVerenigingUitKboCommand(KboNummer: _verenigingVolgensKbo.KboNummer);
 
-        var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            _verenigingRepositoryMock,
-            _vCodeService,
-            new MagdaGeefVerenigingNumberFoundServiceMock(
-                _verenigingVolgensKbo
-            ),
-            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance);
+        var commandHandler = new RegistreerVerenigingUitKboCommandHandler();
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata),
+                   _verenigingRepositoryMock,
+                   _vCodeService,
+                   new MagdaGeefVerenigingNumberFoundServiceMock(
+                       _verenigingVolgensKbo
+                   ),
+                   new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+                   NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance,
+                   CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }

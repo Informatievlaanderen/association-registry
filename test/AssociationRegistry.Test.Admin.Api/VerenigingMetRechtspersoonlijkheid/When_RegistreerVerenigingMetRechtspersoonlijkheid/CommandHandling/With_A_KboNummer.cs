@@ -51,15 +51,16 @@ public class With_A_KboNummer
         var commandHandlerLogger = _loggerFactory.CreateLogger<RegistreerVerenigingUitKboCommandHandler>();
 
         var commandHandler = new RegistreerVerenigingUitKboCommandHandler(
-            _verenigingRepositoryMock,
-            _vCodeService,
-            new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
-            new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
-            commandHandlerLogger
         );
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingUitKboCommand>(_command, commandMetadata),
+                               _verenigingRepositoryMock,
+                               _vCodeService,
+                               new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
+                               new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+                               commandHandlerLogger,
+                               CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }
