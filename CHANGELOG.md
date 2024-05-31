@@ -1,3 +1,11 @@
+## [8.98.18](https://github.com/informatievlaanderen/association-registry/compare/v8.98.17...v8.98.18) (2024-05-31)
+
+
+### Bug Fixes
+
+* or-1566 throw when search response is not valid ([e81900d](https://github.com/informatievlaanderen/association-registry/commit/e81900d2c94857f7d93a4a80f9e7b57eef07e819))
+* or-1566 throw when search response is not valid ([e51a6fa](https://github.com/informatievlaanderen/association-registry/commit/e51a6fa750688b663e1159dd0eeae9365bac3e37))
+
 ## [8.98.17](https://github.com/informatievlaanderen/association-registry/compare/v8.98.16...v8.98.17) (2024-05-31)
 
 
