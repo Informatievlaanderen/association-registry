@@ -114,20 +114,26 @@ public class SearchVerenigingenResponseMapper
         string originalQuery,
         string[] hoofdactiviteiten)
     {
-        if(appSettings is null) throw new ArgumentException("Search response is null", nameof(appSettings));
-        if(searchResponse is null) throw new ArgumentException("Search response is null", nameof(searchResponse));
-        if(searchResponse.Aggregations is null) throw new ArgumentException("Search response is null", nameof(searchResponse.Aggregations));
+        if (appSettings is null) throw new ArgumentException("Search response is null", nameof(appSettings));
+        if (searchResponse is null) throw new ArgumentException("Search response is null", nameof(searchResponse));
+
+        if (searchResponse.Aggregations is null)
+            throw new ArgumentException("Search response is null", nameof(searchResponse.Aggregations));
 
         _logger.LogInformation($"Original query: {originalQuery}");
         _logger.LogInformation(string.Join(", ", hoofdactiviteiten));
 
-        return searchResponse.Aggregations
-                             .Filter(WellknownFacets.GlobalAggregateName)
-                             .Filter(WellknownFacets.FilterAggregateName)
-                             .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
-                             .Buckets
-                             .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
-                             .ToArray();
+        var buckets = searchResponse.Aggregations
+                                    .Filter(WellknownFacets.GlobalAggregateName)
+                                    .Filter(WellknownFacets.FilterAggregateName)
+                                    .Terms(WellknownFacets.HoofdactiviteitenCountAggregateName)
+                                    .Buckets;
+
+        if (buckets is null) throw new ArgumentException("Search buckets is null", nameof(buckets));
+
+        return buckets
+              .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
+              .ToArray();
     }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(

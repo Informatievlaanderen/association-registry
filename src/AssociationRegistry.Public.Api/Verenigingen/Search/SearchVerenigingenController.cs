@@ -146,6 +146,12 @@ public class SearchVerenigingenController : ApiController
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
 
+        if (searchResponse.IsValid)
+        {
+            logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
+            throw searchResponse.OriginalException;
+        }
+
         var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
