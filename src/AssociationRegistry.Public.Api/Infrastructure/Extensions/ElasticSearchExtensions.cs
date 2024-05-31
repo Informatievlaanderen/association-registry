@@ -37,6 +37,7 @@ public static class ElasticSearchExtensions
                       .BasicAuthentication(
                            elasticSearchOptions.Username,
                            elasticSearchOptions.Password)
+                      .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)

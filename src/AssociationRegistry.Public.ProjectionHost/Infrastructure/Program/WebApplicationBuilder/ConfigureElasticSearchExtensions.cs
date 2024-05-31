@@ -26,6 +26,7 @@ public static class ConfigureElasticSearchExtensions
                       .BasicAuthentication(
                            elasticSearchOptions.Username,
                            elasticSearchOptions.Password)
+                      .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         var elasticClient = new ElasticClient(settings);
