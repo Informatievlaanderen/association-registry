@@ -1,3 +1,10 @@
+## [8.98.17](https://github.com/informatievlaanderen/association-registry/compare/v8.98.16...v8.98.17) (2024-05-31)
+
+
+### Bug Fixes
+
+* or-1566 temp disable es cert validation ([d9f8344](https://github.com/informatievlaanderen/association-registry/commit/d9f8344c60d9c336602a2ee8156b815cab6ccb68))
+
 ## [8.98.16](https://github.com/informatievlaanderen/association-registry/compare/v8.98.15...v8.98.16) (2024-05-30)
 
 
