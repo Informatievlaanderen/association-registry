@@ -1,3 +1,15 @@
+## [8.98.20](https://github.com/informatievlaanderen/association-registry/compare/v8.98.19...v8.98.20) (2024-06-03)
+
+
+### Bug Fixes
+
+* or-1566 don't use swagger for projection host ([ab03eae](https://github.com/informatievlaanderen/association-registry/commit/ab03eae93b40fdd889b8f2441a30e74f4a93c5bb))
+
+
+### Reverts
+
+* Revert "fix: or-1566 decrease log levels for public api" ([bbc490f](https://github.com/informatievlaanderen/association-registry/commit/bbc490f50bafe6bc4458b9e1adfcb3f07ccb640c))
+
 ## [8.98.19](https://github.com/informatievlaanderen/association-registry/compare/v8.98.18...v8.98.19) (2024-06-03)
 
 
