@@ -15,18 +15,16 @@ public static class ElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        var elasticClient = (IServiceProvider serviceProvider)
-            => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>());
+        services.AddSingleton<ElasticClient>(serviceProvider => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
+        services.AddSingleton<IElasticClient>(serviceProvider => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
 
         services.AddSingleton(serviceProvider =>
         {
-            var mapping = elasticClient(serviceProvider).Indices.GetMapping<VerenigingZoekDocument>();
+            var client = serviceProvider.GetRequiredService<IElasticClient>();
+            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
 
             return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
         });
-
-        services.AddSingleton(serviceProvider => elasticClient(serviceProvider));
-        services.AddSingleton<IElasticClient>(serviceProvider => serviceProvider.GetRequiredService<ElasticClient>());
 
         return services;
     }
@@ -40,7 +38,7 @@ public static class ElasticSearchExtensions
                      .CertificateFingerprint(elasticSearchOptions.Fingerprint)
                      .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
                       {
-                          logger.LogWarning("Policy errors: {Error}", arg4.ToString());
+                          logger.LogWarning("Policy errors: [{Cert}] {Error}", certificate.Subject, arg4.ToString());
                           return true;
                       })
                       .IncludeServerStackTraceOnError()
