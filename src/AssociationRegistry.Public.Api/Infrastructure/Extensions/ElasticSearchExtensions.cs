@@ -37,7 +37,13 @@ public static class ElasticSearchExtensions
                       .BasicAuthentication(
                            elasticSearchOptions.Username,
                            elasticSearchOptions.Password)
-                      .ServerCertificateValidationCallback((_, _, _, _) => true)
+                     .CertificateFingerprint(elasticSearchOptions.Fingerprint)
+                     .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
+                      {
+                          logger.LogWarning("Policy errors: {Error}", arg4.ToString());
+                          return true;
+                      })
+                      .IncludeServerStackTraceOnError()
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 
         if (elasticSearchOptions.EnableDevelopmentLogs)
@@ -47,14 +53,18 @@ public static class ElasticSearchExtensions
                                 {
                                     if (apiCallDetails.RequestBodyInBytes != null)
                                         logger.LogDebug(
-                                            message: "{HttpMethod} {Uri} \n {RequestBody}",
+                                            message: "ES Request: {HttpMethod} {Uri} \n {RequestBody}",
                                             apiCallDetails.HttpMethod,
                                             apiCallDetails.Uri,
                                             Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
 
                                     if (apiCallDetails.ResponseBodyInBytes != null)
-                                        logger.LogDebug(message: "Response: {ResponseBody}",
+                                        logger.LogDebug(message: "ES Response: {ResponseBody}",
                                                         Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
+
+                                    if (apiCallDetails.DebugInformation != null)
+                                        logger.LogDebug(message: "ES Debug: {ResponseBody}",
+                                                        apiCallDetails.DebugInformation);
                                 });
 
         return new ElasticClient(settings);
