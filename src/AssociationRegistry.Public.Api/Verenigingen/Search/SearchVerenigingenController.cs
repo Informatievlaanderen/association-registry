@@ -148,6 +148,7 @@ public class SearchVerenigingenController : ApiController
 
         if (!searchResponse.IsValid)
         {
+            logger.LogWarning("An exception occurred while trying to search: {Info}", searchResponse.DebugInformation);
             logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
             throw searchResponse.OriginalException;
         }
