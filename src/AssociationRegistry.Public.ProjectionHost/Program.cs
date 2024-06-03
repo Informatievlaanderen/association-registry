@@ -82,7 +82,7 @@ public class Program
 
         app.AddProjectionEndpoints(app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 
-        app.SetUpSwagger();
+        // app.SetUpSwagger();
         await app.EnsureElasticSearchIsInitialized();
         ConfigureHealtChecks(app);
 
