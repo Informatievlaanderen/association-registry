@@ -1,3 +1,10 @@
+## [8.98.24](https://github.com/informatievlaanderen/association-registry/compare/v8.98.23...v8.98.24) (2024-06-03)
+
+
+### Bug Fixes
+
+* or-1566 log even more ([87ecfbe](https://github.com/informatievlaanderen/association-registry/commit/87ecfbe2374c8142068d7533cc2b0f7f373e32c9))
+
 ## [8.98.23](https://github.com/informatievlaanderen/association-registry/compare/v8.98.22...v8.98.23) (2024-06-03)
 
 
