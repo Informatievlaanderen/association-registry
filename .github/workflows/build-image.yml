@@ -195,7 +195,7 @@ jobs:
 
       - name: Retrieve SSL certificate
         run: |
-          openssl s_client -showcerts -servername $ELASTIC_HOST -connect $ELASTIC_HOST:9243 </dev/null 2>/dev/null | openssl x509 -outform PEM > mycert.crt
+          openssl s_client -showcerts -servername ${{ secrets.ELASTIC_HOST }} -connect ${{ secrets.ELASTIC_HOST }}:9243 </dev/null 2>/dev/null | openssl x509 -outform PEM > mycert.crt
         env:
           ELASTIC_HOST: ${{ secrets.ELASTIC_HOST }}
 
