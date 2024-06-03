@@ -58,6 +58,12 @@ jobs:
         run: |
           df -h
 
+      - name: Retrieve SSL certificate
+        run: |
+          openssl s_client -showcerts -servername ${{ secrets.ELASTIC_HOST }} -connect ${{ secrets.ELASTIC_HOST }}:9243 </dev/null 2>/dev/null | openssl x509 -outform PEM > mycert.crt
+        env:
+          ELASTIC_HOST: ${{ secrets.ELASTIC_HOST }}
+
       - name: Checkout Code
         uses: actions/checkout@v4
 
@@ -192,12 +198,6 @@ jobs:
           pushd src/${{ inputs.build-project }}
           dotnet publish -c Release -o ../../dist/${{ inputs.build-project }}/linux --no-build --no-restore --runtime 'linux-x64' --self-contained -f net8.0
           popd
-
-      - name: Retrieve SSL certificate
-        run: |
-          openssl s_client -showcerts -servername ${{ secrets.ELASTIC_HOST }} -connect ${{ secrets.ELASTIC_HOST }}:9243 </dev/null 2>/dev/null | openssl x509 -outform PEM > mycert.crt
-        env:
-          ELASTIC_HOST: ${{ secrets.ELASTIC_HOST }}
 
       - name: Containerize Api
         shell: bash

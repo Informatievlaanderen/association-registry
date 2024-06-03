@@ -39,6 +39,7 @@ public static class ElasticSearchExtensions
                      .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
                       {
                           logger.LogWarning("Policy errors: [{Cert}] {Error}", certificate.Subject, arg4.ToString());
+
                           return true;
                       })
                       .IncludeServerStackTraceOnError()
