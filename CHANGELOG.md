@@ -1,3 +1,10 @@
+## [8.98.21](https://github.com/informatievlaanderen/association-registry/compare/v8.98.20...v8.98.21) (2024-06-03)
+
+
+### Bug Fixes
+
+* or-1566 add more logging and fingerprint ([f994592](https://github.com/informatievlaanderen/association-registry/commit/f9945921c79b685e18a066fb1e9a7ac0788de74e))
+
 ## [8.98.20](https://github.com/informatievlaanderen/association-registry/compare/v8.98.19...v8.98.20) (2024-06-03)
 
 
