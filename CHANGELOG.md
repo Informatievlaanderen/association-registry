@@ -1,3 +1,14 @@
+## [8.98.23](https://github.com/informatievlaanderen/association-registry/compare/v8.98.22...v8.98.23) (2024-06-03)
+
+
+### Bug Fixes
+
+* or-1566 add cert to trust store ([c8b7bd2](https://github.com/informatievlaanderen/association-registry/commit/c8b7bd22a4f983664649759c636ea9221b21b0cd))
+* or-1566 cp cert to dist folder ([2fdc9c3](https://github.com/informatievlaanderen/association-registry/commit/2fdc9c39402fe4e3ff11da4da0a3ebda25888a86))
+* or-1566 fix env var ([de5c229](https://github.com/informatievlaanderen/association-registry/commit/de5c229646bec9760200ea8927c9405c5621b763))
+* or-1566 move cert action higher up ([bae483b](https://github.com/informatievlaanderen/association-registry/commit/bae483bf53febf67ac9edcff7dbfdcd423a3020b))
+* or-1566 use secret directly ([ceed153](https://github.com/informatievlaanderen/association-registry/commit/ceed1536c7291347937e80630d1cf47ab89f1d4a))
+
 ## [8.98.22](https://github.com/informatievlaanderen/association-registry/compare/v8.98.21...v8.98.22) (2024-06-03)
 
 
