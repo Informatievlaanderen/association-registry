@@ -3,10 +3,13 @@
 using ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Identity.Client;
 using Nest;
 using Schema;
 using Schema.Search;
 using System;
+using System.Net.Security;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 public static class ElasticSearchExtensions
@@ -31,14 +34,23 @@ public static class ElasticSearchExtensions
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
-        var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
+        var settings = new ConnectionSettings(
+                           new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
                            elasticSearchOptions.Username,
                            elasticSearchOptions.Password)
-                     .CertificateFingerprint(elasticSearchOptions.Fingerprint)
                      .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
                       {
-                          logger.LogWarning("Policy errors: [{Cert}] {Error}", certificate.Subject, arg4.ToString());
+                          logger.LogWarning("Policy errors: [{Cert}|{Chain}] {Error}", certificate.Subject, arg3, arg4.ToString());
+                          logger.LogWarning("Policy object: {@Error}", o);
+
+                          if (arg4 != SslPolicyErrors.None)
+                          {
+                              logger.LogWarning(Convert.ToBase64String(certificate.Export(X509ContentType.Cert),
+                                                                       Base64FormattingOptions.InsertLineBreaks));
+
+                              LogCertificateDetails(certificate, arg3);
+                          }
 
                           return true;
                       })
@@ -67,5 +79,23 @@ public static class ElasticSearchExtensions
                                 });
 
         return new ElasticClient(settings);
+    }
+
+    private static void LogCertificateDetails(X509Certificate certificate, X509Chain chain)
+    {
+        if (certificate != null)
+        {
+            Console.WriteLine("Certificate Subject: " + certificate.Subject);
+            Console.WriteLine("Certificate Issuer: " + certificate.Issuer);
+        }
+
+        if (chain != null)
+        {
+            foreach (var chainElement in chain.ChainElements)
+            {
+                Console.WriteLine("Certificate Subject: " + chainElement.Certificate.Subject);
+                Console.WriteLine("Certificate Issuer: " + chainElement.Certificate.Issuer);
+            }
+        }
     }
 }
