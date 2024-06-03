@@ -6,6 +6,12 @@ LABEL registry="association-registry"
 COPY / /app
 WORKDIR /app
 
+# Copy the certificate file into the container
+COPY mycert.crt /usr/local/share/ca-certificates/mycert.crt
+
+# Update the CA certificates store
+RUN update-ca-certificates
+
 RUN apt-get update && \
     apt-get install curl jq -y && \
     chmod +x ./init.sh
