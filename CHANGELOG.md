@@ -1,3 +1,10 @@
+## [8.98.22](https://github.com/informatievlaanderen/association-registry/compare/v8.98.21...v8.98.22) (2024-06-03)
+
+
+### Bug Fixes
+
+* or-1566 add more logging, and use non-func singleton for elastic client ([675d964](https://github.com/informatievlaanderen/association-registry/commit/675d964bd67ca131d05662651738338429090c7e))
+
 ## [8.98.21](https://github.com/informatievlaanderen/association-registry/compare/v8.98.20...v8.98.21) (2024-06-03)
 
 
