@@ -48,8 +48,6 @@ public class With_No_Changes
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
-                                                       Mock.Of<IMartenOutbox>(),
-                                                       Mock.Of<IDocumentSession>(),
                                                        _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
@@ -125,8 +123,6 @@ public class With_FailureResultFromMagda
 
         var commandHandler = new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                                        _magdaGeefVerenigingService.Object,
-                                                       Mock.Of<IMartenOutbox>(),
-                                                       Mock.Of<IDocumentSession>(),
                                                        _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 

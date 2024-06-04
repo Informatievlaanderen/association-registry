@@ -18,23 +18,17 @@ public class SyncKboCommandHandler
 {
     private readonly IMagdaRegistreerInschrijvingService _registreerInschrijvingService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
-    private readonly IMartenOutbox _outbox;
-    private readonly IDocumentSession _session;
     private readonly INotifier _notifier;
     private readonly ILogger<SyncKboCommandHandler> _logger;
 
     public SyncKboCommandHandler(
         IMagdaRegistreerInschrijvingService registreerInschrijvingService,
         IMagdaGeefVerenigingService magdaGeefVerenigingService,
-        IMartenOutbox outbox,
-        IDocumentSession session,
         INotifier notifier,
         ILogger<SyncKboCommandHandler> logger)
     {
         _registreerInschrijvingService = registreerInschrijvingService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
-        _outbox = outbox;
-        _session = session;
         _notifier = notifier;
         _logger = logger;
     }

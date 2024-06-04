@@ -45,8 +45,6 @@ public class With_A_Different_StartDatum
         var commandHandler =
             new SyncKboCommandHandler(Mock.Of<IMagdaRegistreerInschrijvingService>(),
                                       new MagdaGeefVerenigingNumberFoundServiceMock(verenigingVolgensKbo),
-                                      Mock.Of<IMartenOutbox>(),
-                                      Mock.Of<IDocumentSession>(),
                                       _notifierMock.Object,
                                       NullLogger<SyncKboCommandHandler>.Instance);
 
