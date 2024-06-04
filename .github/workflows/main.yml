@@ -384,7 +384,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup .NET Core
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
 
@@ -393,7 +393,7 @@ jobs:
         run: dotnet --info
 
       - name: Download NuGet package 'association-registry'
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry-${{ needs.release.outputs.version }}
           path: dist/nuget/
@@ -408,7 +408,7 @@ jobs:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
       - name: Download NuGet package 'association-registry-magda'
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.release.outputs.version }}
           path: dist/nuget
@@ -504,7 +504,7 @@ jobs:
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
       - name: Download Acm Api artifact
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: verenigingsregister-acmapi
           path: ~/
@@ -514,7 +514,7 @@ jobs:
         run: docker image load -i ~/ar-acm-api-image.tar
 
       - name: Download Public Api artifact
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: verenigingsregister-publicapi
           path: ~/
@@ -524,7 +524,7 @@ jobs:
         run: docker image load -i ~/ar-public-api-image.tar
 
       - name: Download Public Projections artifact
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: verenigingsregister-publicprojections
           path: ~/
@@ -534,7 +534,7 @@ jobs:
         run: docker image load -i ~/ar-public-projections-image.tar
 
       - name: Download Admin Api artifact
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: verenigingsregister-adminapi
           path: ~/
@@ -544,7 +544,7 @@ jobs:
         run: docker image load -i ~/ar-admin-api-image.tar
 
       - name: Download Admin Projections artifact
-        uses: actions/download-artifact@v4.1.4
+        uses: actions/download-artifact@v4
         with:
           name: verenigingsregister-adminprojections
           path: ~/
