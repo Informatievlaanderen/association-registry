@@ -20,8 +20,11 @@ dependencies
     Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic >= LOCKEDVERSION
     Result.Net >= LOCKEDVERSION
     Marten >= LOCKEDVERSION
+    Polly >= LOCKEDVERSION
     WolverineFx >= LOCKEDVERSION
     WolverineFx.AmazonSqs >= LOCKEDVERSION
+    WolverineFx.Marten >= LOCKEDVERSION
+    CompareNETObjects >= LOCKEDVERSION
 
 files
 
