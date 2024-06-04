@@ -1,3 +1,10 @@
+## [8.98.26](https://github.com/informatievlaanderen/association-registry/compare/v8.98.25...v8.98.26) (2024-06-04)
+
+
+### Bug Fixes
+
+* or-1566 added missing reference to WolverineFx.Marten inside NuGet package ([cec0c4d](https://github.com/informatievlaanderen/association-registry/commit/cec0c4daa3c856e6ea941036a3751e38224b0b34))
+
 ## [8.98.25](https://github.com/informatievlaanderen/association-registry/compare/v8.98.24...v8.98.25) (2024-06-04)
 
 
