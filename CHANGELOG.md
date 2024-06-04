@@ -1,3 +1,10 @@
+## [8.98.25](https://github.com/informatievlaanderen/association-registry/compare/v8.98.24...v8.98.25) (2024-06-04)
+
+
+### Bug Fixes
+
+* or-1566 update versions workflows ([fe7d269](https://github.com/informatievlaanderen/association-registry/commit/fe7d269ccbbd8f6f1225fe91791ffee14590d237))
+
 ## [8.98.24](https://github.com/informatievlaanderen/association-registry/compare/v8.98.23...v8.98.24) (2024-06-03)
 
 
