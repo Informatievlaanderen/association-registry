@@ -45,8 +45,6 @@ public class With_No_Changes_ReedsIngeschreven
         var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
-                                                       Mock.Of<IMartenOutbox>(),
-                                                       Mock.Of<IDocumentSession>(),
                                                        _notifierMock.Object,
                                                        NullLogger<SyncKboCommandHandler>.Instance);
 
