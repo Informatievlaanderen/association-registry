@@ -1,3 +1,10 @@
+# [8.99.0](https://github.com/informatievlaanderen/association-registry/compare/v8.98.26...v8.99.0) (2024-06-04)
+
+
+### Features
+
+* or-1566 remove redundant use of marten outbox ([12f9fc5](https://github.com/informatievlaanderen/association-registry/commit/12f9fc55ccde078570004873f32fd6465ecb0e8e))
+
 ## [8.98.26](https://github.com/informatievlaanderen/association-registry/compare/v8.98.25...v8.98.26) (2024-06-04)
 
 
