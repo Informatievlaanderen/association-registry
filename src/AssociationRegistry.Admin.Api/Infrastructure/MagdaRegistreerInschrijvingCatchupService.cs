@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using Amazon.SQS;
 using AWS;
 using ConfigurationBindings;
 using Events;
@@ -10,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschrijvingCatchupService

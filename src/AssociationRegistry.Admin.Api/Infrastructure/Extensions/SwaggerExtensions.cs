@@ -7,7 +7,6 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using ConfigurationBindings;
 using Documentation;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Primitives;

@@ -1,15 +1,20 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
+using Destructurama;
+using global::OpenTelemetry;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using Serilog;
+using Serilog.Sinks.OpenTelemetry;
 using System.Reflection;
 
 public static class ServiceCollectionExtensions
@@ -18,6 +23,52 @@ public static class ServiceCollectionExtensions
     private const string XCorrelationIdHeaderName = "X-Correlation-Id";
     private const string BevestigingsTokenHeaderName = "VR-BevestigingsToken";
 
+    private static ILoggingBuilder ConfigureOpenTelemetryLogging(this IHostApplicationBuilder builder)
+    {
+        builder.Logging.ClearProviders();
+
+        var loggerConfig =
+            new LoggerConfiguration()
+               .Destructure.JsonNetTypes()
+               .ReadFrom.Configuration(builder.Configuration)
+               .Enrich.FromLogContext()
+               .Enrich.WithMachineName()
+               .Enrich.WithThreadId()
+               .Enrich.WithEnvironmentUserName()
+               .MinimumLevel.Information()
+               .WriteTo.OpenTelemetry(options =>
+                {
+                    var (serviceName, collectorUrl, configureResource) = ServiceCollectionExtensions.GetResources();
+                    options.Endpoint = collectorUrl;
+                    options.Protocol = OtlpProtocol.Grpc;
+                    var executingAssembly = Assembly.GetEntryAssembly()!;
+                    var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
+
+                    options.IncludedData = IncludedData.MessageTemplateTextAttribute |
+                                           IncludedData.TraceIdField | IncludedData.SpanIdField | IncludedData.SourceContextAttribute;
+
+                    options.HttpMessageHandler = new SocketsHttpHandler { ActivityHeadersPropagator = null };
+                    options.BatchingOptions.BatchSizeLimit = 700;
+                    options.BatchingOptions.Period = TimeSpan.FromSeconds(1);
+                    options.BatchingOptions.QueueLimit = 10;
+
+                    options.ResourceAttributes = new Dictionary<string, object>
+                    {
+                        ["service.name"] = serviceName,
+                        ["service.version"] = assemblyVersion,
+                        ["service.instanceId"] = Environment.MachineName,
+                        ["service.name"] = serviceName,
+
+                        ["deployment.environment"] =
+                            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                                      ?.ToLowerInvariant()
+                         ?? "unknown",
+
+                    };
+                });
+        Log.Logger = loggerConfig.CreateLogger();
+        return builder.Logging.AddSerilog();
+    }
     public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
         where T : class, IInstrumentation
     {
@@ -30,20 +81,7 @@ public static class ServiceCollectionExtensions
             services.AddSingleton(instrumentation);
         }
 
-        builder.Logging.AddOpenTelemetry(logging =>
-        {
-            var resourceBuilder = ResourceBuilder
-                                 .CreateDefault()
-                                 .AddService(builder.Environment.ApplicationName);
-
-            logging.SetResourceBuilder(resourceBuilder)
-                   .AddOtlpExporter((options, processorOptions) =>
-                    {
-                        options.Endpoint = new Uri(collectorUrl);
-                        options.Protocol = OtlpExportProtocol.Grpc;
-                    });
-        });
-
+        builder.ConfigureOpenTelemetryLogging();
         return services.AddOpenTelemetry()
                        .ConfigureResource(configureResource)
                        .WithMetrics(providerBuilder => providerBuilder
@@ -91,7 +129,7 @@ public static class ServiceCollectionExtensions
                        .Services;
     }
 
-    private static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()
+    public static (string serviceName, string collectorUrl, Action<ResourceBuilder> configureResource) GetResources()
     {
         var executingAssembly = Assembly.GetEntryAssembly()!;
         var serviceName = executingAssembly.GetName().Name!;

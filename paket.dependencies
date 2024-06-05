@@ -13,7 +13,7 @@ nuget Be.Vlaanderen.Basisregisters.Build.Pipeline
 nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 nuget Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
 
-nuget Destructurama.JsonNet 2.0.0
+nuget Destructurama.JsonNet
 
 nuget FluentAssertions
 nuget FluentAssertions.Json
@@ -44,7 +44,6 @@ nuget OpenTelemetry.Extensions.Hosting
 nuget OpenTelemetry.Instrumentation.AspNetCore
 nuget OpenTelemetry.Instrumentation.Http
 nuget OpenTelemetry.Instrumentation.Runtime
-
 
 nuget Polly
 nuget Result.Net 1.4.0
@@ -79,10 +78,13 @@ nuget NodaTime.Serialization.JsonNet
 nuget Serilog.Formatting.Compact
 nuget Serilog.Enrichers.Environment
 nuget Serilog.Enrichers.Thread
+nuget Serilog.Enrichers.Sensitive
+nuget Serilog.Enrichers.ClientInfo
 nuget Serilog.Extensions.Logging
 nuget Serilog.Settings.Configuration
 nuget Serilog.Sinks.Console
 nuget Serilog.Sinks.File
+nuget Serilog.Sinks.OpenTelemetry
 nuget FluentValidation
 
 nuget System.ServiceModel.Duplex 6.0.0
