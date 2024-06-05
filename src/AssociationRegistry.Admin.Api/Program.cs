@@ -13,7 +13,6 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
-using Destructurama;
 using DuplicateDetection;
 using DuplicateVerenigingDetection;
 using Events;
@@ -56,7 +55,10 @@ using Notifications;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
+using Serilog.Core;
 using Serilog.Debugging;
+using Serilog.Sinks.OpenTelemetry;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -94,15 +96,12 @@ public class Program
         ConfigureJsonSerializerSettings();
         ConfigureAppDomainExceptions();
 
-        ConfigereKestrel(builder);
-        ConfigureLogger(builder);
+        ConfigureKestrel(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
-
-        Log.Logger.Error("Created logger");
 
         builder.AddWolverine();
 
@@ -499,9 +498,9 @@ public class Program
 
         var healthChecksBuilder = builder.Services.AddHealthChecks();
 
-        var connectionStrings = builder.Configuration
-                                       .GetSection("ConnectionStrings")
-                                       .GetChildren();
+        // var connectionStrings = builder.Configuration
+        //                                .GetSection("ConnectionStrings")
+        //                                .GetChildren();
 
         // foreach (var connectionString in connectionStrings)
         // {
@@ -591,23 +590,7 @@ public class Program
     private static void ConfigureWebHost(WebApplicationBuilder builder)
         => builder.WebHost.CaptureStartupErrors(captureStartupErrors: true);
 
-    private static void ConfigureLogger(WebApplicationBuilder builder)
-    {
-        var loggerConfig =
-            new LoggerConfiguration()
-               .ReadFrom.Configuration(builder.Configuration)
-               .Enrich.FromLogContext()
-               .Enrich.WithMachineName()
-               .Enrich.WithThreadId()
-               .Enrich.WithEnvironmentUserName()
-               .Destructure.JsonNetTypes();
-
-        var logger = loggerConfig.CreateLogger();
-
-        Log.Logger = logger;
-    }
-
-    private static void ConfigereKestrel(WebApplicationBuilder builder)
+    private static void ConfigureKestrel(WebApplicationBuilder builder)
     {
         builder.WebHost.ConfigureKestrel(
             options =>

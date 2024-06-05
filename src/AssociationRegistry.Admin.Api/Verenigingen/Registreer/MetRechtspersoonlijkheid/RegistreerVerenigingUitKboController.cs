@@ -21,7 +21,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Threading.Tasks;
 using Vereniging;
-using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 

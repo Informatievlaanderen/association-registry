@@ -6,4 +6,14 @@ OpenTelemetry.Instrumentation.Http
 OpenTelemetry.Instrumentation.Runtime
 Npgsql.OpenTelemetry
 OpenTelemetry.Exporter.OpenTelemetryProtocol
-OpenTelemetry
+Serilog
+Serilog.Enrichers.Environment
+Serilog.Enrichers.Thread
+Serilog.Enrichers.Sensitive
+Serilog.Enrichers.ClientInfo
+Serilog.Extensions.Logging
+Serilog.Settings.Configuration
+Serilog.Sinks.Console
+Serilog.Sinks.File
+Serilog.Sinks.OpenTelemetry
+Destructurama.JsonNet
