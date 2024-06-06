@@ -23,6 +23,16 @@ public static class ConfigurationExtensions
 
         return postgreSqlOptionsSection!;
     }
+    public static AddressKafkaConsumerOptionsSection GetAddressKafkaConsumerOptionsSection(this IConfiguration configuration)
+    {
+        var addressKafkaConsumerOptionsSection = configuration
+                                                .GetSection(AddressKafkaConsumerOptionsSection.SectionName)
+                                                .Get<AddressKafkaConsumerOptionsSection>();
+
+        addressKafkaConsumerOptionsSection.ThrowIfInvalid();
+
+        return addressKafkaConsumerOptionsSection!;
+    }
 
     public static AddressMatchOptionsSection GetAddressMatchOptionsSection(this IConfiguration configuration)
     {
@@ -44,6 +54,22 @@ public static class ConfigurationExtensions
         grarOptionsSection.ThrowIfInvalid();
 
         return grarOptionsSection!;
+    }
+
+    private static void ThrowIfInvalid(this AddressKafkaConsumerOptionsSection? addressKafkaConsumerOptionsSection)
+    {
+        const string sectionName = nameof(AddressMatchOptionsSection);
+
+        if (addressKafkaConsumerOptionsSection == null)
+            throw new ArgumentNullException(nameof(addressKafkaConsumerOptionsSection));
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(addressKafkaConsumerOptionsSection.Username,
+                               $"{sectionName}.{nameof(AddressKafkaConsumerOptionsSection.Username)}");
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(addressKafkaConsumerOptionsSection.Password,
+                               $"{sectionName}.{nameof(AddressKafkaConsumerOptionsSection.Password)}");
     }
 
     private static void ThrowIfInvalid(this AddressMatchOptionsSection? addressMatchOptionsSection)

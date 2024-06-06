@@ -1,4 +1,5 @@
 Be.Vlaanderen.Basisregisters.Api
+Be.Vlaanderen.Basisregisters.GrAr.Contracts
 IdentityModel.AspNetCore.OAuth2Introspection
 Marten.CommandLine
 Microsoft.AspNetCore.Authentication.JwtBearer
@@ -6,3 +7,4 @@ NEST
 SourceLink.Copy.PdbFiles
 SourceLink.Embed.AllSourceFiles
 WolverineFx.AmazonSqs
+Confluent.Kafka

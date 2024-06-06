@@ -29,6 +29,7 @@ using Infrastructure.ExceptionHandlers;
 using Infrastructure.Extensions;
 using Infrastructure.HttpClients;
 using Infrastructure.Json;
+using Infrastructure.Kafka;
 using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Kbo;
@@ -99,6 +100,7 @@ public class Program
         ConfigureKestrel(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
+        ConfigureHostedServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
@@ -585,6 +587,15 @@ public class Program
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
+    }
+
+    private static void ConfigureHostedServices(WebApplicationBuilder builder)
+    {
+        var addressKafkaConsumerOptionsSection = builder.Configuration.GetAddressKafkaConsumerOptionsSection();
+
+        builder.Services
+               .AddSingleton(new AddressKafkaConfiguration(addressKafkaConsumerOptionsSection))
+               .AddHostedService<AddressKafkaConsumer>();
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
