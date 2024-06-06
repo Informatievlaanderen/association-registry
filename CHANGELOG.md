@@ -1,3 +1,11 @@
+## [8.99.1](https://github.com/informatievlaanderen/association-registry/compare/v8.99.0...v8.99.1) (2024-06-06)
+
+
+### Bug Fixes
+
+* or-1566 remove unused enrichers ([e5bf09e](https://github.com/informatievlaanderen/association-registry/commit/e5bf09e9c06bd551a962f818c4c66c80af46cef3))
+* or-1566 unify logging with serilog ([9a3ecce](https://github.com/informatievlaanderen/association-registry/commit/9a3ecce15065a600ff8558a50cc1545bd38b20ed))
+
 # [8.99.0](https://github.com/informatievlaanderen/association-registry/compare/v8.98.26...v8.99.0) (2024-06-04)
 
 
