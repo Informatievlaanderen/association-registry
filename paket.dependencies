@@ -78,8 +78,6 @@ nuget NodaTime.Serialization.JsonNet
 nuget Serilog.Formatting.Compact
 nuget Serilog.Enrichers.Environment
 nuget Serilog.Enrichers.Thread
-nuget Serilog.Enrichers.Sensitive
-nuget Serilog.Enrichers.ClientInfo
 nuget Serilog.Extensions.Logging
 nuget Serilog.Settings.Configuration
 nuget Serilog.Sinks.Console
