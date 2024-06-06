@@ -45,6 +45,7 @@ nuget OpenTelemetry.Instrumentation.AspNetCore
 nuget OpenTelemetry.Instrumentation.Http
 nuget OpenTelemetry.Instrumentation.Runtime
 
+nuget Confluent.Kafka
 nuget Polly
 nuget Result.Net 1.4.0
 
@@ -53,6 +54,7 @@ nuget SourceLink.Copy.PdbFiles 2.8.3 copy_local: true
 
 nuget Scriban
 
+nuget Be.Vlaanderen.Basisregisters.GrAr.Contracts
 nuget Be.Vlaanderen.Basisregisters.AspNetCore.Swagger 5.0.0
 nuget Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc 5.0.0
 nuget Swashbuckle.AspNetCore.Swagger 6.2.3
