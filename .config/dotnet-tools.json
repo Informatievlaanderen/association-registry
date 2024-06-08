@@ -21,7 +21,7 @@
       ]
     },
     "jetbrains.dotcover.globaltool": {
-      "version": "2022.3.3",
+      "version": "2023.2.5",
       "commands": [
         "dotnet-dotcover"
       ]
