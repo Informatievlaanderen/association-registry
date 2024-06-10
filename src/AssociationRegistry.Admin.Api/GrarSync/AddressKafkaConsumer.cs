@@ -1,22 +1,12 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Kafka;
+﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using Constants;
-using Extensions;
-using Grar.AddressMatch;
 using IdentityModel;
+using Infrastructure.Extensions;
 using Marten;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using Wolverine.Marten;
 
 public class AddressKafkaConsumer : BackgroundService
 {
@@ -59,8 +49,8 @@ public class AddressKafkaConsumer : BackgroundService
 
                     switch (message)
                     {
-                        case AddressHouseNumberWasReaddressed addressHouseNumberWasReaddressed:
-                            _logger.LogInformation($"########## {nameof(AddressHouseNumberWasReaddressed)} found! ##########");
+                        case StreetNameWasReaddressed streetNameWasReaddressed:
+                            _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
                             _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Partition: {result.Partition}");
                             break;
                     }

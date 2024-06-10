@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Kafka;
+﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
 using System;
 
