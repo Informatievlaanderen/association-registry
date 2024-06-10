@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Kafka;
+﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
-using ConfigurationBindings;
 using Confluent.Kafka;
+using Infrastructure.ConfigurationBindings;
 using System;
 
 public class AddressKafkaConfiguration : ConsumerConfig
