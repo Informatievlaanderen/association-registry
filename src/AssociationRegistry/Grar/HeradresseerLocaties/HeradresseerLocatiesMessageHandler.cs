@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Acties.HeradresseerLocaties;
+namespace AssociationRegistry.Grar.HeradresseerLocaties;
 
-using Framework;
-using Grar;
-using Grar.Models;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging;
 
 public class HeradresseerLocatiesMessageHandler
 {
@@ -28,14 +28,14 @@ public class HeradresseerLocatiesMessageHandler
         await _repository.Save(vereniging, new CommandMetadata("", Instant.MinValue, Guid.NewGuid()), CancellationToken.None);
     }
 
-    private async Task<List<(int, AddressDetailResponse)>> FetchAddressesForLocaties(List<(int, string)> locatiesMetAdres)
+    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<LocatieIdWithAdresId> locatiesMetAdres)
     {
-        var locatiesWithAddresses = new List<(int, AddressDetailResponse)>();
+        var locatiesWithAddresses = new List<LocatieWithAdres>();
 
         foreach (var (locatieId, adresId) in locatiesMetAdres)
         {
             var adres = await _client.GetAddress(adresId);
-            locatiesWithAddresses.Add((locatieId, adres));
+            locatiesWithAddresses.Add(new LocatieWithAdres(locatieId, adres));
         }
 
         return locatiesWithAddresses;

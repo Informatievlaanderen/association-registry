@@ -234,7 +234,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public long Version => State.Version;
 
-    public void HeradresseerLocatie(List<(int, AddressDetailResponse)> locatiesMetAdressen, string idempotenceKey)
+    public void HeradresseerLocatie(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey)
     {
         if(State.HandledIdempotenceKey.Contains(idempotenceKey))
             return;

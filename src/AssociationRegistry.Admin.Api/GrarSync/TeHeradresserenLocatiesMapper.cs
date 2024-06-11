@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
-using Acties.HeradresseerLocaties;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 
 public class TeHeradresserenLocatiesMapper
 {
@@ -23,7 +24,7 @@ public class TeHeradresserenLocatiesMapper
                                      .GroupBy(doc => doc.VCode)
                                      .Select(g => new TeHeradresserenLocatiesMessage(
                                                  g.Key,
-                                                 g.Select(doc => (doc.LocatieId, doc.AdresId)).ToList(),
+                                                 g.Select(doc => new LocatieIdWithAdresId(doc.LocatieId, doc.AdresId)).ToList(),
                                                  idempotencyKey));
 
         return teHeradresserenLocaties;

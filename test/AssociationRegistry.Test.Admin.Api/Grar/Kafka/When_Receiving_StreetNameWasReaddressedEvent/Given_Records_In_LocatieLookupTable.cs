@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Grar.Kafka.When_Receiving_StreetNameWasReaddressedEvent;
 
-using Acties.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.GrarSync;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Grar.HeradresseerLocaties;
+using AssociationRegistry.Grar.Models;
 using Xunit;
 using FluentAssertions;
 
@@ -37,7 +38,7 @@ public class Given_LocatieLookup_Records
 
         result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>()
         {
-            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>() { (1, "123") }, "idempotencyKey")
+            new TeHeradresserenLocatiesMessage("VCode1", new List<LocatieIdWithAdresId>() { new(1, "123") }, "idempotencyKey")
         });
     }
 }
@@ -85,8 +86,8 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 
         result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>()
         {
-            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>() { (1, "123") }, "idempotencyKey"),
-            new TeHeradresserenLocatiesMessage("VCode2", new List<(int, string)>() { (1, "123"), (2, "123") }, "idempotencyKey")
+            new TeHeradresserenLocatiesMessage("VCode1", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "123") }, "idempotencyKey"),
+            new TeHeradresserenLocatiesMessage("VCode2", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "123"), new LocatieIdWithAdresId(2, "123") }, "idempotencyKey")
         });
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_Heradresseren_Locaties;
 
-using Acties.HeradresseerLocaties;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Events;
@@ -33,7 +33,7 @@ public class With_TeHeradressren_Locaties
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<(int, string)>() { (1, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(1, "123") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
@@ -72,7 +72,7 @@ public class With_Multiple_TeHeradressren_Locaties
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<(int, string)>() { (1, "123"), (2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new (1, "123"), new (2, "456") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
