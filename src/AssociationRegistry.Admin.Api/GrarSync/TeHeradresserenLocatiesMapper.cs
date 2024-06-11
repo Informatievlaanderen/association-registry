@@ -2,7 +2,6 @@
 
 using Acties.HeradresseerLocaties;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using Schema.Detail;
 
 public class TeHeradresserenLocatiesMapper
 {
@@ -34,9 +33,4 @@ public class TeHeradresserenLocatiesMapper
     {
         return Array.Empty<TeHeradresserenLocatiesMessage>();
     }
-}
-
-public interface ILocatieFinder
-{
-    public Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string adresId);
 }

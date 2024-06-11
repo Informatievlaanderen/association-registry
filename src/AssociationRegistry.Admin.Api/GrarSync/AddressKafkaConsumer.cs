@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
-using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using Constants;
