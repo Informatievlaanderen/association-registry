@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Grar;
 
+using AddressRegistry.Api.Oslo.Address.Detail;
 using Events;
 using Exceptions;
 using Microsoft.Extensions.Logging;
@@ -63,7 +64,8 @@ public class GrarClient : IGrarClient
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
-            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}", ex.Message);
+            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
+                             ex.Message);
 
             throw;
         }
@@ -117,6 +119,48 @@ public class GrarClient : IGrarClient
 
     public async Task<AddressDetailResponse> GetAddress(string adresId)
     {
-        throw new NotImplementedException();
+        111 //TODO: write tests
+        try
+        {
+            var response =
+                await _grarHttpClient.GetAddress(adresId, CancellationToken.None);
+
+            if (!response.IsSuccessStatusCode)
+                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
+
+            var addressDetailOsloResponse =
+                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync());
+
+            return new AddressDetailResponse(new Registratiedata.AdresId(
+                                                 Adresbron.AR.Code,
+                                                 addressDetailOsloResponse.Identificator.Id
+                                             ),
+                                             addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
+                                             addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                             addressDetailOsloResponse.Huisnummer,
+                                             addressDetailOsloResponse.Busnummer ?? "",
+                                             addressDetailOsloResponse.Postinfo.ObjectId,
+                                             addressDetailOsloResponse.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+            );
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, message: "{Message}", ex.Message);
+
+            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
+        }
+        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
+        {
+            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
+                             ex.Message);
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
+
+            throw new Exception(ex.Message, ex);
+        }
     }
 }
