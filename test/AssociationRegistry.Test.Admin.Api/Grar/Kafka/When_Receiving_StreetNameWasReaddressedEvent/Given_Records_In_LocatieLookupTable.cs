@@ -9,7 +9,6 @@ public class Given_LocatieLookup_Records
 {
     public Given_LocatieLookup_Records()
     {
-
     }
 
     [Fact]
@@ -37,7 +36,7 @@ public class Given_LocatieLookup_Records
 
         result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>()
         {
-            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>(){(1,"123")})
+            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>() { (1, "123") })
         });
     }
 }
@@ -46,7 +45,6 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 {
     public Given_Multiple_LocatieLookup_Records_For_The_Same_VCode()
     {
-
     }
 
     [Fact]
@@ -71,7 +69,13 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
                 VCode = "VCode2",
                 AdresId = "123",
                 LocatieId = 2
-            }
+            },
+            new LocatieLookupDocument()
+            {
+                VCode = "VCode2",
+                AdresId = "123",
+                LocatieId = 1
+            },
         });
 
         var sut = new TeHeradresserenLocatiesMapper(locatieFinder);
@@ -80,8 +84,8 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 
         result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>()
         {
-            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>(){(1,"123")}),
-            new TeHeradresserenLocatiesMessage("VCode2", new List<(int, string)>(){(2,"123")})
+            new TeHeradresserenLocatiesMessage("VCode1", new List<(int, string)>() { (1, "123") }),
+            new TeHeradresserenLocatiesMessage("VCode2", new List<(int, string)>() { (1, "123"), (2, "123") })
         });
     }
 }
