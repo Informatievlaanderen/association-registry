@@ -8,6 +8,7 @@ using Grar;
 using Grar.Exceptions;
 using SocialMedias;
 using System.Net;
+using System.Numerics;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
@@ -231,4 +232,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public long Version => State.Version;
+
+    public void HeradresseerLocatie(IAdditionOperators<int, int, int> item1, object adres)
+    {
+        throw new NotImplementedException();
+    }
 }
