@@ -38,5 +38,3 @@ public interface ILocatieFinder
 {
     public Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string adresId);
 }
-
-public record TeHeradresserenLocatiesMessage(string VCode, List<(int, string)> LocatiesMetAdres);
