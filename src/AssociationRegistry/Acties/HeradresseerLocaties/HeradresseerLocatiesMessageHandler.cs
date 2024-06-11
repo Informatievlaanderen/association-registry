@@ -2,22 +2,42 @@ namespace AssociationRegistry.Acties.HeradresseerLocaties;
 
 using Framework;
 using Grar;
+using Grar.Models;
 using NodaTime;
 using Vereniging;
 
 public class HeradresseerLocatiesMessageHandler
 {
-    public async Task Handle(TeHeradresserenLocatiesMessage message, IVerenigingsRepository repository, IGrarClient client)
+    private readonly IVerenigingsRepository _repository;
+    private readonly IGrarClient _client;
+
+    public HeradresseerLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
     {
-        var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+        _repository = repository;
+        _client = client;
+    }
 
-        foreach (var (locatieId, adresId) in message.LocatiesMetAdres) // TODO: oud en nieuw adres id, of iets anders voor idempotency.
+    public async Task Handle(TeHeradresserenLocatiesMessage message)
+    {
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+
+        var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres);
+
+        vereniging.HeradresseerLocatie(locatiesWithAddresses, message.idempotencyKey);
+
+        await _repository.Save(vereniging, new CommandMetadata("", Instant.MinValue, Guid.NewGuid()), CancellationToken.None);
+    }
+
+    private async Task<List<(int, AddressDetailResponse)>> FetchAddressesForLocaties(List<(int, string)> locatiesMetAdres)
+    {
+        var locatiesWithAddresses = new List<(int, AddressDetailResponse)>();
+
+        foreach (var (locatieId, adresId) in locatiesMetAdres)
         {
-            var adres = await client.GetAddress(adresId);
-
-            vereniging.HeradresseerLocatie(locatieId, adres);
+            var adres = await _client.GetAddress(adresId);
+            locatiesWithAddresses.Add((locatieId, adres));
         }
 
-        await repository.Save(vereniging, new CommandMetadata("", Instant.MinValue, Guid.NewGuid()), CancellationToken.None);
+        return locatiesWithAddresses;
     }
 }

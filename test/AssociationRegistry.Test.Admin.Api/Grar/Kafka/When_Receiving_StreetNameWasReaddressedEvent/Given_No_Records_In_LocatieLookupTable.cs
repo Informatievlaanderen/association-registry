@@ -18,7 +18,7 @@ public class Given_No_Records_In_LocatieLookupTable
         var locatieFinder = new LocatieFinder(new List<LocatieLookupDocument>());
 
         var sut = new TeHeradresserenLocatiesMapper(locatieFinder);
-        var result = await sut.ForAddress("1");
+        var result = await sut.ForAddress("1", "idempotencyKey");
 
         result.Should().BeEmpty();
     }

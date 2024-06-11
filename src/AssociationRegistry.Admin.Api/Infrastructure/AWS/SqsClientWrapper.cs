@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
+using Acties.HeradresseerLocaties;
 using Amazon.SQS;
 using ConfigurationBindings;
-using GrarSync;
 using Kbo;
 using System.Text.Json;
 using System.Threading.Tasks;

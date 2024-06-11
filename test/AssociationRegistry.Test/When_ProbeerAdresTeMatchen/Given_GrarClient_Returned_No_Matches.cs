@@ -22,7 +22,7 @@ public class Given_GrarClient_Returned_No_Matches
 
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
-        grarClient.Setup(x => x.GetAddress(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
+        grarClient.Setup(x => x.GetAddressMatches(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
                                            It.IsAny<string>()))
                   .ReturnsAsync(new List<AddressMatchResponse>());
 

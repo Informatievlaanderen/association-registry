@@ -24,7 +24,7 @@ public class WithNoExactMatchFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Result = await _client.GetAddress(Straatnaam, Huisnummer, null, null, Gemeentenaam);
+        Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, null, null, Gemeentenaam);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;

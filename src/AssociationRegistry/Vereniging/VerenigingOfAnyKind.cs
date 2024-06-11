@@ -6,6 +6,7 @@ using Exceptions;
 using Framework;
 using Grar;
 using Grar.Exceptions;
+using Grar.Models;
 using SocialMedias;
 using System.Net;
 using System.Numerics;
@@ -148,7 +149,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                             "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd.");
             }
 
-            var adresMatch = await grarClient.GetAddress(
+            var adresMatch = await grarClient.GetAddressMatches(
                 locatie.Adres.Straatnaam,
                 locatie.Adres.Huisnummer,
                 locatie.Adres.Busnummer,
@@ -233,8 +234,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public long Version => State.Version;
 
-    public void HeradresseerLocatie(IAdditionOperators<int, int, int> item1, object adres)
+    public void HeradresseerLocatie(List<(int, AddressDetailResponse)> locatiesMetAdressen, string idempotenceKey)
     {
-        throw new NotImplementedException();
+        if(State.HandledIdempotenceKey.Contains(idempotenceKey))
+            return;
+
+        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        {
+            AddEvent(new AdresWerdGeheradresseerdInAdressenregister(VCode, locatieId, AdresDetailUitAdressenregister.FromResponse(adresDetail), idempotenceKey));
+        }
     }
 }

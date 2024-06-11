@@ -38,6 +38,7 @@ public record VerenigingState : IHasVersion
     public bool IsGestopt => Einddatum is not null;
 
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
+    public List<string> HandledIdempotenceKey { get; set; } = new();
     public bool IsVerwijderd { get; set; }
     public long Version { get; set; }
 
@@ -529,7 +530,7 @@ public record VerenigingState : IHasVersion
         {
             return this;
         }
-        
+
         return this with
         {
             Locaties = Locaties.Hydrate(
@@ -540,6 +541,36 @@ public record VerenigingState : IHasVersion
                         AdresId = null,
                     })
             ),
+        };
+    }
+
+    public VerenigingState Apply(AdresWerdGeheradresseerdInAdressenregister @event)
+    {
+        if(!HandledIdempotenceKey.Contains(@event.idempotenceKey))
+            HandledIdempotenceKey.Add(@event.idempotenceKey);
+
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(locatie with
+                    {
+                        AdresId = AdresId.Hydrate(@event.adres.AdresId.Broncode, @event.adres.AdresId.Bronwaarde),
+                        Adres = Adres.Hydrate(
+                            @event.adres.Adres.Straatnaam,
+                            @event.adres.Adres.Huisnummer,
+                            @event.adres.Adres.Busnummer,
+                            @event.adres.Adres.Postcode,
+                            @event.adres.Adres.Gemeente,
+                            @event.adres.Adres.Land),
+                    })),
         };
     }
 }

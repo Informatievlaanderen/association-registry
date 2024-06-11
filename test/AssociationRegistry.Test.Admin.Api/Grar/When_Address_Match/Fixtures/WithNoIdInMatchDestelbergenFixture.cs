@@ -25,7 +25,7 @@ public class WithNoIdInMatchDestelbergenFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Result = await _client.GetAddress(Straatnaam, Huisnummer, null, Postcode, Gemeentenaam);
+        Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, null, Postcode, Gemeentenaam);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;

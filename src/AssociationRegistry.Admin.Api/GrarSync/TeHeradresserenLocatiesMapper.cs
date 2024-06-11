@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Acties.HeradresseerLocaties;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Schema.Detail;
 
@@ -12,7 +13,7 @@ public class TeHeradresserenLocatiesMapper
         _locatieFinder = locatieFinder;
     }
 
-    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(string adresId)
+    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(string adresId, string idempotencyKey)
     {
         var locaties = await _locatieFinder.FindLocaties(adresId);
 
@@ -23,7 +24,8 @@ public class TeHeradresserenLocatiesMapper
                                      .GroupBy(doc => doc.VCode)
                                      .Select(g => new TeHeradresserenLocatiesMessage(
                                                  g.Key,
-                                                 g.Select(doc => (doc.LocatieId, doc.AdresId)).ToList()));
+                                                 g.Select(doc => (doc.LocatieId, doc.AdresId)).ToList(),
+                                                 idempotencyKey));
 
         return teHeradresserenLocaties;
     }
