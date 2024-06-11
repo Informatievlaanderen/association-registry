@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Amazon.SQS;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using Constants;
 using IdentityModel;
+using Infrastructure.AWS;
 using Infrastructure.Extensions;
 using Marten;
 using System.Text;
@@ -11,15 +13,21 @@ using System.Text;
 public class AddressKafkaConsumer : BackgroundService
 {
     private readonly AddressKafkaConfiguration _configuration;
+    private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
+    private readonly SqsClientWrapper _sqsClientWrapper;
     private readonly IDocumentStore _store;
     private readonly ILogger<AddressKafkaConsumer> _logger;
 
     public AddressKafkaConsumer(
         AddressKafkaConfiguration configuration,
+        TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
+        SqsClientWrapper sqsClientWrapper,
         IDocumentStore store,
         ILogger<AddressKafkaConsumer> logger)
     {
         _configuration = configuration;
+        _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
+        _sqsClientWrapper = sqsClientWrapper;
         _store = store;
         _logger = logger;
     }
@@ -52,6 +60,13 @@ public class AddressKafkaConsumer : BackgroundService
                         case StreetNameWasReaddressed streetNameWasReaddressed:
                             _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
                             _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Partition: {result.Partition}");
+
+                            var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers);
+
+                            foreach (var teHeradresserenLocatiesMessage in teHeradresserenLocatiesMessages)
+                            {
+                                await _sqsClientWrapper.QueueReaddressMessage(teHeradresserenLocatiesMessage);
+                            }
                             break;
                     }
                 }
