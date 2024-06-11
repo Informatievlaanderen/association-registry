@@ -9,6 +9,9 @@ public class GrarHttpClient : IGrarHttpClient
         _httpClient = httpClient;
     }
 
+    public async Task<HttpResponseMessage> GetAddress(string adresId, CancellationToken cancellationToken)
+        => throw new NotImplementedException();
+
     public async Task<HttpResponseMessage> GetAddress(
         string straatnaam,
         string huisnummer,

@@ -21,7 +21,7 @@ public class GrarClient : IGrarClient
         _logger = logger;
     }
 
-    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddress(
+    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddressMatches(
         string straatnaam,
         string huisnummer,
         string busnummer,
@@ -113,5 +113,10 @@ public class GrarClient : IGrarClient
 
             throw new Exception(ex.Message, ex);
         }
+    }
+
+    public async Task<AddressDetailResponse> GetAddress(string adresId)
+    {
+        throw new NotImplementedException();
     }
 }

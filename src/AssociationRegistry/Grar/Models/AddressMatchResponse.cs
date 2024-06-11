@@ -13,3 +13,13 @@ public record AddressMatchResponse(
     string Postcode,
     string Gemeente
 );
+
+public record AddressDetailResponse(
+    Registratiedata.AdresId? AdresId,
+    string Adresvoorstelling,
+    string Straatnaam,
+    string Huisnummer,
+    string Busnummer,
+    string Postcode,
+    string Gemeente
+);

@@ -25,6 +25,6 @@ public class With_Bad_Request
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
         await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(
-            () => sut.GetAddress("straatnaam", "nr", null, "postcode", "gemeentenaam"));
+            () => sut.GetAddressMatches("straatnaam", "nr", null, "postcode", "gemeentenaam"));
     }
 }
