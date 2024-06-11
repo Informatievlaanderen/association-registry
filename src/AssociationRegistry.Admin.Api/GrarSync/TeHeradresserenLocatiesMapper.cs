@@ -18,10 +18,11 @@ public class TeHeradresserenLocatiesMapper
         if (!locaties.Any())
             return Array.Empty<TeHeradresserenLocatiesMessage>();
 
-        var teHeradresserenLocaties = locaties.Select(l => new TeHeradresserenLocatiesMessage(l.VCode, new List<(int, string)>
-        {
-            (l.LocatieId, l.AdresId)
-        }));
+        var teHeradresserenLocaties = locaties
+                                     .GroupBy(doc => doc.VCode)
+                                     .Select(g => new TeHeradresserenLocatiesMessage(
+                                                 g.Key,
+                                                 g.Select(doc => (doc.LocatieId, doc.AdresId)).ToList()));
 
         return teHeradresserenLocaties;
     }
