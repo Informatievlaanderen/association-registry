@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Schema.Detail;
 
 public class TeHeradresserenLocatiesMapper
@@ -25,6 +26,11 @@ public class TeHeradresserenLocatiesMapper
                                                  g.Select(doc => (doc.LocatieId, doc.AdresId)).ToList()));
 
         return teHeradresserenLocaties;
+    }
+
+    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(IReadOnlyList<AddressHouseNumberReaddressedData> readdressedHouseNumbers)
+    {
+        return Array.Empty<TeHeradresserenLocatiesMessage>();
     }
 }
 
