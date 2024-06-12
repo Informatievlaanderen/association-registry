@@ -4,7 +4,11 @@ using Schema.Detail;
 
 public class LocatieFinder : ILocatieFinder
 {
-    private readonly List<LocatieLookupDocument> _locatieLookupDocuments;
+    private readonly List<LocatieLookupDocument> _locatieLookupDocuments = new();
+
+    public LocatieFinder()
+    {
+    }
 
     public LocatieFinder(List<LocatieLookupDocument> locatieLookupDocuments)
     {

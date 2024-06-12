@@ -184,6 +184,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V074_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd
         V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd = new();
 
+    public readonly V075_AdresWerdGewijzigdInAdressenregister
+        V075AdresWerdGewijzigdInAdressenregister = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]

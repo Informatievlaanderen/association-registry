@@ -23,7 +23,7 @@ public class HeradresseerLocatiesMessageHandler
 
         var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres);
 
-        vereniging.HeradresseerLocatie(locatiesWithAddresses, message.idempotencyKey);
+        vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey);
 
         await _repository.Save(vereniging, new CommandMetadata("", Instant.MinValue, Guid.NewGuid()), CancellationToken.None);
     }

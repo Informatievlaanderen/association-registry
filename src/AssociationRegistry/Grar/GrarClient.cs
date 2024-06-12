@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Grar;
 
-using AddressRegistry.Api.Oslo.Address.Detail;
 using Events;
 using Exceptions;
 using Microsoft.Extensions.Logging;
@@ -119,7 +118,6 @@ public class GrarClient : IGrarClient
 
     public async Task<AddressDetailResponse> GetAddress(string adresId)
     {
-        111 //TODO: write tests
         try
         {
             var response =

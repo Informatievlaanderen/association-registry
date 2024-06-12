@@ -12,7 +12,6 @@ nuget Be.Vlaanderen.Basisregisters.Api
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline
 nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 nuget Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
-nuget Be.Vlaanderen.Basisregisters.AddressRegistry.Api.Oslo
 
 nuget Destructurama.JsonNet
 

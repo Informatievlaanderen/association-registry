@@ -327,6 +327,7 @@ public class Program
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var addressMatchOptionsSection = builder.Configuration.GetAddressMatchOptionsSection();
+        var grarSyncOptionsSection = builder.Configuration.GetGrarSyncOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptionsSection();
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
@@ -354,6 +355,7 @@ public class Program
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(addressMatchOptionsSection)
+               .AddSingleton(grarSyncOptionsSection)
                .AddSingleton(grarOptions)
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
@@ -376,6 +378,8 @@ public class Program
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
                .AddTransient<INotifier, NullNotifier>()
+               .AddTransient<ILocatieFinder, LocatieFinder>()
+               .AddTransient<TeHeradresserenLocatiesMapper>()
                .AddMarten(postgreSqlOptionsSection)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()
@@ -592,6 +596,9 @@ public class Program
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
         var addressKafkaConsumerOptionsSection = builder.Configuration.GetAddressKafkaConsumerOptionsSection();
+
+        if(!addressKafkaConsumerOptionsSection.Enabled)
+            return;
 
         builder.Services
                .AddSingleton(new AddressKafkaConfiguration(addressKafkaConsumerOptionsSection))

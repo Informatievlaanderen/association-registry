@@ -10,7 +10,7 @@ public class GrarHttpClient : IGrarHttpClient
     }
 
     public async Task<HttpResponseMessage> GetAddress(string adresId, CancellationToken cancellationToken)
-        => await _httpClient.GetAsync($"/v2/adressen/{adresId})", cancellationToken);
+        => await _httpClient.GetAsync($"/v2/adressen/{adresId}", cancellationToken);
 
     public async Task<HttpResponseMessage> GetAddress(
         string straatnaam,

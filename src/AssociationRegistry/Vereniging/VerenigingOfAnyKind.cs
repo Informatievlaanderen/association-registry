@@ -113,6 +113,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(LocatieWerdVerwijderd.With(State.VCode, locatie));
     }
 
+    public void HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey)
+    {
+        if(State.HandledIdempotenceKey.Contains(idempotenceKey))
+            return;
+
+        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        {
+            AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode, locatieId, AdresDetailUitAdressenregister.FromResponse(adresDetail), idempotenceKey));
+        }
+    }
+
     public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)
         {
             var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
@@ -136,7 +147,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             }
         }
 
-        private async Task<IEvent> GetAdresMatchEvent(
+    private async Task<IEvent> GetAdresMatchEvent(
             int locatieId,
             Locatie locatie,
             IGrarClient grarClient)
@@ -185,7 +196,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             };
         }
 
-        private IEvent GetAdresMatchExceptionEvent(
+    private IEvent GetAdresMatchExceptionEvent(
             int locatieId,
             AdressenregisterReturnedNonSuccessStatusCode ex,
             Locatie locatieVoorTeMatchenAdres)
@@ -227,21 +238,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                     );
         }
 
-    public void Hydrate(VerenigingState obj)
+        public void Hydrate(VerenigingState obj)
     {
         State = obj;
     }
 
     public long Version => State.Version;
-
-    public void HeradresseerLocatie(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey)
-    {
-        if(State.HandledIdempotenceKey.Contains(idempotenceKey))
-            return;
-
-        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
-        {
-            AddEvent(new AdresWerdGeheradresseerdInAdressenregister(VCode, locatieId, AdresDetailUitAdressenregister.FromResponse(adresDetail), idempotenceKey));
-        }
-    }
 }
