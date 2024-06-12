@@ -74,6 +74,9 @@ public static class ConfigurationExtensions
         if (addressKafkaConsumerOptionsSection == null)
             throw new ArgumentNullException(nameof(addressKafkaConsumerOptionsSection));
 
+        if(!addressKafkaConsumerOptionsSection.Enabled)
+            return;
+
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(addressKafkaConsumerOptionsSection.Username,
                                $"{sectionName}.{nameof(AddressKafkaConsumerOptionsSection.Username)}");
