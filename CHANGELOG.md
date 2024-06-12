@@ -1,3 +1,24 @@
+# [8.100.0](https://github.com/informatievlaanderen/association-registry/compare/v8.99.1...v8.100.0) (2024-06-12)
+
+
+### Bug Fixes
+
+* or-1437 add default kafka setting ([96efca5](https://github.com/informatievlaanderen/association-registry/commit/96efca5e474954610f1f45155a89e2faac055399))
+* or-1437 add kafka consumer ([d87e1bc](https://github.com/informatievlaanderen/association-registry/commit/d87e1bc76e3d31b163f52d2f1bf7ea7b4ef8a8f2))
+* or-1437 add missing usings ([f168e0d](https://github.com/informatievlaanderen/association-registry/commit/f168e0d96442912cded7b2147135e471ee0975ab))
+* or-1437 implement TeHeraddresserenLocatiesMapper ([d762653](https://github.com/informatievlaanderen/association-registry/commit/d762653f08ec04b011faad08949ae1455351dcc8))
+* or-1437 kafka consumer mock for readdressing ([b06ba73](https://github.com/informatievlaanderen/association-registry/commit/b06ba73ba66a458fde80e85b7be536e8af4c9407))
+* or-1437 update destructurama again ([500bb71](https://github.com/informatievlaanderen/association-registry/commit/500bb71ddf19430816d34ce9660bb06bc1da5aa3))
+* or-1437 wishful implementation of HeradresseerLocatiesMessageHandler ([3080618](https://github.com/informatievlaanderen/association-registry/commit/30806183950f4a9baca9edcc7ff118ff1b1a6566))
+* or-1437 wishful implementation of HeradresseerLocatiesMessageHandler ([787f6f6](https://github.com/informatievlaanderen/association-registry/commit/787f6f6f87aa7dd146383b8a03225bb3ae551e09))
+
+
+### Features
+
+* or-1437 add first tests and implementation TeHeradresserenLocatieMapper ([6e88a9e](https://github.com/informatievlaanderen/association-registry/commit/6e88a9e82cc6106e5f862283b33f018467741d50))
+* or-1437 implement command side of grar sync ([4bf7ce1](https://github.com/informatievlaanderen/association-registry/commit/4bf7ce194ba18a4fb026cf44b4cbfbd07de82dbf))
+* or-1437 implement HeradresseerLocatiesMessageHandler ([9836d42](https://github.com/informatievlaanderen/association-registry/commit/9836d42a04759d3e18a0e33f32fc9b9b9441d30c))
+
 ## [8.99.1](https://github.com/informatievlaanderen/association-registry/compare/v8.99.0...v8.99.1) (2024-06-06)
 
 
