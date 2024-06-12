@@ -15,7 +15,7 @@ public record AddressMatchResponse(
 );
 
 public record AddressDetailResponse(
-    Registratiedata.AdresId? AdresId,
+    Registratiedata.AdresId AdresId,
     string Adresvoorstelling,
     string Straatnaam,
     string Huisnummer,

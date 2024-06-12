@@ -178,6 +178,9 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> @event, IDocumentOperations ops)
         => await UpdateMetadataOnly(@event, ops);
 
+    public async Task Project(IEvent<AdresWerdGewijzigdInAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<SynchronisatieMetKboWasSuccesvol> @event, IDocumentOperations ops)
         => await UpdateMetadataOnly(@event, ops);
 

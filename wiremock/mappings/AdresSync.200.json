@@ -1,0 +1,14 @@
+{
+  "priority": 1,
+  "request": {
+    "method": "GET",
+    "urlPath": "/v2/adressen/200001"
+  },
+  "response": {
+    "status": 200,
+    "bodyFileName": "AdresSync/200.json",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

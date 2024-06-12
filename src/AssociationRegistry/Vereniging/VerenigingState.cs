@@ -544,10 +544,10 @@ public record VerenigingState : IHasVersion
         };
     }
 
-    public VerenigingState Apply(AdresWerdGeheradresseerdInAdressenregister @event)
+    public VerenigingState Apply(AdresWerdGewijzigdInAdressenregister @event)
     {
-        if(!HandledIdempotenceKey.Contains(@event.idempotenceKey))
-            HandledIdempotenceKey.Add(@event.idempotenceKey);
+        if(!HandledIdempotenceKey.Contains(@event.IdempotenceKey))
+            HandledIdempotenceKey.Add(@event.IdempotenceKey);
 
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 
@@ -562,14 +562,14 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(locatie with
                     {
-                        AdresId = AdresId.Hydrate(@event.adres.AdresId.Broncode, @event.adres.AdresId.Bronwaarde),
+                        AdresId = AdresId.Hydrate(@event.AdresDetailUitAdressenregister.AdresId.Broncode, @event.AdresDetailUitAdressenregister.AdresId.Bronwaarde),
                         Adres = Adres.Hydrate(
-                            @event.adres.Adres.Straatnaam,
-                            @event.adres.Adres.Huisnummer,
-                            @event.adres.Adres.Busnummer,
-                            @event.adres.Adres.Postcode,
-                            @event.adres.Adres.Gemeente,
-                            @event.adres.Adres.Land),
+                            @event.AdresDetailUitAdressenregister.Adres.Straatnaam,
+                            @event.AdresDetailUitAdressenregister.Adres.Huisnummer,
+                            @event.AdresDetailUitAdressenregister.Adres.Busnummer,
+                            @event.AdresDetailUitAdressenregister.Adres.Postcode,
+                            @event.AdresDetailUitAdressenregister.Adres.Gemeente,
+                            @event.AdresDetailUitAdressenregister.Adres.Land),
                     })),
         };
     }

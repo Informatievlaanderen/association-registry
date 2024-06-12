@@ -17,6 +17,6 @@ public record AdresDetailUitAdressenregister
                 "België")
         };
 
-    public Registratiedata.AdresId? AdresId { get; init; }
+    public Registratiedata.AdresId AdresId { get; init; }
     public Registratiedata.Adres Adres { get; init; }
 }

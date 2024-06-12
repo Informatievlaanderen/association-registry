@@ -45,6 +45,17 @@ public static class ConfigurationExtensions
         return addressMatchOptionsSection!;
     }
 
+    public static GrarSyncOptionsSection GetGrarSyncOptionsSection(this IConfiguration configuration)
+    {
+        var grarOptionsSection = configuration
+                                .GetSection(GrarSyncOptionsSection.SectionName)
+                                .Get<GrarSyncOptionsSection>();
+
+        grarOptionsSection.ThrowIfInvalid();
+
+        return grarOptionsSection!;
+    }
+
     public static GrarOptionsSection GetGrarOptionsSection(this IConfiguration configuration)
     {
         var grarOptionsSection = configuration
@@ -81,6 +92,20 @@ public static class ConfigurationExtensions
 
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(addressMatchOptionsSection.AddressMatchSqsQueueName, $"{sectionName}.{nameof(AddressMatchOptionsSection.AddressMatchSqsQueueName)}");
+    }
+
+    private static void ThrowIfInvalid(this GrarSyncOptionsSection? grarSyncOptionsSection)
+    {
+        const string sectionName = nameof(GrarSyncOptionsSection);
+
+        if (grarSyncOptionsSection == null)
+            throw new ArgumentNullException(nameof(grarSyncOptionsSection));
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName,
+                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName)}");
+
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueName,
+                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueName)}");
     }
 
     private static void ThrowIfInvalid(this GrarOptionsSection? grarOptionsSection)

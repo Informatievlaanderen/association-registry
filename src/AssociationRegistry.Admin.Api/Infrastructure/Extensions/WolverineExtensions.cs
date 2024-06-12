@@ -35,6 +35,7 @@ public static class WolverineExtensions
                 );
 
                 var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
+                var grarSyncOptionsSection = context.Configuration.GetGrarSyncOptionsSection();
                 Log.Logger.Information("Address match configuration: {@Config}", addressMatchOptionsSection);
 
                 if (addressMatchOptionsSection.OptimizeArtifactWorkflow)
@@ -53,18 +54,10 @@ public static class WolverineExtensions
                     transportConfiguration.Credentials(new BasicAWSCredentials("dummy", "dummy"));
                 }
 
-                options.PublishMessage<TeSynchroniserenAdresMessage>()
-                       .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+                ConfigureAddressMatchPublisher(options, addressMatchOptionsSection);
+                ConfiguredAddressMatchListener(options, addressMatchOptionsSection);
 
-                options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, configure =>
-                        {
-                            configure.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
-                        })
-                       .ConfigureDeadLetterQueue(addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName, queue =>
-                        {
-                            queue.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
-                        })
-                       .MaximumParallelMessages(1);
+                ConfigureGrarSyncListener(options, grarSyncOptionsSection);
 
                 if (addressMatchOptionsSection.AutoProvision)
                 {
@@ -74,5 +67,40 @@ public static class WolverineExtensions
                 options.LogMessageStarting(LogLevel.Trace);
                 Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);
             });
+    }
+
+    private static void ConfigureAddressMatchPublisher(WolverineOptions options, AddressMatchOptionsSection addressMatchOptionsSection)
+    {
+        options.PublishMessage<TeSynchroniserenAdresMessage>()
+               .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+    }
+
+    private static void ConfiguredAddressMatchListener(WolverineOptions options, AddressMatchOptionsSection addressMatchOptionsSection)
+    {
+        options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, configure =>
+                {
+                    configure.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
+                })
+               .ConfigureDeadLetterQueue(addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName, queue =>
+                {
+                    queue.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
+                })
+               .MaximumParallelMessages(1);
+    }
+
+    private static void ConfigureGrarSyncListener(WolverineOptions options, GrarSyncOptionsSection grarSyncOptionsSection)
+    {
+        if (!grarSyncOptionsSection.Enabled)
+            return;
+
+        options.ListenToSqsQueue(grarSyncOptionsSection.GrarSyncSqsQueueName, configure =>
+                {
+                    configure.DeadLetterQueueName = grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName;
+                })
+               .ConfigureDeadLetterQueue(grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName, queue =>
+                {
+                    queue.DeadLetterQueueName = grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName;
+                })
+               .MaximumParallelMessages(1);
     }
 }

@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_Heradresseren_Locaties;
 
+using Api.Fixtures.Scenarios.CommandHandling;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Events;
 using Fakes;
-using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Moq;
 using Xunit;
@@ -43,7 +43,7 @@ public class With_TeHeradressren_Locaties
         await messageHandler.Handle(message);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGeheradresseerdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
         );
     }
 }
@@ -82,8 +82,8 @@ public class With_Multiple_TeHeradressren_Locaties
         await messageHandler.Handle(message);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGeheradresseerdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message.idempotencyKey),
-            new AdresWerdGeheradresseerdInAdressenregister(scenario.VCode.Value, 2, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2), message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message.idempotencyKey),
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 2, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2), message.idempotencyKey)
         );
     }
 }
