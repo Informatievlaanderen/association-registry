@@ -1,13 +1,10 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
 using Destructurama;
-using global::OpenTelemetry;
 using global::OpenTelemetry.Exporter;
-using global::OpenTelemetry.Logs;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Amazon.Runtime;
+using ConfigurationBindings;
 using EventStore;
 using Grar.AddressMatch;
 using JasperFx.CodeGeneration;
