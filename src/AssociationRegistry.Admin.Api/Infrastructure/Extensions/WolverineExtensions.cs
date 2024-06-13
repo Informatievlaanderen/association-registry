@@ -21,7 +21,7 @@ public static class WolverineExtensions
         builder.Host.UseWolverine(
             (context, options) =>
             {
-                Log.Logger.Error("Use wolverine");
+                Log.Logger.Information("Setting up wolverine");
 
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
@@ -92,7 +92,16 @@ public static class WolverineExtensions
     private static void ConfigureGrarSyncListener(WolverineOptions options, GrarSyncOptionsSection grarSyncOptionsSection)
     {
         if (!grarSyncOptionsSection.Enabled)
+        {
+            Log.Logger.Information("Not setting up GRAR Sync Listener.");
+
             return;
+        }
+
+        Log.Logger.Information("Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
+            grarSyncOptionsSection.GrarSyncSqsQueueName,
+            grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName
+            );
 
         options.ListenToSqsQueue(grarSyncOptionsSection.GrarSyncSqsQueueName, configure =>
                 {
