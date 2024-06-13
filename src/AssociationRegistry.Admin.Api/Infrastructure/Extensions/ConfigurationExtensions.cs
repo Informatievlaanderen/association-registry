@@ -104,9 +104,11 @@ public static class ConfigurationExtensions
         if (grarSyncOptionsSection == null)
             throw new ArgumentNullException(nameof(grarSyncOptionsSection));
 
+        if (!grarSyncOptionsSection.Enabled)
+            return;
+
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName,
                                                         $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName)}");
-
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueName,
                                                         $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueName)}");
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueUrl,
