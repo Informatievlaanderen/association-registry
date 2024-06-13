@@ -15,8 +15,9 @@ public class LocatieFinder : ILocatieFinder
         _locatieLookupDocuments = locatieLookupDocuments;
     }
 
-    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string adresId)
+    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] sourceAndDestinationIds)
+
     {
-        return _locatieLookupDocuments.Where(x => x.AdresId == adresId);
+        return _locatieLookupDocuments.Where(x => sourceAndDestinationIds.Contains(x.AdresId));
     }
 }

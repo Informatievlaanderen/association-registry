@@ -14,52 +14,39 @@ public class TeHeradresserenLocatiesMapper
     }
 
     public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(
-        string sourceAdresId,
-        string destinationAdresId,
-        string idempotencyKey)
-    {
-        var locaties = await _locatieFinder.FindLocaties(sourceAdresId);
-
-        if (!locaties.Any())
-            return Array.Empty<TeHeradresserenLocatiesMessage>();
-
-        var teHeradresserenLocaties = locaties
-                                     .GroupBy(doc => doc.VCode)
-                                     .Select(g => new TeHeradresserenLocatiesMessage(
-                                                 g.Key,
-                                                 g.Select(doc => new LocatieIdWithAdresId(doc.LocatieId, destinationAdresId)).ToList(),
-                                                 idempotencyKey));
-
-        return teHeradresserenLocaties;
-    }
-
-    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(
         IReadOnlyList<AddressHouseNumberReaddressedData> readdressedHouseNumbers,
         string idempotenceKey)
     {
-        var sourceAndDestinationIds = new List<(int, int)>();
+        var readdressedAddressData = GetReaddressedAddressData(readdressedHouseNumbers);
+        var sourceAddressIds = readdressedAddressData.Select(s => s.SourceAddressPersistentLocalId.ToString()).ToArray();
+        var locations = await _locatieFinder.FindLocaties(sourceAddressIds);
 
-        foreach (var readdressedHouseNumber in readdressedHouseNumbers)
+        var grouping = locations.GroupBy(l => l.VCode);
+
+        var result = grouping.Select(g => new TeHeradresserenLocatiesMessage(
+                                         g.Key,
+                                         g.Select(s =>
+                                                      new LocatieIdWithAdresId(s.LocatieId,
+                                                                               GetDestinationAddressIdFromSourceAddressId(
+                                                                                   s.AdresId, readdressedAddressData))).ToList(),
+                                         idempotenceKey));
+
+        return result;
+    }
+
+    private string GetDestinationAddressIdFromSourceAddressId(string sourceAddressId, IReadOnlyList<ReaddressedAddressData> data)
+        => data.Single(s => s.SourceAddressPersistentLocalId.ToString() == sourceAddressId).DestinationAddressPersistentLocalId.ToString();
+
+    private IReadOnlyList<ReaddressedAddressData> GetReaddressedAddressData(IReadOnlyList<AddressHouseNumberReaddressedData> data)
+    {
+        var result = new List<ReaddressedAddressData>();
+
+        foreach (var readdressed in data)
         {
-            foreach (var readdressedBoxNumber in readdressedHouseNumber.ReaddressedBoxNumbers)
-            {
-                sourceAndDestinationIds.Add((readdressedBoxNumber.SourceAddressPersistentLocalId,
-                                             readdressedBoxNumber.DestinationAddressPersistentLocalId));
-            }
-
-            sourceAndDestinationIds.Add((readdressedHouseNumber.ReaddressedHouseNumber.SourceAddressPersistentLocalId,
-                                         readdressedHouseNumber.ReaddressedHouseNumber.DestinationAddressPersistentLocalId));
+            result.AddRange(readdressed.ReaddressedBoxNumbers);
+            result.Add(readdressed.ReaddressedHouseNumber);
         }
 
-        var teHeradresserenLocatiesMessages = new List<TeHeradresserenLocatiesMessage>();
-
-        foreach (var (sourceAdresId, destinationAdresId) in sourceAndDestinationIds)
-        {
-            teHeradresserenLocatiesMessages.AddRange(await ForAddress(sourceAdresId.ToString(), destinationAdresId.ToString(),
-                                                                      idempotenceKey));
-        }
-
-        return teHeradresserenLocatiesMessages.GroupBy(gb => gb.VCode)
-                                                                         .SelectMany(g => g).ToList();
+        return result;
     }
 }
