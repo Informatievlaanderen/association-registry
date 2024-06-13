@@ -1,23 +1,22 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Marten;
 using Schema.Detail;
 
 public class LocatieFinder : ILocatieFinder
 {
-    private readonly List<LocatieLookupDocument> _locatieLookupDocuments = new();
+    private readonly IDocumentStore _documentStore;
 
-    public LocatieFinder()
+    public LocatieFinder(IDocumentStore documentStore)
     {
-    }
-
-    public LocatieFinder(List<LocatieLookupDocument> locatieLookupDocuments)
-    {
-        _locatieLookupDocuments = locatieLookupDocuments;
+        _documentStore = documentStore;
     }
 
     public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] sourceAndDestinationIds)
 
     {
-        return _locatieLookupDocuments.Where(x => sourceAndDestinationIds.Contains(x.AdresId));
+        await using var session = _documentStore.LightweightSession();
+
+        return session.Query<LocatieLookupDocument>().Where(x => sourceAndDestinationIds.Contains(x.AdresId));
     }
 }

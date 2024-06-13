@@ -6,10 +6,10 @@ using AssociationRegistry.Grar.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using Be.Vlaanderen.Basisregisters.Utilities;
 using Xunit;
 using FluentAssertions;
 using Framework;
+using Moq;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 {
@@ -23,7 +23,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
     [Fact]
     public async Task Then_Messages_Are_Queued()
     {
-        var locatieFinder = new LocatieFinder(new List<LocatieLookupDocument>()
+        var locatieFinder = new FakeLocatieFinder(new List<LocatieLookupDocument>()
         {
             new LocatieLookupDocument()
             {
@@ -92,7 +92,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
     [Fact]
     public async Task Then_Messages_Are_Queued()
     {
-        var locatieFinder = new LocatieFinder(new List<LocatieLookupDocument>()
+        var locatieFinder = new FakeLocatieFinder(new List<LocatieLookupDocument>()
         {
             new LocatieLookupDocument()
             {
@@ -234,7 +234,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].DestinationAddressPersistentLocalId.ToString());
 
-        var sut = new TeHeradresserenLocatiesMapper(new LocatieFinder(new List<LocatieLookupDocument>()
+        var sut = new TeHeradresserenLocatiesMapper(new FakeLocatieFinder(new List<LocatieLookupDocument>()
         {
             locatieLookupHuisnummer1.Document, //vcode1
             locatieLookupHuisnummer1Busnummer1.Document,//vcode2
@@ -297,3 +297,16 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
 }
 
 public record LocatieLookupMetExpectedAdres(LocatieLookupDocument Document, string ExpectedAdresId);
+
+public class FakeLocatieFinder : ILocatieFinder
+{
+    private readonly List<LocatieLookupDocument> _locatieLookupDocuments;
+
+    public FakeLocatieFinder(List<LocatieLookupDocument> locatieLookupDocuments)
+    {
+        _locatieLookupDocuments = locatieLookupDocuments;
+    }
+
+    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] sourceAndDestinationIds)
+        => _locatieLookupDocuments.Where(x => sourceAndDestinationIds.Contains(x.AdresId));
+}
