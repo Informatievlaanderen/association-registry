@@ -2,6 +2,7 @@ framework: auto-detect
 source https://api.nuget.org/v3/index.json
 // lowest_matching: true
 // PRODUCTION STUFF
+nuget AutoBogus
 nuget AutoFixture
 nuget AutoFixture.Xunit2
 
