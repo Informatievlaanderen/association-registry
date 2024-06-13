@@ -4,5 +4,5 @@ using Schema.Detail;
 
 public interface ILocatieFinder
 {
-    public Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string adresId);
+    Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] sourceAndDestinationIds);
 }
