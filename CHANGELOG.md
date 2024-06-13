@@ -1,3 +1,10 @@
+## [8.101.2](https://github.com/informatievlaanderen/association-registry/compare/v8.101.1...v8.101.2) (2024-06-13)
+
+
+### Bug Fixes
+
+* or-1437 receive raw json because we're queueing via sqs wrapper ([015bb62](https://github.com/informatievlaanderen/association-registry/commit/015bb62f6c4318218dee8323e29af053fea1b80a))
+
 ## [8.101.1](https://github.com/informatievlaanderen/association-registry/compare/v8.101.0...v8.101.1) (2024-06-13)
 
 
