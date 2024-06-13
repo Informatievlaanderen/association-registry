@@ -60,7 +60,7 @@ public class AddressKafkaConsumer : BackgroundService
                             _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
                             _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Partition: {result.Partition}");
 
-                            var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers);
+                            var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers, idempotenceKey);
 
                             foreach (var teHeradresserenLocatiesMessage in teHeradresserenLocatiesMessages)
                             {

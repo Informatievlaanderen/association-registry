@@ -13,9 +13,12 @@ public class TeHeradresserenLocatiesMapper
         _locatieFinder = locatieFinder;
     }
 
-    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(string adresId, string idempotencyKey)
+    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(
+        string sourceAdresId,
+        string destinationAdresId,
+        string idempotencyKey)
     {
-        var locaties = await _locatieFinder.FindLocaties(adresId);
+        var locaties = await _locatieFinder.FindLocaties(sourceAdresId);
 
         if (!locaties.Any())
             return Array.Empty<TeHeradresserenLocatiesMessage>();
@@ -24,14 +27,39 @@ public class TeHeradresserenLocatiesMapper
                                      .GroupBy(doc => doc.VCode)
                                      .Select(g => new TeHeradresserenLocatiesMessage(
                                                  g.Key,
-                                                 g.Select(doc => new LocatieIdWithAdresId(doc.LocatieId, doc.AdresId)).ToList(),
+                                                 g.Select(doc => new LocatieIdWithAdresId(doc.LocatieId, destinationAdresId)).ToList(),
                                                  idempotencyKey));
 
         return teHeradresserenLocaties;
     }
 
-    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(IReadOnlyList<AddressHouseNumberReaddressedData> readdressedHouseNumbers)
+    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(
+        IReadOnlyList<AddressHouseNumberReaddressedData> readdressedHouseNumbers,
+        string idempotenceKey)
     {
-        return Array.Empty<TeHeradresserenLocatiesMessage>();
+        var sourceAndDestinationIds = new List<(int, int)>();
+
+        foreach (var readdressedHouseNumber in readdressedHouseNumbers)
+        {
+            foreach (var readdressedBoxNumber in readdressedHouseNumber.ReaddressedBoxNumbers)
+            {
+                sourceAndDestinationIds.Add((readdressedBoxNumber.SourceAddressPersistentLocalId,
+                                             readdressedBoxNumber.DestinationAddressPersistentLocalId));
+            }
+
+            sourceAndDestinationIds.Add((readdressedHouseNumber.ReaddressedHouseNumber.SourceAddressPersistentLocalId,
+                                         readdressedHouseNumber.ReaddressedHouseNumber.DestinationAddressPersistentLocalId));
+        }
+
+        var teHeradresserenLocatiesMessages = new List<TeHeradresserenLocatiesMessage>();
+
+        foreach (var (sourceAdresId, destinationAdresId) in sourceAndDestinationIds)
+        {
+            teHeradresserenLocatiesMessages.AddRange(await ForAddress(sourceAdresId.ToString(), destinationAdresId.ToString(),
+                                                                      idempotenceKey));
+        }
+
+        return teHeradresserenLocatiesMessages.GroupBy(gb => gb.VCode)
+                                                                         .SelectMany(g => g).ToList();
     }
 }
