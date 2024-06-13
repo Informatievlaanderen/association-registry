@@ -109,6 +109,8 @@ public static class ConfigurationExtensions
 
         Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueName,
                                                         $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueName)}");
+        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueUrl,
+                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueUrl)}");
     }
 
     private static void ThrowIfInvalid(this GrarOptionsSection? grarOptionsSection)
