@@ -1,3 +1,10 @@
+## [8.100.1](https://github.com/informatievlaanderen/association-registry/compare/v8.100.0...v8.100.1) (2024-06-13)
+
+
+### Bug Fixes
+
+* or-1437 add logging for grar sync queue listener ([80350fc](https://github.com/informatievlaanderen/association-registry/commit/80350fc4ac4fdafb8e997ee76713621305361131))
+
 # [8.100.0](https://github.com/informatievlaanderen/association-registry/compare/v8.99.1...v8.100.0) (2024-06-12)
 
 
