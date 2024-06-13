@@ -1,3 +1,10 @@
+# [8.101.0](https://github.com/informatievlaanderen/association-registry/compare/v8.100.1...v8.101.0) (2024-06-13)
+
+
+### Features
+
+* or-1437 implement LocatieFinder ([9b0e5a7](https://github.com/informatievlaanderen/association-registry/commit/9b0e5a7d815c3fc5a6f2cd522122f0ca32c9da36))
+
 ## [8.100.1](https://github.com/informatievlaanderen/association-registry/compare/v8.100.0...v8.100.1) (2024-06-13)
 
 
