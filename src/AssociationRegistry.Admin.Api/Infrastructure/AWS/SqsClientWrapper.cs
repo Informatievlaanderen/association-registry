@@ -13,11 +13,11 @@ public class SqsClientWrapper
     private readonly string _kboSyncQueueUrl;
     private readonly string _readdressQueueUrl;
 
-    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings)
+    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings, GrarSyncOptionsSection grarSyncOptions)
     {
         _sqsClient = sqsClient;
         _kboSyncQueueUrl = appSettings.KboSyncQueueUrl;
-        _readdressQueueUrl = appSettings.ReaddressQueueUrl;
+        _readdressQueueUrl = grarSyncOptions.GrarSyncSqsQueueUrl;
     }
 
     public async Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message)
