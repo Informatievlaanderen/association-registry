@@ -4,11 +4,13 @@ using Amazon.Runtime;
 using ConfigurationBindings;
 using EventStore;
 using Grar.AddressMatch;
+using Grar.HeradresseerLocaties;
 using JasperFx.CodeGeneration;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using System;
+using System.Text.Json;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
@@ -111,6 +113,7 @@ public static class WolverineExtensions
                 {
                     queue.DeadLetterQueueName = grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName;
                 })
+               .ReceiveRawJsonMessage(typeof(TeHeradresserenLocatiesMessage))
                .MaximumParallelMessages(1);
     }
 }
