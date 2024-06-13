@@ -1,3 +1,13 @@
+## [8.101.1](https://github.com/informatievlaanderen/association-registry/compare/v8.101.0...v8.101.1) (2024-06-13)
+
+
+### Bug Fixes
+
+* or-1437 add validation checks for grarsync options section ([8f28d95](https://github.com/informatievlaanderen/association-registry/commit/8f28d95dd3c36863e1a89a5ee9c44ac1096e0c66))
+* or-1437 add value for appsettings ([0f2d806](https://github.com/informatievlaanderen/association-registry/commit/0f2d806e0c9483a3f531a1d1d7428350f56d3f43))
+* or-1437 add value for appsettings ([061a687](https://github.com/informatievlaanderen/association-registry/commit/061a687af088f13299ee6a4eb3aa9206e9c7a9e4))
+* or-1437 faulty configuration for sqs client wrapper ([f0c899c](https://github.com/informatievlaanderen/association-registry/commit/f0c899c5dfa06eab5d2ef1d3051012c25ff3f4a8))
+
 # [8.101.0](https://github.com/informatievlaanderen/association-registry/compare/v8.100.1...v8.101.0) (2024-06-13)
 
 
