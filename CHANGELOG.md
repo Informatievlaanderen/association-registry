@@ -1,3 +1,16 @@
+# [8.102.0](https://github.com/informatievlaanderen/association-registry/compare/v8.101.2...v8.102.0) (2024-06-14)
+
+
+### Bug Fixes
+
+* or-1437 correct appsettings syntax ([1c4bb8d](https://github.com/informatievlaanderen/association-registry/commit/1c4bb8d86a95802142a6ce73b536cf07d203c362))
+* or-1437 move appsettings out of graroptions section ([aa56446](https://github.com/informatievlaanderen/association-registry/commit/aa56446258b4b18d71f08ca58a93c9a3bf2d45c5))
+
+
+### Features
+
+* or-1437 refactor grar options ([b973c36](https://github.com/informatievlaanderen/association-registry/commit/b973c360e1775045331b8dbba21d3d9002fc0de3))
+
 ## [8.101.2](https://github.com/informatievlaanderen/association-registry/compare/v8.101.1...v8.101.2) (2024-06-13)
 
 
