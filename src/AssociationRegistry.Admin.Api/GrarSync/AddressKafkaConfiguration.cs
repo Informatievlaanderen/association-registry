@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Configuration;
 using Confluent.Kafka;
-using Infrastructure.ConfigurationBindings;
 using System;
 
 public class AddressKafkaConfiguration : ConsumerConfig
 {
-    public AddressKafkaConfiguration(AddressKafkaConsumerOptionsSection options)
+    public AddressKafkaConfiguration(GrarOptions.KafkaOptions options)
     {
         var groupId = $"{options.GroupId}-COMPETING_6";
 
