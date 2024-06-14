@@ -1,15 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Magda.Configuration;
+using AssociationRegistry.Configuration;
 using ConfigurationBindings;
-using Grar;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
+using Framework;
+using Magda.Configuration;
 using Newtonsoft.Json;
 using Serilog;
-using System;
 
 public static class ConfigurationExtensions
 {
@@ -23,105 +19,44 @@ public static class ConfigurationExtensions
 
         return postgreSqlOptionsSection!;
     }
-    public static AddressKafkaConsumerOptionsSection GetAddressKafkaConsumerOptionsSection(this IConfiguration configuration)
+
+    public static GrarOptions GetGrarOptions(this IConfiguration configuration)
     {
-        var addressKafkaConsumerOptionsSection = configuration
-                                                .GetSection(AddressKafkaConsumerOptionsSection.SectionName)
-                                                .Get<AddressKafkaConsumerOptionsSection>();
+        var grarOptions = configuration
+                         .GetSection(nameof(GrarOptions))
+                         .Get<GrarOptions>();
 
-        addressKafkaConsumerOptionsSection.ThrowIfInvalid();
+        grarOptions.ThrowIfInValid();
 
-        return addressKafkaConsumerOptionsSection!;
+        return grarOptions!;
     }
 
-    public static AddressMatchOptionsSection GetAddressMatchOptionsSection(this IConfiguration configuration)
+    private static void ThrowIfInValid(this GrarOptions opt)
     {
-        var addressMatchOptionsSection = configuration
-                                      .GetSection(AddressMatchOptionsSection.SectionName)
-                                      .Get<AddressMatchOptionsSection>();
+        if (opt.Kafka.Enabled)
+        {
+            Throw<ArgumentNullException>
+               .IfNullOrWhiteSpace(opt.Kafka.Username, nameof(opt.Kafka.Username));
 
-        addressMatchOptionsSection.ThrowIfInvalid();
-
-        return addressMatchOptionsSection!;
-    }
-
-    public static GrarSyncOptionsSection GetGrarSyncOptionsSection(this IConfiguration configuration)
-    {
-        var grarOptionsSection = configuration
-                                .GetSection(GrarSyncOptionsSection.SectionName)
-                                .Get<GrarSyncOptionsSection>();
-
-        grarOptionsSection.ThrowIfInvalid();
-
-        return grarOptionsSection!;
-    }
-
-    public static GrarOptionsSection GetGrarOptionsSection(this IConfiguration configuration)
-    {
-        var grarOptionsSection = configuration
-                                      .GetSection(GrarOptionsSection.SectionName)
-                                      .Get<GrarOptionsSection>();
-
-        grarOptionsSection.ThrowIfInvalid();
-
-        return grarOptionsSection!;
-    }
-
-    private static void ThrowIfInvalid(this AddressKafkaConsumerOptionsSection? addressKafkaConsumerOptionsSection)
-    {
-        const string sectionName = nameof(AddressMatchOptionsSection);
-
-        if (addressKafkaConsumerOptionsSection == null)
-            throw new ArgumentNullException(nameof(addressKafkaConsumerOptionsSection));
-
-        if(!addressKafkaConsumerOptionsSection.Enabled)
-            return;
+            Throw<ArgumentNullException>
+               .IfNullOrWhiteSpace(opt.Kafka.Password, nameof(opt.Kafka.Password));
+        }
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(addressKafkaConsumerOptionsSection.Username,
-                               $"{sectionName}.{nameof(AddressKafkaConsumerOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(opt.Sqs.AddressMatchQueueName, nameof(opt.Sqs.AddressMatchQueueName));
+
+        if (opt.Sqs.GrarSyncQueueListenerEnabled)
+        {
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncDeadLetterQueueName,
+                                                            nameof(opt.Sqs.GrarSyncDeadLetterQueueName));
+
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncQueueName, nameof(opt.Sqs.GrarSyncQueueName));
+
+            Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncQueueUrl, nameof(opt.Sqs.GrarSyncQueueUrl));
+        }
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(addressKafkaConsumerOptionsSection.Password,
-                               $"{sectionName}.{nameof(AddressKafkaConsumerOptionsSection.Password)}");
-    }
-
-    private static void ThrowIfInvalid(this AddressMatchOptionsSection? addressMatchOptionsSection)
-    {
-        const string sectionName = nameof(AddressMatchOptionsSection);
-
-        if (addressMatchOptionsSection == null)
-            throw new ArgumentNullException(nameof(addressMatchOptionsSection));
-
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(addressMatchOptionsSection.AddressMatchSqsQueueName, $"{sectionName}.{nameof(AddressMatchOptionsSection.AddressMatchSqsQueueName)}");
-    }
-
-    private static void ThrowIfInvalid(this GrarSyncOptionsSection? grarSyncOptionsSection)
-    {
-        const string sectionName = nameof(GrarSyncOptionsSection);
-
-        if (grarSyncOptionsSection == null)
-            throw new ArgumentNullException(nameof(grarSyncOptionsSection));
-
-        if (!grarSyncOptionsSection.Enabled)
-            return;
-
-        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName,
-                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName)}");
-        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueName,
-                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueName)}");
-        Throw<ArgumentNullException>.IfNullOrWhiteSpace(grarSyncOptionsSection.GrarSyncSqsQueueUrl,
-                                                        $"{sectionName}.{nameof(GrarSyncOptionsSection.GrarSyncSqsQueueUrl)}");
-    }
-
-    private static void ThrowIfInvalid(this GrarOptionsSection? grarOptionsSection)
-    {
-        if (grarOptionsSection == null)
-            throw new ArgumentNullException(nameof(grarOptionsSection));
-
-        Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(grarOptionsSection.BaseUrl, $"{GrarOptionsSection.SectionName}.{nameof(GrarOptionsSection.BaseUrl)}");
+           .IfNullOrWhiteSpace(opt.HttpClient.BaseUrl, nameof(opt.HttpClient.BaseUrl));
     }
 
     private static void ThrowIfInvalid(this PostgreSqlOptionsSection? postgreSqlOptions)

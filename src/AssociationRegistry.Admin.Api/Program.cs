@@ -56,10 +56,7 @@ using Notifications;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
-using Serilog.Core;
 using Serilog.Debugging;
-using Serilog.Sinks.OpenTelemetry;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -326,14 +323,12 @@ public class Program
         var elasticSearchOptionsSection = builder.Configuration.GetElasticSearchOptionsSection();
         var postgreSqlOptionsSection = builder.Configuration.GetPostgreSqlOptionsSection();
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
-        var addressMatchOptionsSection = builder.Configuration.GetAddressMatchOptionsSection();
-        var grarSyncOptionsSection = builder.Configuration.GetGrarSyncOptionsSection();
-        var grarOptions = builder.Configuration.GetGrarOptionsSection();
+        var grarOptions = builder.Configuration.GetGrarOptions();
 
         var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
         var appSettings = builder.Configuration.Get<AppSettings>();
 
-        var sqsClient = addressMatchOptionsSection.UseLocalStack
+        var sqsClient = grarOptions.Sqs.UseLocalStack
             ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1)
             : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
@@ -347,15 +342,13 @@ public class Program
 
         builder.Services
                .AddHttpClient<GrarHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.BaseUrl));
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
 
         builder.ConfigureOpenTelemetry(new Instrumentation());
 
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(magdaOptionsSection)
-               .AddSingleton(addressMatchOptionsSection)
-               .AddSingleton(grarSyncOptionsSection)
                .AddSingleton(grarOptions)
                .AddSingleton(appSettings)
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
@@ -595,13 +588,13 @@ public class Program
 
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
-        var addressKafkaConsumerOptionsSection = builder.Configuration.GetAddressKafkaConsumerOptionsSection();
+        var grarOptions = builder.Configuration.GetGrarOptions();
 
-        if(!addressKafkaConsumerOptionsSection.Enabled)
+        if(!grarOptions.Kafka.Enabled)
             return;
 
         builder.Services
-               .AddSingleton(new AddressKafkaConfiguration(addressKafkaConsumerOptionsSection))
+               .AddSingleton(new AddressKafkaConfiguration(grarOptions.Kafka))
                .AddHostedService<AddressKafkaConsumer>();
     }
 

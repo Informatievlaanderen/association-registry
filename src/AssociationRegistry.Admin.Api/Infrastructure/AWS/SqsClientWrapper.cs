@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
 using Amazon.SQS;
+using AssociationRegistry.Configuration;
 using ConfigurationBindings;
 using Grar.HeradresseerLocaties;
 using Kbo;
@@ -13,11 +14,11 @@ public class SqsClientWrapper
     private readonly string _kboSyncQueueUrl;
     private readonly string _readdressQueueUrl;
 
-    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings, GrarSyncOptionsSection grarSyncOptions)
+    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings, GrarOptions grarOptions)
     {
         _sqsClient = sqsClient;
         _kboSyncQueueUrl = appSettings.KboSyncQueueUrl;
-        _readdressQueueUrl = grarSyncOptions.GrarSyncSqsQueueUrl;
+        _readdressQueueUrl = grarOptions.Sqs.GrarSyncQueueUrl;
     }
 
     public async Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message)

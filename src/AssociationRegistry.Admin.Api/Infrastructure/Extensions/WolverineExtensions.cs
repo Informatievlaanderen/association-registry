@@ -1,16 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Amazon.Runtime;
-using ConfigurationBindings;
 using EventStore;
 using Grar.AddressMatch;
 using Grar.HeradresseerLocaties;
 using JasperFx.CodeGeneration;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Logging;
 using Serilog;
-using System;
-using System.Text.Json;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
@@ -37,11 +32,9 @@ public static class WolverineExtensions
                     TimeSpan.FromSeconds(5)
                 );
 
-                var addressMatchOptionsSection = context.Configuration.GetAddressMatchOptionsSection();
-                var grarSyncOptionsSection = context.Configuration.GetGrarSyncOptionsSection();
-                Log.Logger.Information("Address match configuration: {@Config}", addressMatchOptionsSection);
+                var grarOptions = context.Configuration.GetGrarOptions();
 
-                if (addressMatchOptionsSection.OptimizeArtifactWorkflow)
+                if (grarOptions.Wolverine.OptimizeArtifactWorkflow)
                 {
                     options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
                 }
@@ -49,20 +42,20 @@ public static class WolverineExtensions
                 var transportConfiguration = options.UseAmazonSqsTransport(config =>
                 {
                     Log.Logger.Information("Wolverine SQS configuration: {@Config}", config);
-                    config.ServiceURL = addressMatchOptionsSection.SqsTransportServiceUrl;
+                    config.ServiceURL = grarOptions.Wolverine.TransportServiceUrl;
                 });
 
-                if (addressMatchOptionsSection.UseLocalStack)
+                if (grarOptions.Sqs.UseLocalStack)
                 {
                     transportConfiguration.Credentials(new BasicAWSCredentials("dummy", "dummy"));
                 }
 
-                ConfigureAddressMatchPublisher(options, addressMatchOptionsSection);
-                ConfiguredAddressMatchListener(options, addressMatchOptionsSection);
+                ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
+                ConfiguredAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName, grarOptions.Sqs.AddressMatchDeadLetterQueueName);
 
-                ConfigureGrarSyncListener(options, grarSyncOptionsSection);
+                ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName, grarOptions.Sqs.GrarSyncQueueListenerEnabled);
 
-                if (addressMatchOptionsSection.AutoProvision)
+                if (grarOptions.Wolverine.AutoProvision)
                 {
                     transportConfiguration.AutoProvision();
                 }
@@ -72,28 +65,28 @@ public static class WolverineExtensions
             });
     }
 
-    private static void ConfigureAddressMatchPublisher(WolverineOptions options, AddressMatchOptionsSection addressMatchOptionsSection)
+    private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
     {
         options.PublishMessage<TeSynchroniserenAdresMessage>()
-               .ToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName);
+               .ToSqsQueue(sqsQueueName);
     }
 
-    private static void ConfiguredAddressMatchListener(WolverineOptions options, AddressMatchOptionsSection addressMatchOptionsSection)
+    private static void ConfiguredAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
     {
-        options.ListenToSqsQueue(addressMatchOptionsSection.AddressMatchSqsQueueName, configure =>
+        options.ListenToSqsQueue(sqsQueueName, configure =>
                 {
-                    configure.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
+                    configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName, queue =>
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, queue =>
                 {
-                    queue.DeadLetterQueueName = addressMatchOptionsSection.AddressMatchSqsDeadLetterQueueName;
+                    queue.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
                .MaximumParallelMessages(1);
     }
 
-    private static void ConfigureGrarSyncListener(WolverineOptions options, GrarSyncOptionsSection grarSyncOptionsSection)
+    private static void ConfigureGrarSyncListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName, bool enabled)
     {
-        if (!grarSyncOptionsSection.Enabled)
+        if (!enabled)
         {
             Log.Logger.Information("Not setting up GRAR Sync Listener.");
 
@@ -101,17 +94,17 @@ public static class WolverineExtensions
         }
 
         Log.Logger.Information("Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
-            grarSyncOptionsSection.GrarSyncSqsQueueName,
-            grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName
+            sqsQueueName,
+            sqsDeadLetterQueueName
             );
 
-        options.ListenToSqsQueue(grarSyncOptionsSection.GrarSyncSqsQueueName, configure =>
+        options.ListenToSqsQueue(sqsQueueName, configure =>
                 {
-                    configure.DeadLetterQueueName = grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName;
+                    configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName, queue =>
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, queue =>
                 {
-                    queue.DeadLetterQueueName = grarSyncOptionsSection.GrarSyncSqsDeadLetterQueueName;
+                    queue.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
                .ReceiveRawJsonMessage(typeof(TeHeradresserenLocatiesMessage))
                .MaximumParallelMessages(1);
