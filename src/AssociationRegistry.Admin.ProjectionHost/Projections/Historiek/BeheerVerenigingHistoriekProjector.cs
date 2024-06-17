@@ -501,10 +501,9 @@ public class BeheerVerenigingHistoriekProjector
 
         AddHistoriekEntry(
             verenigingWerdVerwijderd,
-            new
-            {
-                verenigingWerdVerwijderd.Data.Reden,
-            },
+            new VerenigingWerdVerwijderdData(
+                verenigingWerdVerwijderd.Data.Reden
+            ),
             document,
             beschrijving: "Deze vereniging werd verwijderd."
         );
