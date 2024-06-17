@@ -590,11 +590,13 @@ public class Program
     {
         var grarOptions = builder.Configuration.GetGrarOptions();
 
+        builder.Services
+               .AddSingleton(new AddressKafkaConfiguration(grarOptions.Kafka));
+
         if(!grarOptions.Kafka.Enabled)
             return;
 
         builder.Services
-               .AddSingleton(new AddressKafkaConfiguration(grarOptions.Kafka))
                .AddHostedService<AddressKafkaConsumer>();
     }
 

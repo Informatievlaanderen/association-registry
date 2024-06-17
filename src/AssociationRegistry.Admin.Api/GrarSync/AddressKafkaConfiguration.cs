@@ -8,7 +8,7 @@ public class AddressKafkaConfiguration : ConsumerConfig
 {
     public AddressKafkaConfiguration(GrarOptions.KafkaOptions options)
     {
-        var groupId = $"{options.GroupId}-COMPETING_6";
+        var groupId = options.GroupId;
 
         BootstrapServers = options.BootstrapServer;
         TopicPartition = new(options.TopicName, Partition.Any);
