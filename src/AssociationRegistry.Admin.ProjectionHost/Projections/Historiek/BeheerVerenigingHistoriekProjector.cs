@@ -522,6 +522,17 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
+        IEvent<AdresWerdGewijzigdInAdressenregister> adresWerdGewijzigdInAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresWerdGewijzigdInAdressenregister,
+            document,
+            $"Adres werd overgenomen uit het adressenregister."
+        );
+    }
+
+    public static void Apply(
         IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> adresKonNietOvergenomenWordenUitAdressenregister,
         BeheerVerenigingHistoriekDocument document)
     {
