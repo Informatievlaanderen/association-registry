@@ -24,7 +24,7 @@ public class When_AdresMatch_Occurred
     [Fact]
     public async Task ThenItSavesTheLocation()
     {
-        var documentStore = TestDocumentStoreFactory.Create(nameof(When_AdresMatch_Occurred));
+        var documentStore = await TestDocumentStoreFactory.Create(nameof(When_AdresMatch_Occurred));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 
@@ -52,6 +52,4 @@ public class When_AdresMatch_Occurred
         result.Version.Should().Be(3);
         documentStore.Dispose();
     }
-
-
 }

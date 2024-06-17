@@ -167,6 +167,18 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
+        => await _elasticRepository.UpdateLocatie<DuplicateDetectionDocument>(
+            message.VCode,
+            new DuplicateDetectionDocument.Locatie()
+            {
+                LocatieId = message.Data.LocatieId,
+                Adresvoorstelling = message.Data.AdresDetailUitAdressenregister.Adres.ToAdresString(),
+                Postcode = message.Data.AdresDetailUitAdressenregister.Adres?.Postcode ?? string.Empty,
+                Gemeente = message.Data.AdresDetailUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+            }
+        );
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {
