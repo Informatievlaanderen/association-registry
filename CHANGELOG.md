@@ -1,3 +1,10 @@
+## [8.102.1](https://github.com/informatievlaanderen/association-registry/compare/v8.102.0...v8.102.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* or-1437 register settings because hostedservice gets picked up by wolverine prebuild ([0aad306](https://github.com/informatievlaanderen/association-registry/commit/0aad306cc7d8274aa24ab22f2a02bbdbb9ee59fb))
+
 # [8.102.0](https://github.com/informatievlaanderen/association-registry/compare/v8.101.2...v8.102.0) (2024-06-14)
 
 
