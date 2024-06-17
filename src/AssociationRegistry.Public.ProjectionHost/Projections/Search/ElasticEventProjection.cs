@@ -256,7 +256,10 @@ public class PubliekZoekProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
-    private static VerenigingZoekDocument.Locatie Map(VerenigingZoekDocument.Locatie locatie, AdresMatchUitAdressenregister adresMatchUitAdressenregister, string vCode)
+    private static VerenigingZoekDocument.Locatie Map(
+        VerenigingZoekDocument.Locatie locatie,
+        AdresMatchUitAdressenregister adresMatchUitAdressenregister,
+        string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
@@ -267,6 +270,22 @@ public class PubliekZoekProjectionHandler
             IsPrimair = locatie.IsPrimair,
             Postcode = adresMatchUitAdressenregister.Adres?.Postcode ?? string.Empty,
             Gemeente = adresMatchUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+        };
+
+    private static VerenigingZoekDocument.Locatie Map(
+        VerenigingZoekDocument.Locatie locatie,
+        AdresDetailUitAdressenregister adresDetailUitAdressenregister,
+        string vCode)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
+            LocatieId = locatie.LocatieId,
+            Locatietype = locatie.Locatietype,
+            Naam = locatie.Naam,
+            Adresvoorstelling = adresDetailUitAdressenregister.Adres.ToAdresString(),
+            IsPrimair = locatie.IsPrimair,
+            Postcode = adresDetailUitAdressenregister.Adres?.Postcode ?? string.Empty,
+            Gemeente = adresDetailUitAdressenregister.Adres?.Gemeente ?? string.Empty,
         };
 
     private static Doelgroep Map(Registratiedata.Doelgroep doelgroep, string vCode)
@@ -372,6 +391,15 @@ public class PubliekZoekProjectionHandler
         await _elasticRepository.UpdateLocatie(
             message.VCode,
             Map(locatie, message.Data.OvergenomenAdresUitAdressenregister, message.VCode));
+    }
+
+    public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
+    {
+        var locatie = await _elasticRepository.GetLocatie(message.VCode, message.Data.LocatieId);
+
+        await _elasticRepository.UpdateLocatie(
+            message.VCode,
+            Map(locatie, message.Data.AdresDetailUitAdressenregister, message.VCode));
     }
 
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)

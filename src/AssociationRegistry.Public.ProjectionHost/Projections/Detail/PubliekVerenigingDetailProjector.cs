@@ -490,6 +490,35 @@ public static class PubliekVerenigingDetailProjector
                                     .ToArray();
     }
 
+    public static void Apply(
+        IEvent<AdresWerdGewijzigdInAdressenregister> adresWerdGewijzigdInAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+        var @event = adresWerdGewijzigdInAdressenregister.Data;
+        var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != adresWerdGewijzigdInAdressenregister.Data.LocatieId)
+                                    .Append(locatie with
+                                     {
+                                         JsonLdMetadata = new JsonLdMetadata(
+                                             JsonLdType.Locatie.CreateWithIdValues(adresWerdGewijzigdInAdressenregister.Data.VCode,
+                                                                                   adresWerdGewijzigdInAdressenregister.Data.LocatieId
+                                                                                      .ToString()),
+                                             JsonLdType.Locatie.Type),
+                                         Adres = Map(adresWerdGewijzigdInAdressenregister.Data.VCode,
+                                                     adresWerdGewijzigdInAdressenregister.Data.LocatieId,
+                                                     adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres),
+                                         Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres
+                                            .ToAdresString(),
+                                         AdresId = Map(adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                         VerwijstNaar =
+                                         MapVerwijstNaar(adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                     })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
     public static void Apply(IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister, PubliekVerenigingDetailDocument document)
     {
         var @event = adresWerdNietGevondenInAdressenregister.Data;
