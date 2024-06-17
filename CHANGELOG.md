@@ -1,3 +1,12 @@
+# [8.103.0](https://github.com/informatievlaanderen/association-registry/compare/v8.102.1...v8.103.0) (2024-06-17)
+
+
+### Features
+
+* or-1437 add AdresWerdGewijzigdInAdressenregister historiek projectie ([3d56d4e](https://github.com/informatievlaanderen/association-registry/commit/3d56d4eadcf142b7ed978cf15e3bc977c5265706))
+* or-1437 add beheer zoek and dubbel detectie projections + fix flaky test ([2a48eb1](https://github.com/informatievlaanderen/association-registry/commit/2a48eb121586d039228fe2bbc1bd0c4e9f130170))
+* or-1437 add publiek detail & zoek projections ([0245207](https://github.com/informatievlaanderen/association-registry/commit/0245207b98867ac5a31823098f4ba76ebee75a25))
+
 ## [8.102.1](https://github.com/informatievlaanderen/association-registry/compare/v8.102.0...v8.102.1) (2024-06-17)
 
 
