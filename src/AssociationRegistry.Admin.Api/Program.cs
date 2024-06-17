@@ -120,7 +120,7 @@ public class Program
 
         app.UseMiddleware<AddProblemJsonHeaderMiddleware>();
 
-        ConfigureHealtChecks(app);
+        // ConfigureHealtChecks(app);
         ConfigureRequestLocalization(app);
         app.ConfigureAdminApiSwagger();
 
@@ -351,6 +351,8 @@ public class Program
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(grarOptions)
                .AddSingleton(appSettings)
+               .AddSingleton(builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                                                                .Get<OAuth2IntrospectionOptions>())
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddSingleton<IAmazonSQS>(sqsClient)
@@ -488,6 +490,15 @@ public class Program
                         options.ClientSecret = configOptions.ClientSecret;
                         options.Authority = configOptions.Authority;
                         options.IntrospectionEndpoint = configOptions.IntrospectionEndpoint;
+
+                        options.Events = new OAuth2IntrospectionEvents()
+                        {
+                            OnAuthenticationFailed = async context =>
+                            {
+
+                                var x = 1;
+                            }
+                        };
                     }
                 );
 

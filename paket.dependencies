@@ -2,6 +2,9 @@ framework: auto-detect
 source https://api.nuget.org/v3/index.json
 // lowest_matching: true
 // PRODUCTION STUFF
+
+nuget Alba
+
 nuget AutoBogus
 nuget AutoFixture
 nuget AutoFixture.Xunit2
@@ -25,6 +28,7 @@ nuget CompareNETObjects
 
 nuget Marten
 nuget Marten.Commandline
+
 
 nuget Microsoft.AspNetCore.Authentication.JwtBearer
 nuget Microsoft.AspNetCore.Hosting

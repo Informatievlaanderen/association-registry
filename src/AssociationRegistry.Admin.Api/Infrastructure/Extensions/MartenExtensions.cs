@@ -30,7 +30,12 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
-                                          opts.Connection(postgreSqlOptions.GetConnectionString());
+                                          var connectionString = postgreSqlOptions.GetConnectionString();
+                                          opts.Connection(connectionString);
+
+                                          opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema ?? opts.Events.DatabaseSchemaName;
+                                          opts.DatabaseSchemaName = postgreSqlOptions.Schema ?? opts.DatabaseSchemaName;
+
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                                           opts.Serializer(CreateCustomMartenSerializer());

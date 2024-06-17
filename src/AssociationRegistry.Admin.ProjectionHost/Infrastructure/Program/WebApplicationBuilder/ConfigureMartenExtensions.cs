@@ -79,6 +79,10 @@ public static class ConfigureMartenExtensions
 
                 opts.Connection(connectionString);
 
+                opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema ?? opts.Events.DatabaseSchemaName;
+                opts.DatabaseSchemaName = postgreSqlOptions.Schema ?? opts.DatabaseSchemaName;
+
+
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                 opts.Events.MetadataConfig.EnableAll();
@@ -91,7 +95,9 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
+
+                opts.Projections.Add(new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()),
+                                     ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(

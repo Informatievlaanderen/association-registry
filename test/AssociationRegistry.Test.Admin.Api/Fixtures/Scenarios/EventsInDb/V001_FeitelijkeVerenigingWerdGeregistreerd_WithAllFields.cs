@@ -87,7 +87,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
-                new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
+                new(Code: "BIAG", Naam: "Burgerinitiatief & Actiegroep"),
             });
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

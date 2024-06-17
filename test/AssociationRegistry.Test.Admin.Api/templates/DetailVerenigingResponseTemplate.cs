@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.templates;
 
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
@@ -310,6 +311,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
         return this;
     }
+
 
     public DetailVerenigingResponseTemplate FromEvent(FeitelijkeVerenigingWerdGeregistreerd e)
     {

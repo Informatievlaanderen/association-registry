@@ -1,6 +1,10 @@
 RESTRICTION: == net8.0
 NUGET
   remote: https://api.nuget.org/v3/index.json
+    Alba (7.4.1)
+      IdentityModel (>= 6.0)
+      Microsoft.AspNetCore.Authentication.JwtBearer (>= 7.0)
+      Microsoft.AspNetCore.Mvc.Testing (>= 7.0)
     Asp.Versioning.Abstractions (8.1)
       Microsoft.Extensions.Primitives (>= 8.0)
     Asp.Versioning.Http (8.1)
