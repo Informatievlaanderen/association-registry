@@ -1,3 +1,10 @@
+## [8.103.1](https://github.com/informatievlaanderen/association-registry/compare/v8.103.0...v8.103.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* or-2203 use typed object io anonymous for historiek projection ([fdd06fd](https://github.com/informatievlaanderen/association-registry/commit/fdd06fdd9dcda16cf0ea94988f9615ad415a200c))
+
 # [8.103.0](https://github.com/informatievlaanderen/association-registry/compare/v8.102.1...v8.103.0) (2024-06-17)
 
 
