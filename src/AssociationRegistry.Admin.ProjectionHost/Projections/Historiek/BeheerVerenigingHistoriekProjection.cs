@@ -164,6 +164,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<AdresWerdOvergenomenUitAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<AdresWerdGewijzigdInAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
