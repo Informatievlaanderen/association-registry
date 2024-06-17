@@ -6,7 +6,7 @@ using Weasel.Core;
 
 public class TestDocumentStoreFactory
 {
-    public static DocumentStore Create(string schema)
+    public static async Task<DocumentStore> Create(string schema)
     {
         var documentStore = DocumentStore.For(options =>
         {
@@ -22,6 +22,7 @@ public class TestDocumentStoreFactory
             options.AutoCreateSchemaObjects = AutoCreate.All;
         });
 
+        await documentStore.Advanced.ResetAllData();
         return documentStore;
     }
 }
