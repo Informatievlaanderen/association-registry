@@ -2,6 +2,7 @@
 
 using ConfigurationBindings;
 using Constants;
+using GrarSync;
 using JasperFx.CodeGeneration;
 using Json;
 using Magda.Models;
@@ -42,6 +43,7 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                                           opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
 
                                           opts.Schema.For<LocatieLookupDocument>()
                                               .UseNumericRevisions(true)

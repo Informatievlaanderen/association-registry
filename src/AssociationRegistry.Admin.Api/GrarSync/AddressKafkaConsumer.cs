@@ -44,35 +44,38 @@ public class AddressKafkaConsumer : BackgroundService
             {
                 var result = consumer.Consume(1000);
 
-                if (await DelayIfNull(result, 1000, stoppingToken)) continue;
+                if (await DelayIfNull(result, 1000, stoppingToken))
+                    continue;
 
                 var idempotenceKey = FetchIdempotenceKey(result);
 
-                if (IsIdempotenceKeyAllowed(session, idempotenceKey))
+                if (MessageAlreadyProcessed(session, idempotenceKey))
                 {
-                    var message = result.Message.GetTypedMessage();
+                    consumer.Commit(result);
+                    continue;
+                }
 
-                    _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Message: {message.GetType().Name}");
+                var message = result.Message.GetTypedMessage();
 
-                    switch (message)
-                    {
-                        case StreetNameWasReaddressed streetNameWasReaddressed:
-                            _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
-                            _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Partition: {result.Partition}");
+                _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Message: {message.GetType().Name}");
 
-                            var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers, idempotenceKey);
+                switch (message)
+                {
+                    case StreetNameWasReaddressed streetNameWasReaddressed:
+                        _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
 
-                            foreach (var teHeradresserenLocatiesMessage in teHeradresserenLocatiesMessages)
-                            {
-                                await _sqsClientWrapper.QueueReaddressMessage(teHeradresserenLocatiesMessage);
-                            }
-                            break;
-                    }
+                        var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers, idempotenceKey);
+
+                        foreach (var teHeradresserenLocatiesMessage in teHeradresserenLocatiesMessages)
+                        {
+                            await _sqsClientWrapper.QueueReaddressMessage(teHeradresserenLocatiesMessage);
+                        }
+                        break;
                 }
 
                 consumer.Commit(result);
 
-                // await AppendLatestKnownOffset(session, result, stoppingToken);
+                await AppendLatestKnownOffset(session, result, stoppingToken);
             }
         }
         finally
@@ -96,7 +99,7 @@ public class AddressKafkaConsumer : BackgroundService
         ConsumeResult<string, string> result,
         CancellationToken cancellationToken)
     {
-        session.Events.Append(WellknownStreamNames.AddressKafkaConsumerOffset, new AddressKafkaConsumerOffset
+        session.Insert(new AddressKafkaConsumerOffset
         {
             Timestamp = result.Message.Timestamp.UnixTimestampMs,
             DateTime = result.Message.Timestamp.UtcDateTime,
@@ -123,11 +126,9 @@ public class AddressKafkaConsumer : BackgroundService
         return consumer;
     }
 
-    private bool IsIdempotenceKeyAllowed(IDocumentSession session, string idempotenceKey)
-        => true;
-        // => !session.Events
-        //            .QueryRawEventDataOnly<AddressKafkaConsumerOffset>()
-        //            .Any(m => m.IdempotenceKey == idempotenceKey);
+    private bool MessageAlreadyProcessed(IDocumentSession session, string idempotenceKey)
+        => session.Query<AddressKafkaConsumerOffset>()
+                  .Any(m => m.IdempotenceKey == idempotenceKey);
 
     private string FetchIdempotenceKey(ConsumeResult<string, string> result)
         => result.Message.Headers.TryGetLastBytes("IdempotenceKey", out var idempotenceHeaderAsBytes)
