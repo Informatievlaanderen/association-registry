@@ -1,3 +1,16 @@
+# [8.105.0](https://github.com/informatievlaanderen/association-registry/compare/v8.104.0...v8.105.0) (2024-06-19)
+
+
+### Bug Fixes
+
+* or-1437 add default value for slackwebhookurl ([0372641](https://github.com/informatievlaanderen/association-registry/commit/03726413fdeb14ce63c3ac29b6bd539045ea65fc))
+* or-1437 fix timestamp AdresWerdGewijzigdInAdressenregister and include in ConflictResolution ([2917a70](https://github.com/informatievlaanderen/association-registry/commit/2917a702c1ac0951ae00cbc352f6cae5432cd34b))
+
+
+### Features
+
+* or-1437 retry kafka consumer and add slack notification ([b95c090](https://github.com/informatievlaanderen/association-registry/commit/b95c090902ee5053a0571c875a8d6902cb629ffd))
+
 # [8.104.0](https://github.com/informatievlaanderen/association-registry/compare/v8.103.1...v8.104.0) (2024-06-19)
 
 
