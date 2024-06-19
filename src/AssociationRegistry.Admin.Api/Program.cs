@@ -4,6 +4,7 @@ using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Asp.Versioning.ApplicationModels;
+using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.Api.Localization;
@@ -66,7 +67,6 @@ using System.Text;
 using VCodeGeneration;
 using Vereniging;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
-using IMessage = Notifications.IMessage;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
 public class Program
@@ -356,6 +356,7 @@ public class Program
                .AddSingleton<IAmazonSQS>(sqsClient)
                .AddSingleton<IClock, Clock>()
                .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
+               .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
                .AddScoped<InitiatorProvider>()
                .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
@@ -370,7 +371,7 @@ public class Program
                .AddTransient<IDuplicateVerenigingDetectionService, SearchDuplicateVerenigingDetectionService>()
                .AddTransient<IGrarClient, GrarClient>()
                .AddTransient<IMagdaCallReferenceRepository, MagdaCallReferenceRepository>()
-               .AddTransient<INotifier, NullNotifier>()
+               .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()
                .AddTransient<TeHeradresserenLocatiesMapper>()
                .AddMarten(postgreSqlOptionsSection)

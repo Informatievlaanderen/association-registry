@@ -1,12 +1,14 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
-using Constants;
 using IdentityModel;
 using Infrastructure.AWS;
 using Infrastructure.Extensions;
 using Marten;
+using Notifications.Messages;
+using Polly;
 using System.Text;
 
 public class AddressKafkaConsumer : BackgroundService
@@ -15,6 +17,7 @@ public class AddressKafkaConsumer : BackgroundService
     private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
     private readonly SqsClientWrapper _sqsClientWrapper;
     private readonly IDocumentStore _store;
+    private readonly INotifier _notifier;
     private readonly ILogger<AddressKafkaConsumer> _logger;
 
     public AddressKafkaConsumer(
@@ -22,18 +25,35 @@ public class AddressKafkaConsumer : BackgroundService
         TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
         SqsClientWrapper sqsClientWrapper,
         IDocumentStore store,
+        INotifier notifier,
         ILogger<AddressKafkaConsumer> logger)
     {
         _configuration = configuration;
         _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
         _sqsClientWrapper = sqsClientWrapper;
         _store = store;
+        _notifier = notifier;
         _logger = logger;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
+        await Policy
+              .Handle<Exception>()
+              .WaitAndRetryForeverAsync(
+                   retryAttempt =>  TimeSpan.FromSeconds(Math.Pow(2, retryAttempt < 5 ? retryAttempt : 5)),
+                   async (exception, _) =>
+                   {
+                       _logger.LogError(exception, $"{nameof(AddressKafkaConsumer)} failed");
+                       await _notifier.Notify(new AdresKafkaConsumerGefaald(exception));
+                   })
+              .ExecuteAsync(Consume, stoppingToken);
+    }
+
+    private async Task Consume(CancellationToken stoppingToken)
+    {
         var consumer = FetchConsumer();
+
         try
         {
             await using var session = _store.LightweightSession();
@@ -57,12 +77,10 @@ public class AddressKafkaConsumer : BackgroundService
 
                 var message = result.Message.GetTypedMessage();
 
-                _logger.LogInformation($"Consumer: {consumer.MemberId}, Offset: {result.Offset}, Message: {message.GetType().Name}");
-
                 switch (message)
                 {
                     case StreetNameWasReaddressed streetNameWasReaddressed:
-                        _logger.LogInformation($"########## {nameof(StreetNameWasReaddressed)} found! ##########");
+                        _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
                         var teHeradresserenLocatiesMessages = await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers, idempotenceKey);
 
