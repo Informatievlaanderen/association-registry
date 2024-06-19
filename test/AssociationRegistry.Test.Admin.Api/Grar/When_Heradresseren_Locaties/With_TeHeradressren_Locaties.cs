@@ -42,7 +42,7 @@ public class With_TeHeradressren_Locaties
 
         var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
-        await messageHandler.Handle(message);
+        await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
@@ -81,7 +81,7 @@ public class With_Multiple_TeHeradressren_Locaties
 
         var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
-        await messageHandler.Handle(message);
+        await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message.idempotencyKey),
@@ -129,9 +129,9 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
-        await messageHandler.Handle(message1);
-        await messageHandler.Handle(message2);
-        await messageHandler.Handle(message1); // idempotent message
+        await messageHandler.Handle(message1, CancellationToken.None);
+        await messageHandler.Handle(message2, CancellationToken.None);
+        await messageHandler.Handle(message1, CancellationToken.None); // idempotent message
 
         verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.Should()
                                                    .BeEquivalentTo(

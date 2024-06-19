@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Grar.HeradresseerLocaties;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Vereniging;
+using EventStore;
+using Framework;
+using Models;
 using NodaTime;
+using Vereniging;
 
 public class HeradresseerLocatiesMessageHandler
 {
@@ -17,7 +17,7 @@ public class HeradresseerLocatiesMessageHandler
         _client = client;
     }
 
-    public async Task Handle(TeHeradresserenLocatiesMessage message)
+    public async Task Handle(TeHeradresserenLocatiesMessage message, CancellationToken cancellationToken)
     {
         var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 
@@ -25,7 +25,9 @@ public class HeradresseerLocatiesMessageHandler
 
         vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey);
 
-        await _repository.Save(vereniging, new CommandMetadata("", Instant.MinValue, Guid.NewGuid()), CancellationToken.None);
+        await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
+                                                               SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
+                                                               vereniging.Version), cancellationToken);
     }
 
     private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<LocatieIdWithAdresId> locatiesMetAdres)
