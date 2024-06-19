@@ -10,7 +10,7 @@ public class SlackNotifier : INotifier
 
     public SlackNotifier(SlackWebhook webhookUrl, ILogger<SlackNotifier> logger)
     {
-        if (webhookUrl == null) throw new ArgumentNullException(nameof(webhookUrl));
+        if (webhookUrl.Url == null) throw new ArgumentNullException(nameof(webhookUrl));
         _logger = logger;
 
         _slackClient = new SlackClient(webhookUrl.Url);
