@@ -1,3 +1,10 @@
+# [8.104.0](https://github.com/informatievlaanderen/association-registry/compare/v8.103.1...v8.104.0) (2024-06-19)
+
+
+### Features
+
+* or-1437 implement idempotency for heradresseer ([ee6a0f0](https://github.com/informatievlaanderen/association-registry/commit/ee6a0f08d25ae98309b85e504acbb6de2000c392))
+
 ## [8.103.1](https://github.com/informatievlaanderen/association-registry/compare/v8.103.0...v8.103.1) (2024-06-17)
 
 
