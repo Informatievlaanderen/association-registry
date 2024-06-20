@@ -24,7 +24,7 @@ public class Given_AdresWerdGewijzigdInAdressenregister
         BeheerVerenigingHistoriekProjector.Apply(adresWerdGewijzigdInAdressenregister, doc);
 
         doc.Gebeurtenissen.Should()
-           .ContainEquivalentOf(new BeheerVerenigingHistoriekGebeurtenis($"Adres werd overgenomen uit het adressenregister.",
+           .ContainEquivalentOf(new BeheerVerenigingHistoriekGebeurtenis($"Adres werd gewijzigd in het adressenregister.",
                                                                          nameof(AdresWerdGewijzigdInAdressenregister),
                                                                          adresWerdGewijzigdInAdressenregister.Data,
                                                                          adresWerdGewijzigdInAdressenregister.Initiator,

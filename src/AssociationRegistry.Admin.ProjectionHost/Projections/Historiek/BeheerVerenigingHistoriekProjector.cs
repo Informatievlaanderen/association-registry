@@ -527,7 +527,7 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             adresWerdGewijzigdInAdressenregister,
             document,
-            $"Adres werd overgenomen uit het adressenregister."
+            $"Adres werd gewijzigd in het adressenregister."
         );
     }
 
