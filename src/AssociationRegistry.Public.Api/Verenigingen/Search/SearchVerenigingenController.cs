@@ -150,12 +150,13 @@ public class SearchVerenigingenController : ApiController
         {
             logger.LogWarning("An exception occurred while trying to search: {Info}", searchResponse.DebugInformation);
             logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
+
             throw searchResponse.OriginalException;
         }
 
-        var response = _responseMapper.ToSearchVereningenResponse(searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+            var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
-        return Ok(response);
+            return Ok(response);
     }
 
     private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
