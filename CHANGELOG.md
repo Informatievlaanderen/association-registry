@@ -1,3 +1,11 @@
+## [8.105.1](https://github.com/informatievlaanderen/association-registry/compare/v8.105.0...v8.105.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* or-1437 fix description adreswerdgewijzigd ([7ef3482](https://github.com/informatievlaanderen/association-registry/commit/7ef348235360d68a27ef326af3b108a89b6c2156))
+* or-1437 handle unknown messages ([5a76aa8](https://github.com/informatievlaanderen/association-registry/commit/5a76aa8b71e2d020d743688d92a3602e6a5280ad))
+
 # [8.105.0](https://github.com/informatievlaanderen/association-registry/compare/v8.104.0...v8.105.0) (2024-06-19)
 
 
