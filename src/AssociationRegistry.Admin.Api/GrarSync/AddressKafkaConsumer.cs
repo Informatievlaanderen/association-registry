@@ -89,6 +89,10 @@ public class AddressKafkaConsumer : BackgroundService
                             await _sqsClientWrapper.QueueReaddressMessage(teHeradresserenLocatiesMessage);
                         }
                         break;
+
+                    case null:
+                        _logger.LogWarning($"Encountered a message we couldn't deserialize. Offset: {result.Offset}");
+                        break;
                 }
 
                 consumer.Commit(result);

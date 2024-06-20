@@ -8,7 +8,7 @@ using System.Reflection;
 
 public static class MessageExtensions
 {
-    public static object GetTypedMessage<TKey, TValue>(this Message<TKey, TValue> message)
+    public static object? GetTypedMessage<TKey, TValue>(this Message<TKey, TValue> message)
     {
         var jToken = JToken.Parse(message.Value.ToString());
         var incomingType = jToken.SelectToken("type").ToString();
@@ -17,11 +17,9 @@ public static class MessageExtensions
         var contractAssembly = Assembly.Load("Be.Vlaanderen.Basisregisters.GrAr.Contracts");
         var type = contractAssembly.GetType(incomingType);
 
-        if(type is null) throw new KafkaMessageTypeNotFound(incomingType);
+        if(type is null) return null;
 
-        var data = JsonConvert.DeserializeObject(incomingData, type, new JsonSerializerSettings());
-
-        return data;
+        return JsonConvert.DeserializeObject(incomingData, type, new JsonSerializerSettings());
     }
 }
 
