@@ -23,7 +23,7 @@ public class HeradresseerLocatiesMessageHandler
 
         var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres);
 
-        vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey);
+        await vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey, _client);
 
         await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
                                                                SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),

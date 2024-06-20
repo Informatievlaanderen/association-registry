@@ -11,6 +11,7 @@ using Fakes;
 using FluentAssertions;
 using Framework;
 using Moq;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,9 +34,11 @@ public class With_TeHeradressren_Locaties
         grarClientMock.Setup(x => x.GetAddress("123"))
                       .ReturnsAsync(mockedAdresDetail);
 
+        var locatieId = scenario.Locaties.First().LocatieId;
+
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(1, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
@@ -45,7 +48,8 @@ public class With_TeHeradressren_Locaties
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
+                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
         );
     }
 }
@@ -72,9 +76,12 @@ public class With_Multiple_TeHeradressren_Locaties
         grarClientMock.Setup(x => x.GetAddress("456"))
                       .ReturnsAsync(mockedAdresDetail2);
 
+        var locatieId1 = scenario.Locaties.First().LocatieId;
+        var locatieId2 = scenario.Locaties.ToArray()[1].LocatieId;
+
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new (1, "123"), new (2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
@@ -84,8 +91,12 @@ public class With_Multiple_TeHeradressren_Locaties
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message.idempotencyKey),
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 2, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2), message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
+                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1),
+                                                     message.idempotencyKey),
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
+                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2),
+                                                     message.idempotencyKey)
         );
     }
 }
@@ -113,16 +124,19 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                       .ReturnsAsync(mockedAdresDetail2);
 
         var idempotenceKey = "123456789";
+        var locatieId1 = scenario.Locaties.First().LocatieId;
+        var locatieId2 = scenario.Locaties.ToArray()[1].LocatieId;
+
         var message1 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new (1, "123"), new (2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey
         };
 
         var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new (1, "123"), new (2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey + 1
         };
@@ -134,21 +148,96 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
         await messageHandler.Handle(message1, CancellationToken.None); // idempotent message
 
         verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.Should()
-                                                   .BeEquivalentTo(
-                                     new List<IEvent>(){
-                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message1.idempotencyKey),
-                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 2, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2), message1.idempotencyKey)
+                                .BeEquivalentTo(
+                                     new List<IEvent>()
+                                     {
+                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
+                                                                                  AdresDetailUitAdressenregister.FromResponse(
+                                                                                      mockedAdresDetail1), message1.idempotencyKey),
+                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
+                                                                                  AdresDetailUitAdressenregister.FromResponse(
+                                                                                      mockedAdresDetail2), message1.idempotencyKey)
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 
         verenigingRepositoryMock.SaveInvocations[1].Vereniging.UncommittedEvents.Should()
-                                                   .BeEquivalentTo(
-                                     new List<IEvent>(){
-                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 1, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1), message2.idempotencyKey),
-                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, 2, AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2), message2.idempotencyKey)
+                                .BeEquivalentTo(
+                                     new List<IEvent>()
+                                     {
+                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
+                                                                                  AdresDetailUitAdressenregister.FromResponse(
+                                                                                      mockedAdresDetail1), message2.idempotencyKey),
+                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
+                                                                                  AdresDetailUitAdressenregister.FromResponse(
+                                                                                      mockedAdresDetail2), message2.idempotencyKey)
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 
         verenigingRepositoryMock.SaveInvocations[2].Vereniging.UncommittedEvents.Should().BeEmpty();
+    }
+}
+
+public class With_DecoratingWithPostalInformation
+{
+    [Fact]
+    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState() with
+        {
+            Locaties = Locaties.Empty.Hydrate(new[]
+            {
+                fixture.Create<Locatie>() with
+                {
+                    Adres = Adres.Create("straat", "14", "", "1790", "Hekelgem (Affligem)", "Belgie")
+                },
+            }),
+        };
+
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+
+        var mockedAdresDetail = fixture.Create<AddressDetailResponse>();
+
+        var mockedPostalInformation = new PostalInformationResponse(mockedAdresDetail.Postcode,
+                                                                    "Affligem",
+                                                                    new[] { "Hekelgem" });
+
+        var grarClientMock = new Mock<IGrarClient>();
+
+        grarClientMock.Setup(x => x.GetAddress("123"))
+                      .ReturnsAsync(mockedAdresDetail);
+
+        grarClientMock.Setup(x => x.GetPostalInformation(mockedAdresDetail.Postcode))
+                      .ReturnsAsync(mockedPostalInformation);
+
+        var locatieId = scenario.Locaties.First().LocatieId;
+
+        var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        {
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
+            VCode = "V001",
+            idempotencyKey = "123456789",
+        };
+
+        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+
+        var expectedAdres = new AdresDetailUitAdressenregister()
+        {
+            Adres = new Registratiedata.Adres(mockedAdresDetail.Straatnaam,
+                                              mockedAdresDetail.Huisnummer,
+                                              mockedAdresDetail.Busnummer,
+                                              mockedAdresDetail.Postcode,
+                                              "Hekelgem (Affligem)",
+                                              "België"),
+            AdresId = mockedAdresDetail.AdresId,
+        };
+
+        await messageHandler.Handle(message, CancellationToken.None);
+
+        verenigingRepositoryMock.ShouldHaveSaved(
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
+                                                     expectedAdres, message.idempotencyKey)
+        );
     }
 }
