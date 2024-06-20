@@ -1,3 +1,10 @@
+## [8.106.1](https://github.com/informatievlaanderen/association-registry/compare/v8.106.0...v8.106.1) (2024-06-20)
+
+
+### Bug Fixes
+
+* diagnose q=* exception ([72fa4ed](https://github.com/informatievlaanderen/association-registry/commit/72fa4ed8115225fe2f71cc7d40c1e06af5ff1ec3))
+
 # [8.106.0](https://github.com/informatievlaanderen/association-registry/compare/v8.105.1...v8.106.0) (2024-06-20)
 
 
