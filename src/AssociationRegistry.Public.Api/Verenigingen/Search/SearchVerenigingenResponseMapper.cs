@@ -23,6 +23,7 @@ public class SearchVerenigingenResponseMapper
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
+        ILogger<SearchVerenigingenController> logger,
         ISearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery,
@@ -31,7 +32,7 @@ public class SearchVerenigingenResponseMapper
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
-                                         .Select(x => Map(x.Source, _appSettings))
+                                         .Select(x => Map(logger, x.Source, _appSettings))
                                          .ToArray(),
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
@@ -43,31 +44,52 @@ public class SearchVerenigingenResponseMapper
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
         };
 
-    private static Vereniging Map(VerenigingZoekDocument verenigingZoekDocument, AppSettings appSettings)
-        => new()
+    private static Vereniging Map(
+        ILogger<SearchVerenigingenController> logger,
+        VerenigingZoekDocument verenigingZoekDocument,
+        AppSettings appSettings)
+    {
+        if (verenigingZoekDocument == null)
+            throw new ArgumentNullException(nameof(verenigingZoekDocument));
+
+        if (appSettings == null)
+            throw new ArgumentNullException(nameof(appSettings));
+
+        try
         {
-            type = verenigingZoekDocument.JsonLdMetadataType,
-            VCode = verenigingZoekDocument.VCode,
-            Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
-            Naam = verenigingZoekDocument.Naam,
-            Roepnaam = verenigingZoekDocument.Roepnaam,
-            KorteNaam = verenigingZoekDocument.KorteNaam,
-            KorteBeschrijving = verenigingZoekDocument.KorteBeschrijving,
-            Doelgroep = Map(verenigingZoekDocument.Doelgroep),
-            HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
-                                                                      .Select(Map)
-                                                                      .ToArray(),
-            Locaties = verenigingZoekDocument.Locaties
-                                             .Select(Map)
-                                             .ToArray(),
-            Sleutels = verenigingZoekDocument.Sleutels
-                                             .Select(Map)
-                                             .ToArray(),
-            Relaties = verenigingZoekDocument.Relaties
-                                             .Select(r => Map(appSettings, r))
-                                             .ToArray(),
-            Links = Map(verenigingZoekDocument.VCode, appSettings),
-        };
+            return new Vereniging
+            {
+                type = verenigingZoekDocument.JsonLdMetadataType,
+                VCode = verenigingZoekDocument.VCode,
+                Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
+                Naam = verenigingZoekDocument.Naam,
+                Roepnaam = verenigingZoekDocument.Roepnaam,
+                KorteNaam = verenigingZoekDocument.KorteNaam,
+                KorteBeschrijving = verenigingZoekDocument.KorteBeschrijving,
+                Doelgroep = Map(verenigingZoekDocument.Doelgroep),
+                HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
+                                                                          .Select(Map)
+                                                                          .ToArray(),
+                Locaties = verenigingZoekDocument.Locaties
+                                                 .Select(Map)
+                                                 .ToArray(),
+                Sleutels = verenigingZoekDocument.Sleutels
+                                                 .Select(Map)
+                                                 .ToArray(),
+                Relaties = verenigingZoekDocument.Relaties
+                                                 .Select(r => Map(appSettings, r))
+                                                 .ToArray(),
+                Links = Map(verenigingZoekDocument.VCode, appSettings),
+            };
+
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error occurred while mapping {VCode}", verenigingZoekDocument.VCode);
+
+            throw;
+        }
+    }
 
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()
