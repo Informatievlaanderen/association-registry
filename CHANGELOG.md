@@ -1,3 +1,10 @@
+# [8.106.0](https://github.com/informatievlaanderen/association-registry/compare/v8.105.1...v8.106.0) (2024-06-20)
+
+
+### Features
+
+* or-1437 decorate adreswijziging met deelgemeente ([507843d](https://github.com/informatievlaanderen/association-registry/commit/507843d800a785c61bba48a7659d7bf22ebaa1c4))
+
 ## [8.105.1](https://github.com/informatievlaanderen/association-registry/compare/v8.105.0...v8.105.1) (2024-06-20)
 
 
