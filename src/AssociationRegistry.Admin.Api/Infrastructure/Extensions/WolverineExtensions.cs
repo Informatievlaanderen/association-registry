@@ -36,7 +36,7 @@ public static class WolverineExtensions
 
                 if (grarOptions.Wolverine.OptimizeArtifactWorkflow)
                 {
-                    options.OptimizeArtifactWorkflow(TypeLoadMode.Static);
+                    options.CodeGeneration.TypeLoadMode = TypeLoadMode.Static;
                 }
 
                 var transportConfiguration = options.UseAmazonSqsTransport(config =>
