@@ -1,3 +1,10 @@
+## [8.106.2](https://github.com/informatievlaanderen/association-registry/compare/v8.106.1...v8.106.2) (2024-06-21)
+
+
+### Bug Fixes
+
+* only set type load mode, so missing storage is still built ([9fad9b7](https://github.com/informatievlaanderen/association-registry/commit/9fad9b7b53218fbae6472ea2b4d49e0104db25f1))
+
 ## [8.106.1](https://github.com/informatievlaanderen/association-registry/compare/v8.106.0...v8.106.1) (2024-06-20)
 
 
