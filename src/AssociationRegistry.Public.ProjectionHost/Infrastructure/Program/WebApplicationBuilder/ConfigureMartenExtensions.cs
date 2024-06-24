@@ -84,7 +84,8 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IMessageBus>()
+                            serviceProvider.GetRequiredService<IMessageBus>(),
+                            serviceProvider.GetRequiredService<ILogger<MartenEventsConsumer>>()
                         )
                     ),
                     ProjectionLifecycle.Async,
