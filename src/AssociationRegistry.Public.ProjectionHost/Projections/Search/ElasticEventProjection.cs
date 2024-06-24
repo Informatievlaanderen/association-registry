@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formatters;
-using JasperFx.Core;
 using JsonLdContext;
 using Schema.Constants;
 using Schema.Detail;
