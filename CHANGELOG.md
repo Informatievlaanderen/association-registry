@@ -1,3 +1,11 @@
+## [8.107.1](https://github.com/informatievlaanderen/association-registry/compare/v8.107.0...v8.107.1) (2024-06-24)
+
+
+### Bug Fixes
+
+* or-2235 public search determine all subscribers for wolverine handlers ([10c653e](https://github.com/informatievlaanderen/association-registry/commit/10c653e829074269150b8ecd53e24b04ae96346a))
+* or-2235 use PubliekZoekProjectionHandler directly in MartenEventsConsumer ([889d8ed](https://github.com/informatievlaanderen/association-registry/commit/889d8ed896c776cdc6a4ad254f10a3fc22068536))
+
 # [8.107.0](https://github.com/informatievlaanderen/association-registry/compare/v8.106.2...v8.107.0) (2024-06-24)
 
 
