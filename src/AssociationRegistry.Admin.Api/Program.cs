@@ -22,6 +22,7 @@ using FluentValidation;
 using Framework;
 using Grar;
 using GrarSync;
+using Hosts;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
 using Infrastructure.AWS;
@@ -49,6 +50,7 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -136,6 +138,10 @@ public class Program
         ConfigureLifetimeHooks(app);
 
         await RunPreStartupTasks(app, logger);
+
+        await WaitFor.ElasticSearchToBecomeAvailable(
+            app.Services.GetRequiredService<ElasticClient>(),
+            app.Services.GetRequiredService<ILogger<Program>>());
 
         await app.RunOaktonCommands(args);
     }
