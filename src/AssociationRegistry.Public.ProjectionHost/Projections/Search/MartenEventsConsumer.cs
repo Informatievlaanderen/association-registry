@@ -2,17 +2,16 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Marten.Events;
-using Wolverine;
 using IEvent = Marten.Events.IEvent;
 
 public class MartenEventsConsumer : IMartenEventsConsumer
 {
-    private readonly IMessageBus _bus;
+    private readonly PubliekZoekProjectionHandler _handler;
     private readonly ILogger<MartenEventsConsumer> _logger;
 
-    public MartenEventsConsumer(IMessageBus bus, ILogger<MartenEventsConsumer> logger)
+    public MartenEventsConsumer(PubliekZoekProjectionHandler handler, ILogger<MartenEventsConsumer> logger)
     {
-        _bus = bus;
+        _handler = handler;
         _logger = logger;
     }
 
@@ -52,7 +51,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                     try
                     {
-                        await _bus.InvokeAsync(eventEnvelope);
+                        await _handler.Handle(eventEnvelope);
 
                         break;
                     }
