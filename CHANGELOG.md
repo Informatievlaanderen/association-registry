@@ -1,3 +1,10 @@
+# [8.107.0](https://github.com/informatievlaanderen/association-registry/compare/v8.106.2...v8.107.0) (2024-06-24)
+
+
+### Features
+
+* or-2238 waitfor elastic on startup admin api ([1e675a8](https://github.com/informatievlaanderen/association-registry/commit/1e675a8c9c7f95d633d34afcd5f770abcff05e92))
+
 ## [8.106.2](https://github.com/informatievlaanderen/association-registry/compare/v8.106.1...v8.106.2) (2024-06-21)
 
 
