@@ -84,7 +84,7 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(
                     new MartenSubscription(
                         new MartenEventsConsumer(
-                            serviceProvider.GetRequiredService<IMessageBus>(),
+                            new PubliekZoekProjectionHandler(serviceProvider.GetRequiredService<IElasticRepository>()),
                             serviceProvider.GetRequiredService<ILogger<MartenEventsConsumer>>()
                         )
                     ),
