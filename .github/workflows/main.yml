@@ -618,7 +618,7 @@ jobs:
     name: Notify slack
     runs-on: ubuntu-latest
 
-    needs: [ build ]
+    needs: [ deploy_test_ik4 ]
 
     steps:
       - name: Construct Slack message
