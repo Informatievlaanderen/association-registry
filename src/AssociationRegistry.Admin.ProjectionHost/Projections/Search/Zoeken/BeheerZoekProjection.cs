@@ -414,6 +414,13 @@ public class BeheerZoekProjectionHandler
             Map(locatie, message.Data.AdresDetailUitAdressenregister, message.VCode));
     }
 
+    public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
+    {
+        await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            message.Data.VerwijderdeLocatieId);
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {

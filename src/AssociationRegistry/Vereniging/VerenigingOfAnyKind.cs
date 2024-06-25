@@ -144,12 +144,36 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         {
             var @event = await GetAdresMatchEvent(locatieId, locatie, grarClient);
 
-            if (@event is AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomenUitAdressenregister)
+            if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
             {
-                if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomenUitAdressenregister, locatie)) return;
+                AddEvent(@event);
+
+                return;
             }
 
-            AddEvent(@event);
+            if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
+                return;
+
+            var stateLocatie = State.Locaties.SingleOrDefault(
+                sod =>
+                    sod.AdresId is not null &&
+                    sod.AdresId == adresWerdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId &&
+                    sod.Naam == locatie.Naam);
+
+            if (stateLocatie is not null)
+            {
+                var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
+                var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
+
+                AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
+                                                                        behoudenLocatieId,
+                                                                        locatie.Naam,
+                                                                        adresWerdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId));
+
+                return;
+            }
+
+            AddEvent(adresWerdOvergenomen);
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {

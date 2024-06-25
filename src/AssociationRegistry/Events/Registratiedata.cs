@@ -70,6 +70,15 @@ public static class Registratiedata
                 adresId.Adresbron.Code,
                 adresId.Bronwaarde);
         }
+
+        public bool Equals(Vereniging.AdresId adresId)
+            => this == adresId;
+
+        public static bool operator ==(AdresId first, Vereniging.AdresId second)
+            => first.Broncode == second.Adresbron.Code && first.Bronwaarde == second.Bronwaarde;
+
+        public static bool operator !=(AdresId first, Vereniging.AdresId second)
+            => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
     }
 
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd)

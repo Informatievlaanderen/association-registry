@@ -571,4 +571,16 @@ public class BeheerVerenigingHistoriekProjector
             Gebeurtenissen = new List<BeheerVerenigingHistoriekGebeurtenis>(),
             Metadata = new Metadata(Sequence: 0, Version: 0),
         };
+
+    public static void Apply(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    {
+        var naam = string.IsNullOrEmpty(locatieDuplicaatWerdVerwijderd.Data.LocatieNaam)
+            ? string.Empty
+            : $"'{locatieDuplicaatWerdVerwijderd.Data.LocatieNaam}' ";
+
+        AddHistoriekEntry(
+            locatieDuplicaatWerdVerwijderd,
+            document,
+            $"Locatie '{naam}' met ID {locatieDuplicaatWerdVerwijderd.Data.VerwijderdeLocatieId} werd verwijderd na adresmatch wegens duplicaat met ID {locatieDuplicaatWerdVerwijderd.Data.BehoudenLocatieId}.");
+    }
 }

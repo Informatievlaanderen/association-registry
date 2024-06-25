@@ -75,7 +75,7 @@ public record AdresMatchUitAdressenregister
         }
     }
 
-    public Registratiedata.AdresId? AdresId { get; init; }
+    public Registratiedata.AdresId AdresId { get; init; }
     public Registratiedata.Adres Adres { get; init; }
 }
 

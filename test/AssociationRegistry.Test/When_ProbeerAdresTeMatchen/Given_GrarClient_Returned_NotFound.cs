@@ -10,7 +10,9 @@ using Moq;
 using System.Net;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_GrarClient_Returned_NotFound
 {
     [Fact]

@@ -179,6 +179,9 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
+        => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.VerwijderdeLocatieId);
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {
