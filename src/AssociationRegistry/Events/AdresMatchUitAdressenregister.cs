@@ -22,16 +22,17 @@ public record AdresMatchUitAdressenregister
     {
         if (postalInformationResponse is null) return this;
 
-        var origineleGemeenteNaamClean = new Regex("\\(.*?\\)").Replace(origineleGemeentenaam, "").Trim();
+        // hekelgem (affligem)
+        // hekelgem
+        var origineleGemeenteNaamClean = GemeentenaamSuffixCleaner.RemovePartsBetweenBraces(origineleGemeentenaam);
 
-        if (postalInformationResponse.Postnamen.Length == 1)
+        if (postalInformationResponse.HasSinglePostnaam)
         {
             return BepaalGemeentenaam(postalInformationResponse);
         }
 
-        var postNaam =
-            postalInformationResponse.Postnamen.SingleOrDefault(
-                sod => sod.Equals(origineleGemeenteNaamClean, StringComparison.InvariantCultureIgnoreCase));
+        var postNaam = postalInformationResponse.GetPostnaamWhenEqualsGemeentenaam(origineleGemeenteNaamClean);
+
         var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
 
         if (origineleGemeentenaamKomtVoorInPostalInformationResult)
