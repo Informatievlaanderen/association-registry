@@ -15,7 +15,7 @@ public class With_No_PostalName
             Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", Array.Empty<string>()));
+        var result = sut.WithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", Array.Empty<string>()));
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }

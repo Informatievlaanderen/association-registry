@@ -192,13 +192,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                              AdresMatchUitAdressenregister
                                                                 .FromResponse(adresMatch.Single())
-                                                                .DecorateWithPostalInformation(
+                                                                .WithPostalInformation(
                                                                      locatie.Adres.Gemeente, postalInformation)),
             _ => adresMatch.Count(c => c.Score == 100).Equals(1)
                 ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                               AdresMatchUitAdressenregister
                                                                  .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                 .DecorateWithPostalInformation(
+                                                                 .WithPostalInformation(
                                                                       locatie.Adres.Gemeente, postalInformation))
                 : new AdresNietUniekInAdressenregister(VCode, locatieId,
                                                        adresMatch.Select(

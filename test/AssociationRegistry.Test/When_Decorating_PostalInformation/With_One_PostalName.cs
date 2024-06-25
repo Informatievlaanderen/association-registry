@@ -15,7 +15,7 @@ public class With_One_PostalName
             Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "Wambeek" }));
+        var result = sut.WithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "Wambeek" }));
 
         result.Adres.Gemeente.Should().Be("Wambeek (Ternat)");
     }
@@ -28,7 +28,7 @@ public class With_One_PostalName
             Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "TERNAT" }));
+        var result = sut.WithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "TERNAT" }));
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }
@@ -44,7 +44,7 @@ public class With_One_PostalName
             Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam, new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+        var result = sut.WithPostalInformation(origineleGemeentenaam, new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }
@@ -57,7 +57,7 @@ public class With_One_PostalName
             Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("Hekelgem Affligem", new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+        var result = sut.WithPostalInformation("Hekelgem Affligem", new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }

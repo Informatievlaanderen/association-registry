@@ -15,7 +15,7 @@ public class With_Several_PostalNames
             Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("Hekelgem", new PostalInformationResponse("1741", "Affligem", new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = sut.WithPostalInformation("Hekelgem", new PostalInformationResponse("1741", "Affligem", new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }
@@ -28,7 +28,7 @@ public class With_Several_PostalNames
             Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie")
         };
 
-        var result = sut.DecorateWithPostalInformation("Nothingham", new PostalInformationResponse("1741", "Affligem", new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = sut.WithPostalInformation("Nothingham", new PostalInformationResponse("1741", "Affligem", new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
 
         result.Adres.Gemeente.Should().Be("Affligem");
     }

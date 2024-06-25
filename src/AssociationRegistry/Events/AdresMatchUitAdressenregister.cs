@@ -18,12 +18,10 @@ public record AdresMatchUitAdressenregister
                 "België")
         };
 
-    public AdresMatchUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
+    public AdresMatchUitAdressenregister WithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
     {
         if (postalInformationResponse is null) return this;
 
-        // hekelgem (affligem)
-        // hekelgem
         var origineleGemeenteNaamClean = GemeentenaamSuffixCleaner.RemovePartsBetweenBraces(origineleGemeentenaam);
 
         if (postalInformationResponse.HasSinglePostnaam)
@@ -33,38 +31,15 @@ public record AdresMatchUitAdressenregister
 
         var postNaam = postalInformationResponse.GetPostnaamWhenEqualsGemeentenaam(origineleGemeenteNaamClean);
 
-        var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
-
-        if (origineleGemeentenaamKomtVoorInPostalInformationResult)
+        if (postNaam is not null)
         {
             return BepaalGemeentenaam(postalInformationResponse, postNaam);
         }
-        else
-        {
-            // Hoofdgemeente overnemen, postcode wint altijd
-            return this with {
-                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
-            };
-        }
-    }
 
-    private AdresMatchUitAdressenregister BepaalGemeentenaam(PostalInformationResponse postalInformationResponse, string? postNaam)
-    {
-        // Gemeentenaam komt voor in de postnamen
-        if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
-        {
-            // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-            return this with {
-                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
-            };
-        }
-        else
-        {
-            // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-            return this with {
-                Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" }
-            };
-        }
+        // Hoofdgemeente overnemen, postcode wint altijd
+        return this with {
+            Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+        };
     }
 
     private AdresMatchUitAdressenregister BepaalGemeentenaam(PostalInformationResponse postalInformationResponse)
@@ -77,13 +52,28 @@ public record AdresMatchUitAdressenregister
                 Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
             };
         }
-        else
+
+        // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+        return this with {
+            Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
+        };
+    }
+
+    private AdresMatchUitAdressenregister BepaalGemeentenaam(PostalInformationResponse postalInformationResponse, string? postNaam)
+    {
+        // Gemeentenaam komt voor in de postnamen
+        if (postalInformationResponse.HasGemeentenaam(postNaam))
         {
-            // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+            // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
             return this with {
-                Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
+                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
             };
         }
+
+        // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+        return this with {
+            Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" }
+        };
     }
 
     public Registratiedata.AdresId? AdresId { get; init; }

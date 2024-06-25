@@ -12,6 +12,9 @@ public record PostalInformationResponse(
 
     public string? GetPostnaamWhenEqualsGemeentenaam(string origineleGemeenteNaamClean) => Postnamen.SingleOrDefault(
         sod => sod.Equals(origineleGemeenteNaamClean, StringComparison.InvariantCultureIgnoreCase));
+
+    public bool HasGemeentenaam(string? postNaam)
+        => Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase);
 }
 
 public static class GemeentenaamSuffixCleaner
