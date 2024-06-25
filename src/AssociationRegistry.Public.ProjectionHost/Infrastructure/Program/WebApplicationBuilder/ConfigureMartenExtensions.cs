@@ -77,7 +77,8 @@ public static class ConfigureMartenExtensions
 
                 opts.Events.MetadataConfig.EnableAll();
 
-                // opts.Projections.OnException(_ => true).RetryLater(TimeSpan.FromSeconds(2));
+                opts.Projections.Errors.SkipApplyErrors = false;
+                opts.Projections.Errors.SkipSerializationErrors = false;
 
                 opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
 
@@ -90,9 +91,6 @@ public static class ConfigureMartenExtensions
                     ),
                     ProjectionLifecycle.Async,
                     ProjectionNames.VerenigingZoeken);
-
-                // opts.Projections.AsyncListeners.Add(
-                //     new ProjectionStateListener(serviceProvider.GetRequiredService<PubliekInstrumentation>()));
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
