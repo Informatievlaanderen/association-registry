@@ -1,3 +1,10 @@
+## [8.107.2](https://github.com/informatievlaanderen/association-registry/compare/v8.107.1...v8.107.2) (2024-06-25)
+
+
+### Bug Fixes
+
+* or-2251 don't skip certain errors while projecting ([959e652](https://github.com/informatievlaanderen/association-registry/commit/959e652bf800539fc4d5532b92e7674c9c1fed6c))
+
 ## [8.107.1](https://github.com/informatievlaanderen/association-registry/compare/v8.107.0...v8.107.1) (2024-06-24)
 
 
