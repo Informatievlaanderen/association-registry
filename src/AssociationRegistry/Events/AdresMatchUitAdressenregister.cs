@@ -26,21 +26,7 @@ public record AdresMatchUitAdressenregister
 
         if (postalInformationResponse.Postnamen.Length == 1)
         {
-            if (string.Equals(postalInformationResponse.Gemeentenaam, postalInformationResponse.Postnamen.Single(),
-                              StringComparison.CurrentCultureIgnoreCase))
-            {
-                // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return this with {
-                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
-                };
-            }
-            else
-            {
-                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return this with {
-                    Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
-                };
-            }
+            return BepaalGemeentenaam(postalInformationResponse);
         }
 
         var postNaam =
@@ -50,27 +36,51 @@ public record AdresMatchUitAdressenregister
 
         if (origineleGemeentenaamKomtVoorInPostalInformationResult)
         {
-            // Gemeentenaam komt voor in de postnamen
-            if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
-            {
-                // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return this with {
-                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
-                };
-            }
-            else
-            {
-                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return this with {
-                    Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" }
-                };
-            }
+            return BepaalGemeentenaam(postalInformationResponse, postNaam);
         }
         else
         {
             // Hoofdgemeente overnemen, postcode wint altijd
             return this with {
                 Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+            };
+        }
+    }
+
+    private AdresMatchUitAdressenregister BepaalGemeentenaam(PostalInformationResponse postalInformationResponse, string? postNaam)
+    {
+        // Gemeentenaam komt voor in de postnamen
+        if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
+        {
+            // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
+            return this with {
+                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+            };
+        }
+        else
+        {
+            // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+            return this with {
+                Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" }
+            };
+        }
+    }
+
+    private AdresMatchUitAdressenregister BepaalGemeentenaam(PostalInformationResponse postalInformationResponse)
+    {
+        if (string.Equals(postalInformationResponse.Gemeentenaam, postalInformationResponse.Postnamen.Single(),
+                          StringComparison.CurrentCultureIgnoreCase))
+        {
+            // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
+            return this with {
+                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+            };
+        }
+        else
+        {
+            // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+            return this with {
+                Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
             };
         }
     }
