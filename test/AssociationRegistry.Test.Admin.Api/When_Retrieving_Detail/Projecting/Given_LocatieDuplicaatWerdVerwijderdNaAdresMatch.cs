@@ -10,21 +10,21 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_LocatieWerdVerwijderd
+public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 {
     [Fact]
     public void Then_it_removes_a_locatie()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var locatieWerdVerwijderd = new TestEvent<LocatieWerdVerwijderd>(fixture.Create<LocatieWerdVerwijderd>());
+        var locatieDuplicaatWerdVerwijderdNaAdresMatch = new TestEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(fixture.Create<LocatieDuplicaatWerdVerwijderdNaAdresMatch>());
 
         var teVerwijderenLocatie = fixture.Create<Locatie>();
-        teVerwijderenLocatie.LocatieId = locatieWerdVerwijderd.Data.Locatie.LocatieId;
+        teVerwijderenLocatie.LocatieId = locatieDuplicaatWerdVerwijderdNaAdresMatch.Data.VerwijderdeLocatieId;
 
         var doc = fixture.Create<BeheerVerenigingDetailDocument>();
         doc.Locaties = doc.Locaties.Append(teVerwijderenLocatie).ToArray();
 
-        BeheerVerenigingDetailProjector.Apply(locatieWerdVerwijderd, doc);
+        BeheerVerenigingDetailProjector.Apply(locatieDuplicaatWerdVerwijderdNaAdresMatch, doc);
 
         doc.Locaties.Should().HaveCount(3);
         doc.Locaties.Should().NotContainEquivalentOf(teVerwijderenLocatie);

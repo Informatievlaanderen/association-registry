@@ -620,4 +620,12 @@ public static class PubliekVerenigingDetailProjector
             Minimumleeftijd = doelgroep.Minimumleeftijd,
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
+
+    public static void Apply(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieWerdVerwijderd, PubliekVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.VerwijderdeLocatieId)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
 }

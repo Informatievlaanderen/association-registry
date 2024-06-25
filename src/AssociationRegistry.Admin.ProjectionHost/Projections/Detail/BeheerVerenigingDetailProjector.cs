@@ -628,4 +628,14 @@ public class BeheerVerenigingDetailProjector
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
+
+    public static void Apply(
+        IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderdNaAdresMatch,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != locatieDuplicaatWerdVerwijderdNaAdresMatch.Data.VerwijderdeLocatieId)
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
 }

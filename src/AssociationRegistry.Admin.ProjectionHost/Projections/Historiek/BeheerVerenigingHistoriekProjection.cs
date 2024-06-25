@@ -188,6 +188,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         ops.Store(doc);
     }
 
+    public async Task Project(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     private static async Task Update<T>(
         IEvent<T> @event,
         IDocumentOperations ops,

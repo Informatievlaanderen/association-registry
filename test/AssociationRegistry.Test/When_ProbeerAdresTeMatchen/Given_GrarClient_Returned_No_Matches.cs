@@ -9,7 +9,9 @@ using Grar.Models;
 using Moq;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_GrarClient_Returned_No_Matches
 {
     [Fact]

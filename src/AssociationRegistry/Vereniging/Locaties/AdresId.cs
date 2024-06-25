@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
+using Events;
 using Exceptions;
 using Framework;
 
@@ -31,4 +32,13 @@ public record AdresId
 
     public static AdresId Hydrate(Adresbron adresbron, string bronwaarde)
         => new(adresbron, bronwaarde);
+
+    public bool Equals(Registratiedata.AdresId adresId)
+        => this == adresId;
+
+    public static bool operator ==(AdresId first, Registratiedata.AdresId second)
+        => first.Adresbron.Code == second.Broncode && first.Bronwaarde == second.Bronwaarde;
+
+    public static bool operator !=(AdresId first, Registratiedata.AdresId second)
+        => first.Adresbron.Code != second.Broncode || first.Bronwaarde != second.Bronwaarde;
 }

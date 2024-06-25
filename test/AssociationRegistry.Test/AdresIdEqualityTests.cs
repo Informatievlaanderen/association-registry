@@ -1,0 +1,27 @@
+﻿namespace AssociationRegistry.Test;
+
+using Events;
+using FluentAssertions;
+using Vereniging;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class AdresIdEqualityTests
+{
+    private readonly AdresId EqualityComparisonSource =
+        AdresId.Create(new Adresbron("TEST", "Test beschrijving"), "testwaarde");
+
+    [Theory]
+    [InlineData("TEST", "testwaarde", true)]
+    [InlineData("TEST", "bronwaarde", false)]
+    [InlineData("BRON", "testwaarde", false)]
+    public void Compares_Broncode_And_Bronwaarde(string broncode, string bronwaarde, bool expectedResult)
+    {
+        var adresId = new Registratiedata.AdresId(broncode, bronwaarde);
+        (EqualityComparisonSource == adresId).Should().Be(expectedResult);
+        (EqualityComparisonSource.Equals(adresId)).Should().Be(expectedResult);
+        (adresId == EqualityComparisonSource).Should().Be(expectedResult);
+        (adresId.Equals(EqualityComparisonSource)).Should().Be(expectedResult);
+    }
+}

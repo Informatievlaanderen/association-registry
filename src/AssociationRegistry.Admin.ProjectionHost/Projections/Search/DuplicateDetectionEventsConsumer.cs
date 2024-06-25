@@ -40,6 +40,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(KorteNaamWerdGewijzigdInKbo):
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
                 case nameof(AdresWerdGewijzigdInAdressenregister):
+                case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
                     break;
             }

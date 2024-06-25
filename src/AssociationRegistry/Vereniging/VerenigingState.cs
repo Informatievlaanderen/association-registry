@@ -573,4 +573,20 @@ public record VerenigingState : IHasVersion
                     })),
         };
     }
+
+    public VerenigingState Apply(LocatieDuplicaatWerdVerwijderdNaAdresMatch @event)
+    {
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.VerwijderdeLocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.VerwijderdeLocatieId)),
+        };
+    }
 }
