@@ -7,9 +7,11 @@ using Vereniging;
 
 public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
 {
+    private static readonly string _adresId = "12345";
+
     public LocatieDuplicaatWerdVerwijderdNaAdresMatch LocatieDuplicaatWerdVerwijderdNaAdresMatch => new(
-        "V0001022",
-        teVerwijderenLocatie.LocatieId,
+        FeitelijkeVerenigingWerdGeregistreerd.VCode,
+        TeVerwijderenLocatie.LocatieId,
         TeBehoudenLocatie.LocatieId,
         TeBehoudenLocatie.Naam,
         TeBehoudenLocatie.AdresId);
@@ -23,25 +25,25 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
         Registratiedata.Doelgroep.With(Doelgroep.Null),
         IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
-        new[] { TeBehoudenLocatie, teVerwijderenLocatie },
+        new[] { TeBehoudenLocatie, TeVerwijderenLocatie },
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
-    public static readonly Registratiedata.Locatie TeBehoudenLocatie = new(
+    public static Registratiedata.Locatie TeBehoudenLocatie => new(
         LocatieId: 1,
         Locatietype.Activiteiten,
         IsPrimair: true,
         Naam: "Naam locatie",
         Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
-        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1"));
+        new Registratiedata.AdresId(Adresbron.AR.Code, $"{AdresId.DataVlaanderenAdresPrefix}{_adresId}"));
 
-    private static readonly Registratiedata.Locatie teVerwijderenLocatie = new(
+    public static Registratiedata.Locatie TeVerwijderenLocatie => new(
         LocatieId: 2,
-        Locatietype.Activiteiten,
+        Locatietype: TeBehoudenLocatie.Locatietype,
         IsPrimair: false,
-        Naam: "Naam locatie",
-        Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
-        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"2"));
+        Naam: TeBehoudenLocatie.Naam,
+        Adres: TeBehoudenLocatie.Adres,
+        AdresId: TeBehoudenLocatie.AdresId);
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
