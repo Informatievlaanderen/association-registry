@@ -9,6 +9,7 @@ using Framework;
 using templates;
 using Vereniging;
 using Xunit;
+using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
@@ -16,11 +17,13 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 {
+    private readonly ITestOutputHelper _outputHelper;
     private readonly V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario _scenario;
     private readonly PublicApiClient _publicApiClient;
 
-    public Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch(GivenEventsFixture fixture)
+    public Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch(GivenEventsFixture fixture, ITestOutputHelper outputHelper)
     {
+        _outputHelper = outputHelper;
         _publicApiClient = fixture.PublicApiClient;
         _scenario = fixture.V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario;
     }
@@ -35,7 +38,11 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
 
+        _outputHelper.WriteLine(content);
+
         var loc = V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario.TeBehoudenLocatie;
+
+        _outputHelper.WriteLine(_scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.);
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
