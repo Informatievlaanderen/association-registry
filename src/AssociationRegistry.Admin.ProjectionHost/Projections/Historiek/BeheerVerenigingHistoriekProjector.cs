@@ -576,7 +576,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         var naam = string.IsNullOrEmpty(locatieDuplicaatWerdVerwijderd.Data.LocatieNaam)
             ? string.Empty
-            : $"'{locatieDuplicaatWerdVerwijderd.Data.LocatieNaam}' ";
+            : locatieDuplicaatWerdVerwijderd.Data.LocatieNaam;
 
         AddHistoriekEntry(
             locatieDuplicaatWerdVerwijderd,

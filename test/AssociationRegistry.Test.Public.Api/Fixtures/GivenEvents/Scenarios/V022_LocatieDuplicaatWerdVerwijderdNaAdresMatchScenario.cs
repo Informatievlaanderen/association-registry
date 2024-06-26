@@ -7,14 +7,14 @@ using Vereniging;
 
 public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
 {
-    public readonly LocatieDuplicaatWerdVerwijderdNaAdresMatch LocatieDuplicaatWerdVerwijderdNaAdresMatch = new(
+    public LocatieDuplicaatWerdVerwijderdNaAdresMatch LocatieDuplicaatWerdVerwijderdNaAdresMatch => new(
         "V0001022",
         teVerwijderenLocatie.LocatieId,
         TeBehoudenLocatie.LocatieId,
         TeBehoudenLocatie.Naam,
         TeBehoudenLocatie.AdresId);
 
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
+    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd => new(
         VCode: "V0001022",
         Naam: "Feesten Hulste",
         string.Empty,
@@ -31,7 +31,7 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
         LocatieId: 1,
         Locatietype.Activiteiten,
         IsPrimair: true,
-        Naam: "Te behouden locatie",
+        Naam: "Naam locatie",
         Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
         new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1"));
 
@@ -39,9 +39,9 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
         LocatieId: 2,
         Locatietype.Activiteiten,
         IsPrimair: false,
-        Naam: "Te verwijderen locatie",
-        Adres: null,
-        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1"));
+        Naam: "Naam locatie",
+        Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
+        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"2"));
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
