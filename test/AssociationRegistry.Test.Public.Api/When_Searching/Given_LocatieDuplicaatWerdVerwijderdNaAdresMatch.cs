@@ -42,7 +42,8 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 
         var loc = V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario.TeBehoudenLocatie;
 
-        _outputHelper.WriteLine(_scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.);
+        _outputHelper.WriteLine($"LOCATIE BEHOUDEN: '{_scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.BehoudenLocatieId}'");
+        _outputHelper.WriteLine($"LOCATIE VERWIJDERD: '{_scenario.LocatieDuplicaatWerdVerwijderdNaAdresMatch.VerwijderdeLocatieId}'");
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
