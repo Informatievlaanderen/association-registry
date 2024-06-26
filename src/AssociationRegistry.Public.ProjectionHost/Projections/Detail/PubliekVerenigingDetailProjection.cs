@@ -16,6 +16,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
         Options.BatchSize = 1;
+        // Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingDetailDocument>();
     }
 

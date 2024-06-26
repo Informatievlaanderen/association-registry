@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Api;
 
+using Acties.RegistreerFeitelijkeVereniging;
+using Acties.StopVereniging;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
@@ -55,9 +57,11 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
+using NodaTime;
 using Notifications;
 using Oakton;
 using OpenTelemetry.Extensions;
+using ResultNet;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -68,8 +72,13 @@ using System.Reflection;
 using System.Text;
 using VCodeGeneration;
 using Vereniging;
+using Verenigingen.Registreer;
+using Wolverine;
+using IClock = Framework.IClock;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
+using IMessage = AssociationRegistry.Notifications.IMessage;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
+using Result = Nest.Result;
 
 public class Program
 {
@@ -143,7 +152,55 @@ public class Program
             app.Services.GetRequiredService<ElasticClient>(),
             app.Services.GetRequiredService<ILogger<Program>>());
 
+        var task = Task.Run(() =>CreateStuff(app));
+        Task.Run(() =>CreateStuff(app));
+        Task.Run(() => CreateStuff(app));
+        Task.Run(() => CreateStuff(app));
+        Task.Run(() => CreateStuff(app));
         await app.RunOaktonCommands(args);
+    }
+
+    private static async Task CreateStuff(WebApplication app)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(5));
+            var bus = app.Services.GetRequiredService<IMessageBus>();
+            var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+            while (true)
+            {
+                logger.LogInformation("Running in thread {Env}", Environment.CurrentManagedThreadId);
+                var registratieResult = await bus.InvokeAsync<ResultNet.Result>(
+                    new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(
+                    new RegistreerFeitelijkeVerenigingCommand(
+                                                                                    VerenigingsNaam.Create("test"),
+                                                                                    string.Empty,
+                                                                                    string.Empty,
+                                                                                    null,
+                                                                                    Doelgroep.Null,
+                                                                                    false,
+                                                                                    [],
+                                                                                    [],
+                                                                                    [],
+                                                                                    []
+                                                                                ), new CommandMetadata("V0001001", new Instant(), Guid.NewGuid())));
+                switch(registratieResult)
+                {
+                    case Result<CommandResult> commandResult :
+
+                        await bus.SendAsync(
+                            new CommandEnvelope<StopVerenigingCommand>(
+
+                            new StopVerenigingCommand(commandResult.Data.Vcode,
+                                                                      Datum.Create(DateOnly.FromDateTime(DateTime.Today))
+                            ), new CommandMetadata("V0001001", new Instant(), Guid.NewGuid())));
+
+
+                        break;
+
+                    default: throw new ArgumentOutOfRangeException();
+                }
+
+            }
     }
 
     private static async Task RunPreStartupTasks(WebApplication app, ILogger<Program> logger)
