@@ -1,3 +1,26 @@
+# [8.108.0](https://github.com/informatievlaanderen/association-registry/compare/v8.107.3...v8.108.0) (2024-06-27)
+
+
+### Bug Fixes
+
+* or-2201 add low level output for flaky test on git ([36d94f0](https://github.com/informatievlaanderen/association-registry/commit/36d94f0bd624aefe6a3f5c2e4cc5e0b6e2d41635))
+* or-2201 add otel-collector inside github workflows ([c910a70](https://github.com/informatievlaanderen/association-registry/commit/c910a70b34a06f5f6dd9595bfe48092e031ece16))
+* or-2201 add otel-collector inside github workflows ([ecd2eab](https://github.com/informatievlaanderen/association-registry/commit/ecd2eab9ee1ba9f2c663c05b8e711e10f33c306e))
+* or-2201 incorrect command argument for otel-collector ([407ede4](https://github.com/informatievlaanderen/association-registry/commit/407ede406f22f54606b32914b3491adef4f3803a))
+* or-2201 location does not get removed while it should ([1f098df](https://github.com/informatievlaanderen/association-registry/commit/1f098df97d4177070047267168f2654dd2a0a80b))
+* or-2201 location does not get removed while it should ([04a0f5d](https://github.com/informatievlaanderen/association-registry/commit/04a0f5db7473d0ae9cb2f52b69c109eaafa45daf))
+* or-2201 skip faulty test for location duplicates ([80388f2](https://github.com/informatievlaanderen/association-registry/commit/80388f23daeb06163a28d957762ca0db9ec9cae6))
+* or-2201 skip faulty test for location duplicates ([6ba7896](https://github.com/informatievlaanderen/association-registry/commit/6ba7896e4a5a9938074ab342ae0addd21a2329ce))
+* or-2201 skip faulty test for location duplicates ([e0ac94c](https://github.com/informatievlaanderen/association-registry/commit/e0ac94cfa8d266d6f41e07b932c1274b62009a33))
+* or-2201 update locatienaam in locatie duplicaat tests ([f5d6430](https://github.com/informatievlaanderen/association-registry/commit/f5d6430a2d7004f8a0f05343255ce65c2f47644a))
+* or-2201 update otel-collector ([e6c5de2](https://github.com/informatievlaanderen/association-registry/commit/e6c5de25f6687f83111aa35de22f91958e233ac2))
+* or-2201 workflow does not handle projections correctly ([1f141ac](https://github.com/informatievlaanderen/association-registry/commit/1f141ace7df2e6aeaf593a9a7ad6ff5674a06d4c))
+
+
+### Features
+
+* or-2201 locatie duplicates check for identical addresses after address match ([601ebd9](https://github.com/informatievlaanderen/association-registry/commit/601ebd9c46651e039c9e56723625326802b923cb))
+
 ## [8.107.3](https://github.com/informatievlaanderen/association-registry/compare/v8.107.2...v8.107.3) (2024-06-27)
 
 
