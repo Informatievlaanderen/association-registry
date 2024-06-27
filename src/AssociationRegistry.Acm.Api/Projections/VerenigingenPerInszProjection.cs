@@ -18,6 +18,7 @@ public class VerenigingenPerInszProjection : EventProjection
         // the newly persisted VerenigingenPerInszDocument from FeitelijkeVerenigingWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd
         Options.BatchSize = 1;
+        Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<VerenigingenPerInszDocument>();
         Options.DeleteViewTypeOnTeardown<VerenigingDocument>();
     }
