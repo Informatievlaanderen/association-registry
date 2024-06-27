@@ -25,7 +25,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 
         var naam = string.IsNullOrEmpty(locatieDuplicaatWerdVerwijderd.Data.LocatieNaam)
             ? string.Empty
-            : $"'{locatieDuplicaatWerdVerwijderd.Data.LocatieNaam}' ";
+            : locatieDuplicaatWerdVerwijderd.Data.LocatieNaam;
 
         doc.Gebeurtenissen.Should().ContainEquivalentOf(
             new BeheerVerenigingHistoriekGebeurtenis(
