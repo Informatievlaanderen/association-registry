@@ -41,6 +41,7 @@ jobs:
       pre-gen-marten: true
       run-docker-elasticsearch: false
       run-docker-localstack: false
+      run-docker-otelcollector: false
     secrets: inherit
 
   build-public-api:
@@ -61,6 +62,7 @@ jobs:
       pre-gen-marten: false
       run-docker-elasticsearch: true
       run-docker-localstack: true
+      run-docker-otelcollector: true
     secrets: inherit
 
   build-public-projections:
@@ -80,6 +82,7 @@ jobs:
       pre-gen-marten: true
       run-docker-elasticsearch: true
       run-docker-localstack: false
+      run-docker-otelcollector: true
     secrets: inherit
 
   build-admin-api:
@@ -99,6 +102,7 @@ jobs:
       run-docker-db: true
       run-docker-elasticsearch: true
       run-docker-localstack: true
+      run-docker-otelcollector: true
       pre-gen-marten: true
     secrets: inherit
 
@@ -118,6 +122,7 @@ jobs:
       run-docker-db: true
       run-docker-elasticsearch: true
       run-docker-localstack: true
+      run-docker-otelcollector: true
       pre-gen-marten: true
     secrets: inherit
 

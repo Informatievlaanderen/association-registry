@@ -18,6 +18,9 @@ on:
       run-docker-localstack:
         required: true
         type: boolean
+      run-docker-otelcollector:
+        required: true
+        type: boolean
       pre-gen-marten:
         type: boolean
       image-file: #ar-acm-api-image.tar
@@ -90,6 +93,12 @@ jobs:
         if: ${{ inputs.run-docker-db }}
         run: |
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+      - name: Run open telemetry container
+        shell: bash
+        if: ${{ inputs.run-docker-otelcollector }}
+        run: |
+          docker run -d --name otel-collector -p 4317:4317 ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml --config=/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
 
       - name: Cache Paket
         uses: actions/cache@v4
@@ -181,7 +190,6 @@ jobs:
         shell: bash
         run: dotnet run -c Release --project src/${{ inputs.build-project }} -- codegen write
 
-
       - name: Dotnet build
         shell: bash
         run: dotnet build -c Release --no-restore --runtime 'linux-x64' --self-contained -f net8.0 src/${{ inputs.build-project }}
@@ -256,3 +264,9 @@ jobs:
         shell: bash
         run: |
           docker logs db
+
+      - name: Shows logs otelcollector container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs otel-collector
