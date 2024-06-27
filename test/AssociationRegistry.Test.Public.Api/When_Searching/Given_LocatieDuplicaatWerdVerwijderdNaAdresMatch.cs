@@ -33,7 +33,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
+    public async Task Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
     {
         var loc = V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario.TeBehoudenLocatie;
 
@@ -62,9 +62,15 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 
         for (var i = 0; i < 5; i++)
         {
-            content = await GetResponseFromApiClient();
             Thread.Sleep(3000);
-        }
+
+            var foregroundColor = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine("Receive new content:");
+            content = await GetResponseFromApiClient();
+            Console.WriteLine(content);
+            Console.ForegroundColor = foregroundColor;
+       }
 
         // content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -73,9 +79,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
-
         _outputHelper.WriteLine(content);
-
         return content;
     }
 }
