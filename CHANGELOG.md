@@ -1,3 +1,10 @@
+## [8.107.3](https://github.com/informatievlaanderen/association-registry/compare/v8.107.2...v8.107.3) (2024-06-27)
+
+
+### Bug Fixes
+
+* or-2251 set max hoppersize on projections ([4fba6f7](https://github.com/informatievlaanderen/association-registry/commit/4fba6f763a601051b81765095533ab31be753148))
+
 ## [8.107.2](https://github.com/informatievlaanderen/association-registry/compare/v8.107.1...v8.107.2) (2024-06-25)
 
 
