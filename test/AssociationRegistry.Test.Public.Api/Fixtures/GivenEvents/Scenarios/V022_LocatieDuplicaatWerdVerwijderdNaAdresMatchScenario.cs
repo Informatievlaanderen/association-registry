@@ -32,21 +32,14 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
     public static Registratiedata.Locatie TeBehoudenLocatie => new(
         LocatieId: 1,
         Locatietype.Activiteiten,
-        IsPrimair: true,
+        IsPrimair: false,
         Naam: "Naam locatie",
         Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
         new Registratiedata.AdresId(Adresbron.AR.Code, $"{AdresId.DataVlaanderenAdresPrefix}{_adresId}"));
 
-    public static Registratiedata.Locatie TeVerwijderenLocatie => new(
-        LocatieId: 2,
-        Locatietype: TeBehoudenLocatie.Locatietype,
-        IsPrimair: false,
-        Naam: TeBehoudenLocatie.Naam,
-        Adres: TeBehoudenLocatie.Adres,
-        AdresId: TeBehoudenLocatie.AdresId);
+    public static Registratiedata.Locatie TeVerwijderenLocatie => TeBehoudenLocatie with { LocatieId = 2 };
 
-    public VCode VCode
-        => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
+    public VCode VCode => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()
     {

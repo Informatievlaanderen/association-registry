@@ -28,11 +28,11 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
         _scenario = fixture.V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario;
     }
 
-    [Fact(Skip = "Fails on Git but never local")]
+    [Fact]
     public async Task Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
-    [Fact]
+    [Fact(Skip = "Fails on Git but never local")]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
