@@ -87,6 +87,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
+        if (string.IsNullOrEmpty(toeTeVoegenLocatie.Naam))
+        {
+            Throw<LocatieIsNietUniek>.If(State.Locaties.Any(a => string.IsNullOrEmpty(a.Naam)));
+        }
+
         Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
