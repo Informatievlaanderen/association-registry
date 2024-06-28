@@ -45,7 +45,7 @@ public class AddressSyncService(IDocumentStore store, IAmazonSQS sqsClient, Addr
 
     private async Task<IReadOnlyCollection<NachtelijkeAdresSyncMessage>> GetNachtelijkeSyncMessagesFromLocatieLookupDocument()
     {
-        using var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var locatieLookupDocuments = await session.Query<LocatieLookupDocument>()
                                                   .ToListAsync();

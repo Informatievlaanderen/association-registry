@@ -1,5 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using Amazon;
+using Amazon.Runtime;
+using Amazon.SQS;
 using Destructurama;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +39,7 @@ public static class Program
         sw.Stop();
 
         var logger = host.Services.GetRequiredService<ILogger<AddressSyncService>>();
-        logger.LogInformation($"Het archiveren van uitnodigingen werd voltooid in {sw.ElapsedMilliseconds} ms.");
+        logger.LogInformation($"Het synchroniseren van adressen werd voltooid in {sw.ElapsedMilliseconds} ms.");
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
@@ -44,10 +47,15 @@ public static class Program
         var postgreSqlOptions = context.Configuration.GetPostgreSqlOptions();
         var addressSyncOptions = context.Configuration.GetAddressSyncOptions();
 
+        var sqsClient = addressSyncOptions.UseLocalStack
+            ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1)
+            : new AmazonSQSClient(RegionEndpoint.EUWest1);
+
         services
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
         services
+           .AddSingleton<IAmazonSQS>(sqsClient)
            .AddSingleton(addressSyncOptions)
            .AddSingleton(postgreSqlOptions)
            .AddSingleton<IClock>(SystemClock.Instance)
