@@ -33,7 +33,7 @@ public record Locatie
 
     public bool IsEquivalentTo(Locatie other)
     {
-        if (Naam != other.Naam)
+        if (NameAreDifferentAndBothNotNullOrEmpty(other))
             return false;
 
         if (Locatietype != other.Locatietype)
@@ -42,6 +42,9 @@ public record Locatie
         return HasSameAdresId(other.AdresId) ||
                HasSameAdres(other.Adres);
     }
+
+    private bool NameAreDifferentAndBothNotNullOrEmpty(Locatie other)
+        => (Naam != other.Naam) && (!string.IsNullOrEmpty(Naam) && !string.IsNullOrEmpty(other.Naam));
 
     public virtual bool Equals(Locatie? other)
     {
