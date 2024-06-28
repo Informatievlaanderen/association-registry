@@ -49,6 +49,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(RechtsvormWerdGewijzigdInKBO):
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
                 case nameof(AdresWerdGewijzigdInAdressenregister):
+                case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
                     try
                     {
                         await _handler.Handle(eventEnvelope);

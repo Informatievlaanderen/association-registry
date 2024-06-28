@@ -165,6 +165,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
                 var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
 
+                AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                                     adresWerdOvergenomen.OvergenomenAdresUitAdressenregister));
+
                 AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
                                                                         behoudenLocatieId,
                                                                         locatie.Naam,
