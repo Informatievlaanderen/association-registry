@@ -1,3 +1,12 @@
+## [8.108.1](https://github.com/informatievlaanderen/association-registry/compare/v8.108.0...v8.108.1) (2024-06-28)
+
+
+### Bug Fixes
+
+* or-2256 add another AdresWerdOvergenomen event for publiek zoek on locatie duplicaat ([f014a21](https://github.com/informatievlaanderen/association-registry/commit/f014a21b49c1cfad615a8cb9434ce46f2cd69972))
+* or-2258 check if empty locatie name exist when adding locatie with no name ([74d784f](https://github.com/informatievlaanderen/association-registry/commit/74d784f185ecf60bcb1a215e484f829236290b87))
+* or-2259 add missing identity for removing locatie lookup projection ([80bb458](https://github.com/informatievlaanderen/association-registry/commit/80bb458fc2e0a90260e24d24e23a195d30ca2588))
+
 # [8.108.0](https://github.com/informatievlaanderen/association-registry/compare/v8.107.3...v8.108.0) (2024-06-27)
 
 
