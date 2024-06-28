@@ -190,6 +190,9 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V076_AdresWerdGewijzigdInAdressenregister
         V076AdresWerdGewijzigdInAdressenregister = new();
 
+    public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch
+        V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
