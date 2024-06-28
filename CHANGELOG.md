@@ -1,3 +1,10 @@
+## [8.108.2](https://github.com/informatievlaanderen/association-registry/compare/v8.108.1...v8.108.2) (2024-06-28)
+
+
+### Bug Fixes
+
+* or-2264 check if location names are different and also null or empty ([80b2d8f](https://github.com/informatievlaanderen/association-registry/commit/80b2d8fb0931b43d0dbd2d59314a0979ceeeb597))
+
 ## [8.108.1](https://github.com/informatievlaanderen/association-registry/compare/v8.108.0...v8.108.1) (2024-06-28)
 
 
