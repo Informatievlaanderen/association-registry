@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
 using Destructurama;
-using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
-using Marten;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,10 +22,11 @@ public static class Program
 
 
         var host = Host.CreateDefaultBuilder()
-                       .ConfigureAppConfiguration(builder =>
-                                                      builder.AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
-                                                                          optional: true,
-                                                                          reloadOnChange: false))
+                       .ConfigureAppConfiguration(builder => builder
+                                                            .AddJsonFile("appsettings.json")
+                                                            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                                                                         optional: true, reloadOnChange: false)
+                                                            .AddEnvironmentVariables())
                        .ConfigureServices(ConfigureServices)
                        .ConfigureLogging(ConfigureLogger)
                        .Build();
