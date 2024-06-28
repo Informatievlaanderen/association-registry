@@ -581,6 +581,6 @@ public class BeheerVerenigingHistoriekProjector
         AddHistoriekEntry(
             locatieDuplicaatWerdVerwijderd,
             document,
-            $"Locatie '{naam}' met ID {locatieDuplicaatWerdVerwijderd.Data.VerwijderdeLocatieId} werd verwijderd na adresmatch wegens duplicaat met ID {locatieDuplicaatWerdVerwijderd.Data.BehoudenLocatieId}.");
+            $"Locatie '{naam}' met ID {locatieDuplicaatWerdVerwijderd.Data.VerwijderdeLocatieId} werd verwijderd omdat de gegevens exact overeenkomen met locatie ID {locatieDuplicaatWerdVerwijderd.Data.BehoudenLocatieId}.");
     }
 }
