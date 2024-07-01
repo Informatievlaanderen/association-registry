@@ -45,18 +45,11 @@ public static class Program
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
     {
         var postgreSqlOptions = context.Configuration.GetPostgreSqlOptions();
-        var addressSyncOptions = context.Configuration.GetAddressSyncOptions();
-
-        var sqsClient = addressSyncOptions.UseLocalStack
-            ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1)
-            : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         services
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
         services
-           .AddSingleton<IAmazonSQS>(sqsClient)
-           .AddSingleton(addressSyncOptions)
            .AddSingleton(postgreSqlOptions)
            .AddSingleton<IClock>(SystemClock.Instance)
            .AddHostedService<AddressSyncService>();
