@@ -1,3 +1,10 @@
+## [8.108.5](https://github.com/informatievlaanderen/association-registry/compare/v8.108.4...v8.108.5) (2024-07-01)
+
+
+### Bug Fixes
+
+* or-2201 prevent null locatienaam issues by introducing Locatienaam VO ([e3505db](https://github.com/informatievlaanderen/association-registry/commit/e3505dbf4fa1f290f5286a154c60807c3d107b0c))
+
 ## [8.108.4](https://github.com/informatievlaanderen/association-registry/compare/v8.108.3...v8.108.4) (2024-07-01)
 
 
