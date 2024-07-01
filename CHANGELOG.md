@@ -1,3 +1,10 @@
+## [8.108.4](https://github.com/informatievlaanderen/association-registry/compare/v8.108.3...v8.108.4) (2024-07-01)
+
+
+### Bug Fixes
+
+* or-2251 add longer stale seq threshold ([57376ae](https://github.com/informatievlaanderen/association-registry/commit/57376ae69000f0097d8f3c63eaabc819cd17e9b5))
+
 ## [8.108.3](https://github.com/informatievlaanderen/association-registry/compare/v8.108.2...v8.108.3) (2024-07-01)
 
 
