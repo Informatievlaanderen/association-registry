@@ -1,3 +1,10 @@
+## [8.108.3](https://github.com/informatievlaanderen/association-registry/compare/v8.108.2...v8.108.3) (2024-07-01)
+
+
+### Bug Fixes
+
+* or-2258 set name locatie to empty string on create ([4a43a8c](https://github.com/informatievlaanderen/association-registry/commit/4a43a8cbef8d40d55ac092a7ae6b5417f1eaaacb))
+
 ## [8.108.2](https://github.com/informatievlaanderen/association-registry/compare/v8.108.1...v8.108.2) (2024-06-28)
 
 
