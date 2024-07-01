@@ -1,17 +1,16 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
-using Amazon.SQS;
-using Infrastructure.ConfigurationBindings;
+using Grar;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Schema.Detail;
-using System.Text.Json;
 
-public record NachtelijkeAdresSyncMessage(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
+public record NachtelijkeAdresSync(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
-public class AddressSyncService(IDocumentStore store, IAmazonSQS sqsClient, AddressSyncOptions options, ILogger<AddressSyncService> logger)
+public class AddressSyncService(IDocumentStore store, IGrarHttpClient grarHttpClient, ILogger<AddressSyncService> logger)
     : BackgroundService
 {
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -22,15 +21,9 @@ public class AddressSyncService(IDocumentStore store, IAmazonSQS sqsClient, Addr
         {
             logger.LogInformation($"Adressen synchroniseren werd gestart.");
 
-            var messages = await GetNachtelijkeSyncMessagesFromLocatieLookupDocument();
+            var resultsByAddressId = await GetNachtelijkeSyncFromLocatieLookupDocument();
 
-            foreach (var message in messages)
-            {
-                await sqsClient.SendMessageAsync(
-                    options.QueueUrl,
-                    JsonSerializer.Serialize(message));
-            }
-
+            logger.LogInformation(JsonConvert.SerializeObject(resultsByAddressId));
             logger.LogInformation($"Adressen synchroniseren werd voltooid.");
         }
         catch (Exception ex)
@@ -43,15 +36,14 @@ public class AddressSyncService(IDocumentStore store, IAmazonSQS sqsClient, Addr
         }
     }
 
-    private async Task<IReadOnlyCollection<NachtelijkeAdresSyncMessage>> GetNachtelijkeSyncMessagesFromLocatieLookupDocument()
+    private async Task<IReadOnlyCollection<NachtelijkeAdresSync>> GetNachtelijkeSyncFromLocatieLookupDocument()
     {
         await using var session = store.LightweightSession();
 
-        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>()
-                                                  .ToListAsync();
+        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync();
 
         return locatieLookupDocuments.GroupBy(g => g.AdresId)
-                                     .Select(s => new NachtelijkeAdresSyncMessage(s.Key,
+                                     .Select(s => new NachtelijkeAdresSync(s.Key,
                                                                                   s.Select(x => new LocatieIdWithVCode(
                                                                                                x.LocatieId, x.VCode)).ToList()))
                                      .ToArray();

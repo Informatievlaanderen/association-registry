@@ -36,25 +36,4 @@ public static class ConfigurationExtensions
                .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptions.Password)}");
         }
     }
-
-    public static AddressSyncOptions GetAddressSyncOptions(this IConfiguration configuration)
-    {
-        var addressSyncOptions = configuration
-                                .GetSection(AddressSyncOptions.SectionName)
-                                .Get<AddressSyncOptions>();
-
-        ThrowIfInvalid();
-
-        return addressSyncOptions!;
-
-        void ThrowIfInvalid()
-        {
-            if (addressSyncOptions == null) throw new ArgumentNullException(nameof(addressSyncOptions));
-
-            const string sectionName = nameof(AddressSyncOptions);
-
-            Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(addressSyncOptions.QueueUrl, $"{sectionName}.{nameof(AddressSyncOptions.QueueUrl)}");
-        }
-    }
 }
