@@ -21,7 +21,7 @@ public class Given_A_MaatschappelijkeZetel
 
         Assert.Throws<MaatschappelijkeZetelIsNietToegestaan>(() => vereniging.VoegLocatieToe(
                                                                  Locatie.Create(
-                                                                     locatie.Naam,
+                                                                     Locatienaam.Create(locatie.Naam),
                                                                      locatie.IsPrimair,
                                                                      Locatietype.MaatschappelijkeZetelVolgensKbo,
                                                                      AdresId.Create(locatie.AdresId!.Broncode, locatie.AdresId.Bronwaarde),

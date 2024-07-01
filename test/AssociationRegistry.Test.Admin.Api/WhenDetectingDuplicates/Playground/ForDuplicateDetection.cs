@@ -77,12 +77,12 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     {
         return new[]
         {
-            Locatie.Create(naam: "xx", isPrimair: false, Locatietype.Correspondentie, adresId: null,
+            Locatie.Create(naam: Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
                            Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Hulste",
                                         land: "xx")),
-            Locatie.Create(naam: "xx", isPrimair: false, Locatietype.Correspondentie, adresId: null,
-                           Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Kortrijk",
-                                        land: "xx")),
+            Locatie.Create(naam: Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
+                                                    Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Kortrijk",
+                                                                 land: "xx")),
         };
     }
 }

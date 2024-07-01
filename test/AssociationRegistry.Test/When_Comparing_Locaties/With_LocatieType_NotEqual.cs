@@ -12,7 +12,7 @@ public class With_LocatieType_NotEqual
     public void Then_it_returns_false()
     {
         var locatie1 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix),
@@ -24,7 +24,7 @@ public class With_LocatieType_NotEqual
                          land: "land"));
 
         var locatie2 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Correspondentie,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix),

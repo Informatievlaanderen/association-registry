@@ -19,14 +19,14 @@ public class With_AdresId_NotEqual
                                           land: "land");
 
         var locatie1 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "1"),
             hetzelfdeAdres);
 
         var locatie2 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "2"),

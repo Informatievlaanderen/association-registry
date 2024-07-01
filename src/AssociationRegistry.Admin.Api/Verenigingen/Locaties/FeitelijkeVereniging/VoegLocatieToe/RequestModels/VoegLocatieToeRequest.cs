@@ -14,7 +14,7 @@ public class VoegLocatieToeRequest
         => new(
             VCode.Create(vCode),
             AssociationRegistry.Vereniging.Locatie.Create(
-                Locatie.Naam,
+                Locatienaam.Create(Locatie.Naam ?? string.Empty),
                 Locatie.IsPrimair,
                 Locatie.Locatietype,
                 Locatie.AdresId is not null

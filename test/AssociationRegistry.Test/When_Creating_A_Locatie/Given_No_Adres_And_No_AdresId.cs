@@ -17,7 +17,7 @@ public class Given_No_Adres_And_No_AdresId
         var fixture = new Fixture().CustomizeDomain();
 
         var ctor = () => Locatie.Create(
-            fixture.Create<string>(),
+            fixture.Create<Locatienaam>(),
             fixture.Create<bool>(),
             fixture.Create<Locatietype>(),
             adresId: null,
