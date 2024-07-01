@@ -86,6 +86,8 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Errors.SkipApplyErrors = false;
                 opts.Projections.Errors.SkipSerializationErrors = false;
 
+                opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+
                 opts.Projections.DaemonLockId = 1;
 
                 opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
