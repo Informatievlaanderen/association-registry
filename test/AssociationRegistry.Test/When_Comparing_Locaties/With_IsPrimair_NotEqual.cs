@@ -12,7 +12,7 @@ public class With_IsPrimair_NotEqual
     public void Then_They_Are_Not_Equal()
     {
         var locatie1 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "1"),
@@ -24,7 +24,7 @@ public class With_IsPrimair_NotEqual
                          land: "land"));
 
         var locatie2 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: false,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "1"),

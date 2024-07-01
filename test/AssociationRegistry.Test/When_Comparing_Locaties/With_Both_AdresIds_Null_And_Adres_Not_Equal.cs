@@ -12,7 +12,7 @@ public class With_Both_AdresIds_Null_And_Adres_Not_Equal
     public void Then_it_returns_false()
     {
         var locatie1 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             adresId: null,
@@ -24,7 +24,7 @@ public class With_Both_AdresIds_Null_And_Adres_Not_Equal
                          land: "land"));
 
         var locatie2 = Locatie.Create(
-            naam: "naam",
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             adresId: null,

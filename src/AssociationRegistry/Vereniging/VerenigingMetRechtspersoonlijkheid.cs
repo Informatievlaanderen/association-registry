@@ -111,7 +111,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(
             MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
                 Locatie.Create(
-                        string.Empty,
+                        Locatienaam.Empty,
                         isPrimair: false,
                         Locatietype.MaatschappelijkeZetelVolgensKbo,
                         adresId: null,

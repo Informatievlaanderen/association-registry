@@ -6,10 +6,8 @@ using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-public class Given_A_Duplicate
+public class Given_A_Duplicate_Without_A_Naam
 {
     [Fact]
     public void Then_it_throws()
@@ -17,17 +15,20 @@ public class Given_A_Duplicate
         var fixture = new Fixture().CustomizeDomain();
 
         var vereniging = new VerenigingOfAnyKind();
-        var locatie = fixture.Create<Registratiedata.Locatie>();
+        var locatie = fixture.Create<Registratiedata.Locatie>() with
+        {
+            Naam = string.Empty,
+        };
 
         vereniging.Hydrate(new VerenigingState()
                               .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
                                {
-                                   Locaties = new[] { locatie },
+                                   Locaties = [locatie],
                                }));
 
         Assert.Throws<LocatieIsNietUniek>(() => vereniging.VoegLocatieToe(
                                               Locatie.Create(
-                                                  Locatienaam.Create(locatie.Naam),
+                                                  Locatienaam.Empty,
                                                   locatie.IsPrimair,
                                                   locatie.Locatietype,
                                                   AdresId.Create(locatie.AdresId!.Broncode, locatie.AdresId.Bronwaarde),

@@ -35,7 +35,7 @@ public class ToeTeVoegenLocatie
 
     public static Locatie Map(ToeTeVoegenLocatie loc)
         => Locatie.Create(
-            loc.Naam ?? string.Empty,
+            Locatienaam.Create(loc.Naam ?? string.Empty),
             loc.IsPrimair,
             loc.Locatietype,
             loc.AdresId is not null ? AssociationRegistry.Vereniging.AdresId.Create(loc.AdresId.Broncode, loc.AdresId.Bronwaarde) : null,

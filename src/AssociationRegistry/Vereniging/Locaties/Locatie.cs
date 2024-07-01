@@ -12,7 +12,7 @@ public record Locatie
     public AdresId? AdresId { get; init; }
     public Adres? Adres { get; init; }
 
-    private Locatie(string naam, bool isPrimair, string locatietype, AdresId? adresId, Adres? adres)
+    private Locatie(Locatienaam naam, bool isPrimair, string locatietype, AdresId? adresId, Adres? adres)
     {
         Naam = naam;
         AdresId = adresId;
@@ -21,7 +21,7 @@ public record Locatie
         Locatietype = locatietype;
     }
 
-    public static Locatie Create(string naam, bool isPrimair, string locatieType, AdresId? adresId = null, Adres? adres = null)
+    public static Locatie Create(Locatienaam naam, bool isPrimair, string locatieType, AdresId? adresId = null, Adres? adres = null)
     {
         Throw<AdresOfAdresIdMoetAanwezigZijn>.If(adresId is null && adres is null);
 
@@ -29,7 +29,7 @@ public record Locatie
     }
 
     public static Locatie Hydrate(int locatieId, string naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
-        => new(naam, isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
+        => new(Locatienaam.Hydrate(naam), isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
     public bool IsEquivalentTo(Locatie other)
     {
@@ -81,11 +81,29 @@ public record Locatie
     public Locatie Wijzig(string? naam = null, Locatietype? locatietype = null, bool? isPrimair = null, AdresId? adresId = null, Adres? adres = null)
     {
         if (adres is null && adresId is null)
-            return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+            return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
 
-        return Create(naam ?? Naam, isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
+        return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
     }
 
     public Locatie Wijzig(string? naam, bool? isPrimair)
-        => Create(naam ?? Naam, isPrimair ?? IsPrimair, Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+        => Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+}
+
+public record Locatienaam
+{
+    public string Naam { get; }
+    public static Locatienaam Empty => new(string.Empty);
+
+    private Locatienaam(string naam)
+    {
+        Naam = naam ?? throw new ArgumentNullException(nameof(naam));
+    }
+
+    public static Locatienaam Create(string naam)
+        => new(naam ?? string.Empty);
+
+    public static Locatienaam Hydrate(string naam)
+        => new(naam);
+    public static implicit operator string(Locatienaam locatienaam) => locatienaam.Naam;
 }

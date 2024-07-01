@@ -86,7 +86,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory(
                 () =>
                     Locatie.Create(
-                        fixture.Create<string>(),
+                        fixture.Create<Locatienaam>(),
                         false,
                         Locatietype.Activiteiten,
                         fixture.Create<AdresId>(),
