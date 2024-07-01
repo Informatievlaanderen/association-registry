@@ -107,6 +107,7 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
+
   set-release-version:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Decide next version
@@ -249,6 +250,25 @@ jobs:
       pre-gen-marten: true
     secrets: inherit
 
+  build-admin-address-sync:
+    name: Build Admin Address Sync Scheduled Task
+    uses: ./.github/workflows/build-image.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      image-file: ar-admin-address-sync-image.tar
+      image-name: verenigingsregister-admin-address-sync
+      build-project: AssociationRegistry.Admin.AddressSync/
+      semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: true
+    secrets: inherit
+
   pack-association-registry:
     name: Pack Association Registry Domain
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
@@ -282,6 +302,7 @@ jobs:
       build-public-projections,
       build-admin-api,
       build-admin-projections,
+      build-admin-address-sync,
       pack-association-registry,
       pack-association-registry-magda
     ]
@@ -558,6 +579,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-projections-image.tar
 
+      - name: Download Admin Address Sync Scheduled Task artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-admin-address-sync
+          path: ~/
+
+      - name: Load Admin Address Sync Scheduled Task image
+        shell: bash
+        run: docker image load -i ~/ar-admin-address-sync-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -568,6 +599,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminaddresssync:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}
@@ -618,12 +650,53 @@ jobs:
           echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
           echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
+  deploy_test_scheduledtasks_ik4:
+    if: needs.release.outputs.version != 'none'
+    needs: [ set-release-version, push_images_to_ik4_devops, release ]
+    name: Deploy scheduled tasks to Test (IK4)
+    environment: test_ik4
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        services:
+          [
+            'adminaddresssync',
+          ]
+    steps:
+      - name: debug_output
+        shell: bash
+        run: |
+          echo ${{ needs.release.outputs.version }}
+      - name: CD
+        if: needs.release.outputs.version != 'none'
+        env:
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@v1.0.10
+        with:
+          environment: test
+          version: ${{ needs.release.outputs.version }}
+          status-url: $STATUS_URL
+          deploy-url: $BUILD_URL
+          access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
+          secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          region: eu-west-1
+          deploy-target: 'ecs_scheduled_task'
+          interval: 2
+      - name: output
+        shell: bash
+        if: always()
+        run: |
+          echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
+          echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
+          echo ${{ steps.awscurl-polling-action.outputs.final-message }}
+
   notify:
     if: failure()
     name: Notify slack
     runs-on: ubuntu-latest
 
-    needs: [ deploy_test_ik4 ]
+    needs: [ deploy_test_ik4, deploy_test_scheduledtasks_ik4 ]
 
     steps:
       - name: Construct Slack message
