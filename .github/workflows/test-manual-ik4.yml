@@ -54,7 +54,7 @@ jobs:
       matrix:
         services:
           [
-            'adminaddresssync',
+            'adressensync',
           ]
     steps:
       - name: CD
