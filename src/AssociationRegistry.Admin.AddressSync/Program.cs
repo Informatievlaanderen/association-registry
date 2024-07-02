@@ -1,8 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
-using Amazon;
-using Amazon.Runtime;
-using Amazon.SQS;
 using Destructurama;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +19,6 @@ public static class Program
     public static async Task Main(string[] args)
     {
         SelfLog.Enable(Console.WriteLine);
-
 
         var host = Host.CreateDefaultBuilder()
                        .ConfigureAppConfiguration(builder => builder

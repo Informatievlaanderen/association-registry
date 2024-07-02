@@ -21,22 +21,69 @@ public class GrarClient : IGrarClient
         _logger = logger;
     }
 
+    public async Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken)
+    {
+        try
+        {
+            var response =
+                await _grarHttpClient.GetAddressById(adresId, CancellationToken.None);
+
+            if (!response.IsSuccessStatusCode)
+                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
+
+            var addressDetailOsloResponse =
+                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync());
+
+            return new AddressDetailResponse(new Registratiedata.AdresId(
+                                                 Adresbron.AR.Code,
+                                                 addressDetailOsloResponse.Identificator.Id
+                                             ),
+                                             addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
+                                             addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                             addressDetailOsloResponse.Huisnummer,
+                                             addressDetailOsloResponse.Busnummer ?? "",
+                                             addressDetailOsloResponse.Postinfo.ObjectId,
+                                             addressDetailOsloResponse.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+            );
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, message: "{Message}", ex.Message);
+
+            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
+        }
+        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
+        {
+            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
+                             ex.Message);
+
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
+
+            throw new Exception(ex.Message, ex);
+        }
+    }
+
     public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddressMatches(
         string straatnaam,
         string huisnummer,
         string busnummer,
         string postcode,
-        string gemeentenaam)
+        string gemeentenaam,
+        CancellationToken cancellationToken)
     {
         try
         {
             var response =
-                await _grarHttpClient.GetAddress(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, CancellationToken.None);
+                await _grarHttpClient.GetAddressMatches(straatnaam, huisnummer, busnummer, postcode, gemeentenaam, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
                 throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
 
-            return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync())
+            return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync(cancellationToken))
                               .AdresMatches
                               .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
                               .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
@@ -111,52 +158,6 @@ public class GrarClient : IGrarClient
         catch (Exception ex)
         {
             _logger.LogError(ex, message: "An error occurred when calling the postal information endpoint: {Message}", ex.Message);
-
-            throw new Exception(ex.Message, ex);
-        }
-    }
-
-    public async Task<AddressDetailResponse> GetAddress(string adresId)
-    {
-        try
-        {
-            var response =
-                await _grarHttpClient.GetAddress(adresId, CancellationToken.None);
-
-            if (!response.IsSuccessStatusCode)
-                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
-
-            var addressDetailOsloResponse =
-                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync());
-
-            return new AddressDetailResponse(new Registratiedata.AdresId(
-                                                 Adresbron.AR.Code,
-                                                 addressDetailOsloResponse.Identificator.Id
-                                             ),
-                                             addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
-                                             addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                             addressDetailOsloResponse.Huisnummer,
-                                             addressDetailOsloResponse.Busnummer ?? "",
-                                             addressDetailOsloResponse.Postinfo.ObjectId,
-                                             addressDetailOsloResponse.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-            );
-        }
-        catch (TaskCanceledException ex)
-        {
-            _logger.LogError(ex, message: "{Message}", ex.Message);
-
-            throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
-        }
-        catch (AdressenregisterReturnedNonSuccessStatusCode ex)
-        {
-            _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
-                             ex.Message);
-
-            throw;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, message: "An error occurred when calling the address match endpoint: {Message}", ex.Message);
 
             throw new Exception(ex.Message, ex);
         }

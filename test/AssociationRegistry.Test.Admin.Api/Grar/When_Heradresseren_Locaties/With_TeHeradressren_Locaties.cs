@@ -31,7 +31,7 @@ public class With_TeHeradressren_Locaties
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        grarClientMock.Setup(x => x.GetAddress("123"))
+        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
         var locatieId = scenario.Locaties.First().LocatieId;
@@ -70,10 +70,10 @@ public class With_Multiple_TeHeradressren_Locaties
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        grarClientMock.Setup(x => x.GetAddress("123"))
+        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail1);
 
-        grarClientMock.Setup(x => x.GetAddress("456"))
+        grarClientMock.Setup(x => x.GetAddressById("456", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail2);
 
         var locatieId1 = scenario.Locaties.First().LocatieId;
@@ -117,10 +117,10 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        grarClientMock.Setup(x => x.GetAddress("123"))
+        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail1);
 
-        grarClientMock.Setup(x => x.GetAddress("456"))
+        grarClientMock.Setup(x => x.GetAddressById("456", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail2);
 
         var idempotenceKey = "123456789";
@@ -136,7 +136,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "456"), new(locatieId2, "123") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey + 1
         };
@@ -166,10 +166,10 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                                      {
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
                                                                                   AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail1), message2.idempotencyKey),
+                                                                                      mockedAdresDetail2), message2.idempotencyKey),
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
                                                                                   AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail2), message2.idempotencyKey)
+                                                                                      mockedAdresDetail1), message2.idempotencyKey)
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 
@@ -205,7 +205,7 @@ public class With_DecoratingWithPostalInformation
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        grarClientMock.Setup(x => x.GetAddress("123"))
+        grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
         grarClientMock.Setup(x => x.GetPostalInformation(mockedAdresDetail.Postcode))

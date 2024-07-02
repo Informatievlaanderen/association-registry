@@ -8,6 +8,7 @@ using Grar;
 using Grar.Exceptions;
 using Grar.Models;
 using SocialMedias;
+using System.Diagnostics.Contracts;
 using System.Net;
 using System.Numerics;
 using TelefoonNummers;
@@ -123,31 +124,37 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (State.HandledIdempotenceKey.Contains(idempotenceKey))
             return;
 
-        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        foreach (var locatieWithAdres in locatiesMetAdressen)
+            await HeradresseerLocatie(locatieWithAdres, idempotenceKey, grarClient);
+    }
+
+    public async Task HeradresseerLocatie(LocatieWithAdres locatieWithAdres, string idempotenceKey, IGrarClient grarClient)
+    {
+        var locatie = State.Locaties[locatieWithAdres.LocatieId];
+        var origineleGemeentenaam = locatie.Adres!.Gemeente;
+
+        var postalInformation = await grarClient.GetPostalInformation(locatieWithAdres.Adres.Postcode);
+
+        var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
+                                            .FromResponse(locatieWithAdres.Adres)
+                                            .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
+
+        if (HeeftVerschillenBinnenAdres(locatie, adresDetailUitAdressenregister.Adres))
         {
-            var origineleGemeentenaam = State.Locaties[locatieId].Adres!.Gemeente;
-
-            var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
-
-            var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
-                                                .FromResponse(adresDetail)
-                                                .DecorateWithPostalInformation(
-                                                     origineleGemeentenaam, postalInformation);
-
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
-                                                              locatieId,
+                                                              locatieWithAdres.LocatieId,
                                                               adresDetailUitAdressenregister,
                                                               idempotenceKey));
         }
     }
 
-    public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId)
+    public async Task ProbeerAdresTeMatchen(IGrarClient grarClient, int locatieId, CancellationToken cancellationToken)
     {
         var locatie = State.Locaties.SingleOrDefault(s => s.LocatieId == locatieId);
 
         try
         {
-            var @event = await GetAdresMatchEvent(locatieId, locatie, grarClient);
+            var @event = await GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken);
 
             if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
             {
@@ -194,7 +201,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     private async Task<IEvent> GetAdresMatchEvent(
         int locatieId,
         Locatie locatie,
-        IGrarClient grarClient)
+        IGrarClient grarClient,
+        CancellationToken cancellationToken)
     {
         if (locatie is null)
         {
@@ -209,7 +217,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             locatie.Adres.Huisnummer,
             locatie.Adres.Busnummer,
             locatie.Adres.Postcode,
-            locatie.Adres.Gemeente);
+            locatie.Adres.Gemeente,
+            cancellationToken);
 
         var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
 
@@ -260,27 +269,47 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return @event;
     }
 
+    [Pure]
     private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)
     {
-        return HeeftVerschillenBinnenAdres(@event.OvergenomenAdresUitAdressenregister.Adres) ||
-               HeeftVerschillenBinnenAdresId(@event.OvergenomenAdresUitAdressenregister.AdresId);
-
-        bool HeeftVerschillenBinnenAdres(Registratiedata.Adres adresUitAdressenregister)
-            => (
-                adresUitAdressenregister.Straatnaam != locatie.Adres.Straatnaam ||
-                adresUitAdressenregister.Huisnummer != locatie.Adres.Huisnummer ||
-                adresUitAdressenregister.Busnummer != locatie.Adres.Busnummer ||
-                adresUitAdressenregister.Postcode != locatie.Adres.Postcode ||
-                adresUitAdressenregister.Gemeente != locatie.Adres.Gemeente ||
-                adresUitAdressenregister.Land != locatie.Adres.Land
-                );
-
-        bool HeeftVerschillenBinnenAdresId(Registratiedata.AdresId? adresIdUitAdressenregister)
-            => (
-                adresIdUitAdressenregister?.Broncode != locatie.AdresId?.Adresbron.Code ||
-                adresIdUitAdressenregister?.Bronwaarde != locatie.AdresId?.Bronwaarde
-                );
+        return HeeftVerschillenBinnenAdres(locatie, @event.OvergenomenAdresUitAdressenregister.Adres) ||
+               HeeftVerschillenBinnenAdresId(locatie, @event.OvergenomenAdresUitAdressenregister.AdresId);
     }
+
+    [Pure]
+    private static bool HeeftVerschillenBinnenAdres(Locatie locatie, Registratiedata.Adres adresUitAdressenregister)
+        => HeeftVerschillenBinnenAdres(locatie.Adres,
+                                       adresUitAdressenregister.Straatnaam,
+                                       adresUitAdressenregister.Huisnummer,
+                                       adresUitAdressenregister.Busnummer,
+                                       adresUitAdressenregister.Postcode,
+                                       adresUitAdressenregister.Gemeente,
+                                       adresUitAdressenregister.Land);
+
+    [Pure]
+    private static bool HeeftVerschillenBinnenAdres(
+        Adres adres,
+        string straatnaam,
+        string huisnummer,
+        string busnummer,
+        string postcode,
+        string gemeente,
+        string land)
+        => (
+            straatnaam != adres.Straatnaam ||
+            huisnummer != adres.Huisnummer ||
+            busnummer != adres.Busnummer ||
+            postcode != adres.Postcode ||
+            gemeente != adres.Gemeente ||
+            land != adres.Land
+            );
+
+    [Pure]
+    private static bool HeeftVerschillenBinnenAdresId(Locatie locatie, Registratiedata.AdresId? adresIdUitAdressenregister)
+        => (
+            adresIdUitAdressenregister?.Broncode != locatie.AdresId?.Adresbron.Code ||
+            adresIdUitAdressenregister?.Bronwaarde != locatie.AdresId?.Bronwaarde
+            );
 
     public void Hydrate(VerenigingState obj)
     {

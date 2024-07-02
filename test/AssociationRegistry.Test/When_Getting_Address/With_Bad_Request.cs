@@ -14,7 +14,7 @@ public class With_Bad_Request
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 
-        grarHttpClient.Setup(x => x.GetAddress(
+        grarHttpClient.Setup(x => x.GetAddressMatches(
                                  It.IsAny<string>(),
                                  It.IsAny<string>(),
                                  It.IsAny<string>(),
@@ -25,6 +25,6 @@ public class With_Bad_Request
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
         await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(
-            () => sut.GetAddressMatches("straatnaam", "nr", null, "postcode", "gemeentenaam"));
+            () => sut.GetAddressMatches("straatnaam", "nr", null, "postcode", "gemeentenaam", CancellationToken.None));
     }
 }

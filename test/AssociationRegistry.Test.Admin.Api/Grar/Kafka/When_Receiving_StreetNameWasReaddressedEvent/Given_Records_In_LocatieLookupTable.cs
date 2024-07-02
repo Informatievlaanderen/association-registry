@@ -307,6 +307,6 @@ public class FakeLocatieFinder : ILocatieFinder
         _locatieLookupDocuments = locatieLookupDocuments;
     }
 
-    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] sourceAndDestinationIds)
-        => _locatieLookupDocuments.Where(x => sourceAndDestinationIds.Contains(x.AdresId));
+    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
+        => _locatieLookupDocuments.Where(x => adresIds.Contains(x.AdresId));
 }

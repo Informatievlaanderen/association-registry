@@ -17,7 +17,7 @@ public class DetailFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Result = await _client.GetAddress("200001");
+        Result = await _client.GetAddressById("200001", CancellationToken.None);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;

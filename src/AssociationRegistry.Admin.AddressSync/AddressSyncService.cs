@@ -1,29 +1,43 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
-using Grar;
+using EventStore;
+using Framework;
+using Grar.AddressSync;
+using Grar.Models;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
+using NodaTime;
 using Schema.Detail;
+using System.Diagnostics.Contracts;
 
-public record NachtelijkeAdresSync(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
+public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
+public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
 public record LocatieIdWithVCode(int LocatieId, string VCode);
 
-public class AddressSyncService(IDocumentStore store, IGrarHttpClient grarHttpClient, ILogger<AddressSyncService> logger)
+public class AddressSyncService(
+    IDocumentStore store,
+    SynchroniseerLocatieMessageHandler handler,
+    ITeSynchroniserenLocatiesFetcher teSynchroniserenLocatiesFetcher,
+    ILogger<AddressSyncService> logger)
     : BackgroundService
 {
-    protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+
+    protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         try
         {
             logger.LogInformation($"Adressen synchroniseren werd gestart.");
 
-            var resultsByAddressId = await GetNachtelijkeSyncFromLocatieLookupDocument();
+            var messages = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, cancellationToken);
 
-            logger.LogInformation(JsonConvert.SerializeObject(resultsByAddressId));
+            foreach (var synchroniseerLocatieMessage in messages)
+            {
+                await handler.Handle(synchroniseerLocatieMessage);
+            }
+
             logger.LogInformation($"Adressen synchroniseren werd voltooid.");
         }
         catch (Exception ex)
@@ -34,18 +48,5 @@ public class AddressSyncService(IDocumentStore store, IGrarHttpClient grarHttpCl
         {
             await session.DisposeAsync();
         }
-    }
-
-    private async Task<IReadOnlyCollection<NachtelijkeAdresSync>> GetNachtelijkeSyncFromLocatieLookupDocument()
-    {
-        await using var session = store.LightweightSession();
-
-        var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync();
-
-        return locatieLookupDocuments.GroupBy(g => g.AdresId)
-                                     .Select(s => new NachtelijkeAdresSync(s.Key,
-                                                                                  s.Select(x => new LocatieIdWithVCode(
-                                                                                               x.LocatieId, x.VCode)).ToList()))
-                                     .ToArray();
     }
 }
