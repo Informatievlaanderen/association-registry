@@ -88,8 +88,6 @@ public static class ServiceCollectionExtensions
                     opts.SourceCodeWritingEnabled = false;
                 }
 
-                opts.AutoCreateSchemaObjects = AutoCreate.All;
-
                 return opts;
             });
 
