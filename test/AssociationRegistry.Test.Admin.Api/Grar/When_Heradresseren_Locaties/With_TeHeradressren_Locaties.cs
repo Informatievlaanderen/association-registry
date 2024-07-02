@@ -43,7 +43,7 @@ public class With_TeHeradressren_Locaties
             idempotencyKey = "123456789"
         };
 
-        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message, CancellationToken.None);
 
@@ -86,7 +86,7 @@ public class With_Multiple_TeHeradressren_Locaties
             idempotencyKey = "123456789"
         };
 
-        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message, CancellationToken.None);
 
@@ -141,7 +141,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
             idempotencyKey = idempotenceKey + 1
         };
 
-        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message1, CancellationToken.None);
         await messageHandler.Handle(message2, CancellationToken.None);
@@ -220,7 +220,7 @@ public class With_DecoratingWithPostalInformation
             idempotencyKey = "123456789",
         };
 
-        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         var expectedAdres = new AdresDetailUitAdressenregister()
         {

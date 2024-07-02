@@ -2,22 +2,20 @@
 
 using EventStore;
 using Framework;
-using Marten;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 using Vereniging;
 
-public class TeSynchroniserenAdresMessageHandler
+public class TeAdresMatchenLocatieMessageHandler
 {
-    private readonly ILogger<TeSynchroniserenAdresMessageHandler> _logger;
+    private readonly ILogger<TeAdresMatchenLocatieMessageHandler> _logger;
     private readonly IGrarClient _grarClient;
-    private readonly IDocumentSession _documentSession;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
-    public TeSynchroniserenAdresMessageHandler(
+    public TeAdresMatchenLocatieMessageHandler(
         IVerenigingsRepository verenigingsRepository,
         IGrarClient grarClient,
-        ILogger<TeSynchroniserenAdresMessageHandler> logger)
+        ILogger<TeAdresMatchenLocatieMessageHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _grarClient = grarClient;
@@ -25,16 +23,16 @@ public class TeSynchroniserenAdresMessageHandler
     }
 
     public async Task Handle(
-        TeSynchroniserenAdresMessage message,
+        TeAdresMatchenLocatieMessage matchenLocatieMessage,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation("Handle TeSynchroniserenAdresMessageHandler");
 
         try
         {
-            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(matchenLocatieMessage.VCode));
 
-            await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId, cancellationToken);
+            await vereniging.ProbeerAdresTeMatchen(_grarClient, matchenLocatieMessage.LocatieId, cancellationToken);
 
             await _verenigingsRepository.Save(
                 vereniging,

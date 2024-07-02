@@ -60,7 +60,7 @@ public static class RegistratiedataCustomizations
                         fixture.Create<string>(),
                         (fixture.Create<int>() % 10000).ToString(),
                         fixture.Create<string>(),
-                        fixture.Create<string>()),
+                        "België"),
                     fixture.Create<Registratiedata.AdresId>())).OmitAutoProperties());
     }
 

@@ -121,30 +121,53 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public async Task HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IGrarClient grarClient)
     {
-        if (State.HandledIdempotenceKey.Contains(idempotenceKey))
+        if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
             return;
 
-        foreach (var locatieWithAdres in locatiesMetAdressen)
-            await HeradresseerLocatie(locatieWithAdres, idempotenceKey, grarClient);
-    }
-
-    public async Task HeradresseerLocatie(LocatieWithAdres locatieWithAdres, string idempotenceKey, IGrarClient grarClient)
-    {
-        var locatie = State.Locaties[locatieWithAdres.LocatieId];
-        var origineleGemeentenaam = locatie.Adres!.Gemeente;
-
-        var postalInformation = await grarClient.GetPostalInformation(locatieWithAdres.Adres.Postcode);
-
-        var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
-                                            .FromResponse(locatieWithAdres.Adres)
-                                            .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
-
-        if (HeeftVerschillenBinnenAdres(locatie, adresDetailUitAdressenregister.Adres))
+        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
         {
+            var origineleGemeentenaam = State.Locaties[locatieId].Adres!.Gemeente;
+
+            var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
+
+            var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
+                                                .FromResponse(adresDetail)
+                                                .DecorateWithPostalInformation(
+                                                     origineleGemeentenaam, postalInformation);
+
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
-                                                              locatieWithAdres.LocatieId,
+                                                              locatieId,
                                                               adresDetailUitAdressenregister,
                                                               idempotenceKey));
+        }
+    }
+
+    public async Task SyncAdresLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IGrarClient grarClient)
+    {
+        if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
+            return;
+
+        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        {
+            var locatie = State.Locaties[locatieId];
+            var origineleGemeentenaam = locatie.Adres!.Gemeente;
+
+            var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
+
+            var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
+                                                .FromResponse(adresDetail)
+                                                .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
+
+            if (HeeftVerschillenBinnenAdres(locatie, adresDetailUitAdressenregister.Adres))
+            {
+                AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
+                                                                  locatieId,
+                                                                  adresDetailUitAdressenregister,
+                                                                  idempotenceKey));
+            }
+
+            //TODO: indien adres niet actief
+            // -> Adres werd ontkoppeld
         }
     }
 

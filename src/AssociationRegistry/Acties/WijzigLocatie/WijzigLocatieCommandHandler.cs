@@ -36,7 +36,7 @@ public class WijzigLocatieCommandHandler
 
         if (adres is not null || adresId is not null)
         {
-            await _outbox.SendAsync(new TeSynchroniserenAdresMessage(envelope.Command.VCode, locatieId));
+            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(envelope.Command.VCode, locatieId));
         }
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);

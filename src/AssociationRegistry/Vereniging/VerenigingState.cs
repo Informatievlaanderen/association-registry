@@ -38,7 +38,7 @@ public record VerenigingState : IHasVersion
     public bool IsGestopt => Einddatum is not null;
 
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
-    public List<string> HandledIdempotenceKey { get; set; } = new();
+    public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsVerwijderd { get; set; }
     public long Version { get; set; }
 
@@ -546,8 +546,8 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(AdresWerdGewijzigdInAdressenregister @event)
     {
-        if(!HandledIdempotenceKey.Contains(@event.IdempotenceKey))
-            HandledIdempotenceKey.Add(@event.IdempotenceKey);
+        if(!HandledIdempotenceKeys.Contains(@event.IdempotenceKey))
+            HandledIdempotenceKeys.Add(@event.IdempotenceKey);
 
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
 

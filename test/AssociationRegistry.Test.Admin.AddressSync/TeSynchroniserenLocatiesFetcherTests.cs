@@ -65,7 +65,7 @@ public class TeSynchroniserenLocatiesFetcherTests
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         locaties.Should().BeEquivalentTo([
-            new SynchroniseerLocatieMessage(document.VCode, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>()
             {
                 new LocatieWithAdres(document.LocatieId, addressDetailResponse)
             }, "")
@@ -108,12 +108,12 @@ public class TeSynchroniserenLocatiesFetcherTests
            .Verify(x => x.GetAddressById(adresId1, It.IsAny<CancellationToken>()), Times.Once());
 
         locaties.Should().BeEquivalentTo([
-            new SynchroniseerLocatieMessage(vCode1, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(vCode1, new List<LocatieWithAdres>()
             {
                 new LocatieWithAdres(1, address1DetailResponse),
                 new LocatieWithAdres(2, address2DetailResponse)
             }, ""),
-            new SynchroniseerLocatieMessage(vCode2, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(vCode2, new List<LocatieWithAdres>()
             {
                 new LocatieWithAdres(1, address1DetailResponse),
                 new LocatieWithAdres(2, address3DetailResponse)

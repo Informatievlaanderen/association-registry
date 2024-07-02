@@ -22,8 +22,8 @@ public static class WolverineExtensions
 
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
-                options.Discovery.IncludeType<TeSynchroniserenAdresMessage>();
-                options.Discovery.IncludeType<TeSynchroniserenAdresMessageHandler>();
+                options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
+                options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
@@ -67,7 +67,7 @@ public static class WolverineExtensions
 
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
     {
-        options.PublishMessage<TeSynchroniserenAdresMessage>()
+        options.PublishMessage<TeAdresMatchenLocatieMessage>()
                .ToSqsQueue(sqsQueueName);
     }
 
