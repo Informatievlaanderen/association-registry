@@ -1,3 +1,20 @@
+# [8.109.0](https://github.com/informatievlaanderen/association-registry/compare/v8.108.5...v8.109.0) (2024-07-02)
+
+
+### Bug Fixes
+
+* or-2208 don't pre-gen anything for address sync ([a953901](https://github.com/informatievlaanderen/association-registry/commit/a9539019f1fc30f9044d8892e6967fb1b5e1e4ea))
+* or-2208 incorrect init file for Api and AddressSync ([db0bb8c](https://github.com/informatievlaanderen/association-registry/commit/db0bb8c1d10760b3d150725596d44cf4fde45e13))
+* or-2208 update adressensync name according to infra ([11d144a](https://github.com/informatievlaanderen/association-registry/commit/11d144a868a50156dde139e713e054f28bd8a7c1))
+* or-2208 update names according to changes in infra ([eba1d83](https://github.com/informatievlaanderen/association-registry/commit/eba1d83ff6e7d30395ebf09d2a39ee5fa5c79b29))
+
+
+### Features
+
+* or-2208 add implement locatie finder and optimise AddressSyncService ([c25c9f7](https://github.com/informatievlaanderen/association-registry/commit/c25c9f7414f0d0ac155334ac0b23e5c34399502b))
+* or-2208 rename grar messages and handler + implement te synchroniseren locatie adres ([cb0b35d](https://github.com/informatievlaanderen/association-registry/commit/cb0b35da6cc3cc64f34a1d7bb1427e7c7e9d7bda))
+* or-2208 update workflows to included scheduled tasks ([0097489](https://github.com/informatievlaanderen/association-registry/commit/009748982fac8e7a0232b939251f1e25dd33b5ba))
+
 ## [8.108.5](https://github.com/informatievlaanderen/association-registry/compare/v8.108.4...v8.108.5) (2024-07-01)
 
 
