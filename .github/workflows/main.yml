@@ -257,7 +257,7 @@ jobs:
     needs: [ set-release-version ]
     with:
       image-file: ar-admin-address-sync-image.tar
-      image-name: verenigingsregister-admin-address-sync
+      image-name: verenigingsregister-addressensync
       build-project: AssociationRegistry.Admin.AddressSync/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
@@ -582,7 +582,7 @@ jobs:
       - name: Download Admin Address Sync Scheduled Task artifact
         uses: actions/download-artifact@v4
         with:
-          name: verenigingsregister-admin-address-sync
+          name: verenigingsregister-addressensync
           path: ~/
 
       - name: Load Admin Address Sync Scheduled Task image
@@ -599,7 +599,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
-          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminaddresssync:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-addressensync:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}
@@ -660,7 +660,7 @@ jobs:
       matrix:
         services:
           [
-            'adminaddresssync',
+            'addressensync',
           ]
     steps:
       - name: debug_output
