@@ -14,7 +14,7 @@ public class With_BoxNumber_Is_Null
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 
-        grarHttpClient.Setup(x => x.GetAddress(
+        grarHttpClient.Setup(x => x.GetAddressMatches(
                                  It.IsAny<string>(),
                                  It.IsAny<string>(),
                                  It.IsAny<string>(),
@@ -27,7 +27,7 @@ public class With_BoxNumber_Is_Null
 
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
-        var result = await sut.GetAddressMatches("Fosselstraat", "48", null, "1790", "Affligem");
+        var result = await sut.GetAddressMatches("Fosselstraat", "48", null, "1790", "Affligem", CancellationToken.None);
 
         result.First().Busnummer.Should().NotBeNull();
         result.First().Busnummer.Should().BeEmpty();

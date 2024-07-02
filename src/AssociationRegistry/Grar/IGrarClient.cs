@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Grar;
 
 using Models;
+using Vereniging;
 
 public interface IGrarClient
 {
-    Task<IReadOnlyCollection<AddressMatchResponse>> GetAddressMatches(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam);
+    Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken);
+    Task<IReadOnlyCollection<AddressMatchResponse>> GetAddressMatches(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam, CancellationToken cancellationToken);
     Task<PostalInformationResponse> GetPostalInformation(string postcode);
-    Task<AddressDetailResponse> GetAddress(string adresId);
 }

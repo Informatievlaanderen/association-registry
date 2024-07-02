@@ -21,7 +21,7 @@ public class HeradresseerLocatiesMessageHandler
     {
         var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 
-        var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres);
+        var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres, cancellationToken);
 
         await vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey, _client);
 
@@ -30,13 +30,13 @@ public class HeradresseerLocatiesMessageHandler
                                                                vereniging.Version), cancellationToken);
     }
 
-    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<LocatieIdWithAdresId> locatiesMetAdres)
+    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<LocatieIdWithAdresId> locatiesMetAdres, CancellationToken cancellationToken)
     {
         var locatiesWithAddresses = new List<LocatieWithAdres>();
 
         foreach (var (locatieId, adresId) in locatiesMetAdres)
         {
-            var adres = await _client.GetAddress(adresId);
+            var adres = await _client.GetAddressById(adresId, cancellationToken);
             locatiesWithAddresses.Add(new LocatieWithAdres(locatieId, adres));
         }
 

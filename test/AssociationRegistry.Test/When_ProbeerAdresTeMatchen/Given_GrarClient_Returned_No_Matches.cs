@@ -24,19 +24,24 @@ public class Given_GrarClient_Returned_No_Matches
 
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
-        grarClient.Setup(x => x.GetAddressMatches(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                                           It.IsAny<string>()))
+        grarClient.Setup(x => x.GetAddressMatches(
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new List<AddressMatchResponse>());
 
         vereniging.Hydrate(
             new VerenigingState()
                .Apply(feitelijkeVerenigingWerdGeregistreerd));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId);
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+                                               CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<AdresWerdNietGevondenInAdressenregister>().SingleOrDefault();
 
         @event.Should().NotBeNull();
     }
-
 }

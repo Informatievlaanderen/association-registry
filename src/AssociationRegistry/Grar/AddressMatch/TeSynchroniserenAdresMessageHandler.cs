@@ -34,7 +34,7 @@ public class TeSynchroniserenAdresMessageHandler
         {
             var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 
-            await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId);
+            await vereniging.ProbeerAdresTeMatchen(_grarClient, message.LocatieId, cancellationToken);
 
             await _verenigingsRepository.Save(
                 vereniging,

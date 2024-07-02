@@ -25,7 +25,7 @@ public class WithExactMatchFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, null, Postcode, Gemeentenaam);
+        Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, null, Postcode, Gemeentenaam, CancellationToken.None);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;

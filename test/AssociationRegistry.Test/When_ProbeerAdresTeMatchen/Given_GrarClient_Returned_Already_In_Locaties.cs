@@ -19,7 +19,11 @@ public class Given_Duplicate_Locaties_With_Same_Name
     [InlineData(true, false, 1, 0)]
     [InlineData(false, false, 1, 0)]
     [InlineData(false, true, 0, 1)]
-    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister(bool isPrimair1, bool isPrimair2, int verwijderdeLocatieIndex, int behoudenLocatieIndex)
+    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister(
+        bool isPrimair1,
+        bool isPrimair2,
+        int verwijderdeLocatieIndex,
+        int behoudenLocatieIndex)
     {
         var fixture = new Fixture().CustomizeDomain();
 
@@ -61,8 +65,13 @@ public class Given_Duplicate_Locaties_With_Same_Name
                 }
             };
 
-        grarClient.Setup(x => x.GetAddressMatches(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                                                  It.IsAny<string>()))
+        grarClient.Setup(x => x.GetAddressMatches(
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             CancellationToken.None))
                   .ReturnsAsync(new[]
                    {
                        fixture.Create<AddressMatchResponse>() with
@@ -77,7 +86,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
                .Apply(feitelijkeVerenigingWerdGeregistreerd)
                .Apply(adresWerdOvergenomen));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId);
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
+                                               CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
 
@@ -130,8 +140,13 @@ public class Given_Duplicate_Locaties_With_Different_Names
                 }
             };
 
-        grarClient.Setup(x => x.GetAddressMatches(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(),
-                                                  It.IsAny<string>()))
+        grarClient.Setup(x => x.GetAddressMatches(
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<string>(),
+                             It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new[]
                    {
                        fixture.Create<AddressMatchResponse>() with
@@ -146,7 +161,7 @@ public class Given_Duplicate_Locaties_With_Different_Names
                .Apply(feitelijkeVerenigingWerdGeregistreerd)
                .Apply(adresWerdOvergenomen));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId);
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId, CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
 
