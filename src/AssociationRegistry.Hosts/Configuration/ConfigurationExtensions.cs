@@ -4,6 +4,9 @@ using AssociationRegistry.Configuration;
 using ConfigurationBindings;
 using Framework;
 using Magda.Configuration;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Serilog;
 
@@ -126,10 +129,10 @@ public static class ConfigurationExtensions
 
     public static TemporaryMagdaVertegenwoordigersSection GetMagdaTemporaryVertegenwoordigersSection(
         this IConfiguration configuration,
-        IWebHostEnvironment environment,
+        bool isProduction,
         string magdaOptionsSectionName = TemporaryMagdaVertegenwoordigersSection.SectionName)
     {
-        if (environment.IsProduction())
+        if (isProduction)
         {
             Log.Logger.Information("Not loading temporary vertegenwoordigers in Production");
 

@@ -331,7 +331,7 @@ public class Program
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
 
-        var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment);
+        var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment.IsProduction());
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         var sqsClient = grarOptions.Sqs.UseLocalStack

@@ -265,6 +265,7 @@ NUGET
       Marten (>= 7.16)
       Oakton (>= 6.1)
       Weasel.CommandLine (>= 7.4.1)
+    Microsoft.AspNetCore.App.Ref (8.0.6)
     Microsoft.AspNetCore.Authentication.JwtBearer (8.0.5)
       Microsoft.IdentityModel.Protocols.OpenIdConnect (>= 7.1.2)
     Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore (8.0.5)

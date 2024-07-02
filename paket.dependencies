@@ -26,10 +26,12 @@ nuget CompareNETObjects
 nuget Marten
 nuget Marten.Commandline
 
+nuget Microsoft.AspNetCore.App.Ref
 nuget Microsoft.AspNetCore.Authentication.JwtBearer
 nuget Microsoft.AspNetCore.Hosting
 nuget Microsoft.AspNetCore.TestHost
 nuget Microsoft.AspNetCore.Mvc.Testing
+nuget Microsoft.Extensions.Configuration.Binder
 nuget Microsoft.Extensions.Diagnostics.HealthChecks
 nuget Microsoft.Extensions.Http
 nuget Microsoft.NETCore.Platforms
@@ -80,6 +82,7 @@ nuget Be.Vlaanderen.Basisregisters.Aws.DistributedMutex
 nuget Be.Vlaanderen.Basisregisters.Converters.TrimString
 nuget Microsoft.AspNetCore.Mvc.NewtonsoftJson
 nuget NodaTime.Serialization.JsonNet
+nuget Serilog
 nuget Serilog.Formatting.Compact
 nuget Serilog.Enrichers.Environment
 nuget Serilog.Enrichers.Thread

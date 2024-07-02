@@ -43,6 +43,7 @@
 <!--  </ItemGroup>-->
 
   <ItemGroup>
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj"/>
   </ItemGroup>
 
