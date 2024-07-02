@@ -5,5 +5,5 @@ using Marten;
 
 public interface ITeSynchroniserenLocatiesFetcher
 {
-    Task<IEnumerable<SynchroniseerLocatieMessage>> GetTeSynchroniserenLocaties(IDocumentSession session, CancellationToken stoppingToken);
+    Task<IEnumerable<TeSynchroniserenLocatieAdresMessage>> GetTeSynchroniserenLocaties(IDocumentSession session, CancellationToken stoppingToken);
 }

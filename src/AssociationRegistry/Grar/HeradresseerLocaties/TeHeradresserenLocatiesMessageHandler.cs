@@ -6,12 +6,12 @@ using Models;
 using NodaTime;
 using Vereniging;
 
-public class HeradresseerLocatiesMessageHandler
+public class TeHeradresserenLocatiesMessageHandler
 {
     private readonly IVerenigingsRepository _repository;
     private readonly IGrarClient _client;
 
-    public HeradresseerLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
+    public TeHeradresserenLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
     {
         _repository = repository;
         _client = client;

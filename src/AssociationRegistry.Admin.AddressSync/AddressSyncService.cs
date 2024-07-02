@@ -17,7 +17,7 @@ public record LocatieIdWithVCode(int LocatieId, string VCode);
 
 public class AddressSyncService(
     IDocumentStore store,
-    SynchroniseerLocatieMessageHandler handler,
+    TeSynchroniserenLocatieAdresMessageHandler handler,
     ITeSynchroniserenLocatiesFetcher teSynchroniserenLocatiesFetcher,
     ILogger<AddressSyncService> logger)
     : BackgroundService
@@ -35,7 +35,7 @@ public class AddressSyncService(
 
             foreach (var synchroniseerLocatieMessage in messages)
             {
-                await handler.Handle(synchroniseerLocatieMessage);
+                await handler.Handle(synchroniseerLocatieMessage, cancellationToken);
             }
 
             logger.LogInformation($"Adressen synchroniseren werd voltooid.");

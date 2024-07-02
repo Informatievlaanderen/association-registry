@@ -77,7 +77,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         {
             if (teSynchroniserenLocatie.Adres is not null)
             {
-                await _outbox.SendAsync(new TeSynchroniserenAdresMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
+                await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
             }
         }
 

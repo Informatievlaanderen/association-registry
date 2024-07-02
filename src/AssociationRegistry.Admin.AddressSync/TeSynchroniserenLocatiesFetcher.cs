@@ -10,7 +10,7 @@ using System.Diagnostics.Contracts;
 public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient)
     : ITeSynchroniserenLocatiesFetcher
 {
-    public async Task<IEnumerable<SynchroniseerLocatieMessage>> GetTeSynchroniserenLocaties(
+    public async Task<IEnumerable<TeSynchroniserenLocatieAdresMessage>> GetTeSynchroniserenLocaties(
         IDocumentSession session,
         CancellationToken stoppingToken)
     {
@@ -19,7 +19,7 @@ public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient)
 
         var messages = GroupByVCode(locatieLookupDocuments,
                                     await GetDetailsFromAdressenregister(GroupByAddressId(locatieLookupDocuments), stoppingToken))
-           .Select(x => new SynchroniseerLocatieMessage(x.VCode, x.LocatieWithAdres, idempotenceKey));
+           .Select(x => new TeSynchroniserenLocatieAdresMessage(x.VCode, x.LocatieWithAdres, idempotenceKey));
 
         return messages;
     }

@@ -31,7 +31,7 @@ public class VoegLocatieToeCommandHandler
 
         vereniging.VoegLocatieToe(envelope.Command.Locatie);
 
-        await _outbox.SendAsync(new TeSynchroniserenAdresMessage(
+        await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(
                                     envelope.Command.VCode,
                                     vereniging.UncommittedEvents.OfType<LocatieWerdToegevoegd>()
                                               .Single()
