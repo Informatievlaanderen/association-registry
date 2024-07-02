@@ -1,5 +1,3 @@
-Microsoft.Extensions.DependencyInjection
-
 Marten
 NodaTime
 
@@ -24,3 +22,5 @@ NpgSql.OpenTelemetry
 
 Destructurama.JsonNet
 Microsoft.Extensions.Hosting
+Microsoft.Extensions.DependencyInjection
+Microsoft.Extensions.Http

@@ -32,6 +32,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Admin.Schema\AssociationRegistry.Admin.Schema.csproj" />
+    <ProjectReference Include="..\AssociationRegistry.Hosts\AssociationRegistry.Hosts.csproj" />
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 

@@ -1,6 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using Api.Infrastructure.Extensions;
 using Destructurama;
+using EventStore;
+using Grar;
+using Grar.AddressSync;
 using Infrastructure.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,6 +17,7 @@ using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
 using System.Diagnostics;
+using Vereniging;
 
 public static class Program
 {
@@ -45,9 +50,24 @@ public static class Program
         services
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
+
+        var grarOptions = context.Configuration.GetGrarOptions();
+
+        services
+               .AddHttpClient<GrarHttpClient>()
+               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
+
         services
            .AddSingleton(postgreSqlOptions)
-           .AddSingleton<IClock>(SystemClock.Instance)
+           .AddSingleton<IClock>(SystemClock.Instance)           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<EventConflictResolver>()
+           .AddSingleton<IGrarHttpClient, GrarHttpClient>()
+           .AddSingleton<IGrarClient, GrarClient>()
+           .AddSingleton<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
+           .AddSingleton<IEventStore, EventStore>()
+           .AddSingleton<IVerenigingsRepository, VerenigingsRepository>()
+           .AddSingleton<TeSynchroniserenLocatieAdresMessageHandler>()
            .AddHostedService<AddressSyncService>();
     }
 
