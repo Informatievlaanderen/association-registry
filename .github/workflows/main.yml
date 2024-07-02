@@ -266,7 +266,7 @@ jobs:
       run-docker-elasticsearch: false
       run-docker-localstack: false
       run-docker-otelcollector: true
-      pre-gen-marten: true
+      pre-gen-marten: false
     secrets: inherit
 
   pack-association-registry:
