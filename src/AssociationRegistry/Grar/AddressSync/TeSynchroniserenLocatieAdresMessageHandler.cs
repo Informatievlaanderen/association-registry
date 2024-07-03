@@ -10,6 +10,8 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IVerenigingsRepository r
 {
     public async Task Handle(TeSynchroniserenLocatieAdresMessage message, CancellationToken cancellationToken)
     {
+        logger.LogInformation($"Handle {nameof(TeSynchroniserenLocatieAdresMessageHandler)}");
+
         var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 
         try

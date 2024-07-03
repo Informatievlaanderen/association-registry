@@ -1,15 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
-using EventStore;
-using Framework;
 using Grar.AddressSync;
 using Grar.Models;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using NodaTime;
-using Schema.Detail;
-using System.Diagnostics.Contracts;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
@@ -32,6 +27,8 @@ public class AddressSyncService(
             logger.LogInformation($"Adressen synchroniseren werd gestart.");
 
             var messages = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, cancellationToken);
+
+            logger.LogInformation($"Er werden {messages.Count()} synchroniseer berichten werden gevonden.");
 
             foreach (var synchroniseerLocatieMessage in messages)
             {
