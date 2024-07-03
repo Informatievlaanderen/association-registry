@@ -1,3 +1,13 @@
+## [8.109.1](https://github.com/informatievlaanderen/association-registry/compare/v8.109.0...v8.109.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* or-2208 make application start up ([c9436d8](https://github.com/informatievlaanderen/association-registry/commit/c9436d88767d91c00c3dbe1d484772407fbf5e4c))
+* or-2208 make sure application doesn't alter db ([7a1163f](https://github.com/informatievlaanderen/association-registry/commit/7a1163fe46aa4ddf94dd0cdbce50edce55020786))
+* or-2208 only ask for relevant options ([0264fdd](https://github.com/informatievlaanderen/association-registry/commit/0264fdd592fb85a5e7c3c578432af23f41f74ea8))
+* or-2208 update names according to changes in infra ([d237095](https://github.com/informatievlaanderen/association-registry/commit/d23709589609790d93a646a9936b95d5e4463255))
+
 # [8.109.0](https://github.com/informatievlaanderen/association-registry/compare/v8.108.5...v8.109.0) (2024-07-02)
 
 
