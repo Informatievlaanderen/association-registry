@@ -184,14 +184,13 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V074_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd
         V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd = new();
 
-    public readonly V075_AdresWerdGewijzigdInAdressenregister
-        V075AdresWerdGewijzigdInAdressenregister = new();
+    public readonly V075_AdresWerdGewijzigdInAdressenregister V075AdresWerdGewijzigdInAdressenregister = new();
 
-    public readonly V076_AdresWerdGewijzigdInAdressenregister
-        V076AdresWerdGewijzigdInAdressenregister = new();
+    public readonly V076_AdresWerdGewijzigdInAdressenregister V076AdresWerdGewijzigdInAdressenregister = new();
 
-    public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch
-        V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
+    public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
+
+    public readonly V078_AdresWerdOntkoppeldVanAdressenregister V078AdresWerdOntkoppeldVanAdressenregister = new();
 
     protected override async Task Given()
     {

@@ -1,14 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.LocatieLookup;
+namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_LocatieLookup;
 
-using AssociationRegistry.Admin.Api;
-using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.templates;
 using FluentAssertions;
-using Framework;
-using Newtonsoft.Json;
-using System.Net;
-using templates;
 using Xunit;
 using Xunit.Categories;
 

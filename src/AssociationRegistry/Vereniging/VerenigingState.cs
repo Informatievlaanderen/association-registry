@@ -574,22 +574,6 @@ public record VerenigingState : IHasVersion
         };
     }
 
-    public VerenigingState Apply(LocatieDuplicaatWerdVerwijderdNaAdresMatch @event)
-    {
-        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.VerwijderdeLocatieId);
-
-        if (locatie is null)
-        {
-            return this;
-        }
-
-        return this with {
-            Locaties = Locaties.Hydrate(
-                Locaties
-                   .Without(@event.VerwijderdeLocatieId)),
-        };
-    }
-
     public VerenigingState Apply(AdresWerdOntkoppeldVanAdressenregister @event)
     {
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
@@ -609,6 +593,22 @@ public record VerenigingState : IHasVersion
                         AdresId = null,
                     })
             ),
+        };
+    }
+
+    public VerenigingState Apply(LocatieDuplicaatWerdVerwijderdNaAdresMatch @event)
+    {
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.VerwijderdeLocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.VerwijderdeLocatieId)),
         };
     }
 }
