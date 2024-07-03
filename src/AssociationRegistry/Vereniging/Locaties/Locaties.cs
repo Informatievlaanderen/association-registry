@@ -111,7 +111,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
         Throw<LocatieIsNietGekend>.If(!HasKey(locatieId), locatieId.ToString());
     }
 
-    private bool HasKey(int locatieId)
+    public bool HasKey(int locatieId)
         => this.Any(locatie => locatie.LocatieId == locatieId);
 
     public void ThrowIfCannotAppendOrUpdate(Locatie locatie)

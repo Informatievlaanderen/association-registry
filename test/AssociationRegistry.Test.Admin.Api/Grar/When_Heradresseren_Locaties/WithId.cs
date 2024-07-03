@@ -23,13 +23,14 @@ public class With_Id :  IClassFixture<DetailFixture>
         _fixture.Result.Should().NotBeNull();
 
         _fixture.Result.Should().BeEquivalentTo(new AddressDetailResponse(
-                                                    new Registratiedata.AdresId("AR", "https://data.vlaanderen.be/id/adres/200001"),
-                                                    "Goorbaan 59, 2230 Herselt",
-                                                    "Goorbaan",
-                                                    "59",
-                                                    string.Empty,
-                                                    "2230",
-                                                    "Herselt"));
+                                                    AdresId: new Registratiedata.AdresId("AR", "https://data.vlaanderen.be/id/adres/200001"),
+                                                    IsActief: true,
+                                                    Adresvoorstelling: "Goorbaan 59, 2230 Herselt",
+                                                    Straatnaam: "Goorbaan",
+                                                    Huisnummer: "59",
+                                                    Busnummer: string.Empty,
+                                                    Postcode: "2230",
+                                                    Gemeente: "Herselt"));
     }
 }
 

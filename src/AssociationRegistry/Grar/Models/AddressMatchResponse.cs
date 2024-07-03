@@ -5,7 +5,6 @@ using Events;
 public record AddressMatchResponse(
     double Score,
     Registratiedata.AdresId? AdresId,
-    AdresStatus? AdresStatus,
     string Adresvoorstelling,
     string Straatnaam,
     string Huisnummer,
@@ -16,6 +15,7 @@ public record AddressMatchResponse(
 
 public record AddressDetailResponse(
     Registratiedata.AdresId AdresId,
+    bool IsActief,
     string Adresvoorstelling,
     string Straatnaam,
     string Huisnummer,

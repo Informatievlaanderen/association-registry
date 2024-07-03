@@ -32,16 +32,17 @@ public class GrarClient : IGrarClient
                 throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
 
             var addressDetailOsloResponse =
-                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync());
+                JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync(cancellationToken));
 
             return new AddressDetailResponse(new Registratiedata.AdresId(
                                                  Adresbron.AR.Code,
                                                  addressDetailOsloResponse.Identificator.Id
                                              ),
+                                             addressDetailOsloResponse.AdresStatus is AdresStatus.Voorgesteld or AdresStatus.InGebruik,
                                              addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
                                              addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                              addressDetailOsloResponse.Huisnummer,
-                                             addressDetailOsloResponse.Busnummer ?? "",
+                                             addressDetailOsloResponse.Busnummer ?? string.Empty,
                                              addressDetailOsloResponse.Postinfo.ObjectId,
                                              addressDetailOsloResponse.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
             );
@@ -86,18 +87,17 @@ public class GrarClient : IGrarClient
             return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync(cancellationToken))
                               .AdresMatches
                               .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
-                              .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd)
+                              .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd && w.AdresStatus != AdresStatus.Afgekeurd)
                               .Select(s => new AddressMatchResponse(
                                           Score: s.Score,
                                           AdresId: new Registratiedata.AdresId(
                                               Adresbron.AR.Code,
                                               s.Identificator.Id
                                           ),
-                                          AdresStatus: s.AdresStatus,
                                           Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
                                           s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                           s.Huisnummer,
-                                          s.Busnummer ?? "",
+                                          s.Busnummer ?? string.Empty,
                                           s.Postinfo.ObjectId,
                                           s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
                                       )).ToArray();

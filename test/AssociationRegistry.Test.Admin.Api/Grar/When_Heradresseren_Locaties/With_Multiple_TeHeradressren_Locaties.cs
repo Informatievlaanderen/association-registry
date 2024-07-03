@@ -10,10 +10,8 @@ using Fakes;
 using Framework;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-public class With_TeHeradressren_Locaties
+public class With_Multiple_TeHeradressren_Locaties
 {
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
@@ -24,18 +22,23 @@ public class With_TeHeradressren_Locaties
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var mockedAdresDetail = fixture.Create<AddressDetailResponse>();
+        var mockedAdresDetail1 = fixture.Create<AddressDetailResponse>();
+        var mockedAdresDetail2 = fixture.Create<AddressDetailResponse>();
 
         var grarClientMock = new Mock<IGrarClient>();
 
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
-                      .ReturnsAsync(mockedAdresDetail);
+                      .ReturnsAsync(mockedAdresDetail1);
 
-        var locatieId = scenario.Locaties.First().LocatieId;
+        grarClientMock.Setup(x => x.GetAddressById("456", CancellationToken.None))
+                      .ReturnsAsync(mockedAdresDetail2);
+
+        var locatieId1 = scenario.Locaties.First().LocatieId;
+        var locatieId2 = scenario.Locaties.ToArray()[1].LocatieId;
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
@@ -45,8 +48,12 @@ public class With_TeHeradressren_Locaties
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
+                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1),
+                                                     message.idempotencyKey),
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
+                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2),
+                                                     message.idempotencyKey)
         );
     }
 }

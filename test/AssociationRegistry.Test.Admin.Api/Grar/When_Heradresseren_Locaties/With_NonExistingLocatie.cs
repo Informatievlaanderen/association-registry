@@ -13,7 +13,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_TeHeradressren_Locaties
+public class With_NonExistingLocatie
 {
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
@@ -32,10 +32,11 @@ public class With_TeHeradressren_Locaties
                       .ReturnsAsync(mockedAdresDetail);
 
         var locatieId = scenario.Locaties.First().LocatieId;
+        var nonExistingLocatieId = locatieId * -1;
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(nonExistingLocatieId, "123") },
             VCode = "V001",
             idempotencyKey = "123456789"
         };
@@ -44,9 +45,6 @@ public class With_TeHeradressren_Locaties
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
-        );
+        verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
 }

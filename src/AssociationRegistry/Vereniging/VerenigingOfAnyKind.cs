@@ -121,6 +121,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
         {
+            if (!State.Locaties.HasKey(locatieId))
+                continue;
+
             var origineleGemeentenaam = State.Locaties[locatieId].Adres!.Gemeente;
 
             var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
@@ -144,7 +147,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
         {
+            if (!State.Locaties.HasKey(locatieId))
+                continue;
+
+            if (!adresDetail.IsActief)
+            {
+                AddEvent(new AdresWerdOntkoppeldVanAdressenregister(VCode, locatieId));
+                continue;
+            }
+
             var locatie = State.Locaties[locatieId];
+
             var origineleGemeentenaam = locatie.Adres!.Gemeente;
 
             var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
@@ -160,9 +173,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                   adresDetailUitAdressenregister,
                                                                   idempotenceKey));
             }
-
-            //TODO: indien adres niet actief
-            // -> Adres werd ontkoppeld
         }
     }
 
