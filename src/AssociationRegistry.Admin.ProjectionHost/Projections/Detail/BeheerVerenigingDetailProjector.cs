@@ -191,10 +191,10 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofactiviteitenVerenigingloketWerdenGewijzigd,
+        IEvent<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> hoofdactiviteitenVerenigingsloketWerdenGewijzigd,
         BeheerVerenigingDetailDocument document)
     {
-        document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
+        document.HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
            .Select(BeheerVerenigingDetailMapper.MapHoofdactiviteitVerenigingsloket).ToArray();
     }
 
@@ -623,11 +623,44 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              AdresId = null,
-                                             VerwijstNaar = null
+                                             VerwijstNaar = null,
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
+
+    public static void Apply(
+        IEvent<AdresKonNietOvergenomenWordenUitAdressenregister> adresKonNietOvergenomenWordenUitAdressenregister,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             AdresId = null,
+                                             VerwijstNaar = null,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdOntkoppeldVanAdressenregister> adresWerdOntkoppeldVanAdressenregister,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Locaties = document.Locaties
+                                    .UpdateSingle(
+                                         identityFunc: l => l.LocatieId == adresWerdOntkoppeldVanAdressenregister.Data.LocatieId,
+                                         update: l => l with
+                                         {
+                                             AdresId = null,
+                                             VerwijstNaar = null,
+                                         })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
 
     public static void Apply(
         IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderdNaAdresMatch,

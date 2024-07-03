@@ -25,6 +25,7 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
         Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+        Identity<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         Identity<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.VCode}-{x.VerwijderdeLocatieId}");
 
         CustomGrouping(new LocatieLookupGrouper(logger));
@@ -46,6 +47,7 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
         DeleteEvent<LocatieWerdVerwijderd>();
         DeleteEvent<AdresWerdNietGevondenInAdressenregister>();
         DeleteEvent<AdresNietUniekInAdressenregister>();
+        DeleteEvent<AdresWerdOntkoppeldVanAdressenregister>();
 
         DeleteEvent<VerenigingWerdVerwijderd>();
         DeleteEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>();

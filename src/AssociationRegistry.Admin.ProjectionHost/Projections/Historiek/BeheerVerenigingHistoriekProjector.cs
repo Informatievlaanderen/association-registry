@@ -543,6 +543,17 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
+        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            adresNietUniekInAdressenregister,
+            document,
+            $"Adres niet uniek in het adressenregister."
+        );
+    }
+
+    public static void Apply(
         IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
         BeheerVerenigingHistoriekDocument document)
     {
@@ -554,13 +565,13 @@ public class BeheerVerenigingHistoriekProjector
     }
 
     public static void Apply(
-        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        IEvent<AdresWerdOntkoppeldVanAdressenregister> adresWerdOntkoppeldVanAdressenregister,
         BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
-            adresNietUniekInAdressenregister,
+            adresWerdOntkoppeldVanAdressenregister,
             document,
-            $"Adres niet uniek in het adressenregister."
+            $"Adres werd ontkoppeld van het adressenregister."
         );
     }
 
