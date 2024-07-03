@@ -1,3 +1,12 @@
+## [8.110.2](https://github.com/informatievlaanderen/association-registry/compare/v8.110.1...v8.110.2) (2024-07-03)
+
+
+### Bug Fixes
+
+* or-2208 add logging inside fetcher ([ed824ae](https://github.com/informatievlaanderen/association-registry/commit/ed824ae91b4ca01d6c4d3cabcef6c035ec6b36ff))
+* or-2208 add logging inside fetcher ([178801a](https://github.com/informatievlaanderen/association-registry/commit/178801a1888e95a1abf953229cdd2bc2e50afdc4))
+* or-2208 dont let marten change db on addressync ([4410e61](https://github.com/informatievlaanderen/association-registry/commit/4410e614b939b46362c3899823ee008d4114ab44))
+
 ## [8.110.1](https://github.com/informatievlaanderen/association-registry/compare/v8.110.0...v8.110.1) (2024-07-03)
 
 
