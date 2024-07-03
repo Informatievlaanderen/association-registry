@@ -59,7 +59,7 @@ public static class Program
            .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
-           .AddSingleton<IGrarHttpClient, GrarHttpClient>()
+           .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
            .AddSingleton<IGrarClient, GrarClient>()
            .AddSingleton<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
            .AddSingleton<IEventStore, EventStore>()
