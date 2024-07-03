@@ -39,7 +39,7 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
         AdresMatchUitAdressenregister = new AdresMatchUitAdressenregister
         {
             AdresId = new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/12345"),
-            Adres = new Registratiedata.Adres("Fosselstraat", "48", "", "1790", "Affligem", "België")
+            Adres = new Registratiedata.Adres("Fosselstraat", "48", "", "1790", "Affligem", "België"),
         };
 
         foreach (var locatie in FeitelijkeVerenigingWerdGeregistreerd.Locaties)
@@ -52,8 +52,8 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
                     LocatieId = locatie.LocatieId,
                     OvergenomenAdresUitAdressenregister = AdresMatchUitAdressenregister with
                     {
-                        AdresId = adresId
-                    }
+                        AdresId = adresId,
+                    },
                 };
 
             AdresWerdOvergenomenUitAdressenregisterList.Add(@event);

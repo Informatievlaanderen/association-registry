@@ -479,12 +479,16 @@ public static class PubliekVerenigingDetailProjector
                                              JsonLdType.Locatie.Type),
                                          Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
                                                      adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
-                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres),
-                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres
+                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
+                                                        .Adres),
+                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data
+                                            .OvergenomenAdresUitAdressenregister.Adres
                                             .ToAdresString(),
-                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
+                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
+                                                          .AdresId),
                                          VerwijstNaar =
-                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
+                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
+                                                            .AdresId),
                                      })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
@@ -519,7 +523,9 @@ public static class PubliekVerenigingDetailProjector
                                     .ToArray();
     }
 
-    public static void Apply(IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister, PubliekVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<AdresWerdNietGevondenInAdressenregister> adresWerdNietGevondenInAdressenregister,
+        PubliekVerenigingDetailDocument document)
     {
         var @event = adresWerdNietGevondenInAdressenregister.Data;
         var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
@@ -532,9 +538,12 @@ public static class PubliekVerenigingDetailProjector
                                          VerwijstNaar = null,
                                      })
                                     .OrderBy(l => l.LocatieId)
-                                    .ToArray();    }
+                                    .ToArray();
+    }
 
-    public static void Apply(IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister, PubliekVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<AdresNietUniekInAdressenregister> adresNietUniekInAdressenregister,
+        PubliekVerenigingDetailDocument document)
     {
         var @event = adresNietUniekInAdressenregister.Data;
         var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
@@ -547,7 +556,26 @@ public static class PubliekVerenigingDetailProjector
                                          VerwijstNaar = null,
                                      })
                                     .OrderBy(l => l.LocatieId)
-                                    .ToArray();    }
+                                    .ToArray();
+    }
+
+    public static void Apply(
+        IEvent<AdresWerdOntkoppeldVanAdressenregister> adresWerdOntkoppeldVanAdressenregister,
+        PubliekVerenigingDetailDocument document)
+    {
+        var @event = adresWerdOntkoppeldVanAdressenregister.Data;
+        var locatie = document.Locaties.Single(s => s.LocatieId == @event.LocatieId);
+
+        document.Locaties = document.Locaties
+                                    .Where(l => l.LocatieId != adresWerdOntkoppeldVanAdressenregister.Data.LocatieId)
+                                    .Append(locatie with
+                                     {
+                                         AdresId = null,
+                                         VerwijstNaar = null,
+                                     })
+                                    .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
 
     private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
@@ -621,7 +649,9 @@ public static class PubliekVerenigingDetailProjector
             Maximumleeftijd = doelgroep.Maximumleeftijd,
         };
 
-    public static void Apply(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieWerdVerwijderd, PubliekVerenigingDetailDocument document)
+    public static void Apply(
+        IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieWerdVerwijderd,
+        PubliekVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
                                     .Where(l => l.LocatieId != locatieWerdVerwijderd.Data.VerwijderdeLocatieId)
