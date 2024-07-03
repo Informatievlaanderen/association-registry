@@ -26,7 +26,7 @@ public class TeAdresMatchenLocatieMessageHandler
         TeAdresMatchenLocatieMessage matchenLocatieMessage,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation("Handle TeSynchroniserenAdresMessageHandler");
+        _logger.LogInformation($"Handle {nameof(TeAdresMatchenLocatieMessageHandler)}");
 
         try
         {
