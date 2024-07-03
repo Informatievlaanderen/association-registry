@@ -10,6 +10,7 @@ using Grar;
 using Grar.AddressSync;
 using Grar.Models;
 using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
 using Vereniging.Bronnen;
@@ -23,7 +24,7 @@ public class TeSynchroniserenLocatiesFetcherTests
 
         var session = store.LightweightSession();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>());
+        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
@@ -60,7 +61,7 @@ public class TeSynchroniserenLocatiesFetcherTests
         session.Store(document);
         await session.SaveChangesAsync();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object);
+        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
@@ -99,7 +100,7 @@ public class TeSynchroniserenLocatiesFetcherTests
 
         await session.SaveChangesAsync();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object);
+        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
