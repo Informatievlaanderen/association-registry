@@ -35,12 +35,7 @@ public static class Program
                        .ConfigureLogging(ConfigureLogger)
                        .Build();
 
-        var sw = Stopwatch.StartNew();
-        await host.StartAsync();
-        sw.Stop();
-
-        var logger = host.Services.GetRequiredService<ILogger<AddressSyncService>>();
-        logger.LogInformation($"Het synchroniseren van adressen werd voltooid in {sw.ElapsedMilliseconds} ms.");
+        await host.RunAsync();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)

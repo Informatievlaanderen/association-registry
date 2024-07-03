@@ -5,6 +5,7 @@ using Grar.Models;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
@@ -20,7 +21,7 @@ public class AddressSyncService(
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        await using var session = store.LightweightSession();
+        var session = store.LightweightSession();
 
         try
         {
