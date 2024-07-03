@@ -34,5 +34,14 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="New\CommandHandlers\VoegLocatieToe\" />
+    <Folder Include="New\CommandHandlers\WijzigLocatie\IndienAdresBestaat\" />
+    <Folder Include="New\CommandHandlers\WijzigLocatie\IndienAdresNietBestaat\" />
+    <Folder Include="New\Controllers\Historiek\" />
+    <Folder Include="New\Controllers\Zoeken\" />
+    <Folder Include="New\Controllers\ProjectionState\" />
+    <Folder Include="New\Controllers\WijzigLocatie\" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

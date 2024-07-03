@@ -167,12 +167,8 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
         };
         // Using Marten, wipe out all data and reset the state
         await Store.Advanced.ResetAllData();
-        Scenario = new V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields();
 
-        await using (var session = Store.LightweightSession())
-        {
-            session.Events.Append(Scenario.VCode, Scenario.GetEvents());
-        }
+        Scenario = new V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields();
 
         _result = await Host.Scenario(s =>
         {

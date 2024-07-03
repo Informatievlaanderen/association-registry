@@ -50,7 +50,7 @@ public class Returns_Detail_With_All_Fields : WijzigLocatieContext
                    {
                        id = JsonLdType.Adres.CreateWithIdValues(Scenario.VCode, "1"),
                        type = JsonLdType.Adres.Type,
-                       Straatnaam = "Leopold II-laan",
+                       Straatnaam = Request.Locatie.Adres.Straatnaam,
                        Huisnummer = "99",
                        Busnummer = "",
                        Postcode = "9200",
