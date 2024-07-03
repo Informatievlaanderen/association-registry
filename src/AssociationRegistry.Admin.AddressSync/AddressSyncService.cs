@@ -28,7 +28,7 @@ public class AddressSyncService(
 
             var messages = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, cancellationToken);
 
-            logger.LogInformation($"Er werden {messages.Count()} synchroniseer berichten werden gevonden.");
+            logger.LogInformation($"Er werden {messages.Count()} synchroniseer berichten gevonden.");
 
             foreach (var synchroniseerLocatieMessage in messages)
             {
@@ -40,6 +40,7 @@ public class AddressSyncService(
         catch (Exception ex)
         {
             logger.LogError(ex, $"Adressen synchroniseren kon niet voltooid worden. {ex.Message}");
+            throw;
         }
         finally
         {
