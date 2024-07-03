@@ -51,15 +51,17 @@ public static class Program
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
 
-        var grarOptions = context.Configuration.GetGrarOptions();
+
+        var grarHttpOptions = context.Configuration.GetGrarHttpOptions();
 
         services
-               .AddHttpClient<GrarHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
+           .AddHttpClient<GrarHttpClient>()
+           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarHttpOptions.BaseUrl));
 
         services
            .AddSingleton(postgreSqlOptions)
-           .AddSingleton<IClock>(SystemClock.Instance)           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
+           .AddSingleton<IClock>(SystemClock.Instance)
+           .AddSingleton<IEventPostConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
            .AddSingleton<IGrarHttpClient, GrarHttpClient>()
@@ -95,7 +97,7 @@ public static class Program
             options.IncludeFormattedMessage = true;
             options.ParseStateValues = true;
 
-            options.AddOtlpExporter((exporterOptions, _)  =>
+            options.AddOtlpExporter((exporterOptions, _) =>
             {
                 exporterOptions.Protocol = OtlpExportProtocol.Grpc;
                 exporterOptions.Endpoint = new Uri(ServiceCollectionExtensions.CollectorUrl);

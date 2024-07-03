@@ -34,6 +34,17 @@ public static class ConfigurationExtensions
         return grarOptions!;
     }
 
+    public static GrarOptions.HttpClientOptions GetGrarHttpOptions(this IConfiguration configuration)
+    {
+        var grarOptions = configuration
+                         .GetSection(nameof(GrarOptions))
+                         .Get<GrarOptions>();
+
+        grarOptions.HttpClient.ThrowIfInValid();
+
+        return grarOptions.HttpClient;
+    }
+
     private static void ThrowIfInValid(this GrarOptions opt)
     {
         if (opt.Kafka.Enabled)
@@ -58,8 +69,14 @@ public static class ConfigurationExtensions
             Throw<ArgumentNullException>.IfNullOrWhiteSpace(opt.Sqs.GrarSyncQueueUrl, nameof(opt.Sqs.GrarSyncQueueUrl));
         }
 
+        opt.HttpClient.ThrowIfInValid();
+    }
+
+    private static void ThrowIfInValid(this GrarOptions.HttpClientOptions opt)
+    {
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(opt.HttpClient.BaseUrl, nameof(opt.HttpClient.BaseUrl));
+           .IfNullOrWhiteSpace(opt.BaseUrl, nameof(opt.BaseUrl));
+
     }
 
     private static void ThrowIfInvalid(this PostgreSqlOptionsSection? postgreSqlOptions)
