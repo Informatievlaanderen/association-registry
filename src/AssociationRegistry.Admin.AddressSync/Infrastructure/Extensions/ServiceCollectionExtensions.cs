@@ -78,6 +78,8 @@ public static class ServiceCollectionExtensions
                 opts.Connection(postgreSqlOptions.GetConnectionString());
                 opts.Serializer(CreateMartenSerializer());
 
+                opts.AutoCreateSchemaObjects = AutoCreate.None;
+
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
                     opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
@@ -90,8 +92,6 @@ public static class ServiceCollectionExtensions
 
                 return opts;
             });
-
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return services;
     }

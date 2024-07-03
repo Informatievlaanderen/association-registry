@@ -25,7 +25,7 @@ public class TeSynchroniserenLocatiesFetcherTests
         var session = store.LightweightSession();
 
         var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
-
+        
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         locaties.Should().BeEmpty();
