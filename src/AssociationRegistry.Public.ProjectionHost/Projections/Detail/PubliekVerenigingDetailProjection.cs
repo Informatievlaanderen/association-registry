@@ -177,6 +177,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<AdresNietUniekInAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<AdresWerdOntkoppeldVanAdressenregister> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
