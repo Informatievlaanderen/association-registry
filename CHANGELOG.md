@@ -1,3 +1,10 @@
+## [8.110.3](https://github.com/informatievlaanderen/association-registry/compare/v8.110.2...v8.110.3) (2024-07-03)
+
+
+### Bug Fixes
+
+* or-2208 fix registration grarhttpclient and marten identity ([f1c6a75](https://github.com/informatievlaanderen/association-registry/commit/f1c6a755605efd7cd1c819d14d8e6016dcf6969e))
+
 ## [8.110.2](https://github.com/informatievlaanderen/association-registry/compare/v8.110.1...v8.110.2) (2024-07-03)
 
 
