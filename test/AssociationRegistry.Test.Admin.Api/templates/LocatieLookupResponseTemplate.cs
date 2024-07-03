@@ -25,7 +25,7 @@ public class LocatieLookupResponseTemplate : ResponseTemplate
         _vereniging.locatielookups.Add(new
         {
             locatieid = locatieid,
-            adresid = adresId
+            adresid = adresId,
         });
 
         return this;

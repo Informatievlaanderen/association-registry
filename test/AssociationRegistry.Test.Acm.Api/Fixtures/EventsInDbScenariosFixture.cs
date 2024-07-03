@@ -39,7 +39,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEventsInDbScenario,
             FeitelijkeVerenigingWerdGestoptEventsInDbScenario,
             FeitelijkeVerenigingWerdVerwijderdEventsInDbScenario,
-            VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario
+            VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario,
         };
 
         foreach (var scenario in scenarios)

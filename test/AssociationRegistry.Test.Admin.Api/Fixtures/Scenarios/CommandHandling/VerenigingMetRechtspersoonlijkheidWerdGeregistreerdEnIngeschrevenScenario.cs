@@ -25,7 +25,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEnIngeschrevenSc
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(KboNummer)
+            new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(KboNummer),
         };
 
     public VerenigingVolgensKbo VerenigingVolgensKbo

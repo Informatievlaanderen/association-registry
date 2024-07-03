@@ -64,7 +64,7 @@ public class GivenEventsFixture : PublicApiFixture
             V019Vereniging19ForSearchScenario,
             V020Vereniging20ForSearchScenario,
             V021VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd,
-            V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario
+            V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario,
         };
 
     public override async Task InitializeAsync()

@@ -47,8 +47,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
                 Locaties = new[]
                 {
                     locatie1,
-                    locatie2
-                }
+                    locatie2,
+                },
             };
 
         var adresId = fixture.Create<Registratiedata.AdresId>();
@@ -61,8 +61,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
                 OvergenomenAdresUitAdressenregister = new AdresMatchUitAdressenregister()
                 {
                     Adres = fixture.Create<Registratiedata.Adres>(),
-                    AdresId = adresId
-                }
+                    AdresId = adresId,
+                },
             };
 
         grarClient.Setup(x => x.GetAddressMatches(
@@ -77,8 +77,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
                        fixture.Create<AddressMatchResponse>() with
                        {
                            Score = 100,
-                           AdresId = adresId
-                       }
+                           AdresId = adresId,
+                       },
                    });
 
         vereniging.Hydrate(
@@ -113,7 +113,7 @@ public class Given_Duplicate_Locaties_With_Different_Names
 
         var locatie2 = fixture.Create<Registratiedata.Locatie>() with
         {
-            Naam = fixture.Create<string>()
+            Naam = fixture.Create<string>(),
         };
 
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
@@ -122,8 +122,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
                 Locaties = new[]
                 {
                     locatie1,
-                    locatie2
-                }
+                    locatie2,
+                },
             };
 
         var adresId = fixture.Create<Registratiedata.AdresId>();
@@ -136,8 +136,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
                 OvergenomenAdresUitAdressenregister = new AdresMatchUitAdressenregister()
                 {
                     Adres = fixture.Create<Registratiedata.Adres>(),
-                    AdresId = adresId
-                }
+                    AdresId = adresId,
+                },
             };
 
         grarClient.Setup(x => x.GetAddressMatches(
@@ -152,8 +152,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
                        fixture.Create<AddressMatchResponse>() with
                        {
                            Score = 100,
-                           AdresId = adresId
-                       }
+                           AdresId = adresId,
+                       },
                    });
 
         vereniging.Hydrate(

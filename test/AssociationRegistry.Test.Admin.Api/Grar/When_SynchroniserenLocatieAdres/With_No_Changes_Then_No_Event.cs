@@ -31,8 +31,8 @@ public class With_No_Changes_Then_No_Event
         {
             Adres = locatie.Adres with
             {
-                Land = "België"
-            }
+                Land = "België",
+            },
         };
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>()

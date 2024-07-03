@@ -8,7 +8,7 @@ public class WireMockGrarClient : GrarClient
     public WireMockGrarClient()
         : base(new GrarHttpClient(new HttpClient()
         {
-            BaseAddress = new Uri("http://localhost:8080")
+            BaseAddress = new Uri("http://localhost:8080"),
         }), NullLogger<GrarClient>.Instance)
     {
     }

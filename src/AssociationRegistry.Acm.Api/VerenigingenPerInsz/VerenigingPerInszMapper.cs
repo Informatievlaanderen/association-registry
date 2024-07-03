@@ -19,6 +19,6 @@ public static class VerenigingPerInszMapper
             Status = v.Status,
             KboNummer = v.KboNummer,
             VCode = v.VCode,
-            IsHoofdvertegenwoordigerVan = v.IsHoofdvertegenwoordigerVan
+            IsHoofdvertegenwoordigerVan = v.IsHoofdvertegenwoordigerVan,
         };
 }

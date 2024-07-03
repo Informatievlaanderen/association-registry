@@ -41,8 +41,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAddressMatch
                     },
                     IsPrimair = true,
                     Locatietype = Locatietype.Correspondentie,
-                }
-            }
+                },
+            },
         };
 
         Response ??= fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();

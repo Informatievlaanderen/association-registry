@@ -37,7 +37,7 @@ public class With_TeHeradressren_Locaties
         {
             LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
             VCode = "V001",
-            idempotencyKey = "123456789"
+            idempotencyKey = "123456789",
         };
 
         var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);

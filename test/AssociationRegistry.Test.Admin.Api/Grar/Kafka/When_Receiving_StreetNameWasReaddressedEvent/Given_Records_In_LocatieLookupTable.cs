@@ -29,25 +29,25 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
             {
                 VCode = "VCode1",
                 AdresId = "123",
-                LocatieId = 1
+                LocatieId = 1,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode1",
                 AdresId = "456",
-                LocatieId = 2
+                LocatieId = 2,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode2",
                 AdresId = "123",
-                LocatieId = 1
+                LocatieId = 1,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode2",
                 AdresId = "789",
-                LocatieId = 2
+                LocatieId = 2,
             },
         });
 
@@ -69,7 +69,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
             new TeHeradresserenLocatiesMessage("VCode1", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777") },
                                                "idempotencyKey"),
             new TeHeradresserenLocatiesMessage("VCode2", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777") },
-                                               "idempotencyKey")
+                                               "idempotencyKey"),
         });
     }
 
@@ -98,25 +98,25 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
             {
                 VCode = "VCode1",
                 AdresId = "123",
-                LocatieId = 1
+                LocatieId = 1,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode1",
                 AdresId = "456",
-                LocatieId = 2
+                LocatieId = 2,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode2",
                 AdresId = "123",
-                LocatieId = 1
+                LocatieId = 1,
             },
             new LocatieLookupDocument()
             {
                 VCode = "VCode2",
                 AdresId = "789",
-                LocatieId = 2
+                LocatieId = 2,
             },
         });
 
@@ -144,7 +144,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
                 "VCode1", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777"), new LocatieIdWithAdresId(2, "888") },
                 "idempotencyKey"),
             new TeHeradresserenLocatiesMessage("VCode2", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777") },
-                                               "idempotencyKey")
+                                               "idempotencyKey"),
         });
     }
 
@@ -175,7 +175,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                                                                                     CreateReaddressedAddressData(
                                                                                         vanAdresId: 1001, naarAdresId: 2001),
                                                                                     CreateReaddressedAddressData(
-                                                                                        vanAdresId: 1002, naarAdresId: 2002)
+                                                                                        vanAdresId: 1002, naarAdresId: 2002),
                                                                                 });
 
         var secondHouseNumberToReaddress = new AddressHouseNumberReaddressedData(addressPersistentLocalId: 2000, // can be ignored
@@ -186,7 +186,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                                                                                      CreateReaddressedAddressData(
                                                                                          vanAdresId: 2001, naarAdresId: 3002),
                                                                                      CreateReaddressedAddressData(
-                                                                                         vanAdresId: 2002, naarAdresId: 3003)
+                                                                                         vanAdresId: 2002, naarAdresId: 3003),
                                                                                  });
 
         var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>()
@@ -285,7 +285,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
             {
                 VCode = vCode,
                 AdresId = vanAdresId,
-                LocatieId = locatieId
+                LocatieId = locatieId,
             },
             ExpectedAdresId: naarAdresId);
 

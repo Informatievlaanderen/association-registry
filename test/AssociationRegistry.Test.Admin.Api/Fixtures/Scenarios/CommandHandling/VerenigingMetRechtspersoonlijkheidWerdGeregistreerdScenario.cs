@@ -67,7 +67,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithAdresScenari
         => new IEvent[]
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
-            MaatschappelijkeZetelWerdOvergenomenUitKbo
+            MaatschappelijkeZetelWerdOvergenomenUitKbo,
         };
 
     public VerenigingVolgensKbo VerenigingVolgensKbo

@@ -104,8 +104,8 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_Postal
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
-                }
-            }
+                },
+            },
         };
 
         Response ??= fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(Request)).GetAwaiter().GetResult();

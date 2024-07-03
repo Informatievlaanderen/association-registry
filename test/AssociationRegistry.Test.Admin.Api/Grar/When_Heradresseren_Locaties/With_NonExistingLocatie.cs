@@ -38,7 +38,7 @@ public class With_NonExistingLocatie
         {
             LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(nonExistingLocatieId, "123") },
             VCode = "V001",
-            idempotencyKey = "123456789"
+            idempotencyKey = "123456789",
         };
 
         var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);

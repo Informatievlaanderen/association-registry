@@ -22,7 +22,7 @@ public class With_BoxNumber_Is_Null
                                  It.IsAny<string>(), It.IsAny<CancellationToken>()))
                       .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
                        {
-                           Content = new StringContent(AddressMatchResponseWithoutBoxNumber)
+                           Content = new StringContent(AddressMatchResponseWithoutBoxNumber),
                        });
 
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());

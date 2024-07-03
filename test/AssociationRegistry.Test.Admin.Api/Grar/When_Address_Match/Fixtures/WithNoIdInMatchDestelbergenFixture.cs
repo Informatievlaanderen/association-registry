@@ -17,7 +17,7 @@ public class WithNoIdInMatchDestelbergenFixture : IAsyncLifetime
     {
         _client = new GrarClient(new GrarHttpClient(new HttpClient()
         {
-            BaseAddress = new Uri("http://localhost:8080/")
+            BaseAddress = new Uri("http://localhost:8080/"),
         }), NullLogger<GrarClient>.Instance);
     }
 

@@ -24,7 +24,7 @@ public class Given_AdresWerdNietGevondenInAdressenregister
         var adresWerdNietGevondenInAdressenregister = new TestEvent<AdresWerdNietGevondenInAdressenregister>(
             fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
             {
-                LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId
+                LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
             });
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

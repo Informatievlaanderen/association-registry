@@ -40,7 +40,7 @@ public class With_Multiple_TeHeradressren_Locaties
         {
             LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = "V001",
-            idempotencyKey = "123456789"
+            idempotencyKey = "123456789",
         };
 
         var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);

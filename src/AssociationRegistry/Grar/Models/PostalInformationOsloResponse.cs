@@ -75,5 +75,5 @@ public enum PostInfoStatus
     Gerealiseerd = 1,
 
     [EnumMember]
-    Gehistoreerd = 2
+    Gehistoreerd = 2,
 }

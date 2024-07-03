@@ -50,7 +50,7 @@ public class TeSynchroniserenLocatiesFetcherTests
 
         var addressDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(Adresbron.AR, document.AdresId)
+            AdresId = new Registratiedata.AdresId(Adresbron.AR, document.AdresId),
         };
 
         grarClient
@@ -67,8 +67,8 @@ public class TeSynchroniserenLocatiesFetcherTests
         locaties.Should().BeEquivalentTo([
             new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>()
             {
-                new LocatieWithAdres(document.LocatieId, addressDetailResponse)
-            }, "")
+                new LocatieWithAdres(document.LocatieId, addressDetailResponse),
+            }, ""),
         ], options => options.Excluding(x => x.IdempotenceKey));
     }
 
@@ -111,13 +111,13 @@ public class TeSynchroniserenLocatiesFetcherTests
             new TeSynchroniserenLocatieAdresMessage(vCode1, new List<LocatieWithAdres>()
             {
                 new LocatieWithAdres(1, address1DetailResponse),
-                new LocatieWithAdres(2, address2DetailResponse)
+                new LocatieWithAdres(2, address2DetailResponse),
             }, ""),
             new TeSynchroniserenLocatieAdresMessage(vCode2, new List<LocatieWithAdres>()
             {
                 new LocatieWithAdres(1, address1DetailResponse),
-                new LocatieWithAdres(2, address3DetailResponse)
-            }, "")
+                new LocatieWithAdres(2, address3DetailResponse),
+            }, ""),
         ], options => options.Excluding(x => x.IdempotenceKey));
     }
 
@@ -125,7 +125,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     {
         var response = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(Adresbron.AR, adresId1)
+            AdresId = new Registratiedata.AdresId(Adresbron.AR, adresId1),
         };
 
         grarClient

@@ -27,7 +27,7 @@ public class When_AdresWerdGeheradresseerd
 
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
         {
-            new AddressMatchConflictResolutionStrategy()
+            new AddressMatchConflictResolutionStrategy(),
         });
 
         await using var session = documentStore.LightweightSession();
