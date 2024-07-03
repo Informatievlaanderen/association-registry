@@ -1,3 +1,10 @@
+# [8.110.0](https://github.com/informatievlaanderen/association-registry/compare/v8.109.1...v8.110.0) (2024-07-03)
+
+
+### Features
+
+* or-2208 add logging for AddressSyncService and TeSynchroniserenLocatieAdresMessageHandler ([1bc70d0](https://github.com/informatievlaanderen/association-registry/commit/1bc70d025fc17c5b4cf395aeb368944599db6aa5))
+
 ## [8.109.1](https://github.com/informatievlaanderen/association-registry/compare/v8.109.0...v8.109.1) (2024-07-03)
 
 
