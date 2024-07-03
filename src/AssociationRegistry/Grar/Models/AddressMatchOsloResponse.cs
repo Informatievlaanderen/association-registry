@@ -149,7 +149,7 @@
         DE,
 
         [EnumMember(Value = "en")]
-        EN
+        EN,
     }
 
     [DataContract(Name = "AdresStatus", Namespace = "")]
@@ -165,7 +165,7 @@
         Gehistoreerd = 3,
 
         [EnumMember]
-        Afgekeurd = 4
+        Afgekeurd = 4,
     }
 
     [DataContract(Name = "Identificator", Namespace = "")]
@@ -227,7 +227,7 @@
             GeografischeNaam = new()
             {
                 Spelling = representation,
-                Taal = taal
+                Taal = taal,
             };
         }
 
@@ -237,7 +237,7 @@
             {
                 Taal.DE => "pf",
                 Taal.FR => "bte",
-                _ => "bus"
+                _ => "bus",
             };
         }
     }

@@ -27,7 +27,7 @@ public class With_A_Changed_Adres
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with
         {
-            IsActief = true
+            IsActief = true,
         };
 
         var grarClientMock = new Mock<IGrarClient>();

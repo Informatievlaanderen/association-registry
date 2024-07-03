@@ -30,7 +30,7 @@ public class When_AdresMatch_Occurred
 
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
         {
-            new AddressMatchConflictResolutionStrategy()
+            new AddressMatchConflictResolutionStrategy(),
         });
 
         await using var session = documentStore.LightweightSession();

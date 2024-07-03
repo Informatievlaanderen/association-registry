@@ -28,7 +28,7 @@ public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario
             Naam = Naam,
             Locaties = new List<Registratiedata.Locatie>
             {
-                Locatie
+                Locatie,
             }.ToArray(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
             Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),

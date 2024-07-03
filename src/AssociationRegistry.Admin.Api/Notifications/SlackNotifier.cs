@@ -27,9 +27,9 @@ public class SlackNotifier : INotifier
             {
                 NotifyType.None => Emoji.Bulb,
                 NotifyType.Success => Emoji.Up,
-                NotifyType.Failure => Emoji.X
+                NotifyType.Failure => Emoji.X,
             },
-            Username = "Adres sync"
+            Username = "Adres sync",
         });
 
         if(!postAsync)

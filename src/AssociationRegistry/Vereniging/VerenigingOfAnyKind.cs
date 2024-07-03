@@ -273,7 +273,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                        adresMatch.Select(
                                                                       match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
                                                                           match))
-                                                                 .ToArray())
+                                                                 .ToArray()),
         };
     }
 
@@ -291,7 +291,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                                    locatieVoorTeMatchenAdres.Adres.Postcode,
                                                                                    locatieVoorTeMatchenAdres.Adres.Gemeente),
             _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
-                                                                      ex.Message)
+                                                                      ex.Message),
         };
 
         return @event;

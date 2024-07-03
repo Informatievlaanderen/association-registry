@@ -24,7 +24,7 @@ public class Given_AdresNietUniekInAdressenregister
         var adresWerdNietGevondenInAdressenregister = new TestEvent<AdresNietUniekInAdressenregister>(
             fixture.Create<AdresNietUniekInAdressenregister>() with
             {
-                LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId
+                LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
             });
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();

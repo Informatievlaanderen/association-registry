@@ -18,7 +18,7 @@ public class AddressMatchConflictResolutionStrategy : IEventPostConflictResoluti
             typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
             typeof(AdresWerdNietGevondenInAdressenregister),
             typeof(AdresNietUniekInAdressenregister),
-            typeof(AdresWerdGewijzigdInAdressenregister)
+            typeof(AdresWerdGewijzigdInAdressenregister),
         }.Contains(eventType);
 
 

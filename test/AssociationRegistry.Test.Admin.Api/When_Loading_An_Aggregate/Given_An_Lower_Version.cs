@@ -26,11 +26,11 @@ public class Given_An_Lower_Version
         _conflictResolver = new EventConflictResolver(
             new IEventPreConflictResolutionStrategy[]
             {
-                new AddressMatchConflictResolutionStrategy()
+                new AddressMatchConflictResolutionStrategy(),
             },
             new IEventPostConflictResolutionStrategy[]
             {
-                new AddressMatchConflictResolutionStrategy()
+                new AddressMatchConflictResolutionStrategy(),
             });
     }
 

@@ -15,7 +15,7 @@ public record AdresDetailUitAdressenregister
                 response.Busnummer,
                 response.Postcode,
                 response.Gemeente,
-                "België")
+                "België"),
         };
 
      public AdresDetailUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
@@ -31,14 +31,14 @@ public record AdresDetailUitAdressenregister
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return this with {
-                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
                 };
             }
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
                 return this with {
-                    Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" }
+                    Adres = Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" },
                 };
             }
         }
@@ -55,14 +55,14 @@ public record AdresDetailUitAdressenregister
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return this with {
-                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+                    Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
                 };
             }
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
                 return this with {
-                    Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" }
+                    Adres = Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" },
                 };
             }
         }
@@ -70,7 +70,7 @@ public record AdresDetailUitAdressenregister
         {
             // Hoofdgemeente overnemen, postcode wint altijd
             return this with {
-                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam }
+                Adres = Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
             };
         }
     }

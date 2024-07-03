@@ -38,22 +38,22 @@ public class V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen
             with
 
             {
-                LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
+                LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
             };
         AdresNietUniekInAdressenregister = fixture.Create<AdresNietUniekInAdressenregister>() with
 
         {
-            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
         };;
         AdresWerdNietGevondenInAdressenregister = fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
 
         {
-            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
         };;
         AdresKonNietOvergenomenWordenUitAdressenregister = fixture.Create<AdresKonNietOvergenomenWordenUitAdressenregister>() with
 
         {
-            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId
+            LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
         };;
 
 
@@ -74,7 +74,7 @@ public class V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen
             AdresWerdOvergenomenUitAdressenregister,
             AdresNietUniekInAdressenregister,
             AdresWerdNietGevondenInAdressenregister,
-            AdresKonNietOvergenomenWordenUitAdressenregister
+            AdresKonNietOvergenomenWordenUitAdressenregister,
         };
 
     public CommandMetadata GetCommandMetadata()

@@ -43,14 +43,14 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
         {
             LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
             VCode = scenario.VCode,
-            idempotencyKey = idempotenceKey
+            idempotencyKey = idempotenceKey,
         };
 
         var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
             LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "456"), new(locatieId2, "123") },
             VCode = scenario.VCode,
-            idempotencyKey = idempotenceKey + 1
+            idempotencyKey = idempotenceKey + 1,
         };
 
         var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
@@ -68,7 +68,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                                                                                       mockedAdresDetail1), message1.idempotencyKey),
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
                                                                                   AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail2), message1.idempotencyKey)
+                                                                                      mockedAdresDetail2), message1.idempotencyKey),
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 
@@ -81,7 +81,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                                                                                       mockedAdresDetail2), message2.idempotencyKey),
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
                                                                                   AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail1), message2.idempotencyKey)
+                                                                                      mockedAdresDetail1), message2.idempotencyKey),
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 

@@ -29,7 +29,7 @@ public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenar
             Naam = Naam,
             Locaties = new List<Registratiedata.Locatie>
             {
-                Locatie
+                Locatie,
             }.ToArray(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
             Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),
@@ -61,7 +61,7 @@ public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenar
         => new IEvent[]
             {
                 FeitelijkeVerenigingWerdGeregistreerd,
-                AdresWerdOvergenomenUitAdressenregister
+                AdresWerdOvergenomenUitAdressenregister,
             }
              .Concat(new IEvent[]
               {
