@@ -1,3 +1,10 @@
+## [8.110.1](https://github.com/informatievlaanderen/association-registry/compare/v8.110.0...v8.110.1) (2024-07-03)
+
+
+### Bug Fixes
+
+* or-2208 throw exception when AddressSyncService fails ([5094b3f](https://github.com/informatievlaanderen/association-registry/commit/5094b3fe27d7dc31bbccaa9e28b666bccd967966))
+
 # [8.110.0](https://github.com/informatievlaanderen/association-registry/compare/v8.109.1...v8.110.0) (2024-07-03)
 
 
