@@ -3,6 +3,7 @@
 using ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Marten;
+using Marten.Events;
 using Marten.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using System.Reflection;
+using Vereniging;
 using Weasel.Core;
 
 public static class ServiceCollectionExtensions
@@ -77,7 +79,9 @@ public static class ServiceCollectionExtensions
                 var opts = new StoreOptions();
                 opts.Connection(postgreSqlOptions.GetConnectionString());
                 opts.Serializer(CreateMartenSerializer());
+                opts.Events.StreamIdentity = StreamIdentity.AsString;
 
+                opts.Events.MetadataConfig.EnableAll();
                 opts.AutoCreateSchemaObjects = AutoCreate.None;
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
