@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using EventStore;
 using FluentAssertions;
+using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
 
@@ -76,8 +77,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     {
         SaveInvocations.Should().HaveCount(1);
 
-        SaveInvocations[0].Vereniging.UncommittedEvents.Should()
-                          .BeEquivalentTo(events, config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
+        SaveInvocations[0].Vereniging.UncommittedEvents.ToArray().ShouldCompare(events);
     }
 
     public void ShouldNotHaveSaved<TEvent>() where TEvent : IEvent

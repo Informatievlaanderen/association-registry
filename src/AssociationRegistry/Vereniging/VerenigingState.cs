@@ -589,4 +589,26 @@ public record VerenigingState : IHasVersion
                    .Without(@event.VerwijderdeLocatieId)),
         };
     }
+
+    public VerenigingState Apply(AdresWerdOntkoppeldVanAdressenregister @event)
+    {
+        var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
+
+        if (locatie is null)
+        {
+            return this;
+        }
+
+        return this with
+        {
+            Locaties = Locaties.Hydrate(
+                Locaties
+                   .Without(@event.LocatieId)
+                   .Append(locatie with
+                    {
+                        AdresId = null,
+                    })
+            ),
+        };
+    }
 }
