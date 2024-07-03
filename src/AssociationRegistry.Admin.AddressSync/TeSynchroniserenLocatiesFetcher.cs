@@ -4,17 +4,23 @@ using Grar;
 using Grar.AddressSync;
 using Grar.Models;
 using Marten;
+using Microsoft.Extensions.Logging;
 using Schema.Detail;
 using System.Diagnostics.Contracts;
 
-public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient)
+public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient, ILogger<TeSynchroniserenLocatiesFetcher> logger)
     : ITeSynchroniserenLocatiesFetcher
 {
     public async Task<IEnumerable<TeSynchroniserenLocatieAdresMessage>> GetTeSynchroniserenLocaties(
         IDocumentSession session,
         CancellationToken stoppingToken)
     {
+        logger.LogInformation("Fetcher started.");
+
         var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync(stoppingToken);
+
+        logger.LogInformation("Fetcher found {DocumentCounht}.", locatieLookupDocuments.Count);
+
         var idempotenceKey = Guid.NewGuid().ToString("N");
 
         var messages = GroupByVCode(locatieLookupDocuments,
@@ -54,8 +60,16 @@ public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient)
 
         foreach (var resultByAdresId in byAdresId)
         {
-            var response = await grarClient.GetAddressById(resultByAdresId.AdresId, cancellationToken);
-            addressResults.Add(response);
+            try
+            {
+                var response = await grarClient.GetAddressById(resultByAdresId.AdresId, cancellationToken);
+                addressResults.Add(response);
+                logger.LogInformation("Adres ontvangen voor adres ID {AdresId}: {Adres}", resultByAdresId.AdresId, response.Adresvoorstelling);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, "Adres kon niet opgehaald worden voor ID {AdresId}.", resultByAdresId.AdresId);
+            }
         }
 
         return addressResults;
