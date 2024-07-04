@@ -1,3 +1,10 @@
+## [8.111.1](https://github.com/informatievlaanderen/association-registry/compare/v8.111.0...v8.111.1) (2024-07-04)
+
+
+### Bug Fixes
+
+* or-2283 add allowed events inside conflict resolver strategy ([59f7c1b](https://github.com/informatievlaanderen/association-registry/commit/59f7c1bb093e410d9b91ec3872fc47c1360422c7))
+
 # [8.111.0](https://github.com/informatievlaanderen/association-registry/compare/v8.110.4...v8.111.0) (2024-07-04)
 
 
