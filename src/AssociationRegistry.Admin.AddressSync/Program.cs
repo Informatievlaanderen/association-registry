@@ -35,7 +35,7 @@ public static class Program
                        .ConfigureLogging(ConfigureLogger)
                        .Build();
 
-        await host.RunAsync();
+        await host.StartAsync();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
