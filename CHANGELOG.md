@@ -1,3 +1,10 @@
+## [8.110.4](https://github.com/informatievlaanderen/association-registry/compare/v8.110.3...v8.110.4) (2024-07-04)
+
+
+### Bug Fixes
+
+* or-2208 also catch load errors ([31112a8](https://github.com/informatievlaanderen/association-registry/commit/31112a8792a1b6c768f3804334ea63cfc4366c33))
+
 ## [8.110.3](https://github.com/informatievlaanderen/association-registry/compare/v8.110.2...v8.110.3) (2024-07-03)
 
 
