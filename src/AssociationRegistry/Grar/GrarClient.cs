@@ -29,7 +29,9 @@ public class GrarClient : IGrarClient
                 await _grarHttpClient.GetAddressById(adresId, CancellationToken.None);
 
             if (!response.IsSuccessStatusCode)
-                throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
+                throw response.StatusCode == HttpStatusCode.Gone
+                    ? new AdressenregisterReturnedGoneStatusCode()
+                    : new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
 
             var addressDetailOsloResponse =
                 JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync(cancellationToken));
@@ -52,6 +54,13 @@ public class GrarClient : IGrarClient
             _logger.LogError(ex, message: "{Message}", ex.Message);
 
             throw new Exception(message: "A timeout occurred when calling the address match endpoint", ex);
+        }
+        catch (AdressenregisterReturnedGoneStatusCode ex)
+        {
+            _logger.LogError(ex, message: "A gone status code occurred when calling the address match endpoint: {Message}",
+                             ex.Message);
+
+            throw;
         }
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {

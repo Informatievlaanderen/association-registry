@@ -2,13 +2,20 @@ namespace AssociationRegistry.Admin.AddressSync;
 
 using Grar;
 using Grar.AddressSync;
+using Grar.Exceptions;
 using Grar.Models;
+using Infrastructure;
+using Infrastructure.Notifications;
 using Marten;
 using Microsoft.Extensions.Logging;
+using Notifications;
 using Schema.Detail;
 using System.Diagnostics.Contracts;
 
-public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient, ILogger<TeSynchroniserenLocatiesFetcher> logger)
+public class TeSynchroniserenLocatiesFetcher(
+    IGrarClient grarClient,
+    INotifier notifier,
+    ILogger<TeSynchroniserenLocatiesFetcher> logger)
     : ITeSynchroniserenLocatiesFetcher
 {
     public async Task<IEnumerable<TeSynchroniserenLocatieAdresMessage>> GetTeSynchroniserenLocaties(
@@ -64,11 +71,18 @@ public class TeSynchroniserenLocatiesFetcher(IGrarClient grarClient, ILogger<TeS
             {
                 var response = await grarClient.GetAddressById(resultByAdresId.AdresId, cancellationToken);
                 addressResults.Add(response);
-                logger.LogInformation("Adres ontvangen voor adres ID {AdresId}: {Adres}", resultByAdresId.AdresId, response.Adresvoorstelling);
+
+                logger.LogInformation("Adres ontvangen voor adres ID {AdresId}: {Adres}", resultByAdresId.AdresId,
+                                      response.Adresvoorstelling);
+            }
+            catch (AdressenregisterReturnedGoneStatusCode ex)
+            {
+                logger.LogError(ex, "Adres met ID {AdresId} is verwijderd uit het adressenregister.", resultByAdresId.AdresId);
             }
             catch (Exception ex)
             {
                 logger.LogError(ex, "Adres kon niet opgehaald worden voor ID {AdresId}.", resultByAdresId.AdresId);
+                await notifier.Notify(new AdresOphalenUitAdressenregisterGefaald(ex, resultByAdresId.AdresId));
             }
         }
 
