@@ -1,3 +1,17 @@
+# [8.111.0](https://github.com/informatievlaanderen/association-registry/compare/v8.110.4...v8.111.0) (2024-07-04)
+
+
+### Bug Fixes
+
+* or-2276 add AdresWerdOntkoppeldVanAdressenregister inside public projections ([92ebf30](https://github.com/informatievlaanderen/association-registry/commit/92ebf30ca382e19ed31167672a1732a1cbc5fac8))
+* or-2276 code style trailing commas added ([cbfcd83](https://github.com/informatievlaanderen/association-registry/commit/cbfcd83fc47b276f447954b186ed18209e44673c))
+
+
+### Features
+
+* or-2208 implement AdresWerdOntkoppeldUitAdressenregister ([159688c](https://github.com/informatievlaanderen/association-registry/commit/159688c83dc1debad753f8dfb1818c655a30b290))
+* or-2276 add AdresWerdOntkoppeldVanAdressenregister inside admin projections ([4f50d86](https://github.com/informatievlaanderen/association-registry/commit/4f50d86f0359e0c925af029b37fcd397f9479fd3))
+
 ## [8.110.4](https://github.com/informatievlaanderen/association-registry/compare/v8.110.3...v8.110.4) (2024-07-04)
 
 
