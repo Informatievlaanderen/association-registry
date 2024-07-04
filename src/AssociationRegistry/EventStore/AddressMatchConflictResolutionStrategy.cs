@@ -19,7 +19,7 @@ public class AddressMatchConflictResolutionStrategy : IEventPostConflictResoluti
             typeof(AdresWerdNietGevondenInAdressenregister),
             typeof(AdresNietUniekInAdressenregister),
             typeof(AdresWerdGewijzigdInAdressenregister),
+            typeof(AdresWerdOntkoppeldVanAdressenregister),
+            typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
         }.Contains(eventType);
-
-
 }
