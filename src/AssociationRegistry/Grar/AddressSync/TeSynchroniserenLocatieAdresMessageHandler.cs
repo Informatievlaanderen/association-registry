@@ -12,10 +12,10 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IVerenigingsRepository r
     {
         logger.LogInformation($"Handle {nameof(TeSynchroniserenLocatieAdresMessageHandler)}");
 
-        var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
-
         try
         {
+            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+
             await vereniging.SyncAdresLocaties(message.LocatiesWithAdres, message.IdempotenceKey, grarClient);
 
             await repository.Save(
@@ -27,7 +27,7 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IVerenigingsRepository r
         }
         catch (Exception ex)
         {
-            logger.LogError(ex, "Fout bij het synchroniseren van vereniging {VCode} voor locatie {LocatieId}", vereniging.VCode);
+            logger.LogError(ex, "Fout bij het synchroniseren van vereniging {VCode}", message.VCode);
         }
     }
 }
