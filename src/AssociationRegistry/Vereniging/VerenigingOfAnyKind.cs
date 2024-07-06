@@ -150,7 +150,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             if (!State.Locaties.HasKey(locatieId))
                 continue;
 
-            if (!adresDetail.IsActief)
+            if (adresDetail is null || !adresDetail.IsActief)
             {
                 AddEvent(new AdresWerdOntkoppeldVanAdressenregister(VCode, locatieId));
                 continue;

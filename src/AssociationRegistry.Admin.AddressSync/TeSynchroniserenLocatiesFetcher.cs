@@ -4,17 +4,13 @@ using Grar;
 using Grar.AddressSync;
 using Grar.Exceptions;
 using Grar.Models;
-using Infrastructure;
-using Infrastructure.Notifications;
 using Marten;
 using Microsoft.Extensions.Logging;
-using Notifications;
 using Schema.Detail;
 using System.Diagnostics.Contracts;
 
 public class TeSynchroniserenLocatiesFetcher(
     IGrarClient grarClient,
-    INotifier notifier,
     ILogger<TeSynchroniserenLocatiesFetcher> logger)
     : ITeSynchroniserenLocatiesFetcher
 {
@@ -82,7 +78,8 @@ public class TeSynchroniserenLocatiesFetcher(
             catch (Exception ex)
             {
                 logger.LogError(ex, "Adres kon niet opgehaald worden voor ID {AdresId}.", resultByAdresId.AdresId);
-                await notifier.Notify(new AdresOphalenUitAdressenregisterGefaald(ex, resultByAdresId.AdresId));
+
+                throw;
             }
         }
 
