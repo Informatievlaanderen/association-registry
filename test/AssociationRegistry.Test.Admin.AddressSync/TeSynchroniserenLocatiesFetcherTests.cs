@@ -8,6 +8,7 @@ using FluentAssertions;
 using Framework.Customizations;
 using Grar;
 using Grar.AddressSync;
+using Grar.Exceptions;
 using Grar.Models;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -25,7 +26,7 @@ public class TeSynchroniserenLocatiesFetcherTests
         var session = store.LightweightSession();
 
         var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
-        
+
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         locaties.Should().BeEmpty();
@@ -118,6 +119,48 @@ public class TeSynchroniserenLocatiesFetcherTests
             {
                 new LocatieWithAdres(1, address1DetailResponse),
                 new LocatieWithAdres(2, address3DetailResponse),
+            }, ""),
+        ], options => options.Excluding(x => x.IdempotenceKey));
+    }
+
+    [Fact]
+    public async Task Given_Grar_Returns_Gone_Then_Message_Has_Locatie_With_Null_Adres()
+    {
+        var fixture = new Fixture().CustomizeDomain();
+        var store = await TestDocumentStoreFactory.Create("addresssync");
+
+        var session = store.LightweightSession();
+
+        var document = new LocatieLookupDocument
+        {
+            VCode = "VCode1",
+            AdresId = "123",
+            LocatieId = 1,
+            Id = Guid.NewGuid().ToString(),
+        };
+
+        var grarClient = new Mock<IGrarClient>();
+
+        var addressDetailResponse = fixture.Create<AddressDetailResponse>() with
+        {
+            AdresId = new Registratiedata.AdresId(Adresbron.AR, document.AdresId),
+        };
+
+        grarClient
+           .Setup(x => x.GetAddressById(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+           .ThrowsAsync(new AdressenregisterReturnedGoneStatusCode());
+
+        session.Store(document);
+        await session.SaveChangesAsync();
+
+        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
+
+        var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
+
+        locaties.Should().BeEquivalentTo([
+            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>()
+            {
+                new LocatieWithAdres(document.LocatieId, null),
             }, ""),
         ], options => options.Excluding(x => x.IdempotenceKey));
     }

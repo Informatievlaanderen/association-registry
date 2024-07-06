@@ -41,7 +41,7 @@ public class TeSynchroniserenLocatiesFetcher(
                                  .Select(s => new NachtelijkeAdresSyncVolgensVCode(s.Key,
                                                                                    s.Select(x => new LocatieWithAdres(
                                                                                                 x.LocatieId,
-                                                                                                addressResults.Single(
+                                                                                                addressResults.FirstOrDefault(
                                                                                                     r => r.AdresId.Bronwaarde.Split('/')
                                                                                                        .Last() == x.AdresId)))
                                                                                     .ToList()))
