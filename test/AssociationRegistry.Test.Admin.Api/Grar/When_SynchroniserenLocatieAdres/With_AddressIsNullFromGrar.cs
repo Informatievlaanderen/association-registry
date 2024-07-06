@@ -40,7 +40,6 @@ public class With_AddressIsNullFromGrar
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldNotHaveAnySaves();
-        verenigingRepositoryMock.ShouldNotHaveSaved<AdresWerdGewijzigdInAdressenregister>();
+        verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(scenario.VCode.Value, locatieId));
     }
 }
