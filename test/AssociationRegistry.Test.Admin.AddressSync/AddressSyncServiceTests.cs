@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.AddressSync.Infrastructure.Notifications;
 using Grar;
 using Grar.AddressSync;
 using Marten;
+using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
@@ -33,7 +34,8 @@ public class AddressSyncServiceTests
                                                             NullLogger<TeSynchroniserenLocatieAdresMessageHandler>.Instance),
                                                         teSynchroniserenLocatiesFetcher.Object,
                                                         notifier.Object,
-                                                        NullLogger<AddressSyncService>.Instance);
+                                                        NullLogger<AddressSyncService>.Instance,
+            new ApplicationLifetime(NullLogger<ApplicationLifetime>.Instance));
 
         await Assert.ThrowsAsync<Exception>(async () => await addressSyncService.StartAsync(CancellationToken.None));
 
