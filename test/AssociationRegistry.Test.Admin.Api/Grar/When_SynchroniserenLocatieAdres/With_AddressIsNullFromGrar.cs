@@ -27,19 +27,24 @@ public class With_AddressIsNullFromGrar
 
         var grarClientMock = new Mock<IGrarClient>();
 
-        var locatieId = scenario.Locaties.First().LocatieId;
+        var locatie = scenario.Locaties.First();
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatieId, null) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatie.LocatieId, null) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object, new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
+                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(scenario.VCode.Value, locatieId));
+        verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(
+                                                     scenario.VCode.Value,
+                                                     locatie.LocatieId,
+                                                     Registratiedata.AdresId.With(locatie.AdresId),
+                                                     Registratiedata.Adres.With(locatie.Adres)));
     }
 }
