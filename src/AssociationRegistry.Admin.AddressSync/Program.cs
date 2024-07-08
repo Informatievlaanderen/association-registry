@@ -25,15 +25,21 @@ public static class Program
     {
         SelfLog.Enable(Console.WriteLine);
 
-        var host = Host.CreateDefaultBuilder()
-                       .ConfigureAppConfiguration(builder => builder
-                                                            .AddJsonFile("appsettings.json")
-                                                            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
-                                                                         optional: true, reloadOnChange: false)
-                                                            .AddEnvironmentVariables())
-                       .ConfigureServices(ConfigureServices)
-                       .ConfigureLogging(ConfigureLogger)
-                       .Build();
+        var host =
+            Host.CreateDefaultBuilder()
+                .ConfigureAppConfiguration(
+                     (context, builder) =>
+                         builder
+                            .AddJsonFile("appsettings.json")
+                            .AddJsonFile($"appsettings.{context.HostingEnvironment.EnvironmentName.ToLowerInvariant()}.json",
+                                         optional: true,
+                                         reloadOnChange: false)
+                            .AddJsonFile($"appsettings.{Environment.MachineName.ToLowerInvariant()}.json",
+                                         optional: true, reloadOnChange: false)
+                            .AddEnvironmentVariables())
+                .ConfigureServices(ConfigureServices)
+                .ConfigureLogging(ConfigureLogger)
+                .Build();
 
         ConfigureAppDomainExceptions();
 
