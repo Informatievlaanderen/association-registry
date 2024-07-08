@@ -36,4 +36,27 @@ public static class ConfigurationExtensions
                .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptions.Password)}");
         }
     }
+
+    public static AddressSyncOptions GetAddressSyncOptions(this IConfiguration configuration)
+    {
+        var addressSyncOptions = configuration
+                         .GetSection(nameof(AddressSyncOptions))
+                         .Get<AddressSyncOptions>();
+
+        if (addressSyncOptions == null)
+            throw new ArgumentNullException(nameof(addressSyncOptions));
+
+        addressSyncOptions.ThrowIfInValid();
+
+        return addressSyncOptions;
+    }
+
+    private static void ThrowIfInValid(this AddressSyncOptions opt)
+    {
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(opt.BaseUrl, nameof(opt.BaseUrl));
+
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(opt.SlackWebhook, nameof(opt.SlackWebhook));
+    }
 }
