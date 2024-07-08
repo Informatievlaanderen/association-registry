@@ -1,3 +1,24 @@
+# [8.112.0](https://github.com/informatievlaanderen/association-registry/compare/v8.111.1...v8.112.0) (2024-07-08)
+
+
+### Bug Fixes
+
+* or-2208 add hostApplicationLifetime to stop addressSyncApplication and fix marten ([d379a7f](https://github.com/informatievlaanderen/association-registry/commit/d379a7f4f6f900e58c2606ec95a3d9b59bb77611))
+* or-2208 add hostApplicationLifetime to stop addressSyncApplication and fix marten ([e06eb8b](https://github.com/informatievlaanderen/association-registry/commit/e06eb8bd5b802244b168feabbd53f483c9f80280))
+* or-2208 add setup for grarsync sqs queue ([77f6bb1](https://github.com/informatievlaanderen/association-registry/commit/77f6bb190e61efdae460aa834361a4abca068805))
+* or-2208 change graroptions to addresssyncoptions in addresssync ([493825f](https://github.com/informatievlaanderen/association-registry/commit/493825fd6ff5379f83dfdac0c39d1b178174d739))
+* or-2208 start instead of run for host ([9d7afd6](https://github.com/informatievlaanderen/association-registry/commit/9d7afd6966a71d8106342d252dff54cffeaf5cd7))
+
+
+### Features
+
+* or-2208 add AdresWerdOntkoppeldVanAdressenregister when adres is removed from adressenregister ([86acf58](https://github.com/informatievlaanderen/association-registry/commit/86acf584ced1437809412dce150796a329621c51))
+* or-2208 add notifier when AddressSyncService crashes ([de772ad](https://github.com/informatievlaanderen/association-registry/commit/de772ad4de010a0ef0de8316afa319c41e38c831))
+* or-2208 add notifier when get adres fails ([2393a50](https://github.com/informatievlaanderen/association-registry/commit/2393a503698d247009d102e596de4f1cc6b4b54a))
+* or-2208 addressSyncService add null adress to message when grar client returns 410 ([98706ff](https://github.com/informatievlaanderen/association-registry/commit/98706ff91c62ca539d704892f975fd0f5d0818ea))
+* or-2208 notify slack when addressSyncServices fails ([b1d39e3](https://github.com/informatievlaanderen/association-registry/commit/b1d39e3073bdd6c806d47ad880385cd10ccc31a4))
+* or-2208 read from env specific appsettings ([ae5ba6b](https://github.com/informatievlaanderen/association-registry/commit/ae5ba6b09224f2a7d69141aab4a709a7eacd5830))
+
 ## [8.111.1](https://github.com/informatievlaanderen/association-registry/compare/v8.111.0...v8.111.1) (2024-07-04)
 
 
