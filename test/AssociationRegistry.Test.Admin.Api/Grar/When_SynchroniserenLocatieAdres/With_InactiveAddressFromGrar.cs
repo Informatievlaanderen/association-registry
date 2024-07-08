@@ -35,11 +35,11 @@ public class With_InactiveAddressFromGrar
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
-        var locatieId = scenario.Locaties.First().LocatieId;
+        var locatie = scenario.Locaties.First();
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatie.LocatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
@@ -49,6 +49,9 @@ public class With_InactiveAddressFromGrar
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdOntkoppeldVanAdressenregister(scenario.VCode.Value, locatieId));
+            new AdresWerdOntkoppeldVanAdressenregister(scenario.VCode.Value,
+                                                       locatie.LocatieId,
+                                                       Registratiedata.AdresId.With(locatie.AdresId),
+                                                       Registratiedata.Adres.With(locatie.Adres)));
     }
 }

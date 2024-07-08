@@ -150,13 +150,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             if (!State.Locaties.HasKey(locatieId))
                 continue;
 
+            var locatie = State.Locaties[locatieId];
+
             if (adresDetail is null || !adresDetail.IsActief)
             {
-                AddEvent(new AdresWerdOntkoppeldVanAdressenregister(VCode, locatieId));
+                AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
+                             VCode,
+                             locatieId,
+                             Registratiedata.AdresId.With(locatie.AdresId),
+                             Registratiedata.Adres.With(locatie.Adres)));
                 continue;
             }
-
-            var locatie = State.Locaties[locatieId];
 
             var origineleGemeentenaam = locatie.Adres!.Gemeente;
 
