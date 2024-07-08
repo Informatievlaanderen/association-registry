@@ -16,7 +16,7 @@ public class AddressSyncServiceTests
     [Fact]
     public async Task Given_TeSynchroniserenLocatiesFetcher_Throws_Then_A_Notification_Is_Sent()
     {
-        var store = await TestDocumentStoreFactory.Create("addresssync");
+        var store = await TestDocumentStoreFactory.Create(nameof(AddressSyncServiceTests));
         var notifier = new Mock<INotifier>();
 
 
