@@ -54,12 +54,11 @@ public static class Program
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
 
-        // TODO:
-        var grarOptions = context.Configuration.GetGrarHttpOptions();
+        var addressSyncOptions = context.Configuration.GetAddressSyncOptions();
 
         services
            .AddHttpClient<GrarHttpClient>()
-           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
+           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(addressSyncOptions.BaseUrl));
 
         services
            .AddSingleton(postgreSqlOptions)
@@ -68,7 +67,7 @@ public static class Program
            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
            .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
-           .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
+           .AddSingleton(new SlackWebhook(addressSyncOptions.SlackWebhook))
            .AddSingleton<IGrarClient, GrarClient>()
            .AddTransient<INotifier, SlackNotifier>()
            .AddSingleton<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
