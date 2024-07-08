@@ -13,8 +13,8 @@ using OpenTelemetry.Exporter;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
+using Schema.Detail;
 using System.Reflection;
-using Vereniging;
 using Weasel.Core;
 
 public static class ServiceCollectionExtensions
@@ -74,28 +74,37 @@ public static class ServiceCollectionExtensions
         services.AddSingleton(postgreSqlOptions);
 
         var martenConfiguration = services.AddMarten(
-            serviceProvider =>
-            {
-                var opts = new StoreOptions();
-                opts.Connection(postgreSqlOptions.GetConnectionString());
-                opts.Serializer(CreateMartenSerializer());
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
+                                               serviceProvider =>
+                                               {
+                                                   var opts = new StoreOptions();
+                                                   opts.Connection(postgreSqlOptions.GetConnectionString());
+                                                   opts.Serializer(CreateMartenSerializer());
+                                                   opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                opts.Events.MetadataConfig.EnableAll();
-                opts.AutoCreateSchemaObjects = AutoCreate.None;
+                                                   opts.Events.MetadataConfig.EnableAll();
+                                                   opts.AutoCreateSchemaObjects = AutoCreate.None;
 
-                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                }
-                else
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Auto;
-                    opts.SourceCodeWritingEnabled = false;
-                }
+                                                   opts.RegisterDocumentType<LocatieLookupDocument>();
 
-                return opts;
-            });
+                                                   opts.Schema.For<LocatieLookupDocument>()
+                                                       .UseNumericRevisions(true)
+                                                       .UseOptimisticConcurrency(false);
+
+                                                   if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
+                                                   {
+                                                       opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+                                                   }
+                                                   else
+                                                   {
+                                                       opts.GeneratedCodeMode = TypeLoadMode.Auto;
+                                                       opts.SourceCodeWritingEnabled = false;
+                                                   }
+
+                                                   return opts;
+                                               })
+                                          .UseLightweightSessions();
+
+
 
         return services;
     }

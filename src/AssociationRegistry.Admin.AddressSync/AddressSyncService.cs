@@ -17,7 +17,9 @@ public class AddressSyncService(
     TeSynchroniserenLocatieAdresMessageHandler handler,
     ITeSynchroniserenLocatiesFetcher teSynchroniserenLocatiesFetcher,
     INotifier notifier,
-    ILogger<AddressSyncService> logger)
+    ILogger<AddressSyncService> logger,
+    IHostApplicationLifetime hostApplicationLifetime
+    )
     : BackgroundService
 {
 
@@ -50,6 +52,7 @@ public class AddressSyncService(
         finally
         {
             await session.DisposeAsync();
+            hostApplicationLifetime.StopApplication();
         }
     }
 }
