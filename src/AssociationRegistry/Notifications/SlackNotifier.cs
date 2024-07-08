@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Admin.Api.Notifications;
+﻿namespace AssociationRegistry.Notifications;
 
-using AssociationRegistry.Notifications;
+using Microsoft.Extensions.Logging;
 using Slack.Webhooks;
 
 public class SlackNotifier : INotifier

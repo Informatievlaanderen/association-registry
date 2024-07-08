@@ -141,11 +141,6 @@ public class TeSynchroniserenLocatiesFetcherTests
 
         var grarClient = new Mock<IGrarClient>();
 
-        var addressDetailResponse = fixture.Create<AddressDetailResponse>() with
-        {
-            AdresId = new Registratiedata.AdresId(Adresbron.AR, document.AdresId),
-        };
-
         grarClient
            .Setup(x => x.GetAddressById(It.IsAny<string>(), It.IsAny<CancellationToken>()))
            .ThrowsAsync(new AdressenregisterReturnedGoneStatusCode());
