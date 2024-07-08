@@ -21,7 +21,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     [Fact]
     public async Task Given_No_LocatieLookupDocumenten_Returns_Empty()
     {
-        var store = await TestDocumentStoreFactory.Create("addresssync");
+        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
         var session = store.LightweightSession();
 
@@ -36,7 +36,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async Task Given_1_LocatieLookupDocumenten_Returns_1_Locatie()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var store = await TestDocumentStoreFactory.Create("addresssync");
+        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
         var session = store.LightweightSession();
 
@@ -78,7 +78,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async Task Given_Several_LocatieLookupDocumenten_Returns_Grouped_Messages()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var store = await TestDocumentStoreFactory.Create("addresssync");
+        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
         var grarClient = new Mock<IGrarClient>();
 
         var session = store.LightweightSession();
@@ -127,7 +127,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async Task Given_Grar_Returns_Gone_Then_Message_Has_Locatie_With_Null_Adres()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var store = await TestDocumentStoreFactory.Create("addresssync");
+        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
         var session = store.LightweightSession();
 
