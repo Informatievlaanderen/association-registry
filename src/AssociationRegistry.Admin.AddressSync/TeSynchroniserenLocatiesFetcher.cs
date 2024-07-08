@@ -22,7 +22,7 @@ public class TeSynchroniserenLocatiesFetcher(
 
         var locatieLookupDocuments = await session.Query<LocatieLookupDocument>().ToListAsync(stoppingToken);
 
-        logger.LogInformation("Fetcher found {DocumentCounht}.", locatieLookupDocuments.Count);
+        logger.LogInformation("Fetcher found {DocumentCount}.", locatieLookupDocuments.Count);
 
         var idempotenceKey = Guid.NewGuid().ToString("N");
 
