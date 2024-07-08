@@ -43,7 +43,7 @@ public static class Program
 
         ConfigureAppDomainExceptions();
 
-        await host.StartAsync();
+        await host.RunAsync();
     }
 
     private static void ConfigureServices(HostBuilderContext context, IServiceCollection services)
