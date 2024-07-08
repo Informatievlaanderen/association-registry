@@ -11,12 +11,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NodaTime;
+using Notifications;
 using OpenTelemetry.Exporter;
 using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
-using System.Diagnostics;
 using Vereniging;
 
 public static class Program
@@ -35,6 +35,8 @@ public static class Program
                        .ConfigureLogging(ConfigureLogger)
                        .Build();
 
+        ConfigureAppDomainExceptions();
+
         await host.StartAsync();
     }
 
@@ -46,12 +48,12 @@ public static class Program
            .AddOpenTelemetryServices()
            .AddMarten(postgreSqlOptions);
 
-
-        var grarHttpOptions = context.Configuration.GetGrarHttpOptions();
+        // TODO:
+        var grarOptions = context.Configuration.GetGrarHttpOptions();
 
         services
            .AddHttpClient<GrarHttpClient>()
-           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarHttpOptions.BaseUrl));
+           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
 
         services
            .AddSingleton(postgreSqlOptions)
@@ -60,7 +62,9 @@ public static class Program
            .AddSingleton<IEventPreConflictResolutionStrategy[]>([new AddressMatchConflictResolutionStrategy()])
            .AddSingleton<EventConflictResolver>()
            .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
+           .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
            .AddSingleton<IGrarClient, GrarClient>()
+           .AddTransient<INotifier, SlackNotifier>()
            .AddSingleton<ITeSynchroniserenLocatiesFetcher, TeSynchroniserenLocatiesFetcher>()
            .AddSingleton<IEventStore, EventStore>()
            .AddSingleton<IVerenigingsRepository, VerenigingsRepository>()
@@ -98,5 +102,19 @@ public static class Program
                 exporterOptions.Endpoint = new Uri(ServiceCollectionExtensions.CollectorUrl);
             });
         });
+    }
+
+    private static void ConfigureAppDomainExceptions()
+    {
+        AppDomain.CurrentDomain.FirstChanceException += (_, eventArgs) =>
+            Log.Debug(
+                eventArgs.Exception,
+                messageTemplate: "FirstChanceException event raised in {AppDomain}",
+                AppDomain.CurrentDomain.FriendlyName);
+
+        AppDomain.CurrentDomain.UnhandledException += (_, eventArgs) =>
+            Log.Fatal(
+                (Exception)eventArgs.ExceptionObject,
+                messageTemplate: "Encountered a fatal exception, exiting program");
     }
 }

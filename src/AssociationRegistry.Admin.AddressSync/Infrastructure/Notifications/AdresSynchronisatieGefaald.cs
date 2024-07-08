@@ -2,17 +2,8 @@
 
 using AssociationRegistry.Notifications;
 
-public class AdresOphalenUitAdressenregisterGefaald : IMessage
+public class AdresSynchronisatieGefaald(Exception exception) : IMessage
 {
-    private readonly Exception _exception;
-    private readonly string _adresId;
-
-    public AdresOphalenUitAdressenregisterGefaald(Exception exception, string adresId)
-    {
-        _exception = exception;
-        _adresId = adresId;
-    }
-
-    public string Value => $"Het adres met id: {_adresId} kon niet opgehaald worden uit het adressenregister! {_exception.Message}";
+    public string Value => $"Het synchroniseren van de adressen met adressenregister is gefaald! {exception.Message}";
     public NotifyType Type => NotifyType.Failure;
 }

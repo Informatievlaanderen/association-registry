@@ -34,7 +34,7 @@ public static class ConfigurationExtensions
         return grarOptions!;
     }
 
-    public static GrarOptions.HttpClientOptions GetGrarHttpOptions(this IConfiguration configuration)
+    public static GrarOptions GetGrarHttpOptions(this IConfiguration configuration)
     {
         var grarOptions = configuration
                          .GetSection(nameof(GrarOptions))
@@ -42,7 +42,10 @@ public static class ConfigurationExtensions
 
         grarOptions.HttpClient.ThrowIfInValid();
 
-        return grarOptions.HttpClient;
+        Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(grarOptions.Kafka.SlackWebhook);
+
+        return grarOptions;
     }
 
     private static void ThrowIfInValid(this GrarOptions opt)

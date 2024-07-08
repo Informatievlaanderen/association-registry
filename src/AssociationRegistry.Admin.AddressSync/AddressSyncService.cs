@@ -2,10 +2,11 @@
 
 using Grar.AddressSync;
 using Grar.Models;
+using Infrastructure.Notifications;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System.Diagnostics;
+using Notifications;
 
 public record NachtelijkeAdresSyncVolgensAdresId(string AdresId, List<LocatieIdWithVCode> LocatieIdWithVCodes);
 public record NachtelijkeAdresSyncVolgensVCode(string VCode, List<LocatieWithAdres> LocatieWithAdres);
@@ -15,6 +16,7 @@ public class AddressSyncService(
     IDocumentStore store,
     TeSynchroniserenLocatieAdresMessageHandler handler,
     ITeSynchroniserenLocatiesFetcher teSynchroniserenLocatiesFetcher,
+    INotifier notifier,
     ILogger<AddressSyncService> logger)
     : BackgroundService
 {
@@ -41,6 +43,8 @@ public class AddressSyncService(
         catch (Exception ex)
         {
             logger.LogError(ex, $"Adressen synchroniseren kon niet voltooid worden. {ex.Message}");
+            await notifier.Notify(new AdresSynchronisatieGefaald(ex));
+
             throw;
         }
         finally
