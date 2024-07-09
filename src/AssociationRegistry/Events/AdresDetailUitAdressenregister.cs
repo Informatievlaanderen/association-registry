@@ -9,13 +9,12 @@ public record AdresDetailUitAdressenregister
         => new()
         {
             AdresId = response.AdresId,
-            Adres = new Registratiedata.Adres(
+            Adres = new Registratiedata.AdresUitAdressenregister(
                 response.Straatnaam,
                 response.Huisnummer,
                 response.Busnummer,
                 response.Postcode,
-                response.Gemeente,
-                "België"),
+                response.Gemeente),
         };
 
      public AdresDetailUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
@@ -76,5 +75,5 @@ public record AdresDetailUitAdressenregister
     }
 
     public Registratiedata.AdresId AdresId { get; init; }
-    public Registratiedata.Adres Adres { get; init; }
+    public Registratiedata.AdresUitAdressenregister Adres { get; init; }
 }

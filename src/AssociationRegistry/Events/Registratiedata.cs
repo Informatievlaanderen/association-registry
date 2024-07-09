@@ -81,6 +81,40 @@ public static class Registratiedata
             => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
     }
 
+    public record AdresUitAdressenregister(
+        string Straatnaam,
+        string Huisnummer,
+        string Busnummer,
+        string Postcode,
+        string Gemeente)
+    {
+        public static AdresUitAdressenregister? With(AdresMatchUitAdressenregister? adres)
+        {
+            if (adres is null)
+                return null;
+
+            return new AdresUitAdressenregister(
+                adres.Adres.Straatnaam,
+                adres.Adres.Huisnummer,
+                adres.Adres.Busnummer,
+                adres.Adres.Postcode,
+                adres.Adres.Gemeente);
+        }
+
+        public static AdresUitAdressenregister? With(AdresDetailUitAdressenregister? adres)
+        {
+            if (adres is null)
+                return null;
+
+            return new AdresUitAdressenregister(
+                adres.Adres.Straatnaam,
+                adres.Adres.Huisnummer,
+                adres.Adres.Busnummer,
+                adres.Adres.Postcode,
+                adres.Adres.Gemeente);
+        }
+    }
+
     public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd)
     {
         public static Doelgroep With(Vereniging.Doelgroep doelgroep)

@@ -41,4 +41,7 @@ public record AdresId
 
     public static bool operator !=(AdresId first, Registratiedata.AdresId second)
         => first.Adresbron.Code != second.Broncode || first.Bronwaarde != second.Bronwaarde;
+
+    public static AdresId Hydrate(AdresWerdOvergenomenUitAdressenregister adres)
+        => Create(adres.AdresId.Broncode, adres.AdresId.Bronwaarde);
 }

@@ -1,12 +1,15 @@
 namespace AssociationRegistry.Vereniging;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Events;
 using Exceptions;
 using Framework;
 using Kbo;
 
 public record Adres
 {
+    public const string Belgie = "België";
+
     private Adres(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
     {
         Straatnaam = straatnaam;
@@ -60,4 +63,12 @@ public record Adres
         => $"{Straatnaam} {Huisnummer}" +
            (!string.IsNullOrWhiteSpace(Busnummer) ? $" bus {Busnummer}" : string.Empty) +
            $", {Postcode} {Gemeente}, {Land}";
+
+    public static Adres Hydrate(Registratiedata.AdresUitAdressenregister adres)
+        => Create(adres.Straatnaam,
+                  adres.Huisnummer,
+                  adres.Busnummer,
+                  adres.Postcode,
+                  adres.Gemeente,
+                  Belgie);
 }

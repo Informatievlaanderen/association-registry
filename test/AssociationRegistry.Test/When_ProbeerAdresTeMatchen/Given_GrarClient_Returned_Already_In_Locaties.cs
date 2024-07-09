@@ -10,7 +10,6 @@ using Moq;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
 [UnitTest]
 public class Given_Duplicate_Locaties_With_Same_Name
@@ -58,11 +57,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
             {
                 VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
                 LocatieId = feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
-                OvergenomenAdresUitAdressenregister = new AdresMatchUitAdressenregister()
-                {
-                    Adres = fixture.Create<Registratiedata.Adres>(),
-                    AdresId = adresId,
-                },
+                Adres = fixture.Create<Registratiedata.AdresUitAdressenregister>(),
+                AdresId = adresId
             };
 
         grarClient.Setup(x => x.GetAddressMatches(
@@ -133,11 +129,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
             {
                 VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
                 LocatieId = feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
-                OvergenomenAdresUitAdressenregister = new AdresMatchUitAdressenregister()
-                {
-                    Adres = fixture.Create<Registratiedata.Adres>(),
-                    AdresId = adresId,
-                },
+                Adres = fixture.Create<Registratiedata.AdresUitAdressenregister>(),
+                AdresId = adresId,
             };
 
         grarClient.Setup(x => x.GetAddressMatches(
@@ -161,7 +154,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
                .Apply(feitelijkeVerenigingWerdGeregistreerd)
                .Apply(adresWerdOvergenomen));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId, CancellationToken.None);
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
+                                               CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
 

@@ -63,12 +63,15 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                                 .BeEquivalentTo(
                                      new List<IEvent>()
                                      {
-                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
-                                                                                  AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail1), message1.idempotencyKey),
+                                         new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value,
+                                                                                  locatieId1,
+                                                                                  mockedAdresDetail1.AdresId,
+                                                                                  mockedAdresDetail1.ToAdresUitAdressenregister(),
+                                                                                  message1.idempotencyKey),
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
-                                                                                  AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail2), message1.idempotencyKey),
+                                                                                  mockedAdresDetail2.AdresId,
+                                                                                  mockedAdresDetail2.ToAdresUitAdressenregister(),
+                                                                                  message1.idempotencyKey),
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 
@@ -77,11 +80,13 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
                                      new List<IEvent>()
                                      {
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
-                                                                                  AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail2), message2.idempotencyKey),
+                                                                                  mockedAdresDetail2.AdresId,
+                                                                                  mockedAdresDetail2.ToAdresUitAdressenregister(),
+                                                                                  message2.idempotencyKey),
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
-                                                                                  AdresDetailUitAdressenregister.FromResponse(
-                                                                                      mockedAdresDetail1), message2.idempotencyKey),
+                                                                                  mockedAdresDetail1.AdresId,
+                                                                                  mockedAdresDetail1.ToAdresUitAdressenregister(),
+                                                                                  message2.idempotencyKey),
                                      }
                                    , config: options => options.RespectingRuntimeTypes().WithStrictOrdering());
 

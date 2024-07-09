@@ -59,20 +59,20 @@ public class With_DecoratingWithPostalInformation
 
         var expectedAdres = new AdresDetailUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres(mockedAdresDetail.Straatnaam,
-                                              mockedAdresDetail.Huisnummer,
-                                              mockedAdresDetail.Busnummer,
-                                              mockedAdresDetail.Postcode,
-                                              "Hekelgem (Affligem)",
-                                              "België"),
+            Adres = new Registratiedata.AdresUitAdressenregister(mockedAdresDetail.Straatnaam,
+                                                                 mockedAdresDetail.Huisnummer,
+                                                                 mockedAdresDetail.Busnummer,
+                                                                 mockedAdresDetail.Postcode,
+                                                                 "Hekelgem (Affligem)"
+            ),
             AdresId = mockedAdresDetail.AdresId,
         };
 
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
-                                                     expectedAdres, message.idempotencyKey)
+            new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId, expectedAdres.AdresId, expectedAdres.Adres,
+                                                     message.idempotencyKey)
         );
     }
 }

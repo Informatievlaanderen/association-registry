@@ -60,7 +60,7 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister : IClassFixture<Given_
             {
                 locatieLookupResponseTemplate = locatieLookupResponseTemplate
                    .WithLocatieLookup(adresWerdOvergenomenUitAdressenregister.LocatieId,
-                                      new Uri(adresWerdOvergenomenUitAdressenregister.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/')
+                                      new Uri(adresWerdOvergenomenUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/')
                     );
             }
         }

@@ -55,6 +55,20 @@ public class BeheerVerenigingDetailMapper
         };
     }
 
+    public static Adres? MapAdres(Registratiedata.AdresUitAdressenregister? adres, string vCode, int locId)
+        => adres is null
+            ? null
+            : new Adres
+            {
+                JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Adres, vCode, locId.ToString()),
+                Straatnaam = adres.Straatnaam,
+                Huisnummer = adres.Huisnummer,
+                Busnummer = adres.Busnummer,
+                Postcode = adres.Postcode,
+                Gemeente = adres.Gemeente,
+                Land = AssociationRegistry.Vereniging.Adres.Belgie,
+            };
+
     public static Adres? MapAdres(Registratiedata.Adres? adres, string vCode, int locId)
         => adres is null
             ? null

@@ -265,30 +265,17 @@ public class BeheerZoekProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
-    private static VerenigingZoekDocument.Locatie Map(VerenigingZoekDocument.Locatie locatie, AdresMatchUitAdressenregister adresMatchUitAdressenregister, string vCode)
+    private static VerenigingZoekDocument.Locatie Map(VerenigingZoekDocument.Locatie locatie, Registratiedata.AdresUitAdressenregister adresUitAdressenregister, string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
-            Adresvoorstelling = adresMatchUitAdressenregister.Adres.ToAdresString(),
+            Adresvoorstelling = adresUitAdressenregister.ToAdresString(),
             IsPrimair = locatie.IsPrimair,
-            Postcode = adresMatchUitAdressenregister.Adres?.Postcode ?? string.Empty,
-            Gemeente = adresMatchUitAdressenregister.Adres?.Gemeente ?? string.Empty,
-        };
-
-    private static VerenigingZoekDocument.Locatie Map(VerenigingZoekDocument.Locatie locatie, AdresDetailUitAdressenregister adresDetailUitAdressenregister, string vCode)
-        => new()
-        {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
-            LocatieId = locatie.LocatieId,
-            Locatietype = locatie.Locatietype,
-            Naam = locatie.Naam,
-            Adresvoorstelling = adresDetailUitAdressenregister.Adres.ToAdresString(),
-            IsPrimair = locatie.IsPrimair,
-            Postcode = adresDetailUitAdressenregister.Adres?.Postcode ?? string.Empty,
-            Gemeente = adresDetailUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+            Postcode = adresUitAdressenregister.Postcode ?? string.Empty,
+            Gemeente = adresUitAdressenregister.Gemeente ?? string.Empty,
         };
 
     private static Doelgroep Map(Registratiedata.Doelgroep doelgroep, string vCode)
@@ -402,7 +389,7 @@ public class BeheerZoekProjectionHandler
 
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
-            Map(locatie, message.Data.OvergenomenAdresUitAdressenregister, message.VCode));
+            Map(locatie, message.Data.Adres, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
@@ -411,7 +398,7 @@ public class BeheerZoekProjectionHandler
 
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
             message.VCode,
-            Map(locatie, message.Data.AdresDetailUitAdressenregister, message.VCode));
+            Map(locatie, message.Data.Adres, message.VCode));
     }
 
     public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)

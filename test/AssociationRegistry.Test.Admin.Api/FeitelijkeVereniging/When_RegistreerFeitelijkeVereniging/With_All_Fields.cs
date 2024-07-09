@@ -283,7 +283,7 @@ public class With_All_Fields
                                             using (new AssertionScope())
                                             {
                                                 werdOvergenomen.Should().NotBeNull();
-                                                werdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId.Should() .BeEquivalentTo(
+                                                werdOvergenomen.AdresId.Should() .BeEquivalentTo(
                                                     new Registratiedata.AdresId(
                                                         "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 

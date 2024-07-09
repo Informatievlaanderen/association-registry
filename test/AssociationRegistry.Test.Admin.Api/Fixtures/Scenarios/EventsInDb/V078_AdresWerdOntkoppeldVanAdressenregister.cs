@@ -13,7 +13,6 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly List<AdresWerdOvergenomenUitAdressenregister> AdresWerdOvergenomenUitAdressenregisterList;
     public readonly AdresWerdOntkoppeldVanAdressenregister AdresWerdOntkoppeldVanAdressenregister;
-    public readonly AdresMatchUitAdressenregister AdresMatchUitAdressenregister;
     public readonly CommandMetadata Metadata;
 
     public V078_AdresWerdOntkoppeldVanAdressenregister()
@@ -36,11 +35,8 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
 
         AdresWerdOvergenomenUitAdressenregisterList = new List<AdresWerdOvergenomenUitAdressenregister>();
 
-        AdresMatchUitAdressenregister = new AdresMatchUitAdressenregister
-        {
-            AdresId = new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/12345"),
-            Adres = new Registratiedata.Adres("Fosselstraat", "48", "", "1790", "Affligem", "België"),
-        };
+        AdresId = new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/12345");
+        Adres = new Registratiedata.AdresUitAdressenregister("Fosselstraat", "48", "", "1790", "Affligem");
 
         foreach (var locatie in FeitelijkeVerenigingWerdGeregistreerd.Locaties)
         {
@@ -50,10 +46,8 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
                 {
                     VCode = VCode,
                     LocatieId = locatie.LocatieId,
-                    OvergenomenAdresUitAdressenregister = AdresMatchUitAdressenregister with
-                    {
-                        AdresId = adresId,
-                    },
+                    AdresId = adresId,
+                    Adres = Adres,
                 };
 
             AdresWerdOvergenomenUitAdressenregisterList.Add(@event);
@@ -69,6 +63,8 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
+    public Registratiedata.AdresId AdresId { get; set; }
+    public Registratiedata.AdresUitAdressenregister Adres { get; set; }
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
     public string Naam { get; set; }

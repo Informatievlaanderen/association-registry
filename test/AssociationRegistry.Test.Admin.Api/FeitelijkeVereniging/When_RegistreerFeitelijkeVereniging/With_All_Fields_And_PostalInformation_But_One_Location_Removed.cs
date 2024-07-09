@@ -248,7 +248,7 @@ public class With_All_Fields_And_PostalInformation_But_One_Location_Removed
                                                 // Affligem locatie
                                                 var werdOvergenomenAffligem =
                                                     werdenOvergenomen.SingleOrDefault(
-                                                        x => x.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente == "Affligem");
+                                                        x => x.Data.Adres.Gemeente == "Affligem");
 
                                                 // Affligem locatie werd verwijderd en mag niet meer teruggevonden worden
                                                 werdOvergenomenAffligem.Should().BeNull();
@@ -256,11 +256,11 @@ public class With_All_Fields_And_PostalInformation_But_One_Location_Removed
                                                 // Hekelgem locatie
                                                 var werdOvergenomenHekelgem =
                                                     werdenOvergenomen.SingleOrDefault(
-                                                        x => x.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente == "Hekelgem (Affligem)");
+                                                        x => x.Data.Adres.Gemeente == "Hekelgem (Affligem)");
 
                                                 werdOvergenomenHekelgem.Should().NotBeNull();
 
-                                                werdOvergenomenHekelgem.Data.OvergenomenAdresUitAdressenregister.AdresId.Should()
+                                                werdOvergenomenHekelgem.Data.AdresId.Should()
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
                                                                                "https://data.vlaanderen.be/id/adres/2208355"));
 ;

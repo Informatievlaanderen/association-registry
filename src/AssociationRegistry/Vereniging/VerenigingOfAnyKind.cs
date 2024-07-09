@@ -135,7 +135,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
-                                                              adresDetailUitAdressenregister,
+                                                              adresDetail.AdresId,
+                                                              Registratiedata.AdresUitAdressenregister.With(adresDetailUitAdressenregister)!,
                                                               idempotenceKey));
         }
     }
@@ -166,15 +167,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
 
-            var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
+            var adresUitAdressenregister = AdresDetailUitAdressenregister
                                                 .FromResponse(adresDetail)
                                                 .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
 
-            if (HeeftVerschillenBinnenAdres(locatie, adresDetailUitAdressenregister.Adres))
+            if (HeeftVerschillenBinnenAdres(locatie, adresUitAdressenregister.Adres))
             {
                 AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                                   locatieId,
-                                                                  adresDetailUitAdressenregister,
+                                                                  adresDetail.AdresId,
+                                                                  Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
                                                                   idempotenceKey));
             }
         }
@@ -201,7 +203,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             var stateLocatie = State.Locaties.SingleOrDefault(
                 sod =>
                     sod.AdresId is not null &&
-                    sod.AdresId == adresWerdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId &&
+                    sod.AdresId == adresWerdOvergenomen.AdresId &&
                     sod.Naam == locatie.Naam);
 
             if (stateLocatie is not null)
@@ -209,13 +211,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 var verwijderdeLocatieId = !stateLocatie.IsPrimair && locatie.IsPrimair ? stateLocatie.LocatieId : locatieId;
                 var behoudenLocatieId = verwijderdeLocatieId == locatieId ? stateLocatie.LocatieId : locatieId;
 
-                AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                                     adresWerdOvergenomen.OvergenomenAdresUitAdressenregister));
+                AddEvent(adresWerdOvergenomen with
+                {
+                    VCode = VCode,
+                    LocatieId = locatieId
+                });
 
                 AddEvent(new LocatieDuplicaatWerdVerwijderdNaAdresMatch(VCode, verwijderdeLocatieId,
                                                                         behoudenLocatieId,
                                                                         locatie.Naam,
-                                                                        adresWerdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId));
+                                                                        adresWerdOvergenomen.AdresId));
 
                 return;
             }
@@ -263,16 +268,18 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                              locatie.Adres.Postcode,
                                                              locatie.Adres.Gemeente),
             1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                             AdresMatchUitAdressenregister
-                                                                .FromResponse(adresMatch.Single())
-                                                                .DecorateWithPostalInformation(
-                                                                     locatie.Adres.Gemeente, postalInformation)),
+                                                             adresMatch.Single().AdresId,
+                                                             Registratiedata.AdresUitAdressenregister.With(AdresMatchUitAdressenregister
+                                                                    .FromResponse(adresMatch.Single())
+                                                                    .DecorateWithPostalInformation(
+                                                                         locatie.Adres.Gemeente, postalInformation))),
             _ => adresMatch.Count(c => c.Score == 100).Equals(1)
                 ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                              AdresMatchUitAdressenregister
-                                                                 .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                 .DecorateWithPostalInformation(
-                                                                      locatie.Adres.Gemeente, postalInformation))
+                                                              adresMatch.Single(s => s.Score == 100).AdresId,
+                                                              Registratiedata.AdresUitAdressenregister.With(AdresMatchUitAdressenregister
+                                                                     .FromResponse(adresMatch.Single(s => s.Score == 100))
+                                                                     .DecorateWithPostalInformation(
+                                                                          locatie.Adres.Gemeente, postalInformation)))
                 : new AdresNietUniekInAdressenregister(VCode, locatieId,
                                                        adresMatch.Select(
                                                                       match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
@@ -304,19 +311,21 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     [Pure]
     private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)
     {
-        return HeeftVerschillenBinnenAdres(locatie, @event.OvergenomenAdresUitAdressenregister.Adres) ||
-               HeeftVerschillenBinnenAdresId(locatie, @event.OvergenomenAdresUitAdressenregister.AdresId);
+        var adres = Adres.Hydrate(@event.Adres);
+        var adresId = AdresId.Hydrate(@event);
+
+        return locatie.Adres != adres ||
+               locatie.AdresId != adresId;
     }
 
     [Pure]
-    private static bool HeeftVerschillenBinnenAdres(Locatie locatie, Registratiedata.Adres adresUitAdressenregister)
+    private static bool HeeftVerschillenBinnenAdres(Locatie locatie, Registratiedata.AdresUitAdressenregister adresUitAdressenregister)
         => HeeftVerschillenBinnenAdres(locatie.Adres,
                                        adresUitAdressenregister.Straatnaam,
                                        adresUitAdressenregister.Huisnummer,
                                        adresUitAdressenregister.Busnummer,
                                        adresUitAdressenregister.Postcode,
-                                       adresUitAdressenregister.Gemeente,
-                                       adresUitAdressenregister.Land);
+                                       adresUitAdressenregister.Gemeente);
 
     [Pure]
     private static bool HeeftVerschillenBinnenAdres(
@@ -325,22 +334,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         string huisnummer,
         string busnummer,
         string postcode,
-        string gemeente,
-        string land)
+        string gemeente)
         => (
             straatnaam != adres.Straatnaam ||
             huisnummer != adres.Huisnummer ||
             busnummer != adres.Busnummer ||
             postcode != adres.Postcode ||
-            gemeente != adres.Gemeente ||
-            land != adres.Land
-            );
-
-    [Pure]
-    private static bool HeeftVerschillenBinnenAdresId(Locatie locatie, Registratiedata.AdresId? adresIdUitAdressenregister)
-        => (
-            adresIdUitAdressenregister?.Broncode != locatie.AdresId?.Adresbron.Code ||
-            adresIdUitAdressenregister?.Bronwaarde != locatie.AdresId?.Bronwaarde
+            gemeente != adres.Gemeente
             );
 
     public void Hydrate(VerenigingState obj)
