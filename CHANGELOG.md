@@ -1,3 +1,19 @@
+# [8.113.0](https://github.com/informatievlaanderen/association-registry/compare/v8.112.0...v8.113.0) (2024-07-09)
+
+
+### Bug Fixes
+
+* add local settings for response base uri ([2a3cc8c](https://github.com/informatievlaanderen/association-registry/commit/2a3cc8ca2b8849d0a9aaa31f0e0e831f2664c0e5))
+* or-2254 fix addresssync tests use unique name for schema ([f464172](https://github.com/informatievlaanderen/association-registry/commit/f464172d6203407e81108847e2c15110e53aaa1f))
+* or-2254 update appsettings and replace localhost settings ([d3dd9a9](https://github.com/informatievlaanderen/association-registry/commit/d3dd9a9c8941f44be8d409cd26966163149f94bb))
+* or-2286 don't try to clear adresId when locatieWerdVerwijderd ([32a4838](https://github.com/informatievlaanderen/association-registry/commit/32a48382c7c14dcce478a00d7260f27f8e213997))
+* or-2289 WaitFor Elastic a bit longer and use in more tests ([4195890](https://github.com/informatievlaanderen/association-registry/commit/4195890d78ba52cb2cf4157238008788ef08368c))
+
+
+### Features
+
+* or-2254 add registratie adres data to adres werd ontkoppeld ([8382f27](https://github.com/informatievlaanderen/association-registry/commit/8382f27afd0e4a520ff3d55267246b413252ebb4))
+
 # [8.112.0](https://github.com/informatievlaanderen/association-registry/compare/v8.111.1...v8.112.0) (2024-07-08)
 
 
