@@ -46,7 +46,9 @@ public class With_TeHeradressren_Locaties
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.idempotencyKey)
+                                                     mockedAdresDetail.AdresId,
+                                                     mockedAdresDetail.ToAdresUitAdressenregister(),
+                                                     message.idempotencyKey)
         );
     }
 }

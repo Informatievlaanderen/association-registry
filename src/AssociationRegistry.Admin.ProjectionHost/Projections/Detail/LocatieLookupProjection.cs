@@ -32,16 +32,16 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
 
         CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
-            AdresPuri = x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde,
-            AdresId = new Uri(x.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/'),
+            AdresPuri = x.AdresId.Bronwaarde,
+            AdresId = new Uri(x.AdresId.Bronwaarde).Segments[^1].TrimEnd('/'),
             LocatieId = x.LocatieId,
             VCode = x.VCode,
         });
 
         ProjectEvent<AdresWerdGewijzigdInAdressenregister>((doc, @event) =>
         {
-            doc.AdresPuri = @event.AdresDetailUitAdressenregister.AdresId.Bronwaarde;
-            doc.AdresId = new Uri(@event.AdresDetailUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
+            doc.AdresPuri = @event.AdresId.Bronwaarde;
+            doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
         });
 
         DeleteEvent<LocatieWerdVerwijderd>();

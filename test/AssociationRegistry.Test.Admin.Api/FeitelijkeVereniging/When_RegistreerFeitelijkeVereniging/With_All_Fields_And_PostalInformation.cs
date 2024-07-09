@@ -236,24 +236,24 @@ public class With_All_Fields_And_PostalInformation
                                                 // Affligem locatie
                                                 var werdOvergenomenAffligem =
                                                     werdenOvergenomen.SingleOrDefault(
-                                                        x => x.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente == "Affligem");
+                                                        x => x.Data.Adres.Gemeente == "Affligem");
 
                                                 werdOvergenomenAffligem.Should().NotBeNull();
 
-                                                werdOvergenomenAffligem.Data.OvergenomenAdresUitAdressenregister.AdresId.Should()
+                                                werdOvergenomenAffligem.Data.AdresId.Should()
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
                                                                                "https://data.vlaanderen.be/id/adres/2208355"));
 
-                                                werdOvergenomenAffligem.Data.OvergenomenAdresUitAdressenregister.Adres.Busnummer.Should().BeEmpty();
+                                                werdOvergenomenAffligem.Data.Adres.Busnummer.Should().BeEmpty();
 
                                                 // Hekelgem locatie
                                                 var werdOvergenomenHekelgem =
                                                     werdenOvergenomen.SingleOrDefault(
-                                                        x => x.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente == "Hekelgem (Affligem)");
+                                                        x => x.Data.Adres.Gemeente == "Hekelgem (Affligem)");
 
                                                 werdOvergenomenHekelgem.Should().NotBeNull();
 
-                                                werdOvergenomenHekelgem.Data.OvergenomenAdresUitAdressenregister.AdresId.Should()
+                                                werdOvergenomenHekelgem.Data.AdresId.Should()
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
                                                                                "https://data.vlaanderen.be/id/adres/2208355"));
 ;

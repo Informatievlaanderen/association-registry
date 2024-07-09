@@ -57,7 +57,7 @@ public class Given_AdresWerdGewijzigdInAdressenregister : IClassFixture<Given_Ad
 
         locatieLookupResponseTemplate = locatieLookupResponseTemplate
            .WithLocatieLookup(_scenario.AdresWerdGewijzigdInAdressenregister.LocatieId,
-                              new Uri(_scenario.AdresWerdGewijzigdInAdressenregister.AdresDetailUitAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/')
+                              new Uri(_scenario.AdresWerdGewijzigdInAdressenregister.AdresId.Bronwaarde).Segments[^1].TrimEnd('/')
             );
 
         var expected = locatieLookupResponseTemplate.Build();

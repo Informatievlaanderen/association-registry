@@ -66,11 +66,11 @@ public class Given_AdresWerdGewijzigdInAdressenregister : IClassFixture<Given_Ad
                                     .WithDoelgroep(_scenario.VCode)
                                     .WithLocatie(_scenario.Locatie.Locatietype,
                                                  _scenario.Locatie.Naam,
-                                                 _scenario.AdresWerdGewijzigdInAdressenregister.AdresDetailUitAdressenregister
+                                                 _scenario.AdresWerdGewijzigdInAdressenregister
                                                           .Adres.ToAdresString(),
-                                                 _scenario.AdresWerdGewijzigdInAdressenregister.AdresDetailUitAdressenregister.Adres
+                                                 _scenario.AdresWerdGewijzigdInAdressenregister.Adres
                                                           .Postcode,
-                                                 _scenario.AdresWerdGewijzigdInAdressenregister.AdresDetailUitAdressenregister.Adres
+                                                 _scenario.AdresWerdGewijzigdInAdressenregister.Adres
                                                           .Gemeente,
                                                  _scenario.VCode,
                                                  _scenario.Locatie.LocatieId,

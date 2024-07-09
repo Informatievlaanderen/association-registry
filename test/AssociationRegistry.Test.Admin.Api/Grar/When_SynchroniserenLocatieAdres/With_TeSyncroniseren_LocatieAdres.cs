@@ -44,13 +44,16 @@ public class With_A_Changed_Adres
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object, new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
+                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
 
         await messageHandler.Handle(message, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail), message.IdempotenceKey)
+                                                     mockedAdresDetail.AdresId,
+                                                     mockedAdresDetail.ToAdresUitAdressenregister(),
+                                                     message.IdempotenceKey)
         );
     }
 }

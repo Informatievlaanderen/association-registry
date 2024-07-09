@@ -5,5 +5,6 @@ using Framework;
 public record AdresWerdGewijzigdInAdressenregister(
     string VCode,
     int LocatieId,
-    AdresDetailUitAdressenregister AdresDetailUitAdressenregister,
+    Registratiedata.AdresId AdresId,
+    Registratiedata.AdresUitAdressenregister Adres,
     string IdempotenceKey) : IEvent;

@@ -550,14 +550,14 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres, document.VCode,
+                                                 adresWerdOvergenomenUitAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
-                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.Adres
+                                             Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.Adres
                                                 .ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
+                                                 adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
-                                                 adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister.AdresId),
+                                                 adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
@@ -573,14 +573,14 @@ public class BeheerVerenigingDetailProjector
                                          update: l => l with
                                          {
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
-                                                 adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres, document.VCode,
+                                                 adresWerdGewijzigdInAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
-                                             Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres
+                                             Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres
                                                 .ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
-                                                 adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                                 adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
-                                                 adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                                 adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                          })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();

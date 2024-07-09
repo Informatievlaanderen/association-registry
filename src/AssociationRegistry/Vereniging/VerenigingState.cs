@@ -468,14 +468,8 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(locatie with
                     {
-                        AdresId = AdresId.Hydrate(@event.OvergenomenAdresUitAdressenregister.AdresId.Broncode, @event.OvergenomenAdresUitAdressenregister.AdresId.Bronwaarde),
-                        Adres = Adres.Hydrate(
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Straatnaam,
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Huisnummer,
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Busnummer,
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Postcode,
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Gemeente,
-                            @event.OvergenomenAdresUitAdressenregister.Adres.Land),
+                        AdresId = AdresId.Hydrate(@event.AdresId.Broncode, @event.AdresId.Bronwaarde),
+                        Adres = Adres.Hydrate(@event.Adres),
                     })),
         };
     }
@@ -562,14 +556,8 @@ public record VerenigingState : IHasVersion
                    .Without(@event.LocatieId)
                    .Append(locatie with
                     {
-                        AdresId = AdresId.Hydrate(@event.AdresDetailUitAdressenregister.AdresId.Broncode, @event.AdresDetailUitAdressenregister.AdresId.Bronwaarde),
-                        Adres = Adres.Hydrate(
-                            @event.AdresDetailUitAdressenregister.Adres.Straatnaam,
-                            @event.AdresDetailUitAdressenregister.Adres.Huisnummer,
-                            @event.AdresDetailUitAdressenregister.Adres.Busnummer,
-                            @event.AdresDetailUitAdressenregister.Adres.Postcode,
-                            @event.AdresDetailUitAdressenregister.Adres.Gemeente,
-                            @event.AdresDetailUitAdressenregister.Adres.Land),
+                        AdresId = AdresId.Hydrate(@event.AdresId.Broncode, @event.AdresId.Bronwaarde),
+                        Adres = Adres.Hydrate(@event.Adres),
                     })),
         };
     }

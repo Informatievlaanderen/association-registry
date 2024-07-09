@@ -49,10 +49,12 @@ public class With_Multiple_TeHeradressren_Locaties
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail1),
+                                                     mockedAdresDetail1.AdresId,
+                                                     mockedAdresDetail1.ToAdresUitAdressenregister(),
                                                      message.idempotencyKey),
             new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId2,
-                                                     AdresDetailUitAdressenregister.FromResponse(mockedAdresDetail2),
+                                                     mockedAdresDetail2.AdresId,
+                                                     mockedAdresDetail2.ToAdresUitAdressenregister(),
                                                      message.idempotencyKey)
         );
     }

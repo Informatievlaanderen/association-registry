@@ -161,9 +161,9 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument.Locatie()
             {
                 LocatieId = message.Data.LocatieId,
-                Adresvoorstelling = message.Data.OvergenomenAdresUitAdressenregister.Adres.ToAdresString(),
-                Postcode = message.Data.OvergenomenAdresUitAdressenregister.Adres?.Postcode ?? string.Empty,
-                Gemeente = message.Data.OvergenomenAdresUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+                Adresvoorstelling = message.Data.Adres.ToAdresString(),
+                Postcode = message.Data.Adres?.Postcode ?? string.Empty,
+                Gemeente = message.Data.Adres?.Gemeente ?? string.Empty,
             }
         );
 
@@ -173,9 +173,9 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionDocument.Locatie()
             {
                 LocatieId = message.Data.LocatieId,
-                Adresvoorstelling = message.Data.AdresDetailUitAdressenregister.Adres.ToAdresString(),
-                Postcode = message.Data.AdresDetailUitAdressenregister.Adres?.Postcode ?? string.Empty,
-                Gemeente = message.Data.AdresDetailUitAdressenregister.Adres?.Gemeente ?? string.Empty,
+                Adresvoorstelling = message.Data.Adres.ToAdresString(),
+                Postcode = message.Data.Adres?.Postcode ?? string.Empty,
+                Gemeente = message.Data.Adres?.Gemeente ?? string.Empty,
             }
         );
 

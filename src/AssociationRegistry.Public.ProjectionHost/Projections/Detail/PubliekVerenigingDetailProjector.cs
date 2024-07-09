@@ -479,16 +479,11 @@ public static class PubliekVerenigingDetailProjector
                                              JsonLdType.Locatie.Type),
                                          Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
                                                      adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
-                                                     adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
-                                                        .Adres),
-                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data
-                                            .OvergenomenAdresUitAdressenregister.Adres
-                                            .ToAdresString(),
-                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
-                                                          .AdresId),
+                                                     adresWerdOvergenomenUitAdressenregister.Data.Adres),
+                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.Adres.ToAdresString(),
+                                         AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                          VerwijstNaar =
-                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.OvergenomenAdresUitAdressenregister
-                                                            .AdresId),
+                                         MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                      })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
@@ -512,12 +507,12 @@ public static class PubliekVerenigingDetailProjector
                                              JsonLdType.Locatie.Type),
                                          Adres = Map(adresWerdGewijzigdInAdressenregister.Data.VCode,
                                                      adresWerdGewijzigdInAdressenregister.Data.LocatieId,
-                                                     adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres),
-                                         Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.Adres
+                                                     adresWerdGewijzigdInAdressenregister.Data.Adres),
+                                         Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres
                                             .ToAdresString(),
-                                         AdresId = Map(adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                         AdresId = Map(adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                          VerwijstNaar =
-                                         MapVerwijstNaar(adresWerdGewijzigdInAdressenregister.Data.AdresDetailUitAdressenregister.AdresId),
+                                         MapVerwijstNaar(adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                      })
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
@@ -604,6 +599,22 @@ public static class PubliekVerenigingDetailProjector
                 JsonLdType.AdresVerwijzing.Type),
         };
     }
+
+    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.AdresUitAdressenregister? adresUitAdressenregister)
+        => adresUitAdressenregister is null
+            ? null
+            : new PubliekVerenigingDetailDocument.Adres
+            {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
+                    JsonLdType.Adres.Type),
+                Straatnaam = adresUitAdressenregister.Straatnaam,
+                Huisnummer = adresUitAdressenregister.Huisnummer,
+                Busnummer = adresUitAdressenregister.Busnummer,
+                Postcode = adresUitAdressenregister.Postcode,
+                Gemeente = adresUitAdressenregister.Gemeente,
+                Land = Adres.Belgie,
+            };
 
     private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
         => adres is null

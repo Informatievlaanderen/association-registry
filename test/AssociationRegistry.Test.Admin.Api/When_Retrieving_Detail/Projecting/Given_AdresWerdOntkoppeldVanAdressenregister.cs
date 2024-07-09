@@ -29,11 +29,14 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister
         var adresWerdOvergenomenUitAdressenregister = new TestEvent<AdresWerdOvergenomenUitAdressenregister>(
             fixture.Create<AdresWerdOvergenomenUitAdressenregister>() with
             {
-                OvergenomenAdresUitAdressenregister = new AdresMatchUitAdressenregister()
-                {
-                    AdresId = locatieWerdToegevoegd.Data.Locatie.AdresId,
-                    Adres = locatieWerdToegevoegd.Data.Locatie.Adres,
-                },
+                AdresId = locatieWerdToegevoegd.Data.Locatie.AdresId,
+                Adres = new Registratiedata.AdresUitAdressenregister(
+                    locatieWerdToegevoegd.Data.Locatie.Adres.Straatnaam,
+                    locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
+                    locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
+                    locatieWerdToegevoegd.Data.Locatie.Adres.Postcode,
+                    locatieWerdToegevoegd.Data.Locatie.Adres.Gemeente
+                ),
                 LocatieId = locatieWerdToegevoegd.Data.Locatie.LocatieId,
             });
 
@@ -64,19 +67,19 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
             Adres = new Adres
+            {
+                JsonLdMetadata = new JsonLdMetadata
                 {
-                    JsonLdMetadata = new JsonLdMetadata
-                    {
-                        Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
-                        Type = JsonLdType.Adres.Type,
-                    },
-                    Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres!.Straatnaam,
-                    Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
-                    Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
-                    Postcode = locatieWerdToegevoegd.Data.Locatie.Adres.Postcode,
-                    Gemeente = locatieWerdToegevoegd.Data.Locatie.Adres.Gemeente,
-                    Land = locatieWerdToegevoegd.Data.Locatie.Adres.Land,
+                    Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                    Type = JsonLdType.Adres.Type,
                 },
+                Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres!.Straatnaam,
+                Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
+                Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
+                Postcode = locatieWerdToegevoegd.Data.Locatie.Adres.Postcode,
+                Gemeente = locatieWerdToegevoegd.Data.Locatie.Adres.Gemeente,
+                Land = locatieWerdToegevoegd.Data.Locatie.Adres.Land,
+            },
             Adresvoorstelling = locatieWerdToegevoegd.Data.Locatie.Adres.ToAdresString(),
             AdresId = null,
             VerwijstNaar = null,

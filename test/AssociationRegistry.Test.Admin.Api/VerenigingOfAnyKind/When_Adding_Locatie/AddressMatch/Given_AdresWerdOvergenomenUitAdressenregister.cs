@@ -120,7 +120,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
                                                     _classFixture.Scenario.VCode);
 
                                             werdOvergenomen.Should().NotBeNull();
-                                            werdOvergenomen.OvergenomenAdresUitAdressenregister.AdresId.Should()
+                                            werdOvergenomen.AdresId.Should()
                                                            .BeEquivalentTo(
                                                                 new Registratiedata.AdresId(
                                                                     "AR", "https://data.vlaanderen.be/id/adres/3213019"));

@@ -29,7 +29,8 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
             new AdresWerdOvergenomenUitAdressenregister(
                 doc.VCode,
                 locatieWerdToegevoegd.Data.Locatie.LocatieId,
-                fixture.Create<AdresMatchUitAdressenregister>()));
+                fixture.Create<Registratiedata.AdresId>(),
+                fixture.Create<Registratiedata.AdresUitAdressenregister>()));
 
         BeheerVerenigingDetailProjector.Apply(locatieWerdToegevoegd, doc);
         BeheerVerenigingDetailProjector.Apply(adresWerdOvergenomen, doc);
@@ -55,28 +56,28 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
                         Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
                         Type = JsonLdType.Adres.Type,
                     },
-                    Straatnaam = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Straatnaam,
-                    Huisnummer = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Huisnummer,
-                    Busnummer = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Busnummer,
-                    Postcode = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Postcode,
-                    Gemeente = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Gemeente,
-                    Land = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.Land,
+                    Straatnaam = adresWerdOvergenomen.Data.Adres.Straatnaam,
+                    Huisnummer = adresWerdOvergenomen.Data.Adres.Huisnummer,
+                    Busnummer = adresWerdOvergenomen.Data.Adres.Busnummer,
+                    Postcode = adresWerdOvergenomen.Data.Adres.Postcode,
+                    Gemeente = adresWerdOvergenomen.Data.Adres.Gemeente,
+                    Land = Vereniging.Adres.Belgie,
                 },
-            Adresvoorstelling = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.Adres.ToAdresString(),
-            AdresId = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.AdresId is null
+            Adresvoorstelling = adresWerdOvergenomen.Data.Adres.ToAdresString(),
+            AdresId = adresWerdOvergenomen.Data.AdresId is null
                 ? null
                 : new AdresId
                 {
-                    Broncode = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.AdresId?.Broncode,
-                    Bronwaarde = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.AdresId?.Bronwaarde,
+                    Broncode = adresWerdOvergenomen.Data.AdresId?.Broncode,
+                    Bronwaarde = adresWerdOvergenomen.Data.AdresId?.Bronwaarde,
                 },
-            VerwijstNaar = adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.AdresId is null
+            VerwijstNaar = adresWerdOvergenomen.Data.AdresId is null
                 ? null
                 : new AdresVerwijzing
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
-                        Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(adresWerdOvergenomen.Data.OvergenomenAdresUitAdressenregister.AdresId?.Bronwaarde.Split('/').Last()),
+                        Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(adresWerdOvergenomen.Data.AdresId?.Bronwaarde.Split('/').Last()),
                         Type = JsonLdType.AdresVerwijzing.Type,
                     },
                 },
