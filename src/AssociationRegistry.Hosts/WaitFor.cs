@@ -20,9 +20,9 @@ public static class WaitFor
     }
 
     public static Task PostGreSQLToBecomeAvailable(ILogger logger, string connectionString, CancellationToken cancellationToken = default)
-        => Wait(logger, waitAction: () => TryProbePostgres(connectionString), serviceName: "PostgreSQL", cancellationToken);
+        => Wait(logger, waitAction: () => TryProbePostgres(connectionString), serviceName: "PostgreSQL", maxRetryCount: 5, cancellationToken);
 
-    public static Task ElasticSearchToBecomeAvailable(IElasticClient client, ILogger logger, CancellationToken cancellationToken = default)
+    public static Task ElasticSearchToBecomeAvailable(IElasticClient client, ILogger logger, int maxRetryCount = 5, CancellationToken cancellationToken = default)
         => Wait(
             logger,
             waitAction: async () =>
@@ -32,10 +32,10 @@ public static class WaitFor
                 if (!response.IsValid)
                     throw new Exception($"Could not Ping to ES: {response.DebugInformation}");
             },
-            serviceName: "ElasticSearch",
+            serviceName: "ElasticSearch", maxRetryCount,
             cancellationToken);
 
-    public static async Task Wait(ILogger logger, Func<Task> waitAction, string serviceName, CancellationToken cancellationToken = default)
+    public static async Task Wait(ILogger logger, Func<Task> waitAction, string serviceName, int maxRetryCount, CancellationToken cancellationToken = default)
     {
         var watch = Stopwatch.StartNew();
         var tryCount = 0;
@@ -55,7 +55,7 @@ public static class WaitFor
             }
             catch (Exception exception)
             {
-                if (tryCount >= 5)
+                if (tryCount >= maxRetryCount)
                     throw new TimeoutException($"Service {serviceName} throws exception {exception.Message} after 5 tries", exception);
 
                 tryCount++;

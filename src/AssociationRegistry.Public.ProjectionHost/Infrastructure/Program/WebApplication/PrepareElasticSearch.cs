@@ -15,7 +15,7 @@ public static class PrepareElasticSearch
         var elasticSearchOptions = source.Services.GetRequiredService<ElasticSearchOptionsSection>();
 
         await WaitFor.ElasticSearchToBecomeAvailable(
-            elasticClient, source.Services.GetRequiredService<ILogger<Program>>(), CancellationToken.None);
+            elasticClient, source.Services.GetRequiredService<ILogger<Program>>(), cancellationToken: CancellationToken.None);
 
         await EnsureIndexExists(elasticClient, elasticSearchOptions.Indices!.Verenigingen!);
     }
