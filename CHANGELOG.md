@@ -1,3 +1,10 @@
+## [8.113.1](https://github.com/informatievlaanderen/association-registry/compare/v8.113.0...v8.113.1) (2024-07-09)
+
+
+### Bug Fixes
+
+* OR-2291 use consistent async and return doc on creation ([e4682e1](https://github.com/informatievlaanderen/association-registry/commit/e4682e161d0a567005b55b7cd40faddc6fa77390))
+
 # [8.113.0](https://github.com/informatievlaanderen/association-registry/compare/v8.112.0...v8.113.0) (2024-07-09)
 
 
