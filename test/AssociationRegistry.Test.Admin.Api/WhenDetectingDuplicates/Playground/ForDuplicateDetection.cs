@@ -7,7 +7,9 @@ using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
 using Fixtures;
 using FluentAssertions;
+using Hosts;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Reflection;
 using Vereniging;
@@ -120,6 +122,10 @@ public class DuplicateDetectionSetup
                       .MapDuplicateDetectionDocument(duplicateDetection);
 
         Client = new ElasticClient(settings);
+
+        WaitFor.ElasticSearchToBecomeAvailable(Client, NullLogger.Instance, 10, CancellationToken.None)
+               .GetAwaiter().GetResult();
+
         Client.Indices.Delete(duplicateDetection);
         ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection);
 
