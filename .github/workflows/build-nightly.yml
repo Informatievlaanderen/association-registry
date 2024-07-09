@@ -129,10 +129,11 @@ jobs:
     with:
       image-file: ar-admin-address-sync-image.tar
       image-name: verenigingsregister-admin-address-sync
+      test-project: AssociationRegistry.Test.Admin.AddressSync
       build-project: AssociationRegistry.Admin.AddressSync/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
-      run-docker-wiremock: true
+      run-docker-wiremock: false
       run-docker-db: true
       run-docker-elasticsearch: false
       run-docker-localstack: false
