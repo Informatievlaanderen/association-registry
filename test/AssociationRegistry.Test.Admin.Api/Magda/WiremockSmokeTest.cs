@@ -13,7 +13,7 @@ public class WiremockSmokeTest
     {
         var client = new HttpClient();
 
-        var response = await client.PostAsync(requestUri: "http://localhost:8080/GeefOndernemingDienst-02.00/soap/WebService",
+        var response = await client.PostAsync(requestUri: "http://127.0.0.1:8080/GeefOndernemingDienst-02.00/soap/WebService",
                                               new StringContent(""));
 
         response.Should().HaveStatusCode(HttpStatusCode.OK);
@@ -24,7 +24,7 @@ public class WiremockSmokeTest
     {
         var client = new HttpClient();
 
-        var response = await client.PostAsync(requestUri: "http://localhost:8080/DITBESTAATNIET-02.01/soap/WebService",
+        var response = await client.PostAsync(requestUri: "http://127.0.0.1:8080/DITBESTAATNIET-02.01/soap/WebService",
                                               new StringContent(""));
 
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);
