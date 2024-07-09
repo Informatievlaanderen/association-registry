@@ -634,7 +634,7 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Locaties = document.Locaties
-                                    .UpdateSingle(
+                                    .UpdateSingleOrNothing(
                                          identityFunc: l => l.LocatieId == adresKonNietOvergenomenWordenUitAdressenregister.Data.LocatieId,
                                          update: l => l with
                                          {
