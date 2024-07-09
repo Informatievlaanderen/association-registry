@@ -1,3 +1,11 @@
+## [8.113.2](https://github.com/informatievlaanderen/association-registry/compare/v8.113.1...v8.113.2) (2024-07-09)
+
+
+### Bug Fixes
+
+* or-2292 include test projects into build workflow for address sync ([6b73728](https://github.com/informatievlaanderen/association-registry/commit/6b7372836391e723d33d0e16c57a75d67abfd58a))
+* or-2292 remove double reference inside csproj file to avoid lock on resources ([a9a2622](https://github.com/informatievlaanderen/association-registry/commit/a9a2622c761c434feb21ce8abbbcd5b7f17aafe3))
+
 ## [8.113.1](https://github.com/informatievlaanderen/association-registry/compare/v8.113.0...v8.113.1) (2024-07-09)
 
 
