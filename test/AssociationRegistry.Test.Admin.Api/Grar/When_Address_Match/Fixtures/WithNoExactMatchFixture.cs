@@ -16,7 +16,7 @@ public class WithNoExactMatchFixture : IAsyncLifetime
     {
         _client = new GrarClient(new GrarHttpClient(new HttpClient()
         {
-            BaseAddress = new Uri("http://localhost:8080/"),
+            BaseAddress = new Uri("http://127.0.0.1:8080/"),
         }), NullLogger<GrarClient>.Instance);
     }
 

@@ -10,7 +10,7 @@ public class TestDocumentStoreFactory
     {
         var documentStore = DocumentStore.For(options =>
         {
-            options.Connection($"host=localhost:5432;" +
+            options.Connection($"host=127.0.0.1:5432;" +
                                "database=verenigingsregister;" +
                                $"password=root;" +
                                $"username=root");
