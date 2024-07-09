@@ -19,10 +19,10 @@ public class BeheerVerenigingDetailProjection : EventProjection
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
     }
 
-    public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
+    public async Task<BeheerVerenigingDetailDocument> Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
-    public void Project(
+    public async Task<BeheerVerenigingDetailDocument> Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
@@ -234,7 +234,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    private static void DoCreate<T>(
+    private static BeheerVerenigingDetailDocument DoCreate<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
         Func<IEvent<T>, BeheerVerenigingDetailDocument> action) where T : notnull
@@ -242,5 +242,7 @@ public class BeheerVerenigingDetailProjection : EventProjection
         var doc = action(@event);
         BeheerVerenigingDetailProjector.UpdateMetadata(@event, doc);
         ops.Insert(doc);
+
+        return doc;
     }
 }
