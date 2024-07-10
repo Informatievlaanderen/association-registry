@@ -1,3 +1,10 @@
+## [8.113.3](https://github.com/informatievlaanderen/association-registry/compare/v8.113.2...v8.113.3) (2024-07-10)
+
+
+### Bug Fixes
+
+* OR-2291 track by identity and make non-async ([048923f](https://github.com/informatievlaanderen/association-registry/commit/048923fd31f4dd164d3488751b3224de7c920bdd))
+
 ## [8.113.2](https://github.com/informatievlaanderen/association-registry/compare/v8.113.1...v8.113.2) (2024-07-09)
 
 
