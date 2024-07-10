@@ -1,3 +1,10 @@
+## [8.113.6](https://github.com/informatievlaanderen/association-registry/compare/v8.113.5...v8.113.6) (2024-07-10)
+
+
+### Bug Fixes
+
+* or-2291 add rebuild functionality for detail multistream ([fe3bfb5](https://github.com/informatievlaanderen/association-registry/commit/fe3bfb5ded487bef2242c3dd2a16aad63ee3cd7e))
+
 ## [8.113.5](https://github.com/informatievlaanderen/association-registry/compare/v8.113.4...v8.113.5) (2024-07-10)
 
 
