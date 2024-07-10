@@ -31,6 +31,13 @@ public static class ProjectionEndpointsExtensions
                     await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailProjection>(shardTimeout);
                 });
 
+                StartRebuild(logger, projectionName: "Detail Multi", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailMultiProjection>(shardTimeout);
+                });
+
                 StartRebuild(logger, projectionName: "Locatie Lookup", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
@@ -77,6 +84,12 @@ public static class ProjectionEndpointsExtensions
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
                     await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailProjection>(shardTimeout);
+                });
+
+                StartRebuild(logger, projectionName: "Detail Multi", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                    await projectionDaemon.StopRebuildStart<BeheerVerenigingDetailMultiProjection>(shardTimeout);
                 });
 
                 return Results.Accepted();
