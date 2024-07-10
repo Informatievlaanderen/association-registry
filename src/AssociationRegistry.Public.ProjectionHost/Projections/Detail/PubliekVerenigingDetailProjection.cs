@@ -15,17 +15,16 @@ public class PubliekVerenigingDetailProjection : EventProjection
         // the newly persisted document from xxxWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
-        Options.BatchSize = 1;
-        Options.MaximumHopperSize = 1;
+
+        Options.EnableDocumentTrackingByIdentity = true;
+
         Options.DeleteViewTypeOnTeardown<PubliekVerenigingDetailDocument>();
     }
 
-    public void Project(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
-    {
-        DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
-    }
+    public PubliekVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
+        => DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
 
-    public void Project(
+    public PubliekVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
@@ -203,7 +202,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
         ops.Store(doc);
     }
 
-    private static void DoCreate<T>(
+    private static PubliekVerenigingDetailDocument DoCreate<T>(
         IEvent<T> @event,
         IDocumentOperations ops,
         Func<IEvent<T>, PubliekVerenigingDetailDocument> action) where T : notnull
@@ -211,5 +210,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
         var doc = action(@event);
         PubliekVerenigingDetailProjector.UpdateMetadata(@event, doc);
         ops.Insert(doc);
+
+        return doc;
     }
 }

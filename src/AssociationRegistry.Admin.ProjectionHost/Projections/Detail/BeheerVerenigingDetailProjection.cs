@@ -14,15 +14,15 @@ public class BeheerVerenigingDetailProjection : EventProjection
         // the newly persisted document from xxxWerdGeregistreerd is not in the
         // Query yet when we handle NaamWerdGewijzigd.
         // see also https://martendb.io/events/projections/event-projections.html#reusing-documents-in-the-same-batch
-        Options.BatchSize = 1;
-        Options.MaximumHopperSize = 1;
+
+        Options.EnableDocumentTrackingByIdentity = true;
         Options.DeleteViewTypeOnTeardown<BeheerVerenigingDetailDocument>();
     }
 
-    public async Task<BeheerVerenigingDetailDocument> Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
+    public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
-    public async Task<BeheerVerenigingDetailDocument> Create(
+    public BeheerVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
