@@ -1,3 +1,10 @@
+## [8.113.5](https://github.com/informatievlaanderen/association-registry/compare/v8.113.4...v8.113.5) (2024-07-10)
+
+
+### Bug Fixes
+
+* or-2291 expand multiprojection ([4d9506b](https://github.com/informatievlaanderen/association-registry/commit/4d9506b5c4c5bff1d06d2f0ea48f5ffee982bc2a))
+
 ## [8.113.4](https://github.com/informatievlaanderen/association-registry/compare/v8.113.3...v8.113.4) (2024-07-10)
 
 
