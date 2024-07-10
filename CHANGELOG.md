@@ -1,3 +1,10 @@
+## [8.113.4](https://github.com/informatievlaanderen/association-registry/compare/v8.113.3...v8.113.4) (2024-07-10)
+
+
+### Bug Fixes
+
+* or-2291 add poc beheer detail multiprojection ([3c442bf](https://github.com/informatievlaanderen/association-registry/commit/3c442bf6e6bcd51b3fccc4facb3863d8b6e84b89))
+
 ## [8.113.3](https://github.com/informatievlaanderen/association-registry/compare/v8.113.2...v8.113.3) (2024-07-10)
 
 
