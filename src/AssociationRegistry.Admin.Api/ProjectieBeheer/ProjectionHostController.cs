@@ -6,6 +6,7 @@ using Infrastructure;
 using Infrastructure.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using ResponseModels;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text.Json;
@@ -136,8 +137,13 @@ public class ProjectionController : ApiController
     private async Task<IActionResult> OkObjectOrForwardedResponse(CancellationToken cancellationToken, HttpResponseMessage response)
     {
         if (response.IsSuccessStatusCode)
-            return new OkObjectResult(
-                await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken));
+        {
+            var result = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
+
+            return result is not null
+                ? new OkObjectResult(new MinimalProjectionStatusResponse(result))
+                : new EmptyResult();
+        }
 
         return Problem(
             title: response.ReasonPhrase,
