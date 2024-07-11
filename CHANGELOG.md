@@ -1,3 +1,10 @@
+## [8.113.7](https://github.com/informatievlaanderen/association-registry/compare/v8.113.6...v8.113.7) (2024-07-11)
+
+
+### Bug Fixes
+
+* OR-2291 update Marten ([644eb59](https://github.com/informatievlaanderen/association-registry/commit/644eb59b1ab0856b1398d326c5e33453a50ee416))
+
 ## [8.113.6](https://github.com/informatievlaanderen/association-registry/compare/v8.113.5...v8.113.6) (2024-07-10)
 
 
