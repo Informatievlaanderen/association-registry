@@ -1,3 +1,10 @@
+## [8.113.8](https://github.com/informatievlaanderen/association-registry/compare/v8.113.7...v8.113.8) (2024-07-11)
+
+
+### Bug Fixes
+
+* OR-2291 update Marten.Commandline ([a73a48b](https://github.com/informatievlaanderen/association-registry/commit/a73a48bdc8effddec63e3da54708c8acb888ccce))
+
 ## [8.113.7](https://github.com/informatievlaanderen/association-registry/compare/v8.113.6...v8.113.7) (2024-07-11)
 
 
