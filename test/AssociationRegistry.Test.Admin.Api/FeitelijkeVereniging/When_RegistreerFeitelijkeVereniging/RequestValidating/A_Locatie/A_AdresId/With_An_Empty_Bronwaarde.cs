@@ -4,7 +4,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using FluentValidation.TestHelper;
-using Framework;
 using Test.Framework;
 using Xunit;
 using Xunit.Categories;
@@ -17,7 +16,10 @@ public class With_An_Empty_Bronwaarde : ValidatorTest
     public void Has_validation_error__bronwaarde_mag_niet_leeg_zijn()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
-        var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
+        var request = Fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+
+        request.Locaties[0].Adres = null;
+        request.Locaties[0].AdresId = Fixture.Create<AdresId>();
         request.Locaties[0].AdresId!.Bronwaarde = string.Empty;
 
         var result = validator.TestValidate(request);

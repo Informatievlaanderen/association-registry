@@ -91,8 +91,6 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
         locatie.Adres!.Postcode.Should().Be(requestLocatie.Adres!.Postcode);
         locatie.Adres!.Gemeente.Should().Be(requestLocatie.Adres!.Gemeente);
         locatie.Adres!.Land.Should().Be(requestLocatie.Adres!.Land);
-        locatie.AdresId!.Adresbron.Code.Should().Be(requestLocatie.AdresId!.Broncode);
-        locatie.AdresId!.Bronwaarde.Should().Be(requestLocatie.AdresId!.Bronwaarde);
     }
 
     private static void AssertContactgegevens(Contactgegeven[] contactgegevens, RegistreerFeitelijkeVerenigingRequest request)

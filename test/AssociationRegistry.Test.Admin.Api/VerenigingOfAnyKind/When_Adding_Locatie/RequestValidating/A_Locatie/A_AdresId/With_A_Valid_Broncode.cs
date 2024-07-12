@@ -9,6 +9,7 @@ using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 [UnitTest]
 public class With_A_Valid_Broncode : ValidatorTest
@@ -18,7 +19,8 @@ public class With_A_Valid_Broncode : ValidatorTest
     public void Has_no_validation_errors(string adresBroncode)
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
+        var request = Fixture.Create<VoegLocatieToeRequest>();
+        request.Locatie.AdresId = Fixture.Create<AdresId>();
         request.Locatie.AdresId!.Broncode = Adresbron.Parse(adresBroncode);
         var result = validator.TestValidate(request);
 

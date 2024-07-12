@@ -27,8 +27,8 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeVerengingsType();
         fixture.CustomizeVertegenwoordiger();
         fixture.CustomizeAdresBron();
-        fixture.CustomizeAdresId();
         fixture.CustomizeDoelgroep();
+        fixture.CustomizeAdresId();
         fixture.CustomizeAdres();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
@@ -237,18 +237,6 @@ public static class AutoFixtureCustomizations
         );
     }
 
-    private static void CustomizeAdresId(this IFixture fixture)
-    {
-        fixture.Customize<AdresId>(
-            composer =>
-                composer.FromFactory<int>(
-                             i => AdresId.Create(
-                                 fixture.Create<Adresbron>(),
-                                 AdresId.DataVlaanderenAdresPrefix + i))
-                        .OmitAutoProperties()
-        );
-    }
-
     private static void CustomizeAdresBron(this IFixture fixture)
     {
         fixture.Customize<Adresbron>(
@@ -289,6 +277,29 @@ public static class AutoFixtureCustomizations
                                  50 + fixture.Create<int>() % 50))
                         .OmitAutoProperties()
         );
+    }
+
+    private static void CustomizeAdresId(this IFixture fixture)
+    {
+        fixture.Customize<AdresId>(
+            composer =>
+                composer.FromFactory<int>(
+                             i => AdresId.Create(
+                                 fixture.Create<Adresbron>(),
+                                 AdresId.DataVlaanderenAdresPrefix + i))
+                        .OmitAutoProperties()
+        );
+
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId>(
+                      composer =>
+                          composer.FromFactory<int>(
+                                       i => new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId()
+                                       {
+                                           Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
+                                           Broncode = fixture.Create<Adresbron>(),
+                                       })
+                                  .OmitAutoProperties()
+                  );
     }
 
     private static void CustomizeAdres(this IFixture fixture)

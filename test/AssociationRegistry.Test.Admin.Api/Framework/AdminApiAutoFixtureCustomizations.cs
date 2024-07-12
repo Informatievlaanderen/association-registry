@@ -163,11 +163,7 @@ public static class AutoFixtureCustomizations
                         Gemeente = fixture.Create<string>(),
                         Land = fixture.Create<string>(),
                     },
-                    AdresId = new AdresId
-                    {
-                        Broncode = Adresbron.All[value % Adresbron.All.Length],
-                        Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
-                    },
+                    AdresId = null,
                     IsPrimair = false,
                 }).OmitAutoProperties());
     }
@@ -223,20 +219,8 @@ public static class AutoFixtureCustomizations
                 {
                     Locatietype = fixture.Create<Locatietype>(),
                     Naam = fixture.Create<string>(),
-                    Adres = new Adres
-                    {
-                        Straatnaam = fixture.Create<string>(),
-                        Huisnummer = fixture.Create<int>().ToString(),
-                        Busnummer = fixture.Create<string?>(),
-                        Postcode = (fixture.Create<int>() % 10000).ToString(),
-                        Gemeente = fixture.Create<string>(),
-                        Land = fixture.Create<string>(),
-                    },
-                    AdresId = new AdresId
-                    {
-                        Broncode = Adresbron.All[value % Adresbron.All.Length],
-                        Bronwaarde = new Uri("https://data.vlaanderen.be/id/adres/" + fixture.Create<int>()).ToString(),
-                    },
+                    Adres = fixture.Create<Adres>(),
+                    AdresId = null,
                     IsPrimair = false,
                 }).OmitAutoProperties());
     }

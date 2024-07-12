@@ -28,6 +28,7 @@ public class V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
             fixture.Create<Registratiedata.Locatie>() with
             {
                 LocatieId = 1,
+                AdresId = null
             });
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

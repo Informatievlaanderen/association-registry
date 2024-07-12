@@ -36,10 +36,6 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
                     ""postcode"": ""1790"",
                     ""gemeente"": ""Affligem"",
                     ""land"": ""België"",
-                },
-                ""adresId"": {
-                    ""broncode"": ""AR"",
-                    ""bronwaarde"": ""https://data.vlaanderen.be/id/adres/0"",
                 }
             }
         }";
@@ -92,8 +88,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
                                               Postcode: "1790",
                                               Gemeente: "Affligem",
                                               Land: "België"),
-                                          new Registratiedata.AdresId(Broncode: "AR",
-                                                                      Bronwaarde: "https://data.vlaanderen.be/id/adres/0"))));
+                                          null)));
     }
 
     [Fact]
