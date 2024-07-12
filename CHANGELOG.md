@@ -1,3 +1,10 @@
+## [8.113.10](https://github.com/informatievlaanderen/association-registry/compare/v8.113.9...v8.113.10) (2024-07-12)
+
+
+### Bug Fixes
+
+* OR-2291 rework rebuilding ([beb6065](https://github.com/informatievlaanderen/association-registry/commit/beb60653c366889c1cda30a8dce4b0d662a7edc3))
+
 ## [8.113.9](https://github.com/informatievlaanderen/association-registry/compare/v8.113.8...v8.113.9) (2024-07-12)
 
 
