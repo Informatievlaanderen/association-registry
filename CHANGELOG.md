@@ -1,3 +1,10 @@
+# [8.114.0](https://github.com/informatievlaanderen/association-registry/compare/v8.113.10...v8.114.0) (2024-07-12)
+
+
+### Features
+
+* minimal output for projection shard status ([a2957bd](https://github.com/informatievlaanderen/association-registry/commit/a2957bd953465d7cd6e00be582f9c156e8957f14))
+
 ## [8.113.10](https://github.com/informatievlaanderen/association-registry/compare/v8.113.9...v8.113.10) (2024-07-12)
 
 
