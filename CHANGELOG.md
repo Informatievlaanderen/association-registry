@@ -1,3 +1,10 @@
+## [8.114.1](https://github.com/informatievlaanderen/association-registry/compare/v8.114.0...v8.114.1) (2024-07-12)
+
+
+### Reverts
+
+* Revert "fix: OR-2291 rework rebuilding" ([203bea3](https://github.com/informatievlaanderen/association-registry/commit/203bea3b6cf008ece1abf9d97ded74cdf2a7880a))
+
 # [8.114.0](https://github.com/informatievlaanderen/association-registry/compare/v8.113.10...v8.114.0) (2024-07-12)
 
 
