@@ -1,3 +1,10 @@
+## [8.113.9](https://github.com/informatievlaanderen/association-registry/compare/v8.113.8...v8.113.9) (2024-07-12)
+
+
+### Bug Fixes
+
+* OR-2291 increase stale seq treshold for public api ([c64d13f](https://github.com/informatievlaanderen/association-registry/commit/c64d13f2e6ddea51220a64a0389eb0aa400d2e86))
+
 ## [8.113.8](https://github.com/informatievlaanderen/association-registry/compare/v8.113.7...v8.113.8) (2024-07-11)
 
 
