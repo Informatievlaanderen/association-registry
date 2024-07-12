@@ -26,6 +26,7 @@ public class V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen
                 {
                     IsPrimair = w == 0,
                     LocatieId = locatie.LocatieId,
+                    AdresId = null
                 }
             ).ToArray(),
         };

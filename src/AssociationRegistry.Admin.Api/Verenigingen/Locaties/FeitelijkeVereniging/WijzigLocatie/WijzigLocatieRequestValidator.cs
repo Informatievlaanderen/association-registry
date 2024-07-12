@@ -21,6 +21,8 @@ public class WijzigLocatieRequestValidator : AbstractValidator<WijzigLocatieRequ
 
 public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
 {
+    public const string MustHaveAdresOrAdresIdMessage = "'Locatie' moet of een adres of een adresId bevatten.";
+
     public TeWijzigenLocatieValidator()
     {
         RuleFor(request => request)
@@ -32,12 +34,21 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
            .When(locatie => locatie.Locatietype is not null);
 
-        RuleFor(request => request.Adres)
-           .SetValidator(new AdresValidator()!);
+        RuleFor(locatie => locatie)
+           .Must(HaveAdresOrAdresId)
+           .WithMessage(MustHaveAdresOrAdresIdMessage);
 
-        RuleFor(request => request.AdresId)
-           .SetValidator(new AdresIdValidator()!);
+        RuleFor(locatie => locatie.Adres)
+           .SetValidator(new AdresValidator()!)
+           .When(locatie => locatie.Adres is not null);
+
+        RuleFor(locatie => locatie.AdresId)
+           .SetValidator(new AdresIdValidator()!)
+           .When(locatie => locatie.AdresId is not null);
     }
+
+    private static bool HaveAdresOrAdresId(TeWijzigenLocatie loc)
+        => (loc.AdresId is not null && loc.Adres is null) || (loc.Adres is not null && loc.AdresId is null);
 
     private bool HaveAtLeastOneValue(TeWijzigenLocatie locatie)
         => locatie.Locatietype is not null ||

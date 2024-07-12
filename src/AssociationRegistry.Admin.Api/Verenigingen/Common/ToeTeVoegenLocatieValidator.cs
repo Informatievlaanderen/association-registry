@@ -8,6 +8,8 @@ using Vereniging;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 {
+    public const string MustHaveAdresOrAdresIdMessage = "'Locatie' moet of een adres of een adresId bevatten.";
+
     public ToeTeVoegenLocatieValidator()
     {
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
@@ -20,6 +22,10 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
            .WithMessage($"'Locatietype' moet een geldige waarde hebben. ({Locatietype.Correspondentie}, {Locatietype.Activiteiten})")
            .When(locatie => !string.IsNullOrEmpty(locatie.Locatietype));
 
+        RuleFor(locatie => locatie)
+           .Must(HaveAdresOrAdresId)
+           .WithMessage(MustHaveAdresOrAdresIdMessage);
+
         RuleFor(locatie => locatie.Adres)
            .SetValidator(new AdresValidator()!)
            .When(locatie => locatie.Adres is not null);
@@ -27,14 +33,10 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         RuleFor(locatie => locatie.AdresId)
            .SetValidator(new AdresIdValidator()!)
            .When(locatie => locatie.AdresId is not null);
-
-        RuleFor(locatie => locatie)
-           .Must(HaveAdresOrAdresId)
-           .WithMessage("'Locatie' moet of een adres of een adresId bevatten.");
     }
 
     private static bool HaveAdresOrAdresId(ToeTeVoegenLocatie loc)
-        => loc.AdresId is not null || loc.Adres is not null;
+        => (loc.AdresId is not null && loc.Adres is null) || (loc.Adres is not null && loc.AdresId is null);
 
     private static bool BeAValidLocationTypeValue(string locatieType)
         => Locatietype.CanParse(locatieType);

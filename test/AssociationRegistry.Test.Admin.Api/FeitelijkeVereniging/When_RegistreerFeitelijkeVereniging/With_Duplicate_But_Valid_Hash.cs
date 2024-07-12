@@ -70,9 +70,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                                                   _setup.RequestLocatie.Adres.Postcode,
                                                   _setup.RequestLocatie.Adres.Gemeente,
                                                   _setup.RequestLocatie.Adres.Land),
-                        new Registratiedata.AdresId(
-                            _setup.RequestLocatie.AdresId!.Broncode,
-                            _setup.RequestLocatie.AdresId.Bronwaarde)),
+                        null),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()

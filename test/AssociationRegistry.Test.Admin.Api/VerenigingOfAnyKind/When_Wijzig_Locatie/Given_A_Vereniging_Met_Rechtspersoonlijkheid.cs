@@ -37,7 +37,6 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
             IsPrimair = !locatie.IsPrimair,
             Naam = autofixture.Create<string>(),
             Adres = autofixture.Create<Registratiedata.Adres>(),
-            AdresId = autofixture.Create<Registratiedata.AdresId>(),
         };
 
         _jsonBody = $@"{{
@@ -52,10 +51,6 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
                     ""postcode"": ""{TeWijzigenLocatie.Adres.Postcode}"",
                     ""gemeente"": ""{TeWijzigenLocatie.Adres.Gemeente}"",
                     ""land"": ""{TeWijzigenLocatie.Adres.Land}"",
-                }},
-                ""adresId"": {{
-                    ""broncode"": ""{TeWijzigenLocatie.AdresId.Broncode}"",
-                    ""bronwaarde"": ""{TeWijzigenLocatie.AdresId.Bronwaarde}"",
                 }}
             }}
         }}";

@@ -91,11 +91,6 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Speeltuin",
-                    AdresId = new AdresId
-                    {
-                        Broncode = "AR",
-                        Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "1",
-                    },
                     Adres = new Adres
                     {
                         Straatnaam = "dorpelstraat",

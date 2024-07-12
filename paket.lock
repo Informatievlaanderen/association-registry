@@ -399,7 +399,7 @@ NUGET
       Microsoft.Extensions.Primitives (>= 8.0)
     Microsoft.Extensions.Configuration.Abstractions (8.0)
       Microsoft.Extensions.Primitives (>= 8.0)
-    Microsoft.Extensions.Configuration.Binder (8.0.1)
+    Microsoft.Extensions.Configuration.Binder (8.0.2)
       Microsoft.Extensions.Configuration.Abstractions (>= 8.0)
     Microsoft.Extensions.Configuration.CommandLine (8.0)
       Microsoft.Extensions.Configuration (>= 8.0)

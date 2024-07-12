@@ -40,7 +40,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     }
 
     [Fact]
-    public void Has_no_validation_error_for_locatie_0_With_Both()
+    public void Has_validation_error_for_locatie_0_With_Both()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
         var request = new Fixture().CustomizeAdminApi().Create<RegistreerFeitelijkeVerenigingRequest>();
@@ -49,7 +49,8 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldNotHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]");
+        result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
+              .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
     }
 
     [Fact]

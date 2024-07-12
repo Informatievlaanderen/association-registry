@@ -16,7 +16,8 @@ public class With_An_Empty_Broncode : ValidatorTest
     public void Has_validation_error__broncode_mag_niet_leeg_zijn()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
+        var request = Fixture.Create<VoegLocatieToeRequest>();
+        request.Locatie.AdresId = Fixture.Create<AdresId>();
         request.Locatie.AdresId!.Broncode = string.Empty;
 
         var result = validator.TestValidate(request);

@@ -8,6 +8,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 using Xunit.Categories;
+using AdresId = Vereniging.AdresId;
 
 [UnitTest]
 public class With_A_Null_Broncode : ValidatorTest
@@ -16,7 +17,8 @@ public class With_A_Null_Broncode : ValidatorTest
     public void Has_validation_error__broncode_mag_niet_leeg_zijn()
     {
         var validator = new VoegLocatieToeValidator();
-        var request = new Fixture().CustomizeAdminApi().Create<VoegLocatieToeRequest>();
+        var request = Fixture.Create<VoegLocatieToeRequest>();
+        request.Locatie.AdresId = Fixture.Create<AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId>();
         request.Locatie.AdresId!.Broncode = null!;
 
         var result = validator.TestValidate(request);
