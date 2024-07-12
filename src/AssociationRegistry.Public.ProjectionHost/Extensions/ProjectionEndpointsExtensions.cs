@@ -4,7 +4,6 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
 using Marten.Events.Daemon;
-using Marten.Events.Daemon.Coordination;
 using Nest;
 using Projections;
 using Projections.Detail;
@@ -18,32 +17,32 @@ public static class ProjectionEndpointsExtensions
         app.MapPost(
             pattern: "v1/projections/all/rebuild",
             handler: async (
-                IProjectionCoordinator coordinator,
+                IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
-                    var projectionDaemon = coordinator.DaemonForMainDatabase();
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
                     await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
-                    var projectionDaemon = coordinator.DaemonForMainDatabase();
-                    await projectionDaemon.StopAgentAsync($"{ProjectionNames.VerenigingZoeken}:All");
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
-                    await projectionDaemon.RebuildProjectionAsync(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
+                    await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
 
                     await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
 
-                    await projectionDaemon.StopAgentAsync($"{ProjectionNames.VerenigingZoeken}:All");
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
-                    await projectionDaemon.StartAgentAsync($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
+                    await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
                 return Results.Accepted();
@@ -51,11 +50,11 @@ public static class ProjectionEndpointsExtensions
 
         app.MapPost(
             pattern: "v1/projections/detail/rebuild",
-            handler: async (IProjectionCoordinator coordinator, ILogger<Program> logger) =>
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
-                    var projectionDaemon = coordinator.DaemonForMainDatabase();
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
                     await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(shardTimeout);
                 });
 
@@ -65,26 +64,26 @@ public static class ProjectionEndpointsExtensions
         app.MapPost(
             pattern: "v1/projections/search/rebuild",
             handler: async (
-                IProjectionCoordinator coordinator,
+                IDocumentStore store,
                 IElasticClient elasticClient,
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
                 {
-                    var projectionDaemon = coordinator.DaemonForMainDatabase();
-                    await projectionDaemon.StopAgentAsync($"{ProjectionNames.VerenigingZoeken}:All");
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
 
-                    await projectionDaemon.RebuildProjectionAsync(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
+                    await projectionDaemon.RebuildProjection(ProjectionNames.VerenigingZoeken, shardTimeout, CancellationToken.None);
 
                     await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
 
-                    await projectionDaemon.StopAgentAsync($"{ProjectionNames.VerenigingZoeken}:All");
+                    await projectionDaemon.StopShard($"{ProjectionNames.VerenigingZoeken}:All");
 
-                    await projectionDaemon.StartAgentAsync($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
+                    await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
                 return Results.Accepted();
@@ -97,14 +96,14 @@ public static class ProjectionEndpointsExtensions
 
     private static async Task StopRebuildStart<TProjection>(this IProjectionDaemon projectionDaemon, TimeSpan shardTimeout)
     {
-        await projectionDaemon.StopAgentAsync($"{typeof(TProjection).FullName}:All");
-        await projectionDaemon.RebuildProjectionAsync<TProjection>(shardTimeout, CancellationToken.None);
+        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
+        await projectionDaemon.RebuildProjection<TProjection>(shardTimeout, CancellationToken.None);
 
         await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
 
-        await projectionDaemon.StopAgentAsync($"{typeof(TProjection).FullName}:All");
+        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
 
-        await projectionDaemon.StartAgentAsync($"{typeof(TProjection).FullName}:All",
+        await projectionDaemon.StartShard($"{typeof(TProjection).FullName}:All",
                                           CancellationToken.None);
     }
 
