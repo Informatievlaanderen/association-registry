@@ -80,6 +80,8 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Errors.SkipApplyErrors = false;
                 opts.Projections.Errors.SkipSerializationErrors = false;
 
+                opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+
                 opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
