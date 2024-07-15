@@ -79,7 +79,7 @@ public class Program
         var app = builder.Build();
 
         app.AddProjectionEndpoints(
-            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!, CancellationToken.None);
 
         // app.SetUpSwagger();
         ConfigureHealtChecks(app);
