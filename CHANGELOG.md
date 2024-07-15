@@ -1,3 +1,10 @@
+# [8.115.0](https://github.com/informatievlaanderen/association-registry/compare/v8.114.1...v8.115.0) (2024-07-15)
+
+
+### Features
+
+* or-1822 update validators to allow either Adres or AdresId ([3d4a30b](https://github.com/informatievlaanderen/association-registry/commit/3d4a30b3357573253888f7c278108b444f961d57))
+
 ## [8.114.1](https://github.com/informatievlaanderen/association-registry/compare/v8.114.0...v8.114.1) (2024-07-12)
 
 
