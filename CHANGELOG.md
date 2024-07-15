@@ -1,3 +1,10 @@
+## [8.115.1](https://github.com/informatievlaanderen/association-registry/compare/v8.115.0...v8.115.1) (2024-07-15)
+
+
+### Bug Fixes
+
+* or-1822 allow both adres and adres id be null on wijziglocatie ([d345f22](https://github.com/informatievlaanderen/association-registry/commit/d345f2242b1c499468ac483bbc19c5d1f34e0472))
+
 # [8.115.0](https://github.com/informatievlaanderen/association-registry/compare/v8.114.1...v8.115.0) (2024-07-15)
 
 
