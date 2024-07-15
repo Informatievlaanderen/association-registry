@@ -1,3 +1,11 @@
+## [8.115.2](https://github.com/informatievlaanderen/association-registry/compare/v8.115.1...v8.115.2) (2024-07-15)
+
+
+### Bug Fixes
+
+* OR-2291 add resiliency, do skip events on failure ([f00aee7](https://github.com/informatievlaanderen/association-registry/commit/f00aee7f630f77e027493d8f1ed045f6675f5f86))
+* OR-2291 add rewind functionality ([b4b2dd7](https://github.com/informatievlaanderen/association-registry/commit/b4b2dd7fc5b69309c400417f122ea28507bf67c1))
+
 ## [8.115.1](https://github.com/informatievlaanderen/association-registry/compare/v8.115.0...v8.115.1) (2024-07-15)
 
 
