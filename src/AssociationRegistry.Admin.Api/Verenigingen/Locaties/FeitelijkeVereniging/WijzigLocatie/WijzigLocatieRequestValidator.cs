@@ -35,7 +35,7 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
            .When(locatie => locatie.Locatietype is not null);
 
         RuleFor(locatie => locatie)
-           .Must(HaveAdresOrAdresId)
+           .Must(HaveAdresOrAdresIdOrBothBeNull)
            .WithMessage(MustHaveAdresOrAdresIdMessage);
 
         RuleFor(locatie => locatie.Adres)
@@ -47,8 +47,9 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
            .When(locatie => locatie.AdresId is not null);
     }
 
-    private static bool HaveAdresOrAdresId(TeWijzigenLocatie loc)
-        => (loc.AdresId is not null && loc.Adres is null) || (loc.Adres is not null && loc.AdresId is null);
+    private static bool HaveAdresOrAdresIdOrBothBeNull(TeWijzigenLocatie loc)
+        => (loc.AdresId is not null && loc.Adres is null) || (loc.Adres is not null && loc.AdresId is null)
+        || (loc.AdresId is null && loc.Adres is null);
 
     private bool HaveAtLeastOneValue(TeWijzigenLocatie locatie)
         => locatie.Locatietype is not null ||
