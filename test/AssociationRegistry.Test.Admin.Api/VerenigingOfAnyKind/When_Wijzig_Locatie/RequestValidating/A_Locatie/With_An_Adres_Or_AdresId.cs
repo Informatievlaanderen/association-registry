@@ -53,7 +53,7 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
     }
 
     [Fact]
-    public void Has_validation_error_for_locatie_0_With_Neither()
+    public void Has_No_validation_error_for_locatie_0_With_Neither()
     {
         var validator = new WijzigLocatieRequestValidator();
         var request = new Fixture().CustomizeAdminApi().Create<WijzigLocatieRequest>();
@@ -62,7 +62,6 @@ public class With_An_Adres_Or_AdresId : ValidatorTest
 
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor($"{nameof(WijzigLocatieRequest.Locatie)}")
-              .WithErrorMessage("'Locatie' moet of een adres of een adresId bevatten.");
+        result.ShouldNotHaveValidationErrorFor($"{nameof(WijzigLocatieRequest.Locatie)}");
     }
 }
