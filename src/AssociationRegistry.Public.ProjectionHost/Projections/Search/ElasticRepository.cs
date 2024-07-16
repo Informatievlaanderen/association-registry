@@ -46,6 +46,8 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+
+
     public async Task<VerenigingZoekDocument.Locatie> GetLocatie(string id, int locatieId)
     {
         var response = await _elasticClient.GetAsync<VerenigingZoekDocument>(id);
@@ -88,6 +90,31 @@ public class ElasticRepository : IElasticRepository
                     .Params(objects => objects
                                       .Add(key: "locatieId", locatie.LocatieId)
                                       .Add(key: "locatie", locatie))));
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
+    public async Task UpdateAdres(string id, int locatieId, string adresVoorstelling, string postcode, string gemeente)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source(
+                         "for (l in ctx._source.locaties) {" +
+                         "    if (l.locatieId == params.locatieId) {" +
+                         "        if (params.adresvoorstelling != null) l.adresvoorstelling = params.adresvoorstelling;" +
+                         "        if (params.postcode != null) l.postcode = params.postcode;" +
+                         "        if (params.gemeente != null) l.gemeente = params.gemeente;" +
+                         "    }" +
+                         "}")
+                    .Params(objects => objects
+                                      .Add("locatieId", locatieId)
+                                      .Add("adresvoorstelling", adresVoorstelling)
+                                      .Add("postcode", postcode)
+                                      .Add("gemeente", gemeente)
+                     )));
 
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);
