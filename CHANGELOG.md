@@ -1,3 +1,15 @@
+# [8.118.0](https://github.com/informatievlaanderen/association-registry/compare/v8.117.0...v8.118.0) (2024-07-16)
+
+
+### Features
+
+* or-2159 one time adresmatch adresses without adresid ([fe98a30](https://github.com/informatievlaanderen/association-registry/commit/fe98a301b9b07ae3494e4be67ae639f72987ffdf))
+
+
+### Reverts
+
+* Revert "fix: OR-2291 add rewind functionality" ([ad217ee](https://github.com/informatievlaanderen/association-registry/commit/ad217ee889fe2ed504025ea506143e2b55d3c4a8))
+
 # [8.117.0](https://github.com/informatievlaanderen/association-registry/compare/v8.116.0...v8.117.0) (2024-07-16)
 
 
