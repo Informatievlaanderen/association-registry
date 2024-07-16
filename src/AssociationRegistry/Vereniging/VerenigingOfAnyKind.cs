@@ -86,13 +86,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
 
-    public void VoegLocatieToe(Locatie toeTeVoegenLocatie)
+    public Locatie VoegLocatieToe(Locatie toeTeVoegenLocatie)
     {
         Throw<MaatschappelijkeZetelIsNietToegestaan>.If(toeTeVoegenLocatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
         AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
+
+        return toegevoegdeLocatie;
     }
 
     public void WijzigLocatie(int locatieId, string? naam, Locatietype? locatietype, bool? isPrimair, AdresId? adresId, Adres? adres)
@@ -235,21 +237,31 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         }
     }
 
-    public async Task NeemAdresDetailOver(int locatieId, AdresId adresId, IGrarClient grarClient, CancellationToken cancellationToken)
+    public async Task NeemAdresDetailOver(
+        int locatieId,
+        IGrarClient grarClient,
+        CancellationToken cancellationToken)
     {
-        var adresDetailResponse = await grarClient.GetAddressById(adresId.ToString(), cancellationToken);
+        var locatie = State.Locaties[locatieId]!;
+        var adresDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToString(), cancellationToken);
 
         if (!adresDetailResponse.IsActief)
             throw new AdressenregisterReturnedInactiefAdres();
 
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+        var decoratedAdres = AdresDetailUitAdressenregister
+                              .FromResponse(adresDetailResponse)
+                              .DecorateWithPostalInformation(
+                                   adresDetailResponse.Gemeente, postalInformation);
+
+        var decoratedLocatie = locatie.DecorateWithAdresDetail(decoratedAdres);
+
+        State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
+
+        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                     adresDetailResponse.AdresId,
-                                                    Registratiedata.AdresUitAdressenregister.With(AdresDetailUitAdressenregister
-                                                           .FromResponse(adresDetailResponse)
-                                                           .DecorateWithPostalInformation(
-                                                                adresDetailResponse.Gemeente, postalInformation))));
+                                                    Registratiedata.AdresUitAdressenregister.With(decoratedAdres)));
 
     }
 
