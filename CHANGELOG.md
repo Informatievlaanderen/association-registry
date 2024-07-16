@@ -1,3 +1,11 @@
+# [8.116.0](https://github.com/informatievlaanderen/association-registry/compare/v8.115.2...v8.116.0) (2024-07-16)
+
+
+### Features
+
+* or-1428 return better message ([4f2eedf](https://github.com/informatievlaanderen/association-registry/commit/4f2eedf9bdb39f38fbb34f61dad315bdfe2291ed))
+* or-1428 use addressregistry to enrich location address ([44c9d0e](https://github.com/informatievlaanderen/association-registry/commit/44c9d0ed91c5679efa65dd79616615e04310a300))
+
 ## [8.115.2](https://github.com/informatievlaanderen/association-registry/compare/v8.115.1...v8.115.2) (2024-07-15)
 
 
