@@ -2,6 +2,7 @@
 
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -52,6 +53,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                                                              Mock.Of<IMartenOutbox>(),
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
+                                                             Mock.Of<IGrarClient>(),
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler

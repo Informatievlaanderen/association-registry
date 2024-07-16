@@ -1,8 +1,9 @@
 ﻿namespace AssociationRegistry.Grar.Exceptions;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using System.Net;
 
-public class AdressenregisterReturnedGoneStatusCode(string message) : ApplicationException(message)
+public class AdressenregisterReturnedGoneStatusCode(string message) : DomainException(message)
 {
     public HttpStatusCode StatusCode = HttpStatusCode.Gone;
 

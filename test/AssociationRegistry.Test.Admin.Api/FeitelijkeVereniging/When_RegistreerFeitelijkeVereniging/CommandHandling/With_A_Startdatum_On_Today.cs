@@ -2,6 +2,7 @@
 
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -38,6 +39,7 @@ public class With_A_Startdatum_On_Today
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
+            Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler

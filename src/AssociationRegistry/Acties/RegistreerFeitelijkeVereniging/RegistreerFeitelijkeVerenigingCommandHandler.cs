@@ -3,6 +3,7 @@
 using DuplicateVerenigingDetection;
 using Events;
 using Framework;
+using Grar;
 using Grar.AddressMatch;
 using Marten;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ using Wolverine.Marten;
 public class RegistreerFeitelijkeVerenigingCommandHandler
 {
     private readonly IClock _clock;
+    private readonly IGrarClient _grarClient;
     private readonly ILogger<RegistreerFeitelijkeVerenigingCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
@@ -27,6 +29,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         IMartenOutbox outbox,
         IDocumentSession session,
         IClock clock,
+        IGrarClient grarClient,
         ILogger<RegistreerFeitelijkeVerenigingCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
@@ -35,6 +38,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         _outbox = outbox;
         _session = session;
         _clock = clock;
+        _grarClient = grarClient;
         _logger = logger;
     }
 
@@ -75,10 +79,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
         {
-            if (teSynchroniserenLocatie.Adres is not null)
-            {
-                await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
-            }
+            await SynchroniseerLocatie(cancellationToken, teSynchroniserenLocatie, vereniging, vCode);
         }
 
         var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
@@ -86,5 +87,21 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} end");
 
         return Result.Success(CommandResult.Create(vCode, result));
+    }
+
+    private async Task SynchroniseerLocatie(
+        CancellationToken cancellationToken,
+        Registratiedata.Locatie teSynchroniserenLocatie,
+        Vereniging vereniging,
+        VCode vCode)
+    {
+        if (teSynchroniserenLocatie.AdresId is not null)
+        {
+            await vereniging.NeemAdresDetailOver(teSynchroniserenLocatie.LocatieId, teSynchroniserenLocatie.AdresId, _grarClient, cancellationToken);
+        }
+        else if (teSynchroniserenLocatie.Adres is not null)
+        {
+            await _outbox.SendAsync(new TeAdresMatchenLocatieMessage(vCode.Value, teSynchroniserenLocatie.LocatieId));
+        }
     }
 }

@@ -106,10 +106,14 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Zwembad",
-                    AdresId = new AdresId
+                    Adres = new Adres
                     {
-                        Broncode = "AR",
-                        Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "5",
+                        Straatnaam = "dorpelstraat",
+                        Huisnummer = "169",
+                        Busnummer = "2",
+                        Postcode = "4567",
+                        Gemeente = "Nothingham",
+                        Land = "Belgie",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
@@ -283,9 +287,6 @@ public class With_All_Fields
                                                         "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 
                                                 session.SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(savedEvent.VCode)
-                                                       .Should().NotBeNull();
-
-                                                session.SingleOrDefaultFromStream<AdresWerdNietGevondenInAdressenregister>(savedEvent.VCode)
                                                        .Should().NotBeNull();
                                             }
                                         });

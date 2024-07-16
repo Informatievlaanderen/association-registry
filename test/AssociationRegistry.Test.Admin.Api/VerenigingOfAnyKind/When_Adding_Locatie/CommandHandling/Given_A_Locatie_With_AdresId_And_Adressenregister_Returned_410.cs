@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Loc
 using Acties.VoegLocatieToe;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -16,36 +18,37 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Locatie
+public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_410
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async Task Then_Throws_AdressenregisterReturnedGoneStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
 
+        var grarClient = new Mock<IGrarClient>();
+
         var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
-                                                              Mock.Of<IGrarClient>()
+                                                              grarClient.Object
         );
 
-        var command = new VoegLocatieToeCommand(scenario.VCode, fixture.Create<Locatie>() with
+        var adresId = fixture.Create<AdresId>();
+
+        var locatie = fixture.Create<Locatie>() with
         {
-            AdresId = null
-        });
+            AdresId = adresId,
+            Adres = null,
+        };
+        var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
-        await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));
+        grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
+                  .ThrowsAsync(new AdressenregisterReturnedGoneStatusCode());
 
-        verenigingRepositoryMock.ShouldHaveSaved(
-            new LocatieWerdToegevoegd(
-                Registratiedata.Locatie.With(command.Locatie) with
-                {
-                    LocatieId = expectedLocatieId,
-                })
-        );
+        await Assert.ThrowsAsync<AdressenregisterReturnedGoneStatusCode>(async () => await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
     }
 
     public static IEnumerable<object[]> Data

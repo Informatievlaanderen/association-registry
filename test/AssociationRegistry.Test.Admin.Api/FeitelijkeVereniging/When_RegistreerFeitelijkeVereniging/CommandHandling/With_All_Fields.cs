@@ -2,6 +2,7 @@
 
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -39,6 +40,7 @@ public class With_All_Fields
                                                              Mock.Of<IMartenOutbox>(),
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
+                                                             Mock.Of<IGrarClient>(),
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
@@ -81,7 +83,7 @@ public class With_All_Fields
                                                       l.Adres.Postcode,
                                                       l.Adres.Gemeente,
                                                       l.Adres.Land),
-                            new Registratiedata.AdresId(l.AdresId!.Adresbron.Code, l.AdresId.Bronwaarde))
+                            null)
                 ).ToArray(),
                 _command.Vertegenwoordigers.Select(
                     (v, i) =>

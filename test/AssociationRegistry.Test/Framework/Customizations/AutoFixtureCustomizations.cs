@@ -89,7 +89,7 @@ public static class AutoFixtureCustomizations
                         fixture.Create<Locatienaam>(),
                         false,
                         Locatietype.Activiteiten,
-                        fixture.Create<AdresId>(),
+                        null,
                         fixture.Create<Adres>())
             ).OmitAutoProperties()
         );
