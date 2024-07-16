@@ -1,3 +1,10 @@
+# [8.117.0](https://github.com/informatievlaanderen/association-registry/compare/v8.116.0...v8.117.0) (2024-07-16)
+
+
+### Features
+
+* or-1428 check for duplicate locatie after synchronisatie adres ([3941f0e](https://github.com/informatievlaanderen/association-registry/commit/3941f0ed5e02b788ee28d36c319ca774f2738483))
+
 # [8.116.0](https://github.com/informatievlaanderen/association-registry/compare/v8.115.2...v8.116.0) (2024-07-16)
 
 
