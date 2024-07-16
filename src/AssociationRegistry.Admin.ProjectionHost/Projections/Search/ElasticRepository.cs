@@ -114,6 +114,32 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task UpdateAdres<T>(string id, int locatieId, string adresVoorstelling, string postcode, string gemeente) where T : class
+    {
+       var response = await _elasticClient.UpdateAsync<T>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source(
+                         "for (l in ctx._source.locaties) {" +
+                         "    if (l.locatieId == params.locatieId) {" +
+                         "        if (params.adresvoorstelling != null) l.adresvoorstelling = params.adresvoorstelling;" +
+                         "        if (params.postcode != null) l.postcode = params.postcode;" +
+                         "        if (params.gemeente != null) l.gemeente = params.gemeente;" +
+                         "    }" +
+                         "}")
+                    .Params(objects => objects
+                                      .Add("locatieId", locatieId)
+                                      .Add("adresvoorstelling", adresVoorstelling)
+                                      .Add("postcode", postcode)
+                                      .Add("gemeente", gemeente)
+                     )));
+
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
     public async Task RemoveLocatie<T>(string id, int locatieId) where T : class
     {
         var response = await _elasticClient.UpdateAsync<T>(

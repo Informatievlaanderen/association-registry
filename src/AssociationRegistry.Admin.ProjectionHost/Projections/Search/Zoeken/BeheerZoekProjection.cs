@@ -385,20 +385,22 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<AdresWerdOvergenomenUitAdressenregister> message)
     {
-        var locatie = await _elasticRepository.GetLocatie(message.VCode, message.Data.LocatieId);
-
-        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+        await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
-            Map(locatie, message.Data.Adres, message.VCode));
+            message.Data.LocatieId,
+            message.Data.Adres.ToAdresString(),
+            message.Data.Adres.Postcode,
+            message.Data.Adres.Gemeente);
     }
 
     public async Task Handle(EventEnvelope<AdresWerdGewijzigdInAdressenregister> message)
     {
-        var locatie = await _elasticRepository.GetLocatie(message.VCode, message.Data.LocatieId);
-
-        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+        await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
-            Map(locatie, message.Data.Adres, message.VCode));
+            message.Data.LocatieId,
+            message.Data.Adres.ToAdresString(),
+            message.Data.Adres.Postcode,
+            message.Data.Adres.Gemeente);
     }
 
     public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
