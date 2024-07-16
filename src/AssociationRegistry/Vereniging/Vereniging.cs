@@ -185,4 +185,21 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
         State = obj;
     }
+
+    public async Task NeemAdresDetailOver(int locatieId, Registratiedata.AdresId adresId, IGrarClient grarClient, CancellationToken cancellationToken)
+    {
+        var adresDetailResponse = await grarClient.GetAddressById(adresId.ToString(), cancellationToken);
+
+        if (!adresDetailResponse.IsActief)
+            throw new AdressenregisterReturnedInactiefAdres();
+
+        var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
+
+        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                             adresDetailResponse.AdresId,
+                                                             Registratiedata.AdresUitAdressenregister.With(AdresDetailUitAdressenregister
+                                                                .FromResponse(adresDetailResponse)
+                                                                .DecorateWithPostalInformation(
+                                                                     adresDetailResponse.Gemeente, postalInformation))));
+    }
 }

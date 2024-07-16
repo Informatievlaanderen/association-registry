@@ -3,6 +3,8 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressMatch;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -11,72 +13,93 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
+using Wolverine;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Required_Fields
+public class With_Locatie_With_AdresId
 {
-    private const string Naam = "naam1";
-    private readonly InMemorySequentialVCodeService _vCodeService;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-
-    public With_Required_Fields()
+    [Fact]
+    public void Then_it_saves_the_event()
     {
-        _verenigingRepositoryMock = new VerenigingRepositoryMock();
-        _vCodeService = new InMemorySequentialVCodeService();
+        var verenigingRepositoryMock = new VerenigingRepositoryMock();
+        var vCodeService = new InMemorySequentialVCodeService();
+        const string naam = "De sjiekste club";
+
+        var grarClient = new Mock<IGrarClient>();
+        var martenOutbox = new Mock<IMartenOutbox>();
 
         var fixture = new Fixture().CustomizeAdminApi();
         var today = fixture.Create<DateOnly>();
 
         var clock = new ClockStub(today);
 
+        var locatie = fixture.Create<Locatie>() with
+        {
+            LocatieId = 1,
+            AdresId = fixture.Create<AdresId>()
+        };
+
+        var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
+        {
+            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde),
+            IsActief = true
+        };
+
+        grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
+                  .ReturnsAsync(adresDetailResponse);
+
         var command = new RegistreerFeitelijkeVerenigingCommand(
-            VerenigingsNaam.Create(Naam),
+            VerenigingsNaam.Create(naam),
             KorteNaam: null,
             KorteBeschrijving: null,
             Startdatum: null,
             Doelgroep.Null,
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Contactgegeven>(),
-            Array.Empty<Locatie>(),
+            new[]
+            {
+                locatie
+            },
             Array.Empty<Vertegenwoordiger>(),
             Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock,
-                                                             _vCodeService,
+            new RegistreerFeitelijkeVerenigingCommandHandler(verenigingRepositoryMock,
+                                                             vCodeService,
                                                              new NoDuplicateVerenigingDetectionService(),
-                                                             Mock.Of<IMartenOutbox>(),
+                                                             martenOutbox.Object,
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
-                                                             Mock.Of<IGrarClient>(),
+                                                             grarClient.Object,
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
            .GetAwaiter()
            .GetResult();
-    }
 
-    [Fact]
-    public void Then_it_saves_the_event()
-    {
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSaved(
             new FeitelijkeVerenigingWerdGeregistreerd(
-                _vCodeService.GetLast(),
-                Naam,
+                vCodeService.GetLast(),
+                naam,
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
                 Registratiedata.Doelgroep.With(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
-                Array.Empty<Registratiedata.Locatie>(),
+                new[] { Registratiedata.Locatie.With(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()));
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+            new AdresWerdOvergenomenUitAdressenregister(vCodeService.GetLast(), 1, adresDetailResponse.AdresId,
+                                                        adresDetailResponse.ToAdresUitAdressenregister())
+        );
+
+        martenOutbox.Verify(v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
     }
 }

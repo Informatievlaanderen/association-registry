@@ -2,6 +2,7 @@
 
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AutoFixture;
 using DuplicateVerenigingDetection;
 using Events;
@@ -31,7 +32,10 @@ public class With_A_PotentialDuplicate_And_Force
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var locatie = fixture.Create<Locatie>();
+        var locatie = fixture.Create<Locatie>() with
+        {
+            AdresId = null,
+        };
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
 
         _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
@@ -62,6 +66,7 @@ public class With_A_PotentialDuplicate_And_Force
             Mock.Of<IMartenOutbox>(),
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
+            Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),

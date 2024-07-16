@@ -8,7 +8,20 @@ using Xunit;
 public class With_One_PostalName
 {
     [Fact]
-    public void Then_Takes_The_PostalName_And_MunicipalityName()
+    public void Then_Takes_The_PostalName_And_MunicipalityName_Halle()
+    {
+        var sut = new AdresMatchUitAdressenregister()
+        {
+            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1501", "Halle", "Belgie"),
+        };
+
+        var result = sut.DecorateWithPostalInformation("Halle", new PostalInformationResponse("1501", "Halle", new[] { "Buizingen" }));
+
+        result.Adres.Gemeente.Should().Be("Buizingen (Halle)");
+    }
+
+    [Fact]
+    public void Then_Takes_The_PostalName_And_MunicipalityName_NothingHam()
     {
         var sut = new AdresMatchUitAdressenregister()
         {

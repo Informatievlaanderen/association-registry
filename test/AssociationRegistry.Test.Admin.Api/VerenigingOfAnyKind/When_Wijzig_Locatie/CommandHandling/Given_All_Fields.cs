@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Wijzig_Loc
 
 using Acties.WijzigLocatie;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
 using AutoFixture;
 using Events;
 using Fakes;
@@ -32,7 +33,8 @@ public class Given_All_Fields
 
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
                                                           Mock.Of<IMartenOutbox>(),
-                                                          Mock.Of<IDocumentSession>()
+                                                          Mock.Of<IDocumentSession>(),
+            Mock.Of<IGrarClient>()
         );
 
         _locatie = new WijzigLocatieCommand.Locatie(
@@ -41,7 +43,7 @@ public class Given_All_Fields
             !_scenario.LocatieWerdToegevoegd.Locatie.IsPrimair,
             _fixture.Create<string>(),
             _fixture.Create<Adres>(),
-            _fixture.Create<AdresId>());
+            null);
     }
 
     [Fact]

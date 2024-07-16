@@ -79,6 +79,9 @@ public static class Registratiedata
 
         public static bool operator !=(AdresId first, Vereniging.AdresId second)
             => first.Broncode != second.Adresbron.Code || first.Bronwaarde != second.Bronwaarde;
+
+        public override string ToString()
+            => new Uri(Bronwaarde).Segments.Last();
     }
 
     public record AdresUitAdressenregister(

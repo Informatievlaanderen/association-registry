@@ -211,6 +211,9 @@
   <data name="AdresKonNietOvergenomenWorden" xml:space="preserve">
     <value>Adressenregister niet bereikbaar of foutieve request.</value>
   </data>
+  <data name="AdresInactief" xml:space="preserve">
+    <value>Dit adres is niet meer actief in het adressenregister.</value>
+  </data>
   <data name="AdresVerwijderd" xml:space="preserve">
     <value>Het adres is verwijderd uit het adressenregister.</value>
   </data>

@@ -78,6 +78,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Dit adres is niet meer actief in het adressenregister..
+        /// </summary>
+        public static string AdresInactief {
+            get {
+                return ResourceManager.GetString("AdresInactief", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adressenregister niet bereikbaar of foutieve request..
         /// </summary>
         public static string AdresKonNietOvergenomenWorden {

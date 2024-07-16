@@ -44,4 +44,7 @@ public record AdresId
 
     public static AdresId Hydrate(AdresWerdOvergenomenUitAdressenregister adres)
         => Create(adres.AdresId.Broncode, adres.AdresId.Bronwaarde);
+
+    public override string ToString()
+        => new Uri(Bronwaarde).Segments.Last();
 }
