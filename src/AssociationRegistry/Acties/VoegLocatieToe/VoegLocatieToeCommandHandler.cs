@@ -31,12 +31,14 @@ public class VoegLocatieToeCommandHandler
     public async Task<CommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
     {
         var vereniging =
-            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+            await _verenigingRepository.Load<VerenigingOfAnyKind>(
+                VCode.Create(envelope.Command.VCode),
+                envelope.Metadata.ExpectedVersion);
 
         var locatie = envelope.Command.Locatie;
-        vereniging.VoegLocatieToe(locatie);
+        var toegevoegdeLocatie = vereniging.VoegLocatieToe(locatie);
 
-        await SynchroniseerLocatie(envelope, cancellationToken, locatie, vereniging);
+        await SynchroniseerLocatie(envelope, cancellationToken, toegevoegdeLocatie, vereniging);
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 
@@ -51,7 +53,7 @@ public class VoegLocatieToeCommandHandler
     {
         if (locatie.AdresId is not null)
         {
-            await vereniging.NeemAdresDetailOver(locatie.LocatieId, locatie.AdresId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(locatie.LocatieId, _grarClient, cancellationToken);
         }
         else if(locatie.Adres is not null)
         {

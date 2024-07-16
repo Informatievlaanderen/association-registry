@@ -31,11 +31,11 @@ public record Adres
         return new Adres(straatnaam, huisnummer, busnummer ?? string.Empty, postcode, gemeente, land);
     }
 
-    public string Straatnaam { get; }
-    public string Huisnummer { get; }
-    public string Busnummer { get; }
+    public string Straatnaam { get; init; }
+    public string Huisnummer { get; init; }
+    public string Busnummer { get; init; }
     public string Postcode { get; set; }
-    public string Gemeente { get; }
+    public string Gemeente { get; init; }
     public string Land { get; init; }
 
     public static Adres Hydrate(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)

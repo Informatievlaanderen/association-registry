@@ -56,7 +56,7 @@ public class WijzigLocatieCommandHandler
     {
         if (adresId is not null)
         {
-            await vereniging.NeemAdresDetailOver(locatieId, adresId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(locatieId, _grarClient, cancellationToken);
         }
         else if(adres is not null)
         {

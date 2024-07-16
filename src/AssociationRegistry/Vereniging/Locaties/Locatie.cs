@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Events;
 using Exceptions;
 using Framework;
 
@@ -88,6 +89,19 @@ public record Locatie
 
     public Locatie Wijzig(string? naam, bool? isPrimair)
         => Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+
+    public Locatie DecorateWithAdresDetail(AdresDetailUitAdressenregister decoratedAdres)
+        => this with
+        {
+            Adres = Adres.Create(
+                straatnaam: decoratedAdres.Adres.Straatnaam,
+                huisnummer: decoratedAdres.Adres.Huisnummer,
+                busnummer: decoratedAdres.Adres.Busnummer,
+                postcode: decoratedAdres.Adres.Postcode,
+                gemeente: decoratedAdres.Adres.Gemeente,
+                Adres.Belgie
+            ),
+        };
 }
 
 public record Locatienaam

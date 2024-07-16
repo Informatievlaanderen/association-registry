@@ -13,19 +13,20 @@ using Framework;
 using Marten;
 using Moq;
 using Vereniging;
+using Vereniging.Exceptions;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Locatie_With_Adres_id
+public class Given_An_Existing_Locatie_Without_AdresId
 {
 
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
@@ -40,15 +41,24 @@ public class Given_A_Locatie_With_Adres_id
         );
 
         var adresId = fixture.Create<AdresId>();
+        var scenarioAdres = scenario.LocatieWerdToegevoegd.Locatie.Adres;
+
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
+            Gemeente = scenarioAdres.Gemeente,
+            Busnummer = scenarioAdres.Busnummer,
+            Huisnummer = scenarioAdres.Huisnummer,
+            Postcode = scenarioAdres.Postcode,
+            Straatnaam = scenarioAdres.Straatnaam,
             IsActief = true
         };
 
         var locatie = fixture.Create<Locatie>() with
         {
             AdresId = adresId,
+            Naam = scenario.LocatieWerdToegevoegd.Locatie.Naam,
+            Locatietype = scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
             Adres = null,
         };
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
@@ -56,19 +66,8 @@ public class Given_A_Locatie_With_Adres_id
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(adresDetailResponse);
 
-        await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));
-
-        var maxLocatieId = scenario.GetVerenigingState().Locaties.Max(x => x.LocatieId) + 1;
-
-        verenigingRepositoryMock.ShouldHaveSaved(
-            new LocatieWerdToegevoegd(
-                Registratiedata.Locatie.With(command.Locatie) with
-                {
-                    LocatieId = maxLocatieId,
-                }),
-            new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, maxLocatieId, adresDetailResponse.AdresId, adresDetailResponse.ToAdresUitAdressenregister())
-        );
-
-        martenOutbox.Verify(v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
+        await Assert.ThrowsAsync<LocatieIsNietUniek>(
+            async () =>
+                await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
     }
 }
