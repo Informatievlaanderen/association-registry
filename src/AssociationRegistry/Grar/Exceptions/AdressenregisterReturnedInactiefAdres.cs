@@ -7,7 +7,7 @@ public class AdressenregisterReturnedInactiefAdres : DomainException
 {
     public HttpStatusCode StatusCode { get; }
 
-    public AdressenregisterReturnedInactiefAdres() : base(ExceptionMessages.AdresKonNietOvergenomenWorden)
+    public AdressenregisterReturnedInactiefAdres() : base(ExceptionMessages.AdresInactief)
     {
     }
 }
