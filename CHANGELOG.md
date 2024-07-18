@@ -1,3 +1,10 @@
+# [8.119.0](https://github.com/informatievlaanderen/association-registry/compare/v8.118.0...v8.119.0) (2024-07-18)
+
+
+### Features
+
+* nuget package setup contained missing library errors ([c2b10ac](https://github.com/informatievlaanderen/association-registry/commit/c2b10ac9d68a88e32d10b29eb5989aae18e9adbd))
+
 # [8.118.0](https://github.com/informatievlaanderen/association-registry/compare/v8.117.0...v8.118.0) (2024-07-16)
 
 
