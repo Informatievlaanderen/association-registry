@@ -1,3 +1,10 @@
+## [8.119.1](https://github.com/informatievlaanderen/association-registry/compare/v8.119.0...v8.119.1) (2024-07-18)
+
+
+### Bug Fixes
+
+* or-2308 return 400 status code for all external address registry 4xx responses ([0d65665](https://github.com/informatievlaanderen/association-registry/commit/0d656657d19c044c4e44297958562d00c06ef537))
+
 # [8.119.0](https://github.com/informatievlaanderen/association-registry/compare/v8.118.0...v8.119.0) (2024-07-18)
 
 
