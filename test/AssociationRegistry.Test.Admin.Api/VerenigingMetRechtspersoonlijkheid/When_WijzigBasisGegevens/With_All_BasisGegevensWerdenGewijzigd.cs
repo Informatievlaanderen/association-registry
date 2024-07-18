@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using AutoFixture;
 using Events;
@@ -9,6 +8,7 @@ using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;

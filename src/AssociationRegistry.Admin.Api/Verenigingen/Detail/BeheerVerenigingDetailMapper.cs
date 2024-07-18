@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
 using System.Linq;

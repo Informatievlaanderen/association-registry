@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using DuplicateVerenigingDetection;
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using System;
 using System.Collections.Immutable;
 using System.Linq;

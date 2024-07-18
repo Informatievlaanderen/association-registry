@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Magda.Configuration;
+namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
 using System.Security.Cryptography.X509Certificates;
 

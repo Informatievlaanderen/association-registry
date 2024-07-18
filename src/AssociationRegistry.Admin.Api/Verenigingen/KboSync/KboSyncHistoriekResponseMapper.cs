@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.KboSync;
 using System.Collections.Generic;

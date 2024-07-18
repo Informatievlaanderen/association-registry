@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Retrieving_Detail.When_Mapping_A_Location_To_Adres;
 
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using Xunit.Categories;
 

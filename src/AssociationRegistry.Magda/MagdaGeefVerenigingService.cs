@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Magda;
 
-using Configuration;
 using Constants;
 using Exceptions;
 using Extensions;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using Microsoft.Extensions.Logging;
 using Models;

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using ConfigurationBindings;
 using Constants;
 using GrarSync;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Json;
 using Magda.Models;

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
+namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
 public class ElasticSearchOptionsSection
 {

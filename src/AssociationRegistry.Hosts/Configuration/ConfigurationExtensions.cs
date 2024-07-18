@@ -1,9 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using AssociationRegistry.Configuration;
-using ConfigurationBindings;
 using Framework;
-using Magda.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;

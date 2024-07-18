@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Magda.Models.RegistreerInschrijving;
 
-using Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Repertorium.RegistreerInschrijving;
 using System.Xml.Serialization;
 
