@@ -29,9 +29,15 @@ public class GrarClient : IGrarClient
                 await _grarHttpClient.GetAddressById(adresId, CancellationToken.None);
 
             if (!response.IsSuccessStatusCode)
-                throw response.StatusCode == HttpStatusCode.Gone
-                    ? new AdressenregisterReturnedGoneStatusCode()
-                    : new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
+            {
+                throw response.StatusCode switch
+                {
+                    HttpStatusCode.BadRequest => new AdressenregisterReturnedClientErrorStatusCode(response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.NotFound => new AdressenregisterReturnedClientErrorStatusCode(response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.Gone => new AdressenregisterReturnedGoneStatusCode(),
+                    _ => new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode)
+                };
+            }
 
             var addressDetailOsloResponse =
                 JsonConvert.DeserializeObject<AddressDetailOsloResponse>(await response.Content.ReadAsStringAsync(cancellationToken));
@@ -65,6 +71,13 @@ public class GrarClient : IGrarClient
         catch (AdressenregisterReturnedNonSuccessStatusCode ex)
         {
             _logger.LogError(ex, message: "An non-success status code occurred when calling the address match endpoint: {Message}",
+                             ex.Message);
+
+            throw;
+        }
+        catch (AdressenregisterReturnedClientErrorStatusCode ex)
+        {
+            _logger.LogError(ex, message: "A client error status code occurred when calling the address match endpoint: {Message}",
                              ex.Message);
 
             throw;

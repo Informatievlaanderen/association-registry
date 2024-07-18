@@ -87,6 +87,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adres kon niet gevalideerd worden bij adressenregister..
+        /// </summary>
+        public static string AdresKonNietGevalideerdWordenBijAdressenregister {
+            get {
+                return ResourceManager.GetString("AdresKonNietGevalideerdWordenBijAdressenregister", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adressenregister niet bereikbaar of foutieve request..
         /// </summary>
         public static string AdresKonNietOvergenomenWorden {
