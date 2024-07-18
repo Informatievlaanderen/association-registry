@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Magda.Models.GeefOnderneming;
 
-using Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Onderneming.GeefOnderneming;
 using System.Xml.Serialization;
 

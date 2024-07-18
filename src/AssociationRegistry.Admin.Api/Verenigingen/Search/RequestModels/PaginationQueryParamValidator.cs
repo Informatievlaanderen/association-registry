@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 
 using FluentValidation;
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 
 public class PaginationQueryParamsValidator : AbstractValidator<PaginationQueryParams>
 {

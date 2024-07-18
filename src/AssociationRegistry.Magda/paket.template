@@ -26,3 +26,5 @@ files
 
   AssociationRegistry.Magda.dll => lib\net8.0
   AssociationRegistry.Magda.pdb => lib\net8.0
+  AssociationRegistry.Hosts.dll => lib\net8.0
+  AssociationRegistry.Hosts.pdb => lib\net8.0

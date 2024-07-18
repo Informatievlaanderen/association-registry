@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
 using AssociationRegistry.Test.Admin.Api.Framework;
@@ -10,6 +9,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Categories;

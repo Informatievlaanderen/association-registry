@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using DuplicateVerenigingDetection;
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections.Immutable;
 using Vereniging;

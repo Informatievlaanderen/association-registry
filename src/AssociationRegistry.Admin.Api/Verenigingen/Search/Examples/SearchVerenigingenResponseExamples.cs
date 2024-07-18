@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
 using Constants;
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;

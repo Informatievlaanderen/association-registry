@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;

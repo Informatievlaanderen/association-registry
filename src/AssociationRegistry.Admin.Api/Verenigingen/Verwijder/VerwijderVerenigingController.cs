@@ -5,7 +5,7 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using FluentValidation;
 using Framework;
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;

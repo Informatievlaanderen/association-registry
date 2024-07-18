@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;

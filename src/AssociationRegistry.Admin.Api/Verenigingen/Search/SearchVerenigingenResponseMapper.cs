@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using RequestModels;
 using ResponseModels;

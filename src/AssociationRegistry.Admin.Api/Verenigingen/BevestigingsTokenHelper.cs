@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
 
-using Infrastructure.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Newtonsoft.Json;
 using System;
 using System.Security.Cryptography;

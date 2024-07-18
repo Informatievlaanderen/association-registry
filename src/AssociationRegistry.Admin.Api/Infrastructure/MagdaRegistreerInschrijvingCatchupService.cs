@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
 using AWS;
-using ConfigurationBindings;
 using Events;
+using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using Marten;
 using Microsoft.Extensions.Logging;

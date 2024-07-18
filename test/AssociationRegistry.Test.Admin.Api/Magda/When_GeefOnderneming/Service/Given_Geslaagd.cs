@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
@@ -11,6 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

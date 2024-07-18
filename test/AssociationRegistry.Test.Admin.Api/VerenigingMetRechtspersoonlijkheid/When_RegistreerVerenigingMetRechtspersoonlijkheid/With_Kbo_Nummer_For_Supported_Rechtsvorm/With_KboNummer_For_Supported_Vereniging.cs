@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.
     With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Magda.Models;
 using Events;
 using Fixtures;
 using FluentAssertions;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Be.Vlaanderen.Basisregisters.Api;
-using ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using Vereniging;
 

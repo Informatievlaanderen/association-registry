@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestHandling;
 
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Fakes;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using Xunit.Categories;
 

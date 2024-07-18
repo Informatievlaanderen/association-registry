@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Admin.Api.Magda.When_GeefOnderneming.Service;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Configuration;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
@@ -10,6 +9,7 @@ using AssociationRegistry.Test.Framework.Customizations;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;

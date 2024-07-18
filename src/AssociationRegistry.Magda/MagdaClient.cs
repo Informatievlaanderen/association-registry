@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Magda;
 
-using Configuration;
 using Extensions;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOnderneming;

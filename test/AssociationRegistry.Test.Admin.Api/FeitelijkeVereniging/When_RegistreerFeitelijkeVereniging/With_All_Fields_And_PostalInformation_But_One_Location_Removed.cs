@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
@@ -12,6 +11,7 @@ using Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
