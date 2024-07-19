@@ -1,3 +1,10 @@
+# [8.120.0](https://github.com/informatievlaanderen/association-registry/compare/v8.119.1...v8.120.0) (2024-07-19)
+
+
+### Features
+
+* or-2239 refactor elastic update adres query ([d5a955d](https://github.com/informatievlaanderen/association-registry/commit/d5a955d7c9f623416e4c0c25f94282ed1fbd745d))
+
 ## [8.119.1](https://github.com/informatievlaanderen/association-registry/compare/v8.119.0...v8.119.1) (2024-07-18)
 
 
