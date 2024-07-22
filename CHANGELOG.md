@@ -1,3 +1,10 @@
+# [8.121.0](https://github.com/informatievlaanderen/association-registry/compare/v8.120.0...v8.121.0) (2024-07-22)
+
+
+### Features
+
+* or-2309 update github workflows to deploy scheduled task on stg & prd ([e5b904e](https://github.com/informatievlaanderen/association-registry/commit/e5b904e72ee8f59367a733ecb980cea359e23d14))
+
 # [8.120.0](https://github.com/informatievlaanderen/association-registry/compare/v8.119.1...v8.120.0) (2024-07-19)
 
 
