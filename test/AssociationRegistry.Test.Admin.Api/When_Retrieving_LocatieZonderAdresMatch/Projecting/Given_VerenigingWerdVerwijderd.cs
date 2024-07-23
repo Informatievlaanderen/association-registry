@@ -41,9 +41,9 @@ public class GivenVerenigingWerdVerwijderdFixture : MultiStreamTestFixture
                 VCode = vCode,
                 Locaties = new[]
                 {
-                    Fixture.Create<Registratiedata.Locatie>(),
-                    Fixture.Create<Registratiedata.Locatie>(),
-                    Fixture.Create<Registratiedata.Locatie>(),
+                    Fixture.Create<Registratiedata.Locatie>() with { LocatieId = 1 },
+                    Fixture.Create<Registratiedata.Locatie>() with { LocatieId = 2 },
+                    Fixture.Create<Registratiedata.Locatie>() with { LocatieId = 3 },
                 },
             },
             Fixture.Create<VerenigingWerdVerwijderd>() with { VCode = vCode },
