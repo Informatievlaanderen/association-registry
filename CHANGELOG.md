@@ -1,3 +1,11 @@
+## [8.121.1](https://github.com/informatievlaanderen/association-registry/compare/v8.121.0...v8.121.1) (2024-07-23)
+
+
+### Bug Fixes
+
+* or-2159 fixture should always use GeneratedCodeMode dynamic ([5775210](https://github.com/informatievlaanderen/association-registry/commit/57752109472c2642a69a271d6b8d8a288652a3cf))
+* or-2159 flaky tests due to not setting the location id ([68fb2ff](https://github.com/informatievlaanderen/association-registry/commit/68fb2fff682eee043b8b94165d87a087ca045448))
+
 # [8.121.0](https://github.com/informatievlaanderen/association-registry/compare/v8.120.0...v8.121.0) (2024-07-22)
 
 
