@@ -24,15 +24,12 @@ using Weasel.Core;
 using Xunit;
 using IEvent = AssociationRegistry.Framework.IEvent;
 
-
 public abstract class MultiStreamTestFixture : IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-
     private readonly TestStreamCollection _internalStreamCollection = new();
     private readonly PostgreSqlOptionsSection _postgreSqlOptions;
     private readonly IConfigurationRoot _configuration;
-
     public IHost Host { get; }
     public IDocumentStore DocumentStore { get; }
     protected Fixture Fixture { get; }
@@ -44,63 +41,53 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
         _configuration = ConfigurationHelper.GetConfiguration();
 
         _postgreSqlOptions = _configuration
-                                      .GetSection(PostgreSqlOptionsSection.SectionName)
-                                      .Get<PostgreSqlOptionsSection>(); // In your tests, you would most likely use the IHost for your
+                            .GetSection(PostgreSqlOptionsSection.SectionName)
+                            .Get<PostgreSqlOptionsSection>(); // In your tests, you would most likely use the IHost for your
 
         Host = Microsoft.Extensions.Hosting.Host.CreateDefaultBuilder()
-                                .ConfigureServices(services =>
-                                 {
-                                     var martenConfig = services.AddMarten(
-                                                                     serviceProvider =>
-                                                                     {
-                                                                         var opts = new StoreOptions();
+                        .ConfigureServices(services =>
+                         {
+                             var martenConfig = services.AddMarten(
+                                                             serviceProvider =>
+                                                             {
+                                                                 var opts = new StoreOptions();
 
-                                                                         opts.Connection(_postgreSqlOptions.GetConnectionString());
+                                                                 opts.Connection(_postgreSqlOptions.GetConnectionString());
 
-                                                                         opts.Events.StreamIdentity = StreamIdentity.AsString;
+                                                                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                                                                         opts.Events.MetadataConfig.EnableAll();
+                                                                 opts.Events.MetadataConfig.EnableAll();
 
-                                                                         opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+                                                                 opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
-                                                                         opts.Projections.Add(
-                                                                             new LocatieZonderAdresMatchProjection(
-                                                                                 serviceProvider
-                                                                                    .GetRequiredService<
-                                                                                         ILogger<LocatieZonderAdresMatchProjection>>()),
-                                                                             ProjectionLifecycle.Async);
+                                                                 opts.Projections.Add(
+                                                                     new LocatieZonderAdresMatchProjection(
+                                                                         serviceProvider
+                                                                            .GetRequiredService<
+                                                                                 ILogger<LocatieZonderAdresMatchProjection>>()),
+                                                                     ProjectionLifecycle.Async);
 
-                                                                         opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+                                                                 opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
-                                                                         opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                                                                             .UseNumericRevisions(true)
-                                                                             .UseOptimisticConcurrency(false);
+                                                                 opts.Schema.For<LocatieZonderAdresMatchDocument>()
+                                                                     .UseNumericRevisions(true)
+                                                                     .UseOptimisticConcurrency(false);
 
-                                                                         if (serviceProvider.GetRequiredService<IHostEnvironment>()
-                                                                            .IsDevelopment())
-                                                                         {
-                                                                             opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                                                                         }
-                                                                         else
-                                                                         {
-                                                                             opts.GeneratedCodeMode = TypeLoadMode.Static;
-                                                                             opts.SourceCodeWritingEnabled = false;
-                                                                         }
+                                                                 opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
 
-                                                                         opts.AutoCreateSchemaObjects = AutoCreate.All;
+                                                                 opts.AutoCreateSchemaObjects = AutoCreate.All;
 
-                                                                         return opts;
-                                                                     })
+                                                                 return opts;
+                                                             })
 
-                                                                 // Using Solo in tests will help it start up a little quicker
-                                                                .AddAsyncDaemon(DaemonMode.Solo);
+                                                         // Using Solo in tests will help it start up a little quicker
+                                                        .AddAsyncDaemon(DaemonMode.Solo);
 
-                                     martenConfig.ApplyAllDatabaseChangesOnStartup();
-                                 })
-                                .Build();
+                             martenConfig.ApplyAllDatabaseChangesOnStartup();
+                         })
+                        .Build();
 
         DocumentStore = Host.Services.GetRequiredService<IDocumentStore>();
-
     }
 
     protected void Stream(string vCode, IReadOnlyCollection<IEvent> events) => _internalStreamCollection.Add(vCode, events.ToArray());
@@ -156,11 +143,9 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
         }
     }
 
-
     private static string GetConnectionString(IConfiguration configurationRoot, string database)
         => $"host={configurationRoot["PostgreSQLOptions:host"]};" +
            $"database={database};" +
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
-
 }
