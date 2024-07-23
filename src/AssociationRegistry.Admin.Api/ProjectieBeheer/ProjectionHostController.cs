@@ -115,6 +115,14 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("public/sequence/rebuild")]
+    public async Task<IActionResult> RebuildPublicProjectionSequence(CancellationToken cancellationToken)
+    {
+        var response = await _publicHttpClient.RebuildSequenceProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpGet("public/status")]
     public async Task<IActionResult> GetPublicProjectionStatus(CancellationToken cancellationToken)
     {
