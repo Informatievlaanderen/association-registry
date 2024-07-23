@@ -14,7 +14,9 @@ using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;
 using Projections.Search;
+using Projections.Sequence;
 using Schema.Detail;
+using Schema.Sequence;
 using Wolverine;
 
 public static class ConfigureMartenExtensions
@@ -80,6 +82,7 @@ public static class ConfigureMartenExtensions
                 opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
                 opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(
@@ -94,6 +97,11 @@ public static class ConfigureMartenExtensions
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+                opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
+
+                // opts.Schema.For<PubliekVerenigingSequenceDocument>()
+                //     .UseNumericRevisions(true)
+                //     .UseOptimisticConcurrency(false);
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {

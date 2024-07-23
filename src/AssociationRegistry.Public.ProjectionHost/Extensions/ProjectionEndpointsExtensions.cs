@@ -7,6 +7,7 @@ using Marten.Events.Daemon;
 using Nest;
 using Projections;
 using Projections.Detail;
+using Projections.Sequence;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -25,7 +26,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(shardTimeout);
+                    await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(await store.Advanced.AllProjectionProgress(token: CancellationToken.None), shardTimeout);
                 });
 
                 StartRebuild(logger, projectionName: "Search", rebuildFunc: async () =>
@@ -45,6 +46,12 @@ public static class ProjectionEndpointsExtensions
                     await projectionDaemon.StartShard($"{ProjectionNames.VerenigingZoeken}:All", CancellationToken.None);
                 });
 
+                StartRebuild(logger, projectionName: "Sequence", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                    await projectionDaemon.StopRebuildStart<PubliekVerenigingSequenceProjection>(await store.Advanced.AllProjectionProgress(token: CancellationToken.None), shardTimeout);
+                });
+
                 return Results.Accepted();
             });
 
@@ -55,7 +62,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(logger, projectionName: "Detail", rebuildFunc: async () =>
                 {
                     var projectionDaemon = await store.BuildProjectionDaemonAsync();
-                    await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(shardTimeout);
+                    await projectionDaemon.StopRebuildStart<PubliekVerenigingDetailProjection>(await store.Advanced.AllProjectionProgress(token: CancellationToken.None), shardTimeout);
                 });
 
                 return Results.Accepted();
@@ -89,22 +96,36 @@ public static class ProjectionEndpointsExtensions
                 return Results.Accepted();
             });
 
+        app.MapPost(
+            pattern: "v1/projections/sequence/rebuild",
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                StartRebuild(logger, projectionName: "Sequence", rebuildFunc: async () =>
+                {
+                    var projectionDaemon = await store.BuildProjectionDaemonAsync();
+                    await projectionDaemon.StopRebuildStart<PubliekVerenigingSequenceProjection>(await store.Advanced.AllProjectionProgress(token: CancellationToken.None), shardTimeout);
+                });
+
+                return Results.Accepted();
+            });
+
         app.MapGet(
             pattern: "v1/projections/status", handler: (IDocumentStore store, ILogger<Program> _, CancellationToken cancellationToken)
                 => store.Advanced.AllProjectionProgress(token: cancellationToken));
     }
 
-    private static async Task StopRebuildStart<TProjection>(this IProjectionDaemon projectionDaemon, TimeSpan shardTimeout)
+    private static async Task StopRebuildStart<TProjection>(
+        this IProjectionDaemon projectionDaemon,
+        IReadOnlyList<ShardState> shardState,
+        TimeSpan shardTimeout)
     {
-        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
+        var shardName = shardState.Single(s => s.ShardName.Contains(typeof(TProjection).Name)).ShardName;
+
+        await projectionDaemon.StopShard(shardName);
         await projectionDaemon.RebuildProjection<TProjection>(shardTimeout, CancellationToken.None);
-
         await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
-
-        await projectionDaemon.StopShard($"{typeof(TProjection).FullName}:All");
-
-        await projectionDaemon.StartShard($"{typeof(TProjection).FullName}:All",
-                                          CancellationToken.None);
+        await projectionDaemon.StopShard(shardName);
+        await projectionDaemon.StartShard(shardName, CancellationToken.None);
     }
 
     private static void StartRebuild(ILogger logger, string projectionName, Func<Task> rebuildFunc)
