@@ -39,10 +39,7 @@ public class GivenLocatieWerdToegevoegdFixture : MultiStreamTestFixture
         Stream(vCode, new IEvent[]
         {
             Fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = vCode, Locaties = Array.Empty<Registratiedata.Locatie>() },
-            Fixture.Create<LocatieWerdToegevoegd>() with
-            {
-                Locatie = locatie
-            }
+            Fixture.Create<LocatieWerdToegevoegd>() with { Locatie = locatie },
         });
     }
 }

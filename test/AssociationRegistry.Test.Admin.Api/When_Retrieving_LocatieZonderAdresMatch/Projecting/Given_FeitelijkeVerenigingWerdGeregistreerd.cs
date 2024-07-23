@@ -44,14 +44,17 @@ public class GivenFeitelijkeVerenigingWerdGeregistreerdFixture : MultiStreamTest
                 {
                     Fixture.Create<Registratiedata.Locatie>() with
                     {
+                        LocatieId = 1,
                         Locatietype = Locatietype.Activiteiten.Waarde
                     },
                     Fixture.Create<Registratiedata.Locatie>() with
                     {
+                        LocatieId = 2,
                         Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
                     },
                     Fixture.Create<Registratiedata.Locatie>()with
                     {
+                        LocatieId = 3,
                         Locatietype = Locatietype.Activiteiten.Waarde
                     },
                 },
