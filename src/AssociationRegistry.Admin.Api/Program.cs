@@ -21,6 +21,7 @@ using EventStore;
 using FluentValidation;
 using Framework;
 using Grar;
+using Grar.AddressMatch;
 using GrarSync;
 using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
@@ -371,6 +372,7 @@ public class Program
                .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
+               .AddScoped<ITeAdresMatchenLocatieMessageHandler, TeAdresMatchenLocatieMessageHandler>()
                .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()

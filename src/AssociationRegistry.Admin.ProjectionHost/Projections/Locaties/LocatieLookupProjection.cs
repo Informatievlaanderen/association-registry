@@ -1,8 +1,6 @@
-﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 
 using Events;
-using Framework;
-using Infrastructure.Extensions;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -21,15 +19,6 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
         Options.DeleteViewTypeOnTeardown<LocatieLookupDocument>();
 
         Identity<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
-        Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        Identity<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-        Identity<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.VCode}-{x.VerwijderdeLocatieId}");
-
-        CustomGrouping(new LocatieLookupGrouper(logger));
-
         CreateEvent<AdresWerdOvergenomenUitAdressenregister>(x => new LocatieLookupDocument
         {
             AdresPuri = x.AdresId.Bronwaarde,
@@ -38,19 +27,30 @@ public class LocatieLookupProjection : MultiStreamProjection<LocatieLookupDocume
             VCode = x.VCode,
         });
 
+        Identity<AdresWerdGewijzigdInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         ProjectEvent<AdresWerdGewijzigdInAdressenregister>((doc, @event) =>
         {
             doc.AdresPuri = @event.AdresId.Bronwaarde;
             doc.AdresId = new Uri(@event.AdresId.Bronwaarde).Segments[^1].TrimEnd('/');
         });
 
+        Identity<LocatieWerdVerwijderd>(x => $"{x.VCode}-{x.Locatie.LocatieId}");
         DeleteEvent<LocatieWerdVerwijderd>();
+
+        Identity<AdresWerdNietGevondenInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         DeleteEvent<AdresWerdNietGevondenInAdressenregister>();
+
+        Identity<AdresNietUniekInAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         DeleteEvent<AdresNietUniekInAdressenregister>();
+
+        Identity<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
         DeleteEvent<AdresWerdOntkoppeldVanAdressenregister>();
 
-        DeleteEvent<VerenigingWerdVerwijderd>();
+        Identity<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.VCode}-{x.VerwijderdeLocatieId}");
         DeleteEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>();
+
+        CustomGrouping(new LocatieLookupGrouper(logger));
+        DeleteEvent<VerenigingWerdVerwijderd>();
     }
 }
 

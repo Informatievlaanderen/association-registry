@@ -99,7 +99,6 @@ jobs:
         if: ${{ inputs.run-docker-otelcollector }}
         run: |
           docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
-#          --config=/etc/otel-collector-config.yaml
 
       - name: Cache Paket
         uses: actions/cache@v4
