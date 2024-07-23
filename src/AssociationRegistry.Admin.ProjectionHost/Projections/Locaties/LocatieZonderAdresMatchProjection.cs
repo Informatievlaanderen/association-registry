@@ -57,7 +57,7 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         {
             if (locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) continue;
 
-            documentSession.Insert(new LocatieZonderAdresMatchDocument
+            documentSession.Store(new LocatieZonderAdresMatchDocument
             {
                 Id = $"{@event.VCode}-{locatie.LocatieId}",
                 VCode = @event.VCode,
