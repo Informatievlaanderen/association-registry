@@ -19,7 +19,7 @@ public class AdresMatchController : ApiController
     [HttpPost("adresmatch")]
     public async Task<IActionResult> QueueAdressenForAdresMatch(
         [FromServices] IDocumentStore documentStore,
-        [FromServices] ITeAdresMatchenLocatieMessageHandler handler,
+        [FromServices] TeAdresMatchenLocatieMessageHandler handler,
         CancellationToken cancellationToken)
     {
         await using var session = documentStore.LightweightSession();

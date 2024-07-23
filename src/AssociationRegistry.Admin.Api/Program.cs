@@ -372,7 +372,7 @@ public class Program
                .AddScoped<IMagdaGeefVerenigingService, MagdaGeefVerenigingService>()
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
-               .AddScoped<ITeAdresMatchenLocatieMessageHandler, TeAdresMatchenLocatieMessageHandler>()
+               .AddScoped<TeAdresMatchenLocatieMessageHandler>()
                .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
