@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projections.Detail;
 using Projections.Historiek;
+using Projections.Locaties;
 using System.Reflection;
 
 public class ProjectionStateListener : DocumentSessionListenerBase

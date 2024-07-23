@@ -15,6 +15,7 @@ using Projections;
 using Projections.Detail;
 using Projections.Historiek;
 using Projections.KboSync;
+using Projections.Locaties;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
@@ -92,6 +93,7 @@ public static class ConfigureMartenExtensions
                 opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
+                opts.Projections.Add( new LocatieZonderAdresMatchProjection(serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>()), ProjectionLifecycle.Async);
 
                 opts.Projections.Add(
                     new MartenSubscription(
@@ -120,8 +122,12 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                 opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                 opts.RegisterDocumentType<LocatieLookupDocument>();
+                opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
                 opts.Schema.For<LocatieLookupDocument>()
+                    .UseNumericRevisions(true)
+                    .UseOptimisticConcurrency(false);
+                opts.Schema.For<LocatieZonderAdresMatchDocument>()
                     .UseNumericRevisions(true)
                     .UseOptimisticConcurrency(false);
 

@@ -43,9 +43,14 @@ public static class MartenExtensions
                                           opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                                           opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
+                                          opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();
 
                                           opts.Schema.For<LocatieLookupDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
+
+                                          opts.Schema.For<LocatieZonderAdresMatchDocument>()
                                               .UseNumericRevisions(true)
                                               .UseOptimisticConcurrency(false);
 

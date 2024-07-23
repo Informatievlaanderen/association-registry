@@ -9,6 +9,7 @@ using NodaTime;
 using Projections;
 using Projections.Detail;
 using Projections.Historiek;
+using Projections.Locaties;
 
 public static class ProjectionEndpointsExtensions
 {
