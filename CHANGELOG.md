@@ -1,3 +1,10 @@
+## [8.121.2](https://github.com/informatievlaanderen/association-registry/compare/v8.121.1...v8.121.2) (2024-07-23)
+
+
+### Bug Fixes
+
+* or-2159 LocatieZonderAdresMatchDocument insert document to store to fix duplicate key violation ([2593b15](https://github.com/informatievlaanderen/association-registry/commit/2593b15345eda8606619079973378e6590856635))
+
 ## [8.121.1](https://github.com/informatievlaanderen/association-registry/compare/v8.121.0...v8.121.1) (2024-07-23)
 
 
