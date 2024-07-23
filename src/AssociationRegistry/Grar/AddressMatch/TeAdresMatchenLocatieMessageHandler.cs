@@ -6,14 +6,7 @@ using Microsoft.Extensions.Logging;
 using NodaTime;
 using Vereniging;
 
-public interface ITeAdresMatchenLocatieMessageHandler
-{
-    Task Handle(
-        TeAdresMatchenLocatieMessage matchenLocatieMessage,
-        CancellationToken cancellationToken = default);
-}
-
-public class TeAdresMatchenLocatieMessageHandler : ITeAdresMatchenLocatieMessageHandler
+public class TeAdresMatchenLocatieMessageHandler
 {
     private readonly ILogger<TeAdresMatchenLocatieMessageHandler> _logger;
     private readonly IGrarClient _grarClient;
