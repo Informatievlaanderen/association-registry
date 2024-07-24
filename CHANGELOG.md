@@ -1,3 +1,17 @@
+# [8.123.0](https://github.com/informatievlaanderen/association-registry/compare/v8.122.0...v8.123.0) (2024-07-24)
+
+
+### Bug Fixes
+
+* or-2159 dont save locatie when address is null for initial address match ([af814a0](https://github.com/informatievlaanderen/association-registry/commit/af814a07c5ddb3fc3f5f22b67f6a830d26bdcb92))
+* or-2221 use equal and greater than instead of greater than for mutatiedienst ([3bc5d75](https://github.com/informatievlaanderen/association-registry/commit/3bc5d75fa0f79a9b91d68a2e21106e460c7d5812))
+* or-2322 remove unused variable assignment ([d45a45d](https://github.com/informatievlaanderen/association-registry/commit/d45a45d64a84c5a4818c508bf1e642c7cb5c4ee5))
+
+
+### Features
+
+* or-2322 exception thrown when address is empty with address match ([fa390c2](https://github.com/informatievlaanderen/association-registry/commit/fa390c2528fcdc1984858d20ce865bf9f0aa6a05))
+
 # [8.122.0](https://github.com/informatievlaanderen/association-registry/compare/v8.121.2...v8.122.0) (2024-07-24)
 
 
