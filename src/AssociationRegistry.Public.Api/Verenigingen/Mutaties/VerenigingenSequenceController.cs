@@ -3,6 +3,7 @@ namespace AssociationRegistry.Public.Api.Verenigingen.Mutaties;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Constants;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Schema.Sequence;
@@ -33,6 +34,7 @@ public class VerenigingenSequenceController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingSequenceResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [Produces(WellknownMediaTypes.Json)]
     public async Task<IActionResult> Detail(
         [FromQuery] long sinds,
         CancellationToken cancellationToken)

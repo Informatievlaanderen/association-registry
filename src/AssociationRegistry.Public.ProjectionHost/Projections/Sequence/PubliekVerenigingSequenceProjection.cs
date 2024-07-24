@@ -12,6 +12,15 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
     public PubliekVerenigingSequenceProjection()
     {
         AggregateByStream();
+
+        var eventTypes = typeof(AssociationRegistry.Framework.IEvent).Assembly
+                                                                     .GetTypes()
+                                                                     .Where(t => typeof(AssociationRegistry.Framework.IEvent)
+                                                                               .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+                                                                     .ToList();
+
+        foreach (var eventType in eventTypes)
+            IncludeType(eventType);
     }
 
     public override ValueTask ApplyChangesAsync(
@@ -26,6 +35,7 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
         {
             switch (@event)
             {
+                case Event<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>:
                 case Event<FeitelijkeVerenigingWerdGeregistreerd>:
                     aggregate = new PubliekVerenigingSequenceDocument { VCode = @event.StreamKey, Sequence = @event.Sequence };
 
