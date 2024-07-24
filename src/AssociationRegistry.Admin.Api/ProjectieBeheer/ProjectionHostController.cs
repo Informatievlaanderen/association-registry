@@ -52,9 +52,17 @@ public class ProjectionController : ApiController
     }
 
     [HttpPost("admin/locaties/lookup/rebuild")]
-    public async Task<IActionResult> RebuildAdminProjectionLocatieDetail(CancellationToken cancellationToken)
+    public async Task<IActionResult> RebuildAdminProjectionLocatieLookup(CancellationToken cancellationToken)
     {
         var response = await _adminHttpClient.RebuildLocatieLookupProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
+    [HttpPost("admin/locaties/zonderadresmatch/rebuild")]
+    public async Task<IActionResult> RebuildAdminProjectionLocatieZonderAdresMatch(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildLocatieZonderAdresMatchProjection(cancellationToken);
 
         return await OkOrForwardedResponse(cancellationToken, response);
     }

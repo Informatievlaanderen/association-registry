@@ -104,7 +104,7 @@ public static class ConfigureMartenExtensions
                             serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>())
                     ),
                     ProjectionLifecycle.Async,
-                    ProjectionNames.VerenigingZoeken);
+                    ProjectionNames.BeheerZoek);
 
                 opts.Projections.Add(
                     new MartenSubscription(
