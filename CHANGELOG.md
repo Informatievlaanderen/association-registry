@@ -1,3 +1,10 @@
+## [8.123.1](https://github.com/informatievlaanderen/association-registry/compare/v8.123.0...v8.123.1) (2024-07-24)
+
+
+### Bug Fixes
+
+* update projection rebuild method to not wait for response ([ae487df](https://github.com/informatievlaanderen/association-registry/commit/ae487df0036c620ce32589da3b530cfe8d8142ab))
+
 # [8.123.0](https://github.com/informatievlaanderen/association-registry/compare/v8.122.0...v8.123.0) (2024-07-24)
 
 
