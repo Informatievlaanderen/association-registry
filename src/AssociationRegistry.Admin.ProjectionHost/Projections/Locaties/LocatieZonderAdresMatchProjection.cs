@@ -29,12 +29,15 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         {
             if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
 
-            return new LocatieZonderAdresMatchDocument()
-            {
-                Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
-                VCode = @event.StreamKey,
-                LocatieId = @event.Data.Locatie.LocatieId
-            };
+            if(@event.Data.Locatie.Adres is not null)
+                return new LocatieZonderAdresMatchDocument()
+                {
+                    Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
+                    VCode = @event.StreamKey,
+                    LocatieId = @event.Data.Locatie.LocatieId
+                };
+
+            return null;
         });
 
         DeleteEvent<LocatieWerdVerwijderd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}");
@@ -56,13 +59,13 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         foreach (var locatie in @event.Locaties)
         {
             if (locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) continue;
-
-            documentSession.Store(new LocatieZonderAdresMatchDocument
-            {
-                Id = $"{@event.VCode}-{locatie.LocatieId}",
-                VCode = @event.VCode,
-                LocatieId = locatie.LocatieId,
-            });
+            if(locatie.Adres is not null)
+                documentSession.Store(new LocatieZonderAdresMatchDocument
+                {
+                    Id = $"{@event.VCode}-{locatie.LocatieId}",
+                    VCode = @event.VCode,
+                    LocatieId = locatie.LocatieId,
+                });
         }
 
         documentSession.SaveChanges();

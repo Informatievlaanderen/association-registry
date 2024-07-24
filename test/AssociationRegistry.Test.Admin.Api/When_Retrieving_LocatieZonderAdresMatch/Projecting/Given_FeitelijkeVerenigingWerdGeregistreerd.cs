@@ -25,7 +25,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<GivenFe
         var session = _fixture.DocumentStore.LightweightSession();
         var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync();
         docs.Should().NotBeEmpty();
-        docs.Count().Should().Be(2);
+        docs.Count().Should().Be(1);
     }
 }
 
@@ -45,7 +45,8 @@ public class GivenFeitelijkeVerenigingWerdGeregistreerdFixture : MultiStreamTest
                     Fixture.Create<Registratiedata.Locatie>() with
                     {
                         LocatieId = 1,
-                        Locatietype = Locatietype.Activiteiten.Waarde
+                        Locatietype = Locatietype.Activiteiten.Waarde,
+                        Adres = null,
                     },
                     Fixture.Create<Registratiedata.Locatie>() with
                     {
@@ -55,7 +56,7 @@ public class GivenFeitelijkeVerenigingWerdGeregistreerdFixture : MultiStreamTest
                     Fixture.Create<Registratiedata.Locatie>()with
                     {
                         LocatieId = 3,
-                        Locatietype = Locatietype.Activiteiten.Waarde
+                        Locatietype = Locatietype.Activiteiten.Waarde,
                     },
                 },
             }
