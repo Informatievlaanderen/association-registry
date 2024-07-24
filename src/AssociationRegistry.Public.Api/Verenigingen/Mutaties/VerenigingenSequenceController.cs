@@ -42,7 +42,7 @@ public class VerenigingenSequenceController : ApiController
         await using var session = _documentStore.LightweightSession();
 
         var docs = await session.Query<PubliekVerenigingSequenceDocument>()
-                                .Where(w => w.Sequence > sinds)
+                                .Where(w => w.Sequence >= sinds)
                                 .ToListAsync(cancellationToken);
 
         var response = docs
