@@ -23,6 +23,9 @@ public class AdminProjectionHostHttpClient : IDisposable
     public async Task<HttpResponseMessage> RebuildLocatieLookupProjection(CancellationToken cancellationToken)
         => await _httpClient.PostAsync(requestUri: "/v1/projections/locaties/lookup/rebuild", content: null, cancellationToken);
 
+    public async Task<HttpResponseMessage> RebuildLocatieZonderAdresMatchProjection(CancellationToken cancellationToken)
+        => await _httpClient.PostAsync(requestUri: "v1/projections/locaties/zonderadresmatch/rebuild", content: null, cancellationToken);
+
     public async Task<HttpResponseMessage> RebuildHistoriekProjection(CancellationToken cancellationToken)
         => await _httpClient.PostAsync(requestUri: "/v1/projections/historiek/rebuild", content: null, cancellationToken);
 

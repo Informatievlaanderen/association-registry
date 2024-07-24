@@ -92,7 +92,7 @@ public static class ConfigureMartenExtensions
                         )
                     ),
                     ProjectionLifecycle.Async,
-                    ProjectionNames.VerenigingZoeken);
+                    ProjectionNames.PubliekZoek);
 
                 opts.Serializer(CreateCustomMartenSerializer());
 
