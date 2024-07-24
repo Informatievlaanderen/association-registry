@@ -136,10 +136,7 @@ public static class ProjectionEndpointsExtensions
             var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
             await projectionDaemon.StopAgentAsync(shardName);
-
             if (beforeRebuild is not null) await beforeRebuild();
-
-            var status = projectionDaemon.StatusFor(shardName);
             await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
             await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
             await projectionDaemon.StopAgentAsync(shardName);
