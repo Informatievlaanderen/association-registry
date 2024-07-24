@@ -1,3 +1,11 @@
+# [8.122.0](https://github.com/informatievlaanderen/association-registry/compare/v8.121.2...v8.122.0) (2024-07-24)
+
+
+### Features
+
+* or-2221 get vcodes with sequence for mutatiedienst ([d7c4b2c](https://github.com/informatievlaanderen/association-registry/commit/d7c4b2c3b9860898a6acc28d86985693c7286915))
+* or-2221 implement mutatiedienst which allows GI to continue from specified sequence ([36b6d5f](https://github.com/informatievlaanderen/association-registry/commit/36b6d5f34616e067d7fa745d7f7f25ad1050dc7f))
+
 ## [8.121.2](https://github.com/informatievlaanderen/association-registry/compare/v8.121.1...v8.121.2) (2024-07-23)
 
 
