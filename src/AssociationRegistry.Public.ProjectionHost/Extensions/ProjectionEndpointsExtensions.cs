@@ -73,29 +73,31 @@ public static class ProjectionEndpointsExtensions
         ILogger logger,
         Func<Task> beforeRebuild = null)
     {
-        try
+        _ = Task.Run(async () =>
         {
-            var shardState = await store.Advanced.AllProjectionProgress(token: CancellationToken.None);
-            var shardName = shardState.Single(s => s.ShardName.Contains(projectionName)).ShardName;
-            var projectionDaemon = await store.BuildProjectionDaemonAsync();
+            try
+            {
+                var shardState = await store.Advanced.AllProjectionProgress(token: CancellationToken.None);
+                var shardName = shardState.Single(s => s.ShardName.Contains(projectionName)).ShardName;
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-            await projectionDaemon.StopAgentAsync(shardName);
+                await projectionDaemon.StopAgentAsync(shardName);
+                if (beforeRebuild is not null) await beforeRebuild();
+                await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
+                await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+                await projectionDaemon.StopAgentAsync(shardName);
+                await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
 
-            if (beforeRebuild is not null) await beforeRebuild();
+                logger.LogInformation(message: "Rebuild {ProjectionName} complete", projectionName);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, message: "Error during rebuild {ProjectionName}", projectionName);
 
-            var status = projectionDaemon.StatusFor(shardName);
-            await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
-            await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
-            await projectionDaemon.StopAgentAsync(shardName);
-            await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
+                throw;
+            }
+        });
 
-            logger.LogInformation(message: "Rebuild {ProjectionName} complete", projectionName);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, message: "Error during rebuild {ProjectionName}", projectionName);
-
-            throw;
-        }
+        logger.LogInformation(message: "Rebuild process {ProjectionName} started", projectionName);
     }
 }

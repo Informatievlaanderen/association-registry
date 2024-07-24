@@ -3,12 +3,8 @@ namespace AssociationRegistry.Admin.ProjectionHost.Extensions;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
-using Marten.Events.Daemon;
 using Nest;
 using Projections;
-using Projections.Detail;
-using Projections.Historiek;
-using Projections.Locaties;
 
 public static class ProjectionEndpointsExtensions
 {
@@ -24,19 +20,19 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.BeheerDetailMulti, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerDetailMulti, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
 
-                await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
+                StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
-                await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
+                StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.DuplicateDetection);
@@ -49,8 +45,8 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/detail/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
-                await StartRebuild(ProjectionNames.BeheerDetailMulti, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerDetail, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerDetailMulti, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -59,7 +55,7 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/locaties/lookup/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -68,7 +64,7 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/locaties/zonderadresmatch/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -77,7 +73,7 @@ public static class ProjectionEndpointsExtensions
             pattern: "v1/projections/historiek/rebuild",
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });
@@ -90,7 +86,7 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
+                StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
@@ -107,7 +103,7 @@ public static class ProjectionEndpointsExtensions
                 ElasticSearchOptionsSection options,
                 ILogger<Program> logger) =>
             {
-                await StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
+                StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None);
                     await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.DuplicateDetection);
@@ -129,26 +125,31 @@ public static class ProjectionEndpointsExtensions
         ILogger logger,
         Func<Task> beforeRebuild = null)
     {
-        try
+        _ = Task.Run(async () =>
         {
-            var shardState = await store.Advanced.AllProjectionProgress(token: CancellationToken.None);
-            var shardName = shardState.Single(s => s.ShardName.Contains(projectionName)).ShardName;
-            var projectionDaemon = await store.BuildProjectionDaemonAsync();
+            try
+            {
+                var shardState = await store.Advanced.AllProjectionProgress(token: CancellationToken.None);
+                var shardName = shardState.Single(s => s.ShardName.Contains(projectionName)).ShardName;
+                var projectionDaemon = await store.BuildProjectionDaemonAsync();
 
-            await projectionDaemon.StopAgentAsync(shardName);
-            if (beforeRebuild is not null) await beforeRebuild();
-            await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
-            await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
-            await projectionDaemon.StopAgentAsync(shardName);
-            await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
+                await projectionDaemon.StopAgentAsync(shardName);
+                if (beforeRebuild is not null) await beforeRebuild();
+                await projectionDaemon.RebuildProjectionAsync(projectionName, shardTimeout, CancellationToken.None);
+                await projectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(5));
+                await projectionDaemon.StopAgentAsync(shardName);
+                await projectionDaemon.StartAgentAsync(shardName, CancellationToken.None);
 
-            logger.LogInformation(message: "Rebuild {ProjectionName} complete", projectionName);
-        }
-        catch (Exception ex)
-        {
-            logger.LogError(ex, message: "Error during rebuild {ProjectionName}", projectionName);
+                logger.LogInformation(message: "Rebuild {ProjectionName} complete", projectionName);
+            }
+            catch (Exception ex)
+            {
+                logger.LogError(ex, message: "Error during rebuild {ProjectionName}", projectionName);
 
-            throw;
-        }
+                throw;
+            }
+        });
+
+        logger.LogInformation(message: "Rebuild process {ProjectionName} started", projectionName);
     }
 }
