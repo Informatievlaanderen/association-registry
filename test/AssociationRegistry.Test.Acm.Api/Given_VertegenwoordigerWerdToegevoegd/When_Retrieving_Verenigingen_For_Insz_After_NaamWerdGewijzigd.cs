@@ -36,6 +36,7 @@ public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
                       .WithInsz(_scenario.Insz)
                       .WithVereniging(
                            _scenario.VCode,
+                           _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                            _scenario.NaamWerdGewijzigd.Naam
                        );
 

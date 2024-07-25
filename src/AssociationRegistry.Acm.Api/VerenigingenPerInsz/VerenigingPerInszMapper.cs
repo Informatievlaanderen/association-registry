@@ -16,6 +16,7 @@ public static class VerenigingPerInszMapper
         => new()
         {
             Naam = v.Naam,
+            VertegenwoordigerId = v.VertegenwoordigerId,
             Status = v.Status,
             KboNummer = v.KboNummer,
             VCode = v.VCode,

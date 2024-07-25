@@ -36,6 +36,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                       .WithInsz(_scenario.Insz)
                       .WithVereniging(
                            _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                           _scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
                            _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
                            kboNummer: _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer
                        );

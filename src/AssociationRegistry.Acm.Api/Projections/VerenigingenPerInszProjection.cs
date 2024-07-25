@@ -101,17 +101,18 @@ public class VerenigingenPerInszProjection : EventProjection
         {
             var docs = new List<VerenigingenPerInszDocument>();
 
-            var vereniging = new Vereniging
-            {
-                VCode = werdGeregistreerd.VCode,
-                Naam = werdGeregistreerd.Naam,
-                Status = VerenigingStatus.Actief,
-                KboNummer = string.Empty,
-                IsHoofdvertegenwoordigerVan = true,
-            };
-
             foreach (var vertegenwoordiger in werdGeregistreerd.Vertegenwoordigers)
             {
+                var vereniging = new Vereniging
+                {
+                    VertegenwoordigerId = vertegenwoordiger.VertegenwoordigerId,
+                    VCode = werdGeregistreerd.VCode,
+                    Naam = werdGeregistreerd.Naam,
+                    Status = VerenigingStatus.Actief,
+                    KboNummer = string.Empty,
+                    IsHoofdvertegenwoordigerVan = true,
+                };
+
                 var verenigingenPerInszDocument = await ops.GetVerenigingenPerInszDocumentOrNew(vertegenwoordiger.Insz);
                 verenigingenPerInszDocument.Verenigingen.Add(vereniging);
                 docs.Add(verenigingenPerInszDocument);
@@ -136,7 +137,9 @@ public class VerenigingenPerInszProjection : EventProjection
             return docs;
         }
 
-        public static async Task<List<VerenigingenPerInszDocument>> Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, IDocumentOperations ops)
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo,
+            IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
             var documents = await ops.GetVerenigingenPerInszDocuments(naamWerdGewijzigdInKbo.StreamKey!);
@@ -163,6 +166,7 @@ public class VerenigingenPerInszProjection : EventProjection
             document.Verenigingen.Add(
                 new Vereniging
                 {
+                    VertegenwoordigerId = vertegenwoordigerWerdToegevoegd.Data.VertegenwoordigerId,
                     VCode = vereniging.VCode,
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
@@ -197,6 +201,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 new Vereniging
                 {
                     VCode = vereniging.VCode,
+                    VertegenwoordigerId = vertegenwoordigerWerdOvergenomenUitKbo.Data.VertegenwoordigerId,
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
                     KboNummer = vereniging.KboNummer,
@@ -235,7 +240,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
                                                                                       .Where(v => v.VCode !=
-                                                                                               verenigingWerdVerwijderd.StreamKey)
+                                                                                           verenigingWerdVerwijderd.StreamKey)
                                                                                       .ToList();
 
                 docs.Add(verenigingenPerInszDocument);
