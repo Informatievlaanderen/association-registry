@@ -57,6 +57,9 @@ public static class ConfigurationExtensions
            .IfNullOrWhiteSpace(opt.BaseUrl, nameof(opt.BaseUrl));
 
         Throw<ArgumentNullException>
+           .IfNullOrWhiteSpace(opt.ApiKey, nameof(opt.ApiKey));
+
+        Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(opt.SlackWebhook, nameof(opt.SlackWebhook));
     }
 }
