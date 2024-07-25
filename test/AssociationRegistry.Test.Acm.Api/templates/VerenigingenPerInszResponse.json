@@ -4,6 +4,7 @@
     {{ for vereniging in verenigingen }}
     {
       "vCode": "{{vereniging.vcode}}",
+      "vertegenwoordigerId": {{vereniging.vertegenwoordigerid}},
       "naam": "{{vereniging.naam}}",
       "status": "{{vereniging.status}}",
       "kboNummer": "{{vereniging.kbonummer}}",

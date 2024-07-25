@@ -36,6 +36,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                       .WithInsz(_scenario.Insz)
                       .WithVereniging(
                            _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                           _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                            _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam
                        );
 

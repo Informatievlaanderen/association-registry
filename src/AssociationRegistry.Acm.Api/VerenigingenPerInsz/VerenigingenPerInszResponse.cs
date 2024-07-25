@@ -29,6 +29,12 @@ public class VerenigingenPerInszResponse
         /// De naam van de vereniging
         /// </summary>
         [DataMember]
+        public int VertegenwoordigerId { get; init; }
+
+        /// <summary>
+        /// De naam van de vereniging
+        /// </summary>
+        [DataMember]
         public string Naam { get; init; } = null!;
 
         /// <summary>

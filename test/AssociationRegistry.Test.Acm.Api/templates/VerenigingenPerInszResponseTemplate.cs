@@ -18,6 +18,7 @@ public class VerenigingenPerInszResponseTemplate
 
     public VerenigingenPerInszResponseTemplate WithVereniging(
         string vCode,
+        int vertegenwoordigerId,
         string naam,
         string status = VerenigingStatus.Actief,
         string kboNummer = "",
@@ -26,6 +27,7 @@ public class VerenigingenPerInszResponseTemplate
         _verenigingen.Add(new
         {
             vcode = vCode,
+            vertegenwoordigerid = vertegenwoordigerId,
             naam = naam,
             status = status,
             kbonummer = kboNummer,

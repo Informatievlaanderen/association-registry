@@ -23,6 +23,11 @@ public class Vereniging
     public string VCode { get; set; } = null!;
 
     /// <summary>
+    /// De id van de vertegenwoordiger
+    /// </summary>
+    public int VertegenwoordigerId { get; set; }
+
+    /// <summary>
     /// De naam van de vereniging
     /// </summary>
     public string Naam { get; set; } = null!;

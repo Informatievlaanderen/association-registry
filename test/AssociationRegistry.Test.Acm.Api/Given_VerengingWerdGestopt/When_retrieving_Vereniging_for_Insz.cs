@@ -38,6 +38,7 @@ public class When_retrieving_Vereniging_for_Insz
                .WithInsz(_scenario.Insz)
                .WithVereniging(
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Single(s => s.Insz == _scenario.Insz).VertegenwoordigerId,
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                     VerenigingStatus.Gestopt
                 );

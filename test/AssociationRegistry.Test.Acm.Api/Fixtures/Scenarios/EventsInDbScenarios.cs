@@ -5,6 +5,7 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using Vereniging;
 
 public interface IEventsInDbScenario
 {
@@ -298,11 +299,15 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
     {
         var fixture = new Fixture().CustomizeAcmApi();
         VCode = "V0003010";
+        Insz = fixture.Create<Insz>().Value;
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
-        VertegenwoordigerWerdOvergenomenUitKBO = fixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>();
+        VertegenwoordigerWerdOvergenomenUitKBO = fixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>() with {
+            Insz = Insz,
+            VertegenwoordigerId = 12,
+        };
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -310,8 +315,7 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
 
-    public string Insz
-        => VertegenwoordigerWerdOvergenomenUitKBO.Insz;
+    public string Insz { get; set; }
 
     public IEvent[] GetEvents()
         => new IEvent[]
