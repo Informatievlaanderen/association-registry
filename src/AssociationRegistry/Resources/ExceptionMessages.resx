@@ -209,7 +209,10 @@
     <value>Deze waarde bevat niet toegestane tekens.</value>
   </data>
   <data name="AdresKonNietOvergenomenWorden" xml:space="preserve">
-    <value>Adressenregister niet bereikbaar of foutieve request.</value>
+    <value>Adressenregister niet bereikbaar.</value>
+  </data>
+  <data name="AdresKonNietOvergenomenWordenBadRequest" xml:space="preserve">
+    <value>Foutieve request.</value>
   </data>
   <data name="AdresKonNietGevalideerdWordenBijAdressenregister" xml:space="preserve">
     <value>Adres kon niet gevalideerd worden bij adressenregister.</value>

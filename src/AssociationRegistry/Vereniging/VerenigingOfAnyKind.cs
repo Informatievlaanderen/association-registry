@@ -325,6 +325,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         IEvent @event = ex.StatusCode switch
         {
+            //TODO: is this correct?
             HttpStatusCode.NotFound => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
                                                                                    locatieVoorTeMatchenAdres.Adres.Straatnaam,
                                                                                    locatieVoorTeMatchenAdres.Adres.Huisnummer,
@@ -332,11 +333,16 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                                    locatieVoorTeMatchenAdres.Adres.Postcode,
                                                                                    locatieVoorTeMatchenAdres.Adres.Gemeente),
             _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
-                                                                      ex.Message),
+                                                                      GetExceptionMessage(ex.StatusCode)),
         };
 
         return @event;
     }
+
+    private string GetExceptionMessage(HttpStatusCode statusCode)
+        => statusCode == HttpStatusCode.BadRequest
+            ? GrarClient.BadRequestSuccessStatusCodeMessage
+            : GrarClient.OtherNonSuccessStatusCodeMessage;
 
     [Pure]
     private static bool NieuweWaardenIndienWerdOvergenomen(AdresWerdOvergenomenUitAdressenregister @event, Locatie locatie)
