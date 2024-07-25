@@ -1,3 +1,10 @@
+# [8.126.0](https://github.com/informatievlaanderen/association-registry/compare/v8.125.0...v8.126.0) (2024-07-25)
+
+
+### Features
+
+* or-2159 add api key to grarclient ([b6840a8](https://github.com/informatievlaanderen/association-registry/commit/b6840a8c5cfb1dc778b8d7013a213dc54231ed48))
+
 # [8.125.0](https://github.com/informatievlaanderen/association-registry/compare/v8.124.0...v8.125.0) (2024-07-25)
 
 
