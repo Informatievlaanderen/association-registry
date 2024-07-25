@@ -13,7 +13,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_GrarClient_Returned_BadRequest
+public class Given_GrarClient_Returned_InternalServerError
 {
     [Fact]
     public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
@@ -32,7 +32,7 @@ public class Given_GrarClient_Returned_BadRequest
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              It.IsAny<CancellationToken>()))
-                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.BadRequest));
+                  .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError));
 
         vereniging.Hydrate(
             new VerenigingState()
@@ -43,6 +43,6 @@ public class Given_GrarClient_Returned_BadRequest
         var @event = vereniging.UncommittedEvents.OfType<AdresKonNietOvergenomenWordenUitAdressenregister>().SingleOrDefault();
 
         @event.Should().NotBeNull();
-        @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWordenBadRequest);
+        @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWorden);
     }
 }

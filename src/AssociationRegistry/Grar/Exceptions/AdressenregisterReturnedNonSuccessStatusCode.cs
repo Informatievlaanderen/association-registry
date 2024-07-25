@@ -6,7 +6,10 @@ public class AdressenregisterReturnedNonSuccessStatusCode : ApplicationException
 {
     public HttpStatusCode StatusCode { get; }
 
-    public AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode statusCode) : this(statusCode, ExceptionMessages.AdresKonNietOvergenomenWorden)
+    public AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode statusCode) : this(statusCode,
+                                                                                          statusCode == HttpStatusCode.BadRequest
+                                                                                              ? ExceptionMessages.AdresKonNietOvergenomenWorden
+                                                                                              : ExceptionMessages.AdresKonNietOvergenomenWordenBadRequest)
     {
     }
 

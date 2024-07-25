@@ -13,6 +13,9 @@ public class GrarClient : IGrarClient
     private readonly IGrarHttpClient _grarHttpClient;
     private readonly ILogger<GrarClient> _logger;
 
+    public const string BadRequestSuccessStatusCodeMessage = "Foutieve request.";
+    public const string OtherNonSuccessStatusCodeMessage = "Adressenregister niet bereikbaar.";
+
     public GrarClient(
         IGrarHttpClient grarHttpClient,
         ILogger<GrarClient> logger)

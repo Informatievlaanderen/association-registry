@@ -96,11 +96,20 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Adressenregister niet bereikbaar of foutieve request..
+        ///   Looks up a localized string similar to Adressenregister niet bereikbaar..
         /// </summary>
         public static string AdresKonNietOvergenomenWorden {
             get {
                 return ResourceManager.GetString("AdresKonNietOvergenomenWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Foutieve request..
+        /// </summary>
+        public static string AdresKonNietOvergenomenWordenBadRequest {
+            get {
+                return ResourceManager.GetString("AdresKonNietOvergenomenWordenBadRequest", resourceCulture);
             }
         }
         

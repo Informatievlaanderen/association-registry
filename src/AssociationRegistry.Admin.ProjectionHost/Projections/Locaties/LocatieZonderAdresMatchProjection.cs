@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 
 using Events;
+using Grar;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -19,17 +20,17 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         Options.DeleteViewTypeOnTeardown<LocatieZonderAdresMatchDocument>();
 
         IncludeType<FeitelijkeVerenigingWerdGeregistreerd>();
+
         Identities<FeitelijkeVerenigingWerdGeregistreerd>(@event => @event.Locaties
                                                                           .OrderBy(l => l.LocatieId)
                                                                           .Select(locatie => $"{@event.VCode}-{locatie.LocatieId}")
                                                                           .ToArray());
 
-
         CreateEvent<LocatieWerdToegevoegd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}", @event =>
         {
             if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
 
-            if(@event.Data.Locatie.Adres is not null)
+            if (@event.Data.Locatie.Adres is not null)
                 return new LocatieZonderAdresMatchDocument()
                 {
                     Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
@@ -48,6 +49,23 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         DeleteEvent<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
         DeleteEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.StreamKey}-{x.Data.VerwijderdeLocatieId}");
 
+        IncludeType<AdresKonNietOvergenomenWordenUitAdressenregister>();
+        Identity<AdresKonNietOvergenomenWordenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
+
+        DeleteEvent(
+            (
+                    LocatieZonderAdresMatchDocument doc,
+                    AdresKonNietOvergenomenWordenUitAdressenregister adresKonNietOvergenomenWordenUitAdressenregister)
+                =>
+            {
+                if (adresKonNietOvergenomenWordenUitAdressenregister.Reden == GrarClient.BadRequestSuccessStatusCodeMessage)
+                {
+                    return true;
+                }
+
+                return false;
+            });
+
         CustomGrouping(new LocatieZonderAdresMatchGrouper());
         DeleteEvent<VerenigingWerdVerwijderd>();
     }
@@ -59,7 +77,8 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         foreach (var locatie in @event.Locaties)
         {
             if (locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) continue;
-            if(locatie.Adres is not null)
+
+            if (locatie.Adres is not null)
                 documentSession.Store(new LocatieZonderAdresMatchDocument
                 {
                     Id = $"{@event.VCode}-{locatie.LocatieId}",
