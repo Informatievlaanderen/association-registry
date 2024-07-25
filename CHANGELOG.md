@@ -1,3 +1,15 @@
+# [8.124.0](https://github.com/informatievlaanderen/association-registry/compare/v8.123.1...v8.124.0) (2024-07-25)
+
+
+### Bug Fixes
+
+* or-2326 dont add locatie zonder adresmatch when grar returns 400 ([3cc3bf8](https://github.com/informatievlaanderen/association-registry/commit/3cc3bf886df173ec5fedf45eab676734b8f4a398))
+
+
+### Features
+
+* or-2173 add vertegenwoordigerId to acm api projection ([1d66947](https://github.com/informatievlaanderen/association-registry/commit/1d66947936fb8e8486a0feb7aced799773f44e7a))
+
 ## [8.123.1](https://github.com/informatievlaanderen/association-registry/compare/v8.123.0...v8.123.1) (2024-07-24)
 
 
