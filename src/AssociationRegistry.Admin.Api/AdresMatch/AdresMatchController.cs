@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Schema.Detail;
 
 [ApiVersion("1.0")]
-
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("admin")]
 [ApiExplorerSettings(IgnoreApi = true)]
@@ -20,18 +19,41 @@ public class AdresMatchController : ApiController
     public async Task<IActionResult> QueueAdressenForAdresMatch(
         [FromServices] IDocumentStore documentStore,
         [FromServices] TeAdresMatchenLocatieMessageHandler handler,
+        [FromServices] ILogger<AdresMatchController> logger,
         CancellationToken cancellationToken)
     {
+        logger.LogInformation("Start AdresMatchController");
+
         await using var session = documentStore.LightweightSession();
 
         var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync(cancellationToken);
-        var messages = docs.Select(s => new TeAdresMatchenLocatieMessage(s.VCode, s.LocatieId));
+
+        var messages = docs
+                      .Select(s => new TeAdresMatchenLocatieMessage(s.VCode, s.LocatieId))
+                      .ToList();
+
+        var succeededMessages = 0;
+        var failedMessages = 0;
 
         foreach (var message in messages)
         {
-            await handler.Handle(message, cancellationToken);
+            try
+            {
+                await handler.Handle(message, cancellationToken);
+                succeededMessages++;
+            }
+            catch (Exception e)
+            {
+                logger.LogError(
+                    e, $"Te adresmatchen vCode:{message.VCode} met locatie: {message.LocatieId} is gefaald wegens: {e.Message}");
+
+                failedMessages++;
+            }
         }
 
-        return Ok();
+        logger.LogInformation($"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
+
+        return Ok(
+            $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
     }
 }
