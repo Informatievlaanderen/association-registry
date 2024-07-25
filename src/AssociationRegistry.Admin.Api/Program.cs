@@ -349,7 +349,11 @@ public class Program
 
         builder.Services
                .AddHttpClient<GrarHttpClient>()
-               .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl));
+               .ConfigureHttpClient(httpClient =>
+                {
+                    httpClient.DefaultRequestHeaders.Add("x-api-key", grarOptions.HttpClient.ApiKey);
+                    httpClient.BaseAddress = new Uri(grarOptions.HttpClient.BaseUrl);
+                });
 
         builder.ConfigureOpenTelemetry(new Instrumentation());
 

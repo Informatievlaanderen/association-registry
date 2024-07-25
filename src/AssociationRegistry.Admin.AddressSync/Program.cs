@@ -58,7 +58,11 @@ public static class Program
 
         services
            .AddHttpClient<GrarHttpClient>()
-           .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(addressSyncOptions.BaseUrl));
+           .ConfigureHttpClient(httpClient =>
+            {
+                httpClient.DefaultRequestHeaders.Add("x-api-key", addressSyncOptions.ApiKey);
+                httpClient.BaseAddress = new Uri(addressSyncOptions.BaseUrl);
+            });
 
         services
            .AddSingleton(postgreSqlOptions)
