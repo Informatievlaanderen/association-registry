@@ -1,3 +1,10 @@
+# [8.125.0](https://github.com/informatievlaanderen/association-registry/compare/v8.124.0...v8.125.0) (2024-07-25)
+
+
+### Features
+
+* or-2159 add logging for adresmatchcontroller ([93402d4](https://github.com/informatievlaanderen/association-registry/commit/93402d46783ecb33390cf5c98fcac06955b02e5c))
+
 # [8.124.0](https://github.com/informatievlaanderen/association-registry/compare/v8.123.1...v8.124.0) (2024-07-25)
 
 
