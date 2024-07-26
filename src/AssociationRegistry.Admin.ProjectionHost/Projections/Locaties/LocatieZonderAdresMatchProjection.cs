@@ -65,7 +65,7 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
                         return true;
 
                     default:
-                        return false;
+                        return doc.Id is null;
                 }
             });
 
