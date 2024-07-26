@@ -1,3 +1,10 @@
+# [8.127.0](https://github.com/informatievlaanderen/association-registry/compare/v8.126.0...v8.127.0) (2024-07-26)
+
+
+### Features
+
+* or-2159 fix null values in locatieszonderadresmatch projections ([1d779d0](https://github.com/informatievlaanderen/association-registry/commit/1d779d0fe23aa4af353814d7f72a52f606b47510))
+
 # [8.126.0](https://github.com/informatievlaanderen/association-registry/compare/v8.125.0...v8.126.0) (2024-07-25)
 
 
