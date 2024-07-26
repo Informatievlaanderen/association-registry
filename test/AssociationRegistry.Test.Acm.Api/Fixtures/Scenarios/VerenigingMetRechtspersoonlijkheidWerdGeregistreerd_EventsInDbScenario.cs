@@ -5,11 +5,13 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using Vereniging;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly VertegenwoordigerWerdOvergenomenUitKBO VertegenwoordigerWerdOvergenomenUitKBO;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_EventsInDbScenario()

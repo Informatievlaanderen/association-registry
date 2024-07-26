@@ -20,6 +20,7 @@ public static class VerenigingPerInszMapper
             Status = v.Status,
             KboNummer = v.KboNummer,
             VCode = v.VCode,
+            Verenigingstype = new Verenigingstype(v.Verenigingstype.Code, v.Verenigingstype.Naam),
             IsHoofdvertegenwoordigerVan = v.IsHoofdvertegenwoordigerVan,
         };
 }

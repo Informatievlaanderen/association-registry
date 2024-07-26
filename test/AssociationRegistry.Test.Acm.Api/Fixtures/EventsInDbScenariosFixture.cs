@@ -27,6 +27,9 @@ public class EventsInDbScenariosFixture : AcmApiFixture
     public readonly VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
         VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario = new();
 
+    public readonly RechtsvormWerdGewijzigdInKBO_EventsInDbScenario
+        RechtsvormWerdGewijzigdInKBOEventsInDbScenario = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -40,6 +43,7 @@ public class EventsInDbScenariosFixture : AcmApiFixture
             FeitelijkeVerenigingWerdGestoptEventsInDbScenario,
             FeitelijkeVerenigingWerdVerwijderdEventsInDbScenario,
             VerenigingMetRechtspersoonlijkheidWithAllFieldsEventsInDbScenario,
+            RechtsvormWerdGewijzigdInKBOEventsInDbScenario,
         };
 
         foreach (var scenario in scenarios)

@@ -49,10 +49,35 @@ public class VerenigingenPerInszResponse
         [DataMember]
         public string? KboNummer { get; init; }
 
+        // <summary>
+        /// Het kbo nummer van de vereniging
+        /// </summary>
+        [DataMember]
+        public Verenigingstype Verenigingstype { get; set; } = null!;
+
         /// <summary>
         /// Is True als deze persoon een hoofdvertegenwoordiger is van deze vereniging
         /// </summary>
         [DataMember]
         public bool IsHoofdvertegenwoordigerVan { get; init; }
     }
+}
+
+public class Verenigingstype
+{
+    public Verenigingstype(string code, string naam)
+    {
+        Code = code;
+        Naam = naam;
+    }
+
+    /// <summary>
+    /// De code van het type van de vereniging
+    /// </summary>
+    public string Code { get; set; } = null!;
+
+    /// <summary>
+    /// De naam van het type van de vereniging
+    /// </summary>
+    public string Naam { get; set; } = null!;
 }

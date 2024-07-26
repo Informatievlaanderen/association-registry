@@ -9,6 +9,9 @@ using Schema.VerenigingenPerInsz;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Vereniging;
+using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
+using Verenigingstype = Schema.VerenigingenPerInsz.Verenigingstype;
 
 public class VerenigingenPerInszProjection : EventProjection
 {
@@ -38,6 +41,16 @@ public class VerenigingenPerInszProjection : EventProjection
         var docs = new List<object>();
 
         docs.Add(VerenigingDocumentProjector.Apply(werdGeregistreerd));
+
+        ops.StoreObjects(docs);
+    }
+
+    public async Task Project(IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(rechtsvormWerdGewijzigdInKbo, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(rechtsvormWerdGewijzigdInKbo, ops));
 
         ops.StoreObjects(docs);
     }
@@ -110,6 +123,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = werdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
+                    Verenigingstype = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
                     IsHoofdvertegenwoordigerVan = true,
                 };
 
@@ -171,6 +185,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
                     KboNummer = vereniging.KboNummer,
+                    Verenigingstype = vereniging.VerenigingsType,
                     IsHoofdvertegenwoordigerVan = true,
                 });
 
@@ -205,6 +220,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = vereniging.Naam,
                     Status = vereniging.Status,
                     KboNummer = vereniging.KboNummer,
+                    Verenigingstype = vereniging.VerenigingsType,
                     IsHoofdvertegenwoordigerVan = true,
                 });
 
@@ -248,6 +264,24 @@ public class VerenigingenPerInszProjection : EventProjection
 
             return docs;
         }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(rechtsvormWerdGewijzigdInKbo.StreamKey!);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!).Verenigingstype =
+                    MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
     }
 
     private static class VerenigingDocumentProjector
@@ -258,6 +292,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
                 KboNummer = string.Empty,
             };
 
@@ -267,8 +302,20 @@ public class VerenigingenPerInszProjection : EventProjection
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(werdGeregistreerd.Rechtsvorm)),
                 KboNummer = werdGeregistreerd.KboNummer,
             };
+
+        public static async Task<VerenigingDocument> Apply(
+            IEvent<RechtsvormWerdGewijzigdInKBO> rechtsvormWerdGewijzigdInKbo,
+            IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(rechtsvormWerdGewijzigdInKbo.StreamKey);
+
+            verenigingDocument.VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+
+            return verenigingDocument;
+        }
 
         public static async Task<VerenigingDocument> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
         {
@@ -303,4 +350,7 @@ public class VerenigingenPerInszProjection : EventProjection
             return await ops.GetVerenigingDocument(verenigingWerdVerwijderd.StreamKey!);
         }
     }
+
+    private static Verenigingstype MapVereniging(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
+        => new(verenigingstype.Code, verenigingstype.Naam);
 }
