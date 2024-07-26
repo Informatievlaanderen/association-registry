@@ -46,6 +46,7 @@ public class BeheerVerenigingDetailMapper
         {
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
+            CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = Map(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
