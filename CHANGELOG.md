@@ -1,3 +1,10 @@
+# [8.128.0](https://github.com/informatievlaanderen/association-registry/compare/v8.127.0...v8.128.0) (2024-07-26)
+
+
+### Features
+
+* or-2202 add verenigingstype to acm api ([0087441](https://github.com/informatievlaanderen/association-registry/commit/0087441e5f4502f4b13345d067775f89aa654cba))
+
 # [8.127.0](https://github.com/informatievlaanderen/association-registry/compare/v8.126.0...v8.127.0) (2024-07-26)
 
 
