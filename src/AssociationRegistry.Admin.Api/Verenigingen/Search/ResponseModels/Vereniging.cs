@@ -13,6 +13,10 @@ public class Vereniging
     [DataMember(Name = "VCode")]
     public string VCode { get; init; } = null!;
 
+    /// <summary>De vCodes van de corresponderende verenigingen</summary>
+    [DataMember(Name = "CorresponderendeVCodes")]
+    public string[] CorresponderendeVCodes { get; init; } = Array.Empty<string>()!;
+
     /// <summary>Het type van de vereniging</summary>
     [DataMember(Name = "Verenigingstype")]
     public VerenigingsType Verenigingstype { get; init; } = null!;

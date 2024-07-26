@@ -60,6 +60,7 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
         public VerenigingTemplate()
         {
             _vereniging = new ExpandoObject();
+            _vereniging.corresponderendevcodes = Array.Empty<string>();
             _vereniging.locaties = new List<object>();
             _vereniging.hoofdactiviteiten = new List<object>();
             _vereniging.sleutels = new List<object>();
