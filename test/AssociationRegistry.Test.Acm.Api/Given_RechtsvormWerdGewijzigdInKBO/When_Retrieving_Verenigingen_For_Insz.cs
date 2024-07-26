@@ -1,26 +1,26 @@
-﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdGestopt;
+namespace AssociationRegistry.Test.Acm.Api.Given_RechtsvormWerdGewijzigdInKBO;
 
-using AssociationRegistry.Acm.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;
+using Framework;
 using System.Net;
 using templates;
-using Test.Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AcmApiCollection))]
 [Category("AcmApi")]
 [IntegrationTest]
-public class When_retrieving_Vereniging_for_Insz
+public class When_Retrieving_Verenigingen_For_Insz
 {
     private readonly HttpResponseMessage _response;
-    private readonly FeitelijkeVerenigingWerdGestopt_EventsInDbScenario _scenario;
+    private readonly RechtsvormWerdGewijzigdInKBO_EventsInDbScenario _scenario;
 
-    public When_retrieving_Vereniging_for_Insz(EventsInDbScenariosFixture fixture)
+    public When_Retrieving_Verenigingen_For_Insz(EventsInDbScenariosFixture fixture)
     {
-        _scenario = fixture.FeitelijkeVerenigingWerdGestoptEventsInDbScenario;
+        _scenario = fixture.RechtsvormWerdGewijzigdInKBOEventsInDbScenario;
         _response = fixture.DefaultClient.GetVerenigingenForInsz(_scenario.Insz).GetAwaiter().GetResult();
     }
 
@@ -37,11 +37,11 @@ public class When_retrieving_Vereniging_for_Insz
             new VerenigingenPerInszResponseTemplate()
                .WithInsz(_scenario.Insz)
                .WithVereniging(
-                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
-                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Single(s => s.Insz == _scenario.Insz).VertegenwoordigerId,
-                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
-                    verenigingstype: _scenario.Verenigingstype,
-                    VerenigingStatus.Gestopt
+                    _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                    _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
+                    _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+                    verenigingstype: Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm),
+                    kboNummer: _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer
                 );
 
         content.Should().BeEquivalentJson(expected);

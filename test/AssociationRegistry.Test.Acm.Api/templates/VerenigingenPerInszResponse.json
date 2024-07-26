@@ -8,6 +8,11 @@
       "naam": "{{vereniging.naam}}",
       "status": "{{vereniging.status}}",
       "kboNummer": "{{vereniging.kbonummer}}",
+      "verenigingstype": {
+        "code": "{{vereniging.verenigingstype.code}}",
+        "naam": "{{vereniging.verenigingstype.naam}}"
+      },
+      "kboNummer": "{{vereniging.kbonummer}}",
       "isHoofdvertegenwoordigerVan": {{vereniging.ishoofdvertegenwoordigervan}}
     }
     {{ end }}

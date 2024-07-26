@@ -38,7 +38,8 @@ public class When_Retrieving_Verenigingen_For_Insz
                .WithVereniging(
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Single(s => s.Insz == _scenario.Insz).VertegenwoordigerId,
-                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam
+                    _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+                    verenigingstype: _scenario.Verenigingstype
                 );
 
         content.Should().BeEquivalentJson(expected);

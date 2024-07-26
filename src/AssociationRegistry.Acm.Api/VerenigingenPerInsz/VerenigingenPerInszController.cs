@@ -41,7 +41,6 @@ public class VerenigingenPerInszController : ApiController
         await using var session = documentStore.LightweightSession();
 
         var document = await GetDocument(session, insz);
-
         return Ok(document.ToResponse());
     }
 

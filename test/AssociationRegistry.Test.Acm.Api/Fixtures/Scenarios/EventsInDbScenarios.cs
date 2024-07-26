@@ -18,6 +18,7 @@ public interface IEventsInDbScenario
 public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScenario()
@@ -46,6 +47,7 @@ public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbSce
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
@@ -89,6 +91,7 @@ public class NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbSce
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public NaamWerdGewijzigd_And_VertegenwoordigerWerdToegevoegd_EventsInDbScenario()
@@ -135,6 +138,7 @@ public class AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario : IEventsInDbSc
     public readonly NaamWerdGewijzigd NaamWerdGewijzigd;
     public readonly KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd;
     public readonly KorteBeschrijvingWerdGewijzigd KorteBeschrijvingWerdGewijzigd;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public AlleBasisGegevensWerdenGewijzigd_EventsInDbScenario()
@@ -228,6 +232,7 @@ public class FeitelijkeVerenigingWerdGestopt_EventsInDbScenario : IEventsInDbSce
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly VerenigingWerdGestopt VerenigingWerdGestopt;
+    public readonly Verenigingstype Verenigingstype = Verenigingstype.FeitelijkeVereniging;
     public readonly CommandMetadata Metadata;
 
     public FeitelijkeVerenigingWerdGestopt_EventsInDbScenario()
@@ -323,6 +328,46 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             VertegenwoordigerWerdOvergenomenUitKBO,
             NaamWerdGewijzigdInKbo,
+        };
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}
+public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenario
+{
+    public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
+    public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO;
+    public readonly VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd;
+    public readonly CommandMetadata Metadata;
+
+    public RechtsvormWerdGewijzigdInKBO_EventsInDbScenario()
+    {
+        var fixture = new Fixture().CustomizeAcmApi();
+        VCode = "V0003011";
+
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode, Rechtsvorm = "VZW"};
+
+        RechtsvormWerdGewijzigdInKBO = fixture.Create<RechtsvormWerdGewijzigdInKBO>() with
+        {
+            Rechtsvorm = "IVZW",
+        };
+
+        VertegenwoordigerWerdToegevoegd = fixture.Create<VertegenwoordigerWerdToegevoegd>();
+        Insz = VertegenwoordigerWerdToegevoegd.Insz;
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+    }
+
+    public string VCode { get; set; }
+    public string Insz { get; set; }
+    public StreamActionResult Result { get; set; } = null!;
+
+    public IEvent[] GetEvents()
+        => new IEvent[]
+        {
+            VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            RechtsvormWerdGewijzigdInKBO,
+            VertegenwoordigerWerdToegevoegd,
         };
 
     public CommandMetadata GetCommandMetadata()

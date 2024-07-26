@@ -42,5 +42,29 @@ public class Vereniging
     /// </summary>
     public string KboNummer { get; set; } = null!;
 
+    // <summary>
+    /// Het kbo nummer van de vereniging
+    /// </summary>
+    public Verenigingstype Verenigingstype { get; set; } = null!;
+
     public bool IsHoofdvertegenwoordigerVan { get; set; }
+}
+
+public class Verenigingstype
+{
+    public Verenigingstype(string code, string naam)
+    {
+        Code = code;
+        Naam = naam;
+    }
+
+    /// <summary>
+    /// De code van het type van de vereniging
+    /// </summary>
+    public string Code { get; set; } = null!;
+
+    /// <summary>
+    /// De naam van het type van de vereniging
+    /// </summary>
+    public string Naam { get; set; } = null!;
 }

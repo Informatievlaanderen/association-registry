@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Acm.Api.templates;
 using AssociationRegistry.Acm.Schema.Constants;
 using Scriban;
 using Test.Framework;
+using Vereniging;
 
 public class VerenigingenPerInszResponseTemplate
 {
@@ -20,6 +21,7 @@ public class VerenigingenPerInszResponseTemplate
         string vCode,
         int vertegenwoordigerId,
         string naam,
+        Verenigingstype verenigingstype,
         string status = VerenigingStatus.Actief,
         string kboNummer = "",
         bool isHoofdvertegenwoordigerVan = true)
@@ -31,6 +33,11 @@ public class VerenigingenPerInszResponseTemplate
             naam = naam,
             status = status,
             kbonummer = kboNummer,
+            verenigingstype = new
+            {
+                naam = verenigingstype.Naam,
+                code = verenigingstype.Code,
+            },
             ishoofdvertegenwoordigervan = isHoofdvertegenwoordigerVan,
         });
 
