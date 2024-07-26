@@ -58,12 +58,15 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
                     AdresKonNietOvergenomenWordenUitAdressenregister adresKonNietOvergenomenWordenUitAdressenregister)
                 =>
             {
-                if (adresKonNietOvergenomenWordenUitAdressenregister.Reden == GrarClient.BadRequestSuccessStatusCodeMessage)
+                switch (adresKonNietOvergenomenWordenUitAdressenregister.Reden)
                 {
-                    return true;
-                }
+                    case GrarClient.BadRequestSuccessStatusCodeMessage:
+                    case AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd:
+                        return true;
 
-                return false;
+                    default:
+                        return false;
+                }
             });
 
         CustomGrouping(new LocatieZonderAdresMatchGrouper());

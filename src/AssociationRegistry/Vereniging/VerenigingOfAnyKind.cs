@@ -276,7 +276,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return new AdresKonNietOvergenomenWordenUitAdressenregister(VCode,
                                                                         locatieId,
                                                                         string.Empty,
-                                                                        "Locatie kon niet gevonden worden. Mogelijks is deze verwijderd.");
+                                                                        AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd);
         }
 
         var adresMatch = await grarClient.GetAddressMatches(
