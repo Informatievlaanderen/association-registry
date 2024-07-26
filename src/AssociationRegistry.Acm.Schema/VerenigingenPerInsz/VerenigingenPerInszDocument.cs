@@ -23,6 +23,11 @@ public class Vereniging
     public string VCode { get; set; } = null!;
 
     /// <summary>
+    /// De vCodes van de corresponderende verenigingen
+    /// </summary>
+    public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
+
+    /// <summary>
     /// De id van de vertegenwoordiger
     /// </summary>
     public int VertegenwoordigerId { get; set; }

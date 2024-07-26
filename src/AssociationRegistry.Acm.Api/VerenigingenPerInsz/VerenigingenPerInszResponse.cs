@@ -26,6 +26,12 @@ public class VerenigingenPerInszResponse
         public string VCode { get; init; } = null!;
 
         /// <summary>
+        /// De vCodes van de corresponderende verenigingen
+        /// </summary>
+        [DataMember]
+        public string[] CorresponderendeVCodes { get; set; } = null!;
+
+        /// <summary>
         /// De naam van de vereniging
         /// </summary>
         [DataMember]
