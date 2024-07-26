@@ -3,6 +3,7 @@
   "vereniging": {
     "@type": "{{vereniging.jsonldtype}}",
     "vCode": "{{vereniging.vcode}}",
+    "corresponderendeVCodes": {{vereniging.corresponderendevcodes}},
     "verenigingstype": {
       "code": "{{vereniging.verenigingstype.code}}",
       "naam": "{{vereniging.verenigingstype.naam}}"

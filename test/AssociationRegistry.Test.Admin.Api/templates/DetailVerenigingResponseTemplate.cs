@@ -20,6 +20,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         : base("templates.DetailVerenigingResponse.json")
     {
         _vereniging = new ExpandoObject();
+        _vereniging.corresponderendevcodes = Array.Empty<string>();
         _vereniging.locaties = new List<object>();
         _vereniging.contactgegevens = new List<dynamic>();
         _vereniging.hoofdactiviteiten = new List<object>();
