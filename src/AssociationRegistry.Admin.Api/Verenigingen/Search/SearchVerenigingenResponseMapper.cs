@@ -43,6 +43,7 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
+                CorresponderendeVCodes = verenigingZoekDocument.CorresponderendeVCodes,
                 Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
