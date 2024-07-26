@@ -1,3 +1,12 @@
+# [8.129.0](https://github.com/informatievlaanderen/association-registry/compare/v8.128.1...v8.129.0) (2024-07-26)
+
+
+### Features
+
+* or-2305 add field corresponderende vcodes to acm api ([3853275](https://github.com/informatievlaanderen/association-registry/commit/385327588317bd6e7f3ec80f4bb175156afeec27))
+* or-2305 add field corresponderende vcodes to beheer detail ([601250c](https://github.com/informatievlaanderen/association-registry/commit/601250c67477959c09a9537ba0bee6bc966d0649))
+* or-2305 add field corresponderende vcodes to beheer zoek ([bc19c8c](https://github.com/informatievlaanderen/association-registry/commit/bc19c8c7d103b717a1a85d96ae92c85225827164))
+
 ## [8.128.1](https://github.com/informatievlaanderen/association-registry/compare/v8.128.0...v8.128.1) (2024-07-26)
 
 
