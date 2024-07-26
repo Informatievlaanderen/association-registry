@@ -1,3 +1,10 @@
+## [8.128.1](https://github.com/informatievlaanderen/association-registry/compare/v8.128.0...v8.128.1) (2024-07-26)
+
+
+### Bug Fixes
+
+* or-2159 remove doc when id is null for LocatiesZonderAdresMatchProjection ([b2b3c5e](https://github.com/informatievlaanderen/association-registry/commit/b2b3c5e08fd0d042ac6703f253dec100faaaabb4))
+
 # [8.128.0](https://github.com/informatievlaanderen/association-registry/compare/v8.127.0...v8.128.0) (2024-07-26)
 
 
