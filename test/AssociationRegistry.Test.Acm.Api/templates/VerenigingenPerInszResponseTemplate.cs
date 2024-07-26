@@ -23,12 +23,14 @@ public class VerenigingenPerInszResponseTemplate
         string naam,
         Verenigingstype verenigingstype,
         string status = VerenigingStatus.Actief,
+        string[] corresponderendeVCodes = null,
         string kboNummer = "",
         bool isHoofdvertegenwoordigerVan = true)
     {
         _verenigingen.Add(new
         {
             vcode = vCode,
+            corresponderendevcodes = corresponderendeVCodes ?? new string[0],
             vertegenwoordigerid = vertegenwoordigerId,
             naam = naam,
             status = status,
