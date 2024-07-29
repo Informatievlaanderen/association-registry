@@ -42,8 +42,7 @@ public static class ElasticSearchExtensions
                            elasticSearchOptions.Password)
                       .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
-                      .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!)
-                      .EnableDebugMode();
+                      .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
 
         var elasticClient = new ElasticClient(settings);
 
