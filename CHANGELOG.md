@@ -1,3 +1,11 @@
+## [8.129.1](https://github.com/informatievlaanderen/association-registry/compare/v8.129.0...v8.129.1) (2024-07-29)
+
+
+### Bug Fixes
+
+* or-2331 cleanup obsolete code ([4771b92](https://github.com/informatievlaanderen/association-registry/commit/4771b9219080748d39aab5cfbafb09296fb3143e))
+* or-2331 use correct method for duplicate detection index recreation ([9254985](https://github.com/informatievlaanderen/association-registry/commit/92549852f626a7370dfc3fe39d6d3e9a003ceecb))
+
 # [8.129.0](https://github.com/informatievlaanderen/association-registry/compare/v8.128.1...v8.129.0) (2024-07-26)
 
 
