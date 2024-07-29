@@ -26,7 +26,7 @@ public class VerenigingenPerInszResponse
         public string VCode { get; init; } = null!;
 
         /// <summary>
-        /// De vCodes van de corresponderende verenigingen
+        /// Array of strings - vCodes die dezelfde vereniging weergeven (na correctie van dubbele registraties)
         /// </summary>
         [DataMember]
         public string[] CorresponderendeVCodes { get; set; } = null!;
@@ -69,6 +69,7 @@ public class VerenigingenPerInszResponse
     }
 }
 
+[DataContract]
 public class Verenigingstype
 {
     public Verenigingstype(string code, string naam)
@@ -80,10 +81,12 @@ public class Verenigingstype
     /// <summary>
     /// De code van het type van de vereniging
     /// </summary>
+    [DataMember]
     public string Code { get; set; } = null!;
 
     /// <summary>
     /// De naam van het type van de vereniging
     /// </summary>
+    [DataMember]
     public string Naam { get; set; } = null!;
 }
