@@ -44,6 +44,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                             )
                         ));
 
+        // TODO : Handle invalid NEST response
         return searchResponse.Documents.Select(ToDuplicateVereniging)
                              .ToArray();
     }
