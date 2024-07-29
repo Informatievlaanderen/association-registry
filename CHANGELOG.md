@@ -1,3 +1,10 @@
+## [8.129.2](https://github.com/informatievlaanderen/association-registry/compare/v8.129.1...v8.129.2) (2024-07-29)
+
+
+### Bug Fixes
+
+* or-2305 fix documentation page acm api ([502595c](https://github.com/informatievlaanderen/association-registry/commit/502595cd96c447bfe0f380b7e15af64af56f69b7))
+
 ## [8.129.1](https://github.com/informatievlaanderen/association-registry/compare/v8.129.0...v8.129.1) (2024-07-29)
 
 
