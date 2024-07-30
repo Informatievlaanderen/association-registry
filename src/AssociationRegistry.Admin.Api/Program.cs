@@ -362,6 +362,8 @@ public class Program
                .AddSingleton(magdaOptionsSection)
                .AddSingleton(grarOptions)
                .AddSingleton(appSettings)
+               .AddSingleton(builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                    .Get<OAuth2IntrospectionOptions>())
                .AddSingleton(magdaTemporaryVertegenwoordigersSection)
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddSingleton<IAmazonSQS>(sqsClient)
