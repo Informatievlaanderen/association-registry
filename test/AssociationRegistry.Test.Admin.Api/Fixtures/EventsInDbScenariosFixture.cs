@@ -278,8 +278,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         try
         {
-            daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
-            await daemon.StartAllShards();
+            daemon = ProjectionCoordinator.DaemonForMainDatabase();
+            await daemon.StartAllAsync();
 
             if (daemon is null)
                 throw new NullReferenceException("Projection daemon cannot be null when adding an event");
@@ -296,7 +296,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
     private async Task PostAddEvents(IProjectionDaemon daemon)
     {
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 60));
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(value: 10));
 
         await ElasticClient.Indices.RefreshAsync(Indices.All);
     }

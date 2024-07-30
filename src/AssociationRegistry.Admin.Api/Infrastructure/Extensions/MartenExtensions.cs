@@ -24,7 +24,8 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions)
+        PostgreSqlOptionsSection postgreSqlOptions,
+        bool isDevelopment)
     {
         var martenConfiguration = services
                                  .AddMarten(
@@ -37,7 +38,8 @@ public static class MartenExtensions
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
-                                          opts.Events.AppendMode = EventAppendMode.Quick;
+
+                                          opts.Events.AppendMode = isDevelopment ? EventAppendMode.Rich : EventAppendMode.Quick;
 
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
