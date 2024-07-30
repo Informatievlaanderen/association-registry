@@ -24,7 +24,8 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions)
+        PostgreSqlOptionsSection postgreSqlOptions,
+        bool isDevelopment)
     {
         var martenConfiguration = services
                                  .AddMarten(
@@ -32,10 +33,13 @@ public static class MartenExtensions
                                       {
                                           var opts = new StoreOptions();
                                           opts.Connection(postgreSqlOptions.GetConnectionString());
-                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                                           opts.Serializer(CreateCustomMartenSerializer());
+
+                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
+
+                                          opts.Events.AppendMode = isDevelopment ? EventAppendMode.Rich : EventAppendMode.Quick;
 
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
