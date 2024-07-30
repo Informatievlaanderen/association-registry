@@ -13,6 +13,7 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
 using JasperFx.Core;
 using Marten;
+using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -114,6 +115,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     public IDocumentStore ProjectionsDocumentStore
         => _projectionHostServer.Services.GetRequiredService<IDocumentStore>();
+
+    public IProjectionCoordinator ProjectionCoordinator
+        => _projectionHostServer.Services.GetRequiredService<IProjectionCoordinator>();
 
     public AdminApiClient UnauthenticatedClient
         => Clients.Unauthenticated;
