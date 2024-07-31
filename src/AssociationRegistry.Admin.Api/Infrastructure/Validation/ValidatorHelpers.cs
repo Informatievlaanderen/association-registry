@@ -45,6 +45,12 @@ public static class ValidatorHelpers
           .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
           .WithMessage(ExceptionMessages.UnsupportedContent);
 
+    public static IRuleBuilder<T, string?> MustNotBeMoreThanAllowedMaxLength<T>(this IRuleBuilder<T, string?> ruleBuilder, int maxLength, string errorMessage)
+        => ruleBuilder
+          .MaximumLength(maxLength)
+          .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
+          .WithMessage(errorMessage);
+
     private static bool NotContainHtml(string? propertyValue)
         => propertyValue is null || !Regex.IsMatch(propertyValue, pattern: "<.*?>");
 }

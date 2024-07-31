@@ -2,6 +2,7 @@
 
 using Common;
 using FluentValidation;
+using Infrastructure.Validation;
 using RequestModels;
 using Vereniging;
 
@@ -28,6 +29,10 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
         RuleFor(request => request)
            .Must(HaveAtLeastOneValue)
            .WithMessage("'Locatie' moet ingevuld zijn.");
+
+        RuleFor(locatie => locatie.Naam)
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotContainHtml();
 
         RuleFor(locatie => locatie.Locatietype)
            .Must(BeAValidLocationTypeValue!)

@@ -5,6 +5,7 @@ using Infrastructure.Validation;
 using System;
 using System.Linq;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 {
@@ -14,7 +15,10 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
     {
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
 
-        RuleFor(locatie => locatie.Naam).MustNotContainHtml();
+        RuleFor(locatie => locatie.Naam)
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotContainHtml();
+
         RuleFor(locatie => locatie.Locatietype).MustNotContainHtml();
 
         RuleFor(locatie => locatie.Locatietype)

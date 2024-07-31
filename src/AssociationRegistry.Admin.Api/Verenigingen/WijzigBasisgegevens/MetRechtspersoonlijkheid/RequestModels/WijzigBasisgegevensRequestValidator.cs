@@ -5,6 +5,7 @@ using Common;
 using FluentValidation;
 using Infrastructure.Validation;
 using System.Linq;
+using Vereniging;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -16,7 +17,9 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .WithMessage("Een request mag niet leeg zijn.");
 
         RuleFor(request => request.Roepnaam).MustNotContainHtml();
-        RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
+        RuleFor(contactgegeven => contactgegeven.KorteBeschrijving)
+           .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+           .MustNotContainHtml();
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
