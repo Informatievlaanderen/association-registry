@@ -11,7 +11,10 @@ public class ToeTeVoegenContactgegevenValidator : AbstractValidator<ToeTeVoegenC
         this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Waarde);
         this.RequireNotNullOrEmpty(contactgegeven => contactgegeven.Contactgegeventype);
 
-        RuleFor(contactgegeven => contactgegeven.Beschrijving).MustNotContainHtml();
+        RuleFor(contactgegeven => contactgegeven.Beschrijving)
+           .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+           .MustNotContainHtml();
+
         RuleFor(contactgegeven => contactgegeven.Contactgegeventype).MustNotContainHtml();
         RuleFor(contactgegeven => contactgegeven.Waarde).MustNotContainHtml();
 

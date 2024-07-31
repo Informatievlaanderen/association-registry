@@ -11,6 +11,8 @@ using Websites;
 
 public record Contactgegeven
 {
+    public const int MaxLengthBeschrijving = 42;
+
     protected Contactgegeven(Contactgegeventype contactgegeventype, string waarde, string beschrijving, bool isPrimair)
     {
         ContactgegevenId = 0;

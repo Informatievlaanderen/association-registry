@@ -7,6 +7,7 @@ using Framework;
 using Infrastructure.Validation;
 using System;
 using System.Linq;
+using Vereniging;
 using Vereniging.Exceptions;
 
 public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<RegistreerFeitelijkeVerenigingRequest>
@@ -18,7 +19,9 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
         _clock = clock;
         this.RequireNotNullOrEmpty(request => request.Naam);
 
-        RuleFor(request => request.Naam).MustNotContainHtml();
+        RuleFor(locatie => locatie.Naam)
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotContainHtml();
         RuleFor(request => request.KorteNaam).MustNotContainHtml();
         RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
