@@ -2,6 +2,7 @@
 
 using FluentValidation;
 using Infrastructure.Validation;
+using Vereniging;
 
 public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijzigenMaatschappelijkeZetel>
 {
@@ -12,6 +13,9 @@ public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijz
            .WithMessage("'Locatie' moet ingevuld zijn.");
 
         RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam).MustNotContainHtml();
+        RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam)
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Naam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotContainHtml();
     }
 
     private bool HaveAtLeastOneValue(TeWijzigenMaatschappelijkeZetel locatie)
