@@ -16,7 +16,7 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
 
         RuleFor(locatie => locatie.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam, $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.")
            .MustNotContainHtml();
 
         RuleFor(locatie => locatie.Locatietype).MustNotContainHtml();
