@@ -3,6 +3,7 @@
 using FluentValidation;
 using Infrastructure.Validation;
 using RequestModels;
+using Vereniging;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgegevenRequest>
@@ -11,6 +12,10 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
     {
         RuleFor(request => request.Contactgegeven).NotNull()
                                                   .WithMessage("'Contactgegeven' is verplicht.");
+
+        RuleFor(request => request.Contactgegeven.Beschrijving)
+           .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+           .MustNotContainHtml();
 
         When(
             predicate: request => request.Contactgegeven is not null,
