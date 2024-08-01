@@ -1,3 +1,10 @@
+## [8.129.3](https://github.com/informatievlaanderen/association-registry/compare/v8.129.2...v8.129.3) (2024-08-01)
+
+
+### Bug Fixes
+
+* or-2255 inline sha ([85c20a5](https://github.com/informatievlaanderen/association-registry/commit/85c20a57dcdc4a5d5b0174b5e1379843f2a6dbd2))
+
 ## [8.129.2](https://github.com/informatievlaanderen/association-registry/compare/v8.129.1...v8.129.2) (2024-07-29)
 
 
