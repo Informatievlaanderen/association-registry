@@ -38,7 +38,6 @@ on:
       semver:
         required: true
         type: string
-
 jobs:
   build-image:
     runs-on: ubuntu-latest
@@ -180,11 +179,10 @@ jobs:
         shell: bash
         if: inputs.semver != 'none'
         run: |
-          docker run --network host -e CI_BUILD_NUMBER -e GIT_HASH --rm -v $(pwd):/app -w /app/ mcr.microsoft.com/dotnet/sdk:8.0.300 /bin/sh .github/build-scripts/set-solution-info.sh
+          docker run --network host -e CI_BUILD_NUMBER -e GIT_HASH=${{ github.sha }} --rm -v $(pwd):/app -w /app/ mcr.microsoft.com/dotnet/sdk:8.0.300 /bin/sh .github/build-scripts/set-solution-info.sh
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           CI_BUILD_NUMBER: ${{ inputs.semver }}
-          GIT_HASH: ${{ GITHUB_SHA }}
 
       - name: Pre-build Marten models
         if: ${{ inputs.pre-gen-marten }}
