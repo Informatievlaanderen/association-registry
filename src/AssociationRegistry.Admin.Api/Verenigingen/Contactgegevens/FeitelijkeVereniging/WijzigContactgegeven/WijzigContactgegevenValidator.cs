@@ -13,15 +13,18 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
         RuleFor(request => request.Contactgegeven).NotNull()
                                                   .WithMessage("'Contactgegeven' is verplicht.");
 
-        RuleFor(request => request.Contactgegeven.Beschrijving)
-           .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
-           .MustNotContainHtml();
-
         When(
             predicate: request => request.Contactgegeven is not null,
             action: () => RuleFor(request => request.Contactgegeven)
                          .Must(HaveAtLeastOneValue)
                          .WithMessage("'Contactgegeven' moet ingevuld zijn.")
+        );
+
+        When(
+            predicate: request => request.Contactgegeven is not null,
+            action: () => this.RuleFor(request => request.Contactgegeven.Beschrijving)
+                              .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+                              .MustNotContainHtml()
         );
 
         When(

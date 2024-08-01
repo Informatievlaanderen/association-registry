@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
@@ -9,6 +10,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVe
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
 using Primitives;
+using Test.Framework;
 using Test.Framework.Customizations;
 using Vereniging;
 using Vereniging.Emails;
@@ -16,6 +18,7 @@ using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
+using WijzigContactgegevenRequest = AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.WijzigContactgegevenRequest;
 
 public static class AutoFixtureCustomizations
 {
@@ -37,6 +40,7 @@ public static class AutoFixtureCustomizations
 
         fixture.CustomizeWijzigVertegenwoordigerRequest();
         fixture.CustomizeWijzigLocatieRequest();
+        fixture.CustomizeWijzigContactgegevenRequest();
 
         fixture.CustomizeTestEvent(typeof(TestEvent<>));
 
@@ -119,7 +123,7 @@ public static class AutoFixtureCustomizations
                                                                  {
                                                                      Contactgegeventype = contactgegeven.Contactgegeventype,
                                                                      Waarde = contactgegeven.Waarde,
-                                                                     Beschrijving = fixture.Create<string>(),
+                                                                     Beschrijving = fixture.CreateStringOfMaxLength(Contactgegeven.MaxLengthBeschrijving),
                                                                      IsPrimair = false,
                                                                  };
                                                              })
@@ -153,7 +157,7 @@ public static class AutoFixtureCustomizations
                 value => new ToeTeVoegenLocatie
                 {
                     Locatietype = fixture.Create<Locatietype>(),
-                    Naam = fixture.Create<string>(),
+                    Naam = fixture.CreateStringOfMaxLength(Locatie.MaxLength),
                     Adres = new Adres
                     {
                         Straatnaam = fixture.Create<string>(),
@@ -222,6 +226,24 @@ public static class AutoFixtureCustomizations
                     Adres = fixture.Create<Adres>(),
                     AdresId = null,
                     IsPrimair = false,
+                }).OmitAutoProperties());
+    }
+
+    private static void CustomizeWijzigContactgegevenRequest(this IFixture fixture)
+    {
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(
+            composer => composer.FromFactory<int>(
+                value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven()
+                {
+                    Beschrijving = fixture.CreateStringOfMaxLength(42),
+                    IsPrimair = fixture.Create<bool>(),
+                }).OmitAutoProperties());
+
+        fixture.Customize<WijzigContactgegevenRequest>(
+            composer => composer.FromFactory<int>(
+                value => new WijzigContactgegevenRequest()
+                {
+                    Contactgegeven = fixture.Create<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(),
                 }).OmitAutoProperties());
     }
 
