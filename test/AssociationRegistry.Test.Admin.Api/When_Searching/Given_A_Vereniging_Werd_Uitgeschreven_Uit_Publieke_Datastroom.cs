@@ -34,7 +34,12 @@ public class Given_A_Vereniging_Werd_Uitgeschreven_Uit_Publieke_Datastroom
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
-           .FromQuery(query);
+                          .FromQuery(query)
+                          .WithVereniging(
+                               v => v
+                                  .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                                   .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
+                           );
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
