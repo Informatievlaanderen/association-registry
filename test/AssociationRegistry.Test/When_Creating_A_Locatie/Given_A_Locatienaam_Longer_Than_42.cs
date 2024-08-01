@@ -6,6 +6,7 @@ using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.Customizations;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,7 +38,7 @@ public class Given_A_Locatienaam_Validation
         var validationResult = validator.Validate(request);
 
         validationResult.Errors
-                        .Any(e => e.ErrorMessage == $"Locatienaam mag niet langer dan 42 karakters zijn.")
+                        .Any(e => e.ErrorMessage == $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
                         .Should().Be(expectValidationError);
     }
 
