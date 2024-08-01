@@ -17,5 +17,7 @@ public static class IQueryableExtensions
 
     public static IQueryable<T> OnlyIngeschrevenInPubliekeDatastroom<T>(this IQueryable<T> source)
         where T : ICanBeUitgeschrevenUitPubliekeDatastroom
-        => source.Where(x => !x.IsUitgeschrevenUitPubliekeDatastroom);
+        => source.Where(x => !x.IsUitgeschrevenUitPubliekeDatastroom.HasValue ||
+                             (x.IsUitgeschrevenUitPubliekeDatastroom.HasValue &&
+                             !x.IsUitgeschrevenUitPubliekeDatastroom.Value));
 }

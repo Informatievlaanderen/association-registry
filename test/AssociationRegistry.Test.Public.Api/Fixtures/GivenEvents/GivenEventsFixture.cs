@@ -42,6 +42,7 @@ public class GivenEventsFixture : PublicApiFixture
     public readonly V020_Vereniging20ForSearchScenario V020Vereniging20ForSearchScenario = new();
     public readonly V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd V021VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd = new();
     public readonly V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario = new();
+    public readonly V023_WerdUitgeschrevenUitPubliekeDatastroomScenario_And_NaamWerdGewijzigd V023WerdUitgeschrevenUitPubliekeDatastroomScenarioAndNaamWerdGewijzigd = new();
 
     private IEnumerable<IScenario> Scenarios
         => new IScenario[]
@@ -65,6 +66,7 @@ public class GivenEventsFixture : PublicApiFixture
             V020Vereniging20ForSearchScenario,
             V021VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd,
             V022LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario,
+            V023WerdUitgeschrevenUitPubliekeDatastroomScenarioAndNaamWerdGewijzigd
         };
 
     public override async Task InitializeAsync()
