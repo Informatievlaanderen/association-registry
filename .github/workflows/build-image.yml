@@ -184,7 +184,7 @@ jobs:
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           CI_BUILD_NUMBER: ${{ inputs.semver }}
-          GIT_HASH: ${{ github.sha.substr(0, 7) }}
+          GIT_HASH: ${{ GITHUB_SHA }}
 
       - name: Pre-build Marten models
         if: ${{ inputs.pre-gen-marten }}
