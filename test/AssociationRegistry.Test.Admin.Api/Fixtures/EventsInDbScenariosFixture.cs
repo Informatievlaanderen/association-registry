@@ -280,7 +280,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         try
         {
-            daemon = ProjectionCoordinator.DaemonForMainDatabase();
+            daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
             await daemon.StartAllAsync();
 
             if (daemon is null)
