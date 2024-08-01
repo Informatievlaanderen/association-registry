@@ -1,3 +1,10 @@
+## [8.130.1](https://github.com/informatievlaanderen/association-registry/compare/v8.130.0...v8.130.1) (2024-08-01)
+
+
+### Bug Fixes
+
+* or-2242 make uitgeschreven boolean nullable ([2e30005](https://github.com/informatievlaanderen/association-registry/commit/2e300053074553afd3e1448f617084f4cf7b57f3))
+
 # [8.130.0](https://github.com/informatievlaanderen/association-registry/compare/v8.129.3...v8.130.0) (2024-08-01)
 
 
