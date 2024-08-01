@@ -2,14 +2,17 @@
 
 using Alba;
 using Admin.Api;
+using Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Common.Fixtures;
+using Hosts;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Oakton;
 using Polly;
 using Polly.Retry;
@@ -36,6 +39,7 @@ public class AppFixture : IAsyncLifetime
                            .AddJsonFile("appsettings.json").Build();
 
         AdminApiFixture.EnsureDbExists(configuration);
+
 
         Host = await AlbaHost.For<Program>(b =>
         {
@@ -79,6 +83,10 @@ public class AppFixture : IAsyncLifetime
                   })
                  .UseSetting("ASPNETCORE_ENVIRONMENT", "Development");
             });
+
+        await WaitFor.PostGreSQLToBecomeAvailable(
+            Host.Services.GetRequiredService<ILogger<Program>>(),
+            Host.Services.GetRequiredService<PostgreSqlOptionsSection>().GetConnectionString());
 
         var store = Host.Services.GetRequiredService<IDocumentStore>();
         await store.Storage.ApplyAllConfiguredChangesToDatabaseAsync();
