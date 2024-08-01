@@ -1,3 +1,18 @@
+# [8.130.0](https://github.com/informatievlaanderen/association-registry/compare/v8.129.3...v8.130.0) (2024-08-01)
+
+
+### Bug Fixes
+
+* or-2263 add validation for maximum length for locatie and contactgegevens ([ca8b457](https://github.com/informatievlaanderen/association-registry/commit/ca8b45765b1d3929d674ebd73b12399b317f4bdd))
+* or-2263 provide correct customizations and fix validators ([b5e5cf2](https://github.com/informatievlaanderen/association-registry/commit/b5e5cf2ba4d46e279e0eda54541a4da1b0dd0a18))
+* or-2263 remove non-html requirement and clean up ([5b1d81e](https://github.com/informatievlaanderen/association-registry/commit/5b1d81eca2888aa7db8a1a35534c83f4021df81a))
+* or-2263 validation for maximum length locatienaam and contactgegeven beschrijving ([afb4842](https://github.com/informatievlaanderen/association-registry/commit/afb48424d076c48a28a75e90099c6bb5c6fa0563))
+
+
+### Features
+
+* or-2263 maximum length for locatienaam and contactgegevenbeschrijving ([6226869](https://github.com/informatievlaanderen/association-registry/commit/62268697ae9510cb7b359e09dd63ae57f8cd89a3))
+
 ## [8.129.3](https://github.com/informatievlaanderen/association-registry/compare/v8.129.2...v8.129.3) (2024-08-01)
 
 
