@@ -1,3 +1,10 @@
+## [8.130.2](https://github.com/informatievlaanderen/association-registry/compare/v8.130.1...v8.130.2) (2024-08-01)
+
+
+### Bug Fixes
+
+* or-2291 only use quickadd in production mode ([a2892ae](https://github.com/informatievlaanderen/association-registry/commit/a2892ae9cccf34bb95ce40df25c01984d8437a4a))
+
 ## [8.130.1](https://github.com/informatievlaanderen/association-registry/compare/v8.130.0...v8.130.1) (2024-08-01)
 
 
