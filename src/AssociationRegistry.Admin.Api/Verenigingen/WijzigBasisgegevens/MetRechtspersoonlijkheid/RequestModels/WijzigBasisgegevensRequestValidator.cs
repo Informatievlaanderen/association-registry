@@ -18,7 +18,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
 
         RuleFor(request => request.Roepnaam).MustNotContainHtml();
         RuleFor(contactgegeven => contactgegeven.KorteBeschrijving)
-           .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
            .MustNotContainHtml();
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
