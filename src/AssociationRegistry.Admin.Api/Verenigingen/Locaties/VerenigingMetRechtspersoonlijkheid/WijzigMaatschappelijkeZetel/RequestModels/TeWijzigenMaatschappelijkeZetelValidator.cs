@@ -14,7 +14,7 @@ public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijz
 
         RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam).MustNotContainHtml();
         RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Naam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
            .MustNotContainHtml();
     }
 
