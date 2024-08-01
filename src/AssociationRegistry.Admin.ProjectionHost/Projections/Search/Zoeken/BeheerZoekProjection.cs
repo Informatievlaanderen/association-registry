@@ -95,6 +95,7 @@ public class BeheerZoekProjectionHandler
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
+                IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Sleutels = new[]
                 {

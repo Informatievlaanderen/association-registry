@@ -88,7 +88,6 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.DaemonLockId = 1;
 
-                opts.Projections.Add<BeheerVerenigingDetailMultiProjection>(ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);

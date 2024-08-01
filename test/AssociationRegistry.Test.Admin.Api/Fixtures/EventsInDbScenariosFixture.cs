@@ -191,6 +191,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
 
     public readonly V078_AdresWerdOntkoppeldVanAdressenregister V078AdresWerdOntkoppeldVanAdressenregister = new();
+    public readonly V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd = new();
 
     protected override async Task Given()
     {
@@ -254,6 +255,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V070FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresWerdNietGevondenInAdressenregister,
             V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation,
             V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
+            V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd,
         };
 
         using var daemon = await PreAddEvents();

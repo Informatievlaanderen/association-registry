@@ -104,6 +104,7 @@ public static class PubliekVerenigingDetailProjector
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                                         .ToBelgianDate(),
+            IsUitgeschrevenUitPubliekeDatastroom = false,
             Status = VerenigingStatus.Actief,
             Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
