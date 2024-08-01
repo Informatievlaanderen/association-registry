@@ -6,7 +6,7 @@ using Framework;
 
 public record Locatie
 {
-    public const int MaxLength = 42;
+    public const int MaxLengthLocatienaam = 42;
 
     public int LocatieId { get; init; }
     public string Naam { get; init; }

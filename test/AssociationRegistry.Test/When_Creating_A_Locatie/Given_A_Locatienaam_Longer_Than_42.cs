@@ -38,7 +38,7 @@ public class Given_A_Locatienaam_Validation
         var validationResult = validator.Validate(request);
 
         validationResult.Errors
-                        .Any(e => e.ErrorMessage == $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
+                        .Any(e => e.ErrorMessage == $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.")
                         .Should().Be(expectValidationError);
     }
 

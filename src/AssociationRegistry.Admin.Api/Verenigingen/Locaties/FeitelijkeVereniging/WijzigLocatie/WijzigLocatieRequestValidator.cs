@@ -31,8 +31,7 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
            .WithMessage("'Locatie' moet ingevuld zijn.");
 
         RuleFor(locatie => locatie.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLength, $"Locatienaam mag niet langer dan {Locatie.MaxLength} karakters zijn.")
-           .MustNotContainHtml();
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam, $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.");
 
         RuleFor(locatie => locatie.Locatietype)
            .Must(BeAValidLocationTypeValue!)
