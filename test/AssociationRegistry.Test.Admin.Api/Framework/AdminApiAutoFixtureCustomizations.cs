@@ -157,7 +157,7 @@ public static class AutoFixtureCustomizations
                 value => new ToeTeVoegenLocatie
                 {
                     Locatietype = fixture.Create<Locatietype>(),
-                    Naam = fixture.CreateStringOfMaxLength(Locatie.MaxLength),
+                    Naam = fixture.CreateStringOfMaxLength(Locatie.MaxLengthLocatienaam),
                     Adres = new Adres
                     {
                         Straatnaam = fixture.Create<string>(),

@@ -17,8 +17,9 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .WithMessage("Een request mag niet leeg zijn.");
 
         RuleFor(request => request.Roepnaam).MustNotContainHtml();
-        RuleFor(contactgegeven => contactgegeven.KorteBeschrijving)
+        RuleFor(request => request.KorteBeschrijving)
            .MustNotContainHtml();
+
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 
         RuleFor(request => request.HoofdactiviteitenVerenigingsloket)
