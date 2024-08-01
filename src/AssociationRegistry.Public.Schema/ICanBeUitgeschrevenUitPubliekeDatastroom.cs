@@ -2,5 +2,5 @@
 
 public interface ICanBeUitgeschrevenUitPubliekeDatastroom
 {
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; }
+    public bool? IsUitgeschrevenUitPubliekeDatastroom { get; }
 }

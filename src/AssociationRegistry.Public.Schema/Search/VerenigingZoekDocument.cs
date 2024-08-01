@@ -16,7 +16,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
     public Relatie[] Relaties { get; set; } = null!;
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Status { get; set; } = null!;
     public bool IsVerwijderd { get; set; }
 

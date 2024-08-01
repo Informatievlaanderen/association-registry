@@ -31,7 +31,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
-    public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
+    public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     [Identity] public string VCode { get; set; } = null!;
 
     public class VerenigingsType
