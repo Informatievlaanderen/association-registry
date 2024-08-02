@@ -49,6 +49,7 @@ services:
       - "9200:9200"
     environment:
       ELASTIC_PASSWORD: local_development
+      ES_JAVA_OPTS: -Xms10g -Xmx10g
       discovery.type: single-node
       xpack.security.transport.ssl.enabled: false
       cluster.routing.allocation.disk.watermark.low: 97%
