@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using Events;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 using global::AutoFixture;
 
 public static class EventCustomizations

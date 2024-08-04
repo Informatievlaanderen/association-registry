@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using JsonLdContext;
 using Xunit;
@@ -62,7 +62,7 @@ public class Given_AdresWerdGewijzigdInAdressenregister
                     Busnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Busnummer,
                     Postcode = adresWerdGewijzigdInAdressenregister.Data.Adres.Postcode,
                     Gemeente = adresWerdGewijzigdInAdressenregister.Data.Adres.Gemeente,
-                    Land = Vereniging.Adres.Belgie,
+                    Land = Vereniging.Adres.België,
                 },
             Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres.ToAdresString(),
             AdresId = adresWerdGewijzigdInAdressenregister.Data.AdresId is null

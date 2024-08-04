@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Constants;
+using Formats;
 using GrarSync;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
@@ -12,6 +13,7 @@ using Marten.Services;
 using Metrics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
@@ -32,13 +34,19 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
+
+                                          if (!postgreSqlOptions.Schema.IsNullOrEmpty())
+                                          {
+                                              opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                                              opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+                                          }
+
                                           opts.Connection(postgreSqlOptions.GetConnectionString());
                                           opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                                           opts.Serializer(CreateCustomMartenSerializer());
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
-
                                           opts.Events.AppendMode = isDevelopment ? EventAppendMode.Rich : EventAppendMode.Quick;
 
                                           opts.Listeners.Add(

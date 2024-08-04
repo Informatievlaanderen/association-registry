@@ -1,0 +1,77 @@
+{
+  "@context": "http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json",
+  "verenigingen": [
+    {{ for vereniging in verenigingen }}
+    {
+      "@type": "{{vereniging.jsonldtype}}",
+      "vCode": "{{vereniging.vcode}}",
+      "corresponderendeVCodes": {{vereniging.corresponderendevcodes}},
+      "verenigingstype": {
+        "code": "{{vereniging.verenigingstype.code}}",
+        "naam": "{{vereniging.verenigingstype.naam}}"
+      },
+      "naam": "{{vereniging.naam}}",
+      "korteNaam": "{{vereniging.kortenaam}}",
+      {{if vereniging.roepnaam}}"roepnaam":"{{vereniging.roepnaam}}",{{end}}
+      "status": "{{vereniging.status}}",
+      "hoofdactiviteitenVerenigingsloket": [
+        {{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+        {
+          "@id": "{{hoofdactiviteit.jsonldid}}",
+          "@type": "{{hoofdactiviteit.jsonldtype}}",
+          "code": "{{hoofdactiviteit.code}}",
+          "naam": "{{hoofdactiviteit.naam}}"
+        },
+        {{end}}
+      ],
+      "startdatum": {{if vereniging.startdatum}}"{{vereniging.startdatum}}",{{else}}null,{{end}}
+      "einddatum": {{if vereniging.einddatum}}"{{vereniging.einddatum}}",{{else}}null,{{end}}
+      "doelgroep": {
+        "@id": "{{vereniging.doelgroep.jsonldid}}",
+        "@type": "{{vereniging.doelgroep.jsonldtype}}","minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+        "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+      },
+      "locaties": [
+      {{for locatie in vereniging.locaties}}
+        {
+          "@id": "{{locatie.jsonldid}}",
+          "@type": "{{locatie.jsonldtype}}",
+          "locatietype": "{{locatie.type}}",
+          "isPrimair": {{locatie.isprimair}},
+          "adresvoorstelling": "{{locatie.adresvoorstelling}}",
+          "naam": "{{locatie.naam}}",
+          "postcode": "{{locatie.postcode}}",
+          "gemeente": "{{locatie.gemeente}}",
+        },
+      {{end}}
+      ],
+      "sleutels": [
+      {{for sleutel in vereniging.sleutels}}
+      {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
+        "bron": "{{sleutel.bron}}",
+        "waarde": "{{sleutel.waarde}}",
+        "codeerSysteem": "{{sleutel.codeersysteem}}",
+        "gestructureerdeIdentificator": {
+          "@id": "{{sleutel.identificator.jsonldid}}",
+          "@type": "{{sleutel.identificator.jsonldtype}}",
+          "nummer": "{{sleutel.identificator.nummer}}"
+        }
+      },
+      {{end}}
+    ],
+      "links": {
+        "detail": "http://127.0.0.1:11004/v1/verenigingen/{{vereniging.vcode}}"
+      }
+    },
+    {{end}}
+  ],
+  "metadata": {
+    "pagination": {
+      "totalCount": {{verenigingen.size}},
+      "offset": {{pagination.offset}},
+      "limit": {{pagination.limit}}
+    }
+  }
+}

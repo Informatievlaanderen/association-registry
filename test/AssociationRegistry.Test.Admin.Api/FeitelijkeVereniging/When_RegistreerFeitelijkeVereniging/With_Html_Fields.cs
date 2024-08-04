@@ -7,6 +7,7 @@ using AutoFixture;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Fixtures;
 using FluentAssertions;
+using Formats;
 using Framework;
 using Newtonsoft.Json;
 using System.Collections;

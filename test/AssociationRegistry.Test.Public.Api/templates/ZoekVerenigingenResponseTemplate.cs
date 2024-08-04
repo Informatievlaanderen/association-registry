@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Public.Api.templates;
 
+using Common.Extensions;
 using Events;
-using Formatters;
+using Formats;
 using JsonLdContext;
 using Scriban;
 using System.Dynamic;
-using Test.Framework;
 using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate

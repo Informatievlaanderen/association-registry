@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApp
 
 using ConfigurationBindings;
 using Constants;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
@@ -70,13 +71,19 @@ public static class ConfigureMartenExtensions
         var martenConfigurationExpression = services.AddMarten(
             serviceProvider =>
             {
-                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
+                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
                                                             .Get<PostgreSqlOptionsSection>() ??
                                         throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
                 var opts = new StoreOptions();
+
+                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+                {
+                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+                }
 
                 opts.Connection(connectionString);
 

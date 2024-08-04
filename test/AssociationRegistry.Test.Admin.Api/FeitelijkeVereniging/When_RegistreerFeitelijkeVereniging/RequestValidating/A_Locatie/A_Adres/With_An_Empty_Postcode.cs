@@ -30,7 +30,7 @@ public class With_An_Empty_Postcode : ValidatorTest
                         Straatnaam = "Dezestraat",
                         Gemeente = "Zonnedorp",
                         Huisnummer = "23",
-                        Land = "Belgie",
+                        Land = "België",
                         Postcode = string.Empty,
                     },
                 },

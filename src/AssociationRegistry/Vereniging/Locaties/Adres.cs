@@ -8,7 +8,7 @@ using Kbo;
 
 public record Adres
 {
-    public const string Belgie = "België";
+    public const string België = "België";
 
     private Adres(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
     {
@@ -70,5 +70,5 @@ public record Adres
                   adres.Busnummer,
                   adres.Postcode,
                   adres.Gemeente,
-                  Belgie);
+                  België);
 }

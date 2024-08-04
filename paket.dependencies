@@ -38,7 +38,6 @@ nuget Microsoft.Extensions.Diagnostics.HealthChecks
 nuget Microsoft.Extensions.Http
 nuget Microsoft.NETCore.Platforms
 nuget Moq
-
 nuget NpgSql.OpenTelemetry
 
 nuget OpenTelemetry

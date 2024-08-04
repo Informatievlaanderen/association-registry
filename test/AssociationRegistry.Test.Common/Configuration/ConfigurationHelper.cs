@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Configuration;
 
-using AssociationRegistry.Admin.Api;
+using Admin.Api;
 using Microsoft.Extensions.Configuration;
 using System.Reflection;
 

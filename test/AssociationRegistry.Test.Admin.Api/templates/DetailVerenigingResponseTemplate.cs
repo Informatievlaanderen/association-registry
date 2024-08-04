@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
-using Formatters;
+using Formats;
 using JsonLdContext;
 using NodaTime;
 using System.Dynamic;
@@ -412,7 +412,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
     public DetailVerenigingResponseTemplate WithDatumLaatsteAanpassing(Instant instant)
     {
-        _datumLaatsteAanpassing = instant.ToBelgianDate();
+        _datumLaatsteAanpassing = Formatters.ToBelgianDate(instant);
 
         return this;
     }

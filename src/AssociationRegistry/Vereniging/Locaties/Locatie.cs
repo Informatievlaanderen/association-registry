@@ -101,7 +101,7 @@ public record Locatie
                 busnummer: decoratedAdres.Adres.Busnummer,
                 postcode: decoratedAdres.Adres.Postcode,
                 gemeente: decoratedAdres.Adres.Gemeente,
-                Adres.Belgie
+                Adres.België
             ),
         };
 }

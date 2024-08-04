@@ -1,0 +1,11 @@
+﻿{
+  "vCode":"{{vereniging.vcode}}",
+  "data":[
+    {{for locatielookup in vereniging.locatielookups}}
+  {
+    "locatieId":{{locatielookup.locatieid}},
+    "adresId":"{{locatielookup.adresid}}",
+  },
+{{end}}
+  ]
+}

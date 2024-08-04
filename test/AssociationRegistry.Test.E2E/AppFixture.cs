@@ -1,35 +1,34 @@
 ﻿namespace AssociationRegistry.Test.E2E;
 
-using Alba;
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Common.Fixtures;
+using Alba;
+using Framework.AlbaHost;
 using Hosts;
+using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Oakton;
-using Polly;
-using Polly.Retry;
 using Xunit;
 using Clients = Common.Clients.Clients;
 using ProjectionHostProgram = Admin.ProjectionHost.Program;
 
 public class AppFixture : IAsyncLifetime
 {
-    public const string Initiator = "V0001001";
+    private readonly string _schema;
     public string? AuthCookie { get; private set; }
+    public ILogger<Program> Logger { get; private set; }
+    public IAlbaHost AdminApiHost { get; private set; }
+    public IAlbaHost AdminProjectionHost { get; private set; }
 
-    public AsyncRetryPolicy RetryPolicy;
-    public WebApplicationFactory<ProjectionHostProgram> ProjectionHostServer;
-    private string SchemaName { get; } = "sch" + Guid.NewGuid().ToString().Replace("-", string.Empty);
-
-    public IAlbaHost Host { get; private set; }
+    public AppFixture(string schema)
+    {
+        _schema = schema;
+    }
 
     public async Task InitializeAsync()
     {
@@ -38,10 +37,22 @@ public class AppFixture : IAsyncLifetime
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.json").Build();
 
-        AdminApiFixture.EnsureDbExists(configuration);
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(configuration)))
+           .EnsureEachCallIsAuthenticated();
 
+        Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
-        Host = await AlbaHost.For<Program>(b =>
+        AdminProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration));
+
+        await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
+        await AdminProjectionHost.ResumeAllDaemonsAsync();
+    }
+
+    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration)
+    {
+        return b =>
         {
             b.UseEnvironment("Development");
             b.UseContentRoot(Directory.GetCurrentDirectory());
@@ -51,61 +62,15 @@ public class AppFixture : IAsyncLifetime
             b.ConfigureServices((context, services) =>
               {
                   context.HostingEnvironment.EnvironmentName = "Development";
-                  // services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = SchemaName; });
+                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = _schema; });
               })
-             .UseSetting("ASPNETCORE_ENVIRONMENT", "Development");
-        });
-
-        var adminApiClient = new Clients(Host.Services.GetRequiredService<OAuth2IntrospectionOptions>(), () => new HttpClient())
-           .Authenticated;
-
-        Host.BeforeEach(context =>
-        {
-            context.Request.Headers["x-correlation-id"] = Guid.NewGuid().ToString();
-            context.Request.Headers["vr-initiator"] = Initiator;
-
-            context.Request.Headers["Authorization"] =
-                adminApiClient.HttpClient.DefaultRequestHeaders.GetValues("Authorization").First();
-        });
-
-        ProjectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
-           .WithWebHostBuilder(b =>
-            {
-                b.UseEnvironment("Development");
-                b.UseContentRoot(Directory.GetCurrentDirectory());
-
-                b.UseConfiguration(configuration);
-
-                b.ConfigureServices((context, services) =>
-                  {
-                      context.HostingEnvironment.EnvironmentName = "Development";
-                      // services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = SchemaName; });
-                  })
-                 .UseSetting("ASPNETCORE_ENVIRONMENT", "Development");
-            });
-
-        await WaitFor.PostGreSQLToBecomeAvailable(
-            Host.Services.GetRequiredService<ILogger<Program>>(),
-            Host.Services.GetRequiredService<PostgreSqlOptionsSection>().GetConnectionString());
-
-        var store = Host.Services.GetRequiredService<IDocumentStore>();
-        await store.Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await ProjectionHostServer.Services.GetRequiredService<IDocumentStore>().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
-        RetryPolicy = Policy
-                     .Handle<Exception>()
-                     .WaitAndRetryAsync(3, retryAttempt =>
-                                            TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)) // Exponential backoff
-                                      , (exception, timeSpan, context) =>
-                                        {
-                                            Console.WriteLine(
-                                                $"An error occurred: {exception.Message}. Waiting {timeSpan} before next retry.");
-                                        });
+             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development");
+        };
     }
 
     public async Task DisposeAsync()
     {
-        await Host.Services.GetRequiredService<IDocumentStore>().Advanced.ResetAllData();
-        await Host.DisposeAsync();
+        await AdminApiHost.Services.GetRequiredService<IDocumentStore>().Advanced.ResetAllData();
+        await AdminApiHost.DisposeAsync();
     }
 }

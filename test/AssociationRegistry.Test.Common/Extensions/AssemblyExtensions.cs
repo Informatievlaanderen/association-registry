@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Framework;
+namespace AssociationRegistry.Test.Common.Extensions;
 
 using System.Reflection;
 using System.Text;

@@ -2,7 +2,7 @@
 
 using Events;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 

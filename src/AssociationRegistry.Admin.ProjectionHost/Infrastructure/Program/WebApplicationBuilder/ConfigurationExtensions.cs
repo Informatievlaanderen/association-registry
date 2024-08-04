@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 
 public static class ConfigurationExtensions
 {
-    public static PostgreSqlOptionsSection GetValidPostgreSqlOptionsOrThrow(this ConfigurationManager source)
+    public static Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection GetValidPostgreSqlOptionsOrThrow(this ConfigurationManager source)
     {
-        var postgreSqlOptions = source.GetSection(PostgreSqlOptionsSection.Name)
+        var postgreSqlOptions = source.GetSection(PostgreSqlOptionsSection.SectionName)
                                       .Get<PostgreSqlOptionsSection>();
 
         ConfigHelpers.ThrowIfInvalidPostgreSqlOptions(postgreSqlOptions);

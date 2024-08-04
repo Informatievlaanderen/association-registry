@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
-using Formatters;
 using Framework;
 using Infrastructure.Extensions;
 using JsonLdContext;
@@ -9,6 +8,7 @@ using Marten.Events;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
+using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
 
@@ -481,7 +481,7 @@ public static class PubliekVerenigingDetailProjector
                                          Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
                                                      adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
                                                      adresWerdOvergenomenUitAdressenregister.Data.Adres),
-                                         Adresvoorstelling = adresWerdOvergenomenUitAdressenregister.Data.Adres.ToAdresString(),
+                                         Adresvoorstelling = AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
                                          AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                          VerwijstNaar =
                                          MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
@@ -509,8 +509,7 @@ public static class PubliekVerenigingDetailProjector
                                          Adres = Map(adresWerdGewijzigdInAdressenregister.Data.VCode,
                                                      adresWerdGewijzigdInAdressenregister.Data.LocatieId,
                                                      adresWerdGewijzigdInAdressenregister.Data.Adres),
-                                         Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres
-                                            .ToAdresString(),
+                                         Adresvoorstelling = AdresFormatter.ToAdresString(adresWerdGewijzigdInAdressenregister.Data.Adres),
                                          AdresId = Map(adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                          VerwijstNaar =
                                          MapVerwijstNaar(adresWerdGewijzigdInAdressenregister.Data.AdresId),
@@ -584,7 +583,7 @@ public static class PubliekVerenigingDetailProjector
             Naam = loc.Naam,
             Locatietype = loc.Locatietype,
             Adres = Map(vCode, loc.LocatieId, loc.Adres),
-            Adresvoorstelling = loc.Adres.ToAdresString(),
+            Adresvoorstelling = AdresFormatter.ToAdresString(loc.Adres),
             AdresId = Map(loc.AdresId),
             VerwijstNaar = MapVerwijstNaar(loc.AdresId),
         };
@@ -614,7 +613,7 @@ public static class PubliekVerenigingDetailProjector
                 Busnummer = adresUitAdressenregister.Busnummer,
                 Postcode = adresUitAdressenregister.Postcode,
                 Gemeente = adresUitAdressenregister.Gemeente,
-                Land = Adres.Belgie,
+                Land = Adres.België,
             };
 
     private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)

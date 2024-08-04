@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
 using Extensions;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 
 public static class ConfigureElasticSearchExtensions

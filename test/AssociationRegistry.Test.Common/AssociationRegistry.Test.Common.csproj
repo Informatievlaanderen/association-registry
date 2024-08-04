@@ -20,5 +20,19 @@
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
   </ItemGroup>
 
+  <ItemGroup>
+    <EmbeddedResource Include="templates\adminApi\DetailVerenigingResponse.json" />
+    <EmbeddedResource Include="templates\adminApi\kboSyncHistoriek\KboSyncHistoriek.json" />
+    <EmbeddedResource Include="templates\adminApi\LocatieLookupResponse.json" />
+    <EmbeddedResource Include="templates\adminApi\ProblemDetailsResponse.json" />
+    <EmbeddedResource Include="templates\adminApi\ZoekVerenigingenResponse.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Scriban">
+      <HintPath>..\..\..\..\..\home\koen\.nuget\packages\scriban\5.10.0\lib\net7.0\Scriban.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

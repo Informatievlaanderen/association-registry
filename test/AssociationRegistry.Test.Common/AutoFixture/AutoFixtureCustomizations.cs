@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
-using AssociationRegistry.Vereniging.Websites;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
+using Vereniging.Websites;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;

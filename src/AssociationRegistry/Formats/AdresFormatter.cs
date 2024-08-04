@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Formatters;
+﻿namespace AssociationRegistry.Formats;
 
-using Events;
+using AssociationRegistry.Events;
 
 public static class AdresFormatter
 {
@@ -21,6 +21,6 @@ public static class AdresFormatter
 
         return $"{adres.Straatnaam} {adres.Huisnummer}" +
                (!string.IsNullOrWhiteSpace(adres.Busnummer) ? $" bus {adres.Busnummer}" : string.Empty) +
-               $", {adres.Postcode} {adres.Gemeente}, {Vereniging.Adres.Belgie}";
+               $", {adres.Postcode} {adres.Gemeente}, {Vereniging.Adres.België}";
     }
 }

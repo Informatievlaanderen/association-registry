@@ -36,7 +36,7 @@
                             <Onderneming>
                                 <Ondernemingsnummer
                                     xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
-                                    {{regexExtract request.body '<Ondernemingsnummer>([0-9]{10})</Ondernemingsnummer>' 'parts'}}{{parts.0}}    
+                                    {{regexExtract request.body '<Ondernemingsnummer>([0-9]{10})</Ondernemingsnummer>' 'parts'}}{{parts.0}}
                                 </Ondernemingsnummer>
                                 <AuthentiekBron
                                     xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
@@ -60,7 +60,7 @@
                                     <MaatschappelijkeNamen>
                                         <MaatschappelijkeNaam DatumBegin="1998-01-01">
                                             <Naam>
-                                                {{regexExtract request.body '<Ondernemingsnummer>([0-9]{10})</Ondernemingsnummer>' 'parts'}}{{parts.0}}    
+                                                {{regexExtract request.body '<Ondernemingsnummer>([0-9]{10})</Ondernemingsnummer>' 'parts'}}{{parts.0}}
                                             </Naam>
                                             <Taalcode>nl</Taalcode>
                                         </MaatschappelijkeNaam>
@@ -86,7 +86,7 @@
                                         <Land>
                                             <NISCode>150</NISCode>
                                             <ISOCode>BE</ISOCode>
-                                            <Naam>BELGIE</Naam>
+                                            <Naam>België</Naam>
                                         </Land>
                                         <Type>
                                             <Code>001</Code>

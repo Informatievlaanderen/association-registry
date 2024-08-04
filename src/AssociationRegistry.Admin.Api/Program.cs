@@ -19,6 +19,7 @@ using DuplicateVerenigingDetection;
 using Events;
 using EventStore;
 using FluentValidation;
+using Formats;
 using Framework;
 using Grar;
 using Grar.AddressMatch;

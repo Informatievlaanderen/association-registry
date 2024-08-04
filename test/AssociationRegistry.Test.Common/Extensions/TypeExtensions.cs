@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Framework;
 
+using Common.Extensions;
+
 public static class TypeExtensions
 {
     /// <summary>

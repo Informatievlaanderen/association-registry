@@ -12,7 +12,7 @@ public class With_No_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie"),
+            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", Array.Empty<string>()));

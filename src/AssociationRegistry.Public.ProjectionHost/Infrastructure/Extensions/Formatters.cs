@@ -6,5 +6,5 @@ using NodaTime;
 public static class Formatters
 {
     public static string ToBelgianDate(this Instant instant)
-        => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.Belgie);
+        => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
 }

@@ -4,7 +4,7 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using templates;
 using Vereniging;

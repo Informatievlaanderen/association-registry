@@ -1,0 +1,176 @@
+{
+  "@context": "http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json",
+  "vereniging": {
+    "@type": "{{vereniging.jsonldtype}}",
+    "vCode": "{{vereniging.vcode}}",
+    "corresponderendeVCodes": {{vereniging.corresponderendevcodes}},
+    "verenigingstype": {
+      "code": "{{vereniging.verenigingstype.code}}",
+      "naam": "{{vereniging.verenigingstype.naam}}"
+    },
+    "naam": "{{vereniging.naam}}",
+    "korteNaam": "{{vereniging.kortenaam}}",
+    "korteBeschrijving" : "{{vereniging.kortebeschrijving}}",
+{{if vereniging.roepnaam}}
+    "roepnaam":"{{vereniging.roepnaam}}",
+{{end}}
+    "startdatum":
+{{if vereniging.startdatum}}
+      "{{vereniging.startdatum}}",
+{{else}}
+      null,
+{{end}}
+    "einddatum":
+{{if vereniging.einddatum}}
+    "{{vereniging.einddatum}}",
+{{else}}
+    null,
+{{end}}
+    "status": "{{vereniging.status}}",
+    "isUitgeschrevenUitPubliekeDatastroom": {{vereniging.isuitgeschreven}},
+    "contactgegevens": [
+{{for contactgegeven in vereniging.contactgegevens}}
+      {
+        "@id": "{{contactgegeven.jsonldid}}",
+        "@type": "{{contactgegeven.jsonldtype}}",
+        "contactgegevenId": {{contactgegeven.id}},
+        "contactgegeventype": "{{contactgegeven.contactgegeventype}}",
+        "waarde": "{{contactgegeven.waarde}}",
+        "beschrijving": "{{contactgegeven.beschrijving}}",
+        "isPrimair": {{contactgegeven.isprimair}},
+        "bron": "{{contactgegeven.bron}}"
+      },
+{{end}}
+    ],
+    "hoofdactiviteitenVerenigingsloket": [
+{{for hoofdactiviteit in vereniging.hoofdactiviteiten}}
+      {
+        "@id": "{{hoofdactiviteit.jsonldid}}",
+        "@type": "{{hoofdactiviteit.jsonldtype}}",
+        "code": "{{hoofdactiviteit.code}}",
+        "naam": "{{hoofdactiviteit.naam
+      }}"
+      },{{end}}
+    ],
+    "doelgroep": {
+      "@id": "{{vereniging.doelgroep.jsonldid}}",
+      "@type": "{{vereniging.doelgroep.jsonldtype}}",
+      "minimumleeftijd": {{vereniging.doelgroep.minimumleeftijd}},
+      "maximumleeftijd": {{vereniging.doelgroep.maximumleeftijd}}
+    },
+    "locaties": [
+{{for locatie in vereniging.locaties}}
+      {
+        "@id": "{{locatie.jsonldid}}",
+        "@type": "{{locatie.jsonldtype}}",
+        "locatieId":{{locatie.id}},
+        "locatietype": "{{locatie.type}}",
+        "isPrimair": {{locatie.isprimair}},
+        "adresvoorstelling": "{{locatie.adresvoorstelling}}",
+        "naam": "{{locatie.naam}}",
+        "bron": "{{locatie.bron}}",
+        "adres":
+{{if locatie.adres}}
+        {
+          "@id": "{{locatie.adres.jsonldid}}",
+          "@type": "{{locatie.adres.jsonldtype}}",
+          "straatnaam": "{{locatie.adres.straatnaam}}",
+          "huisnummer": "{{locatie.adres.huisnummer}}",
+          "busnummer": "{{locatie.adres.busnummer}}",
+          "postcode": "{{locatie.adres.postcode}}",
+          "gemeente": "{{locatie.adres.gemeente}}",
+          "land": "{{locatie.adres.land}}"
+        },
+{{else}}
+        null,
+{{end}}
+      "verwijstNaar":
+{{if locatie.adresid}}
+        {
+          "@id": "{{locatie.verwijstnaar.jsonldid}}",
+          "@type": "{{locatie.verwijstnaar.jsonldtype}}"
+        },
+{{else}}
+      null,
+{{end}}
+      "adresId":
+{{if locatie.adresid}}
+        {
+          "bronwaarde": "{{locatie.adresid.bronwaarde}}",
+          "broncode": "{{locatie.adresid.broncode}}"
+        }
+{{else}}
+        null,
+{{end}}
+      },
+{{end}}
+    ],
+    "vertegenwoordigers": [
+{{for vertegenwoordiger in vereniging.vertegenwoordigers}}
+      {
+        "@id": "{{vertegenwoordiger.jsonldid}}",
+        "@type": "{{vertegenwoordiger.jsonldtype}}",
+        "vertegenwoordigerId": {{vertegenwoordiger.id}},
+        "insz":"{{vertegenwoordiger.insz}}",
+        "voornaam": "{{vertegenwoordiger.voornaam}}",
+        "achternaam": "{{vertegenwoordiger.achternaam}}",
+        "rol": "{{vertegenwoordiger.rol}}",
+        "roepnaam": "{{vertegenwoordiger.roepnaam}}",
+        "isPrimair": {{vertegenwoordiger.isprimair}},
+        "e-mail":"{{vertegenwoordiger.email}}",
+        "telefoon":"{{vertegenwoordiger.telefoon}}",
+        "mobiel":"{{vertegenwoordiger.mobiel}}",
+        "socialMedia":"{{vertegenwoordiger.socialmedia}}",
+        "vertegenwoordigerContactgegevens":{
+          "@id": "{{vertegenwoordiger.vertegenwoordigercontactgegevens.jsonldid}}",
+          "@type": "{{vertegenwoordiger.vertegenwoordigercontactgegevens.jsonldtype}}",
+          "isPrimair": {{vertegenwoordiger.vertegenwoordigercontactgegevens.isprimair}},
+          "e-mail":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.email}}",
+          "telefoon":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.telefoon}}",
+          "mobiel":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.mobiel}}",
+          "socialMedia":"{{vertegenwoordiger.vertegenwoordigercontactgegevens.socialmedia}}"
+        },
+        "bron": "{{vertegenwoordiger.bron}}"
+      },
+{{end}}
+    ],
+    "sleutels": [
+{{for sleutel in vereniging.sleutels}}
+      {
+        "@id": "{{sleutel.jsonldid}}",
+        "@type": "{{sleutel.jsonldtype}}",
+        "bron": "{{sleutel.bron}}",
+        "waarde": "{{sleutel.waarde}}",
+        "codeerSysteem": "{{sleutel.codeersysteem}}",
+        "gestructureerdeIdentificator": {
+          "@id": "{{sleutel.identificator.jsonldid}}",
+          "@type": "{{sleutel.identificator.jsonldtype}}",
+          "nummer": "{{sleutel.identificator.nummer}}"
+        }
+      },
+{{end}}
+    ],
+    "relaties": [
+{{for relatie in vereniging.relaties}}
+      {
+        "relatietype": "{{relatie.relatietype}}",
+        "andereVereniging": {
+          "kboNummer": "{{relatie.anderevereniging.kbonummer}}",
+          "vCode": "{{relatie.anderevereniging.vcode}}",
+          "naam": "{{relatie.anderevereniging.naam}}",
+          "detail":
+{{if relatie.anderevereniging.vcode && relatie.anderevereniging.vcode != ""}}
+            "http://127.0.0.1:11004/v1/verenigingen/{{relatie.anderevereniging.vcode}}",
+{{else}}
+            "",
+{{end}}
+        }
+      },
+{{end}}
+    ],
+    "bron": "{{vereniging.bron}}"
+  },
+  "metadata": {
+    "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"
+  }
+}

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdVerwijderd;
 
+using Common.Extensions;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;

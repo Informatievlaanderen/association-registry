@@ -28,7 +28,7 @@ public class With_An_Empty_Gemeente : ValidatorTest
                     Straatnaam = "Dezestraat",
                     Huisnummer = "23",
                     Postcode = "0123",
-                    Land = "Belgie",
+                    Land = "België",
                     Gemeente = string.Empty,
                 },
             },

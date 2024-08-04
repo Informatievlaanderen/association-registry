@@ -5,6 +5,7 @@
 <#@ assembly name="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
+<#@ import namespace="System.Xml.Linq" #>
 
 public static class EmbeddedResources
 {

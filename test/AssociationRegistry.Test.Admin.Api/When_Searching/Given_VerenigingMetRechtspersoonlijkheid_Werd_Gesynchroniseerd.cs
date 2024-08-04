@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Schema.Constants;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using templates;
 using Vereniging;

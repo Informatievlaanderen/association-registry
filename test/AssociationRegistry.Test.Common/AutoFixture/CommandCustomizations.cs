@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
+using Acties.RegistreerFeitelijkeVereniging;
+using Vereniging;
 using global::AutoFixture;
 
 public static class CommandCustomizations

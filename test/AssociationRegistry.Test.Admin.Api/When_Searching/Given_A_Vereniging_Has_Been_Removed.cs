@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_Searching;
 
+using Common.Extensions;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;

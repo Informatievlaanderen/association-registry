@@ -9,7 +9,7 @@ using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using JsonLdContext;
 using Vereniging;

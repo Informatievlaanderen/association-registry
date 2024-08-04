@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.DuplicateDetection;
 
 using Events;
-using Formatters;
+using Formats;
 using Schema.Search;
 using Vereniging;
 

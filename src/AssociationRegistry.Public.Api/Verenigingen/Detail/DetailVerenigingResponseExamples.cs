@@ -69,7 +69,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
 
                         Locatietype = Locatietype.Correspondentie.Waarde,
                         IsPrimair = true,
-                        Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
+                        Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, België",
                         Naam = "de kerk",
                         Adres = new Adres
                         {
@@ -80,7 +80,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                             Busnummer = null,
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
-                            Land = "Belgie",
+                            Land = "België",
                         },
                         AdresId = new AdresId
                         {

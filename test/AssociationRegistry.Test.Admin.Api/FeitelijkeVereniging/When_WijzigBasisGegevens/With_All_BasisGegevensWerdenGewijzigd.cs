@@ -9,6 +9,7 @@ using Events;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;

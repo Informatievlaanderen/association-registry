@@ -2,42 +2,43 @@
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
+using Framework.TestClasses;
 using Marten;
+using Marten.Events;
+using Marten.Events.Daemon.Coordination;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Serilog;
 using System.Net;
 using Vereniging;
 using Xunit;
+using Xunit.Abstractions;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
 [CollectionDefinition(nameof(RegistreerVerenigingContext))]
-public class AppFixtureCollection : ICollectionFixture<AppFixture>
+public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext>
 {
 
 }
-public abstract class RegistreerVerenigingContext : IAsyncLifetime
+public class RegistreerVerenigingContext : AppFixture, IAsyncLifetime, IEnd2EndContext<RegistreerFeitelijkeVerenigingRequest>
 {
     private IScenarioResult _result;
-    private readonly AppFixture _fixture;
-    private readonly IDocumentStore ProjectionStore;
     public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
 
-    protected RegistreerVerenigingContext(AppFixture fixture)
+    public RegistreerVerenigingContext(): base(nameof(RegistreerVerenigingContext))
     {
-        _fixture = fixture;
-        Host = fixture.Host;
-        Store = Host.Services.GetRequiredService<IDocumentStore>();
-        ProjectionStore = fixture.ProjectionHostServer.Services.GetRequiredService<IDocumentStore>();
+
     }
 
-    public IAlbaHost Host { get; }
-    public IDocumentStore Store { get; }
 
     public async Task InitializeAsync()
     {
+        await base.InitializeAsync();
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         Request = new RegistreerFeitelijkeVerenigingRequest
@@ -74,7 +75,7 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
                         Busnummer = "",
                         Postcode = "9200",
                         Gemeente = "Dendermonde",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = true,
                     Locatietype = Locatietype.Correspondentie,
@@ -89,7 +90,7 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
                         Busnummer = "",
                         Postcode = "1234",
                         Gemeente = "Dendermonde",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
@@ -104,25 +105,14 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
                         Busnummer = "2",
                         Postcode = "4567",
                         Gemeente = "Nothingham",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
                 },
-                // new ToeTeVoegenLocatie
-                // {
-                //     Naam = "Zwembad",
-                //     AdresId = new AdresId
-                //     {
-                //         Broncode = "AR",
-                //         Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + "5",
-                //     },
-                //     IsPrimair = false,
-                //     Locatietype = Locatietype.Activiteiten,
-                // },
             },
-            Vertegenwoordigers = new[]
-            {
+            Vertegenwoordigers =
+            [
                 new ToeTeVoegenVertegenwoordiger
                 {
                     Insz = autoFixture.Create<Insz>(),
@@ -149,13 +139,13 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
                     Mobiel = "6666666666",
                     SocialMedia = "http://example.com/scrum",
                 },
-            },
+            ],
             HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
         };
         // Using Marten, wipe out all data and reset the state
-        await Store.Advanced.ResetAllData();
+        await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
-        _result = await Host.Scenario(s =>
+        _result = await AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(Request, JsonStyle.MinimalApi)
@@ -165,20 +155,15 @@ public abstract class RegistreerVerenigingContext : IAsyncLifetime
             s.Header("Location").ShouldHaveValues();
         });
 
+
         ResultingVCode = _result.Context.Response.Headers.Location.First().Split('/').Last();
 
-        var daemon = await ProjectionStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllAsync();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(15));
+        await AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
 
     public string ResultingVCode { get; set; }
+    public Metadata Metadata { get; set; }
 
-    // This is required because of the IAsyncLifetime
-    // interface. Note that I do *not* tear down database
-    // state after the test. That's purposeful
-    public Task DisposeAsync()
-    {
-        return Task.CompletedTask;
-    }
+    public new Task DisposeAsync()
+        => Task.CompletedTask;
 }
