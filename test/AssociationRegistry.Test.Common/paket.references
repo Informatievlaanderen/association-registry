@@ -12,3 +12,4 @@ xunit.assert
 xunit.runner.visualstudio
 xunit.categories
 Microsoft.AspNetCore.Hosting
+Scriban

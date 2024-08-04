@@ -3,14 +3,14 @@
 using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Schema.Constants;
+using Common.Extensions;
 using Events;
-using Formatters;
 using JsonLdContext;
 using NodaTime;
 using Scriban;
 using System.Dynamic;
-using Test.Framework;
 using Vereniging;
+using AdresFormatter = Formats.AdresFormatter;
 
 public class DetailVerenigingResponseTemplate
 {
@@ -356,14 +356,14 @@ public class DetailVerenigingResponseTemplate
     private DetailVerenigingResponseTemplate WithLocatie(string vCode, Registratiedata.Locatie l)
     {
         if (l.Adres is not null && l.AdresId is null)
-            return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam,
+            return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, AdresFormatter.ToAdresString(l.Adres), l.Adres.Straatnaam,
                                l.Adres.Huisnummer,
                                l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair);
 
         if (l.Adres is null && l.AdresId is not null)
             return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair);
 
-        return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam,
+        return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, AdresFormatter.ToAdresString(l.Adres), l.Adres.Straatnaam,
                            l.Adres.Huisnummer,
                            l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.AdresId.Broncode,
                            l.AdresId.Bronwaarde, l.IsPrimair);

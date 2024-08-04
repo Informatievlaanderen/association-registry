@@ -8,6 +8,7 @@ using EventStore;
 using Fixtures;
 using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Framework;
 using Newtonsoft.Json;
 using System.Net;

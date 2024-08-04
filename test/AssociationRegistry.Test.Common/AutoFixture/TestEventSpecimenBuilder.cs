@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using global::AutoFixture;
 using global::AutoFixture.Kernel;
 using Marten.Events;

@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.When_Formatting_An_Address;
 
 using Events;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 

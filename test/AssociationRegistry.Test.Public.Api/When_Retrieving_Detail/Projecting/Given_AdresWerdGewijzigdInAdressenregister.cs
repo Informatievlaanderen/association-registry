@@ -6,7 +6,7 @@ using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using Xunit;
 using Xunit.Categories;
@@ -58,7 +58,7 @@ public class Given_AdresWerdGewijzigdInAdressenregister
                     Busnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Busnummer,
                     Postcode = adresWerdGewijzigdInAdressenregister.Data.Adres.Postcode,
                     Gemeente = adresWerdGewijzigdInAdressenregister.Data.Adres.Gemeente,
-                    Land = Vereniging.Adres.Belgie,
+                    Land = Vereniging.Adres.België,
                 },
             Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres.ToAdresString(),
             AdresId = adresWerdGewijzigdInAdressenregister.Data.AdresId is null

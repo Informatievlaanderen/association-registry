@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Searching;
 
+using Common.Extensions;
 using Fixtures;
 using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;

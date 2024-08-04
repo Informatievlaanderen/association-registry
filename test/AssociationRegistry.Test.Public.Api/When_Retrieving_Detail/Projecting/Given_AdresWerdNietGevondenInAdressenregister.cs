@@ -6,7 +6,7 @@ using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using Xunit;
 using Xunit.Categories;

@@ -27,7 +27,7 @@ public class With_Two_Identical_Locations : ValidatorTest
                 Huisnummer = "23",
                 Gemeente = "Zonnedorp",
                 Postcode = "0123",
-                Land = "Belgie",
+                Land = "België",
             },
         };
 

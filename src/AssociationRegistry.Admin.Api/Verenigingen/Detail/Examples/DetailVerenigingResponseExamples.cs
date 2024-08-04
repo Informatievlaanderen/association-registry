@@ -88,7 +88,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LocatieId = 1,
                             Locatietype = Locatietype.Correspondentie.Waarde,
                             IsPrimair = true,
-                            Adresvoorstelling = "Kerkstraat 5, 1770 Liedekerke, Belgie",
+                            Adresvoorstelling = "Kerkstraat 5, 1770 Liedekerke, België",
                             Naam = "Administratief centrum",
                             Adres = new Adres
                             {
@@ -243,7 +243,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             LocatieId = 1,
                             Locatietype = Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
                             IsPrimair = true,
-                            Adresvoorstelling = "Zeebank 10, 8400 Oostende, Belgie",
+                            Adresvoorstelling = "Zeebank 10, 8400 Oostende, België",
                             Naam = "",
                             Adres = new Adres
                             {

@@ -1,7 +1,8 @@
-﻿namespace AssociationRegistry.Test.Framework;
+﻿namespace AssociationRegistry.Test.Common.Extensions;
 
 using FluentAssertions.Json;
 using FluentAssertions.Primitives;
+using KellermanSoftware.CompareNetObjects;
 using Newtonsoft.Json.Linq;
 
 public static class FluentAssertionsExtentions

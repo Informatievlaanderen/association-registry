@@ -6,7 +6,7 @@ using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -59,7 +59,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
                 Busnummer = adresWerdOvergenomen.Data.Adres.Busnummer,
                 Postcode = adresWerdOvergenomen.Data.Adres.Postcode,
                 Gemeente = adresWerdOvergenomen.Data.Adres.Gemeente,
-                Land = Adres.Belgie,
+                Land = Adres.België,
             },
             Adresvoorstelling = adresWerdOvergenomen.Data.Adres.ToAdresString(),
             AdresId = adresWerdOvergenomen.Data.AdresId is null

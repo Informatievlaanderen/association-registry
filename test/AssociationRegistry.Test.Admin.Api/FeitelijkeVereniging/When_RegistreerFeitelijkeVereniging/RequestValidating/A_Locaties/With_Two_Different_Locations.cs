@@ -27,7 +27,7 @@ public class With_Two_Different_Locations : ValidatorTest
                 Gemeente = "Zonnedorp",
                 Postcode = "0123",
                 Straatnaam = "Kerkstraat",
-                Land = "Belgie",
+                Land = "België",
             },
         };
 
@@ -40,7 +40,7 @@ public class With_Two_Different_Locations : ValidatorTest
                 Gemeente = "Anderdorp",
                 Postcode = "0123",
                 Straatnaam = "Kerkstraat",
-                Land = "Belgie",
+                Land = "België",
             },
         };
 

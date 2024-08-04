@@ -25,7 +25,7 @@ public class With_DecoratingWithPostalInformation
             {
                 fixture.Create<Locatie>() with
                 {
-                    Adres = Adres.Create("straat", "14", "", "1790", "Hekelgem (Affligem)", "Belgie"),
+                    Adres = Adres.Create("straat", "14", "", "1790", "Hekelgem (Affligem)", "België"),
                 },
             }),
         };

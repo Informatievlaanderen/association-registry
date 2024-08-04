@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.templates;
 
+using Common.Extensions;
 using Scriban;
 using Test.Framework;
 

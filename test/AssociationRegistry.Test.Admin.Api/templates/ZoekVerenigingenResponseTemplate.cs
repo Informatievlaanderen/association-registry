@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.templates;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Schema.Constants;
 using Events;
-using Formatters;
+using Formats;
 using JsonLdContext;
 using System.Dynamic;
 using Vereniging;

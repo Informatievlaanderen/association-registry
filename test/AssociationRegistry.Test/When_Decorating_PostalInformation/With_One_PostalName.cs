@@ -12,7 +12,7 @@ public class With_One_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1501", "Halle", "Belgie"),
+            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1501", "Halle", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation("Halle", new PostalInformationResponse("1501", "Halle", new[] { "Buizingen" }));
@@ -25,7 +25,7 @@ public class With_One_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie"),
+            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "Wambeek" }));
@@ -38,7 +38,7 @@ public class With_One_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "Belgie"),
+            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "TERNAT" }));
@@ -54,7 +54,7 @@ public class With_One_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie"),
+            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation(origineleGemeentenaam, new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
@@ -67,7 +67,7 @@ public class With_One_PostalName
     {
         var sut = new AdresMatchUitAdressenregister()
         {
-            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "Belgie"),
+            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "België"),
         };
 
         var result = sut.DecorateWithPostalInformation("Hekelgem Affligem", new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));

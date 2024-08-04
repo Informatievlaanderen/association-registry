@@ -8,7 +8,7 @@ using AutoFixture;
 using Events;
 using Fixtures;
 using FluentAssertions;
-using Formatters;
+using Formats;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;

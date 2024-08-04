@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
 using Events;
-using Formatters;
+using Formats;
 using JsonLdContext;
 using Schema;
 using Schema.Detail;
@@ -66,7 +66,7 @@ public class BeheerVerenigingDetailMapper
                 Busnummer = adres.Busnummer,
                 Postcode = adres.Postcode,
                 Gemeente = adres.Gemeente,
-                Land = AssociationRegistry.Vereniging.Adres.Belgie,
+                Land = AssociationRegistry.Vereniging.Adres.België,
             };
 
     public static Adres? MapAdres(Registratiedata.Adres? adres, string vCode, int locId)

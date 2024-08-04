@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
-using Formatters;
+using Formats;
 using JsonLdContext;
 using Schema.Constants;
 using Schema.Detail;

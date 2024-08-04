@@ -1,0 +1,10 @@
+[
+    {{for gebeurtenis in gebeurtenissen}}
+    {
+      "kbonummer": "{{gebeurtenis.kbonummer}}",
+      "vCode": "{{gebeurtenis.vcode}}",
+      "beschrijving": "{{gebeurtenis.beschrijving}}",
+      "tijdstip": "{{gebeurtenis.tijdstip}}"
+    },
+    {{end}}
+]

@@ -30,7 +30,7 @@ public class With_An_Empty_Straatnaam : ValidatorTest
                         Huisnummer = "23",
                         Gemeente = "Zonnedorp",
                         Postcode = "0123",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                 },
         };

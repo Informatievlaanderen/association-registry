@@ -10,6 +10,7 @@ using Events;
 using Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Formats;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
@@ -68,7 +69,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Busnummer = "",
                         Postcode = "9200",
                         Gemeente = "Dendermonde",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = true,
                     Locatietype = Locatietype.Correspondentie,
@@ -83,7 +84,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Busnummer = "",
                         Postcode = "1234",
                         Gemeente = "Dendermonde",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
@@ -98,7 +99,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Busnummer = "2",
                         Postcode = "4567",
                         Gemeente = "Nothingham",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
@@ -113,7 +114,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
                         Busnummer = "2",
                         Postcode = "4567",
                         Gemeente = "Nothingham",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,

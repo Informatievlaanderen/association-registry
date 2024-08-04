@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
 using Constants;
+using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
@@ -61,7 +62,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             type = JsonLdType.Locatie.Type,
                             Locatietype = Locatietype.Correspondentie.Waarde,
                             IsPrimair = true,
-                            Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, Belgie",
+                            Adresvoorstelling = "kerkstraat 5, 1770 Liedekerke, België",
                             Naam = "",
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
@@ -134,7 +135,7 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             type = JsonLdType.Locatie.Type,
                             Locatietype = Locatietype.Activiteiten.Waarde,
                             IsPrimair = false,
-                            Adresvoorstelling = "dorpstraat 91, 9000 Gent, Belgie",
+                            Adresvoorstelling = "dorpstraat 91, 9000 Gent, België",
                             Naam = "Cursuszaal",
                             Postcode = "9000",
                             Gemeente = "Gent",

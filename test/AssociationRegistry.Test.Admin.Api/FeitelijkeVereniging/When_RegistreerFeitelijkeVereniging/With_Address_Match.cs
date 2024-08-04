@@ -37,7 +37,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAddressMatch
                         Huisnummer = "99",
                         Postcode = "9200",
                         Gemeente = "Dendermonde",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                     IsPrimair = true,
                     Locatietype = Locatietype.Correspondentie,

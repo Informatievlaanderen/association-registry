@@ -21,7 +21,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
                                         new Registratiedata.Adres(
                                             Straatnaam: "maatstraat", Huisnummer: "1", Busnummer: null, Postcode: "1000",
                                             Gemeente: "Brussel",
-                                            Land: "Belgie"), AdresId: null));
+                                            Land: "België"), AdresId: null));
 
     public readonly MaatschappelijkeZetelWerdGewijzigdInKbo MaatschappelijkeZetelWerdGewijzigdInKbo =
         new(new Registratiedata.Locatie(LocatieId: 1, Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde,
@@ -29,7 +29,7 @@ public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScen
                                         new Registratiedata.Adres(
                                             Straatnaam: "beterlaan", Huisnummer: "42", Busnummer: "b", Postcode: "2000",
                                             Gemeente: "Antwerpen",
-                                            Land: "Belgie"), AdresId: null));
+                                            Land: "België"), AdresId: null));
 
     public readonly RechtsvormWerdGewijzigdInKBO RechtsvormWerdGewijzigdInKBO = new(Verenigingstype.IVZW.Code);
     public readonly NaamWerdGewijzigdInKbo NaamWerdGewijzigdInKbo = new("Feesten Asse");

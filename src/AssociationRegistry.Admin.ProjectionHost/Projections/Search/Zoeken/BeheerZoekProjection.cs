@@ -2,12 +2,12 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Constants;
 using Events;
-using Formatters;
 using JsonLdContext;
 using Schema;
 using Schema.Constants;
 using Schema.Search;
 using Vereniging;
+using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Search.Doelgroep;
 
 public class BeheerZoekProjectionHandler
@@ -260,7 +260,7 @@ public class BeheerZoekProjectionHandler
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
-            Adresvoorstelling = locatie.Adres.ToAdresString(),
+            Adresvoorstelling = AdresFormatter.ToAdresString(locatie.Adres),
             IsPrimair = locatie.IsPrimair,
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
@@ -273,7 +273,7 @@ public class BeheerZoekProjectionHandler
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
-            Adresvoorstelling = adresUitAdressenregister.ToAdresString(),
+            Adresvoorstelling = AdresFormatter.ToAdresString(adresUitAdressenregister),
             IsPrimair = locatie.IsPrimair,
             Postcode = adresUitAdressenregister.Postcode ?? string.Empty,
             Gemeente = adresUitAdressenregister.Gemeente ?? string.Empty,
@@ -389,7 +389,7 @@ public class BeheerZoekProjectionHandler
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
             message.Data.LocatieId,
-            message.Data.Adres.ToAdresString(),
+            AdresFormatter.ToAdresString(message.Data.Adres),
             message.Data.Adres.Postcode,
             message.Data.Adres.Gemeente);
     }
@@ -399,7 +399,7 @@ public class BeheerZoekProjectionHandler
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
             message.Data.LocatieId,
-            message.Data.Adres.ToAdresString(),
+            AdresFormatter.ToAdresString(message.Data.Adres),
             message.Data.Adres.Postcode,
             message.Data.Adres.Gemeente);
     }

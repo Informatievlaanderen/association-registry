@@ -29,7 +29,7 @@ public class Without_A_Postcode : ValidatorTest
                         Straatnaam = "Dezestraat",
                         Gemeente = "Zonnedorp",
                         Huisnummer = "23",
-                        Land = "Belgie",
+                        Land = "België",
                     },
                 },
         };

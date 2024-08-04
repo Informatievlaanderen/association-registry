@@ -7,6 +7,7 @@ using AssociationRegistry.Admin.Schema.Historiek;
 using AutoFixture;
 using Events;
 using FluentAssertions;
+using Formats;
 using Framework;
 using Xunit;
 using Xunit.Categories;

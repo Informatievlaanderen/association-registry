@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using Newtonsoft.Json;
 using System.Runtime.Serialization;
+using System.Text.Json.Serialization;
 using Vereniging;
 using Vereniging.TelefoonNummers;
 
@@ -38,6 +40,7 @@ public class ToeTeVoegenVertegenwoordiger
 
     /// <summary>Het e-mailadres van de vertegenwoordiger</summary>
     [DataMember(Name = "E-mail")]
+    [JsonPropertyName("E-mail")]
     public string? Email { get; set; }
 
     /// <summary>Het telefoonnummer van de vertegenwoordiger</summary>

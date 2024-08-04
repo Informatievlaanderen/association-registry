@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
+using Events;
+using Vereniging;
 using global::AutoFixture;
 
 public static class RegistratiedataCustomizations

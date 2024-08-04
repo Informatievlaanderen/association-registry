@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdGestopt;
 
 using AssociationRegistry.Acm.Schema.Constants;
+using Common.Extensions;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;

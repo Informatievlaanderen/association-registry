@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
-using Wolverine;
 using Xunit;
 using Xunit.Categories;
 using IEvent = AssociationRegistry.Framework.IEvent;

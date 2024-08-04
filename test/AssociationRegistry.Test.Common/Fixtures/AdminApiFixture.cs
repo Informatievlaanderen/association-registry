@@ -4,10 +4,10 @@ using Admin.Api;
 using Admin.Api.Constants;
 using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Framework;
 using Common.Clients;
 using Configuration;
 using EventStore;
-using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
@@ -156,7 +156,19 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         try
         {
             connection.Open();
-            cmd.CommandText += $"CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};";
+
+            cmd.CommandText += $@"
+DO $$
+BEGIN
+   IF NOT EXISTS (
+      SELECT FROM pg_catalog.pg_database
+      WHERE datname = '{postgreSqlOptionsSection.Database}'
+   ) THEN
+      CREATE DATABASE {postgreSqlOptionsSection.Database} WITH OWNER = {postgreSqlOptionsSection.Username};
+   END IF;
+END
+$$;
+";
             cmd.ExecuteNonQuery();
         }
         catch (PostgresException ex)
