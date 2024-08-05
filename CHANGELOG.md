@@ -1,3 +1,10 @@
+## [8.131.1](https://github.com/informatievlaanderen/association-registry/compare/v8.131.0...v8.131.1) (2024-08-05)
+
+
+### Bug Fixes
+
+* or-2338 fetch events stream for version and sequence ([24386ef](https://github.com/informatievlaanderen/association-registry/commit/24386efbd8dbcc7ff0f6ab94071ee36e8ddfe66f))
+
 # [8.131.0](https://github.com/informatievlaanderen/association-registry/compare/v8.130.3...v8.131.0) (2024-08-05)
 
 
