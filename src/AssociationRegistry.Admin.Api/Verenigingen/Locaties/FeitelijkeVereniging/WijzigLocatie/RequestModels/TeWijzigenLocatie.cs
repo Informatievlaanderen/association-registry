@@ -1,8 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 
 using Acties.WijzigLocatie;
-using Common;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using Vereniging;
+using Adres = Common.Adres;
+using AdresId = Common.AdresId;
 
 /// <summary>Een locatie van een vereniging</summary>
 [DataContract]
@@ -24,6 +27,7 @@ public class TeWijzigenLocatie
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
+    [MaxLength(Locatie.MaxLengthLocatienaam)]
     public string? Naam { get; set; }
 
     /// <summary>De unieke identificator van het adres in een andere bron</summary>
@@ -38,12 +42,12 @@ public class TeWijzigenLocatie
         => new(
             locatieId,
             locatie.Locatietype is not null
-                ? Vereniging.Locatietype.Parse(locatie.Locatietype)
+                ? AssociationRegistry.Vereniging.Locatietype.Parse(locatie.Locatietype)
                 : null,
             locatie.IsPrimair,
             locatie.Naam,
             locatie.Adres is not null
-                ? Vereniging.Adres.Create(
+                ? AssociationRegistry.Vereniging.Adres.Create(
                     locatie.Adres.Straatnaam,
                     locatie.Adres.Huisnummer,
                     locatie.Adres.Busnummer,
@@ -52,7 +56,7 @@ public class TeWijzigenLocatie
                     locatie.Adres.Land)
                 : null,
             locatie.AdresId is not null
-                ? Vereniging.AdresId.Create(
+                ? AssociationRegistry.Vereniging.AdresId.Create(
                     locatie.AdresId.Broncode,
                     locatie.AdresId.Bronwaarde)
                 : null);

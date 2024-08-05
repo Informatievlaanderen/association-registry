@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 /// <summary>Een contactgegeven van een vereniging</summary>
@@ -29,6 +30,7 @@ public class Contactgegeven
     ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "Beschrijving")]
+    [MaxLength(AssociationRegistry.Vereniging.Contactgegeven.MaxLengthBeschrijving)]
     public string? Beschrijving { get; init; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>
