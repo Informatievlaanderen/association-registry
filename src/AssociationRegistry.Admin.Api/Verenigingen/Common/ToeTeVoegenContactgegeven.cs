@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using Infrastructure.Swagger;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -26,6 +27,7 @@ public class ToeTeVoegenContactgegeven
     ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "beschrijving")]
+    [MaxLength(Contactgegeven.MaxLengthBeschrijving)]
     public string? Beschrijving { get; set; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -23,6 +24,7 @@ public class ToeTeVoegenLocatie
 
     /// <summary>Een beschrijvende naam voor de locatie</summary>
     [DataMember]
+    [MaxLength(Locatie.MaxLengthLocatienaam)]
     public string? Naam { get; set; }
 
     /// <summary>De unieke identificator van het adres in een andere bron</summary>
