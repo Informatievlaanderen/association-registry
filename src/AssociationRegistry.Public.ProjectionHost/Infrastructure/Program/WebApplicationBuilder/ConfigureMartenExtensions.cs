@@ -18,6 +18,7 @@ using Projections.Sequence;
 using Schema.Detail;
 using Schema.Sequence;
 using Wolverine;
+using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class ConfigureMartenExtensions
 {
@@ -40,7 +41,7 @@ public static class ConfigureMartenExtensions
         IServiceCollection services,
         ConfigurationManager configurationManager)
     {
-        static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
+        static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
                $"database={postgreSqlOptions.Database};" +
                $"password={postgreSqlOptions.Password};" +
@@ -64,14 +65,20 @@ public static class ConfigureMartenExtensions
         var martenConfigurationExpression = services.AddMarten(
             serviceProvider =>
             {
-                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.Name)
-                                                            .Get<PostgreSqlOptionsSection>();
+                var postgreSqlOptions = configurationManager.GetSection(Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.SectionName)
+                                                            .Get<Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection>();
 
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
                 var opts = new StoreOptions();
 
                 opts.Connection(connectionString);
+
+                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+                {
+                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+                }
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 

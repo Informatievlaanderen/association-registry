@@ -20,25 +20,34 @@ using Xunit.Abstractions;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
-[CollectionDefinition(nameof(RegistreerVerenigingContext))]
-public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext>
+[CollectionDefinition(nameof(RegistreerVerenigingContext<AdminApiFixture>))]
+public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<AdminApiFixture>>
 {
 
 }
-public class RegistreerVerenigingContext : AppFixture, IAsyncLifetime, IEnd2EndContext<RegistreerFeitelijkeVerenigingRequest>
+[CollectionDefinition(nameof(PubliekRegistreerVerenigingCollection))]
+public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<PublicApiFixture>>
+{
+
+}
+public class RegistreerVerenigingContext<T> : IAsyncLifetime, IEnd2EndContext<RegistreerFeitelijkeVerenigingRequest>
+where T: IAppFixture, new()
 {
     private IScenarioResult _result;
+    private IAppFixture _fixture;
     public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
+    public IAlbaHost AdminApiHost => _fixture.AdminApiHost;
+    public IAlbaHost QueryApiHost => _fixture.QueryApiHost;
 
-    public RegistreerVerenigingContext(): base(nameof(RegistreerVerenigingContext))
+    public RegistreerVerenigingContext()
     {
-
+        _fixture = new T();
+        _fixture.InitializeAsync($"registreer{GetType().GetGenericArguments().First().Name}")
+                .GetAwaiter().GetResult();
     }
-
 
     public async Task InitializeAsync()
     {
-        await base.InitializeAsync();
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         Request = new RegistreerFeitelijkeVerenigingRequest
@@ -47,7 +56,7 @@ public class RegistreerVerenigingContext : AppFixture, IAsyncLifetime, IEnd2EndC
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
-            IsUitgeschrevenUitPubliekeDatastroom = true,
+            IsUitgeschrevenUitPubliekeDatastroom = false,
             Doelgroep = new DoelgroepRequest
             {
                 Minimumleeftijd = 1,
@@ -143,9 +152,9 @@ public class RegistreerVerenigingContext : AppFixture, IAsyncLifetime, IEnd2EndC
             HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
         };
         // Using Marten, wipe out all data and reset the state
-        await AdminApiHost.DocumentStore().Advanced.ResetAllData();
+        await _fixture.AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
-        _result = await AdminApiHost.Scenario(s =>
+        _result = await _fixture.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(Request, JsonStyle.MinimalApi)
@@ -155,10 +164,9 @@ public class RegistreerVerenigingContext : AppFixture, IAsyncLifetime, IEnd2EndC
             s.Header("Location").ShouldHaveValues();
         });
 
-
         ResultingVCode = _result.Context.Response.Headers.Location.First().Split('/').Last();
 
-        await AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await _fixture.ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
 
     public string ResultingVCode { get; set; }

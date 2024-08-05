@@ -7,32 +7,32 @@ using System;
 
 public static class ConfigurationExtensions
 {
-    public static PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
+    public static AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
         var postgreSqlOptionsSection = configuration
                                       .GetSection(PostgreSqlOptionsSection.Name)
-                                      .Get<PostgreSqlOptionsSection>();
+                                      .Get<AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection>();
 
         postgreSqlOptionsSection.ThrowIfInvalid();
 
         return postgreSqlOptionsSection;
     }
 
-    private static void ThrowIfInvalid(this PostgreSqlOptionsSection postgreSqlOptions)
+    private static void ThrowIfInvalid(this AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions)
     {
-        const string sectionName = nameof(PostgreSqlOptionsSection);
+        const string sectionName = nameof(AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection);
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.Database)}");
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.Host)}");
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.Username)}");
 
         Throw<ArgumentNullException>
-           .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
+           .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.Password)}");
     }
 
     public static ElasticSearchOptionsSection GetElasticSearchOptionsSection(this IConfiguration configuration)

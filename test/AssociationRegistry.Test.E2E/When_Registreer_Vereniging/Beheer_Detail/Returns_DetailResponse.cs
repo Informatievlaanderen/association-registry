@@ -21,9 +21,9 @@ using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingslok
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
-[Collection(nameof(RegistreerVerenigingContext))]
-public class Returns_DetailResponse(RegistreerVerenigingContext context)
-    : End2EndTest<RegistreerVerenigingContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>(context)
+[Collection(nameof(RegistreerVerenigingContext<AdminApiFixture>))]
+public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiFixture> context)
+    : End2EndTest<RegistreerVerenigingContext<AdminApiFixture>, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>(context)
 {
     protected override Func<IAlbaHost, DetailVerenigingResponse> GetResponse =>
         host => host.GetDetail(VCode);
