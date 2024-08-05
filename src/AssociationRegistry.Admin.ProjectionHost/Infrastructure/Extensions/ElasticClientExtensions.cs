@@ -7,8 +7,7 @@ using Schema.Search;
 public static class ElasticClientExtensions
 {
     public static void CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        var createIndexResponse = indicesNamespace.Create(
+        => indicesNamespace.Create(
             index,
             selector: descriptor =>
                 descriptor
@@ -23,15 +22,8 @@ public static class ElasticClientExtensions
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
-        if (!createIndexResponse.IsValid)
-        {
-            throw new Exception($"Could not create index: {createIndexResponse.DebugInformation}", createIndexResponse.OriginalException);
-        }
-    }
-
-    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        var createIndexResponse = await indicesNamespace.CreateAsync(
+    public static Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
+        => indicesNamespace.CreateAsync(
             index,
             selector: descriptor =>
                 descriptor
@@ -45,14 +37,6 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(AddDutchStopWordsFilter)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-        if (!createIndexResponse.IsValid)
-        {
-            throw new Exception($"Could not create index: {createIndexResponse.DebugInformation}", createIndexResponse.OriginalException);
-        }
-
-        return createIndexResponse;
-    }
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
