@@ -20,6 +20,7 @@ nuget Destructurama.JsonNet 3.0.0
 
 nuget FluentAssertions
 nuget FluentAssertions.Json
+nuget Reqnroll.xUnit
 
 nuget IdentityModel.AspNetCore.OAuth2Introspection
 

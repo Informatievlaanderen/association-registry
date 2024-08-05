@@ -24,12 +24,30 @@
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
   </ItemGroup>
   <ItemGroup>
+    <Using Include="Reqnroll"/>
+  </ItemGroup>
+  <ItemGroup>
     <Content Include="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Features\FeitelijkeVereniging\Registreer.feature" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckInput Remove="FeitelijkeVereniging\Features\Registreer.feature" />
+  </ItemGroup>
+  <ItemGroup>
+    <UpToDateCheckBuild Remove="FeitelijkeVereniging\Features\Registreer.feature.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Features\FeitelijkeVereniging\Registreer.feature.cs">
+      <DependentUpon>Registreer.feature</DependentUpon>
+      <AutoGen>true</AutoGen>
+      <DesignTime>true</DesignTime>
+      <Visible>true</Visible>
+    </Compile>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
