@@ -1,3 +1,10 @@
+## [8.131.3](https://github.com/informatievlaanderen/association-registry/compare/v8.131.2...v8.131.3) (2024-08-05)
+
+
+### Reverts
+
+* Revert "fix: check creation of indices" ([784d1e1](https://github.com/informatievlaanderen/association-registry/commit/784d1e12692d813578ca61ee3645286622112848))
+
 ## [8.131.2](https://github.com/informatievlaanderen/association-registry/compare/v8.131.1...v8.131.2) (2024-08-05)
 
 
