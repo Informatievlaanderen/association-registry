@@ -1,3 +1,10 @@
+## [8.130.3](https://github.com/informatievlaanderen/association-registry/compare/v8.130.2...v8.130.3) (2024-08-05)
+
+
+### Bug Fixes
+
+* or-2337 rollback marten and log if sequence is erroneous ([7e09fe8](https://github.com/informatievlaanderen/association-registry/commit/7e09fe8e6ca45da52bd13b95f1e876e397326923))
+
 ## [8.130.2](https://github.com/informatievlaanderen/association-registry/compare/v8.130.1...v8.130.2) (2024-08-01)
 
 
