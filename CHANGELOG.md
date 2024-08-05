@@ -1,3 +1,11 @@
+## [8.131.2](https://github.com/informatievlaanderen/association-registry/compare/v8.131.1...v8.131.2) (2024-08-05)
+
+
+### Bug Fixes
+
+* check creation of indices ([910c45c](https://github.com/informatievlaanderen/association-registry/commit/910c45cf24b52559e59821dbf40520a8c23c08f3))
+* or-2221 don't use revision for public seq doc ([c9a7688](https://github.com/informatievlaanderen/association-registry/commit/c9a76881dca521c398134eae0458f13b7c7b27e4))
+
 ## [8.131.1](https://github.com/informatievlaanderen/association-registry/compare/v8.131.0...v8.131.1) (2024-08-05)
 
 
