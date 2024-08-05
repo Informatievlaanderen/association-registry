@@ -6,6 +6,7 @@ using Framework;
 using Marten;
 using Marten.Events;
 using Marten.Exceptions;
+using Microsoft.Extensions.Logging;
 using NodaTime.Text;
 using Vereniging;
 using IEvent = Framework.IEvent;
@@ -15,11 +16,13 @@ public class EventStore : IEventStore
     public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
     private readonly EventConflictResolver _conflictResolver;
+    private readonly ILogger<EventStore> _logger;
 
-    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver)
+    public EventStore(IDocumentStore documentStore, EventConflictResolver conflictResolver, ILogger<EventStore> logger)
     {
         _documentStore = documentStore;
         _conflictResolver = conflictResolver;
+        _logger = logger;
     }
 
     public async Task<StreamActionResult> Save(
@@ -50,7 +53,12 @@ public class EventStore : IEventStore
 
             await session.SaveChangesAsync(cancellationToken);
 
-            return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
+            var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
+
+            if(maxSequence < 1)
+                _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
+
+            return new StreamActionResult(maxSequence, streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
@@ -67,7 +75,12 @@ public class EventStore : IEventStore
 
                 await session.SaveChangesAsync(cancellationToken);
 
-                return new StreamActionResult(streamAction.Events.Max(@event => @event.Sequence), streamAction.Version);
+                var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
+
+                if(maxSequence < 1)
+                    _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
+
+                return new StreamActionResult(maxSequence, streamAction.Version);
             }
 
             throw new UnexpectedAggregateVersionException();

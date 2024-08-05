@@ -5,6 +5,7 @@ using EventStore;
 using Fixtures;
 using FluentAssertions;
 using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
 using Xunit;
@@ -29,7 +30,7 @@ public class Given_An_Event
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(_fixture.DocumentStore, _fixture.EventConflictResolver);
+        var eventStore = new EventStore(_fixture.DocumentStore, _fixture.EventConflictResolver, NullLogger<EventStore>.Instance);
 
         // act
         var tijdstip = new Instant();

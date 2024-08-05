@@ -8,6 +8,7 @@ using FluentAssertions;
 using Framework;
 using Marten;
 using Marten.Events;
+using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Weasel.Core;
 using Xunit;
@@ -34,7 +35,7 @@ public class When_AdresMatch_Occurred
         });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, eventConflictResolver);
+        var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         var adresWerdOvergenomenUitAdressenregister = _fixture.Create<AdresWerdOvergenomenUitAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
