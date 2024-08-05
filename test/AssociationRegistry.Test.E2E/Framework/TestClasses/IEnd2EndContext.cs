@@ -8,4 +8,5 @@ public interface IEnd2EndContext<TRequest>
     TRequest Request { get; }
 
     IAlbaHost AdminApiHost { get; }
+    IAlbaHost QueryApiHost { get; }
 }

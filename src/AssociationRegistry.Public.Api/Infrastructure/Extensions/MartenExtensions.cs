@@ -8,12 +8,13 @@ using Marten.Events;
 using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions,
+        Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
         services.AddMarten(
@@ -24,6 +25,12 @@ public static class MartenExtensions
                 var opts = new StoreOptions();
 
                 opts.Connection(connectionString1);
+
+                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+                {
+                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+                }
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 

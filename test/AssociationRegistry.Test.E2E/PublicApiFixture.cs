@@ -15,42 +15,43 @@ using Microsoft.Extensions.Logging;
 using Oakton;
 using Xunit;
 using Clients = Common.Clients.Clients;
-using ProjectionHostProgram = Admin.ProjectionHost.Program;
+using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-public class AppFixture : IAsyncLifetime
+public class PublicApiFixture : IAppFixture
 {
-    private readonly string _schema;
     public string? AuthCookie { get; private set; }
     public ILogger<Program> Logger { get; private set; }
     public IAlbaHost AdminApiHost { get; private set; }
-    public IAlbaHost AdminProjectionHost { get; private set; }
+    public IAlbaHost ProjectionHost { get; private set; }
+    public IAlbaHost QueryApiHost { get; private set; }
 
-    public AppFixture(string schema)
+    public PublicApiFixture()
     {
-        _schema = schema;
     }
 
-    public async Task InitializeAsync()
+    public async Task InitializeAsync(string schema)
     {
         OaktonEnvironment.AutoStartHost = true;
 
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.json").Build();
 
-        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(configuration)))
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(configuration, schema)))
            .EnsureEachCallIsAuthenticated();
 
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
-        AdminProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration));
+        ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, schema));
+        QueryApiHost = await AlbaHost.For<AssociationRegistry.Public.Api.Program>(ConfigureForTesting(configuration, schema));
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await QueryApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
-        await AdminProjectionHost.ResumeAllDaemonsAsync();
+        await ProjectionHost.ResumeAllDaemonsAsync();
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration)
+    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
     {
         return b =>
         {
@@ -62,9 +63,10 @@ public class AppFixture : IAsyncLifetime
             b.ConfigureServices((context, services) =>
               {
                   context.HostingEnvironment.EnvironmentName = "Development";
-                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = _schema; });
+                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
-             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development");
+             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
         };
     }
 

@@ -1,26 +1,34 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.PubliekDetail;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.Publiek_Detail;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Formats;
-using Framework.AlbaHost;
-using Framework.Comparison;
-using Framework.TestClasses;
-using JsonLdContext;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Schema.Constants;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
-using Public.Schema.Constants;
-using Vereniging;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Relatie = Admin.Api.Verenigingen.Detail.ResponseModels.Relatie;
+using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using GestructureerdeIdentificator = Public.Api.Verenigingen.Detail.ResponseModels.GestructureerdeIdentificator;
+using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Public.Api.Verenigingen.Detail.ResponseModels.Locatie;
+using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
+using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
-[Collection(nameof(RegistreerVerenigingContext))]
-public class Returns_DetailResponse(RegistreerVerenigingContext context)
-    : End2EndTest<RegistreerVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(context)
+[Collection(nameof(PubliekRegistreerVerenigingCollection))]
+public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiFixture> context)
+    : End2EndTest<RegistreerVerenigingContext<PublicApiFixture>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse> GetResponse =>
         host => host.GetPubliekDetail(VCode);
@@ -28,7 +36,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/detail-vereniging-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-vereniging-context.json");
     }
 
     [Fact]
@@ -43,9 +51,8 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
     public async Task WithVereniging()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
-
             type = JsonLdType.FeitelijkeVereniging.Type,
-            Doelgroep = new Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse()
+            Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(VCode),
@@ -55,7 +62,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
             VCode = VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType()
+            Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -70,17 +77,17 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
             Sleutels = MapSleutels(Request, VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
-    private static Public.Api.Verenigingen.Detail.ResponseModels.Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
+    private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
         =>
         [
-            new Public.Api.Verenigingen.Detail.ResponseModels.Sleutel
+            new Sleutel
             {
                 Bron = Sleutelbron.VR.Waarde,
                 id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
                 type = JsonLdType.Sleutel.Type,
                 Waarde = vCode,
                 CodeerSysteem = CodeerSysteem.VR,
-                GestructureerdeIdentificator = new Public.Api.Verenigingen.Detail.ResponseModels.GestructureerdeIdentificator
+                GestructureerdeIdentificator = new GestructureerdeIdentificator
                 {
                     id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
                     type = JsonLdType.GestructureerdeSleutel.Type,
@@ -89,24 +96,18 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
             },
         ];
 
-    private static Public.Api.Verenigingen.Detail.ResponseModels.Relatie[] MapRelaties(Relatie[] relaties, string vCode)
+    private static Relatie[] MapRelaties(Relatie[] relaties, string vCode)
     {
-        return relaties.Select((x, i) => new Public.Api.Verenigingen.Detail.ResponseModels.Relatie
+        return relaties.Select((x, i) => new Relatie
         {
-            AndereVereniging = new Public.Api.Verenigingen.Detail.ResponseModels.Relatie.GerelateerdeVereniging()
-            {
-                Detail = x.AndereVereniging.Detail,
-                Naam = x.AndereVereniging.Naam,
-                KboNummer = x.AndereVereniging.KboNummer,
-                VCode = x.AndereVereniging.VCode,
-            } ,
+            AndereVereniging = x.AndereVereniging,
             Relatietype = x.Relatietype,
         }).ToArray();
     }
 
-    private static Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven[] MapLocaties(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    private static Contactgegeven[] MapLocaties(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
     {
-        return toeTeVoegenContactgegevens.Select((x, i) => new Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven
+        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
         {
             id = JsonLdType.Contactgegeven.CreateWithIdValues(
                 vCode, $"{i + 1}"),
@@ -118,9 +119,9 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
         }).ToArray();
     }
 
-    private static Public.Api.Verenigingen.Detail.ResponseModels.Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
+    private static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
     {
-        return toeTeVoegenLocaties.Select((x, i) => new Public.Api.Verenigingen.Detail.ResponseModels.Locatie
+        return toeTeVoegenLocaties.Select((x, i) => new Locatie
         {
             id = JsonLdType.Locatie.CreateWithIdValues(
                 vCode, $"{i + 1}"),
@@ -131,14 +132,14 @@ public class Returns_DetailResponse(RegistreerVerenigingContext context)
         }).ToArray();
     }
 
-    private static Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
+    private static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
         string[] hoofdactiviteitenVerenigingsloket)
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
         {
-            var hoofdactiviteitVerenigingsloket = HoofdactiviteitVerenigingsloket.Create(x);
+            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
 
-            return new Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket
+            return new HoofdactiviteitVerenigingsloket
             {
                 Code = hoofdactiviteitVerenigingsloket.Code,
                 Naam = hoofdactiviteitVerenigingsloket.Naam,
