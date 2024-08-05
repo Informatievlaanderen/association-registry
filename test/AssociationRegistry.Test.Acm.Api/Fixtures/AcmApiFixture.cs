@@ -171,7 +171,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(DocumentStore, EventConflictResolver);
+        var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
         var result = StreamActionResult.Empty;
 
         foreach (var @event in eventsToAdd)

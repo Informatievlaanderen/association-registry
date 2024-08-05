@@ -6,6 +6,7 @@ using Events;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;
 
@@ -31,7 +32,7 @@ public class When_AdresWerdGeheradresseerd
         });
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, eventConflictResolver);
+        var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         var adresWerdGewijzigdInAdressenregister = _fixture.Create<AdresWerdGewijzigdInAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();

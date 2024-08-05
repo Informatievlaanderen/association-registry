@@ -7,6 +7,7 @@ using EventStore;
 using FluentAssertions;
 using Framework;
 using Marten;
+using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Vereniging;
 using Xunit;
@@ -40,7 +41,7 @@ public class Given_An_Lower_Version
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver);
+        var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
@@ -59,7 +60,7 @@ public class Given_An_Lower_Version
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
-        var eventStore = new EventStore(documentStore, _conflictResolver);
+        var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         var adresWerdOvergenomenUitAdressenregister = _fixture.Create<AdresWerdOvergenomenUitAdressenregister>();
 

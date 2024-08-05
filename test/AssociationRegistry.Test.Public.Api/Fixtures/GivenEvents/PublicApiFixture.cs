@@ -122,7 +122,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
-        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver);
+        var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
 
         foreach (var @event in eventsToAdd)
         {
