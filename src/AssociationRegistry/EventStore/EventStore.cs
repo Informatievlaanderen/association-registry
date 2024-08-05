@@ -58,7 +58,9 @@ public class EventStore : IEventStore
             if(maxSequence < 1)
                 _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-            return new StreamActionResult(maxSequence, streamAction.Version);
+            var eventsAgain = session.Events.FetchStream(aggregateId);
+            return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
+            //return new StreamActionResult(maxSequence, streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
@@ -80,7 +82,9 @@ public class EventStore : IEventStore
                 if(maxSequence < 1)
                     _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-                return new StreamActionResult(maxSequence, streamAction.Version);
+                var eventsAgain = session.Events.FetchStream(aggregateId);
+                return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
+                //return new StreamActionResult(maxSequence, streamAction.Version);
             }
 
             throw new UnexpectedAggregateVersionException();
