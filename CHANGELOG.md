@@ -1,3 +1,15 @@
+# [8.131.0](https://github.com/informatievlaanderen/association-registry/compare/v8.130.3...v8.131.0) (2024-08-05)
+
+
+### Bug Fixes
+
+* or-2338 use numeric revisions for sequence documents ([89d5848](https://github.com/informatievlaanderen/association-registry/commit/89d5848324570ac599a3bc045ec2f30b94a08d9c))
+
+
+### Features
+
+* or-2263 add api documentation for locatie & contactgegeven ([80b195a](https://github.com/informatievlaanderen/association-registry/commit/80b195a2ea9942eed367d3c9667adeba3896e02a))
+
 ## [8.130.3](https://github.com/informatievlaanderen/association-registry/compare/v8.130.2...v8.130.3) (2024-08-05)
 
 
