@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Schema.Sequence;
 
+using Marten.Metadata;
 using Marten.Schema;
 
 public class PubliekVerenigingSequenceDocument
