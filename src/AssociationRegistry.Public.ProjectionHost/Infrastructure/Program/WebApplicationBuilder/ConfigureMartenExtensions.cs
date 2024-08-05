@@ -99,9 +99,9 @@ public static class ConfigureMartenExtensions
                 opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
                 opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
 
-                // opts.Schema.For<PubliekVerenigingSequenceDocument>()
-                //     .UseNumericRevisions(true)
-                //     .UseOptimisticConcurrency(false);
+                opts.Schema.For<PubliekVerenigingSequenceDocument>()
+                    .UseNumericRevisions(true)
+                    .UseOptimisticConcurrency(false);
 
                 if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
                 {
