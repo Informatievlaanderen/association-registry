@@ -44,6 +44,10 @@ public class TeAdresMatchenLocatieMessageHandler
         {
             throw new UnexpectedAggregateVersionDuringSyncException();
         }
+        catch (AssociationRegistry.Vereniging.Exceptions.VerenigingWerdVerwijderd)
+        {
+            _logger.LogWarning("Kon de locatie niet adresmatchen wegens verwijderde vereniging met VCode: {VCode}.", matchenLocatieMessage.VCode);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex.Message);
