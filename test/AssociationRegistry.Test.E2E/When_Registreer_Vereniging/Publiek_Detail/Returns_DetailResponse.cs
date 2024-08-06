@@ -27,8 +27,8 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(nameof(PubliekRegistreerVerenigingCollection))]
-public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiFixture> context)
-    : End2EndTest<RegistreerVerenigingContext<PublicApiFixture>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(context)
+public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiSetup> context)
+    : End2EndTest<RegistreerVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse> GetResponse =>
         host => host.GetPubliekDetail(VCode);

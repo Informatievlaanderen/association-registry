@@ -14,7 +14,7 @@ public abstract class End2EndTest<TContext, TRequest, TResponse> where TContext:
         Response = GetResponse(context.QueryApiHost)!;
     }
 
-    protected string VCode => _context.ResultingVCode;
+    protected string VCode => _context.VCode;
     protected TRequest Request => _context.Request;
     protected TResponse Response { get; init; }
 

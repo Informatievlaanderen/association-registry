@@ -20,21 +20,21 @@ using Xunit.Abstractions;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 using AdresId = Admin.Api.Verenigingen.Common.AdresId;
 
-[CollectionDefinition(nameof(RegistreerVerenigingContext<AdminApiFixture>))]
-public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<AdminApiFixture>>
+[CollectionDefinition(nameof(RegistreerVerenigingContext<AdminApiSetup>))]
+public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<AdminApiSetup>>
 {
 
 }
 [CollectionDefinition(nameof(PubliekRegistreerVerenigingCollection))]
-public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<PublicApiFixture>>
+public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<PublicApiSetup>>
 {
 
 }
 public class RegistreerVerenigingContext<T> : IAsyncLifetime, IEnd2EndContext<RegistreerFeitelijkeVerenigingRequest>
-where T: IAppFixture, new()
+where T: IApiSetup, new()
 {
     private IScenarioResult _result;
-    private IAppFixture _fixture;
+    private IApiSetup _fixture;
     public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
     public IAlbaHost AdminApiHost => _fixture.AdminApiHost;
     public IAlbaHost QueryApiHost => _fixture.QueryApiHost;
@@ -164,12 +164,12 @@ where T: IAppFixture, new()
             s.Header("Location").ShouldHaveValues();
         });
 
-        ResultingVCode = _result.Context.Response.Headers.Location.First().Split('/').Last();
+        VCode = _result.Context.Response.Headers.Location.First().Split('/').Last();
 
         await _fixture.ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
 
-    public string ResultingVCode { get; set; }
+    public string VCode { get; set; }
     public Metadata Metadata { get; set; }
 
     public new Task DisposeAsync()

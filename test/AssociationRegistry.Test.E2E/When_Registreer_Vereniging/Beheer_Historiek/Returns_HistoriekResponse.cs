@@ -13,9 +13,9 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(RegistreerVerenigingContext<AdminApiFixture>))]
-public class Returns_Historiek(RegistreerVerenigingContext<AdminApiFixture> context)
-    : End2EndTest<RegistreerVerenigingContext<AdminApiFixture>, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>(context)
+[Collection(nameof(RegistreerVerenigingContext<AdminApiSetup>))]
+public class Returns_Historiek(RegistreerVerenigingContext<AdminApiSetup> context)
+    : End2EndTest<RegistreerVerenigingContext<AdminApiSetup>, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>(context)
 {
     protected override Func<IAlbaHost, HistoriekResponse> GetResponse => adminApi => adminApi.GetHistoriek(VCode);
 
