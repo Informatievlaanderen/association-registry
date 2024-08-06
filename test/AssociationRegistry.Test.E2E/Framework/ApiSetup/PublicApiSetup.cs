@@ -15,17 +15,17 @@ using Microsoft.Extensions.Logging;
 using Oakton;
 using Xunit;
 using Clients = Common.Clients.Clients;
-using ProjectionHostProgram = Admin.ProjectionHost.Program;
+using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-public class AdminApiFixture : IAppFixture
+public class PublicApiSetup : IApiSetup
 {
     public string? AuthCookie { get; private set; }
     public ILogger<Program> Logger { get; private set; }
     public IAlbaHost AdminApiHost { get; private set; }
     public IAlbaHost ProjectionHost { get; private set; }
-    public IAlbaHost QueryApiHost => AdminApiHost;
+    public IAlbaHost QueryApiHost { get; private set; }
 
-    public AdminApiFixture()
+    public PublicApiSetup()
     {
     }
 
@@ -42,6 +42,7 @@ public class AdminApiFixture : IAppFixture
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, schema));
+        QueryApiHost = await AlbaHost.For<AssociationRegistry.Public.Api.Program>(ConfigureForTesting(configuration, schema));
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -65,7 +66,7 @@ public class AdminApiFixture : IAppFixture
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-                .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
         };
     }
 
@@ -74,12 +75,4 @@ public class AdminApiFixture : IAppFixture
         await AdminApiHost.Services.GetRequiredService<IDocumentStore>().Advanced.ResetAllData();
         await AdminApiHost.DisposeAsync();
     }
-}
-
-public interface IAppFixture
-{
-    Task InitializeAsync(string schema);
-    IAlbaHost AdminApiHost { get; }
-    IAlbaHost ProjectionHost { get; }
-    IAlbaHost QueryApiHost { get; }
 }
