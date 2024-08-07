@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.E2E.Framework.Scenarios;
+namespace AssociationRegistry.Test.E2E.Scenarios;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
 using EventStore;
-using TestClasses;
+using Framework.TestClasses;
 using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario

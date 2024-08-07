@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using Alba;
 using AssociationRegistry.Framework;
+using Events;
 using Marten;
 using NodaTime;
 using NodaTime.Text;
@@ -9,12 +10,15 @@ using NodaTime.Text;
 public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TRequest> where TScenario : IScenario
 {
     private IApiSetup _fixture;
-    public string VCode => Scenario.VCode;
-    public TRequest Request { get; init; }
+    public string VCode { get; protected set; }
+    public abstract TRequest Request { get; }
+    public abstract TScenario Scenario { get; }
     public IAlbaHost AdminApiHost { get; }
     public IAlbaHost QueryApiHost { get; }
     public IAlbaHost ProjectionHost { get; }
     public IAlbaHost ProjectionHost2 => _fixture.ProjectionHost;
+
+
 
     protected End2EndContext(IApiSetup fixture)
     {
@@ -32,8 +36,6 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
 
     protected async Task Given(TScenario scenario)
     {
-        Scenario = scenario;
-
         await using (var session = AdminApiHost.DocumentStore().LightweightSession())
         {
             session.SetHeader(MetadataHeaderNames.Initiator, "metadata.Initiator");
@@ -45,5 +47,19 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
         }
     }
 
-    public TScenario Scenario { get; set; }
+    protected async Task WaitForAdresMatchEvent()
+    {
+        await using var session = ProjectionHost.DocumentStore().LightweightSession();
+        var events = await session.Events.FetchStreamAsync(Scenario.VCode);
+
+        var counter = 0;
+        while (!events.Any(a => a.EventType == typeof(AdresWerdOvergenomenUitAdressenregister)) )
+        {
+            await Task.Delay(400 + (200 * counter));
+            events = await session.Events.FetchStreamAsync(Scenario.VCode);
+
+            if(++counter > 20)
+                throw new Exception($"Kept waiting for Adresmatch... Events committed: {string.Join(", ", events.Select(x => x.EventTypeName))}");
+        }
+    }
 }

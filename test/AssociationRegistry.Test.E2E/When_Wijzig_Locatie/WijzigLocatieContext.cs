@@ -7,13 +7,14 @@ using Alba;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
-using Framework.Scenarios;
+using Events;
 using Framework.TestClasses;
 using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using NodaTime.Text;
+using Scenarios;
 using System.Net;
 using Vereniging;
 using Xunit;
@@ -28,32 +29,32 @@ public class WijzigLocatieCollection : ICollectionFixture<WijzigLocatieContext<A
 public class WijzigLocatieContext<T> : End2EndContext<WijzigLocatieRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
 where T: IApiSetup, new()
 {
-    private IScenarioResult _result;
-
     protected override string SchemaName => $"wijzig{GetType().GetGenericArguments().First().Name}";
 
+    public override FeitelijkeVerenigingWerdGeregistreerdScenario Scenario => new();
+
+    public override WijzigLocatieRequest Request => new()
+    {
+        Locatie =
+            new TeWijzigenLocatie()
+            {
+                Naam = "Kantoor",
+                Adres = new Admin.Api.Verenigingen.Common.Adres
+                {
+                    Straatnaam = "Leopold II-laan",
+                    Huisnummer = "99",
+                    Busnummer = "",
+                    Postcode = "9200",
+                    Gemeente = "Dendermonde",
+                    Land = "België",
+                },
+                IsPrimair = true,
+                Locatietype = Locatietype.Correspondentie,
+            }
+    };
     public WijzigLocatieContext() : base(new T())
     {
-        Scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        Request = new WijzigLocatieRequest()
-        {
-            Locatie =
-                new TeWijzigenLocatie()
-                {
-                    Naam = "Kantoor",
-                    Adres = new Admin.Api.Verenigingen.Common.Adres
-                    {
-                        Straatnaam = "Leopold II-laan",
-                        Huisnummer = "99",
-                        Busnummer = "",
-                        Postcode = "9200",
-                        Gemeente = "Dendermonde",
-                        Land = "Belgie",
-                    },
-                    IsPrimair = true,
-                    Locatietype = Locatietype.Correspondentie,
-                }
-        };
+        VCode = Scenario.VCode;
     }
 
     public async Task InitializeAsync()
@@ -61,7 +62,7 @@ where T: IApiSetup, new()
         await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
         await Given(Scenario);
-        _result = await AdminApiHost.Scenario(s =>
+        await AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(Request, JsonStyle.MinimalApi)
@@ -69,6 +70,8 @@ where T: IApiSetup, new()
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });
+
+        await WaitForAdresMatchEvent();
 
         await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
