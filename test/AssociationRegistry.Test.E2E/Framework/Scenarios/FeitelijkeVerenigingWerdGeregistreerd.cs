@@ -12,12 +12,12 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
-    private VCode _vCode;
+    public VCode VCode { get; }
 
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = "V9999001";
+        VCode = VCode.Create("V9999001");
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
@@ -89,13 +89,12 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
-                new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
+                new(Code: HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
             });
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
-    public string VCode { get; set; }
     public IEvent[] CreateEvents()
         => [FeitelijkeVerenigingWerdGeregistreerd];
 
@@ -103,7 +102,4 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
-
-    VCode IScenario.VCode
-        => _vCode;
 }

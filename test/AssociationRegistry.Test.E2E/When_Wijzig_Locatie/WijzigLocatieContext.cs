@@ -18,30 +18,23 @@ using System.Net;
 using Vereniging;
 using Xunit;
 
+
+[CollectionDefinition(nameof(WijzigLocatieContext<AdminApiSetup>))]
+public class WijzigLocatieCollection : ICollectionFixture<WijzigLocatieContext<AdminApiSetup>>
+{
+
+}
+
 public class WijzigLocatieContext<T> : End2EndContext<WijzigLocatieRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
 where T: IApiSetup, new()
 {
     private IScenarioResult _result;
-    private IApiSetup _fixture;
-    public WijzigLocatieRequest Request { get; private set; }
-    public IAlbaHost AdminApiHost => _fixture.AdminApiHost;
-    public IAlbaHost QueryApiHost => _fixture.QueryApiHost;
 
-    public WijzigLocatieContext()
+    protected override string SchemaName => $"wijzig{GetType().GetGenericArguments().First().Name}";
+
+    public WijzigLocatieContext() : base(new T())
     {
-        _fixture = new T();
-        _fixture.InitializeAsync($"wijzig{GetType().GetGenericArguments().First().Name}")
-                .GetAwaiter().GetResult();
-    }
-
-    public async Task InitializeAsync()
-    {
-        var autoFixture = new Fixture().CustomizeAdminApi();
-
         Scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-
-        await Given(Scenario);
-
         Request = new WijzigLocatieRequest()
         {
             Locatie =
@@ -61,9 +54,13 @@ where T: IApiSetup, new()
                     Locatietype = Locatietype.Correspondentie,
                 }
         };
-        // Using Marten, wipe out all data and reset the state
-        await _fixture.AdminApiHost.DocumentStore().Advanced.ResetAllData();
+    }
 
+    public async Task InitializeAsync()
+    {
+        await AdminApiHost.DocumentStore().Advanced.ResetAllData();
+
+        await Given(Scenario);
         _result = await AdminApiHost.Scenario(s =>
         {
             s.Patch
@@ -73,12 +70,9 @@ where T: IApiSetup, new()
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });
 
-        VCode = _result.Context.Response.Headers.Location.First().Split('/').Last();
-
-        await _fixture.ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
 
-    public string VCode { get; set; }
     public Metadata Metadata { get; set; }
 
     public new Task DisposeAsync()

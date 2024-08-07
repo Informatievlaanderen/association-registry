@@ -6,12 +6,29 @@ using Marten;
 using NodaTime;
 using NodaTime.Text;
 
-public abstract class End2EndContext<TRequest, TScenario>: IEnd2EndContext<TRequest> where TScenario : IScenario
+public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TRequest> where TScenario : IScenario
 {
-    public string VCode { get; }
-    public TRequest Request { get; }
+    private IApiSetup _fixture;
+    public string VCode => Scenario.VCode;
+    public TRequest Request { get; init; }
     public IAlbaHost AdminApiHost { get; }
     public IAlbaHost QueryApiHost { get; }
+    public IAlbaHost ProjectionHost { get; }
+    public IAlbaHost ProjectionHost2 => _fixture.ProjectionHost;
+
+    protected End2EndContext(IApiSetup fixture)
+    {
+        _fixture = fixture;
+        _fixture.InitializeAsync(SchemaName)
+                .GetAwaiter().GetResult();
+
+        AdminApiHost = _fixture.AdminApiHost;
+        QueryApiHost = _fixture.QueryApiHost;
+        ProjectionHost = _fixture.ProjectionHost;
+
+    }
+
+    protected abstract string SchemaName { get; }
 
     protected async Task Given(TScenario scenario)
     {
