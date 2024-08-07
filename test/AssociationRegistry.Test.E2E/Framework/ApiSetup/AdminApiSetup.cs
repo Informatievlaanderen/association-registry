@@ -3,6 +3,11 @@
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
 using Alba;
+using Amazon;
+using Amazon.Runtime;
+using Amazon.SQS;
+using Amazon.SQS.Model;
+using Configuration;
 using Framework.AlbaHost;
 using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
@@ -31,6 +36,7 @@ public class AdminApiSetup : IApiSetup
 
     public async Task InitializeAsync(string schema)
     {
+        schema = schema.ToLowerInvariant();
         OaktonEnvironment.AutoStartHost = true;
 
         var configuration = new ConfigurationBuilder()
@@ -52,6 +58,24 @@ public class AdminApiSetup : IApiSetup
 
     private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
     {
+        var sqsConfig = new AmazonSQSConfig
+        {
+            ServiceURL = "http://localhost:4566", // LocalStack endpoint
+            UseHttp = true,
+            AuthenticationRegion = "eu-west-1" // Region for LocalStack
+        };
+
+        IAmazonSQS sqs = new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), sqsConfig);
+
+        var createQueueRequest = new CreateQueueRequest
+        {
+            QueueName = schema // Assuming schema is a variable holding the queue name
+        };
+
+        var sqsResult = sqs.CreateQueueAsync(createQueueRequest).GetAwaiter().GetResult();
+
+        sqs.PurgeQueueAsync(schema).GetAwaiter().GetResult();
+
         return b =>
         {
             b.UseEnvironment("Development");
@@ -65,7 +89,8 @@ public class AdminApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-                .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
+             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant());
         };
     }
 
