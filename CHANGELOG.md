@@ -1,3 +1,17 @@
+# [8.133.0](https://github.com/informatievlaanderen/association-registry/compare/v8.132.0...v8.133.0) (2024-08-07)
+
+
+### Bug Fixes
+
+* or-2311 add PublicApiFixture ([da73884](https://github.com/informatievlaanderen/association-registry/commit/da73884ca8abd5deb7f1e0a15f08664a5ecba93f))
+* or-2311 introduce first Given end2end test ([990b160](https://github.com/informatievlaanderen/association-registry/commit/990b1609cb17cde362fac521d7341b97d22f5fa6))
+* or-2311 make ES use less memory ([48b3742](https://github.com/informatievlaanderen/association-registry/commit/48b37426bdcd70f5479dbd0d1dd709fafe57659e))
+
+
+### Features
+
+* or-2311 add wijzig locatie e2e tests ([ddde4f9](https://github.com/informatievlaanderen/association-registry/commit/ddde4f9759c0cba43dffa9b0dad449299fa6451f))
+
 # [8.132.0](https://github.com/informatievlaanderen/association-registry/compare/v8.131.3...v8.132.0) (2024-08-07)
 
 
