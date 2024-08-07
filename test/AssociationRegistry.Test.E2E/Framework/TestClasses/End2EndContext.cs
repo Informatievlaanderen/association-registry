@@ -16,9 +16,6 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
     public IAlbaHost AdminApiHost { get; }
     public IAlbaHost QueryApiHost { get; }
     public IAlbaHost ProjectionHost { get; }
-    public IAlbaHost ProjectionHost2 => _fixture.ProjectionHost;
-
-
 
     protected End2EndContext(IApiSetup fixture)
     {
