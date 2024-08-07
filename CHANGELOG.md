@@ -1,3 +1,10 @@
+# [8.132.0](https://github.com/informatievlaanderen/association-registry/compare/v8.131.3...v8.132.0) (2024-08-07)
+
+
+### Features
+
+* or-2339 dont throw exception for adresmatch when vereniging is verwijderd ([09a7971](https://github.com/informatievlaanderen/association-registry/commit/09a79717755a925109283d411eb0e42aa67148ed))
+
 ## [8.131.3](https://github.com/informatievlaanderen/association-registry/compare/v8.131.2...v8.131.3) (2024-08-05)
 
 
