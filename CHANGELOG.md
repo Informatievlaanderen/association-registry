@@ -1,3 +1,10 @@
+## [8.133.1](https://github.com/informatievlaanderen/association-registry/compare/v8.133.0...v8.133.1) (2024-08-08)
+
+
+### Bug Fixes
+
+* or-2340 mutatiedienst parameters should be greater than instead of greater than or equal ([eb2ce74](https://github.com/informatievlaanderen/association-registry/commit/eb2ce74a8ccff512f95c0a02f7deb557e2cedf85))
+
 # [8.133.0](https://github.com/informatievlaanderen/association-registry/compare/v8.132.0...v8.133.0) (2024-08-07)
 
 
