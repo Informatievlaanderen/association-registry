@@ -24,9 +24,9 @@ public class VerenigingenSequenceController : ApiController
     }
 
     /// <summary>
-    ///     Opvragen gewijzigde vCodes.
+    ///     Opvragen gewijzigde VCodes.
     /// </summary>
-    /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
+    /// <param name="sinds">Geeft alle VCodes waarvan de hoogste sequence strikt groter is dan de opgegeven waarde</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("mutaties")]
@@ -35,14 +35,14 @@ public class VerenigingenSequenceController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingSequenceResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.Json)]
-    public async Task<IActionResult> Detail(
+    public async Task<IActionResult> GetMutatieDetail(
         [FromQuery] long sinds,
         CancellationToken cancellationToken)
     {
         await using var session = _documentStore.LightweightSession();
 
         var docs = await session.Query<PubliekVerenigingSequenceDocument>()
-                                .Where(w => w.Sequence >= sinds)
+                                .Where(w => w.Sequence > sinds)
                                 .ToListAsync(cancellationToken);
 
         var response = docs
