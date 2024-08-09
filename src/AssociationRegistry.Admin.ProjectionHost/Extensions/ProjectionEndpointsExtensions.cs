@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Extensions;
 
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
