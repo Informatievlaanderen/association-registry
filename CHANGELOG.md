@@ -1,3 +1,10 @@
+## [8.133.2](https://github.com/informatievlaanderen/association-registry/compare/v8.133.1...v8.133.2) (2024-08-09)
+
+
+### Bug Fixes
+
+* or-2342 removed mixed use of elasticsearch options section ([477240e](https://github.com/informatievlaanderen/association-registry/commit/477240ee1170d2b09992514e33370de5866e8ac5))
+
 ## [8.133.1](https://github.com/informatievlaanderen/association-registry/compare/v8.133.0...v8.133.1) (2024-08-08)
 
 
