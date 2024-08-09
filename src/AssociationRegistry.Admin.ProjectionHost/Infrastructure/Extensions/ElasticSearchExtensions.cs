@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
 using ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Schema.Search;
 

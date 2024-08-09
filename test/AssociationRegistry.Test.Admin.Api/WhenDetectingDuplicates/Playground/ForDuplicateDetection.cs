@@ -8,6 +8,7 @@ using AssociationRegistry.Admin.Schema.Search;
 using Fixtures;
 using FluentAssertions;
 using Hosts;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
