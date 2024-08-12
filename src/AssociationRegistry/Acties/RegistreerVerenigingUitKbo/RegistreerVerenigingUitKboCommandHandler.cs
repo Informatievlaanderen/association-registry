@@ -48,12 +48,12 @@ public class RegistreerVerenigingUitKboCommandHandler
         if (duplicateResult.IsFailure())
             return duplicateResult;
 
-        await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
-
         var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
 
         if (geefVerenigingResult.IsFailure() || !geefVerenigingResult.Data.IsActief)
             throw new GeenGeldigeVerenigingInKbo();
+
+        await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
 
         var result = await RegistreerVereniging(geefVerenigingResult, message.Metadata, cancellationToken);
 

@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/">
+    <SOAP-ENV:Header xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" />
+    <SOAP-ENV:Body xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+        <web:GeefOndernemingResponse
+            xmlns:web="http://webservice.geefondernemingdienst-02_00.onderneming-02_00.vip.vlaanderen.be">
+            <Repliek>
+                <Context>
+                    <Naam>GeefOnderneming</Naam>
+                    <Versie>02.00.0000</Versie>
+                    <Bericht>
+                        <Type>ANTWOORD</Type>
+                        <Tijdstip>
+                            <Datum>2024-08-12</Datum>
+                            <Tijd>09:45:34.243</Tijd>
+                        </Tijdstip>
+                        <Afzender>
+                            <Identificatie>vip.vlaanderen.be</Identificatie>
+                            <Naam>MagdaGateway</Naam>
+                            <Referte>202bfd76-aa75-4265-b560-936beeb77f86</Referte>
+                        </Afzender>
+                        <Ontvanger>
+                            <Identificatie>kbbj.vlaanderen.be/dv/verenigingsregister-aip</Identificatie>
+                            <Referte>AREF_QT_610527_134233</Referte>
+                            <Hoedanigheid />
+                        </Ontvanger>
+                    </Bericht>
+                </Context>
+                <Antwoorden>
+                    <Antwoord>
+                        <Referte>efb55ac2-5421-4a7f-bb25-26b1b8a5eb10</Referte>
+                        <Inhoud>
+                            <Onderneming>
+                                <Ondernemingsnummer>0462925669</Ondernemingsnummer>
+                                <AuthentiekBron>
+                                    <Code>03</Code>
+                                    <Omschrijving>KBO</Omschrijving>
+                                </AuthentiekBron>
+                                <OndernemingOfVestiging>
+                                    <Code Beschrijving="Onderneming">1</Code>
+                                </OndernemingOfVestiging>
+                                <StatusKBO>
+                                    <Code>JU</Code>
+                                </StatusKBO>
+                                <SoortOnderneming>
+                                    <Code Beschrijving="Rechtspersoon">2</Code>
+                                </SoortOnderneming>
+                                <Namen>
+                                    <MaatschappelijkeNamen>
+                                        <MaatschappelijkeNaam DatumBegin="2004-10-11">
+                                            <Naam>Telenet Group</Naam>
+                                            <Taalcode>nl</Taalcode>
+                                        </MaatschappelijkeNaam>
+                                    </MaatschappelijkeNamen>
+                                    <AfgekorteNamen>
+                                        <AfgekorteNaam DatumBegin="2004-10-11">
+                                            <Naam>Telenet</Naam>
+                                            <Taalcode>nl</Taalcode>
+                                        </AfgekorteNaam>
+                                    </AfgekorteNamen>
+                                </Namen>
+                                <Adressen>
+                                    <Adres DatumBegin="1995-06-08">
+                                        <Straat>
+                                            <Code>8020</Code>
+                                        </Straat>
+                                        <Huisnummer>4</Huisnummer>
+                                        <Gemeente>
+                                            <NISCode>72025</NISCode>
+                                            <PostCode>3910</PostCode>
+                                        </Gemeente>
+                                        <Land>
+                                            <NISCode>150</NISCode>
+                                            <ISOCode>BE</ISOCode>
+                                            <Naam>België</Naam>
+                                        </Land>
+                                        <Type>
+                                            <Code>001</Code>
+                                        </Type>
+                                        <Descripties>
+                                            <Descriptie>
+                                                <Adres>
+                                                    <Straat>
+                                                        <Naam>Bosuilstraat(SHL)</Naam>
+                                                    </Straat>
+                                                    <Gemeente>
+                                                        <Naam>Neerpelt</Naam>
+                                                    </Gemeente>
+                                                    <Land>
+                                                        <NISCode>150</NISCode>
+                                                        <Naam>Belgi&#235;</Naam>
+                                                    </Land>
+                                                </Adres>
+                                                <Contact>
+                                                    <Telefoonnummer>011642985</Telefoonnummer>
+                                                    <Faxnummer>011663513</Faxnummer>
+                                                    <Email>info@opdebosuil.be</Email>
+                                                    <Website>www.opdebosuil.be</Website>
+                                                </Contact>
+                                            </Descriptie>
+                                        </Descripties>
+                                    </Adres>
+                                </Adressen>
+                                <Start>
+                                    <Datum>1964-12-17</Datum>
+                                </Start>
+                                <Inschrijving>
+                                    <Datum>2003-01-18</Datum>
+                                </Inschrijving>
+                                <Rechtsvormen>
+                                    <Rechtsvorm DatumBegin="1964-12-17">
+                                        <Code>014</Code>
+                                    </Rechtsvorm>
+                                </Rechtsvormen>
+                            </Onderneming>
+                        </Inhoud>
+                    </Antwoord>
+                </Antwoorden>
+            </Repliek>
+        </web:GeefOndernemingResponse>
+    </SOAP-ENV:Body>
+</soapenv:Envelope>
