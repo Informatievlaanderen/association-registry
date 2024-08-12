@@ -1,3 +1,10 @@
+## [8.133.3](https://github.com/informatievlaanderen/association-registry/compare/v8.133.2...v8.133.3) (2024-08-12)
+
+
+### Bug Fixes
+
+* or-2347 update documentation which has incorrect casing for header parameter ([d7153c9](https://github.com/informatievlaanderen/association-registry/commit/d7153c931534cb7c08426ad09249d4714319cc28))
+
 ## [8.133.2](https://github.com/informatievlaanderen/association-registry/compare/v8.133.1...v8.133.2) (2024-08-09)
 
 
