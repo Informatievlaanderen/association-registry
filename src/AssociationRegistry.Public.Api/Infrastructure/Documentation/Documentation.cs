@@ -35,7 +35,7 @@ Na het verkrijgen van de API Key, dient deze meegestuurd te worden als header, o
 
 Type | Naam | Voorbeeld                                                    |
 ----------- | ----------------------------------------------------------------- |----|
-Header    | `VR-api-key` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'VR-api-key: api-key'`|
+Header    | `vr-api-key` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-key: api-key'`|
 Query parameter | `vr-api-key` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-key=api-key |
 
 ";
