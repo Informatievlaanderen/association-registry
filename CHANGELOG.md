@@ -1,3 +1,10 @@
+## [8.133.4](https://github.com/informatievlaanderen/association-registry/compare/v8.133.3...v8.133.4) (2024-08-12)
+
+
+### Bug Fixes
+
+* or-2317 perform GeefOnderneming first and only after perform RegistreerInschrijving ([67d0d57](https://github.com/informatievlaanderen/association-registry/commit/67d0d571137d0b93e480d0a1fcad9c11d55a864d))
+
 ## [8.133.3](https://github.com/informatievlaanderen/association-registry/compare/v8.133.2...v8.133.3) (2024-08-12)
 
 
