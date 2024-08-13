@@ -1,3 +1,10 @@
+## [8.133.5](https://github.com/informatievlaanderen/association-registry/compare/v8.133.4...v8.133.5) (2024-08-13)
+
+
+### Bug Fixes
+
+* or-2348 clear all pending changes ([a094e7e](https://github.com/informatievlaanderen/association-registry/commit/a094e7e48eb46b78406bb2ad105ccc1121db7a70))
+
 ## [8.133.4](https://github.com/informatievlaanderen/association-registry/compare/v8.133.3...v8.133.4) (2024-08-12)
 
 
