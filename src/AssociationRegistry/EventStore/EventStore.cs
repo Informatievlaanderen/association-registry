@@ -70,7 +70,7 @@ public class EventStore : IEventStore
 
             if (_conflictResolver.IsAllowedPostConflict(events, eventsDiff))
             {
-                session.PendingChanges.Streams().Clear();
+                session.EjectAllPendingChanges();
 
                 var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length + eventsDiff.Count,
                                                          events);
