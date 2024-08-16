@@ -249,7 +249,7 @@ jobs:
       run-docker-otelcollector: true
       pre-gen-marten: true
     secrets: inherit
-
+  
   build-admin-address-sync:
     name: Build Admin Address Sync Scheduled Task
     uses: ./.github/workflows/build-image.yml
@@ -268,6 +268,21 @@ jobs:
       run-docker-localstack: false
       run-docker-otelcollector: true
       pre-gen-marten: false
+    secrets: inherit
+
+  run-e2e-tests:
+    name: Run e2e tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.E2E
+      run-docker-acm: true
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-localstack: true
+      run-docker-otelcollector: true
     secrets: inherit
 
   pack-association-registry:

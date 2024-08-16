@@ -1,0 +1,190 @@
+name: Build image
+
+on:
+  workflow_call:
+    inputs:
+      run-docker-acm:
+        required: true
+        type: boolean
+      run-docker-wiremock:
+        required: true
+        type: boolean
+      run-docker-db:
+        required: true
+        type: boolean
+      run-docker-elasticsearch:
+        required: true
+        type: boolean
+      run-docker-localstack:
+        required: true
+        type: boolean
+      run-docker-otelcollector:
+        required: true
+        type: boolean
+      pre-gen-marten:
+        type: boolean
+      test-project: #AssociationRegistry.Test.Acm.Api
+        required: true
+        type: string
+jobs:
+  build-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Display disk space
+        run: |
+          df -h
+
+      - name: Delete huge unnecessary tools folder
+        run: rm -rf /opt/hostedtoolcache
+
+      - name: Display disk space
+        run: |
+          df -h
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Run localstack container
+        shell: bash
+        if: ${{ inputs.run-docker-localstack }}
+        run: |
+          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=eu-west-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
+
+      - name: Run es container
+        shell: bash
+        if: ${{ inputs.run-docker-elasticsearch }}
+        run: |
+          docker run -d --name elasticsearch -p 9200:9200 -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
+
+      - name: Run wiremock container
+        shell: bash
+        if: ${{ inputs.run-docker-wiremock }}
+        run: |
+          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
+
+      - name: Run ACM container
+        shell: bash
+        if: ${{ inputs.run-docker-acm }}
+        run: |
+          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
+
+      - name: Run db container
+        shell: bash
+        if: ${{ inputs.run-docker-db }}
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+      - name: Run OpenTelemetry container
+        shell: bash
+        if: ${{ inputs.run-docker-otelcollector }}
+        run: |
+          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
+
+      - name: Cache Paket
+        uses: actions/cache@v4
+        env:
+          cache-name: cache-paket
+        with:
+          path: packages
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('paket.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Clean
+        run: dotnet nuget locals all --clear
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Paket install
+        shell: bash
+        run: dotnet paket install
+
+      - name: Paket restore
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
+        shell: bash
+        run: dotnet restore test/${{ inputs.test-project }} --runtime linux-x64
+
+      - name: Dotnet build tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
+        shell: bash
+        run: dotnet build --no-restore --runtime 'linux-x64' test/${{ inputs.test-project }}
+
+      - name: Wait for db container
+        shell: bash
+        run: |
+          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
+
+      - name: Run all tests
+        if: ${{ inputs.test-project != '' && inputs.test-project != 'none' }}
+        env:
+          LIVEMAGDAOPTIONS__CLIENTCERTIFICATE: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATE }}
+          LIVEMAGDAOPTIONS__CLIENTCERTIFICATEPASSWORD: ${{ secrets.LIVEMAGDAOPTIONS_CLIENTCERTIFICATEPASSWORD }}
+          LIVEMAGDAOPTIONS__GEEFONDERNEMINGENDPOINT: ${{ secrets.LIVEMAGDAOPTIONS_GEEFONDERNEMINGENDPOINT }}
+          LIVEMAGDAOPTIONS__AFZENDER: ${{ secrets.LIVEMAGDAOPTIONS_AFZENDER }}
+          LIVEMAGDAOPTIONS__HOEDANIGHEID: ${{ secrets.LIVEMAGDAOPTIONS_HOEDANIGHEID }}
+          LIVEMAGDAOPTIONS__ONTVANGER: ${{ secrets.LIVEMAGDAOPTIONS_ONTVANGER }}
+        run: dotnet test test/${{ inputs.test-project }} --logger html
+
+      - name: Archive code coverage results
+        if: ${{ always() && inputs.test-project != '' && inputs.test-project != 'none' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report-${{matrix.projects}}
+          path: ${{matrix.projects}}/TestResults/*.html
+
+      - name: Shows logs ACM container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs acm
+
+      - name: Shows logs elasticsearch container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs elasticsearch
+
+      - name: Shows logs localstack container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs localstack
+
+      - name: Shows logs wiremock container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs wiremock
+
+      - name: Shows logs db container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs db
+
+      - name: Shows logs otelcollector container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs otel-collector

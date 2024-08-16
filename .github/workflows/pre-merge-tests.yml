@@ -116,6 +116,7 @@ jobs:
             "test/AssociationRegistry.Test.Admin.AddressSync",
             "test/AssociationRegistry.Test.Admin.Api",
             "test/AssociationRegistry.Test.Acm.Api",
+            "test/AssociationRegistry.Test.E2E"
           ]
 
     steps:
@@ -135,13 +136,13 @@ jobs:
 
       - name: Run es container
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
         run: |
           docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
 
       - name: Run localstack container
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Public.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
         run: |
           docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=eu-west-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
 
@@ -153,7 +154,7 @@ jobs:
 
       - name: Run ACM container
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Acm.Api' || matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
         run: |
           docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
