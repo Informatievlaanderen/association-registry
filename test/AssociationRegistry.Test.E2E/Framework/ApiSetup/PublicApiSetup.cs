@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nest;
 using Oakton;
 using Xunit;
 using Clients = Common.Clients.Clients;
@@ -66,7 +67,8 @@ public class PublicApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
+             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", "public");
         };
     }
 

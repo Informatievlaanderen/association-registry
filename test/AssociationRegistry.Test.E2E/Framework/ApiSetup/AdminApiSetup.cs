@@ -2,6 +2,7 @@
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
+using Admin.ProjectionHost.Infrastructure.Extensions;
 using Alba;
 using Amazon;
 using Amazon.Runtime;
@@ -17,6 +18,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nest;
 using Oakton;
 using Xunit;
 using Clients = Common.Clients.Clients;

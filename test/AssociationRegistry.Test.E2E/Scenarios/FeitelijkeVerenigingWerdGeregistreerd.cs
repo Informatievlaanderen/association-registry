@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = VCode.Create("V9999001");
+        VCode = VCode.Create("V9999002");
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,

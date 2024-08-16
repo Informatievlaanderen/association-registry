@@ -12,6 +12,7 @@ using Framework.TestClasses;
 using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Scenarios;
@@ -61,6 +62,9 @@ where T: IApiSetup, new()
     {
         await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
+        var elasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
+        await elasticClient.Indices.DeleteAsync(Indices.All);
+
         await Given(Scenario);
         await AdminApiHost.Scenario(s =>
         {
@@ -74,6 +78,25 @@ where T: IApiSetup, new()
         await WaitForAdresMatchEvent();
 
         await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await elasticClient.Indices.RefreshAsync(Indices.All);
+    }
+
+    private static void ConfigureElasticClient(
+        IElasticClient client,
+        string verenigingenIndexName,
+        string duplicateDetectionIndexName)
+    {
+        if (client.Indices.Exists(verenigingenIndexName).Exists)
+            client.Indices.Delete(verenigingenIndexName);
+
+        //client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+
+        if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
+            client.Indices.Delete(duplicateDetectionIndexName);
+
+        //client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
+
+        client.Indices.Refresh(Indices.All);
     }
 
     public Metadata Metadata { get; set; }
