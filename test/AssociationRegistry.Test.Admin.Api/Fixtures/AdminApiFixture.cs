@@ -18,6 +18,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using NodaTime;
@@ -107,7 +108,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
-        ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
+        //ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
     }
 
     public IDocumentStore ApiDocumentStore
@@ -176,17 +177,18 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private static void ConfigureElasticClient(
         IElasticClient client,
         string verenigingenIndexName,
-        string duplicateDetectionIndexName)
+        string duplicateDetectionIndexName,
+        ILogger logger)
     {
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        client.Indices.CreateVerenigingIndex(verenigingenIndexName, logger);
 
         if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
             client.Indices.Delete(duplicateDetectionIndexName);
 
-        client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
+        client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName, logger);
 
         client.Indices.Refresh(Indices.All);
     }

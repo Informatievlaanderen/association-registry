@@ -6,40 +6,57 @@ using Schema.Search;
 
 public static class ElasticClientExtensions
 {
-    public static void CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-        => indicesNamespace.Create(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
-                                                                                     selector: prcf
-                                                                                         => prcf.Pattern("\\.").Replacement(""))
-                                                                     .PatternReplace(name: "underscore_replace",
-                                                                                     selector: prcf
-                                                                                         => prcf.Pattern("_").Replacement(" ")))
-                                                .TokenFilters(AddDutchStopWordsFilter)
-                                                .Normalizers(AddVerenigingZoekNormalizer)))
-                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-    public static Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
-        => indicesNamespace.CreateAsync(
-            index,
-            selector: descriptor =>
-                descriptor
-                   .Settings(s => s
-                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
-                                                                                     selector: prcf
-                                                                                         => prcf.Pattern("\\.").Replacement(""))
-                                                                     .PatternReplace(name: "underscore_replace",
-                                                                                     selector: prcf
-                                                                                         => prcf.Pattern("_").Replacement(" ")))
-                                                .TokenFilters(AddDutchStopWordsFilter)
-                                                .Normalizers(AddVerenigingZoekNormalizer)))
-                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-    public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
+    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
     {
+        logger.LogInformation("Creating Vereniging Index '{IndexName}'", index.Name);
+        var createIndexResponse = indicesNamespace.Create(
+            index,
+            selector: descriptor =>
+                descriptor
+                   .Settings(s => s
+                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("\\.").Replacement(""))
+                                                                     .PatternReplace(name: "underscore_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("_").Replacement(" ")))
+                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .Normalizers(AddVerenigingZoekNormalizer)))
+                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+
+        logger.LogInformation("Vereniging Index Creation: '{IndexCreationStatus}'", createIndexResponse.IsValid);
+
+        return createIndexResponse;
+    }
+
+    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
+    {
+        logger.LogInformation("Creating Vereniging Index '{IndexName}'", index.Name);
+
+        var createIndexResponse = await indicesNamespace.CreateAsync(
+            index,
+            selector: descriptor =>
+                descriptor
+                   .Settings(s => s
+                                .Analysis(a => a.CharFilters(cf => cf.PatternReplace(name: "dot_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("\\.").Replacement(""))
+                                                                     .PatternReplace(name: "underscore_replace",
+                                                                                     selector: prcf
+                                                                                         => prcf.Pattern("_").Replacement(" ")))
+                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .Normalizers(AddVerenigingZoekNormalizer)))
+                   .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
+
+        logger.LogInformation("Vereniging Index Creation: '{IndexCreationStatus}'", createIndexResponse);
+
+        return createIndexResponse;
+    }
+
+    public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
+    {
+        logger.LogInformation("Creating Duplicate Index '{IndexName}'", index.Name);
+
         var createIndexResponse = indicesNamespace.Create(
             index,
             selector: c => c
@@ -55,14 +72,21 @@ public static class ElasticClientExtensions
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
 
-        if (!createIndexResponse.IsValid)
+        logger.LogInformation("Duplicate Index Creation: '{IndexCreationStatus}'", createIndexResponse);
+
+        if (!createIndexResponse.IsValid &&
+            !createIndexResponse.IndexAlreadyExisted())
             throw createIndexResponse.OriginalException;
     }
 
     public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
         this IndicesNamespace indicesNamespace,
-        IndexName index)
-        => await indicesNamespace.CreateAsync(
+        IndexName index,
+        ILogger logger)
+    {
+        logger.LogInformation("Creating Duplicate Index '{IndexName}'", index.Name);
+
+        var createIndexResponse = await indicesNamespace.CreateAsync(
             index,
             selector: c => c
                           .Settings(s => s
@@ -76,6 +100,11 @@ public static class ElasticClientExtensions
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
+
+        logger.LogInformation("Duplicate Index Creation: '{IndexCreationStatus}'", createIndexResponse);
+
+        return createIndexResponse;
+    }
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
@@ -98,4 +127,9 @@ public static class ElasticClientExtensions
                            .CharFilters("underscore_replace", "dot_replace")
                            .Filters("lowercase", "asciifolding", "trim")
         );
+
+    private static bool IndexAlreadyExisted(this CreateIndexResponse createIndexResponse)
+    {
+        return createIndexResponse.ServerError.Error.Type == WellknownElasticSearchErrorTypes.ResourceAlreadyExistsException;
+    }
 }

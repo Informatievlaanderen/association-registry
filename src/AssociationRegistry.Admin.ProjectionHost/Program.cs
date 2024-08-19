@@ -62,11 +62,13 @@ public class Program
 
         builder.ConfigureOpenTelemetry(new AdminInstrumentation());
 
+        var logger = LoggerFactory.Create(loggingBuilder => {  }).CreateLogger<Program>();
+
         builder.Services
                .ConfigureRequestLocalization()
                .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
-               .ConfigureElasticSearch(elasticSearchOptions)
+               .ConfigureElasticSearch(elasticSearchOptions, logger)
                .AddMvc()
                .AddDataAnnotationsLocalization();
 
@@ -79,7 +81,7 @@ public class Program
         var app = builder.Build();
 
         app.AddProjectionEndpoints(
-            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
+            app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!, logger);
 
         // app.SetUpSwagger();
         ConfigureHealtChecks(app);

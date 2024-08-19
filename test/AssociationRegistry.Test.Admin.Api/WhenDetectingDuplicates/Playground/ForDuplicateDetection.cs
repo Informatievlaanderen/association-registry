@@ -10,6 +10,7 @@ using FluentAssertions;
 using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Reflection;
@@ -128,7 +129,7 @@ public class DuplicateDetectionSetup
                .GetAwaiter().GetResult();
 
         Client.Indices.Delete(duplicateDetection);
-        ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection);
+        ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection, NullLogger.Instance);
 
         Repository = new ElasticRepository(Client);
 
