@@ -151,9 +151,6 @@ where T: IApiSetup, new()
         // Using Marten, wipe out all data and reset the state
         await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
-        var elasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
-        await elasticClient.Indices.DeleteAsync(Indices.All);
-
         VCode = (await AdminApiHost.Scenario(s =>
         {
             s.Post
@@ -165,7 +162,6 @@ where T: IApiSetup, new()
         })).Context.Response.Headers.Location.First().Split('/').Last();
 
         await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await elasticClient.Indices.RefreshAsync(Indices.All);
     }
 
     public Metadata Metadata { get; set; }
