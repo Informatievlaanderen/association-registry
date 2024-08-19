@@ -9,13 +9,15 @@ public static class ElasticSearchExtensions
 {
     public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions)
+        ElasticSearchOptionsSection elasticSearchOptions,
+        ILogger logger)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 
         EnsureIndexExists(elasticClient,
                           elasticSearchOptions.Indices!.Verenigingen!,
-                          elasticSearchOptions.Indices!.DuplicateDetection!);
+                          elasticSearchOptions.Indices!.DuplicateDetection!,
+            logger);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
@@ -26,13 +28,14 @@ public static class ElasticSearchExtensions
     public static void EnsureIndexExists(
         IElasticClient elasticClient,
         string verenigingenIndexName,
-        string duplicateDetectionIndexName)
+        string duplicateDetectionIndexName,
+        ILogger logger)
     {
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
+            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName, logger);
 
         if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
-            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
+            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName, logger);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
