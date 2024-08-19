@@ -62,9 +62,6 @@ where T: IApiSetup, new()
     {
         await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
-        var elasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
-        await elasticClient.Indices.DeleteAsync(Indices.All);
-
         await Given(Scenario);
         await AdminApiHost.Scenario(s =>
         {
