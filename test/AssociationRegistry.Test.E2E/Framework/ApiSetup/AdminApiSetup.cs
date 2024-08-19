@@ -92,7 +92,8 @@ public class AdminApiSetup : IApiSetup
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
-             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant());
+             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant())
+             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"admin_{schema.ToLowerInvariant()}");
         };
     }
 
