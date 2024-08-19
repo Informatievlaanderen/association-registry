@@ -68,7 +68,7 @@ public class PublicApiSetup : IApiSetup
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
-             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", "public");
+             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"public_{schema.ToLowerInvariant()}");
         };
     }
 
