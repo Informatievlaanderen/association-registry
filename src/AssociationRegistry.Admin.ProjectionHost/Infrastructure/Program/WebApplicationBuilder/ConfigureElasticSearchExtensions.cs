@@ -8,8 +8,7 @@ public static class ConfigureElasticSearchExtensions
 {
     public static IServiceCollection ConfigureElasticSearch(
         this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions,
-        ILogger logger)
+        ElasticSearchOptionsSection elasticSearchOptions)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions);
 

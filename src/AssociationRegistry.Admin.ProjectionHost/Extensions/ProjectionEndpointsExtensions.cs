@@ -9,7 +9,7 @@ using Projections;
 
 public static class ProjectionEndpointsExtensions
 {
-    public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection, ILogger<Program> logger)
+    public static void AddProjectionEndpoints(this WebApplication app, RebuildConfigurationSection configurationSection)
     {
         var shardTimeout = TimeSpan.FromMinutes(configurationSection.TimeoutInMinutes);
 
