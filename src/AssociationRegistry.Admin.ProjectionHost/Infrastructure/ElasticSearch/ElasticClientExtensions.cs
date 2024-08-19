@@ -8,8 +8,7 @@ using Nest.Specification.IndicesApi;
 public static class ElasticClientExtensions
 {
     public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        return indicesNamespace.Create(
+        => indicesNamespace.Create(
             index,
             selector: descriptor =>
                 descriptor
@@ -23,11 +22,9 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(AddDutchStopWordsFilter)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-    }
 
     public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
-    {
-        return await indicesNamespace.CreateAsync(
+        => await indicesNamespace.CreateAsync(
             index,
             selector: descriptor =>
                 descriptor
@@ -41,7 +38,6 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(AddDutchStopWordsFilter)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-    }
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
@@ -68,8 +64,7 @@ public static class ElasticClientExtensions
     public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
         this IndicesNamespace indicesNamespace,
         IndexName index)
-    {
-        return await indicesNamespace.CreateAsync(
+        => await indicesNamespace.CreateAsync(
             index,
             selector: c => c
                           .Settings(s => s
@@ -83,7 +78,6 @@ public static class ElasticClientExtensions
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
-    }
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
