@@ -1,15 +1,15 @@
-﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
+﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 
+using Schema.Search;
+using Extensions;
 using Nest;
 using Nest.Specification.IndicesApi;
-using Schema.Search;
 
 public static class ElasticClientExtensions
 {
-    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
+    public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
-        logger.LogInformation("Creating Vereniging Index '{IndexName}'", index.Name);
-        var createIndexResponse = indicesNamespace.Create(
+        return indicesNamespace.Create(
             index,
             selector: descriptor =>
                 descriptor
@@ -23,17 +23,11 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(AddDutchStopWordsFilter)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-        logger.LogInformation("Vereniging Index Creation: '{IndexCreationStatus}'", createIndexResponse.IsValid);
-
-        return createIndexResponse;
     }
 
-    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
+    public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
     {
-        logger.LogInformation("Creating Vereniging Index '{IndexName}'", index.Name);
-
-        var createIndexResponse = await indicesNamespace.CreateAsync(
+        return await indicesNamespace.CreateAsync(
             index,
             selector: descriptor =>
                 descriptor
@@ -47,16 +41,10 @@ public static class ElasticClientExtensions
                                                 .TokenFilters(AddDutchStopWordsFilter)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
-
-        logger.LogInformation("Vereniging Index Creation: '{IndexCreationStatus}'", createIndexResponse);
-
-        return createIndexResponse;
     }
 
-    public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index, ILogger logger)
+    public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
-        logger.LogInformation("Creating Duplicate Index '{IndexName}'", index.Name);
-
         var createIndexResponse = indicesNamespace.Create(
             index,
             selector: c => c
@@ -71,8 +59,6 @@ public static class ElasticClientExtensions
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
-
-        logger.LogInformation("Duplicate Index Creation: '{IndexCreationStatus}'", createIndexResponse);
 
         if (!createIndexResponse.IsValid &&
             !createIndexResponse.IndexAlreadyExisted())
@@ -81,12 +67,9 @@ public static class ElasticClientExtensions
 
     public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
         this IndicesNamespace indicesNamespace,
-        IndexName index,
-        ILogger logger)
+        IndexName index)
     {
-        logger.LogInformation("Creating Duplicate Index '{IndexName}'", index.Name);
-
-        var createIndexResponse = await indicesNamespace.CreateAsync(
+        return await indicesNamespace.CreateAsync(
             index,
             selector: c => c
                           .Settings(s => s
@@ -100,10 +83,6 @@ public static class ElasticClientExtensions
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(AddDutchStopWordsFilter)))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
-
-        logger.LogInformation("Duplicate Index Creation: '{IndexCreationStatus}'", createIndexResponse);
-
-        return createIndexResponse;
     }
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)

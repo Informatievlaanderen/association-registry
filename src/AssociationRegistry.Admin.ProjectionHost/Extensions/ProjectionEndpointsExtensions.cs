@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Extensions;
 
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
-using Infrastructure.Extensions;
+using Infrastructure.ElasticSearch;
 using Marten;
 using Nest;
 using Projections;
@@ -30,13 +30,13 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, logger);
+                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
                 StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection, logger);
+                    await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
                 });
 
                 return Results.Accepted();
@@ -90,7 +90,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.Verenigingen, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen, logger);
+                    await elasticClient.Indices.CreateVerenigingIndexAsync(options.Indices.Verenigingen);
                 });
 
                 return Results.Accepted();
@@ -107,7 +107,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(ProjectionNames.DuplicateDetection, store, shardTimeout, logger, async () =>
                 {
                     await elasticClient.Indices.DeleteAsync(options.Indices.DuplicateDetection, ct: CancellationToken.None);
-                    await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection, logger);
+                    await elasticClient.Indices.CreateDuplicateDetectionIndexAsync(options.Indices.DuplicateDetection);
                 });
 
                 return Results.Accepted();

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Fixtures;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
 using EventStore;
@@ -107,8 +108,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseConfiguration(GetConfiguration());
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
-
-        //ConfigureElasticClient(ElasticClient, VerenigingenIndexName, DuplicateDetectionIndexName);
     }
 
     public IDocumentStore ApiDocumentStore
@@ -172,25 +171,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
             connection.Close();
             connection.Dispose();
         }
-    }
-
-    private static void ConfigureElasticClient(
-        IElasticClient client,
-        string verenigingenIndexName,
-        string duplicateDetectionIndexName,
-        ILogger logger)
-    {
-        if (client.Indices.Exists(verenigingenIndexName).Exists)
-            client.Indices.Delete(verenigingenIndexName);
-
-        client.Indices.CreateVerenigingIndex(verenigingenIndexName, logger);
-
-        if (client.Indices.Exists(duplicateDetectionIndexName).Exists)
-            client.Indices.Delete(duplicateDetectionIndexName);
-
-        client.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName, logger);
-
-        client.Indices.Refresh(Indices.All);
     }
 
     private static string GetRootConnectionString(PostgreSqlOptionsSection postgreSqlOptionsSection)

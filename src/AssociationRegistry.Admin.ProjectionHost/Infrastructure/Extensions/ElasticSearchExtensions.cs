@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 
-using ConfigurationBindings;
+using ElasticSearch;
 using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Schema.Search;
@@ -16,8 +16,7 @@ public static class ElasticSearchExtensions
 
         EnsureIndexExists(elasticClient,
                           elasticSearchOptions.Indices!.Verenigingen!,
-                          elasticSearchOptions.Indices!.DuplicateDetection!,
-            logger);
+                          elasticSearchOptions.Indices!.DuplicateDetection!);
 
         services.AddSingleton(_ => elasticClient);
         services.AddSingleton<IElasticClient>(_ => elasticClient);
@@ -28,14 +27,13 @@ public static class ElasticSearchExtensions
     public static void EnsureIndexExists(
         IElasticClient elasticClient,
         string verenigingenIndexName,
-        string duplicateDetectionIndexName,
-        ILogger logger)
+        string duplicateDetectionIndexName)
     {
         if (!elasticClient.Indices.Exists(verenigingenIndexName).Exists)
-            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName, logger);
+            elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
 
         if (!elasticClient.Indices.Exists(duplicateDetectionIndexName).Exists)
-            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName, logger);
+            elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
     }
 
     private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
