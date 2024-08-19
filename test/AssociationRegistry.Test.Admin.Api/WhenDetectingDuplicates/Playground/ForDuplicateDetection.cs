@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates.Playground;
 
 using AssociationRegistry.Admin.Api.DuplicateDetection;
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
@@ -10,7 +9,6 @@ using FluentAssertions;
 using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Reflection;
@@ -129,7 +127,7 @@ public class DuplicateDetectionSetup
                .GetAwaiter().GetResult();
 
         Client.Indices.Delete(duplicateDetection);
-        ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection, NullLogger.Instance);
+        ElasticSearchExtensions.EnsureIndexExists(Client, elasticSearchOptions.Indices.Verenigingen!, duplicateDetection);
 
         Repository = new ElasticRepository(Client);
 
