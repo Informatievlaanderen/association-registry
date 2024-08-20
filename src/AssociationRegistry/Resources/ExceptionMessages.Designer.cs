@@ -404,6 +404,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De vereniging moet minstens 1 hoofdactiviteit hebben. Je kan de laatste hoofdactiviteit niet verwijderen..
+        /// </summary>
+        public static string LaatsteHoofdActiviteitKanNietVerwijderdWorden {
+            get {
+                return ResourceManager.GetString("LaatsteHoofdActiviteitKanNietVerwijderdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet verwijderd worden..
         /// </summary>
         public static string MaatschappelijkeZetelCanNotBeRemoved {
