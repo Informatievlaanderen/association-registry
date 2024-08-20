@@ -15,12 +15,22 @@
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_address_match.json" />
+    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
+    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
+    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
+    <EmbeddedResource Include="Framework\templates\DetailVerenigingResponse.json" />
+    <EmbeddedResource Include="Framework\templates\kboSyncHistoriek\KboSyncHistoriek.json" />
+    <EmbeddedResource Include="Framework\templates\LocatieLookupResponse.json" />
+    <EmbeddedResource Include="Framework\templates\ProblemDetailsResponse.json" />
+    <EmbeddedResource Include="Framework\templates\ZoekVerenigingenResponse.json" />
     <EmbeddedResource Include="templates\*.json" />
-    <EmbeddedResource Include="templates\kboSyncHistoriek\KboSyncHistoriek.json" />
     <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\*.json" />
-    <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="When_Searching\files\*.json" />
     <EmbeddedResource Include="When_Validating_Initiator_Header\files\*.json" />
   </ItemGroup>
@@ -31,6 +41,9 @@
     <Content Update="appsettings.*.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Queries\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

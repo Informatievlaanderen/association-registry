@@ -1,11 +1,10 @@
-namespace AssociationRegistry.Test.Common.templates.AdminApi;
+namespace AssociationRegistry.Test.Common.templates.adminApi;
 
-using Admin.Api.Constants;
 using Admin.Schema.Constants;
-using Events;
-using Formats;
-using JsonLdContext;
-using Vereniging;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Vereniging;
 using System.Dynamic;
 
 public class ZoekVerenigingenResponseTemplate : ResponseTemplate

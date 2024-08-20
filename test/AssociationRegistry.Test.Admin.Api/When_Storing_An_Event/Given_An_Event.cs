@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.When_Storing_An_Event;
 
 using AssociationRegistry.Framework;
 using EventStore;
-using Fixtures;
 using FluentAssertions;
+using Framework.Fixtures;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;

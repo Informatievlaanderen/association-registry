@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.When_Rebuilding;
 
-using Fixtures;
 using FluentAssertions;
+using Framework.Fixtures;
 using System.Net;
 using Xunit;
 using Xunit.Categories;

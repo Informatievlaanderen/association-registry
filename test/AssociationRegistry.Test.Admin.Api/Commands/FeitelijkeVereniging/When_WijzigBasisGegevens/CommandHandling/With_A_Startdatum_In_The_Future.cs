@@ -1,0 +1,50 @@
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
+
+using AssociationRegistry.Acties.WijzigBasisgegevens;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Primitives;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
+using AutoFixture;
+using FluentAssertions;
+using Framework.Fakes;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class With_A_Startdatum_In_The_Future
+{
+    private readonly CommandEnvelope<WijzigBasisgegevensCommand> _commandEnvelope;
+    private readonly WijzigBasisgegevensCommandHandler _commandHandler;
+    private readonly VerenigingRepositoryMock _repositoryMock;
+
+    public With_A_Startdatum_In_The_Future()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+
+        var command = fixture.Create<WijzigBasisgegevensCommand>() with
+        {
+            Startdatum = NullOrEmpty<Datum>.Create(fixture.Create<Datum>()),
+        };
+
+        var commandMetadata = fixture.Create<CommandMetadata>();
+        _commandHandler = new WijzigBasisgegevensCommandHandler();
+        _commandEnvelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata);
+    }
+
+    [Fact]
+    public async Task Then_it_throws_an_StartdatumIsInFutureException()
+    {
+        var method = () => _commandHandler.Handle(
+            _commandEnvelope,
+            _repositoryMock,
+            new ClockStub(_commandEnvelope.Command.Startdatum.Value!.Value.AddDays(-1)));
+
+        await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();
+    }
+}
