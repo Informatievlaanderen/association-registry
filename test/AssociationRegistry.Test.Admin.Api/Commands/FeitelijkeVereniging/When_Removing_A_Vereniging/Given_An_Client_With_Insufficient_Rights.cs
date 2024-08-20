@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_A_Vereniging;
 
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;

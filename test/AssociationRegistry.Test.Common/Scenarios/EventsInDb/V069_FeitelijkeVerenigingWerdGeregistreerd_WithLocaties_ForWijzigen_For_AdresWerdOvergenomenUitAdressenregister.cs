@@ -1,13 +1,12 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
-public class
-    V069_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
+public class V069_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;

@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.CommandHandling;
 
-using Acties.WijzigContactgegeven;
+using AssociationRegistry.Acties.WijzigContactgegeven;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Emails;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
-using Framework;
-using Vereniging;
-using Vereniging.Emails;
 using Xunit;
 using Xunit.Categories;
 

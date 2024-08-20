@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
-using Acties.VoegContactgegevenToe;
+using AssociationRegistry.Acties.VoegContactgegevenToe;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
-using Framework;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

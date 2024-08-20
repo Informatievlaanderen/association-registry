@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
+using AssociationRegistry.Test.Admin.Api.Framework;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;

@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Magda.GeefOndernemingService;
 
 using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.GeefOnderneming;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
+using AssociationRegistry.Test.Framework.Customizations;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Framework.Customizations;
-using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

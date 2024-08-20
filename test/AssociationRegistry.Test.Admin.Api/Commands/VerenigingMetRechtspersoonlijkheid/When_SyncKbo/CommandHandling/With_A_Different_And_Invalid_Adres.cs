@@ -1,19 +1,19 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using Acties.SyncKbo;
+using AssociationRegistry.Acties.SyncKbo;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Notifications;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Notifications;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -74,13 +74,12 @@ public class With_A_Different_And_Invalid_Adres
                     .Should()
                     .ContainSingle(e => e as MaatschappelijkeZetelWerdVerwijderdUitKbo == new MaatschappelijkeZetelWerdVerwijderdUitKbo(
                                        _scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie))
-                    .And.ContainSingle(e => e as MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo ==
-                                            new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
-                                                _newAdres.Straatnaam,
-                                                _newAdres.Huisnummer,
-                                                _newAdres.Busnummer,
-                                                _newAdres.Postcode,
-                                                _newAdres.Gemeente,
-                                                _newAdres.Land));
+                    .And.ContainSingle(e => e as MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo == new MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(
+                                                                                               _newAdres.Straatnaam,
+                                                                                               _newAdres.Huisnummer,
+                                                                                               _newAdres.Busnummer,
+                                                                                               _newAdres.Postcode,
+                                                                                               _newAdres.Gemeente,
+                                                                                               _newAdres.Land));
     }
 }

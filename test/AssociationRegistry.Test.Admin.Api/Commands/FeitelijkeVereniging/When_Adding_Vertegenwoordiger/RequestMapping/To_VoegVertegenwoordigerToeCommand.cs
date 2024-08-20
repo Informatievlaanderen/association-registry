@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using Helpers;
+using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 
@@ -35,7 +35,7 @@ public class AdminApiClient : IDisposable
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
 
     public async Task<HttpResponseMessage> GetKboSyncHistoriek()
-        => await HttpClient.GetAsync("/v1/verenigingen/kbo/historiek");
+        => await HttpClient.GetAsync($"/v1/verenigingen/kbo/historiek");
 
     public async Task<HttpResponseMessage> RegistreerFeitelijkeVereniging(
         string content,

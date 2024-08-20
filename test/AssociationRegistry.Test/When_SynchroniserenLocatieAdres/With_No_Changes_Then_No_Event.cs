@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_SynchroniserenLocatieAdres;
+﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_SynchroniserenLocatieAdres;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressSync;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
-using Framework.Customizations;
-using Grar;
-using Grar.AddressSync;
-using Grar.Models;
+using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -19,11 +19,12 @@ public class With_No_Changes_Then_No_Event
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
+
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
 
-        var fixture = new Fixture().CustomizeDomain();
+        var fixture = new Fixture().CustomizeAdminApi();
         var locatie = scenario.Locaties.First();
 
         locatie = locatie with
@@ -52,16 +53,15 @@ public class With_No_Changes_Then_No_Event
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
+
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>
-                { new(locatie.LocatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatie.LocatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object, new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
 
         await messageHandler.Handle(message, CancellationToken.None);
 

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Locatie;
 
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;

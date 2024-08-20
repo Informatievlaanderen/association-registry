@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Emails;
+using AssociationRegistry.Vereniging.SocialMedias;
+using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
-using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 

@@ -2,10 +2,10 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
-using Framework;
-using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;

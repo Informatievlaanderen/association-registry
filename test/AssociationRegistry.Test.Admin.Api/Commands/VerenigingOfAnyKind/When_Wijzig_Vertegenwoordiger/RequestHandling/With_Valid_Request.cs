@@ -1,21 +1,21 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
-using Acties.WijzigVertegenwoordiger;
+using AssociationRegistry.Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
-using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

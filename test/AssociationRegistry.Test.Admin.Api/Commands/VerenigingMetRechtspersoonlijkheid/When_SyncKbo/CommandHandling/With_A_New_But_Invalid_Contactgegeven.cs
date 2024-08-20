@@ -1,19 +1,19 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using Acties.SyncKbo;
+using AssociationRegistry.Acties.SyncKbo;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Notifications;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Notifications;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,7 +37,7 @@ public class With_A_New_But_Invalid_Contactgegeven
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
-        verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
+        verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
         {
             Email = _newContactgegevenWaarde,
             Website = null,

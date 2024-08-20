@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.AddressMatch;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -96,7 +96,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
                                                      Postcode: "9200",
                                                      Gemeente: "Dendermonde",
                                                      Land: "België"),
-                                                 AdresId: null)));
+                                                 null)));
     }
 
     [Fact]
@@ -109,7 +109,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(retryCount: 5, onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
                                             await using var session = _classFixture.DocumentStore.LightweightSession();
@@ -119,12 +119,10 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
                                                     _classFixture.Scenario.VCode);
 
                                             werdOvergenomen.Should().NotBeNull();
-
                                             werdOvergenomen.AdresId.Should()
                                                            .BeEquivalentTo(
                                                                 new Registratiedata.AdresId(
-                                                                    Broncode: "AR",
-                                                                    Bronwaarde: "https://data.vlaanderen.be/id/adres/3213019"));
+                                                                    "AR", "https://data.vlaanderen.be/id/adres/3213019"));
                                         });
 
         policyResult.FinalException.Should().BeNull();

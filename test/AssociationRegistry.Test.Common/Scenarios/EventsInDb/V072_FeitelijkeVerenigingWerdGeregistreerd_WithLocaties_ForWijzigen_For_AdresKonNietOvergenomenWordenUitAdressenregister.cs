@@ -1,14 +1,12 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
-public class
-    V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresKonNietOvergenomenWordenUitAdressenregister :
-    IEventsInDbScenario
+public class V072_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen_For_AdresKonNietOvergenomenWordenUitAdressenregister : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly AdresWerdOvergenomenUitAdressenregister AdresWerdOvergenomenUitAdressenregister;
@@ -42,30 +40,22 @@ public class
             {
                 LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
             };
-
         AdresNietUniekInAdressenregister = fixture.Create<AdresNietUniekInAdressenregister>() with
 
         {
             LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
-        };
-
-        ;
-
+        };;
         AdresWerdNietGevondenInAdressenregister = fixture.Create<AdresWerdNietGevondenInAdressenregister>() with
 
         {
             LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
-        };
-
-        ;
-
+        };;
         AdresKonNietOvergenomenWordenUitAdressenregister = fixture.Create<AdresKonNietOvergenomenWordenUitAdressenregister>() with
 
         {
             LocatieId = FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
-        };
+        };;
 
-        ;
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }

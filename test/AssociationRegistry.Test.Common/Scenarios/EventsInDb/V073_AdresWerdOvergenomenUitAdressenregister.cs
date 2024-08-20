@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
 public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
@@ -14,6 +14,7 @@ public class V073_AdresWerdOvergenomenUitAdressenregister : IEventsInDbScenario
     public readonly AdresWerdNietGevondenInAdressenregister AdresWerdNietGevondenInAdressenregister;
     public readonly AdresKonNietOvergenomenWordenUitAdressenregister AdresKonNietOvergenomenWordenUitAdressenregister;
     public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd;
+
     public readonly CommandMetadata Metadata;
 
     private class WellKnownLocatieIndices

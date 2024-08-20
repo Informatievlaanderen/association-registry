@@ -3,22 +3,22 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Formats;
-using Framework;
 using Framework.Fixtures;
-using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Polly;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
@@ -269,7 +269,7 @@ public class With_All_Fields
         Response.Should().NotBeNull();
 
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(retryCount: 5, onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
                                             await using var session = _fixture.DocumentStore.LightweightSession();
@@ -281,10 +281,9 @@ public class With_All_Fields
                                             using (new AssertionScope())
                                             {
                                                 werdOvergenomen.Should().NotBeNull();
-
-                                                werdOvergenomen.AdresId.Should().BeEquivalentTo(
+                                                werdOvergenomen.AdresId.Should() .BeEquivalentTo(
                                                     new Registratiedata.AdresId(
-                                                        Broncode: "AR", Bronwaarde: "https://data.vlaanderen.be/id/adres/3213019"));
+                                                        "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 
                                                 session.SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(savedEvent.VCode)
                                                        .Should().NotBeNull();

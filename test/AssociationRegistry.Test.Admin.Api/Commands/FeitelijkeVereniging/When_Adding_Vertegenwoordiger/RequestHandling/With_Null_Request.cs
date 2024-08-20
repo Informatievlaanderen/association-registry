@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
-using Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using Moq;
 using Wolverine;
 using Xunit;

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
 public class V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates : IEventsInDbScenario

@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
 public class V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen : IEventsInDbScenario
@@ -26,7 +26,7 @@ public class V026_FeitelijkeVerenigingWerdGeregistreerd_WithLocaties_ForWijzigen
                 {
                     IsPrimair = w == 0,
                     LocatieId = locatie.LocatieId,
-                    AdresId = null,
+                    AdresId = null
                 }
             ).ToArray(),
         };

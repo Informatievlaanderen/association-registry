@@ -1,17 +1,17 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using Acties.VoegLocatieToe;
+using AssociationRegistry.Acties.VoegLocatieToe;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Framework;
-using Grar;
-using Grar.Exceptions;
 using Marten;
 using Moq;
 using System.Net;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -42,15 +42,12 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_NonSucce
             AdresId = adresId,
             Adres = null,
         };
-
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
                   .ThrowsAsync(new AdressenregisterReturnedNonSuccessStatusCode(HttpStatusCode.InternalServerError));
 
-        await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(
-            async () => await commandHandler.Handle(
-                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAsync<AdressenregisterReturnedNonSuccessStatusCode>(async () => await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
     }
 
     public static IEnumerable<object[]> Data

@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using Acties.VoegLocatieToe;
+using AssociationRegistry.Acties.VoegLocatieToe;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
-using Framework;
-using Grar;
-using Grar.Models;
 using Marten;
 using Moq;
-using Vereniging;
-using Vereniging.Exceptions;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -20,6 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_An_Existing_Locatie_Without_AdresId
 {
+
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
@@ -48,7 +49,7 @@ public class Given_An_Existing_Locatie_Without_AdresId
             Huisnummer = scenarioAdres.Huisnummer,
             Postcode = scenarioAdres.Postcode,
             Straatnaam = scenarioAdres.Straatnaam,
-            IsActief = true,
+            IsActief = true
         };
 
         var locatie = fixture.Create<Locatie>() with
@@ -58,7 +59,6 @@ public class Given_An_Existing_Locatie_Without_AdresId
             Locatietype = scenario.LocatieWerdToegevoegd.Locatie.Locatietype,
             Adres = null,
         };
-
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))

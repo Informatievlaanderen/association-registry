@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using EventStore;
-using Helpers;
-using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;

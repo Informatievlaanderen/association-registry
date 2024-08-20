@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using Events;
-using EventStore;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging;
 
 public class V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario : IEventsInDbScenario
 {

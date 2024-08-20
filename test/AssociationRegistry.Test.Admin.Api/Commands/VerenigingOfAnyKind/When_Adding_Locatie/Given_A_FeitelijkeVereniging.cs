@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie;
 
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -86,7 +86,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVere
                                                      Postcode: "1790",
                                                      Gemeente: "Affligem",
                                                      Land: "België"),
-                                                 AdresId: null)));
+                                                 null)));
     }
 
     [Fact]

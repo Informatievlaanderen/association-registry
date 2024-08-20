@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using AssociationRegistry.Vereniging.Emails;
+using AssociationRegistry.Vereniging.SocialMedias;
+using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
-using Common.Scenarios.EventsInDb;
-using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 

@@ -3,14 +3,14 @@
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using Extensions.Mappers;
-using Formats;
-using JsonLdContext;
 using NodaTime;
 using System.Dynamic;
-using Vereniging;
-using Vereniging.Bronnen;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
@@ -467,11 +467,10 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     {
         if (l.Adres is not null && l.AdresId is null)
             return WithLocatieWithAdres(l.LocatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
-                                        l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair, bron, vCode);
+                               l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair, bron, vCode);
 
         if (l.Adres is null && l.AdresId is not null)
-            return WithLocatieWithAdresId(l.LocatieId, l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair, bron,
-                                          vCode);
+            return WithLocatieWithAdresId(l.LocatieId, l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair, bron, vCode);
 
         return WithLocatie(l.LocatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
                            l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.AdresId.Broncode,
@@ -482,11 +481,10 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     {
         if (l.Adres is not null && l.AdresId is null)
             return WithLocatieWithAdres(locatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
-                                        l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair, bron, vCode);
+                               l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair, bron, vCode);
 
         if (l.Adres is null && l.AdresId is not null)
-            return WithLocatieWithAdresId(locatieId, l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair, bron,
-                                          vCode);
+            return WithLocatieWithAdresId(locatieId, l.Locatietype, l.Naam, l.AdresId.Broncode, l.AdresId.Bronwaarde, l.IsPrimair, bron, vCode);
 
         return WithLocatie(locatieId, l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres.Straatnaam, l.Adres.Huisnummer,
                            l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.AdresId.Broncode,

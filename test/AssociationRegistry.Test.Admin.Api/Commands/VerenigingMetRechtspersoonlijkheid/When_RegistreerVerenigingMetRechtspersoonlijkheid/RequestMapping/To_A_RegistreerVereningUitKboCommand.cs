@@ -2,9 +2,9 @@
     RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

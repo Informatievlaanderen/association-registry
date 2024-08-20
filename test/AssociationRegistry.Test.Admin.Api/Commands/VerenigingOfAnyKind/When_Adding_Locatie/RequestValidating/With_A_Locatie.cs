@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,19 +1,19 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.RequestHandling;
 
-using Acties.WijzigContactgegeven;
+using AssociationRegistry.Acties.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using EventStore;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentValidation;
-using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Moq;
-using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

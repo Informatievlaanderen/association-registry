@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -81,7 +81,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                             .BeEquivalentTo(
                                  new LocatieWerdGewijzigd(
                                      new Registratiedata.Locatie(
-                                         _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+                                         LocatieId: _classFixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
                                          Locatietype: "Correspondentie",
                                          IsPrimair: true,
                                          Naam: "nieuwe locatie",
@@ -92,7 +92,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                                              Postcode: "9200",
                                              Gemeente: "Dendermonde",
                                              Land: "België"),
-                                         AdresId: null)));
+                                         null)));
     }
 
     [Fact]
@@ -105,8 +105,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var asyncRetryPolicy = Policy.Handle<Exception>()
-                                     .RetryAsync(retryCount: 5,
-                                                 onRetryAsync: async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
+                                     .RetryAsync(5, async (exception, i) => await Task.Delay(TimeSpan.FromSeconds(i)));
 
         var policyResult = await asyncRetryPolicy.ExecuteAndCaptureAsync(() =>
         {
@@ -116,10 +115,9 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
             var werdOvergenomen = session.SingleOrDefaultFromStream<AdresWerdOvergenomenUitAdressenregister>(_classFixture.Scenario.VCode);
 
             werdOvergenomen.Should().NotBeNull();
-
             werdOvergenomen.AdresId.Should().BeEquivalentTo(
                 new Registratiedata.AdresId(
-                    Broncode: "AR", Bronwaarde: "https://data.vlaanderen.be/id/adres/3213019"));
+                    "AR", "https://data.vlaanderen.be/id/adres/3213019"));
 
             return Task.CompletedTask;
         });

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
-using Common.Scenarios.EventsInDb;
-using EventStore;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using Marten.Events.Daemon;
 using Nest;
 
@@ -183,12 +183,13 @@ public class EventsInDbScenariosFixture : AdminApiFixture
         V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd = new();
 
     public readonly V075_AdresWerdGewijzigdInAdressenregister V075AdresWerdGewijzigdInAdressenregister = new();
-    public readonly V076_AdresWerdGewijzigdInAdressenregister V076AdresWerdGewijzigdInAdressenregister = new();
-    public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
-    public readonly V078_AdresWerdOntkoppeldVanAdressenregister V078AdresWerdOntkoppeldVanAdressenregister = new();
 
-    public readonly V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario
-        V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd = new();
+    public readonly V076_AdresWerdGewijzigdInAdressenregister V076AdresWerdGewijzigdInAdressenregister = new();
+
+    public readonly V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch V077LocatieDuplicaatWerdVerwijderdNaAdresMatch = new();
+
+    public readonly V078_AdresWerdOntkoppeldVanAdressenregister V078AdresWerdOntkoppeldVanAdressenregister = new();
+    public readonly V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd = new();
 
     protected override async Task Given()
     {

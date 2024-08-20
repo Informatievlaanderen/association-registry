@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
 using AssociationRegistry.Framework;
-using Kbo;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Vereniging;
 using ResultNet;
-using Vereniging;
 
 public class MagdaGeefVerenigingNumberNotFoundServiceMock : IMagdaGeefVerenigingService
 {

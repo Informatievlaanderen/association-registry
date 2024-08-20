@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
-using Vereniging;
 
 public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenario
 {
@@ -35,6 +35,7 @@ public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenar
             Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
+
         };
 
         AdresWerdOvergenomenUitAdressenregister = fixture.Create<AdresWerdOvergenomenUitAdressenregister>() with
@@ -58,15 +59,15 @@ public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenar
 
     public IEvent[] GetEvents()
         => new IEvent[]
-           {
-               FeitelijkeVerenigingWerdGeregistreerd,
-               AdresWerdOvergenomenUitAdressenregister,
-           }
-          .Concat(new IEvent[]
-           {
-               LocatieDuplicaatWerdVerwijderdNaAdresMatch,
-           })
-          .ToArray();
+            {
+                FeitelijkeVerenigingWerdGeregistreerd,
+                AdresWerdOvergenomenUitAdressenregister,
+            }
+             .Concat(new IEvent[]
+              {
+                  LocatieDuplicaatWerdVerwijderdNaAdresMatch,
+              })
+             .ToArray();
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

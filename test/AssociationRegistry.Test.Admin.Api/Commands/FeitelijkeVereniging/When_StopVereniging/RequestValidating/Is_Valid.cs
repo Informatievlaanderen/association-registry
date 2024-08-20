@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
-using Framework;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

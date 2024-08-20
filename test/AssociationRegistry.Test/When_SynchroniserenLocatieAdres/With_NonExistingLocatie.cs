@@ -1,12 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_SynchroniserenLocatieAdres;
+﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_SynchroniserenLocatieAdres;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressSync;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
-using Framework.Customizations;
-using Grar;
-using Grar.AddressSync;
-using Grar.Models;
+using Events;
+using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -22,7 +23,7 @@ public class With_NonExistingLocatie
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
 
-        var fixture = new Fixture().CustomizeDomain();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with
         {
@@ -40,14 +41,12 @@ public class With_NonExistingLocatie
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>
-                { new(nonExistingLocatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(nonExistingLocatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object, new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
 
         await messageHandler.Handle(message, CancellationToken.None);
 

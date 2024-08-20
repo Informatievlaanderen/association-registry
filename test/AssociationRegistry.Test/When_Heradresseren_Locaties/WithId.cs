@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Grar.Models;
 using Fixtures;
 using FluentAssertions;
-using Grar.Models;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Id : IClassFixture<DetailFixture>
+public class With_Id :  IClassFixture<DetailFixture>
 {
     private readonly DetailFixture _fixture;
 
@@ -23,14 +23,14 @@ public class With_Id : IClassFixture<DetailFixture>
         _fixture.Result.Should().NotBeNull();
 
         _fixture.Result.Should().BeEquivalentTo(new AddressDetailResponse(
-                                                    new Registratiedata.AdresId(Broncode: "AR",
-                                                                                Bronwaarde: "https://data.vlaanderen.be/id/adres/200001"),
+                                                    AdresId: new Registratiedata.AdresId("AR", "https://data.vlaanderen.be/id/adres/200001"),
                                                     IsActief: true,
                                                     Adresvoorstelling: "Goorbaan 59, 2230 Herselt",
                                                     Straatnaam: "Goorbaan",
                                                     Huisnummer: "59",
-                                                    string.Empty,
+                                                    Busnummer: string.Empty,
                                                     Postcode: "2230",
                                                     Gemeente: "Herselt"));
     }
 }
+

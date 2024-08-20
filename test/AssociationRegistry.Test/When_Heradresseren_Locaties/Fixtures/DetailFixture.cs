@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties.Fixtures;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Models;
 using Common.Framework;
-using Grar;
-using Grar.Models;
 using Xunit;
 
 public class DetailFixture : IAsyncLifetime
@@ -18,7 +18,7 @@ public class DetailFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Result = await _client.GetAddressById(adresId: "200001", CancellationToken.None);
+        Result = await _client.GetAddressById("200001", CancellationToken.None);
     }
 
     public Task DisposeAsync() => Task.CompletedTask;

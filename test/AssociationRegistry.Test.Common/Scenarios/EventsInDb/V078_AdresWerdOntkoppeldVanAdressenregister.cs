@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
-using Vereniging;
 
 public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
 {
@@ -34,15 +34,12 @@ public class V078_AdresWerdOntkoppeldVanAdressenregister : IEventsInDbScenario
 
         AdresWerdOvergenomenUitAdressenregisterList = new List<AdresWerdOvergenomenUitAdressenregister>();
 
-        AdresId = new Registratiedata.AdresId(Adresbron.AR.Code, Bronwaarde: "https://data.vlaanderen.be/id/adres/12345");
-
-        Adres = new Registratiedata.AdresUitAdressenregister(Straatnaam: "Fosselstraat", Huisnummer: "48", Busnummer: "", Postcode: "1790",
-                                                             Gemeente: "Affligem");
+        AdresId = new Registratiedata.AdresId(Adresbron.AR.Code, "https://data.vlaanderen.be/id/adres/12345");
+        Adres = new Registratiedata.AdresUitAdressenregister("Fosselstraat", "48", "", "1790", "Affligem");
 
         foreach (var locatie in FeitelijkeVerenigingWerdGeregistreerd.Locaties)
         {
             var adresId = fixture.Create<Registratiedata.AdresId>();
-
             var @event = fixture.Create<AdresWerdOvergenomenUitAdressenregister>()
                 with
                 {

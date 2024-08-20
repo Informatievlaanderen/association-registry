@@ -1,20 +1,20 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
-using Acties.RegistreerFeitelijkeVereniging;
+using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
+using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using DuplicateVerenigingDetection;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
-using Grar;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -34,7 +34,6 @@ public class With_A_PotentialDuplicate
         {
             AdresId = null,
         };
-
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
 
         var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with

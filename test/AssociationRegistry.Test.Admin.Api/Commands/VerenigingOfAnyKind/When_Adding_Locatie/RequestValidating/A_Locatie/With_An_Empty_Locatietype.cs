@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

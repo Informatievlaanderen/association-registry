@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Magda.RegistreerInschrijvingService;
 
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.RegistreerInschrijving;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;

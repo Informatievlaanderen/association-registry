@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_SynchroniserenLocatieAdres;
+﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_SynchroniserenLocatieAdres;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressSync;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
-using Framework.Customizations;
-using Grar;
-using Grar.AddressSync;
-using Grar.Models;
+using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -23,7 +23,7 @@ public class With_AddressIsNullFromGrar
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
 
-        var fixture = new Fixture().CustomizeDomain();
+        var fixture = new Fixture().CustomizeAdminApi();
 
         var grarClientMock = new Mock<IGrarClient>();
 
@@ -31,8 +31,7 @@ public class With_AddressIsNullFromGrar
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>
-                { new(locatie.LocatieId, Adres: null) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatie.LocatieId, null) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };

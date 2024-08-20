@@ -43,7 +43,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Projections\" />
+    <Folder Include="Queries\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

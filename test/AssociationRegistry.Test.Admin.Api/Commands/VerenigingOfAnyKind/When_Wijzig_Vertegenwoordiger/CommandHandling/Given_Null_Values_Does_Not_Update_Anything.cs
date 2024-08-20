@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
-using Acties.WijzigVertegenwoordiger;
+using AssociationRegistry.Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.CommonValidators.DoelgroepRequestValidator.Maximumleeftijd;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

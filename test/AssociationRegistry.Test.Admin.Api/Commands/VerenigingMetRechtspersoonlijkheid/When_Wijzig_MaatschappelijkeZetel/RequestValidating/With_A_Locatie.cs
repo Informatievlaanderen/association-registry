@@ -1,9 +1,8 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.
-    RequestValidating;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.RequestValidating;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

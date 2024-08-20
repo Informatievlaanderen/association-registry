@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_StopVereniging.CommandHandling;
 
-using Acties.StopVereniging;
+using AssociationRegistry.Acties.StopVereniging;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

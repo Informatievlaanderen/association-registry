@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Common.Framework;
 using EventStore;
 using FluentAssertions;
+using Framework.Fixtures;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;

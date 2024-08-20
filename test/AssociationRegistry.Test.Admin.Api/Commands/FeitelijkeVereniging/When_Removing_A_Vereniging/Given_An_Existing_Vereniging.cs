@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_A_Vereniging;
 
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -55,7 +55,7 @@ public class Given_An_Existing_Vereniging : IClassFixture<Remove_An_Existing_Ver
            .Single(e => e.Data.GetType() == typeof(VerenigingWerdVerwijderd));
 
         verenigingWerdVerwijderd.Data.Should()
-                                .BeEquivalentTo(new VerenigingWerdVerwijderd(_classFixture.Scenario.VCode, Reden: "Omdat"));
+                                .BeEquivalentTo(new VerenigingWerdVerwijderd(_classFixture.Scenario.VCode, "Omdat"));
     }
 
     [Fact]

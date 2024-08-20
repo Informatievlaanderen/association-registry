@@ -1,5 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Magda.MagdaClient.When_RegistreerInschrijving;
 
+using Admin.Api.Framework;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
@@ -7,9 +10,6 @@ using AutoFixture;
 using Common.Configuration;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Framework;
-using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Categories;

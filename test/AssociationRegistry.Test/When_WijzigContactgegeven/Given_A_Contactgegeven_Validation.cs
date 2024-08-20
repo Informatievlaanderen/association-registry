@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_WijzigContactgegeven;
 
-using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
-using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven;
+using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
+using AssociationRegistry.Test.Framework.Customizations;
 using AutoFixture;
 using FluentAssertions;
-using Framework.Customizations;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
@@ -23,23 +23,20 @@ public class Given_A_Contactgegeven_Validation
     {
         var request = _fixture.Create<WijzigContactgegevenRequest>();
 
-        request.Contactgegeven.Beschrijving = new string(Enumerable.Repeat(element: 'a', lengthOfBeschrijving).ToArray());
+        request.Contactgegeven.Beschrijving = new string(Enumerable.Repeat('a', lengthOfBeschrijving).ToArray());
 
         var validator = new WijzigContactgegevenValidator();
 
         var validationResult = validator.Validate(request);
 
         validationResult.Errors
-                        .Any(e => e.ErrorMessage ==
-                                  $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+                        .Any(e => e.ErrorMessage == $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
                         .Should().Be(expectValidationError);
     }
 
     [Fact]
-    public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42()
-        => ValidateRequest(lengthOfBeschrijving: 43, expectValidationError: true);
+    public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42() => ValidateRequest(43, true);
 
     [Fact]
-    public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42()
-        => ValidateRequest(lengthOfBeschrijving: 42, expectValidationError: false);
+    public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42() => ValidateRequest(42, false);
 }

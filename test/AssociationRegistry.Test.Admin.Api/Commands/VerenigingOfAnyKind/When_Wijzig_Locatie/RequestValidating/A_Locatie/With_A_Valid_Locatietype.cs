@@ -2,10 +2,10 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_W
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
-using Framework;
-using Vereniging;
 using Xunit;
 
 public class With_A_Valid_Locatietype : ValidatorTest

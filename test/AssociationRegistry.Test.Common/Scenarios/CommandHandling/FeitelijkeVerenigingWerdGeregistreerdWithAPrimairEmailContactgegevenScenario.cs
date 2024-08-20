@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Events;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithAPrimairEmailContactgegevenScenario : CommandhandlerScenarioBase
 {

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;
 
-using Common.Extensions;
+using AssociationRegistry.Test.Common.Extensions;
 using Scriban;
 
 public class KboSyncHistoriekTemplate

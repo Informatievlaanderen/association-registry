@@ -1,0 +1,41 @@
+<<<<<<<< HEAD:test/AssociationRegistry.Test.Admin.Api/Projections/When_Searching/With_Sorting/Given_No_Sort.cs
+namespace AssociationRegistry.Test.Admin.Api.Projections.When_Searching.With_Sorting;
+========
+namespace AssociationRegistry.Test.Admin.Api.Queries.When_Searching.With_Sorting;
+>>>>>>>> 7835cb64 (WIP: or-2313 refactor tests):test/AssociationRegistry.Test.Admin.Api/Queries/When_Searching/With_Sorting/Given_No_Sort.cs
+
+using FluentAssertions;
+using Framework.Fixtures;
+using Newtonsoft.Json.Linq;
+using Xunit;
+using Xunit.Abstractions;
+using Xunit.Categories;
+
+[Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
+public class Given_No_Sort
+{
+    private readonly ITestOutputHelper _outputHelper;
+    private readonly AdminApiClient _adminApiClient;
+
+    public Given_No_Sort(EventsInDbScenariosFixture fixture, ITestOutputHelper outputHelper)
+    {
+        _outputHelper = outputHelper;
+        _adminApiClient = fixture.AdminApiClient;
+    }
+
+    [Fact]
+    public async Task? Then_it_sorts_by_vcode_descending()
+    {
+        var response = await _adminApiClient.Search("*");
+        var content = await response.Content.ReadAsStringAsync();
+
+        var jToken = JToken.Parse(content);
+        var vCodes = jToken.SelectTokens("$.verenigingen[*].vCode").Select(x => x.Value<string>());
+
+        vCodes.Should().NotBeEmpty();
+        vCodes.Should().BeInDescendingOrder();
+        vCodes.ToList().ForEach(_outputHelper.WriteLine);
+    }
+}

@@ -2,13 +2,13 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.Constants;
-using Events;
-using Formats;
-using JsonLdContext;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using NodaTime;
 using System.Dynamic;
-using Vereniging;
-using Vereniging.Bronnen;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {

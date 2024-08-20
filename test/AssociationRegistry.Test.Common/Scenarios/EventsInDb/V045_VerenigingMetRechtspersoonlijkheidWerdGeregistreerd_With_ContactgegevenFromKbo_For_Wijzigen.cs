@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
-using Vereniging;
 
 public class V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_ContactgegevenFromKbo_For_Wijzigen : IEventsInDbScenario
 {

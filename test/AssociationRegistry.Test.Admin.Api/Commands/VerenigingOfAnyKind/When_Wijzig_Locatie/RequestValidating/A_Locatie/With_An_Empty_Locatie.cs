@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_W
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 
 public class With_An_Empty_Locatie : ValidatorTest

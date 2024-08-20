@@ -1,12 +1,13 @@
-namespace AssociationRegistry.Test.When_Loading_An_Aggregate;
+namespace AssociationRegistry.Test.Admin.Api.When_Loading_An_Aggregate;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using EventStore;
 using FluentAssertions;
+using Framework;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Vereniging;
@@ -47,11 +48,10 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
-                              CancellationToken.None,
+        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
-        await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, expectedVersion: 1));
+        await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, 1));
         documentStore.Dispose();
     }
 
@@ -67,11 +67,10 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
-                              CancellationToken.None,
+        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
 
-        var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
+        var aggregate = await eventStore.Load<VerenigingState>(vCode, 1);
         aggregate.Version.Should().Be(2);
         documentStore.Dispose();
     }

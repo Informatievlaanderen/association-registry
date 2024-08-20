@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Events;
-using EventStore;
 using global::AutoFixture;
 
 public class V057_VerenigingWerdGeregistreerd_With_KboLocatie_For_DuplicateDetection : IEventsInDbScenario

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Swagger;
+namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
 
 using AssociationRegistry.Admin.Api;
 using FluentAssertions;

@@ -1,20 +1,20 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using Acties.SyncKbo;
+using AssociationRegistry.Acties.SyncKbo;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Notifications;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Test.Framework.Customizations;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Notifications;
-using Test.Framework.Customizations;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -39,7 +39,7 @@ public class With_A_Different_And_Valid_Contactgegeven
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
 
-        verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo
+        verenigingVolgensKbo.Contactgegevens = new ContactgegevensVolgensKbo()
         {
             Email = verenigingVolgensKbo.Contactgegevens.Email is null ? null : _newContactgegevenWaarde,
             Website = verenigingVolgensKbo.Contactgegevens.Website is null ? null : _newContactgegevenWaarde,

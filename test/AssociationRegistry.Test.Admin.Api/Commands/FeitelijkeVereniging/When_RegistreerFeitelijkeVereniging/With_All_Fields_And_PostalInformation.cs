@@ -3,14 +3,15 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Formats;
-using Framework;
 using Framework.Fixtures;
-using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,7 +19,6 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Polly;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
@@ -211,28 +211,26 @@ public class With_All_Fields_And_PostalInformation
         Response.Should().NotBeNull();
 
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(retryCount: 5,
-                                                   onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 1)))
+                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 1)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
                                             await using var session = _fixture.DocumentStore.LightweightSession();
                                             var stream = await session.Events.FetchStreamAsync(savedEvent.VCode);
 
-                                            _testOutputHelper.WriteLine("Number of events found in stream: " + stream.Count());
+                                            _testOutputHelper.WriteLine($"Number of events found in stream: " + stream.Count());
                                             _testOutputHelper.WriteLine("");
 
                                             var werdenOvergenomen = stream.OfType<IEvent<AdresWerdOvergenomenUitAdressenregister>>();
                                             var nietGevonden = stream.OfType<IEvent<AdresWerdNietGevondenInAdressenregister>>();
 
                                             _testOutputHelper.WriteLine(
-                                                "Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
+                                                $"Werden overgenomen: " + JsonConvert.SerializeObject(werdenOvergenomen));
 
                                             _testOutputHelper.WriteLine("");
 
                                             using (new AssertionScope())
                                             {
                                                 stream.Should().HaveCount(4);
-
                                                 // Affligem locatie
                                                 var werdOvergenomenAffligem =
                                                     werdenOvergenomen.SingleOrDefault(
@@ -242,7 +240,7 @@ public class With_All_Fields_And_PostalInformation
 
                                                 werdOvergenomenAffligem.Data.AdresId.Should()
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
-                                                                               Bronwaarde: "https://data.vlaanderen.be/id/adres/2208355"));
+                                                                               "https://data.vlaanderen.be/id/adres/2208355"));
 
                                                 werdOvergenomenAffligem.Data.Adres.Busnummer.Should().BeEmpty();
 
@@ -255,9 +253,8 @@ public class With_All_Fields_And_PostalInformation
 
                                                 werdOvergenomenHekelgem.Data.AdresId.Should()
                                                                        .Be(new Registratiedata.AdresId(Adresbron.AR.Code,
-                                                                               Bronwaarde: "https://data.vlaanderen.be/id/adres/2208355"));
-
-                                                ;
+                                                                               "https://data.vlaanderen.be/id/adres/2208355"));
+;
 
                                                 // Nothingham locatie
                                                 var nietGevondenNothingham = nietGevonden.SingleOrDefault();

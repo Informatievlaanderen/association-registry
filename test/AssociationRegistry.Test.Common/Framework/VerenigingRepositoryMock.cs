@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using EventStore;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
-using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {

@@ -1,10 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
-    RequestValidating.A_KboNumber;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.RequestValidating.A_KboNumber;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -19,6 +18,6 @@ public class Is_Empty : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.KboNummer)
               .WithErrorMessage("'KboNummer' mag niet leeg zijn.");
-        // .Only();
+                                                                                // .Only();
     }
 }
