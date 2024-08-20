@@ -2,7 +2,6 @@
 
 using FluentAssertions.Json;
 using FluentAssertions.Primitives;
-using KellermanSoftware.CompareNetObjects;
 using Newtonsoft.Json.Linq;
 
 public static class FluentAssertionsExtentions

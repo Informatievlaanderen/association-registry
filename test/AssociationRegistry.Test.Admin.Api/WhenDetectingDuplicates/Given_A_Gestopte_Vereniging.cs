@@ -3,10 +3,10 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
+using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using Vereniging;

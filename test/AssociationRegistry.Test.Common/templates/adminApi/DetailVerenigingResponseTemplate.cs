@@ -1,17 +1,16 @@
-﻿namespace AssociationRegistry.Test.Common.templates.AdminApi;
+﻿namespace AssociationRegistry.Test.Common.templates.adminApi;
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
-using Admin.Schema.Detail;
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using Extensions.Mappers;
-using Formats;
-using JsonLdContext;
 using NodaTime;
 using System.Dynamic;
-using Vereniging;
-using Vereniging.Bronnen;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.When_Loading_An_Aggregate;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.Framework;
 using Events;
 using EventStore;
 using FluentAssertions;

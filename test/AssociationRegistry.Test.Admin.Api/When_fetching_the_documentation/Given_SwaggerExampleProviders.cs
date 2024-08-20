@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Test.Admin.Api;
+namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
 
 using AssociationRegistry.Admin.Api;
-using Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections;
