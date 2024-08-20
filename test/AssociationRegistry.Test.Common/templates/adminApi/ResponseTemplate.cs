@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Common.templates.AdminApi;
+﻿namespace AssociationRegistry.Test.Common.templates.adminApi;
 
 using Extensions;
 using Scriban;

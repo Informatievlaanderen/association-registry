@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Common.templates.AdminApi.kboSyncHistoriek;
+namespace AssociationRegistry.Test.Common.templates.adminApi.kboSyncHistoriek;
 
 using Extensions;
 using Scriban;

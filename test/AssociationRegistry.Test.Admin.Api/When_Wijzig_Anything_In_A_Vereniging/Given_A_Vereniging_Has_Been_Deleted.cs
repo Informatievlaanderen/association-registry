@@ -6,11 +6,11 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.V
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
+using Common.Scenarios.EventsInDb;
 using EventStore;
-using Fixtures;
-using Fixtures.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using Vereniging;
