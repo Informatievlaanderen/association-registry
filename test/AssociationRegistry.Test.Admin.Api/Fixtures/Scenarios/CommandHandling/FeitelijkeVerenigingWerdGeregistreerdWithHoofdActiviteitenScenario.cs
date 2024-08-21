@@ -6,18 +6,18 @@ using Events;
 using Framework;
 using Vereniging;
 
-public class FeitelijkeVerenigingWerdGeregistreerdWithOneHoofdActiviteitScenario : CommandhandlerScenarioBase
+public class FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
-    public FeitelijkeVerenigingWerdGeregistreerdWithOneHoofdActiviteitScenario()
+    public FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            HoofdactiviteitenVerenigingsloket = new []{fixture.Create<Registratiedata.HoofdactiviteitVerenigingsloket>()},
+            HoofdactiviteitenVerenigingsloket = fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray(),
         };
     }
 
