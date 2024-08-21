@@ -7,7 +7,7 @@ public class LocatieLookupResponseTemplate : ResponseTemplate
     private readonly dynamic _vereniging;
 
     public LocatieLookupResponseTemplate()
-        : base("templates.LocatieLookupResponse.json")
+        : base("Framework.templates.LocatieLookupResponse.json")
     {
         _vereniging = new ExpandoObject();
         _vereniging.locatielookups = new List<object>();
