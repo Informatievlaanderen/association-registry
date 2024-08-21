@@ -16,7 +16,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
     private readonly dynamic _vereniging;
 
     public DetailVerenigingResponseTemplate()
-        : base("templates.DetailVerenigingResponse.json")
+        : base("Framework.templates.DetailVerenigingResponse.json")
     {
         _vereniging = new ExpandoObject();
         _vereniging.corresponderendevcodes = Array.Empty<string>();
