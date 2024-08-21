@@ -12,15 +12,15 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_Vereniging_With_One_Existing_HoofdActiviteit
+public class Given_Vereniging_With_Existing_HoofdActiviteiten
 {
-    private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithOneHoofdActiviteitScenario _scenario;
+    private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;
     private VerenigingRepositoryMock _verenigingRepositoryMock;
     private Fixture _fixture;
 
-    public Given_Vereniging_With_One_Existing_HoofdActiviteit()
+    public Given_Vereniging_With_Existing_HoofdActiviteiten()
     {
-        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithOneHoofdActiviteitScenario();
+        _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithHoofdActiviteitenScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         _fixture = new Fixture().CustomizeAdminApi();
