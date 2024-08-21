@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class LaatsteHoofdActiviteitKanNietVerwijderdWorden : DomainException
 {
-    public LaatsteHoofdActiviteitKanNietVerwijderdWorden() : base(ExceptionMessages.VerenigingKanNietVerwijderdWorden)
+    public LaatsteHoofdActiviteitKanNietVerwijderdWorden() : base(ExceptionMessages.LaatsteHoofdActiviteitKanNietVerwijderdWorden)
     {
     }
 
