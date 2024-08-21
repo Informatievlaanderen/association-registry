@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
-using Configuration;
 using Confluent.Kafka;
+using Hosts.Configuration;
 using System;
 
 public class AddressKafkaConfiguration : ConsumerConfig
