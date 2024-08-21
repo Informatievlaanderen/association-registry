@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
+using Events;
+using Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework.Fixtures;

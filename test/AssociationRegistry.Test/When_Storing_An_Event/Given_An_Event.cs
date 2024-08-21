@@ -1,9 +1,11 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Storing_An_Event;
+namespace AssociationRegistry.Test.When_Storing_An_Event;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using EventStore;
+using AutoFixture;
+using Common.Framework;
 using FluentAssertions;
-using Framework.Fixtures;
+using Framework.Customizations;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
@@ -12,25 +14,20 @@ using Xunit;
 using Xunit.Categories;
 using IEvent = Marten.Events.IEvent;
 
-[Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 [IntegrationTest]
 public class Given_An_Event
 {
-    private readonly EventsInDbScenariosFixture _fixture;
-
-    public Given_An_Event(EventsInDbScenariosFixture fixture)
-    {
-        _fixture = fixture;
-    }
+    public Given_An_Event()
+    { }
 
     [Fact]
     public async Task Then_it_is_persisted_in_the_database()
     {
+        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Event));
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");
-        var eventStore = new EventStore(_fixture.DocumentStore, _fixture.EventConflictResolver, NullLogger<EventStore>.Instance);
+        var eventStore = new EventStore(documentStore, new EventConflictResolver(), NullLogger<EventStore>.Instance);
 
         // act
         var tijdstip = new Instant();
@@ -46,7 +43,7 @@ public class Given_An_Event
             someEvent);
 
         // assert
-        var events = await GetEventsFromDb(streamId, _fixture.DocumentStore);
+        var events = await GetEventsFromDb(streamId, documentStore);
         events.Should().HaveCount(1);
         var single = events.Single();
         single.Data.As<SomeEvent>().Should().BeEquivalentTo(someEvent);

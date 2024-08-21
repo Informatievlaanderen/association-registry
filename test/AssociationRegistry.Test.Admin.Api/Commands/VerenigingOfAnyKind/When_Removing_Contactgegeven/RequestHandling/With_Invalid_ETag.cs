@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

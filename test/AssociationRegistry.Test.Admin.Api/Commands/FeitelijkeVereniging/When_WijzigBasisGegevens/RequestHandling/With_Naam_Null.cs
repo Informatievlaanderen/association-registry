@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation;
 using Framework.Fakes;
 using Xunit;

@@ -2,10 +2,10 @@
 
 using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;

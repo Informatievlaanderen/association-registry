@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
+using Framework;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

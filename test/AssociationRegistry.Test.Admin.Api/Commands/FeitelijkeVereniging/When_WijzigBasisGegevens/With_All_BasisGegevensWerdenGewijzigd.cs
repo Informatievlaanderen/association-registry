@@ -2,14 +2,14 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
+using Events;
+using Formats;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging;
+using Primitives;
+using Framework;
+using Common.Scenarios.EventsInDb;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;

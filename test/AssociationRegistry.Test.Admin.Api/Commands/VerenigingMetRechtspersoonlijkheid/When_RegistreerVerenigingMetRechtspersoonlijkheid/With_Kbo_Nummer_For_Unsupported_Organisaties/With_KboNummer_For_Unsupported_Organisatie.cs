@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     With_Kbo_Nummer_For_Unsupported_Organisaties;
 
-using AssociationRegistry.Events;
+using Events;
 using FluentAssertions;
 using Framework.Fixtures;
 using Xunit;

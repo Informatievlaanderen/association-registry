@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;

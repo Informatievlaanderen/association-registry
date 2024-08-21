@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
-using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
-using AssociationRegistry.DuplicateVerenigingDetection;
+using Acties.RegistreerFeitelijkeVereniging;
+using DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fakes;

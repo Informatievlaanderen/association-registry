@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
-using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
-using AssociationRegistry.Events;
+using Acties.RegistreerFeitelijkeVereniging;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AddressMatch;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using Framework.Fakes;
 using Marten;

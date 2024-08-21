@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
-using AssociationRegistry.Acties.WijzigBasisgegevens;
+using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Primitives;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Primitives;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fakes;

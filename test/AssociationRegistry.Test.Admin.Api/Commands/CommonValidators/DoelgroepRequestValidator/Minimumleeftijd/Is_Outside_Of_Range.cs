@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.CommonValidators.DoelgroepRequestValidator.Minimumleeftijd;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

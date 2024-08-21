@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
+using Events;
+using Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework.Fixtures;

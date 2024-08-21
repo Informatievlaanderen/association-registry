@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using EventStore;
+using Common.Scenarios.EventsInDb;
 using Marten.Events.Daemon;
 using Nest;
 
