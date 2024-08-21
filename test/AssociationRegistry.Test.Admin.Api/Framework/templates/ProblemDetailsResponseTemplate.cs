@@ -9,7 +9,7 @@ public class ProblemDetailsResponseTemplate : ResponseTemplate
     private readonly dynamic _problemDetails;
 
     public ProblemDetailsResponseTemplate()
-        : base("templates.ProblemDetailsResponse.json")
+        : base("Framework.templates.ProblemDetailsResponse.json")
     {
         _problemDetails = new ExpandoObject();
 
