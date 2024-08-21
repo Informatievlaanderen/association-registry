@@ -4,6 +4,7 @@ using Amazon.Runtime;
 using EventStore;
 using Grar.AddressMatch;
 using Grar.HeradresseerLocaties;
+using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
 using Vereniging;

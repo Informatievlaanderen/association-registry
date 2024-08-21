@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Public.Schema.Search;
+namespace AssociationRegistry.Admin.Schema.Search;
 
 using Nest;
 
