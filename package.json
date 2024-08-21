@@ -27,7 +27,7 @@
     "merge": "2.1.1",
     "newman": "5.3.2",
     "semantic-release": "21.1.2",
-    "axios": "^1.5.1",
+    "axios": "^1.7.4",
     "jsonwebtoken": "^9.0.2"
   },
   "scripts": {
