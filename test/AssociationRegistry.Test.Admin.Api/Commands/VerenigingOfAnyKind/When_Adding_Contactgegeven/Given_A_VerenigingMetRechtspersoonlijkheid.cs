@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging;
+using Events;
+using Common.Scenarios.EventsInDb;
+using Vereniging;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;

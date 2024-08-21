@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
     With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Magda.Models;
 using FluentAssertions;

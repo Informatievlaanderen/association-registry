@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
+using Helpers;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 

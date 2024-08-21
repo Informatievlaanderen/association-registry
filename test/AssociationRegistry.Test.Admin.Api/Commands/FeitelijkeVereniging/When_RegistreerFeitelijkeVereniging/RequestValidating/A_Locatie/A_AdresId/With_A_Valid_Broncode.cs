@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;

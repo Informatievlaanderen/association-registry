@@ -17,9 +17,8 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
-using WijzigContactgegevenRequest =
-    AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.
-    WijzigContactgegevenRequest;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
+using WijzigContactgegevenRequest = AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.WijzigContactgegevenRequest;
 
 public static class AutoFixtureCustomizations
 {
@@ -73,8 +72,7 @@ public static class AutoFixtureCustomizations
                 }).OmitAutoProperties());
 
         fixture
-           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.
-                WijzigBasisgegevensRequest>(
+           .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
                 composer => composer.With(
                     propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
                     valueFactory: () => fixture
@@ -125,9 +123,7 @@ public static class AutoFixtureCustomizations
                                                                  {
                                                                      Contactgegeventype = contactgegeven.Contactgegeventype,
                                                                      Waarde = contactgegeven.Waarde,
-                                                                     Beschrijving =
-                                                                         fixture.CreateStringOfMaxLength(
-                                                                             Contactgegeven.MaxLengthBeschrijving),
+                                                                     Beschrijving = fixture.CreateStringOfMaxLength(Contactgegeven.MaxLengthBeschrijving),
                                                                      IsPrimair = false,
                                                                  };
                                                              })
@@ -237,42 +233,34 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<TeWijzigenContactgegeven>(
             composer => composer.FromFactory<int>(
-                value => new TeWijzigenContactgegeven
+                value => new TeWijzigenContactgegeven()
                 {
                     Beschrijving = fixture.CreateStringOfMaxLength(42),
                     IsPrimair = fixture.Create<bool>(),
                 }).OmitAutoProperties());
 
-        fixture
-           .Customize<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.
-                RequestModels.TeWijzigenContactgegeven>(
-                composer => composer.FromFactory<int>(
-                    value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.
-                        WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven
-                        {
-                            Beschrijving = fixture.CreateStringOfMaxLength(42),
-                            IsPrimair = fixture.Create<bool>(),
-                        }).OmitAutoProperties());
+
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(
+            composer => composer.FromFactory<int>(
+                value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven()
+                {
+                    Beschrijving = fixture.CreateStringOfMaxLength(42),
+                    IsPrimair = fixture.Create<bool>(),
+                }).OmitAutoProperties());
 
         fixture.Customize<WijzigContactgegevenRequest>(
             composer => composer.FromFactory<int>(
-                value => new WijzigContactgegevenRequest
+                value => new WijzigContactgegevenRequest()
                 {
-                    Contactgegeven =
-                        fixture
-                           .Create<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.
-                                WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(),
+                    Contactgegeven = fixture.Create<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(),
                 }).OmitAutoProperties());
 
-        fixture
-           .Customize<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels.
-                WijzigContactgegevenRequest>(
-                composer => composer.FromFactory<int>(
-                    value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.
-                        RequestModels.WijzigContactgegevenRequest
-                        {
-                            Contactgegeven = fixture.Create<TeWijzigenContactgegeven>(),
-                        }).OmitAutoProperties());
+        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels.WijzigContactgegevenRequest>(
+            composer => composer.FromFactory<int>(
+                value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels.WijzigContactgegevenRequest()
+                {
+                    Contactgegeven = fixture.Create<TeWijzigenContactgegeven>(),
+                }).OmitAutoProperties());
     }
 
     private static void CustomizeRegistreerVerenigingUitKboRequest(this IFixture fixture)

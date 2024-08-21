@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     CommandHandling;
 
-using AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
+using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fakes;

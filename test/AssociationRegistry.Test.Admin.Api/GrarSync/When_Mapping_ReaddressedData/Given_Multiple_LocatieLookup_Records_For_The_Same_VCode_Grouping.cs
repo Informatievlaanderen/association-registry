@@ -4,7 +4,7 @@ using AssociationRegistry.Admin.Api.GrarSync;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;

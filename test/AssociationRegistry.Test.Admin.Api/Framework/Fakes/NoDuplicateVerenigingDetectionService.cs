@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
-using AssociationRegistry.Vereniging;
+using DuplicateVerenigingDetection;
+using Vereniging;
 
 public class NoDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
 {

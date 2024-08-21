@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Events;
+using Framework;
+using Common.Scenarios.EventsInDb;
 using AssociationRegistry.Test.Framework.Customizations;
 using AutoFixture;
 using FluentAssertions;

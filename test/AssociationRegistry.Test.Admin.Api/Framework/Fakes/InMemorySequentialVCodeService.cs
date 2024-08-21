@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
-using AssociationRegistry.Vereniging;
+using Vereniging;
 
 public class InMemorySequentialVCodeService : IVCodeService
 {
