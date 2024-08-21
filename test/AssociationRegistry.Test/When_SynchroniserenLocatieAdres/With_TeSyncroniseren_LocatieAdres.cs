@@ -10,6 +10,7 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
@@ -23,7 +24,7 @@ public class With_A_Changed_Adres
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        var fixture = new Fixture().CustomizeDomain();
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with
         {

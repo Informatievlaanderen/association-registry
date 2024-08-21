@@ -43,6 +43,7 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Listeners\" />
     <Folder Include="Queries\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_Address_Match.MessageHandling;
 
-using Grar;
-using Grar.AddressMatch;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressMatch;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
@@ -15,6 +15,7 @@ public class With_Removed_Vereniging
     [Fact]
     public async Task Then_Nothing()
     {
+
         var verenigingRepositoryMock = new Mock<IVerenigingsRepository>();
 
         var vCode = VCode.Create(1001001);
@@ -31,6 +32,6 @@ public class With_Removed_Vereniging
                                                                                             TeAdresMatchenLocatieMessageHandler>()
         );
 
-        await adresMatchenLocatieMessageHandler.Handle(new TeAdresMatchenLocatieMessage(vCode, LocatieId: 1));
+        await adresMatchenLocatieMessageHandler.Handle(new TeAdresMatchenLocatieMessage(vCode, 1));
     }
 }
