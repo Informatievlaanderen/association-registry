@@ -15,25 +15,35 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_Vereniging_With_No_Existing_HoofdActiviteit
 {
-    [Fact]
-    public async Task With_Empty_HoofdActiviteiten_Request_Then_Nothing()
+    private FeitelijkeVerenigingWerdGeregistreerdWithNoHoofdActiviteitScenario _scenario;
+    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private Fixture _fixture;
+
+    public Given_Vereniging_With_No_Existing_HoofdActiviteit()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithNoHoofdActiviteitScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithNoHoofdActiviteitScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        _fixture = new Fixture().CustomizeAdminApi();
+    }
 
-        var command = new WijzigBasisgegevensCommand(scenario.VCode,
+
+    [Fact]
+    public async Task WithEmptyHoofdActiviteitenRequest_ThenNothing()
+    {
+
+
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandHandler = new WijzigBasisgegevensCommandHandler();
-        var commandMetadata = fixture.Create<CommandMetadata>();
+        var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await commandHandler.Handle(
             new CommandEnvelope<WijzigBasisgegevensCommand>(command, commandMetadata),
-            verenigingRepositoryMock,
-            new ClockStub(fixture.Create<DateOnly>()));
+            _verenigingRepositoryMock,
+            new ClockStub(_fixture.Create<DateOnly>()));
 
-        verenigingRepositoryMock.ShouldNotHaveSaved<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<HoofdactiviteitenVerenigingsloketWerdenGewijzigd>();
     }
 }
