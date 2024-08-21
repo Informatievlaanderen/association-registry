@@ -14,24 +14,31 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_Vereniging_With_One_Existing_HoofdActiviteit
 {
-    [Fact]
-    public async Task With_Empty_HoofdActiviteiten_Request_Then_Throws_NonSuccessStatusCode()
+    private FeitelijkeVerenigingWerdGeregistreerdWithOneHoofdActiviteitScenario _scenario;
+    private VerenigingRepositoryMock _verenigingRepositoryMock;
+    private Fixture _fixture;
+
+    public Given_Vereniging_With_One_Existing_HoofdActiviteit()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithOneHoofdActiviteitScenario();
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithOneHoofdActiviteitScenario();
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        _fixture = new Fixture().CustomizeAdminApi();
+    }
 
-        var command = new WijzigBasisgegevensCommand(scenario.VCode,
+    [Fact]
+    public async Task WithEmptyHoofdActiviteitenRequest_ThenThrowsNonSuccessStatusCode()
+    {
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());
 
         var commandHandler = new WijzigBasisgegevensCommandHandler();
-        var commandMetadata = fixture.Create<CommandMetadata>();
+        var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await Assert.ThrowsAsync<LaatsteHoofdActiviteitKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
                                                                                    new CommandEnvelope<WijzigBasisgegevensCommand>(
                                                                                        command, commandMetadata),
-                                                                                   verenigingRepositoryMock,
-                                                                                   new ClockStub(fixture.Create<DateOnly>())));
+                                                                                   _verenigingRepositoryMock,
+                                                                                   new ClockStub(_fixture.Create<DateOnly>())));
     }
 }
