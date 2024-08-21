@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
-using AssociationRegistry.Acties.WijzigVertegenwoordiger;
+using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Emails;
-using AssociationRegistry.Vereniging.SocialMedias;
-using AssociationRegistry.Vereniging.TelefoonNummers;
+using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

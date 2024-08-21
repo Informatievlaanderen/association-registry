@@ -1,15 +1,15 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using AssociationRegistry.Acties.VoegLocatieToe;
-using AssociationRegistry.Events;
+using Acties.VoegLocatieToe;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Exceptions;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using Marten;
 using Moq;

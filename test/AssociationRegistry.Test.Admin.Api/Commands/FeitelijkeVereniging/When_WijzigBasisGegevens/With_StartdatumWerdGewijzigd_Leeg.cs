@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Primitives;
+using Primitives;
 using FluentAssertions;
 using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;

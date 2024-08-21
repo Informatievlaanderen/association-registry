@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Events;
+using Framework;
+using Common.Scenarios.EventsInDb;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;

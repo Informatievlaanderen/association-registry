@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using Moq;
 using Wolverine;
 using Xunit;

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging.Exceptions;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

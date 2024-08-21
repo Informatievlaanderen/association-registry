@@ -4,13 +4,19 @@ using Framework;
 
 public class EventConflictResolver
 {
-    private readonly IEventPostConflictResolutionStrategy[] _postStrategies;
     private readonly IEventPreConflictResolutionStrategy[] _preStrategies;
+    private readonly IEventPostConflictResolutionStrategy[] _postStrategies;
+
+    public EventConflictResolver()
+    {
+        _preStrategies = Array.Empty<IEventPreConflictResolutionStrategy>();
+        _postStrategies = Array.Empty<IEventPostConflictResolutionStrategy>();
+    }
 
     public EventConflictResolver(IEventPreConflictResolutionStrategy[] preStrategies, IEventPostConflictResolutionStrategy[] postStrategies)
     {
-        _postStrategies = postStrategies;
         _preStrategies = preStrategies;
+        _postStrategies = postStrategies;
     }
 
     public bool IsAllowedPostConflict(IReadOnlyCollection<IEvent> intendedEvents, IEnumerable<Marten.Events.IEvent> conflictingEvents)

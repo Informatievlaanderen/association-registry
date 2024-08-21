@@ -1,15 +1,15 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
-using AssociationRegistry.Acties.WijzigLocatie;
-using AssociationRegistry.Events;
+using Acties.WijzigLocatie;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using AutoFixture;
 using Marten;
 using Moq;

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen;
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Framework;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;
