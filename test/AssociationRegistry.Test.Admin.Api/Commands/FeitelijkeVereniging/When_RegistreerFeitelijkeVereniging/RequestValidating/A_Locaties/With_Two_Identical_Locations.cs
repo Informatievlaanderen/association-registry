@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.Admin.Api.Framework.Helpers;
+using Framework.Helpers;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

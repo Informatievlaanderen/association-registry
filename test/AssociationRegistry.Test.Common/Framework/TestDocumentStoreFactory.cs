@@ -1,7 +1,11 @@
 namespace AssociationRegistry.Test.Common.Framework;
 
+using Admin.Api.Infrastructure.Json;
+using Formats;
 using Marten;
 using Marten.Events;
+using Marten.Services;
+using Newtonsoft.Json;
 using Weasel.Core;
 
 public class TestDocumentStoreFactory
@@ -20,9 +24,27 @@ public class TestDocumentStoreFactory
             options.DatabaseSchemaName = schema;
             options.Events.DatabaseSchemaName = schema;
             options.AutoCreateSchemaObjects = AutoCreate.All;
+            options.Events.MetadataConfig.EnableAll();
+            options.Serializer(CreateCustomMartenSerializer());
+
         });
 
         await documentStore.Advanced.ResetAllData();
         return documentStore;
+    }
+
+    public static JsonNetSerializer CreateCustomMartenSerializer()
+    {
+        var jsonNetSerializer = new JsonNetSerializer();
+
+        jsonNetSerializer.Customize(
+            s =>
+            {
+                s.DateParseHandling = DateParseHandling.None;
+                s.Converters.Add(new NullableDateOnlyJsonConvertor(WellknownFormats.DateOnly));
+                s.Converters.Add(new DateOnlyJsonConvertor(WellknownFormats.DateOnly));
+            });
+
+        return jsonNetSerializer;
     }
 }

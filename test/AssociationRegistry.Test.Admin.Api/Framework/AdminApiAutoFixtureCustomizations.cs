@@ -259,7 +259,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                 value => new AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels.WijzigContactgegevenRequest()
                 {
-                    Contactgegeven = fixture.Create<AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels.TeWijzigenContactgegeven>(),
+                    Contactgegeven = fixture.Create<TeWijzigenContactgegeven>(),
                 }).OmitAutoProperties());
     }
 

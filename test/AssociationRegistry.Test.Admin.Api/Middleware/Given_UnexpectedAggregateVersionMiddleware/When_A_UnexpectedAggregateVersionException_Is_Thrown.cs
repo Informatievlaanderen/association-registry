@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Using_UnexpectedAggregateVersionMiddleware;
+﻿namespace AssociationRegistry.Test.Admin.Api.Middleware.Given_UnexpectedAggregateVersionMiddleware;
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
+using AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using EventStore;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -20,7 +20,7 @@ using Xunit.Categories;
 
 [UnitTest]
 [Category("Middleware")]
-public class Given_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifetime
+public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifetime
 {
     private IHost _host = null!;
     private const string Route = "/";

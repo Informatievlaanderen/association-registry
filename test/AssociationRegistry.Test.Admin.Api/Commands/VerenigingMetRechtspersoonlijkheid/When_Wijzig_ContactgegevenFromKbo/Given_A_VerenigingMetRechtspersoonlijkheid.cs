@@ -2,10 +2,10 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Framework;
+using Common.Scenarios.EventsInDb;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;

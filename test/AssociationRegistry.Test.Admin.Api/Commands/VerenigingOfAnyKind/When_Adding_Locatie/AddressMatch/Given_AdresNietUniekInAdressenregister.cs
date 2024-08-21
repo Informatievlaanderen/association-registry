@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.AddressMatch;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -114,7 +114,7 @@ public class Given_AdresNietUniekInAdressenregister : IClassFixture<
                                             await using var session = _classFixture.DocumentStore.LightweightSession();
 
                                             session
-                                               .SingleOrDefaultFromStream<Events.AdresNietUniekInAdressenregister>(_classFixture.Scenario.VCode)
+                                               .SingleOrDefaultFromStream<AdresNietUniekInAdressenregister>(_classFixture.Scenario.VCode)
                                                .Should()
                                                .NotBeNull();
                                         });

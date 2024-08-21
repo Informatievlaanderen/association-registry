@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging;
+using Events;
+using Framework;
+using Common.Scenarios.EventsInDb;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fixtures;

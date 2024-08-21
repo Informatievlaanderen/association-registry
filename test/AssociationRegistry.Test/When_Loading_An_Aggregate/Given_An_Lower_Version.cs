@@ -1,13 +1,12 @@
-namespace AssociationRegistry.Test.Admin.Api.When_Loading_An_Aggregate;
+namespace AssociationRegistry.Test.When_Loading_An_Aggregate;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using EventStore;
 using FluentAssertions;
-using Framework;
-using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Vereniging;

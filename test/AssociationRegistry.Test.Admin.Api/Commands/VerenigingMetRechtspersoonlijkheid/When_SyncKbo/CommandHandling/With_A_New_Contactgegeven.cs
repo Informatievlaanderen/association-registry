@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using AssociationRegistry.Acties.SyncKbo;
-using AssociationRegistry.Events;
+using Acties.SyncKbo;
+using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
-using AssociationRegistry.Notifications;
-using AssociationRegistry.Test.Admin.Api.Framework;
+using Kbo;
+using Notifications;
+using Framework;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Test.Framework.Customizations;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Fakes;
