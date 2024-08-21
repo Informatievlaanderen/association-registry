@@ -10,11 +10,12 @@ using Events;
 using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_InactiveAddressFromGrar
+public class With_NonExistingLocatie
 {
     [Fact]
     public async Task Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
@@ -23,7 +24,7 @@ public class With_InactiveAddressFromGrar
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
 
-        var fixture = new Fixture().CustomizeAdminApi();
+        var fixture = new Fixture().CustomizeDomain();
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>() with
         {
@@ -35,11 +36,13 @@ public class With_InactiveAddressFromGrar
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
-        var locatie = scenario.Locaties.First();
+        var locatieId = scenario.Locaties.First().LocatieId;
+
+        var nonExistingLocatieId = locatieId * -1;
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatie.LocatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres>() { new(nonExistingLocatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };
@@ -48,10 +51,6 @@ public class With_InactiveAddressFromGrar
 
         await messageHandler.Handle(message, CancellationToken.None);
 
-        verenigingRepositoryMock.ShouldHaveSaved(
-            new AdresWerdOntkoppeldVanAdressenregister(scenario.VCode.Value,
-                                                       locatie.LocatieId,
-                                                       Registratiedata.AdresId.With(locatie.AdresId),
-                                                       Registratiedata.Adres.With(locatie.Adres)));
+        verenigingRepositoryMock.ShouldNotHaveAnySaves();
     }
 }

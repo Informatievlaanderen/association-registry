@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_Address_Match.MessageHandling;
+﻿namespace AssociationRegistry.Test.When_Address_Match.MessageHandling;
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AddressMatch;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
