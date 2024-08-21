@@ -148,7 +148,7 @@ jobs:
 
       - name: Run wiremock container
         shell: bash
-        if: matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E'
+        if: matrix.projects == 'test/AssociationRegistry.Test.Admin.Api' || matrix.projects == 'test/AssociationRegistry.Test.E2E' || matrix.projects == 'test/AssociationRegistry.Test'
         run: |
           docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
 
