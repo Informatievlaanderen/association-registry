@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
-using Admin.Api;
 using Alba;
-using AlbaHost;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +22,10 @@ public class AdminApiSetup : IApiSetup
     public IAlbaHost AdminApiHost { get; private set; }
     public IAlbaHost ProjectionHost { get; private set; }
     public IAlbaHost QueryApiHost => AdminApiHost;
+
+    public AdminApiSetup()
+    {
+    }
 
     public async Task InitializeAsync(string schema)
     {
@@ -51,14 +55,14 @@ public class AdminApiSetup : IApiSetup
         {
             ServiceURL = "http://localhost:4566", // LocalStack endpoint
             UseHttp = true,
-            AuthenticationRegion = "eu-west-1", // Region for LocalStack
+            AuthenticationRegion = "eu-west-1" // Region for LocalStack
         };
 
-        IAmazonSQS sqs = new AmazonSQSClient(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"), sqsConfig);
+        IAmazonSQS sqs = new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), sqsConfig);
 
         var createQueueRequest = new CreateQueueRequest
         {
-            QueueName = schema, // Assuming schema is a variable holding the queue name
+            QueueName = schema // Assuming schema is a variable holding the queue name
         };
 
         var sqsResult = sqs.CreateQueueAsync(createQueueRequest).GetAwaiter().GetResult();
@@ -78,8 +82,8 @@ public class AdminApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
-             .UseSetting("GrarOptions:Sqs:AddressMatchQueueName", schema.ToLowerInvariant())
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
+             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant())
              .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"admin_{schema.ToLowerInvariant()}");
         };
     }

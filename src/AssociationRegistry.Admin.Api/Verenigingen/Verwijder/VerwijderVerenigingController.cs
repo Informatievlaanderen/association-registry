@@ -12,6 +12,7 @@ using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
+using System.Threading.Tasks;
 using Vereniging;
 using Wolverine;
 

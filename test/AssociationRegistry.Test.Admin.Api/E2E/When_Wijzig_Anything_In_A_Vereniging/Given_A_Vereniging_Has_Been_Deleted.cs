@@ -5,15 +5,15 @@ using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVeren
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Scenarios.EventsInDb;
-using EventStore;
 using FluentAssertions;
 using Framework;
-using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

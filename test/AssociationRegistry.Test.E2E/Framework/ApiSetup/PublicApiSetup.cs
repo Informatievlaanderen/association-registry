@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
-using Admin.Api;
 using Alba;
-using AlbaHost;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,6 +20,10 @@ public class PublicApiSetup : IApiSetup
     public IAlbaHost ProjectionHost { get; private set; }
     public IAlbaHost QueryApiHost { get; private set; }
 
+    public PublicApiSetup()
+    {
+    }
+
     public async Task InitializeAsync(string schema)
     {
         OaktonEnvironment.AutoStartHost = true;
@@ -33,7 +37,7 @@ public class PublicApiSetup : IApiSetup
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, schema));
-        QueryApiHost = await AlbaHost.For<Public.Api.Program>(ConfigureForTesting(configuration, schema));
+        QueryApiHost = await AlbaHost.For<AssociationRegistry.Public.Api.Program>(ConfigureForTesting(configuration, schema));
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -57,7 +61,7 @@ public class PublicApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
              .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"public_{schema.ToLowerInvariant()}");
         };
     }

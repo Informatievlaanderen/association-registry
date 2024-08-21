@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Given_Conflicting_Events_Occur;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Events;
-using EventStore;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;

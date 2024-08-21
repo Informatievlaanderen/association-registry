@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
-using Infrastructure.Validation;
 using RequestModels;
 
 public class VerwijderVerenigingRequestValidator : AbstractValidator<VerwijderVerenigingRequest>

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Swagger;
 
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
-using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
