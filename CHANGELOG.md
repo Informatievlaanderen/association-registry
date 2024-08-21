@@ -1,3 +1,11 @@
+# [8.134.0](https://github.com/informatievlaanderen/association-registry/compare/v8.133.6...v8.134.0) (2024-08-21)
+
+
+### Features
+
+* or-2188 dont empty hoofdactiviteitenVerenigingsloket on patch fv ([979e70c](https://github.com/informatievlaanderen/association-registry/commit/979e70c504bbc6af2b4cb804459b9a6ee62a40a4))
+* or-2188 dont empty hoofdactiviteitenVerenigingsloket on patch kbo ([eeddbd0](https://github.com/informatievlaanderen/association-registry/commit/eeddbd022ba10b5332409c91c03d8ef119651fc5))
+
 ## [8.133.6](https://github.com/informatievlaanderen/association-registry/compare/v8.133.5...v8.133.6) (2024-08-19)
 
 ## [8.133.5](https://github.com/informatievlaanderen/association-registry/compare/v8.133.4...v8.133.5) (2024-08-13)
