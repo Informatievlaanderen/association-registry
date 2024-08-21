@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Grar;
+namespace AssociationRegistry.Test.Admin.Api;
 
 using FluentAssertions;
 using System.Net;

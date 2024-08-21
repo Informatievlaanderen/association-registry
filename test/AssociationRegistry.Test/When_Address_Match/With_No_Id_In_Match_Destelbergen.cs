@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_Address_Match;
+﻿namespace AssociationRegistry.Test.When_Address_Match;
 
 using Fixtures;
 using FluentAssertions;
