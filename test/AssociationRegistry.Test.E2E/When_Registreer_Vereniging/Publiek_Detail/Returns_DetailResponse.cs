@@ -12,6 +12,7 @@ using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Bronnen;
+using Framework.ApiSetup;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;

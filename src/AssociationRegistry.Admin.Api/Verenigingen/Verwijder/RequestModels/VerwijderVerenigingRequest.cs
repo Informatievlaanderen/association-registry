@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijderen.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;

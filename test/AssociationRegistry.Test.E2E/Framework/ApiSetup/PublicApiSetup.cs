@@ -1,21 +1,15 @@
-﻿namespace AssociationRegistry.Test.E2E;
+﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
-using Admin.Api;
-using Admin.Api.Infrastructure.Extensions;
 using Alba;
-using Framework.AlbaHost;
-using Hosts;
-using Hosts.Configuration.ConfigurationBindings;
-using IdentityModel.AspNetCore.OAuth2Introspection;
+using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nest;
 using Oakton;
-using Xunit;
-using Clients = Common.Clients.Clients;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class PublicApiSetup : IApiSetup

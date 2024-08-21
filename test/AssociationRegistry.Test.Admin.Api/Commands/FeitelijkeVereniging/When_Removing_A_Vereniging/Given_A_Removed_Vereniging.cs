@@ -7,6 +7,7 @@ using Framework.Fixtures;
 using Marten;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Resources;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
