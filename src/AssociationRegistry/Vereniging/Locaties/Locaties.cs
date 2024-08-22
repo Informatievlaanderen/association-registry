@@ -95,12 +95,19 @@ public class Locaties : ReadOnlyCollection<Locatie>
     public Locatie Verwijder(int locatieId)
     {
         MustContain(locatieId);
+        MustHaveMoreThanOneLocation();
+
         var teVerwijderenLocatie = this[locatieId];
 
         Throw<MaatschappelijkeZetelKanNietVerwijderdWorden>.If(teVerwijderenLocatie.Locatietype ==
                                                                Locatietype.MaatschappelijkeZetelVolgensKbo);
 
         return teVerwijderenLocatie;
+    }
+
+    private void MustHaveMoreThanOneLocation()
+    {
+        Throw<LaatsteLocatieKanNietVerwijderdWorden>.If(Count == 1);
     }
 
     public new Locatie this[int locatieId]

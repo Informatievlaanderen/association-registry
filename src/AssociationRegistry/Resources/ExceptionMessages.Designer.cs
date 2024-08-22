@@ -413,6 +413,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De vereniging moet minstens 1 locatie hebben. Je kan de laatste locatie niet verwijderen..
+        /// </summary>
+        public static string LaatsteLocatieKanNietVerwijderdWorden {
+            get {
+                return ResourceManager.GetString("LaatsteLocatieKanNietVerwijderdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen..
         /// </summary>
         public static string LaatsteVertegenwoordigerKanNietVerwijderdWorden {

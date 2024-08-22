@@ -10,6 +10,7 @@ public class V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
     public readonly LocatieWerdToegevoegd LocatieWerdToegevoegd;
+    public readonly LocatieWerdToegevoegd LocatieWerdToegevoegd2;
     public readonly CommandMetadata Metadata;
 
     public V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForVerwijderen()
@@ -30,6 +31,8 @@ public class V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
                 LocatieId = 1,
             });
 
+        LocatieWerdToegevoegd2 = fixture.Create<LocatieWerdToegevoegd>();
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -45,6 +48,7 @@ public class V033_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
         {
             VerenigingMetRechtspersoonlijkheidWerdGeregistreerd,
             LocatieWerdToegevoegd,
+            LocatieWerdToegevoegd2,
         };
 
     public CommandMetadata GetCommandMetadata()

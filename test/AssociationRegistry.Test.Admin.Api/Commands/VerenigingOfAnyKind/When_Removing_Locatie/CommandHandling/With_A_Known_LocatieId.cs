@@ -15,11 +15,11 @@ using Xunit.Categories;
 public class With_A_Known_LocatieId
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithMultipleLocatiesScenario _scenario;
 
     public With_A_Known_LocatieId()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMultipleLocatiesScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 

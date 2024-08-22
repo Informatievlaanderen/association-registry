@@ -14,13 +14,13 @@ using Xunit.Categories;
 [UnitTest]
 public class With_An_Unknown_LocatieId
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields _scenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario _scenario;
     private readonly VerwijderLocatieCommandHandler _commandHandler;
     private readonly Fixture _fixture;
 
     public With_An_Unknown_LocatieId()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
+        _scenario = new FeitelijkeVerenigingWerdGeregistreerdWithALocatieScenario();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
