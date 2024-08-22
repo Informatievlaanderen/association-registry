@@ -4,7 +4,6 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework.Fixtures;
 using Newtonsoft.Json;
-using Resources;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;

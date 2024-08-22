@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging.Websites.Exceptions;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using Resources;
 using System.Runtime.Serialization;
 
 [Serializable]

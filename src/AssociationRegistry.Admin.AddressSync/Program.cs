@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
+using Api.Infrastructure.Extensions;
 using Destructurama;
 using EventStore;
 using Grar;

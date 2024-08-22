@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using Alba;
-using ApiSetup;
 using AssociationRegistry.Framework;
 using Events;
 using Marten;

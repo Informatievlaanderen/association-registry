@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Hosts.Configuration;
+﻿namespace AssociationRegistry.Configuration;
 
 public record GrarOptions
 {

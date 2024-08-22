@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging.Exceptions;
 
-using Resources;
 using System.Runtime.Serialization;
 
 [Serializable]
