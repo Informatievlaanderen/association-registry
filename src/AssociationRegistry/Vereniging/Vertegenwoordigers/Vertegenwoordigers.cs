@@ -82,8 +82,14 @@ public class Vertegenwoordigers : ReadOnlyCollection<Vertegenwoordiger>
     public Vertegenwoordiger Verwijder(int vertegenwoordigerId)
     {
         MustContain(vertegenwoordigerId);
+        MustHaveMoreThanOneVertegenwoordiger();
 
         return this[vertegenwoordigerId];
+    }
+
+    private void MustHaveMoreThanOneVertegenwoordiger()
+    {
+        Throw<LaatsteVertegenwoordigerKanNietVerwijderdWorden>.If(Items.Count == 1);
     }
 
     private void ThrowIfCannotAppend(Vertegenwoordiger vertegenwoordiger)
