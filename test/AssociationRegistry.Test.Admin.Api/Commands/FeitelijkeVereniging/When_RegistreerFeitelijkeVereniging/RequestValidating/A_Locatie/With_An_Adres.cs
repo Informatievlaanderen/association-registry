@@ -2,10 +2,10 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework;
-using AssociationRegistry.Test.Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
@@ -59,6 +59,7 @@ public class With_An_Adres : ValidatorTest
         request.Locaties[0].AdresId = Fixture.Create<AdresId>();
 
         var result = validator.TestValidate(request);
+
         result.ShouldHaveValidationErrorFor($"{nameof(RegistreerFeitelijkeVerenigingRequest.Locaties)}[0]")
               .WithErrorMessage(ToeTeVoegenLocatieValidator.MustHaveAdresOrAdresIdMessage);
     }
@@ -74,5 +75,4 @@ public class With_An_Adres : ValidatorTest
         var result = validator.TestValidate(request);
         result.ShouldNotHaveAnyValidationErrors();
     }
-
 }

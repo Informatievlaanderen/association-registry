@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.ProjectieBeheer.ResponseModels;
 
-using Amazon.DynamoDBv2.Model;
 using Infrastructure;
 using System.Text.Json.Serialization;
 
@@ -27,11 +26,11 @@ public record MinimalProjectionStatusResponse
                     .Select(s => new MinimalProjectionStatus(s.ShardName, s.Sequence))
                     .OrderBy(o => o.ShardName);
 
-        Status = status.ToDictionary(k => k.ShardName, v => v.Sequence);
+        Status = status.ToDictionary(keySelector: k => k.ShardName, elementSelector: v => v.Sequence);
     }
 
     public record MinimalProjectionStatus(string FullShardName, long Sequence)
     {
-        public string ShardName { get; init; } = FullShardName.Split('.').Last().Replace(":All", "");
+        public string ShardName { get; init; } = FullShardName.Split('.').Last().Replace(oldValue: ":All", newValue: "");
     }
 }

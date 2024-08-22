@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.E2E.When_Wijzig_Anything_In_A_Vereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Verwijderen.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
 using Common.Scenarios.EventsInDb;

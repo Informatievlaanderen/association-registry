@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 

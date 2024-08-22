@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Public.ProjectionHost.Metrics;
+namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Metrics;
 
-using OpenTelemetry;
+using AssociationRegistry.OpenTelemetry;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 

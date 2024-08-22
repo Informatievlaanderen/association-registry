@@ -8,7 +8,7 @@ using EventStore;
 using Framework.TestClasses;
 using Vereniging;
 
-public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
+public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;
@@ -89,7 +89,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario: IScenario
             },
             new Registratiedata.HoofdactiviteitVerenigingsloket[]
             {
-                new(Code: HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
+                new(HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
             });
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

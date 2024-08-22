@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
 using Nest;
-using System;
-using System.Linq;
 
 public static class SearchVerenigingenExtensions
 {

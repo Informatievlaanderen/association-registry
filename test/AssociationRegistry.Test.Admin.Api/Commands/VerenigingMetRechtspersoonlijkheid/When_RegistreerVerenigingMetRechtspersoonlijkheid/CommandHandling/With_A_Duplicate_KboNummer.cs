@@ -2,18 +2,18 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
     CommandHandling;
 
 using Acties.RegistreerVerenigingUitKbo;
-using DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;
-using Kbo;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
+using Framework;
 using Framework.Fakes;
+using Kbo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -38,6 +38,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             Identity = fixture.Create<VCode>(),
             Verenigingstype = Verenigingstype.VZW,
         };
+
         _loggerFactory = new LoggerFactory();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_moederVCodeAndNaam);
         _vCodeService = new InMemorySequentialVCodeService();

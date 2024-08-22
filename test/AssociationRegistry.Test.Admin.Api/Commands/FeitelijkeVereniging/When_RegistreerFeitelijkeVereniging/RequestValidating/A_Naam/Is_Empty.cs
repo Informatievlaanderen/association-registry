@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Naam;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
@@ -18,6 +18,6 @@ public class Is_Empty : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Naam)
               .WithErrorMessage("'Naam' mag niet leeg zijn.");
-              // .Only();
+        // .Only();
     }
 }

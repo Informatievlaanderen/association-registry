@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_Conflicting_Events_Occur;
+﻿namespace AssociationRegistry.Test.Given_Conflicting_Events_Occur;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -27,10 +27,11 @@ public class When_AdresWerdGeheradresseerd
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 
-        var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(), new IEventPostConflictResolutionStrategy[]
-        {
-            new AddressMatchConflictResolutionStrategy(),
-        });
+        var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
+                                                              new IEventPostConflictResolutionStrategy[]
+                                                              {
+                                                                  new AddressMatchConflictResolutionStrategy(),
+                                                              });
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
@@ -40,14 +41,17 @@ public class When_AdresWerdGeheradresseerd
 
         var vCode = _fixture.Create<string>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
+        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+                              CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, adresWerdGewijzigdInAdressenregister);
 
-        var result = await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), 1), CancellationToken.None,
-                              locatieWerdToegevoegd);
+        var result = await eventStore.Save(vCode, session,
+                                           new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid(), ExpectedVersion: 1),
+                                           CancellationToken.None,
+                                           locatieWerdToegevoegd);
 
         var savedEvents = await session.Events.FetchStreamAsync(vCode);
-        Assert.Equal(3, savedEvents.Count);
+        Assert.Equal(expected: 3, savedEvents.Count);
         result.Version.Should().Be(3);
         documentStore.Dispose();
     }

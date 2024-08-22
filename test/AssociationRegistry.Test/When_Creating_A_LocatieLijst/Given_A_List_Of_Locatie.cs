@@ -13,7 +13,7 @@ public class Given_A_List_Of_Locatie
     {
         var listOfLocatie = new[]
         {
-            Locatie.Create(naam: Locatienaam.Create("Kerker"), isPrimair: true, Locatietype.Activiteiten, adresId: null,
+            Locatie.Create(Locatienaam.Create("Kerker"), isPrimair: true, Locatietype.Activiteiten, adresId: null,
                            Adres.Create(straatnaam: "kerkstraat", huisnummer: "1", busnummer: "-1", postcode: "666", gemeente: "penoze",
                                         land: "Nederland")),
         };

@@ -18,7 +18,7 @@ public class When_Searching_By_Name
 {
     private readonly PublicApiClient _publicApiClient;
     private readonly VCode _vCode;
-    private V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
     public When_Searching_By_Name(GivenEventsFixture fixture)
     {
@@ -38,8 +38,9 @@ public class When_Searching_By_Name
         var response = await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
 
-        var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)
-                                                                 .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+        var goldenMaster = new ZoekVerenigingenResponseTemplate()
+                          .FromQuery(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam)
+                          .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -60,7 +61,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery("*stende*")
-                                                                 .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+                                                                 .WithVereniging(
+                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -72,7 +74,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery("oostende")
-                                                                 .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+                                                                 .WithVereniging(
+                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -84,7 +87,8 @@ public class When_Searching_By_Name
         var content = await response.Content.ReadAsStringAsync();
 
         var goldenMaster = new ZoekVerenigingenResponseTemplate().FromQuery(_vCode)
-                                                                 .WithVereniging(v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
+                                                                 .WithVereniging(
+                                                                      v => v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd));
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

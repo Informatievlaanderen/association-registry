@@ -3,8 +3,6 @@
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using EventStore;
 using Extensions;
-using Microsoft.AspNetCore.Http;
-using System.Threading.Tasks;
 
 public class UnexpectedAggregateVersionMiddleware
 {

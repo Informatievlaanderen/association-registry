@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_A_Vereniging.CommandHandling;
 
 using Acties.VerwijderVereniging;
-using Events;
 using AssociationRegistry.Framework;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Vereniging;
 using Xunit;
 
 public class With_A_Reden
@@ -44,7 +44,7 @@ public class With_A_Reden
     public void Then_A_VerenigingWerdVerwijderd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdVerwijderd(_scenario.VCode, "Omdat weg moet")
+            new VerenigingWerdVerwijderd(_scenario.VCode, Reden: "Omdat weg moet")
         );
     }
 }

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E;
+namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
 

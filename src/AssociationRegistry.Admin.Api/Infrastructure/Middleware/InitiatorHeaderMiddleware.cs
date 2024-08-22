@@ -2,9 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Extensions;
-using Microsoft.AspNetCore.Http;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class InitiatorHeaderMiddleware
 {

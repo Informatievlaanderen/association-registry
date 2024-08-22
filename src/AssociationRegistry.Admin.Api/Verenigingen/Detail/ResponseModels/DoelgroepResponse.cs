@@ -15,6 +15,7 @@ public class DoelgroepResponse
     /// <summary>Het json-ld type</summary>
     [DataMember(Name = "@type")]
     public string type { get; init; }
+
     /// <summary>
     /// De minimum leeftijd voor de doelgroep
     /// </summary>

@@ -2,11 +2,9 @@
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 public static class HttpResponseExtensions
@@ -38,7 +36,8 @@ public static class HttpResponseExtensions
                     Title = ProblemDetails.DefaultTitle,
                     Detail = problemDetailsMessage,
                     ProblemTypeUri = "urn:associationregistry.admin.api:validation",
-                    ProblemInstanceUri = $"{problemDetailsHelper.GetInstanceBaseUri(response.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
+                    ProblemInstanceUri =
+                        $"{problemDetailsHelper.GetInstanceBaseUri(response.HttpContext)}/{ProblemDetails.GetProblemNumber()}",
                 },
                 JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi()));
     }

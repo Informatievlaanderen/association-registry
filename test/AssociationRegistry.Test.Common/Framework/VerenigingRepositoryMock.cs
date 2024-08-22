@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using EventStore;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Vereniging;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
@@ -41,7 +41,11 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(StreamActionResult.Empty);
     }
 
-    public async Task<StreamActionResult> Save(VerenigingsBase vereniging, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken)
+    public async Task<StreamActionResult> Save(
+        VerenigingsBase vereniging,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
         => await Save(vereniging, metadata, cancellationToken);
 
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)

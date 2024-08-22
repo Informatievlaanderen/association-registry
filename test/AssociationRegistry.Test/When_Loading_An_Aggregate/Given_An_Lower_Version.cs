@@ -47,10 +47,11 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
+        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+                              CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
-        await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, 1));
+        await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, expectedVersion: 1));
         documentStore.Dispose();
     }
 
@@ -66,10 +67,11 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata("brol", Instant.MinValue, Guid.NewGuid(), null), CancellationToken.None,
+        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+                              CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
 
-        var aggregate = await eventStore.Load<VerenigingState>(vCode, 1);
+        var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);
         documentStore.Dispose();
     }

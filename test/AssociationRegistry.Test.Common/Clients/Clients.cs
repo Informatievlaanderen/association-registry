@@ -1,10 +1,10 @@
-﻿using AssociationRegistry.Admin.Api.Constants;
+﻿namespace AssociationRegistry.Test.Common.Clients;
+
+using Admin.Api.Constants;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
 using System.Net.Http.Headers;
-
-namespace AssociationRegistry.Test.Common.Clients;
 
 public class Clients : IDisposable
 {

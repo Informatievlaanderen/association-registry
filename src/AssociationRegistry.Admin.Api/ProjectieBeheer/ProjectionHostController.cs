@@ -7,11 +7,7 @@ using Infrastructure.HttpClients;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
-using System.Net.Http;
-using System.Net.Http.Json;
 using System.Text.Json;
-using System.Threading;
-using System.Threading.Tasks;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

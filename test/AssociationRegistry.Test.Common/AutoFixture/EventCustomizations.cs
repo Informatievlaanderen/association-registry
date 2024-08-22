@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Events;
+using global::AutoFixture;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using global::AutoFixture;
 
 public static class EventCustomizations
 {

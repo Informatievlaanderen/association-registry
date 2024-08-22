@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
-using Events;
-using Framework;
-using Common.Scenarios.EventsInDb;
 using AutoFixture;
+using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
+using Framework;
 using Framework.Fixtures;
 using Marten;
 using Newtonsoft.Json;

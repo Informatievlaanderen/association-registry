@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Contactgegeven;
 
-using Events;
 using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;

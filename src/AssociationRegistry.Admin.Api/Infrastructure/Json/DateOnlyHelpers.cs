@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
-using System;
 using System.Globalization;
 
 public static class DateOnlyHelpers

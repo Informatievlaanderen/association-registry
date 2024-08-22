@@ -1,8 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
-
 public static class DevelopmentExtensions
 {
     public static IApplicationBuilder ConfigureDevelopmentEnvironment(this WebApplication app)

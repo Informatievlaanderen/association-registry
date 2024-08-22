@@ -238,8 +238,8 @@ public class ZoekVerenigingenResponseTemplate
                           .WithNaam(e.Naam)
                           .WithKorteNaam(e.KorteNaam)
                           .WithKorteBeschrijving(e.KorteBeschrijving)
-                          .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd,
-                                         maximumleeftijd: e.Doelgroep.Maximumleeftijd);
+                          .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd,
+                                         e.Doelgroep.Maximumleeftijd);
 
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
@@ -269,6 +269,7 @@ public class ZoekVerenigingenResponseTemplate
 
             return template;
         }
+
         public VerenigingTemplate WithJsonLdType(JsonLdType jsonLdType)
         {
             _vereniging.jsonldtype = jsonLdType.Type;

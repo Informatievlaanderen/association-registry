@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Events;
+using EventStore;
 using NodaTime;
+using Vereniging;
 
 public class V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario : IEventsInDbScenario
 {
@@ -30,14 +30,14 @@ public class V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And
             Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());
 
-        NaamWerdGewijzigd = new NaamWerdGewijzigd(VCode, "Gewijzigd");
+        NaamWerdGewijzigd = new NaamWerdGewijzigd(VCode, Naam: "Gewijzigd");
     }
 
     public IEvent[] GetEvents()
         => new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            NaamWerdGewijzigd
+            NaamWerdGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()

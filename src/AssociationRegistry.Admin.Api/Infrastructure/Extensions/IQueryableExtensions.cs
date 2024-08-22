@@ -6,9 +6,6 @@ using Schema;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
 
 // ReSharper disable once InconsistentNaming
 public static class IQueryableExtensions

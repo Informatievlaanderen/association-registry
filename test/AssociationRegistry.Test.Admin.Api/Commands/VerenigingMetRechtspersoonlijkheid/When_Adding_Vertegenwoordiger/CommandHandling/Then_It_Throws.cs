@@ -2,12 +2,12 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 
 using Acties.VoegVertegenwoordigerToe;
 using AssociationRegistry.Framework;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging.Exceptions;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using FluentAssertions;
+using Framework;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,16 +1,16 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using Acties.WijzigLocatie;
-using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Grar;
 using Marten;
 using Moq;
+using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -34,7 +34,7 @@ public class Given_All_Fields
         _commandHandler = new WijzigLocatieCommandHandler(_verenigingRepositoryMock,
                                                           Mock.Of<IMartenOutbox>(),
                                                           Mock.Of<IDocumentSession>(),
-            Mock.Of<IGrarClient>()
+                                                          Mock.Of<IGrarClient>()
         );
 
         _locatie = new WijzigLocatieCommand.Locatie(
@@ -43,7 +43,7 @@ public class Given_All_Fields
             !_scenario.LocatieWerdToegevoegd.Locatie.IsPrimair,
             _fixture.Create<string>(),
             _fixture.Create<Adres>(),
-            null);
+            AdresId: null);
     }
 
     [Fact]

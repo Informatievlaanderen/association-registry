@@ -40,7 +40,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                     _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
                     _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                     _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
-                    verenigingstype: Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm),
+                    Verenigingstype.Parse(_scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm),
                     kboNummer: _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer
                 );
 

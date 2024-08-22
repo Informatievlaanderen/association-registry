@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
 
-using System;
 using System.Runtime.Serialization;
 
 /// <summary>Alle gebeurtenissen van deze vereniging</summary>

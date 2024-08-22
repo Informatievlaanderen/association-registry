@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.HeradresseerLocaties;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Grar;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 using Moq;
 using Xunit;
 using Xunit.Categories;
@@ -35,7 +35,8 @@ public class With_TeHeradressren_Locaties
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>
+                { new(locatieId, AddressId: "123") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };

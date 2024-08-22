@@ -8,7 +8,6 @@ public interface IEnd2EndContext<TRequest>
 {
     string VCode { get; }
     TRequest Request { get; }
-
     IAlbaHost AdminApiHost { get; }
     IAlbaHost QueryApiHost { get; }
 }

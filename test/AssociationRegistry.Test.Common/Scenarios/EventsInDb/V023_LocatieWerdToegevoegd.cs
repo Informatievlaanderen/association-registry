@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
+using EventStore;
 using global::AutoFixture;
+using Vereniging;
 
 public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
 {
@@ -104,7 +104,7 @@ public class V023_LocatieWerdToegevoegd : IEventsInDbScenario
                     Postcode: "0123",
                     Gemeente: "Zonnedorp",
                     Land: "Frankrijk"),
-                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix+"1")
+                new Registratiedata.AdresId(Adresbron.AR, AdresId.DataVlaanderenAdresPrefix + "1")
             ));
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

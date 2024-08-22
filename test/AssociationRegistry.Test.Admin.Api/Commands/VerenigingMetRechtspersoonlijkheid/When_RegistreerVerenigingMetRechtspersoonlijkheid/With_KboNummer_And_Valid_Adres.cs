@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
 using Events;
-using Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework.Fixtures;
 using Polly;
+using Vereniging;
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
 using Xunit.Abstractions;
@@ -43,7 +43,6 @@ public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Veren
                                                                       e => e.KboNummer == RegistreerVerenigingMetRechtspersoonlijkheidSetup
                                                                                          .UitKboRequest.KboNummer).Subject;
 
-
         using (new AssertionScope())
         {
             verenigingMetRechtspersoonlijkheidWerdGeregistreerd.KorteNaam.Should().Be("V.L.K.");
@@ -52,10 +51,13 @@ public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Veren
         }
 
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 1)))
+                                       .RetryAsync(retryCount: 5,
+                                                   onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i * 1)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
-                                            var fetchStreamAsync = await session.Events.FetchStreamAsync(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
+                                            var fetchStreamAsync =
+                                                await session.Events.FetchStreamAsync(
+                                                    verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
                                             var maatschappelijkeZetelWerdOvergenomenUitKbo = fetchStreamAsync
                                                .Should().ContainSingle(
@@ -64,19 +66,19 @@ public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Veren
 
                                             maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Should().BeEquivalentTo(
                                                 new MaatschappelijkeZetelWerdOvergenomenUitKbo(
-                                                    new Registratiedata.Locatie(1,
-                                                                                "Maatschappelijke zetel volgens KBO", false, "",
+                                                    new Registratiedata.Locatie(LocatieId: 1,
+                                                                                Locatietype: "Maatschappelijke zetel volgens KBO",
+                                                                                IsPrimair: false, Naam: "",
                                                                                 new Registratiedata.Adres(
-                                                                                    "Koningsstraat",
-                                                                                    "217",
+                                                                                    Straatnaam: "Koningsstraat",
+                                                                                    Huisnummer: "217",
                                                                                     string.Empty,
-                                                                                    "1210",
-                                                                                    "Sint-Joost-ten-Node",
-                                                                                    "België"),
-                                                                                null)));
+                                                                                    Postcode: "1210",
+                                                                                    Gemeente: "Sint-Joost-ten-Node",
+                                                                                    Land: "België"),
+                                                                                AdresId: null)));
                                         });
 
         policyResult.FinalException.Should().BeNull();
-
     }
 }

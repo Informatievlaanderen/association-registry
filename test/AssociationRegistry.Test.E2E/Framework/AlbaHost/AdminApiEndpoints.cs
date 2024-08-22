@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 
 public static class AdminApiEndpoints
@@ -20,8 +20,6 @@ public static class AdminApiEndpoints
 
 public static class PublicApiEndpoints
 {
-
     public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
 }
-

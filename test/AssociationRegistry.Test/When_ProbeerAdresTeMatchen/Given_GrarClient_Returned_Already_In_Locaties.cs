@@ -58,7 +58,7 @@ public class Given_Duplicate_Locaties_With_Same_Name
                 VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
                 LocatieId = feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
                 Adres = fixture.Create<Registratiedata.AdresUitAdressenregister>(),
-                AdresId = adresId
+                AdresId = adresId,
             };
 
         grarClient.Setup(x => x.GetAddressMatches(

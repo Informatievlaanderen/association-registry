@@ -1,10 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.HttpClients;
 
-using System;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-
 public class PublicProjectionHostHttpClient : IDisposable
 {
     private readonly HttpClient _httpClient;
@@ -33,6 +28,4 @@ public class PublicProjectionHostHttpClient : IDisposable
     {
         _httpClient.Dispose();
     }
-
-
 }

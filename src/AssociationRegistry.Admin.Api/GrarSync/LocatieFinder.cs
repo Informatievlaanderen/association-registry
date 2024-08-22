@@ -13,7 +13,6 @@ public class LocatieFinder : ILocatieFinder
     }
 
     public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
-
     {
         await using var session = _documentStore.LightweightSession();
 

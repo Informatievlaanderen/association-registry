@@ -35,7 +35,7 @@ public class AdminApiClient : IDisposable
         => await GetWithPossibleSequence($"/v1/verenigingen/{vCode}/historiek", expectedSequence);
 
     public async Task<HttpResponseMessage> GetKboSyncHistoriek()
-        => await HttpClient.GetAsync($"/v1/verenigingen/kbo/historiek");
+        => await HttpClient.GetAsync("/v1/verenigingen/kbo/historiek");
 
     public async Task<HttpResponseMessage> RegistreerFeitelijkeVereniging(
         string content,

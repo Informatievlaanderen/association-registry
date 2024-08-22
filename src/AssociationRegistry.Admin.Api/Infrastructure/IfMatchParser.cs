@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 
 public static class IfMatchParser

@@ -1,11 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.A_AdresId;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.A_Locatie.
+    A_AdresId;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.Framework;
-using Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
+using Test.Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;

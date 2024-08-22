@@ -14,7 +14,7 @@ public class With_Adres_NotEqual_And_AdresId_Equal
         var dezelfdeAdresIdWaarde = AdresId.DataVlaanderenAdresPrefix;
 
         var locatie1 = Locatie.Create(
-            naam: Locatienaam.Create("naam"),
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde),
@@ -26,7 +26,7 @@ public class With_Adres_NotEqual_And_AdresId_Equal
                          land: "land"));
 
         var locatie2 = Locatie.Create(
-            naam: Locatienaam.Create("naam"),
+            Locatienaam.Create("naam"),
             isPrimair: true,
             Locatietype.Activiteiten,
             AdresId.Create(Adresbron.AR, dezelfdeAdresIdWaarde));

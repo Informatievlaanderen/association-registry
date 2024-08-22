@@ -1,8 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
-using Configuration;
 using Confluent.Kafka;
-using System;
+using Hosts.Configuration;
 
 public class AddressKafkaConfiguration : ConsumerConfig
 {
@@ -11,13 +10,12 @@ public class AddressKafkaConfiguration : ConsumerConfig
         var groupId = options.GroupId;
 
         BootstrapServers = options.BootstrapServer;
-        TopicPartition = new(options.TopicName, Partition.Any);
+        TopicPartition = new TopicPartition(options.TopicName, Partition.Any);
         SaslUsername = options.Username;
         SaslPassword = options.Password;
         GroupId = groupId;
         GroupInstanceId = DateTime.UtcNow.Ticks.ToString();
         Offset = options.Offset;
-
 
         SslEndpointIdentificationAlgorithm = Confluent.Kafka.SslEndpointIdentificationAlgorithm.Https;
         SecurityProtocol = Confluent.Kafka.SecurityProtocol.SaslSsl;

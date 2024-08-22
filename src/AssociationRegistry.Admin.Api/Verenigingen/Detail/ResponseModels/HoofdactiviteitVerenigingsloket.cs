@@ -13,6 +13,7 @@ public class HoofdactiviteitVerenigingsloket
     /// <summary>Het json-ld type</summary>
     [DataMember(Name = "@type")]
     public string type { get; init; }
+
     /// <summary>De code van de hoofdactivititeit</summary>
     [DataMember(Name = "Code")]
     public string Code { get; init; } = null!;

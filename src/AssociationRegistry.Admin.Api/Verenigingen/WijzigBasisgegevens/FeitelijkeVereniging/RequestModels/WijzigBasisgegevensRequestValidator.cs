@@ -4,8 +4,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.Feiteli
 using Common;
 using FluentValidation;
 using Infrastructure.Validation;
-using System.Linq;
-using Vereniging;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -18,8 +16,10 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
 
         RuleFor(request => request.Naam).MustNotContainHtml();
         RuleFor(request => request.KorteNaam).MustNotContainHtml();
+
         RuleFor(request => request.KorteBeschrijving)
            .MustNotContainHtml();
+
         RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
 

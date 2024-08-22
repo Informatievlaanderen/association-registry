@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_Locatie;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
@@ -26,9 +26,9 @@ public class Given_A_Locatienaam_Validation
 
         request.Locaties = new ToeTeVoegenLocatie[]
         {
-            new ToeTeVoegenLocatie()
+            new()
             {
-                Naam = new string(Enumerable.Repeat('a', lengthOfLocatienaam).ToArray()),
+                Naam = new string(Enumerable.Repeat(element: 'a', lengthOfLocatienaam).ToArray()),
             },
         };
 
@@ -43,9 +43,10 @@ public class Given_A_Locatienaam_Validation
     }
 
     [Fact]
-    public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42() => ValidateRequest(43, true);
+    public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42()
+        => ValidateRequest(lengthOfLocatienaam: 43, expectValidationError: true);
 
     [Fact]
-    public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42() => ValidateRequest(42, false);
-
+    public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42()
+        => ValidateRequest(lengthOfLocatienaam: 42, expectValidationError: false);
 }

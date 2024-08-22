@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
 using Acties.WijzigLocatie;
-using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Models;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
-using Vereniging.Exceptions;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Grar;
+using Grar.Models;
 using Marten;
 using Moq;
+using Vereniging;
+using Vereniging.Exceptions;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -20,7 +20,6 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_An_Existing_Locatie_Without_AdresId
 {
-
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
@@ -33,9 +32,9 @@ public class Given_An_Existing_Locatie_Without_AdresId
         var martenOutbox = new Mock<IMartenOutbox>();
 
         var commandHandler = new WijzigLocatieCommandHandler(verenigingRepositoryMock,
-                                                              martenOutbox.Object,
-                                                              Mock.Of<IDocumentSession>(),
-                                                              grarClient.Object
+                                                             martenOutbox.Object,
+                                                             Mock.Of<IDocumentSession>(),
+                                                             grarClient.Object
         );
 
         var adresId = fixture.Create<AdresId>();
@@ -43,6 +42,7 @@ public class Given_An_Existing_Locatie_Without_AdresId
         var nietTeWijzigenLocatie = scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[1];
 
         var synchronisatieAdres = nietTeWijzigenLocatie.Adres;
+
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
@@ -51,7 +51,7 @@ public class Given_An_Existing_Locatie_Without_AdresId
             Huisnummer = synchronisatieAdres.Huisnummer,
             Postcode = synchronisatieAdres.Postcode,
             Straatnaam = synchronisatieAdres.Straatnaam,
-            IsActief = true
+            IsActief = true,
         };
 
         var teWijzigenLocatieCommand = fixture.Create<WijzigLocatieCommand.Locatie>() with
@@ -62,6 +62,7 @@ public class Given_An_Existing_Locatie_Without_AdresId
             Locatietype = nietTeWijzigenLocatie.Locatietype,
             Adres = null,
         };
+
         var command = new WijzigLocatieCommand(scenario.VCode, teWijzigenLocatieCommand);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))

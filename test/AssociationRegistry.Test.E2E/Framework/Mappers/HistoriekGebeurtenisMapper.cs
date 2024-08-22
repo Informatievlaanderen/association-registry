@@ -9,23 +9,25 @@ using EventStore;
 
 public static class HistoriekGebeurtenisMapper
 {
-    public static HistoriekGebeurtenisResponse FeitelijkeVerenigingWerdGeregistreerd(RegistreerFeitelijkeVerenigingRequest request, string vCode)
+    public static HistoriekGebeurtenisResponse FeitelijkeVerenigingWerdGeregistreerd(
+        RegistreerFeitelijkeVerenigingRequest request,
+        string vCode)
     {
-        return new ()
+        return new HistoriekGebeurtenisResponse
         {
             Beschrijving = $"Feitelijke vereniging werd geregistreerd met naam '{request.Naam}'.",
             Gebeurtenis = nameof(Events.FeitelijkeVerenigingWerdGeregistreerd),
             Data = new FeitelijkeVerenigingWerdGeregistreerdData(
-                VCode: vCode,
-                Naam: request.Naam,
-                KorteNaam: request.KorteNaam!,
-                KorteBeschrijving: request.KorteBeschrijving!,
+                vCode,
+                request.Naam,
+                request.KorteNaam!,
+                request.KorteBeschrijving!,
                 Startdatum: request.Startdatum,
                 Doelgroep: new Registratiedata.Doelgroep(
                     request.Doelgroep!.Minimumleeftijd!.Value,
                     request.Doelgroep.Maximumleeftijd!.Value),
                 IsUitgeschrevenUitPubliekeDatastroom: request
-                                                             .IsUitgeschrevenUitPubliekeDatastroom,
+                   .IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens: request.Contactgegevens.Select(
                                              (x, i) => new Registratiedata.Contactgegeven(
                                                  i + 1,
@@ -80,7 +82,7 @@ public static class HistoriekGebeurtenisMapper
 
     public static HistoriekGebeurtenisResponse AdresNietUniekInAR(string vCode)
     {
-        return new()
+        return new HistoriekGebeurtenisResponse
         {
             Beschrijving = "Adres niet uniek in het adressenregister.",
             Gebeurtenis = nameof(AdresNietUniekInAdressenregister),
@@ -183,5 +185,4 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
-
 }

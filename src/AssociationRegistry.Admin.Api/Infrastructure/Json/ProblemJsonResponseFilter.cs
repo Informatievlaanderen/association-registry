@@ -2,8 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System.Collections.Generic;
-using System.Linq;
 
 public class ProblemJsonResponseFilter : IOperationFilter
 {

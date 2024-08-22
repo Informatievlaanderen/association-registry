@@ -1,11 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Nest;
 using Schema.Search;
-using System;
 using System.Text;
 
 public static class ElasticSearchExtensions

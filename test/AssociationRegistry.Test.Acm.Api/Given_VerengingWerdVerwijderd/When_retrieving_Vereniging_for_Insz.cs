@@ -6,7 +6,6 @@ using Fixtures.Scenarios;
 using FluentAssertions;
 using System.Net;
 using templates;
-using Test.Framework;
 using Xunit;
 using Xunit.Categories;
 

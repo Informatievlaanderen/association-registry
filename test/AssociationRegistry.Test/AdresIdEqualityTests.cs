@@ -10,7 +10,7 @@ using Xunit.Categories;
 public class AdresIdEqualityTests
 {
     private readonly AdresId EqualityComparisonSource =
-        AdresId.Create(new Adresbron("TEST", "Test beschrijving"), "testwaarde");
+        AdresId.Create(new Adresbron(code: "TEST", beschrijving: "Test beschrijving"), bronwaarde: "testwaarde");
 
     [Theory]
     [InlineData("TEST", "testwaarde", true)]

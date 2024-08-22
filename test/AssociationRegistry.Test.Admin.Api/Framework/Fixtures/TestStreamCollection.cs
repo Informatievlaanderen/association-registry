@@ -6,7 +6,7 @@ using System.Collections;
 
 public sealed record TestStreamCollection : IEnumerable<TestStreamDefinition>
 {
-    private List<TestStreamDefinition> _streamDefinitions = new();
+    private readonly List<TestStreamDefinition> _streamDefinitions = new();
 
     public void Add(string streamKey, params IEvent[] events)
     {

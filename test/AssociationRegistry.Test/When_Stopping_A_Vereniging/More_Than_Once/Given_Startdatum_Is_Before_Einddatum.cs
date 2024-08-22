@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.When_Stopping_A_Vereniging.More_Than_Once;
 
+using AutoFixture;
 using Events;
+using FluentAssertions;
 using Framework;
 using Framework.Customizations;
 using Vereniging;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 
 public class Given_Startdatum_Is_Before_Einddatum

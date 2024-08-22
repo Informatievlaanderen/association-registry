@@ -309,17 +309,18 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
             fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
-        VertegenwoordigerWerdOvergenomenUitKBO = fixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>() with {
+        VertegenwoordigerWerdOvergenomenUitKBO = fixture.Create<VertegenwoordigerWerdOvergenomenUitKBO>() with
+        {
             Insz = Insz,
             VertegenwoordigerId = 12,
         };
+
         NaamWerdGewijzigdInKbo = fixture.Create<NaamWerdGewijzigdInKbo>();
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
     public string VCode { get; set; }
     public StreamActionResult Result { get; set; } = null!;
-
     public string Insz { get; set; }
 
     public IEvent[] GetEvents()
@@ -333,6 +334,7 @@ public class VerenigingMetRechtspersoonlijkheid_WithAllFields_EventsInDbScenario
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
+
 public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
@@ -346,7 +348,7 @@ public class RechtsvormWerdGewijzigdInKBO_EventsInDbScenario : IEventsInDbScenar
         VCode = "V0003011";
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd =
-            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode, Rechtsvorm = "VZW"};
+            fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode, Rechtsvorm = "VZW" };
 
         RechtsvormWerdGewijzigdInKBO = fixture.Create<RechtsvormWerdGewijzigdInKBO>() with
         {

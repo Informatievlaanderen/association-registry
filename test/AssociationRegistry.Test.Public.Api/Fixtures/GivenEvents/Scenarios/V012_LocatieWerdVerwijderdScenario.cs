@@ -8,7 +8,7 @@ using Vereniging;
 public class V012_LocatieWerdVerwijderdScenario : IScenario
 {
     public readonly LocatieWerdVerwijderd LocatieWerdVerwijderd = new(
-        "V0001012", Locatie: teVerwijderenLocatie);
+        VCode: "V0001012", teVerwijderenLocatie);
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001012",
@@ -29,7 +29,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         IsPrimair: false,
         Naam: "Naam locatie",
         Adres: null,
-        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1"));
+        new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix + "1"));
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);

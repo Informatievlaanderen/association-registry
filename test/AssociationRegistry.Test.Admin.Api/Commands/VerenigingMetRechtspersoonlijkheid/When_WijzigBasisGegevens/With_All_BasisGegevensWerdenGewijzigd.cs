@@ -2,19 +2,19 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Events;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Framework;
-using Common.Scenarios.EventsInDb;
-using Vereniging;
 using AutoFixture;
+using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
+using Framework;
 using Framework.Fixtures;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

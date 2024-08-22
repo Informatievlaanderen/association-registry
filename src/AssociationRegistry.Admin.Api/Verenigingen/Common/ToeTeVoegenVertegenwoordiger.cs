@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
-using Newtonsoft.Json;
 using System.Runtime.Serialization;
 using System.Text.Json.Serialization;
 using Vereniging;

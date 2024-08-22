@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.HeradresseerLocaties;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
 using FluentAssertions;
+using Grar;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 using Moq;
 using Xunit;
 
@@ -41,14 +41,16 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         var message1 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "123"), new(locatieId2, "456") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>
+                { new(locatieId1, AddressId: "123"), new(locatieId2, AddressId: "456") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey,
         };
 
         var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId1, "456"), new(locatieId2, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>
+                { new(locatieId1, AddressId: "456"), new(locatieId2, AddressId: "123") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey + 1,
         };
@@ -61,7 +63,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.Should()
                                 .BeEquivalentTo(
-                                     new List<IEvent>()
+                                     new List<IEvent>
                                      {
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value,
                                                                                   locatieId1,
@@ -77,7 +79,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         verenigingRepositoryMock.SaveInvocations[1].Vereniging.UncommittedEvents.Should()
                                 .BeEquivalentTo(
-                                     new List<IEvent>()
+                                     new List<IEvent>
                                      {
                                          new AdresWerdGewijzigdInAdressenregister(scenario.VCode.Value, locatieId1,
                                                                                   mockedAdresDetail2.AdresId,

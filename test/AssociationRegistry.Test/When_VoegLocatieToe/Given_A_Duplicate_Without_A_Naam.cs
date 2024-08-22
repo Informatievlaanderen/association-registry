@@ -15,6 +15,7 @@ public class Given_A_Duplicate_Without_A_Naam
         var fixture = new Fixture().CustomizeDomain();
 
         var vereniging = new VerenigingOfAnyKind();
+
         var locatie = fixture.Create<Registratiedata.Locatie>() with
         {
             Naam = string.Empty,

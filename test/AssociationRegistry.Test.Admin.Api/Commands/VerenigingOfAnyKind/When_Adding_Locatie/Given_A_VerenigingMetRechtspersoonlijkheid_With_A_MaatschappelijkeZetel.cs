@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie;
 
-using Events;
 using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -88,7 +88,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
                                               Postcode: "1790",
                                               Gemeente: "Affligem",
                                               Land: "België"),
-                                          null)));
+                                          AdresId: null)));
     }
 
     [Fact]

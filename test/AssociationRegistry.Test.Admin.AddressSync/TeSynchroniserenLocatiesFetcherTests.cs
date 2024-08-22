@@ -14,7 +14,6 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
-using Vereniging.Bronnen;
 
 public class TeSynchroniserenLocatiesFetcherTests
 {
@@ -25,7 +24,8 @@ public class TeSynchroniserenLocatiesFetcherTests
 
         var session = store.LightweightSession();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
+        var teSynchroniserenLocatiesFetcher =
+            new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
@@ -62,16 +62,17 @@ public class TeSynchroniserenLocatiesFetcherTests
         session.Store(document);
         await session.SaveChangesAsync();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
+        var teSynchroniserenLocatiesFetcher =
+            new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         locaties.Should().BeEquivalentTo([
-            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>
             {
-                new LocatieWithAdres(document.LocatieId, addressDetailResponse),
-            }, ""),
-        ], options => options.Excluding(x => x.IdempotenceKey));
+                new(document.LocatieId, addressDetailResponse),
+            }, IdempotenceKey: ""),
+        ], config: options => options.Excluding(x => x.IdempotenceKey));
     }
 
     [Fact]
@@ -94,33 +95,34 @@ public class TeSynchroniserenLocatiesFetcherTests
         var address2DetailResponse = SetUpAddressDetailResponse(fixture, grarClient, adresId2);
         var address3DetailResponse = SetUpAddressDetailResponse(fixture, grarClient, adresId3);
 
-        StoreLocatieLookupDocument(session, vCode1, adresId1, 1);
-        StoreLocatieLookupDocument(session, vCode2, adresId1, 1);
-        StoreLocatieLookupDocument(session, vCode1, adresId2, 2);
-        StoreLocatieLookupDocument(session, vCode2, adresId3, 2);
+        StoreLocatieLookupDocument(session, vCode1, adresId1, LocatieId: 1);
+        StoreLocatieLookupDocument(session, vCode2, adresId1, LocatieId: 1);
+        StoreLocatieLookupDocument(session, vCode1, adresId2, LocatieId: 2);
+        StoreLocatieLookupDocument(session, vCode2, adresId3, LocatieId: 2);
 
         await session.SaveChangesAsync();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
+        var teSynchroniserenLocatiesFetcher =
+            new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         // Verify only once per unique adres id we go fetch adres from adresssenregister
         grarClient
-           .Verify(x => x.GetAddressById(adresId1, It.IsAny<CancellationToken>()), Times.Once());
+           .Verify(expression: x => x.GetAddressById(adresId1, It.IsAny<CancellationToken>()), Times.Once());
 
         locaties.Should().BeEquivalentTo([
-            new TeSynchroniserenLocatieAdresMessage(vCode1, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(vCode1, new List<LocatieWithAdres>
             {
-                new LocatieWithAdres(1, address1DetailResponse),
-                new LocatieWithAdres(2, address2DetailResponse),
-            }, ""),
-            new TeSynchroniserenLocatieAdresMessage(vCode2, new List<LocatieWithAdres>()
+                new(LocatieId: 1, address1DetailResponse),
+                new(LocatieId: 2, address2DetailResponse),
+            }, IdempotenceKey: ""),
+            new TeSynchroniserenLocatieAdresMessage(vCode2, new List<LocatieWithAdres>
             {
-                new LocatieWithAdres(1, address1DetailResponse),
-                new LocatieWithAdres(2, address3DetailResponse),
-            }, ""),
-        ], options => options.Excluding(x => x.IdempotenceKey));
+                new(LocatieId: 1, address1DetailResponse),
+                new(LocatieId: 2, address3DetailResponse),
+            }, IdempotenceKey: ""),
+        ], config: options => options.Excluding(x => x.IdempotenceKey));
     }
 
     [Fact]
@@ -148,16 +150,17 @@ public class TeSynchroniserenLocatiesFetcherTests
         session.Store(document);
         await session.SaveChangesAsync();
 
-        var teSynchroniserenLocatiesFetcher = new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
+        var teSynchroniserenLocatiesFetcher =
+            new TeSynchroniserenLocatiesFetcher(grarClient.Object, NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
 
         var locaties = await teSynchroniserenLocatiesFetcher.GetTeSynchroniserenLocaties(session, CancellationToken.None);
 
         locaties.Should().BeEquivalentTo([
-            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>()
+            new TeSynchroniserenLocatieAdresMessage(document.VCode, new List<LocatieWithAdres>
             {
-                new LocatieWithAdres(document.LocatieId, null),
-            }, ""),
-        ], options => options.Excluding(x => x.IdempotenceKey));
+                new(document.LocatieId, Adres: null),
+            }, IdempotenceKey: ""),
+        ], config: options => options.Excluding(x => x.IdempotenceKey));
     }
 
     private static AddressDetailResponse SetUpAddressDetailResponse(Fixture fixture, Mock<IGrarClient> grarClient, string adresId1)

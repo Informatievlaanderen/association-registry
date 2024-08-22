@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using JsonLdContext;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
+using JsonLdContext;
 using Xunit;
 using Xunit.Categories;
 
@@ -49,19 +49,19 @@ public class Given_AdresWerdNietGevondenInAdressenregister
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
             Adres = new PubliekVerenigingDetailDocument.Adres
+            {
+                JsonLdMetadata = new JsonLdMetadata
                 {
-                    JsonLdMetadata = new JsonLdMetadata
-                    {
-                        Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
-                        Type = JsonLdType.Adres.Type,
-                    },
-                    Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres!.Straatnaam,
-                    Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
-                    Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
-                    Postcode = locatieWerdToegevoegd.Data.Locatie.Adres.Postcode,
-                    Gemeente = locatieWerdToegevoegd.Data.Locatie.Adres.Gemeente,
-                    Land = locatieWerdToegevoegd.Data.Locatie.Adres.Land,
+                    Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                    Type = JsonLdType.Adres.Type,
                 },
+                Straatnaam = locatieWerdToegevoegd.Data.Locatie.Adres!.Straatnaam,
+                Huisnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Huisnummer,
+                Busnummer = locatieWerdToegevoegd.Data.Locatie.Adres.Busnummer,
+                Postcode = locatieWerdToegevoegd.Data.Locatie.Adres.Postcode,
+                Gemeente = locatieWerdToegevoegd.Data.Locatie.Adres.Gemeente,
+                Land = locatieWerdToegevoegd.Data.Locatie.Adres.Land,
+            },
             Adresvoorstelling = locatieWerdToegevoegd.Data.Locatie.Adres.ToAdresString(),
             AdresId = null,
             VerwijstNaar = null,

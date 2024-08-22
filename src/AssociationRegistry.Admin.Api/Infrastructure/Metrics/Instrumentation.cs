@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Metrics;
 
 using OpenTelemetry;
-using System;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 

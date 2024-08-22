@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Magda.MagdaClient.When_GeefOnderneming;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Magda;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Test.Common.Configuration;
 using AutoFixture;
+using Common.Configuration;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 using Xunit.Categories;

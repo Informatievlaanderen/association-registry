@@ -5,9 +5,6 @@ using Common;
 using FluentValidation;
 using Framework;
 using Infrastructure.Validation;
-using System;
-using System.Linq;
-using Vereniging;
 using Vereniging.Exceptions;
 
 public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<RegistreerFeitelijkeVerenigingRequest>

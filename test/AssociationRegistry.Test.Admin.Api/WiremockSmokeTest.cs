@@ -27,5 +27,4 @@ public class WiremockSmokeTest
 
         response.Should().HaveStatusCode(HttpStatusCode.OK);
     }
-
 }

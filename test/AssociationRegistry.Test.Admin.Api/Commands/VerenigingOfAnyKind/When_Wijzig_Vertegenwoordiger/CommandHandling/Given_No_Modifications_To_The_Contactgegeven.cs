@@ -2,15 +2,15 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

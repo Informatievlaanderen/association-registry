@@ -2,11 +2,10 @@
 
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema.Historiek.EventData;
 using Alba;
 using Events;
-using EventStore;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
@@ -38,7 +37,7 @@ public class Returns_Historiek(RegistreerVerenigingContext<AdminApiSetup> contex
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(FeitelijkeVerenigingWerdGeregistreerd));
 
         werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(Request, VCode),
-            compareConfig: HistoriekComparisonConfig.Instance);
+                                        compareConfig: HistoriekComparisonConfig.Instance);
         // Response.Gebeurtenissen.ShouldCompare([
         //     HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(Request, VCode),
         //     HistoriekGebeurtenisMapper.AdresWerdOvergenomen(VCode),

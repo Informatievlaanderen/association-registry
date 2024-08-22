@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
+using Events;
+using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_Commandhandler_Scenario : CommandhandlerScenarioBase
 {

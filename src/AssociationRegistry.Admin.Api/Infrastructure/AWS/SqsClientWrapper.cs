@@ -1,12 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
 using Amazon.SQS;
-using AssociationRegistry.Configuration;
 using Grar.HeradresseerLocaties;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 public class SqsClientWrapper
 {

@@ -2,11 +2,11 @@
 
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework.Fixtures;
+using Grar;
 using Marten;
 using Xunit;
 
