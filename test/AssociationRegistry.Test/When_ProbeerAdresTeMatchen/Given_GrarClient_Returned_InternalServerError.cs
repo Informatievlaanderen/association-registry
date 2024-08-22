@@ -7,7 +7,6 @@ using Framework.Customizations;
 using Grar;
 using Grar.Exceptions;
 using Moq;
-using Resources;
 using System.Net;
 using Vereniging;
 using Xunit;

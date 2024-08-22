@@ -1,13 +1,14 @@
-namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Metrics;
+namespace AssociationRegistry.Public.ProjectionHost.Metrics;
 
-using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Marten;
 using Marten.Events;
+using Marten.Events.Daemon;
 using Marten.Events.Daemon.Internals;
 using Marten.Internal.Operations;
 using Marten.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using Projections.Detail;
 using System.Reflection;
 
 public class ProjectionStateListener : DocumentSessionListenerBase

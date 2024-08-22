@@ -1,5 +1,4 @@
-﻿namespace AssociationRegistry.Grar.Models;
-
+﻿using AssociationRegistry.Grar.Models;
 using Newtonsoft.Json;
 using System.Runtime.Serialization;
 

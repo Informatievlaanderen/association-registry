@@ -1,7 +1,5 @@
 namespace AssociationRegistry.EventStore;
 
-using Resources;
-
 public class UnexpectedAggregateVersionException : Exception
 {
     public UnexpectedAggregateVersionException() : base(ExceptionMessages.UnexpectedAggregateVersion)

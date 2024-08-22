@@ -1,18 +1,27 @@
-﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
+﻿namespace AssociationRegistry.Test.E2E;
 
+using Admin.Api;
+using Admin.Api.Infrastructure.Extensions;
+using Admin.ProjectionHost.Infrastructure.Extensions;
 using Alba;
+using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Configuration;
+using Framework.AlbaHost;
+using Hosts;
+using Hosts.Configuration.ConfigurationBindings;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Nest;
 using Oakton;
+using Xunit;
+using Clients = Common.Clients.Clients;
 using ProjectionHostProgram = Admin.ProjectionHost.Program;
 
 public class AdminApiSetup : IApiSetup

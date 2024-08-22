@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Playground;
+namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates.Playground;
 
 using AssociationRegistry.Admin.Api.DuplicateDetection;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.Hosts;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Vereniging;
 using FluentAssertions;
+using Framework.Fixtures;
+using Hosts;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Reflection;
+using Vereniging;
 using Xunit;
 
 public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>

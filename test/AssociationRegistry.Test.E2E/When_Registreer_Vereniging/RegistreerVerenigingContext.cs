@@ -6,7 +6,6 @@ using Admin.Schema;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
-using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten;
 using Marten.Events;

@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 
 using Events;
 using Marten.Events;
-using Resources;
 using Zoeken;
 
 public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
