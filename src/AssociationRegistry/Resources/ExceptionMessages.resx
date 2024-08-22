@@ -229,4 +229,7 @@
   <data name="LaatsteHoofdActiviteitKanNietVerwijderdWorden">
     <value>De vereniging moet minstens 1 hoofdactiviteit hebben. Je kan de laatste hoofdactiviteit niet verwijderen.</value>
   </data>
+  <data name="LaatsteVertegenwoordigerKanNietVerwijderdWorden">
+    <value>De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen.</value>
+  </data>
 </root>

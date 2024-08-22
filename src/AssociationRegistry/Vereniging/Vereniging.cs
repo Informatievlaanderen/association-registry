@@ -166,6 +166,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
     {
+        Throw<LaatsteVertegenwoordigerKanNietVerwijderdWorden>.If(State.Vertegenwoordigers.Count == 1);
+
         var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
         AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
     }
