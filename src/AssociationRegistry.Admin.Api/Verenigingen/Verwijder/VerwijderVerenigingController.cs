@@ -11,9 +11,8 @@ using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+using RequestModels;
 using Vereniging;
-using Verwijderen.RequestModels;
 using Wolverine;
 
 [ApiVersion("1.0")]

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates;
+namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;

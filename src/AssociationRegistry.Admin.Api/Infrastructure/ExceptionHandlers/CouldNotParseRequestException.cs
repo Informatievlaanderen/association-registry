@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 
-using System;
+using Resources;
 
 public class CouldNotParseRequestException : Exception
 {

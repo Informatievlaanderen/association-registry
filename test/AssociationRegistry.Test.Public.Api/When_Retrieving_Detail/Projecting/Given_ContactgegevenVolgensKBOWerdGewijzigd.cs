@@ -42,7 +42,8 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdOvergenomenUitKbo.StreamKey!, contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId.ToString()),
+                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdOvergenomenUitKbo.StreamKey!,
+                                                                     contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId.ToString()),
                         JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId,
                     Contactgegeventype = contactgegevenWerdOvergenomenUitKbo.Data.Contactgegeventype,

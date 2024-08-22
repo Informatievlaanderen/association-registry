@@ -5,10 +5,10 @@ using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formats;
 using JsonLdContext;
-using Vereniging;
-using Vereniging.Bronnen;
 using NodaTime;
 using System.Dynamic;
+using Vereniging;
+using Vereniging.Bronnen;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {
@@ -320,7 +320,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
            .WithKorteNaam(e.KorteNaam)
            .WithKorteBeschrijving(e.KorteBeschrijving)
            .WithStartdatum(e.Startdatum)
-           .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd, maximumleeftijd: e.Doelgroep.Maximumleeftijd)
+           .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd)
            .WithBron(e.Bron);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)

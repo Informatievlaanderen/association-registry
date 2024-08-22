@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
-using Microsoft.AspNetCore.Http;
 using System.Diagnostics;
-using System.Threading.Tasks;
 
 public class CustomHeadersActivityMiddleware
 {
@@ -42,4 +40,3 @@ public class CustomHeadersActivityMiddleware
         await _next(context);
     }
 }
-

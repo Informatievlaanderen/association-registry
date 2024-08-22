@@ -3,7 +3,6 @@
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
 
 public abstract class PreconditionFailedProblemDetailsExamplesBase : IExamplesProvider<ProblemDetails>

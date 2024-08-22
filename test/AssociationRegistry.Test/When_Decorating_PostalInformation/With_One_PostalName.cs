@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.When_Decorating_PostalInformation;
 
 using Events;
-using Grar.Models;
 using FluentAssertions;
+using Grar.Models;
 using Xunit;
 
 public class With_One_PostalName
@@ -10,12 +10,15 @@ public class With_One_PostalName
     [Fact]
     public void Then_Takes_The_PostalName_And_MunicipalityName_Halle()
     {
-        var sut = new AdresMatchUitAdressenregister()
+        var sut = new AdresMatchUitAdressenregister
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1501", "Halle", "België"),
+            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1501",
+                                              Gemeente: "Halle", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation("Halle", new PostalInformationResponse("1501", "Halle", new[] { "Buizingen" }));
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Halle",
+                                                       new PostalInformationResponse(
+                                                           Postcode: "1501", Gemeentenaam: "Halle", new[] { "Buizingen" }));
 
         result.Adres.Gemeente.Should().Be("Buizingen (Halle)");
     }
@@ -23,12 +26,15 @@ public class With_One_PostalName
     [Fact]
     public void Then_Takes_The_PostalName_And_MunicipalityName_NothingHam()
     {
-        var sut = new AdresMatchUitAdressenregister()
+        var sut = new AdresMatchUitAdressenregister
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "België"),
+            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
+                                              Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "Wambeek" }));
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "NothingHam",
+                                                       new PostalInformationResponse(
+                                                           Postcode: "1741", Gemeentenaam: "Ternat", new[] { "Wambeek" }));
 
         result.Adres.Gemeente.Should().Be("Wambeek (Ternat)");
     }
@@ -36,12 +42,15 @@ public class With_One_PostalName
     [Fact]
     public void And_MunicipalityName_Equals_PostalName_Then_Returns_MunicipalityName()
     {
-        var sut = new AdresMatchUitAdressenregister()
+        var sut = new AdresMatchUitAdressenregister
         {
-            Adres = new Registratiedata.Adres("Prieelstraat", "12", "bus 101", "1740", "NothingHam", "België"),
+            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
+                                              Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation("NothingHam", new PostalInformationResponse("1741", "Ternat", new[] { "TERNAT" }));
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "NothingHam",
+                                                       new PostalInformationResponse(
+                                                           Postcode: "1741", Gemeentenaam: "Ternat", new[] { "TERNAT" }));
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }
@@ -52,12 +61,15 @@ public class With_One_PostalName
     [InlineData("Hekelgem")]
     public void And_Municipality_Already_Correctly_Formatted(string origineleGemeentenaam)
     {
-        var sut = new AdresMatchUitAdressenregister()
+        var sut = new AdresMatchUitAdressenregister
         {
-            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "België"),
+            Adres = new Registratiedata.Adres(Straatnaam: "Fosselstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
+                                              Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam, new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam,
+                                                       new PostalInformationResponse(
+                                                           Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }
@@ -65,12 +77,15 @@ public class With_One_PostalName
     [Fact]
     public void And_Municipality_Already_Incorrectly_Formatted()
     {
-        var sut = new AdresMatchUitAdressenregister()
+        var sut = new AdresMatchUitAdressenregister
         {
-            Adres = new Registratiedata.Adres("Fosselstraat", "12", "bus 101", "1740", "Hekelgem", "België"),
+            Adres = new Registratiedata.Adres(Straatnaam: "Fosselstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
+                                              Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation("Hekelgem Affligem", new PostalInformationResponse("1741", "Affligem", new[] { "Hekelgem" }));
+        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Hekelgem Affligem",
+                                                       new PostalInformationResponse(
+                                                           Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }

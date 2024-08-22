@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.RequestValidating.ContactGegeven.Waarde;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.RequestValidating.ContactGegeven.
+    Waarde;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -26,6 +27,6 @@ public class Is_Empty : ValidatorTest
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Waarde))
               .WithErrorMessage("'Waarde' mag niet leeg zijn.");
-                                                                             // .Only();
+        // .Only();
     }
 }

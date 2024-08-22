@@ -27,7 +27,7 @@ public class V023_WerdUitgeschrevenUitPubliekeDatastroomScenario_And_NaamWerdGew
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
             new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
-            new NaamWerdGewijzigd(VCode, "Gewijzigd"),
+            new NaamWerdGewijzigd(VCode, Naam: "Gewijzigd"),
         };
     }
 

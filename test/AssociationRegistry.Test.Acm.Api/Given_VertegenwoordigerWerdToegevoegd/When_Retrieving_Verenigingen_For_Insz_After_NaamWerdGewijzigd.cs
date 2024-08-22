@@ -38,7 +38,7 @@ public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
                            _scenario.VCode,
                            _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                            _scenario.NaamWerdGewijzigd.Naam,
-                           verenigingstype: _scenario.Verenigingstype
+                           _scenario.Verenigingstype
                        );
 
         content.Should().BeEquivalentJson(expected);

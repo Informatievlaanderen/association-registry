@@ -9,13 +9,10 @@ using Infrastructure.AWS;
 using Infrastructure.Swagger.Annotations;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.KboSync;
 using Swashbuckle.AspNetCore.Filters;
-using System.Linq;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]

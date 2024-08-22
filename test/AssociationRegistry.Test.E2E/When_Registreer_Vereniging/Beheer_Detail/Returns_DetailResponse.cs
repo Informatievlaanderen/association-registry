@@ -7,12 +7,12 @@ using Admin.Schema.Constants;
 using Alba;
 using Formats;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using NodaTime.Extensions;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
@@ -37,7 +37,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> c
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare( Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
                                                                compareConfig: new ComparisonConfig
                                                                    { MaxMillisecondsDateDifference = 5000 });
     }
@@ -80,7 +80,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> c
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
         =>
         [
-            new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Sleutel
+            new Sleutel
             {
                 Bron = Sleutelbron.VR.Waarde,
                 id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),

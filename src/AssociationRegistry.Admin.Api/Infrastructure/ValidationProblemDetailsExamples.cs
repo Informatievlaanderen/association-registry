@@ -3,9 +3,7 @@
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
-using System.Collections.Generic;
 
 public class ValidationProblemDetailsExamples : IExamplesProvider<ValidationProblemDetails>
 {
@@ -57,7 +55,6 @@ public class ProblemAndValidationProblemDetailsExamples : IMultipleExamplesProvi
     {
         _helper = helper;
         _appSettings = appSettings;
-
     }
 
     public IEnumerable<SwaggerExample<ProblemDetails>> GetExamples()

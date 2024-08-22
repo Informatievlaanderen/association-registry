@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Adres =  AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
-using AdresId =  AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 [UnitTest]
 [Category("Mapping")]
@@ -62,6 +62,5 @@ public class To_WijzigLocatieCommand
         command.TeWijzigenLocatie.Adres.Should().BeNull();
         command.TeWijzigenLocatie.AdresId!.Adresbron.Code.Should().Be(request.Locatie.AdresId!.Broncode);
         command.TeWijzigenLocatie.AdresId!.Bronwaarde.Should().Be(request.Locatie.AdresId!.Bronwaarde);
-
     }
 }

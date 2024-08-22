@@ -6,7 +6,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_No_Exact_Match :  IClassFixture<WithNoExactMatchFixture>
+public class With_No_Exact_Match : IClassFixture<WithNoExactMatchFixture>
 {
     private readonly WithNoExactMatchFixture _fixture;
 

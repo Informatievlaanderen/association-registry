@@ -4,7 +4,7 @@ using AssociationRegistry.Framework;
 using Framework.TestClasses;
 using Vereniging;
 
-public class EmptyScenario: IScenario
+public class EmptyScenario : IScenario
 {
     public VCode VCode { get; }
 

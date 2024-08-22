@@ -1,9 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using Alba;
-using AlbaHost;
 
-public abstract class End2EndTest<TContext, TRequest, TResponse> where TContext: IEnd2EndContext<TRequest>
+public abstract class End2EndTest<TContext, TRequest, TResponse> where TContext : IEnd2EndContext<TRequest>
 {
     private readonly TContext _context;
 
@@ -17,6 +16,5 @@ public abstract class End2EndTest<TContext, TRequest, TResponse> where TContext:
     protected string VCode => _context.VCode;
     protected TRequest Request => _context.Request;
     protected TResponse Response { get; init; }
-
     protected abstract Func<IAlbaHost, TResponse> GetResponse { get; }
 }

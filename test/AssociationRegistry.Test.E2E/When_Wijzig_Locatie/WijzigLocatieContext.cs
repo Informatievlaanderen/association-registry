@@ -1,46 +1,36 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie;
 
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema;
 using Alba;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Events;
+using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten;
 using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
-using NodaTime;
-using NodaTime.Text;
 using Scenarios;
 using System.Net;
 using Vereniging;
 using Xunit;
-
+using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 [CollectionDefinition(nameof(WijzigLocatieContext<AdminApiSetup>))]
 public class WijzigLocatieCollection : ICollectionFixture<WijzigLocatieContext<AdminApiSetup>>
 {
-
 }
 
 public class WijzigLocatieContext<T> : End2EndContext<WijzigLocatieRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
-where T: IApiSetup, new()
+    where T : IApiSetup, new()
 {
     protected override string SchemaName => $"wijzig{GetType().GetGenericArguments().First().Name}";
-
     public override FeitelijkeVerenigingWerdGeregistreerdScenario Scenario => new();
 
     public override WijzigLocatieRequest Request => new()
     {
         Locatie =
-            new TeWijzigenLocatie()
+            new TeWijzigenLocatie
             {
                 Naam = "Kantoor",
-                Adres = new Admin.Api.Verenigingen.Common.Adres
+                Adres = new Adres
                 {
                     Straatnaam = "Leopold II-laan",
                     Huisnummer = "99",
@@ -51,8 +41,9 @@ where T: IApiSetup, new()
                 },
                 IsPrimair = true,
                 Locatietype = Locatietype.Correspondentie,
-            }
+            },
     };
+
     public WijzigLocatieContext() : base(new T())
     {
         VCode = Scenario.VCode;
@@ -63,6 +54,7 @@ where T: IApiSetup, new()
         await AdminApiHost.DocumentStore().Advanced.ResetAllData();
 
         await Given(Scenario);
+
         await AdminApiHost.Scenario(s =>
         {
             s.Patch
@@ -79,8 +71,6 @@ where T: IApiSetup, new()
 
     public Metadata Metadata { get; set; }
 
-    public new Task DisposeAsync()
+    public Task DisposeAsync()
         => Task.CompletedTask;
 }
-
-

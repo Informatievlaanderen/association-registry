@@ -1,8 +1,10 @@
 namespace AssociationRegistry.Test.Common.Extensions.Mappers;
 
+using Admin.Api.Verenigingen.Common;
+
 public static class AdresToAdresStringExtensions
 {
-    public static string ToAdresString(this AssociationRegistry.Admin.Api.Verenigingen.Common.Adres? adres)
+    public static string ToAdresString(this Adres? adres)
     {
         if (adres is null)
             return string.Empty;

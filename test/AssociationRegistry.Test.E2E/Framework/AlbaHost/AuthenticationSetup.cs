@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 public static class AuthenticationSetup
 {
     public const string Initiator = "OVO000001";
+
     public static IAlbaHost EnsureEachCallIsAuthenticated(this IAlbaHost source, string initiator = Initiator)
     {
         var adminApiClient = new Clients(source.Services.GetRequiredService<OAuth2IntrospectionOptions>(),

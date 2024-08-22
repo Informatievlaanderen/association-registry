@@ -3,7 +3,6 @@
 using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.Historiek;
-using System.Linq;
 
 public class VerenigingHistoriekResponseMapper
 {

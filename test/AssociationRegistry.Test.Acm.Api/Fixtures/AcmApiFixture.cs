@@ -35,7 +35,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         => _webApplicationFactory.Services.GetRequiredService<IDocumentStore>();
 
     public EventConflictResolver EventConflictResolver
-        => new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>() ,Array.Empty<IEventPostConflictResolutionStrategy>());
+        => new(Array.Empty<IEventPreConflictResolutionStrategy>(), Array.Empty<IEventPostConflictResolutionStrategy>());
 
     public AcmApiClient AcmApiClient
         => Clients.Authenticated;

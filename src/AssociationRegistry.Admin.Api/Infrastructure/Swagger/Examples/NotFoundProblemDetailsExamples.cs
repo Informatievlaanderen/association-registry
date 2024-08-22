@@ -3,7 +3,6 @@
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Http;
 using Swashbuckle.AspNetCore.Filters;
 
 public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
@@ -15,7 +14,6 @@ public class NotFoundProblemDetailsExamples : IExamplesProvider<ProblemDetails>
     {
         _helper = helper;
         _appSettings = appSettings;
-
     }
 
     public ProblemDetails GetExamples()

@@ -4,7 +4,6 @@ using Common;
 using FluentValidation;
 using Infrastructure.Validation;
 using RequestModels;
-using System.Linq;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class VoegVertegenwoordigerToeValidator : AbstractValidator<VoegVertegenwoordigerToeRequest>

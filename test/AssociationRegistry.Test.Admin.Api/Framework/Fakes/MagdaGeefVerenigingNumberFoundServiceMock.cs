@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Framework;
 using Kbo;
-using Vereniging;
 using ResultNet;
+using Vereniging;
 
 public class MagdaGeefVerenigingNumberFoundServiceMock : IMagdaGeefVerenigingService
 {

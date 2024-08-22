@@ -4,6 +4,7 @@ using Amazon.Runtime;
 using EventStore;
 using Grar.AddressMatch;
 using Grar.HeradresseerLocaties;
+using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
 using Vereniging;
@@ -35,33 +36,32 @@ public static class WolverineExtensions
                 var grarOptions = context.Configuration.GetGrarOptions();
 
                 if (grarOptions.Wolverine.OptimizeArtifactWorkflow)
-                {
                     options.CodeGeneration.TypeLoadMode = TypeLoadMode.Static;
-                }
 
                 var transportConfiguration = options.UseAmazonSqsTransport(config =>
                 {
-                    Log.Logger.Information("Wolverine SQS configuration: {@Config}", config);
+                    Log.Logger.Information(messageTemplate: "Wolverine SQS configuration: {@Config}", config);
                     config.ServiceURL = grarOptions.Wolverine.TransportServiceUrl;
                 });
 
                 if (grarOptions.Sqs.UseLocalStack)
-                {
-                    transportConfiguration.Credentials(new BasicAWSCredentials("dummy", "dummy"));
-                }
+                    transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
                 ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
-                ConfiguredAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName, grarOptions.Sqs.AddressMatchDeadLetterQueueName);
 
-                ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName, grarOptions.Sqs.GrarSyncQueueListenerEnabled);
+                ConfiguredAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName,
+                                               grarOptions.Sqs.AddressMatchDeadLetterQueueName);
+
+                ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName,
+                                          grarOptions.Sqs.GrarSyncQueueListenerEnabled);
 
                 if (grarOptions.Wolverine.AutoProvision)
-                {
                     transportConfiguration.AutoProvision();
-                }
 
                 options.LogMessageStarting(LogLevel.Trace);
-                Log.Logger.Information("Wolverine Transport SQS configuration: {@TransportConfig}", transportConfiguration);
+
+                Log.Logger.Information(messageTemplate: "Wolverine Transport SQS configuration: {@TransportConfig}",
+                                       transportConfiguration);
             });
     }
 
@@ -73,18 +73,22 @@ public static class WolverineExtensions
 
     private static void ConfiguredAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
     {
-        options.ListenToSqsQueue(sqsQueueName, configure =>
+        options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, queue =>
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
                 {
                     queue.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
                .MaximumParallelMessages(1);
     }
 
-    private static void ConfigureGrarSyncListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName, bool enabled)
+    private static void ConfigureGrarSyncListener(
+        WolverineOptions options,
+        string sqsQueueName,
+        string sqsDeadLetterQueueName,
+        bool enabled)
     {
         if (!enabled)
         {
@@ -93,16 +97,16 @@ public static class WolverineExtensions
             return;
         }
 
-        Log.Logger.Information("Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
-            sqsQueueName,
-            sqsDeadLetterQueueName
-            );
+        Log.Logger.Information(messageTemplate: "Setting up GRAR Sync Listener for queue '{Queue}' with dlq '{Dlq}'.",
+                               sqsQueueName,
+                               sqsDeadLetterQueueName
+        );
 
-        options.ListenToSqsQueue(sqsQueueName, configure =>
+        options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, queue =>
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
                 {
                     queue.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })

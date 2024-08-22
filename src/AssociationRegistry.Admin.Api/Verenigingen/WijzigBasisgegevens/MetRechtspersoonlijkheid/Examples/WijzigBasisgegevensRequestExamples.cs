@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using Common;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using System.Linq;
 using Vereniging;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>

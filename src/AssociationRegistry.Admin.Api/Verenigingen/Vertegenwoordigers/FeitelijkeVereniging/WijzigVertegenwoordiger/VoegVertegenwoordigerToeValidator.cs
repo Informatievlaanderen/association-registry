@@ -2,7 +2,6 @@
 
 using FluentValidation;
 using RequestModels;
-using System.Linq;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegenwoordigerRequest>

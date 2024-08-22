@@ -31,7 +31,8 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
            .WithMessage("'Locatie' moet ingevuld zijn.");
 
         RuleFor(locatie => locatie.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam, $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.");
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam,
+                                              $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.");
 
         RuleFor(locatie => locatie.Locatietype)
            .Must(BeAValidLocationTypeValue!)
@@ -53,7 +54,7 @@ public class TeWijzigenLocatieValidator : AbstractValidator<TeWijzigenLocatie>
 
     private static bool HaveAdresOrAdresIdOrBothBeNull(TeWijzigenLocatie loc)
         => (loc.AdresId is not null && loc.Adres is null) || (loc.Adres is not null && loc.AdresId is null)
-        || (loc.AdresId is null && loc.Adres is null);
+                                                          || (loc.AdresId is null && loc.Adres is null);
 
     private bool HaveAtLeastOneValue(TeWijzigenLocatie locatie)
         => locatie.Locatietype is not null ||

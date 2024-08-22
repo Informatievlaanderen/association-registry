@@ -2,9 +2,9 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Framework;
 using Framework.Fakes;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
 using global::AutoFixture;
+using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScenario : CommandhandlerScenarioBase
 {

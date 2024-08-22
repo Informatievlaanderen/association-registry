@@ -2,8 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 
 using FluentValidation;
 using FluentValidation.Internal;
-using Microsoft.AspNetCore.Http;
-using System;
+using Resources;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 
@@ -45,7 +44,10 @@ public static class ValidatorHelpers
           .WithErrorCode(StatusCodes.Status400BadRequest.ToString())
           .WithMessage(ExceptionMessages.UnsupportedContent);
 
-    public static IRuleBuilder<T, string?> MustNotBeMoreThanAllowedMaxLength<T>(this IRuleBuilder<T, string?> ruleBuilder, int maxLength, string errorMessage)
+    public static IRuleBuilder<T, string?> MustNotBeMoreThanAllowedMaxLength<T>(
+        this IRuleBuilder<T, string?> ruleBuilder,
+        int maxLength,
+        string errorMessage)
         => ruleBuilder
           .MaximumLength(maxLength)
           .WithErrorCode(StatusCodes.Status400BadRequest.ToString())

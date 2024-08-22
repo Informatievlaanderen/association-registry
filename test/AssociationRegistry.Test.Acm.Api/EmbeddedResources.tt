@@ -6,11 +6,8 @@
 <#@ import namespace="System.IO" #>
 <#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Linq" #>
-
 public static class EmbeddedResources
 {
-
-
 <#
   static string GetRelativePath(string fromPath, string toPath)
   {
@@ -49,7 +46,6 @@ public static class EmbeddedResources
   }
 #>
 }
-
 <#+
   private void WriteStaticResourceName(string resourceName)
   {

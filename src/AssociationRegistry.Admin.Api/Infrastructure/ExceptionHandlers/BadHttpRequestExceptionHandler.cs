@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Microsoft.AspNetCore.Http;
 
 public class BadHttpRequestExceptionHandler : DefaultExceptionHandler<BadHttpRequestException>
 {

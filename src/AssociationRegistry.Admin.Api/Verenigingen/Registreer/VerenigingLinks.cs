@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using System;
 using System.Runtime.Serialization;
 
 /// <summary>Weblinks i.v.m. deze vereniging</summary>

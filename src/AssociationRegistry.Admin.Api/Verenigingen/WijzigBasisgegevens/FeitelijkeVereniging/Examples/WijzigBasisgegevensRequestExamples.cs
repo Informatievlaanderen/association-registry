@@ -4,8 +4,6 @@ using Common;
 using Primitives;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Linq;
 using Vereniging;
 
 public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisgegevensRequest>

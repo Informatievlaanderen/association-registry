@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates.Playground;
+namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Playground;
 
 using AssociationRegistry.Admin.Api.DuplicateDetection;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
@@ -79,12 +79,12 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     {
         return new[]
         {
-            Locatie.Create(naam: Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
+            Locatie.Create(Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
                            Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Hulste",
                                         land: "xx")),
-            Locatie.Create(naam: Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
-                                                    Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Kortrijk",
-                                                                 land: "xx")),
+            Locatie.Create(Locatienaam.Create("xx"), isPrimair: false, Locatietype.Correspondentie, adresId: null,
+                           Adres.Create(straatnaam: "xx", huisnummer: "xx", busnummer: "xx", postcode: "xx", gemeente: "Kortrijk",
+                                        land: "xx")),
         };
     }
 }
@@ -123,7 +123,7 @@ public class DuplicateDetectionSetup
 
         Client = new ElasticClient(settings);
 
-        WaitFor.ElasticSearchToBecomeAvailable(Client, NullLogger.Instance, 10, CancellationToken.None)
+        WaitFor.ElasticSearchToBecomeAvailable(Client, NullLogger.Instance, maxRetryCount: 10, CancellationToken.None)
                .GetAwaiter().GetResult();
 
         Client.Indices.Delete(duplicateDetection);

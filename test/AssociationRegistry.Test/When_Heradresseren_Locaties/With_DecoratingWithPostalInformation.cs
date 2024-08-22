@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.HeradresseerLocaties;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Grar;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 using Moq;
+using Vereniging;
 using Xunit;
 
 public class With_DecoratingWithPostalInformation
@@ -25,7 +25,8 @@ public class With_DecoratingWithPostalInformation
             {
                 fixture.Create<Locatie>() with
                 {
-                    Adres = Adres.Create("straat", "14", "", "1790", "Hekelgem (Affligem)", "België"),
+                    Adres = Adres.Create(straatnaam: "straat", huisnummer: "14", busnummer: "", postcode: "1790",
+                                         gemeente: "Hekelgem (Affligem)", land: "België"),
                 },
             }),
         };
@@ -35,7 +36,7 @@ public class With_DecoratingWithPostalInformation
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>();
 
         var mockedPostalInformation = new PostalInformationResponse(mockedAdresDetail.Postcode,
-                                                                    "Affligem",
+                                                                    Gemeentenaam: "Affligem",
                                                                     new[] { "Hekelgem" });
 
         var grarClientMock = new Mock<IGrarClient>();
@@ -50,20 +51,21 @@ public class With_DecoratingWithPostalInformation
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>() { new(locatieId, "123") },
+            LocatiesMetAdres = new List<LocatieIdWithAdresId>
+                { new(locatieId, AddressId: "123") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };
 
         var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
-        var expectedAdres = new AdresDetailUitAdressenregister()
+        var expectedAdres = new AdresDetailUitAdressenregister
         {
             Adres = new Registratiedata.AdresUitAdressenregister(mockedAdresDetail.Straatnaam,
                                                                  mockedAdresDetail.Huisnummer,
                                                                  mockedAdresDetail.Busnummer,
                                                                  mockedAdresDetail.Postcode,
-                                                                 "Hekelgem (Affligem)"
+                                                                 Gemeente: "Hekelgem (Affligem)"
             ),
             AdresId = mockedAdresDetail.AdresId,
         };

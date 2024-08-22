@@ -3,12 +3,12 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Primitives;
 using FluentAssertions;
 using Framework.Fixtures;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
+using Primitives;
 using System.Net;
 using Xunit;
 using Xunit.Categories;

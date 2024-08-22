@@ -14,7 +14,7 @@ public class V013_LocatieWerdGewijzigdScenario : IScenario
             IsPrimair: false,
             Naam: "Naam locatie",
             Adres: null,
-            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1")));
+            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix + "1")));
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001013",
@@ -33,7 +33,7 @@ public class V013_LocatieWerdGewijzigdScenario : IScenario
                 IsPrimair: false,
                 Naam: "Foute naam",
                 Adres: null,
-                new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1")),
+                new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix + "1")),
         },
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
         Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>());

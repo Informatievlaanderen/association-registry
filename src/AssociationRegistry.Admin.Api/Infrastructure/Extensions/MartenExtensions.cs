@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Constants;
 using Formats;
 using GrarSync;
 using Hosts.Configuration.ConfigurationBindings;
@@ -11,8 +10,6 @@ using Marten;
 using Marten.Events;
 using Marten.Services;
 using Metrics;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.Detail;

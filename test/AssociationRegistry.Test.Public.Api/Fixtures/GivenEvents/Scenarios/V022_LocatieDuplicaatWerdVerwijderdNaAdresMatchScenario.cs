@@ -34,11 +34,11 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
         Locatietype.Activiteiten,
         IsPrimair: false,
         Naam: "Naam locatie",
-        Adres: new Registratiedata.Adres("Testlaan", "22", "A", "8800", "Oekene", "België"),
+        new Registratiedata.Adres(Straatnaam: "Testlaan", Huisnummer: "22", Busnummer: "A", Postcode: "8800", Gemeente: "Oekene",
+                                  Land: "België"),
         new Registratiedata.AdresId(Adresbron.AR.Code, $"{AdresId.DataVlaanderenAdresPrefix}{_adresId}"));
 
     public static Registratiedata.Locatie TeVerwijderenLocatie => TeBehoudenLocatie with { LocatieId = 2 };
-
     public VCode VCode => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()

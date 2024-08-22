@@ -8,19 +8,13 @@ using Exceptions;
 using FluentValidation;
 using Infrastructure;
 using Infrastructure.Swagger.Annotations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Linq;
 using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
 
@@ -130,7 +124,7 @@ public class SearchVerenigingenController : ApiController
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
-        var searchResponse = await Search(_elasticClient, q, sort, paginationQueryParams,_typeMapping);
+        var searchResponse = await Search(_elasticClient, q, sort, paginationQueryParams, _typeMapping);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
@@ -138,6 +132,7 @@ public class SearchVerenigingenController : ApiController
         if (!searchResponse.IsValid)
         {
             logger.LogError(searchResponse.OriginalException, searchResponse.DebugInformation);
+
             throw searchResponse.OriginalException;
         }
 

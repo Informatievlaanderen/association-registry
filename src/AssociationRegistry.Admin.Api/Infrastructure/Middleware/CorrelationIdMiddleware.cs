@@ -2,10 +2,7 @@
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Extensions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Primitives;
-using System;
-using System.Threading.Tasks;
 
 public class CorrelationIdMiddleware
 {

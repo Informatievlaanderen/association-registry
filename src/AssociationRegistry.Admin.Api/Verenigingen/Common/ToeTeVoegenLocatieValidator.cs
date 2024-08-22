@@ -2,10 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using FluentValidation;
 using Infrastructure.Validation;
-using System;
-using System.Linq;
 using Vereniging;
-using Vereniging.Exceptions;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 {
@@ -16,7 +13,8 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         this.RequireNotNullOrEmpty(locatie => locatie.Locatietype);
 
         RuleFor(locatie => locatie.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam, $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.")
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam,
+                                              $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.")
            .MustNotContainHtml();
 
         RuleFor(locatie => locatie.Locatietype).MustNotContainHtml();

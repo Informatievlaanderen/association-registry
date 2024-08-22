@@ -73,7 +73,8 @@ public class Given_LocatieWerdGewijzigd
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
-                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(locatieWerdGewijzigd.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
+                            Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(
+                                locatieWerdGewijzigd.Data.Locatie.AdresId.Bronwaarde.Split('/').Last()),
                             Type = JsonLdType.AdresVerwijzing.Type,
                         },
                     },

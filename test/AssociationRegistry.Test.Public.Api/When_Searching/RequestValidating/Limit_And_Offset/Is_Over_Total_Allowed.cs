@@ -26,6 +26,6 @@ public class Is_Over_Total_Allowed : ValidatorTest
 
         result.ShouldHaveValidationErrorFor(queryParams => queryParams)
               .WithErrorMessage("'Limit' en 'Offset' mogen samen niet groter dan 1000 zijn.");
-                                                                                                           // .Only();
+        // .Only();
     }
 }

@@ -2,13 +2,13 @@
 
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
+using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using Vereniging;
 using Vereniging.Exceptions;
-using AutoFixture;
-using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
 

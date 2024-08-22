@@ -6,7 +6,7 @@ using Grar.Models;
 public static class AdresDetailResponseExtensions
 {
     public static Registratiedata.AdresUitAdressenregister ToAdresUitAdressenregister(this AddressDetailResponse response)
-        => new Registratiedata.AdresUitAdressenregister(
+        => new(
             response.Straatnaam,
             response.Huisnummer,
             response.Busnummer,

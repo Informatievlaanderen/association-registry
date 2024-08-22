@@ -3,8 +3,8 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 
 public class Is_Empty : ValidatorTest
@@ -26,6 +26,6 @@ public class Is_Empty : ValidatorTest
         result.ShouldHaveValidationErrorFor(nameof(VoegContactgegevenToeRequest.Contactgegeven) + "." +
                                             nameof(ToeTeVoegenContactgegeven.Contactgegeventype))
               .WithErrorMessage("'Contactgegeventype' mag niet leeg zijn.");
-                                                                                         // .Only();
+        // .Only();
     }
 }

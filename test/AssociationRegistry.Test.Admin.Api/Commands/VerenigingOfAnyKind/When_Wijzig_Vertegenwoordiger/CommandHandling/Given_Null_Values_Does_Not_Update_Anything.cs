@@ -2,10 +2,10 @@
 
 using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Primitives;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Primitives;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

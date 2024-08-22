@@ -2,7 +2,6 @@
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 
 public class StopVerenigingRequestExamples : IExamplesProvider<StopVerenigingRequest>
 {

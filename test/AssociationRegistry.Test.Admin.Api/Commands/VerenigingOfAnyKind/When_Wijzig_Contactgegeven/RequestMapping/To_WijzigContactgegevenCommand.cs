@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
-using Framework;
-using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

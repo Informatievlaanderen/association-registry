@@ -3,7 +3,6 @@
 using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
-using System.Linq;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;

@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using JsonLdContext;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
+using JsonLdContext;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -27,7 +28,7 @@ public class Given_AdresWerdGewijzigdInAdressenregister
                 locatieWerdToegevoegd.Data.Locatie.LocatieId,
                 fixture.Create<Registratiedata.AdresId>(),
                 fixture.Create<Registratiedata.AdresUitAdressenregister>(),
-                "IdempotenceKey"));
+                IdempotenceKey: "IdempotenceKey"));
 
         PubliekVerenigingDetailProjector.Apply(locatieWerdToegevoegd, doc);
         PubliekVerenigingDetailProjector.Apply(adresWerdGewijzigdInAdressenregister, doc);
@@ -47,19 +48,19 @@ public class Given_AdresWerdGewijzigdInAdressenregister
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
             Adres = new PubliekVerenigingDetailDocument.Adres
+            {
+                JsonLdMetadata = new JsonLdMetadata
                 {
-                    JsonLdMetadata = new JsonLdMetadata
-                    {
-                        Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
-                        Type = JsonLdType.Adres.Type,
-                    },
-                    Straatnaam = adresWerdGewijzigdInAdressenregister.Data.Adres.Straatnaam,
-                    Huisnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Huisnummer,
-                    Busnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Busnummer,
-                    Postcode = adresWerdGewijzigdInAdressenregister.Data.Adres.Postcode,
-                    Gemeente = adresWerdGewijzigdInAdressenregister.Data.Adres.Gemeente,
-                    Land = Vereniging.Adres.België,
+                    Id = JsonLdType.Adres.CreateWithIdValues(doc.VCode, locatieWerdToegevoegd.Data.Locatie.LocatieId.ToString()),
+                    Type = JsonLdType.Adres.Type,
                 },
+                Straatnaam = adresWerdGewijzigdInAdressenregister.Data.Adres.Straatnaam,
+                Huisnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Huisnummer,
+                Busnummer = adresWerdGewijzigdInAdressenregister.Data.Adres.Busnummer,
+                Postcode = adresWerdGewijzigdInAdressenregister.Data.Adres.Postcode,
+                Gemeente = adresWerdGewijzigdInAdressenregister.Data.Adres.Gemeente,
+                Land = Adres.België,
+            },
             Adresvoorstelling = adresWerdGewijzigdInAdressenregister.Data.Adres.ToAdresString(),
             AdresId = adresWerdGewijzigdInAdressenregister.Data.AdresId is null
                 ? null
@@ -74,7 +75,8 @@ public class Given_AdresWerdGewijzigdInAdressenregister
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {
-                        Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(adresWerdGewijzigdInAdressenregister.Data.AdresId?.Bronwaarde.Split('/').Last()),
+                        Id = JsonLdType.AdresVerwijzing.CreateWithIdValues(
+                            adresWerdGewijzigdInAdressenregister.Data.AdresId?.Bronwaarde.Split('/').Last()),
                         Type = JsonLdType.AdresVerwijzing.Type,
                     },
                 },

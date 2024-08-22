@@ -27,13 +27,15 @@ public class With_BoxNumber_Is_Null
 
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
-        var result = await sut.GetAddressMatches("Fosselstraat", "48", null, "1790", "Affligem", CancellationToken.None);
+        var result = await sut.GetAddressMatches(straatnaam: "Fosselstraat", huisnummer: "48", busnummer: null, postcode: "1790",
+                                                 gemeentenaam: "Affligem", CancellationToken.None);
 
         result.First().Busnummer.Should().NotBeNull();
         result.First().Busnummer.Should().BeEmpty();
     }
 
-    private const string AddressMatchResponseWithoutBoxNumber = @"   { ""@context"": ""https://docs.basisregisters.staging-vlaanderen.be/context/adresmatch/2023-03-13/adresmatch.jsonld"",
+    private const string AddressMatchResponseWithoutBoxNumber =
+        @"   { ""@context"": ""https://docs.basisregisters.staging-vlaanderen.be/context/adresmatch/2023-03-13/adresmatch.jsonld"",
     ""adresMatches"": [
       {
         ""@type"": ""Adres"",

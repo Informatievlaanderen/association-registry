@@ -2,11 +2,11 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Formats;
-using Framework;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
+using Formats;
+using Framework;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Collections;

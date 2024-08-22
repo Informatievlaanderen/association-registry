@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.AddressMatch;
 
-using Events;
 using AssociationRegistry.Framework;
 using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
@@ -95,7 +95,7 @@ public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<
                                                      Postcode: "4567",
                                                      Gemeente: "Nothingham",
                                                      Land: "België"),
-                                                 null)));
+                                                 AdresId: null)));
     }
 
     [Fact]
@@ -108,7 +108,7 @@ public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var policyResult = await Policy.Handle<Exception>()
-                                       .RetryAsync(5, async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
+                                       .RetryAsync(retryCount: 5, onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))
                                        .ExecuteAndCaptureAsync(async () =>
                                         {
                                             await using var session = _classFixture.DocumentStore.LightweightSession();
@@ -116,7 +116,7 @@ public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<
                                             session
                                                .SingleOrDefaultFromStream<AdresWerdNietGevondenInAdressenregister>(
                                                     _classFixture.Scenario.VCode)
-                                                .Should()
+                                               .Should()
                                                .NotBeNull();
                                         });
 

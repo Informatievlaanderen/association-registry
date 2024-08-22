@@ -2,9 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Metrics;
 
 using Marten;
 using Marten.Services;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 public class HighWatermarkListener : DocumentSessionListenerBase
 {

@@ -19,7 +19,6 @@ public class AddressSyncServiceTests
         var store = await TestDocumentStoreFactory.Create(nameof(AddressSyncServiceTests));
         var notifier = new Mock<INotifier>();
 
-
         var teSynchroniserenLocatiesFetcher = new Mock<ITeSynchroniserenLocatiesFetcher>();
 
         teSynchroniserenLocatiesFetcher.Setup(x => x.GetTeSynchroniserenLocaties(
@@ -35,7 +34,7 @@ public class AddressSyncServiceTests
                                                         teSynchroniserenLocatiesFetcher.Object,
                                                         notifier.Object,
                                                         NullLogger<AddressSyncService>.Instance,
-            new ApplicationLifetime(NullLogger<ApplicationLifetime>.Instance));
+                                                        new ApplicationLifetime(NullLogger<ApplicationLifetime>.Instance));
 
         await Assert.ThrowsAsync<Exception>(async () => await addressSyncService.StartAsync(CancellationToken.None));
 
