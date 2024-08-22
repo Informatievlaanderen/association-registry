@@ -8,7 +8,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
-using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten;
 using Marten.Events;

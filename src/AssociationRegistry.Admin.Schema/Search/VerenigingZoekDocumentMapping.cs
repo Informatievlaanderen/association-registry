@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
 using Nest;
+using Public.Schema.Search;
 
 public static class VerenigingZoekDocumentMapping
 {

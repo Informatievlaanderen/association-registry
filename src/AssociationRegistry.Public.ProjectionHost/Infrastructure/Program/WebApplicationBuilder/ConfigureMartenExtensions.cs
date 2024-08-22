@@ -9,6 +9,7 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
+using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;

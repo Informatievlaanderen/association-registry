@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Marten.Events;
-using Resources;
 using IEvent = Marten.Events.IEvent;
 
 public class MartenEventsConsumer : IMartenEventsConsumer

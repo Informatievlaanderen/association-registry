@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.E2E.When_Wijzig_Anything_In_A_Vereniging;
+namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
 
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Framework.Fixtures;
 using System.Net;
 using Xunit;
 using Xunit.Categories;

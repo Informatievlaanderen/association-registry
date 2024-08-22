@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.IfMatchHeaderParser;
+namespace AssociationRegistry.Test.Admin.Api.When_Parsing_IfMatch_Header;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
