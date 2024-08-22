@@ -1,3 +1,10 @@
+## [8.135.2](https://github.com/informatievlaanderen/association-registry/compare/v8.135.1...v8.135.2) (2024-08-22)
+
+
+### Bug Fixes
+
+* or-2378 listen to locatiewerdgewijzigd event for locatiezonderadresmatch projection ([b67bb5d](https://github.com/informatievlaanderen/association-registry/commit/b67bb5da030aea612fd2df13f7e84e5cf78c1060))
+
 ## [8.135.1](https://github.com/informatievlaanderen/association-registry/compare/v8.135.0...v8.135.1) (2024-08-22)
 
 
