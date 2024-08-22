@@ -232,4 +232,7 @@
   <data name="LaatsteVertegenwoordigerKanNietVerwijderdWorden">
     <value>De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen.</value>
   </data>
+  <data name="LaatsteLocatieKanNietVerwijderdWorden">
+    <value>De vereniging moet minstens 1 locatie hebben. Je kan de laatste locatie niet verwijderen.</value>
+  </data>
 </root>
