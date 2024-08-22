@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.CommandHandling;
 
 using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using Events;
-using Fakes;
-using Fixtures.Scenarios.CommandHandling;
 using Framework;
 using Vereniging;
 using Xunit;

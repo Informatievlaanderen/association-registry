@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Clients;
 
-using Admin.Api.Constants;
+using AssociationRegistry.Admin.Api.Constants;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
