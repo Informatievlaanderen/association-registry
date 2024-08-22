@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.Fixtures.Scenarios.CommandHandling;
+namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
-using Framework;
-using Vereniging;
+using global::AutoFixture;
 
 public class FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario : CommandhandlerScenarioBase
 {

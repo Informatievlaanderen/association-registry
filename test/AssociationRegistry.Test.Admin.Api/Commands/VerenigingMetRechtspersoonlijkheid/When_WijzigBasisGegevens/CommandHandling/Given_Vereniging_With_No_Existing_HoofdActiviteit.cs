@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.CommandHandling;
 
-using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Events;
-using Fakes;
-using Fixtures.Scenarios.CommandHandling;
-using Framework;
-using Vereniging;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using Xunit;
 using Xunit.Categories;
 

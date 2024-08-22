@@ -1,11 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Fakes;
-using Fixtures.Scenarios.CommandHandling;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using Framework;
+using Test.Framework;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -14,9 +15,9 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_Vereniging_With_Existing_HoofdActiviteiten
 {
-    private FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
-    private Fixture _fixture;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;
+    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly Fixture _fixture;
 
     public Given_Vereniging_With_Existing_HoofdActiviteiten()
     {
@@ -36,9 +37,9 @@ public class Given_Vereniging_With_Existing_HoofdActiviteiten
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
         await Assert.ThrowsAsync<LaatsteHoofdActiviteitKanNietVerwijderdWorden>(async () => await commandHandler.Handle(
-                                                                                   new CommandEnvelope<WijzigBasisgegevensCommand>(
-                                                                                       command, commandMetadata),
-                                                                                   _verenigingRepositoryMock,
-                                                                                   new ClockStub(_fixture.Create<DateOnly>())));
+                                                                                    new CommandEnvelope<WijzigBasisgegevensCommand>(
+                                                                                        command, commandMetadata),
+                                                                                    _verenigingRepositoryMock,
+                                                                                    new ClockStub(_fixture.Create<DateOnly>())));
     }
 }
