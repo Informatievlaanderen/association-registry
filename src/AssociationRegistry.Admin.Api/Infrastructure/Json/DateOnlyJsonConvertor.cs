@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Json;
 
 using Newtonsoft.Json;
-using System;
 using System.Globalization;
 
 public class DateOnlyJsonConvertor : JsonConverter<DateOnly>

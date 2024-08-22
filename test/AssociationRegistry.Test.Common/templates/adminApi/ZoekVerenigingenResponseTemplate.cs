@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.templates.adminApi;
 
 using Admin.Schema.Constants;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Vereniging;
+using Events;
+using Formats;
+using JsonLdContext;
 using System.Dynamic;
+using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate : ResponseTemplate
 {
@@ -14,7 +14,7 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
     private string _query = string.Empty;
 
     public ZoekVerenigingenResponseTemplate()
-    : base("templates.adminApi.ZoekVerenigingenResponse.json")
+        : base("templates.adminApi.ZoekVerenigingenResponse.json")
     {
         WithPagination();
     }

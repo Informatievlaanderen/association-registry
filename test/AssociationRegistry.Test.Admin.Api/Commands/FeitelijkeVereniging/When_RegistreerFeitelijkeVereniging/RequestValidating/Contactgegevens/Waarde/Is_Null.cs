@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.Contactgegevens.
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.
+    Contactgegevens.
     Waarde;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
+using Test.Framework;
 using Xunit;
 using ValidatorTest = Framework.ValidatorTest;
 
@@ -31,6 +32,6 @@ public class Is_Null : ValidatorTest
         result.ShouldHaveValidationErrorFor(
                    $"{nameof(RegistreerFeitelijkeVerenigingRequest.Contactgegevens)}[0].{nameof(ToeTeVoegenContactgegeven.Waarde)}")
               .WithErrorMessage("'Waarde' is verplicht.");
-              // .Only();
+        // .Only();
     }
 }

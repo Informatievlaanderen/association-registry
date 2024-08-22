@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using global::AutoFixture;
 using Magda.Constants;
 using Magda.Onderneming.GeefOnderneming;
-using global::AutoFixture;
 
 public static class MagdaAutoFixtureCustomizations
 {

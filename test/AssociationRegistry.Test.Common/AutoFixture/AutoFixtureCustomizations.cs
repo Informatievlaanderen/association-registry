@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using global::AutoFixture;
+using global::AutoFixture.Dsl;
+using NodaTime;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
-using global::AutoFixture;
-using global::AutoFixture.Dsl;
-using NodaTime;
 
 public static class AutoFixtureCustomizations
 {
@@ -53,7 +53,7 @@ public static class AutoFixtureCustomizations
             Contactgegeventype.Labels.SocialMedia => source.Create<SocialMedia>(),
             Contactgegeventype.Labels.Email => source.Create<Email>(),
             Contactgegeventype.Labels.Website => source.Create<Website>(),
-            _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+            _ => throw new ArgumentOutOfRangeException(nameof(type), type, message: null),
         };
 
     private static void CustomizeVertegenwoordiger(this IFixture fixture)
@@ -62,7 +62,7 @@ public static class AutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => Vertegenwoordiger.Create(
                     fixture.Create<Insz>(),
-                    false,
+                    primairContactpersoon: false,
                     fixture.Create<string>(),
                     fixture.Create<string>(),
                     fixture.Create<Voornaam>(),
@@ -87,9 +87,9 @@ public static class AutoFixtureCustomizations
                 () =>
                     Locatie.Create(
                         fixture.Create<Locatienaam>(),
-                        false,
+                        isPrimair: false,
                         Locatietype.Activiteiten,
-                        null,
+                        adresId: null,
                         fixture.Create<Adres>())
             ).OmitAutoProperties()
         );
@@ -100,7 +100,8 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Achternaam>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => Achternaam.Create(
-                                                                 string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
+                                                                 string.Join(separator: "",
+                                                                             fixture.Create<string>().Where(x => !char.IsNumber(x)))))
                                                         .OmitAutoProperties());
     }
 
@@ -109,7 +110,8 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Voornaam>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => Voornaam.Create(
-                                                                 string.Join("", fixture.Create<string>().Where(x => !char.IsNumber(x)))))
+                                                                 string.Join(separator: "",
+                                                                             fixture.Create<string>().Where(x => !char.IsNumber(x)))))
                                                         .OmitAutoProperties());
     }
 
@@ -122,7 +124,7 @@ public static class AutoFixtureCustomizations
     {
         fixture.Customize<VCode>(
             customization => customization.FromFactory(
-                generator => VCode.Create(generator.Next(10000, 100000))));
+                generator => VCode.Create(generator.Next(minValue: 10000, maxValue: 100000))));
     }
 
     private static IPostprocessComposer<T> FromFactory<T>(this IFactoryComposer<T> composer, Func<Random, T> factory)
@@ -143,7 +145,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () =>
                                                              {
-                                                                 var inszBase = new Random().Next(0, 999999999);
+                                                                 var inszBase = new Random().Next(minValue: 0, maxValue: 999999999);
                                                                  var inszModulo = 97 - inszBase % 97;
 
                                                                  return Insz.Create($"{inszBase:D9}{inszModulo:D2}");
@@ -158,27 +160,28 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new Email(
                                                                  $"{fixture.Create<string>()}@example.org", fixture.Create<string>(),
-                                                                 false))
+                                                                 IsPrimair: false))
                                                         .OmitAutoProperties());
 
         fixture.Customize<SocialMedia>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new SocialMedia(
                                                                  $"https://{fixture.Create<string>()}.com", fixture.Create<string>(),
-                                                                 false))
+                                                                 IsPrimair: false))
                                                         .OmitAutoProperties());
 
         fixture.Customize<Website>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new Website(
                                                                  $"https://{fixture.Create<string>()}.com", fixture.Create<string>(),
-                                                                 false))
+                                                                 IsPrimair: false))
                                                         .OmitAutoProperties());
 
         fixture.Customize<TelefoonNummer>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new TelefoonNummer(
-                                                                 fixture.Create<int>().ToString(), fixture.Create<string>(), false))
+                                                                 fixture.Create<int>().ToString(), fixture.Create<string>(),
+                                                                 IsPrimair: false))
                                                         .OmitAutoProperties());
 
         fixture.Customize<Contactgegeventype>(
@@ -219,7 +222,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () =>
                                                              {
-                                                                 var kboBase = new Random().Next(0, 99999999);
+                                                                 var kboBase = new Random().Next(minValue: 0, maxValue: 99999999);
                                                                  var kboModulo = 97 - kboBase % 97;
 
                                                                  return KboNummer.Create($"{kboBase:D8}{kboModulo:D2}");
@@ -290,16 +293,16 @@ public static class AutoFixtureCustomizations
                         .OmitAutoProperties()
         );
 
-        fixture.Customize<AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId>(
-                      composer =>
-                          composer.FromFactory<int>(
-                                       i => new AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId()
-                                       {
-                                           Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
-                                           Broncode = fixture.Create<Adresbron>(),
-                                       })
-                                  .OmitAutoProperties()
-                  );
+        fixture.Customize<Admin.Api.Verenigingen.Common.AdresId>(
+            composer =>
+                composer.FromFactory<int>(
+                             i => new Admin.Api.Verenigingen.Common.AdresId
+                             {
+                                 Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
+                                 Broncode = fixture.Create<Adresbron>(),
+                             })
+                        .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeAdres(this IFixture fixture)

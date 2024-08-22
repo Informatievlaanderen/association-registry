@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Test.When_Storing_An_Event;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AutoFixture;
 using Common.Framework;
+using EventStore;
 using FluentAssertions;
-using Framework.Customizations;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
@@ -17,9 +15,6 @@ using IEvent = Marten.Events.IEvent;
 [IntegrationTest]
 public class Given_An_Event
 {
-    public Given_An_Event()
-    { }
-
     [Fact]
     public async Task Then_it_is_persisted_in_the_database()
     {

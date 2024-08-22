@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Microsoft.AspNetCore.Http;
 
 public class CouldNotParseRequestExceptionHandler : DefaultExceptionHandler<CouldNotParseRequestException>
 {
@@ -21,4 +20,5 @@ public class CouldNotParseRequestExceptionHandler : DefaultExceptionHandler<Coul
             Detail = exception.Message,
             ProblemTypeUri = _problemDetailsHelper.GetExceptionTypeUriFor(exception),
             ProblemInstanceUri = $"{_problemDetailsHelper.GetInstanceBaseUri(context)}/{ProblemDetails.GetProblemNumber()}",
-        };}
+        };
+}

@@ -60,17 +60,15 @@ public class Given_SwaggerExampleProviders
     private void CheckAllPropertiesNotNull(object examples, Type type)
     {
         if (examples is IEnumerable exampleEnumerable)
-        {
             foreach (var example in exampleEnumerable)
+            {
                 CheckAllPropertiesNotNull(example, type);
-        }
+            }
         else
-        {
             examples.ShouldHaveAllPropertiesNotNull(
                 type.Name,
                 string.Empty,
                 _allowedNullProperties);
-        }
     }
 }
 

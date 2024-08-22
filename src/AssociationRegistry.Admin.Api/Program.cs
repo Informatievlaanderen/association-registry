@@ -25,6 +25,7 @@ using Grar;
 using Grar.AddressMatch;
 using GrarSync;
 using Hosts;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;
@@ -57,7 +58,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
-using Notifications;
 using Oakton;
 using OpenTelemetry.Extensions;
 using Serilog;
@@ -333,11 +333,13 @@ public class Program
         var magdaOptionsSection = builder.Configuration.GetMagdaOptionsSection();
         var grarOptions = builder.Configuration.GetGrarOptions();
 
-        var magdaTemporaryVertegenwoordigersSection = builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment.IsProduction());
+        var magdaTemporaryVertegenwoordigersSection =
+            builder.Configuration.GetMagdaTemporaryVertegenwoordigersSection(builder.Environment.IsProduction());
+
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         var sqsClient = grarOptions.Sqs.UseLocalStack
-            ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), RegionEndpoint.EUWest1)
+            ? new AmazonSQSClient(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"), RegionEndpoint.EUWest1)
             : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
@@ -609,7 +611,7 @@ public class Program
         builder.Services
                .AddSingleton(new AddressKafkaConfiguration(grarOptions.Kafka));
 
-        if(!grarOptions.Kafka.Enabled)
+        if (!grarOptions.Kafka.Enabled)
             return;
 
         builder.Services

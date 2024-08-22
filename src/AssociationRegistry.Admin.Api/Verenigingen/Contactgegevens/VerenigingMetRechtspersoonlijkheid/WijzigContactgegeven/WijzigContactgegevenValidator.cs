@@ -23,7 +23,8 @@ public class WijzigContactgegevenValidator : AbstractValidator<WijzigContactgege
         When(
             predicate: request => request.Contactgegeven is not null,
             action: () => RuleFor(request => request.Contactgegeven.Beschrijving)
-                              .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving, $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
+               .MustNotBeMoreThanAllowedMaxLength(Contactgegeven.MaxLengthBeschrijving,
+                                                  $"Beschrijving mag niet langer dan {Contactgegeven.MaxLengthBeschrijving} karakters zijn.")
         );
     }
 

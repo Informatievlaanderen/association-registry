@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using global::AutoFixture;
 using Kbo;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
-using global::AutoFixture;
 
 public static class KboCustomizations
 {

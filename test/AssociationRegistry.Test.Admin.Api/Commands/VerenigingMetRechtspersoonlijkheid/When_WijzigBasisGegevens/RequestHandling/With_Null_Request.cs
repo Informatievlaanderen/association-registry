@@ -3,9 +3,9 @@
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Framework;
 using Framework.Fakes;
+using Hosts.Configuration.ConfigurationBindings;
 using Xunit;
 using Xunit.Categories;
 

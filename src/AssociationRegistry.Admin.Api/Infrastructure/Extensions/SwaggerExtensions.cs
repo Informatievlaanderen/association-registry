@@ -6,15 +6,11 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Documentation;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Models;
 using Primitives;
 using Swagger;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
-using System;
-using System.IO;
 using System.Reflection;
 
 public static class SwaggerExtensions

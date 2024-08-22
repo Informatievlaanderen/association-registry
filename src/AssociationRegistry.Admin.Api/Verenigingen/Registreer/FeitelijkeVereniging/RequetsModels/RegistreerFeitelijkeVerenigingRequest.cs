@@ -2,9 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereni
 
 using Acties.RegistreerFeitelijkeVereniging;
 using Common;
-using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vereniging;
 

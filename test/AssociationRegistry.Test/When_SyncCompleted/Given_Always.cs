@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_SyncCompleted;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.Framework.Customizations;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
 using FluentAssertions;
+using Framework.Customizations;
+using Vereniging;
 using Xunit;
 
 public class Given_Always

@@ -7,6 +7,7 @@ using Framework.Customizations;
 using Grar;
 using Grar.Exceptions;
 using Moq;
+using Resources;
 using System.Net;
 using Vereniging;
 using Xunit;
@@ -38,7 +39,8 @@ public class Given_GrarClient_Returned_BadRequest
             new VerenigingState()
                .Apply(feitelijkeVerenigingWerdGeregistreerd));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId, CancellationToken.None);
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+                                               CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<AdresKonNietOvergenomenWordenUitAdressenregister>().SingleOrDefault();
 

@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Admin.Api.GrarSync;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Grar.HeradresseerLocaties;
-using AssociationRegistry.Grar.Models;
-using Framework;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
+using Framework;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNumbers
@@ -23,9 +23,9 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
     public async Task Then_Messages_Are_Queued()
     {
         var firstHouseNumberToReaddress = new AddressHouseNumberReaddressedData(addressPersistentLocalId: 1000, // can be ignored
-                                                                                readdressedHouseNumber: CreateReaddressedAddressData(
+                                                                                CreateReaddressedAddressData(
                                                                                     vanAdresId: 1000, naarAdresId: 2000),
-                                                                                readdressedBoxNumbers: new List<ReaddressedAddressData>()
+                                                                                new List<ReaddressedAddressData>
                                                                                 {
                                                                                     CreateReaddressedAddressData(
                                                                                         vanAdresId: 1001, naarAdresId: 2001),
@@ -34,9 +34,9 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                                                                                 });
 
         var secondHouseNumberToReaddress = new AddressHouseNumberReaddressedData(addressPersistentLocalId: 2000, // can be ignored
-                                                                                 readdressedHouseNumber: CreateReaddressedAddressData(
+                                                                                 CreateReaddressedAddressData(
                                                                                      vanAdresId: 2000, naarAdresId: 3000),
-                                                                                 readdressedBoxNumbers: new List<ReaddressedAddressData>()
+                                                                                 new List<ReaddressedAddressData>
                                                                                  {
                                                                                      CreateReaddressedAddressData(
                                                                                          vanAdresId: 2001, naarAdresId: 3002),
@@ -44,7 +44,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                                                                                          vanAdresId: 2002, naarAdresId: 3003),
                                                                                  });
 
-        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>()
+        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>
         {
             firstHouseNumberToReaddress,
             secondHouseNumberToReaddress,
@@ -55,76 +55,76 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
 
         var locatieLookupHuisnummer1 = CreateLocatieLookupMetExpectedAdres(
             vCode1,
-            1,
+            locatieId: 1,
             firstHouseNumberToReaddress.ReaddressedHouseNumber.SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedHouseNumber.DestinationAddressPersistentLocalId.ToString());
 
         var locatieLookupHuisnummer1Busnummer1 = CreateLocatieLookupMetExpectedAdres(
             vCode2,
-            1,
+            locatieId: 1,
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[0].SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[0].DestinationAddressPersistentLocalId.ToString());
 
         var locatieLookupHuisnummer1Busnummer2 = CreateLocatieLookupMetExpectedAdres(
             vCode1,
-            2,
+            locatieId: 2,
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].DestinationAddressPersistentLocalId.ToString());
 
         var locatieLookupHuisnummer2 = CreateLocatieLookupMetExpectedAdres(
             vCode2,
-            2,
+            locatieId: 2,
             firstHouseNumberToReaddress.ReaddressedHouseNumber.SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedHouseNumber.DestinationAddressPersistentLocalId.ToString());
 
         var locatieLookupHuisnummer2Busnummer1 = CreateLocatieLookupMetExpectedAdres(
             vCode1,
-            3,
+            locatieId: 3,
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[0].SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[0].DestinationAddressPersistentLocalId.ToString());
 
         var locatieLookupHuisnummer2Busnummer2 = CreateLocatieLookupMetExpectedAdres(
             vCode2,
-            3,
+            locatieId: 3,
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].SourceAddressPersistentLocalId.ToString(),
             firstHouseNumberToReaddress.ReaddressedBoxNumbers[1].DestinationAddressPersistentLocalId.ToString());
 
-        var sut = new TeHeradresserenLocatiesMapper(new FakeLocatieFinder(new List<LocatieLookupDocument>()
+        var sut = new TeHeradresserenLocatiesMapper(new FakeLocatieFinder(new List<LocatieLookupDocument>
         {
             locatieLookupHuisnummer1.Document, //vcode1
-            locatieLookupHuisnummer1Busnummer1.Document,//vcode2
-            locatieLookupHuisnummer1Busnummer2.Document,//vcode1
-            locatieLookupHuisnummer2.Document,//vcode2
+            locatieLookupHuisnummer1Busnummer1.Document, //vcode2
+            locatieLookupHuisnummer1Busnummer2.Document, //vcode1
+            locatieLookupHuisnummer2.Document, //vcode2
             locatieLookupHuisnummer2Busnummer1.Document, //vcode1
             locatieLookupHuisnummer2Busnummer2.Document, //vcode2
         }));
 
-        var result = await sut.ForAddress(readdressedHouseNumbers: addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
+        var result = await sut.ForAddress(addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
 
-        result.Should().BeEquivalentTo(expectation: new List<TeHeradresserenLocatiesMessage>()
+        result.Should().BeEquivalentTo(expectation: new List<TeHeradresserenLocatiesMessage>
         {
-            new TeHeradresserenLocatiesMessage(
-                VCode: vCode1,
-                LocatiesMetAdres: new List<LocatieIdWithAdresId>()
+            new(
+                vCode1,
+                new List<LocatieIdWithAdresId>
                 {
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer1.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer1.ExpectedAdresId),
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer1Busnummer2.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer1Busnummer2.ExpectedAdresId),
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer2Busnummer1.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer2Busnummer1.ExpectedAdresId),
+                    new(locatieLookupHuisnummer1.Document.LocatieId,
+                        locatieLookupHuisnummer1.ExpectedAdresId),
+                    new(locatieLookupHuisnummer1Busnummer2.Document.LocatieId,
+                        locatieLookupHuisnummer1Busnummer2.ExpectedAdresId),
+                    new(locatieLookupHuisnummer2Busnummer1.Document.LocatieId,
+                        locatieLookupHuisnummer2Busnummer1.ExpectedAdresId),
                 },
                 idempotencyKey: "idempotencyKey"),
-            new TeHeradresserenLocatiesMessage(
-                VCode: vCode2,
-                LocatiesMetAdres: new List<LocatieIdWithAdresId>()
+            new(
+                vCode2,
+                new List<LocatieIdWithAdresId>
                 {
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer1Busnummer1.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer1Busnummer1.ExpectedAdresId),
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer2.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer2.ExpectedAdresId),
-                    new LocatieIdWithAdresId(LocatieId: locatieLookupHuisnummer2Busnummer2.Document.LocatieId,
-                                             AddressId: locatieLookupHuisnummer2Busnummer2.ExpectedAdresId),
+                    new(locatieLookupHuisnummer1Busnummer1.Document.LocatieId,
+                        locatieLookupHuisnummer1Busnummer1.ExpectedAdresId),
+                    new(locatieLookupHuisnummer2.Document.LocatieId,
+                        locatieLookupHuisnummer2.ExpectedAdresId),
+                    new(locatieLookupHuisnummer2Busnummer2.Document.LocatieId,
+                        locatieLookupHuisnummer2Busnummer2.ExpectedAdresId),
                 },
                 idempotencyKey: "idempotencyKey"),
         });
@@ -136,17 +136,15 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
         string vanAdresId,
         string naarAdresId)
         => new(
-            Document: new LocatieLookupDocument()
+            new LocatieLookupDocument
             {
                 VCode = vCode,
                 AdresId = vanAdresId,
                 LocatieId = locatieId,
             },
-            ExpectedAdresId: naarAdresId);
+            naarAdresId);
 
     public ReaddressedAddressData CreateReaddressedAddressData(int vanAdresId, int naarAdresId)
-    {
-        return new ReaddressedAddressData(vanAdresId, naarAdresId, false, string.Empty, string.Empty, string.Empty,
-                                          string.Empty, string.Empty, string.Empty, string.Empty, false);
-    }
+        => new(vanAdresId, naarAdresId, isDestinationNewlyProposed: false, string.Empty, string.Empty, string.Empty,
+               string.Empty, string.Empty, string.Empty, string.Empty, sourceIsOfficiallyAssigned: false);
 }

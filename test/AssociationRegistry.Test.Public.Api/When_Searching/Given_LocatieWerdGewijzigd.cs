@@ -7,7 +7,6 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Formats;
 using templates;
-using Test.Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

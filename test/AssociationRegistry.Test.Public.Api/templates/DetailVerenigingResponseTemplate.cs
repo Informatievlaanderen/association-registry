@@ -287,7 +287,7 @@ public class DetailVerenigingResponseTemplate
                       .WithKorteNaam(e.KorteNaam)
                       .WithKorteBeschrijving(e.KorteBeschrijving)
                       .WithStartdatum(e.Startdatum)
-                      .WithDoelgroep(e.VCode, minimumleeftijd: e.Doelgroep.Minimumleeftijd, maximumleeftijd: e.Doelgroep.Maximumleeftijd);
+                      .WithDoelgroep(e.VCode, e.Doelgroep.Minimumleeftijd, e.Doelgroep.Maximumleeftijd);
 
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
         {
@@ -356,7 +356,8 @@ public class DetailVerenigingResponseTemplate
     private DetailVerenigingResponseTemplate WithLocatie(string vCode, Registratiedata.Locatie l)
     {
         if (l.Adres is not null && l.AdresId is null)
-            return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, AdresFormatter.ToAdresString(l.Adres), l.Adres.Straatnaam,
+            return WithLocatie(vCode, l.LocatieId.ToString(), l.Locatietype, l.Naam, AdresFormatter.ToAdresString(l.Adres),
+                               l.Adres.Straatnaam,
                                l.Adres.Huisnummer,
                                l.Adres.Busnummer, l.Adres.Postcode, l.Adres.Gemeente, l.Adres.Land, l.IsPrimair);
 

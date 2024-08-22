@@ -45,7 +45,7 @@ public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_F
     public async Task Then_No_exceptions_Are_Thrown()
     {
         var consumer = new MartenEventsConsumer(_projectionHost.Services.GetRequiredService<PubliekZoekProjectionHandler>(),
-            Mock.Of<ILogger<MartenEventsConsumer>>());
+                                                Mock.Of<ILogger<MartenEventsConsumer>>());
 
         var consumeForElastic = () =>
         {

@@ -56,7 +56,6 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
                                    .WithDoelgroep(_scenario.VCode)
                            );
 
-
         var content = await GetResponseFromApiClient();
 
         for (var i = 0; i < 5; i++)
@@ -69,7 +68,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
             content = await GetResponseFromApiClient();
             Console.WriteLine(content);
             Console.ForegroundColor = foregroundColor;
-       }
+        }
 
         // content.Should().BeEquivalentJson(goldenMaster);
     }
@@ -79,6 +78,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();
         _outputHelper.WriteLine(content);
+
         return content;
     }
 }

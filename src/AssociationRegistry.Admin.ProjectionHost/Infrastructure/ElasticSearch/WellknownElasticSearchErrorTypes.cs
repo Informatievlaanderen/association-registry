@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
+namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 
 public static class WellknownElasticSearchErrorTypes
 {

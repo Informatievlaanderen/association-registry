@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
-using Constants;
 using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;

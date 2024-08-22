@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.Infrastructure.Json;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Resources;
 using System;
 using System.Runtime.Serialization;
 

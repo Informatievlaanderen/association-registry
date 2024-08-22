@@ -1,27 +1,18 @@
-﻿namespace AssociationRegistry.Test.E2E;
+﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
-using Admin.Api.Infrastructure.Extensions;
-using Admin.ProjectionHost.Infrastructure.Extensions;
 using Alba;
-using Amazon;
+using AlbaHost;
 using Amazon.Runtime;
 using Amazon.SQS;
 using Amazon.SQS.Model;
-using Configuration;
-using Framework.AlbaHost;
-using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
-using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Nest;
 using Oakton;
-using Xunit;
-using Clients = Common.Clients.Clients;
 using ProjectionHostProgram = Admin.ProjectionHost.Program;
 
 public class AdminApiSetup : IApiSetup
@@ -31,10 +22,6 @@ public class AdminApiSetup : IApiSetup
     public IAlbaHost AdminApiHost { get; private set; }
     public IAlbaHost ProjectionHost { get; private set; }
     public IAlbaHost QueryApiHost => AdminApiHost;
-
-    public AdminApiSetup()
-    {
-    }
 
     public async Task InitializeAsync(string schema)
     {
@@ -64,14 +51,14 @@ public class AdminApiSetup : IApiSetup
         {
             ServiceURL = "http://localhost:4566", // LocalStack endpoint
             UseHttp = true,
-            AuthenticationRegion = "eu-west-1" // Region for LocalStack
+            AuthenticationRegion = "eu-west-1", // Region for LocalStack
         };
 
-        IAmazonSQS sqs = new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), sqsConfig);
+        IAmazonSQS sqs = new AmazonSQSClient(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"), sqsConfig);
 
         var createQueueRequest = new CreateQueueRequest
         {
-            QueueName = schema // Assuming schema is a variable holding the queue name
+            QueueName = schema, // Assuming schema is a variable holding the queue name
         };
 
         var sqsResult = sqs.CreateQueueAsync(createQueueRequest).GetAwaiter().GetResult();
@@ -91,8 +78,8 @@ public class AdminApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
-             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant())
+             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
+             .UseSetting("GrarOptions:Sqs:AddressMatchQueueName", schema.ToLowerInvariant())
              .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"admin_{schema.ToLowerInvariant()}");
         };
     }

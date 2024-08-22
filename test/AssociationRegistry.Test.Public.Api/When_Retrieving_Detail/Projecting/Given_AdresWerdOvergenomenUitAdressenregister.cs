@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using Events;
-using JsonLdContext;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
+using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
+using JsonLdContext;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

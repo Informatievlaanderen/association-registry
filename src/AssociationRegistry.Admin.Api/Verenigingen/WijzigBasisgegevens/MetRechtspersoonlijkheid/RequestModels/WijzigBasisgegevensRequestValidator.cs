@@ -4,8 +4,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using Common;
 using FluentValidation;
 using Infrastructure.Validation;
-using System.Linq;
-using Vereniging;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -17,6 +15,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .WithMessage("Een request mag niet leeg zijn.");
 
         RuleFor(request => request.Roepnaam).MustNotContainHtml();
+
         RuleFor(request => request.KorteBeschrijving)
            .MustNotContainHtml();
 

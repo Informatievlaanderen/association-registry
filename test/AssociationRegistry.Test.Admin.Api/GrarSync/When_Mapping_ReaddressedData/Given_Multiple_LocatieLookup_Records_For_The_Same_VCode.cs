@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Admin.Api.GrarSync;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Grar.HeradresseerLocaties;
-using AssociationRegistry.Grar.Models;
-using Framework;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
+using Framework;
+using Grar.HeradresseerLocaties;
+using Grar.Models;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
@@ -22,27 +22,27 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
     [Fact]
     public async Task Then_Messages_Are_GroupedBy_VCode()
     {
-        var locatieFinder = new FakeLocatieFinder(new List<LocatieLookupDocument>()
+        var locatieFinder = new FakeLocatieFinder(new List<LocatieLookupDocument>
         {
-            new LocatieLookupDocument()
+            new()
             {
                 VCode = "VCode1",
                 AdresId = "123",
                 LocatieId = 1,
             },
-            new LocatieLookupDocument()
+            new()
             {
                 VCode = "VCode1",
                 AdresId = "456",
                 LocatieId = 2,
             },
-            new LocatieLookupDocument()
+            new()
             {
                 VCode = "VCode2",
                 AdresId = "123",
                 LocatieId = 1,
             },
-            new LocatieLookupDocument()
+            new()
             {
                 VCode = "VCode2",
                 AdresId = "789",
@@ -52,29 +52,28 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 
         var sut = new TeHeradresserenLocatiesMapper(locatieFinder);
 
-        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>()
+        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>
         {
-            new AddressHouseNumberReaddressedData(777, // can be ignored
-                                                  CreateReaddressedAddressData(123, 777), // vanAdresId, naarAdresId (HouseNumber)
-                                                  new List<ReaddressedAddressData>() // BoxNumbers
-                                                  {
-                                                  }),
+            new(addressPersistentLocalId: 777, // can be ignored
+                CreateReaddressedAddressData(vanAdresId: 123, naarAdresId: 777), // vanAdresId, naarAdresId (HouseNumber)
+                new List<ReaddressedAddressData>() // BoxNumbers
+            ),
         };
 
-        var result = await sut.ForAddress(addressHouseNumberReaddressedData, "idempotencyKey");
+        var result = await sut.ForAddress(addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
 
-        result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>()
+        result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>
         {
-            new TeHeradresserenLocatiesMessage("VCode1", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777") },
-                                               "idempotencyKey"),
-            new TeHeradresserenLocatiesMessage("VCode2", new List<LocatieIdWithAdresId>() { new LocatieIdWithAdresId(1, "777") },
-                                               "idempotencyKey"),
+            new(VCode: "VCode1", new List<LocatieIdWithAdresId>
+                    { new(LocatieId: 1, AddressId: "777") },
+                idempotencyKey: "idempotencyKey"),
+            new(VCode: "VCode2", new List<LocatieIdWithAdresId>
+                    { new(LocatieId: 1, AddressId: "777") },
+                idempotencyKey: "idempotencyKey"),
         });
     }
 
     public ReaddressedAddressData CreateReaddressedAddressData(int vanAdresId, int naarAdresId)
-    {
-        return new ReaddressedAddressData(vanAdresId, naarAdresId, false, string.Empty, string.Empty, string.Empty,
-                                          string.Empty, string.Empty, string.Empty, string.Empty, false);
-    }
+        => new(vanAdresId, naarAdresId, isDestinationNewlyProposed: false, string.Empty, string.Empty, string.Empty,
+               string.Empty, string.Empty, string.Empty, string.Empty, sourceIsOfficiallyAssigned: false);
 }

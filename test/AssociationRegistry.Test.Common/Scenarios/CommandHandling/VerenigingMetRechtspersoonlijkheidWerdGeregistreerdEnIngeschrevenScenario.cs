@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
 using global::AutoFixture;
+using Kbo;
+using Vereniging;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEnIngeschrevenScenario : CommandhandlerScenarioBase
 {

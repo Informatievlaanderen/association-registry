@@ -1,20 +1,19 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.Publiek_Detail;
 
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema.Constants;
 using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using Formats;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.TestClasses;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Vereniging;
 using Xunit;
 using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
@@ -28,7 +27,8 @@ using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging
 
 [Collection(nameof(PubliekRegistreerVerenigingCollection))]
 public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiSetup> context)
-    : End2EndTest<RegistreerVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(context)
+    : End2EndTest<RegistreerVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(
+        context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse> GetResponse =>
         host => host.GetPubliekDetail(VCode);
@@ -42,7 +42,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiSetup> 
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare( Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
                                                                compareConfig: new ComparisonConfig
                                                                    { MaxMillisecondsDateDifference = 5000 });
     }

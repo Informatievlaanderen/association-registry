@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven;
 
-using Events;
 using Common.Scenarios.EventsInDb;
-using Vereniging;
+using Events;
 using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

@@ -5,11 +5,6 @@ using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using Marten;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 public class MagdaRegistreerInschrijvingCatchupService : IMagdaRegistreerInschrijvingCatchupService
 {

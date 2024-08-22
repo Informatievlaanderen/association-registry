@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using EventStore;
-using Microsoft.AspNetCore.Http;
 
 public class UnexpectedAggregateVersionExceptionHandler : DefaultExceptionHandler<UnexpectedAggregateVersionException>
 {

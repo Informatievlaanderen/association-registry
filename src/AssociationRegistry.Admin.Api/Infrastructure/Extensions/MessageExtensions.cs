@@ -3,7 +3,6 @@
 using Confluent.Kafka;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System;
 using System.Reflection;
 
 public static class MessageExtensions
@@ -17,7 +16,7 @@ public static class MessageExtensions
         var contractAssembly = Assembly.Load("Be.Vlaanderen.Basisregisters.GrAr.Contracts");
         var type = contractAssembly.GetType(incomingType);
 
-        if(type is null) return null;
+        if (type is null) return null;
 
         return JsonConvert.DeserializeObject(incomingData, type, new JsonSerializerSettings());
     }

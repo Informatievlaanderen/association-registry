@@ -51,7 +51,8 @@ public class AdresMatchController : ApiController
             }
         }
 
-        logger.LogInformation($"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
+        logger.LogInformation(
+            $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
 
         return Ok(
             $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");

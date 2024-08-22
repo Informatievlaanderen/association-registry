@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.Exceptions;
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Resources;
 using System.Net;
 
 public class AdressenregisterReturnedInactiefAdres : DomainException

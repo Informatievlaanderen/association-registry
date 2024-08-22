@@ -2,18 +2,18 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_W
 
 using Acties.WijzigLocatie;
 using AssociationRegistry.Admin.ProjectionHost.Constants;
-using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressMatch;
-using AssociationRegistry.Grar.Models;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Grar;
+using Grar.AddressMatch;
+using Grar.Models;
 using Marten;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -40,40 +40,45 @@ public class Given_A_Locatie_With_Adres_id
         );
 
         var adresId = fixture.Create<AdresId>();
+
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
-            IsActief = true
+            IsActief = true,
         };
 
         var locatie = new WijzigLocatieCommand.Locatie(
             scenario.GetVerenigingState().Locaties.First().LocatieId,
             Locatietypes.Activiteiten,
-            false,
-            "De sjiekste club",
-            null,
+            IsPrimair: false,
+            Naam: "De sjiekste club",
+            Adres: null,
             adresId);
 
         var command = new WijzigLocatieCommand(scenario.VCode, locatie);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(adresDetailResponse);
+
         grarClient.Setup(s => s.GetPostalInformation(It.IsAny<string>()))
                   .ReturnsAsync(fixture.Create<PostalInformationResponse>() with
                    {
                        Gemeentenaam = adresDetailResponse.Gemeente,
                        Postcode = adresDetailResponse.Postcode,
-                       Postnamen = Array.Empty<string>()
+                       Postnamen = Array.Empty<string>(),
                    });
 
         await commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, fixture.Create<CommandMetadata>()));
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdGewijzigd(
-                Registratiedata.Locatie.With(Locatie.Hydrate(locatie.LocatieId, locatie.Naam, false, locatie.Locatietype, locatie.Adres, locatie.AdresId))),
-            new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, locatie.LocatieId, adresDetailResponse.AdresId, adresDetailResponse.ToAdresUitAdressenregister())
+                Registratiedata.Locatie.With(Locatie.Hydrate(locatie.LocatieId, locatie.Naam, isPrimair: false, locatie.Locatietype,
+                                                             locatie.Adres, locatie.AdresId))),
+            new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, locatie.LocatieId, adresDetailResponse.AdresId,
+                                                        adresDetailResponse.ToAdresUitAdressenregister())
         );
 
-        martenOutbox.Verify(v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
+        martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
+                            Times.Never);
     }
 }

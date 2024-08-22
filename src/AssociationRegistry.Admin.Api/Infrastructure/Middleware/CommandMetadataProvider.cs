@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 
 using Framework;
 using NodaTime;
-using System;
 
 internal class CommandMetadataProvider : ICommandMetadataProvider
 {

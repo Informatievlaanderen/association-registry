@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
@@ -29,7 +30,7 @@ public class Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext<AdminAp
         comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
 
         Response.Vereniging.Locaties.Single(x => x.LocatieId == 1)
-                .ShouldCompare(new Locatie()
+                .ShouldCompare(new Locatie
                  {
                      id = JsonLdType.Locatie.CreateWithIdValues(context.Scenario.VCode, "1"),
                      type = JsonLdType.Locatie.Type,
@@ -47,19 +48,19 @@ public class Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext<AdminAp
                          Land = "België",
                      },
                      Adresvoorstelling = "Leopold II-laan 99, 9200 Dendermonde, België",
-                     AdresId = new AdresId()
+                     AdresId = new AdresId
                      {
                          Broncode = Adresbron.AR,
                          Bronwaarde = "https://data.vlaanderen.be/id/adres/3213019",
                      },
-                     VerwijstNaar = new AdresVerwijzing()
+                     VerwijstNaar = new AdresVerwijzing
                      {
                          id = JsonLdType.AdresVerwijzing.CreateWithIdValues("3213019"),
                          type = JsonLdType.AdresVerwijzing.Type,
                      },
                      Bron = Bron.Initiator,
                      IsPrimair = true,
-                     Locatietype = Locatietype.Correspondentie
+                     Locatietype = Locatietype.Correspondentie,
                  }, compareConfig: comparisonConfig);
     }
 }

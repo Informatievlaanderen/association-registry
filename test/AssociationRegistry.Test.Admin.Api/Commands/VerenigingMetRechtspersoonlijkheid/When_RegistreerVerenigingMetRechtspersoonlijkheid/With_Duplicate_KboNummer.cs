@@ -2,10 +2,10 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Events;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Framework;
 using FluentAssertions;
+using Framework;
 using Framework.Fixtures;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;

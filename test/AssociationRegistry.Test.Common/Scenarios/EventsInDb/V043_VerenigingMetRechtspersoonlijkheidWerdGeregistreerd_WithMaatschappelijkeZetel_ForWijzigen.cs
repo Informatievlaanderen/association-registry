@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
+using EventStore;
 using global::AutoFixture;
+using Vereniging;
 
 public class V043_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithMaatschappelijkeZetel_ForWijzigen : IEventsInDbScenario
 {

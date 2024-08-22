@@ -2,10 +2,10 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
     With_Kbo_Nummer_For_Supported_Rechtsvorm;
 
 using Events;
-using Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework.Fixtures;
+using Vereniging;
 using Xunit;
 
 public class RegistreerIVzwSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup

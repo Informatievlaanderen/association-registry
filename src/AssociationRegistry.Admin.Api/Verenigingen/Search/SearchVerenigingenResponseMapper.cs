@@ -5,9 +5,6 @@ using Nest;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 public class SearchVerenigingenResponseMapper
 {
@@ -66,7 +63,8 @@ public class SearchVerenigingenResponseMapper
         }
         catch
         {
-            logger.LogError("Could not map {VCode}: \n{@Doc}", verenigingZoekDocument.VCode, verenigingZoekDocument);
+            logger.LogError(message: "Could not map {VCode}: \n{@Doc}", verenigingZoekDocument.VCode, verenigingZoekDocument);
+
             throw;
         }
     }
@@ -128,10 +126,10 @@ public class SearchVerenigingenResponseMapper
         if (loc == null)
             throw new ArgumentNullException(nameof(loc));
 
-        if(loc.JsonLdMetadata == null)
+        if (loc.JsonLdMetadata == null)
             throw new ArgumentNullException(nameof(loc.JsonLdMetadata));
 
-        return new()
+        return new Locatie
         {
             id = loc.JsonLdMetadata.Id,
             type = loc.JsonLdMetadata.Type,

@@ -13,8 +13,10 @@ public class TeWijzigenMaatschappelijkeZetelValidator : AbstractValidator<TeWijz
            .WithMessage("'Locatie' moet ingevuld zijn.");
 
         RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam).MustNotContainHtml();
+
         RuleFor(maatschappelijkeZetel => maatschappelijkeZetel.Naam)
-           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam, $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.");
+           .MustNotBeMoreThanAllowedMaxLength(Locatie.MaxLengthLocatienaam,
+                                              $"Locatienaam mag niet langer dan {Locatie.MaxLengthLocatienaam} karakters zijn.");
     }
 
     private bool HaveAtLeastOneValue(TeWijzigenMaatschappelijkeZetel locatie)

@@ -2,16 +2,18 @@ namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 
-public class AdminDetailComparisonConfig: End2EndComparisonConfig
+public class AdminDetailComparisonConfig : End2EndComparisonConfig
 {
     public static readonly AdminDetailComparisonConfig Instance = new();
+
     public AdminDetailComparisonConfig()
     {
         IgnoreCollectionOrder = true;
-        CollectionMatchingSpec = new Dictionary<Type, IEnumerable<string>>()
+
+        CollectionMatchingSpec = new Dictionary<Type, IEnumerable<string>>
         {
-            {typeof(Vertegenwoordiger), [nameof(Vertegenwoordiger.id)]},
-            {typeof(Sleutel), [nameof(Sleutel.id)]}
+            { typeof(Vertegenwoordiger), [nameof(Vertegenwoordiger.id)] },
+            { typeof(Sleutel), [nameof(Sleutel.id)] },
         };
 
         // Ignore specific properties

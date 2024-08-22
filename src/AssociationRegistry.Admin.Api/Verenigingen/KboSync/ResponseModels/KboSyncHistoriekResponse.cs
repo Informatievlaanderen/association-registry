@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync.ResponseModels;
 
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 

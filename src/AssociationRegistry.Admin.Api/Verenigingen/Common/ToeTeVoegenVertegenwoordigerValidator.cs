@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using FluentValidation;
 using Infrastructure.Validation;
-using System.Linq;
 
 public class ToeTeVoegenVertegenwoordigerValidator : AbstractValidator<ToeTeVoegenVertegenwoordiger>
 {

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Events;
+using EventStore;
 using global::AutoFixture;
 
 public class V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocaties_ForWijzigen : IEventsInDbScenario
@@ -28,7 +28,7 @@ public class V032_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_WithLocati
             fixture.Create<Registratiedata.Locatie>() with
             {
                 LocatieId = 1,
-                AdresId = null
+                AdresId = null,
             });
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

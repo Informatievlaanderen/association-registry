@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Configuration;
 
-using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
-using System.Threading.Tasks;
 
 /// <summary>
 ///     Add headers to the response to prevent any caching.

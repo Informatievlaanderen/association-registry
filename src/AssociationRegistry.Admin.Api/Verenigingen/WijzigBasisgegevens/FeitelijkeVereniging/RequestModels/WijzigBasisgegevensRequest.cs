@@ -3,8 +3,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.Feiteli
 using Acties.WijzigBasisgegevens;
 using Common;
 using Primitives;
-using System;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vereniging;
 

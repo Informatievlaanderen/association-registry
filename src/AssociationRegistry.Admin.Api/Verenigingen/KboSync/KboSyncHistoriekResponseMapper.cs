@@ -3,8 +3,6 @@
 using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.KboSync;
-using System.Collections.Generic;
-using System.Linq;
 
 public class KboSyncHistoriekResponseMapper
 {

@@ -32,8 +32,8 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
                                                       maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId.ToString()),
                 JsonLdType.Locatie.Type),
         };
-        doc.Locaties = doc.Locaties.Append(locatie).ToArray();
 
+        doc.Locaties = doc.Locaties.Append(locatie).ToArray();
 
         PubliekVerenigingDetailProjector.Apply(maatschappelijkeZetelVolgensKboWerdGewijzigd, doc);
 

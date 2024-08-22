@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.When_Retrieving_Detail.Projecting;
 
-using AssociationRegistry.Admin.Schema.Constants;
+using Admin.Schema.Constants;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Detail;

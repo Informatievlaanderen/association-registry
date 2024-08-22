@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Events;
+using EventStore;
 using global::AutoFixture;
+using Vereniging;
 
 public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario
 {
@@ -34,7 +34,6 @@ public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario
             Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
-
         };
 
         AdresWerdGewijzigdInAdressenregister = fixture.Create<AdresWerdGewijzigdInAdressenregister>() with
@@ -52,14 +51,14 @@ public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario
 
     public IEvent[] GetEvents()
         => new IEvent[]
-            {
-                FeitelijkeVerenigingWerdGeregistreerd,
-            }
-             .Concat(new IEvent[]
-              {
-                  AdresWerdGewijzigdInAdressenregister,
-              })
-             .ToArray();
+           {
+               FeitelijkeVerenigingWerdGeregistreerd,
+           }
+          .Concat(new IEvent[]
+           {
+               AdresWerdGewijzigdInAdressenregister,
+           })
+          .ToArray();
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

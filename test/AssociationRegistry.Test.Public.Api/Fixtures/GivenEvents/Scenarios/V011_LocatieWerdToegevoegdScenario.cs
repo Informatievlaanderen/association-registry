@@ -14,7 +14,7 @@ public class V011_LocatieWerdToegevoegdScenario : IScenario
             IsPrimair: false,
             Naam: "Naam locatie",
             Adres: null,
-            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix+"1")));
+            new Registratiedata.AdresId(Adresbron.AR.Code, AdresId.DataVlaanderenAdresPrefix + "1")));
 
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001011",

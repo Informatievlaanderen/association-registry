@@ -39,7 +39,8 @@ public class Given_ContactgegevenWerdGewijzigd
                 new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdGewijzigd.StreamKey!, contactgegevenWerdGewijzigd.Data.ContactgegevenId.ToString()),
+                        JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdGewijzigd.StreamKey!,
+                                                                     contactgegevenWerdGewijzigd.Data.ContactgegevenId.ToString()),
                         JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                     Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,

@@ -14,6 +14,7 @@ public class Contactgegeven
     /// <summary>Het json-ld type</summary>
     [DataMember(Name = "@type")]
     public string type { get; init; }
+
     /// <summary>De unieke identificatie code van dit contactgegeven binnen de vereniging</summary>
     [DataMember(Name = "ContactgegevenId")]
     public int ContactgegevenId { get; init; }
@@ -30,7 +31,7 @@ public class Contactgegeven
     ///     Vrij veld die het het contactgegeven beschrijft (bijv: algemeen, administratie, ...)
     /// </summary>
     [DataMember(Name = "Beschrijving")]
-    [MaxLength(AssociationRegistry.Vereniging.Contactgegeven.MaxLengthBeschrijving)]
+    [MaxLength(Vereniging.Contactgegeven.MaxLengthBeschrijving)]
     public string? Beschrijving { get; init; }
 
     /// <summary>Duidt het contactgegeven aan als primair contactgegeven</summary>

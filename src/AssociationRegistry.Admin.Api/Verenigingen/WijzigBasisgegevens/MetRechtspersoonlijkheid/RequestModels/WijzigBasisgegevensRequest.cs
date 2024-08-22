@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 
 using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using Common;
-using System.Linq;
 using System.Runtime.Serialization;
 using Vereniging;
 

@@ -2,8 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
 using AssociationRegistry.Framework;
 using Kbo;
-using Vereniging;
 using ResultNet;
+using Vereniging;
 
 public class MagdaRegistreerInschrijvingServiceMock : IMagdaRegistreerInschrijvingService
 {
@@ -14,7 +14,6 @@ public class MagdaRegistreerInschrijvingServiceMock : IMagdaRegistreerInschrijvi
     {
         _mockResult = mockResult;
     }
-
 
     public async Task<Result> RegistreerInschrijving(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
         => _mockResult;

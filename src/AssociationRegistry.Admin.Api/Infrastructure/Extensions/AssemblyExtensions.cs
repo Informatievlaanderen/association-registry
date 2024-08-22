@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using System;
-using System.IO;
 using System.Reflection;
 using System.Text;
 

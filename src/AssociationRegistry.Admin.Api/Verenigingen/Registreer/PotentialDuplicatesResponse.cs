@@ -2,9 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using DuplicateVerenigingDetection;
 using Hosts.Configuration.ConfigurationBindings;
-using System;
 using System.Collections.Immutable;
-using System.Linq;
 using System.Runtime.Serialization;
 
 [DataContract]

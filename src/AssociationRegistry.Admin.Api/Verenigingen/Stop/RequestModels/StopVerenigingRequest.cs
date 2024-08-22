@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 
 using Acties.StopVereniging;
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;

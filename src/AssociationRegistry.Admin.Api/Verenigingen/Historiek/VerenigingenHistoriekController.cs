@@ -10,12 +10,10 @@ using Infrastructure.Extensions;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Marten;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Historiek;
 using Swashbuckle.AspNetCore.Filters;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]

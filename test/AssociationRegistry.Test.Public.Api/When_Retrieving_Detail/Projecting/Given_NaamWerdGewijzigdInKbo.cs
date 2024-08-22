@@ -45,6 +45,7 @@ public class Given_RechtsvormWerdGewijzigdInKbo
             Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
             Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
         });
+
         doc.Rechtsvorm.Should().Be(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm);
     }
 }

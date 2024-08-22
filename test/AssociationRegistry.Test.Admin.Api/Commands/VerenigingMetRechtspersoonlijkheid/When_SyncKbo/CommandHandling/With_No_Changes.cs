@@ -1,21 +1,21 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
 using Acties.SyncKbo;
-using Events;
 using AssociationRegistry.Framework;
-using Kbo;
-using Notifications;
-using Notifications.Messages;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
-using Vereniging.Exceptions;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
 using FluentAssertions;
+using Framework;
 using Framework.Fakes;
+using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Notifications;
+using Notifications.Messages;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
@@ -26,8 +26,8 @@ public class With_No_Changes
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
     private readonly Mock<IMagdaGeefVerenigingService> _magdaGeefVerenigingService;
     private readonly Mock<INotifier> _notifierMock;
-    private Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingServiceMock;
-    private SyncKboCommand _command;
+    private readonly Mock<IMagdaRegistreerInschrijvingService> _magdaRegistreerInschrijvingServiceMock;
+    private readonly SyncKboCommand _command;
 
     public With_No_Changes()
     {
@@ -43,7 +43,8 @@ public class With_No_Changes
 
         _magdaRegistreerInschrijvingServiceMock = new Mock<IMagdaRegistreerInschrijvingService>();
 
-        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object, new MagdaGeefVerenigingNumberFoundServiceMock(
+        var commandHandler = new SyncKboCommandHandler(_magdaRegistreerInschrijvingServiceMock.Object,
+                                                       new MagdaGeefVerenigingNumberFoundServiceMock(
                                                            _scenario.VerenigingVolgensKbo
                                                        ),
                                                        _notifierMock.Object,
@@ -59,7 +60,7 @@ public class With_No_Changes
     {
         _magdaRegistreerInschrijvingServiceMock
            .Verify(
-                service => service.RegistreerInschrijving(
+                expression: service => service.RegistreerInschrijving(
                     _command.KboNummer,
                     It.IsAny<CommandMetadata>(),
                     It.IsAny<CancellationToken>()),

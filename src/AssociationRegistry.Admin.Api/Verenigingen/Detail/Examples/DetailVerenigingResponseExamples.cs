@@ -5,8 +5,6 @@ using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
-using System;
-using System.Collections.Generic;
 using Vereniging;
 using Vereniging.Bronnen;
 using Adres = ResponseModels.Adres;
@@ -107,7 +105,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 1,
                             },
                             VerwijstNaar =
-                                new AdresVerwijzing()
+                                new AdresVerwijzing
                                 {
                                     id = JsonLdType.AdresVerwijzing.CreateWithIdValues("1"),
                                     type = JsonLdType.AdresVerwijzing.Type,
@@ -283,7 +281,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                                 Broncode = Adresbron.AR,
                                 Bronwaarde = AssociationRegistry.Vereniging.AdresId.DataVlaanderenAdresPrefix + 17,
                             },
-                            VerwijstNaar = new AdresVerwijzing()
+                            VerwijstNaar = new AdresVerwijzing
                             {
                                 id = JsonLdType.AdresVerwijzing.CreateWithIdValues("17"),
                                 type = JsonLdType.AdresVerwijzing.Type,

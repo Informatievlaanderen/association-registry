@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
 using Marten.Schema;
-using System;
 
 public record AddressKafkaConsumerOffset
 {

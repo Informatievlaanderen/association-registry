@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using Vereniging;
 using global::AutoFixture;
 using global::AutoFixture.Kernel;
 using Marten.Events;
 using NodaTime;
+using Vereniging;
 
 public class TestEventSpecimenBuilder : ISpecimenBuilder
 {
