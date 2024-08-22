@@ -1,14 +1,16 @@
-﻿namespace AssociationRegistry.Test.When_SynchroniserenLocatieAdres;
+﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_SynchroniserenLocatieAdres;
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.AddressSync;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Test.Framework.Customizations;
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
-using Grar.Models;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 

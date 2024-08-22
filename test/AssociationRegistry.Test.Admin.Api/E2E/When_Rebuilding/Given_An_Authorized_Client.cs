@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.E2E.When_Rebuilding;
+﻿namespace AssociationRegistry.Test.Admin.Api.Authorization.When_Rebuilding;
 
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
 using Xunit;

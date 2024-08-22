@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Framework;
+namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using Xunit;
 

@@ -7,7 +7,6 @@ using Alba;
 using Events;
 using EventStore;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;

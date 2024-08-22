@@ -3,7 +3,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
 using FluentValidation.Internal;
 using Microsoft.AspNetCore.Http;
-using Resources;
 using System;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
