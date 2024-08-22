@@ -19,10 +19,6 @@
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmbeddedResourceTemplate.cs</LastGenOutput>
     </None>
-    <None Update="EmbeddedResources.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>EmbeddedRiderResources.cs</LastGenOutput>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="templates\*.json" />
@@ -32,11 +28,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EmbeddedResourceTemplate.tt</DependentUpon>
-    </Compile>
-    <Compile Update="EmbeddedRiderResources.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EmbeddedRiderResources.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
