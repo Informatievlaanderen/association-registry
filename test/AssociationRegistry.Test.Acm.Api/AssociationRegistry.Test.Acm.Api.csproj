@@ -15,19 +15,28 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="EmbeddedResourceTemplate.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmbeddedResourceTemplate.cs</LastGenOutput>
+    </None>
     <None Update="EmbeddedResources.tt">
-      <Generator>TextTemplatingFilePreprocessor</Generator>
-      <LastGenOutput>EmbeddedResources.cs</LastGenOutput>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>EmbeddedRiderResources.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="templates\*.json" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="EmbeddedResources.cs">
+    <Compile Update="EmbeddedResourceTemplate.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>EmbeddedResources.tt</DependentUpon>
+      <DependentUpon>EmbeddedResourceTemplate.tt</DependentUpon>
+    </Compile>
+    <Compile Update="EmbeddedRiderResources.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmbeddedRiderResources.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />

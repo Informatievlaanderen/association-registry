@@ -1,15 +1,14 @@
-<#@ template debug="false" hostspecific="true" language="C#" #>
+namespace AssociationRegistry.Test.Acm.Api;
+
+<#@ template debug="true" language="C#" #>
 <#@ output extension=".cs" #>
-<#@ assembly name="System.Core" #>
-<#@ assembly name="System.Xml" #>
 <#@ assembly name="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
 <#@ import namespace="System.IO" #>
-<#@ import namespace="System.Linq" #>
 <#@ import namespace="System.Xml.Linq" #>
-public static class EmbeddedResources
-{
+<#@ import namespace="System.Linq" #>
+public static class EmbeddedResources {
 <#
-  static string GetRelativePath(string fromPath, string toPath)
+  string GetRelativePath(string fromPath, string toPath)
   {
     var fromUri = new Uri(fromPath);
     var toUri = new Uri(toPath);
@@ -18,7 +17,18 @@ public static class EmbeddedResources
     return relativePath.Replace(oldChar: '/', Path.DirectorySeparatorChar);
   }
 
-  var csprojPath = Host.ResolvePath("AssociationRegistry.Test.Acm.Api.csproj"); // Adjust this to your file path
+  void WriteStaticResourceName(string resourceName)
+  {
+    // Convert the resource name to a valid C# identifier (if needed)
+    var validResourceName = new string(resourceName
+                                         .Select(ch => char.IsLetterOrDigit(ch) ? ch : '_')
+                                         .ToArray());
+
+    WriteLine($"    public const string {validResourceName} = \"{resourceName.Replace(oldChar: '\\', newChar: '.').Replace(oldChar: '/', newChar: '.')}\";");
+  }
+
+  var currentDir = Directory.GetCurrentDirectory();
+  var csprojPath = Path.Combine(currentDir, "AssociationRegistry.Test.Acm.Api.csproj");
   var xDocument = XDocument.Load(csprojPath);
   var embeddedResourceElements = xDocument.Descendants("EmbeddedResource");
 
@@ -32,11 +42,10 @@ public static class EmbeddedResources
       var directoryPath = includePath.Substring(0, lastDirectorySeparator);
       var extension = Path.GetExtension(includePath);
 
-      var files = Directory.GetFiles(Host.ResolvePath(directoryPath), "*" + extension);
+      var files = Directory.GetFiles(directoryPath, "*" + extension);
       foreach (var file in files)
       {
-        var relativePath = GetRelativePath(csprojPath, file).Replace(oldChar: '\\', newChar: '.').Replace(oldChar: '/', newChar: '.');
-        WriteStaticResourceName(relativePath);
+        WriteStaticResourceName(file);
       }
     }
     else // Direct path
@@ -46,14 +55,3 @@ public static class EmbeddedResources
   }
 #>
 }
-<#+
-  private void WriteStaticResourceName(string resourceName)
-  {
-    // Convert the resource name to a valid C# identifier (if needed)
-    var validResourceName = new string(resourceName
-                                         .Select(ch => char.IsLetterOrDigit(ch) ? ch : '_')
-                                         .ToArray());
-
-    WriteLine($"    public const string {validResourceName} = \"{resourceName}\";");
-  }
-#>
