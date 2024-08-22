@@ -413,6 +413,15 @@ namespace AssociationRegistry {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen..
+        /// </summary>
+        public static string LaatsteVertegenwoordigerKanNietVerwijderdWorden {
+            get {
+                return ResourceManager.GetString("LaatsteVertegenwoordigerKanNietVerwijderdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet verwijderd worden..
         /// </summary>
         public static string MaatschappelijkeZetelCanNotBeRemoved {
