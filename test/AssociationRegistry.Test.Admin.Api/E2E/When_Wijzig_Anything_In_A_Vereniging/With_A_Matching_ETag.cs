@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.When_Wijzig_Anything_In_A_Vereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.E2E.When_Wijzig_Anything_In_A_Vereniging;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;

@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formats;
 using JsonLdContext;
-using Vereniging;
 using System.Dynamic;
+using Vereniging;
 
 public class ZoekVerenigingenResponseTemplate : ResponseTemplate
 {
@@ -14,7 +14,7 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
     private string _query = string.Empty;
 
     public ZoekVerenigingenResponseTemplate()
-    : base("Framework.templates.ZoekVerenigingenResponse.json")
+        : base("Framework.templates.ZoekVerenigingenResponse.json")
     {
         WithPagination();
     }

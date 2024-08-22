@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijderen;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
 
 using FluentValidation;
 using Infrastructure.Validation;

@@ -1,16 +1,15 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Grar.When_SynchroniserenLocatieAdres;
+﻿namespace AssociationRegistry.Test.When_SynchroniserenLocatieAdres;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressSync;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Events;
+using Framework.Customizations;
+using Grar;
+using Grar.AddressSync;
+using Grar.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 
@@ -40,7 +39,8 @@ public class With_A_Changed_Adres
 
         var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
         {
-            LocatiesWithAdres = new List<LocatieWithAdres>() { new(locatieId, mockedAdresDetail) },
+            LocatiesWithAdres = new List<LocatieWithAdres>
+                { new(locatieId, mockedAdresDetail) },
             VCode = "V001",
             IdempotenceKey = "123456789",
         };

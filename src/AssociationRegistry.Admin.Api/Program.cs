@@ -25,6 +25,7 @@ using Grar;
 using Grar.AddressMatch;
 using GrarSync;
 using Hosts;
+using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure;

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.Exceptions;
 
+using Resources;
 using System.Net;
 
 public class AdressenregisterReturnedNonSuccessStatusCode : ApplicationException

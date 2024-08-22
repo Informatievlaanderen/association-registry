@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
-using Events;
-using Formats;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
+using Formats;
 using Framework.Fixtures;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;

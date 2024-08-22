@@ -5,6 +5,7 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Resources;
 using System.Net;
 using Xunit;
 using Xunit.Abstractions;

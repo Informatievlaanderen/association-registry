@@ -2,10 +2,10 @@
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.EventStore;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using EventStore;
 using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

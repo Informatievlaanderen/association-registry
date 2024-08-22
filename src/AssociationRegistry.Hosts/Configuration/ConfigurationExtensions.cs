@@ -1,11 +1,8 @@
-namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+namespace AssociationRegistry.Hosts.Configuration;
 
-using AssociationRegistry.Configuration;
-using Framework;
-using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Hosting;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using Serilog;
 

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.WhenDetectingDuplicates.Playground;
+namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Playground;
 
 using AssociationRegistry.Admin.Api.DuplicateDetection;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;

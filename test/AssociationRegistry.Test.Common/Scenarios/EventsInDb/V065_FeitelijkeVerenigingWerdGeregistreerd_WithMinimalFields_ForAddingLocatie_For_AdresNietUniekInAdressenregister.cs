@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Events;
+using EventStore;
 using global::AutoFixture;
 
-public class V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister : IEventsInDbScenario
+public class
+    V065_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForAddingLocatie_For_AdresNietUniekInAdressenregister : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
     public readonly CommandMetadata Metadata;

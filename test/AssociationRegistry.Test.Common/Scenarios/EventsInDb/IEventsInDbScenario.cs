@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using EventStore;
 
 public interface IEventsInDbScenario
 {

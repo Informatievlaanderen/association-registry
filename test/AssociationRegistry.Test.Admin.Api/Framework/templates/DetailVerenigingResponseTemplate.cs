@@ -5,10 +5,10 @@ using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formats;
 using JsonLdContext;
-using Vereniging;
-using Vereniging.Bronnen;
 using NodaTime;
 using System.Dynamic;
+using Vereniging;
+using Vereniging.Bronnen;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {

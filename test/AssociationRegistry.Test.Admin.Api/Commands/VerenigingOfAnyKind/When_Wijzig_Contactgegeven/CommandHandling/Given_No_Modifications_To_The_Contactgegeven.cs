@@ -2,12 +2,12 @@
 
 using Acties.WijzigContactgegeven;
 using AssociationRegistry.Framework;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using FluentAssertions;
+using Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

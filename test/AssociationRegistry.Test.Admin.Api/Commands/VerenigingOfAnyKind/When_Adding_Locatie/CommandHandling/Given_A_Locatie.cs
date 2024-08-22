@@ -1,16 +1,16 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
 using Acties.VoegLocatieToe;
-using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Grar;
 using Marten;
 using Moq;
+using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -34,7 +34,7 @@ public class Given_A_Locatie
 
         var command = new VoegLocatieToeCommand(scenario.VCode, fixture.Create<Locatie>() with
         {
-            AdresId = null
+            AdresId = null,
         });
 
         await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));

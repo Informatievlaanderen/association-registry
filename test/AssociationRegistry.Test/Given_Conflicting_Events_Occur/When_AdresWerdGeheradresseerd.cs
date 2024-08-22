@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Given_Conflicting_Events_Occur;
+﻿namespace AssociationRegistry.Test.Given_Conflicting_Events_Occur;
 
 using AssociationRegistry.Framework;
 using AutoFixture;

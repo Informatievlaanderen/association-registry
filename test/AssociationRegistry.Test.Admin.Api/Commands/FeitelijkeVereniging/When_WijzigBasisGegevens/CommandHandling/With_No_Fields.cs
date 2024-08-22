@@ -2,12 +2,12 @@
 
 using Acties.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Framework;
 using Framework.Fakes;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

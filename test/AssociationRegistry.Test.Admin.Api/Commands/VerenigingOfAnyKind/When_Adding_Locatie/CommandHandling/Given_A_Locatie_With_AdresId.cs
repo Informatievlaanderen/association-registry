@@ -1,18 +1,18 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
 using Acties.VoegLocatieToe;
-using Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressMatch;
-using AssociationRegistry.Grar.Models;
-using Framework;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
 using AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Framework;
+using Grar;
+using Grar.AddressMatch;
+using Grar.Models;
 using Marten;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -21,7 +21,6 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_Locatie_With_Adres_id
 {
-
     [Fact]
     public async Task Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
@@ -40,10 +39,11 @@ public class Given_A_Locatie_With_Adres_id
         );
 
         var adresId = fixture.Create<AdresId>();
+
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
             AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
-            IsActief = true
+            IsActief = true,
         };
 
         var locatie = fixture.Create<Locatie>() with
@@ -51,6 +51,7 @@ public class Given_A_Locatie_With_Adres_id
             AdresId = adresId,
             Adres = null,
         };
+
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
@@ -66,9 +67,11 @@ public class Given_A_Locatie_With_Adres_id
                 {
                     LocatieId = maxLocatieId,
                 }),
-            new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, maxLocatieId, adresDetailResponse.AdresId, adresDetailResponse.ToAdresUitAdressenregister())
+            new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, maxLocatieId, adresDetailResponse.AdresId,
+                                                        adresDetailResponse.ToAdresUitAdressenregister())
         );
 
-        martenOutbox.Verify(v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
+        martenOutbox.Verify(expression: v => v.SendAsync(It.IsAny<TeAdresMatchenLocatieMessage>(), It.IsAny<DeliveryOptions>()),
+                            Times.Never);
     }
 }
