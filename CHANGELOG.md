@@ -1,3 +1,10 @@
+## [8.135.3](https://github.com/informatievlaanderen/association-registry/compare/v8.135.2...v8.135.3) (2024-08-22)
+
+
+### Bug Fixes
+
+* recreate public search indices before rebuilding ([234a3cc](https://github.com/informatievlaanderen/association-registry/commit/234a3cc0de60a39262090610197bf6f234564376))
+
 ## [8.135.2](https://github.com/informatievlaanderen/association-registry/compare/v8.135.1...v8.135.2) (2024-08-22)
 
 
