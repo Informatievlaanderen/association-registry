@@ -1,3 +1,10 @@
+# [8.135.0](https://github.com/informatievlaanderen/association-registry/compare/v8.134.0...v8.135.0) (2024-08-22)
+
+
+### Features
+
+* or-2189 laatste vertegenwoordiger mag niet verwijderd worden ([ecd7f3c](https://github.com/informatievlaanderen/association-registry/commit/ecd7f3c0d1e29731b3bf3c0587824cbbce191126))
+
 # [8.134.0](https://github.com/informatievlaanderen/association-registry/compare/v8.133.6...v8.134.0) (2024-08-21)
 
 
