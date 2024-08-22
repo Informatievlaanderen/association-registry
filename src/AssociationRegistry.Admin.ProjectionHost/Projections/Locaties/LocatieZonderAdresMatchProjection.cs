@@ -30,15 +30,28 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         {
             if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
 
-            if (@event.Data.Locatie.Adres is not null)
-                return new LocatieZonderAdresMatchDocument()
-                {
-                    Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
-                    VCode = @event.StreamKey,
-                    LocatieId = @event.Data.Locatie.LocatieId
-                };
+            if (@event.Data.Locatie.Adres is null) return null;
 
-            return null;
+            return new LocatieZonderAdresMatchDocument()
+            {
+                Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
+                VCode = @event.StreamKey,
+                LocatieId = @event.Data.Locatie.LocatieId
+            };
+        });
+
+        CreateEvent<LocatieWerdGewijzigd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}", @event =>
+        {
+            if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
+
+            if (@event.Data.Locatie.Adres is null) return null;
+
+            return new LocatieZonderAdresMatchDocument()
+            {
+                Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
+                VCode = @event.StreamKey,
+                LocatieId = @event.Data.Locatie.LocatieId
+            };
         });
 
         DeleteEvent<LocatieWerdVerwijderd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}");
