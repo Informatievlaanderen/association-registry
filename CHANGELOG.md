@@ -1,3 +1,19 @@
+## [8.135.1](https://github.com/informatievlaanderen/association-registry/compare/v8.135.0...v8.135.1) (2024-08-22)
+
+
+### Bug Fixes
+
+* or-2313 add resources ([5ddf34e](https://github.com/informatievlaanderen/association-registry/commit/5ddf34e87bffe9d62758154d84e441eb681fca74))
+* or-2313 namespace adjustments after refactor ([7ef0b75](https://github.com/informatievlaanderen/association-registry/commit/7ef0b752b0f71b11d4db729aecfa56a72e7409d7))
+* or-2313 namespace cleanup and reformat ([5dd93d2](https://github.com/informatievlaanderen/association-registry/commit/5dd93d25228c013df98e081672fd4df215f9330c))
+* or-2313 run wiremock for test on github premerge actions ([aa229ec](https://github.com/informatievlaanderen/association-registry/commit/aa229ec472aabb2b3687351e168ef16709e33811))
+* or-2313 update projections folder structure ([0e8f845](https://github.com/informatievlaanderen/association-registry/commit/0e8f845af674c0369c8296e2bc9c69b6d71d1649))
+
+
+### Reverts
+
+* Revert "fix: or-2313 namespace adjustments after refactor" ([26793db](https://github.com/informatievlaanderen/association-registry/commit/26793db060fc0e2c750f3a92fa355234988f5a94))
+
 # [8.135.0](https://github.com/informatievlaanderen/association-registry/compare/v8.134.0...v8.135.0) (2024-08-22)
 
 
