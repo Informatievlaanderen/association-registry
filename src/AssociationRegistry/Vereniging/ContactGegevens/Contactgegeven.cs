@@ -43,7 +43,7 @@ public record Contactgegeven
 
     public int ContactgegevenId { get; init; }
     public Contactgegeventype Contactgegeventype { get; init; }
-    public string Waarde { get; }
+    public string Waarde { get; init; }
     public string Beschrijving { get; init; }
     public bool IsPrimair { get; init; }
     public Bron Bron { get; init; }
@@ -54,18 +54,20 @@ public record Contactgegeven
         if (ReferenceEquals(objA: null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
-        if (this.Contactgegeventype == Contactgegeventype.Telefoon)
-        {
-            var thiswaarde = NormalizePhoneNumber(Waarde);
-            var otherwaarde = NormalizePhoneNumber(other.Waarde);
-        }
-
         return ContactgegevenId == other.ContactgegevenId &&
                Contactgegeventype.Equals(other.Contactgegeventype) &&
                Waarde == other.Waarde &&
                Beschrijving == other.Beschrijving &&
                IsPrimair == other.IsPrimair &&
                Bron == other.Bron;
+    }
+
+    private bool EqualsPhoneNumber(string phoneNumber)
+    {
+        var originalPhoneNumber = NormalizePhoneNumber(Waarde);
+        var otherPhoneNumber = NormalizePhoneNumber(phoneNumber);
+
+        return originalPhoneNumber == otherPhoneNumber;
     }
 
     public static string NormalizePhoneNumber(string phoneNumber)
@@ -128,9 +130,11 @@ public record Contactgegeven
     }
 
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
-        => Contactgegeventype == contactgegeven.Contactgegeventype &&
-           Waarde == contactgegeven.Waarde &&
-           Beschrijving == contactgegeven.Beschrijving;
+        => Contactgegeventype == contactgegeven.Contactgegeventype
+            && contactgegeven.Contactgegeventype == Contactgegeventype.Telefoon
+                ? EqualsPhoneNumber(contactgegeven.Waarde)
+                : Waarde == contactgegeven.Waarde
+            && Beschrijving == contactgegeven.Beschrijving;
 
     private static bool IsKnownType(string type)
         => Contactgegeventype.CanParse(type);
