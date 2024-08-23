@@ -6,6 +6,7 @@ using Emails;
 using Exceptions;
 using Framework;
 using SocialMedias;
+using System.Text.RegularExpressions;
 using TelefoonNummers;
 using Websites;
 
@@ -53,12 +54,41 @@ public record Contactgegeven
         if (ReferenceEquals(objA: null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
 
+        if (this.Contactgegeventype == Contactgegeventype.Telefoon)
+        {
+            var thiswaarde = NormalizePhoneNumber(Waarde);
+            var otherwaarde = NormalizePhoneNumber(other.Waarde);
+        }
+
         return ContactgegevenId == other.ContactgegevenId &&
                Contactgegeventype.Equals(other.Contactgegeventype) &&
                Waarde == other.Waarde &&
                Beschrijving == other.Beschrijving &&
                IsPrimair == other.IsPrimair &&
                Bron == other.Bron;
+    }
+
+    public static string NormalizePhoneNumber(string phoneNumber)
+    {
+        phoneNumber = phoneNumber.Replace("+", "00");
+
+        var firstSpaceIndex = phoneNumber.IndexOf(" ");
+        var phoneNumberDigits = Convert.ToInt64(Regex.Replace(phoneNumber, @"\D", "")).ToString();
+
+        // Local number
+        if (phoneNumberDigits.Length <= 9)
+            return "0032" + phoneNumberDigits;
+
+        // Country coded number
+        if (firstSpaceIndex.Equals(-1)) // Does not use spaces inside number
+            return Regex.Replace(phoneNumber, @"\D", "");
+
+        var countryCode = phoneNumber.Substring(0, firstSpaceIndex);
+        var countryCodeDigits = Regex.Replace(countryCode, @"\D", "");
+        var phone = phoneNumber.Substring(firstSpaceIndex);
+        var phoneDigits = Convert.ToInt64(Regex.Replace(phone, @"\D", "")).ToString();
+
+        return countryCodeDigits + phoneDigits;
     }
 
     public static Contactgegeven Hydrate(
@@ -69,7 +99,7 @@ public record Contactgegeven
         bool isPrimair,
         Bron bron,
         ContactgegeventypeVolgensKbo? typeVolgensKbo = null)
-        => new(contactgegevenId, type, waarde, beschrijving, isPrimair, bron,typeVolgensKbo);
+        => new(contactgegevenId, type, waarde, beschrijving, isPrimair, bron, typeVolgensKbo);
 
     public static Contactgegeven CreateFromInitiator(Contactgegeventype type, string waarde, string? beschrijving, bool isPrimair)
     {
