@@ -24,6 +24,7 @@ using Projections.Search.Zoeken;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.KboSync;
+using Schema.PowerBiExport;
 using System.Configuration;
 using ConfigurationManager = ConfigurationManager;
 
@@ -127,6 +128,7 @@ public static class ConfigureMartenExtensions
                 opts.Serializer(CreateCustomMartenSerializer());
 
                 opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+                opts.RegisterDocumentType<PowerBiExportDocument>();
                 opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
                 opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
                 opts.RegisterDocumentType<LocatieLookupDocument>();
@@ -136,6 +138,10 @@ public static class ConfigureMartenExtensions
                     .UseNumericRevisions(true)
                     .UseOptimisticConcurrency(false);
                 opts.Schema.For<LocatieZonderAdresMatchDocument>()
+                    .UseNumericRevisions(true)
+                    .UseOptimisticConcurrency(false);
+
+                opts.Schema.For<PowerBiExportDocument>()
                     .UseNumericRevisions(true)
                     .UseOptimisticConcurrency(false);
 

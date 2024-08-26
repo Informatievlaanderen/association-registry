@@ -65,6 +65,10 @@ public static class MartenExtensions
                                               .UseNumericRevisions(true)
                                               .UseOptimisticConcurrency(false);
 
+                                          opts.Schema.For<PowerBiExportDocument>()
+                                              .UseNumericRevisions(true)
+                                              .UseOptimisticConcurrency(false);
+
                                           opts.RegisterDocumentType<VerenigingState>();
 
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
