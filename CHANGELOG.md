@@ -1,3 +1,16 @@
+# [8.137.0](https://github.com/informatievlaanderen/association-registry/compare/v8.136.0...v8.137.0) (2024-08-26)
+
+
+### Bug Fixes
+
+* or-2355 setup numeric revisions for powerbi export doc ([31095c0](https://github.com/informatievlaanderen/association-registry/commit/31095c05630711223fd89f00c757e0a693358ab5))
+* or-2356 enable rebuild for powerbi export projection ([3c97652](https://github.com/informatievlaanderen/association-registry/commit/3c976524b6965f11b6db3779b3aac25a4756c70a))
+
+
+### Features
+
+* or-2354 add hoofdactiviteiten powerbi projection ([54ed8cf](https://github.com/informatievlaanderen/association-registry/commit/54ed8cf7d00a10ed8663a2f00e4118ae1646364f))
+
 # [8.136.0](https://github.com/informatievlaanderen/association-registry/compare/v8.135.3...v8.136.0) (2024-08-26)
 
 
