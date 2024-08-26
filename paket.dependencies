@@ -16,6 +16,8 @@ nuget Be.Vlaanderen.Basisregisters.Build.Pipeline
 nuget Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 nuget Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
 
+nuget CSVHelper
+
 nuget Destructurama.JsonNet 3.0.0
 
 nuget FluentAssertions

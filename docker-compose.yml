@@ -68,6 +68,7 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_DB: verenigingsregister
+      PGOPTIONS: '-c lock_timeout=10s'
     ports:
       - "5432:5432"
     volumes:

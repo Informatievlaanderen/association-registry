@@ -1,5 +1,6 @@
 Be.Vlaanderen.Basisregisters.Api
 Be.Vlaanderen.Basisregisters.GrAr.Contracts
+CSVHelper
 IdentityModel.AspNetCore.OAuth2Introspection
 Marten.CommandLine
 Microsoft.AspNetCore.Authentication.JwtBearer

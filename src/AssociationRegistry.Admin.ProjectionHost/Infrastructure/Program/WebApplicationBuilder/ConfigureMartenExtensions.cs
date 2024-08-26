@@ -17,6 +17,7 @@ using Projections.Detail;
 using Projections.Historiek;
 using Projections.KboSync;
 using Projections.Locaties;
+using Projections.PowerBiExport;
 using Projections.Search;
 using Projections.Search.DuplicateDetection;
 using Projections.Search.Zoeken;
@@ -97,6 +98,7 @@ public static class ConfigureMartenExtensions
 
                 opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
                 opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
                 opts.Projections.Add( new LocatieZonderAdresMatchProjection(serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>()), ProjectionLifecycle.Async);
