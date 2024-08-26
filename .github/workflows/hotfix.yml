@@ -124,6 +124,26 @@ jobs:
       pre-gen-marten: true
     secrets: inherit
 
+  build-admin-address-sync:
+    name: Build Admin Address Sync Scheduled Task
+    uses: ./.github/workflows/build-image.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      image-file: ar-admin-address-sync-image.tar
+      image-name: verenigingsregister-adressensync
+      test-project: AssociationRegistry.Test.Admin.AddressSync
+      build-project: AssociationRegistry.Admin.AddressSync/
+      semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: false
+    secrets: inherit
+
   push_images_to_ik4_devops:
     if: needs.set-release-version.outputs.version != 'none'
     needs: [
@@ -132,12 +152,13 @@ jobs:
       build-public-api,
       build-public-projections,
       build-admin-api,
-      build-admin-projections
+      build-admin-projections,
+      build-admin-address-sync
     ]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
     steps:
-      - name: Configure AWS credentials (Test)
+      - name: Configure AWS credentials (DevOps)
         if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/configure-aws-credentials@v4
         with:
@@ -145,7 +166,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
           aws-region: ${{ secrets.VBR_AWS_REGION_PRD }}
 
-      - name: Login to Amazon ECR (Test)
+      - name: Login to Amazon ECR (DevOps)
         if: needs.set-release-version.outputs.version != 'none'
         uses: aws-actions/amazon-ecr-login@v2.0.1
 
@@ -199,6 +220,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-projections-image.tar
 
+      - name: Download Admin Address Sync Scheduled Task artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-adressensync
+          path: ~/
+
+      - name: Load Admin Address Sync Scheduled Task image
+        shell: bash
+        run: docker image load -i ~/ar-admin-address-sync-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.set-release-version.outputs.version != 'none'
         shell: bash
@@ -209,6 +240,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adminprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
