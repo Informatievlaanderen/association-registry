@@ -26,6 +26,7 @@ public static class ProjectionEndpointsExtensions
                 StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
                 StartRebuild(ProjectionNames.LocatieLookup, store, shardTimeout, logger);
                 StartRebuild(ProjectionNames.LocatieZonderAdresMatch, store, shardTimeout, logger);
+                StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
 
                 StartRebuild(ProjectionNames.BeheerZoek, store, shardTimeout, logger, async () =>
                 {
@@ -75,6 +76,15 @@ public static class ProjectionEndpointsExtensions
             handler: async (IDocumentStore store, ILogger<Program> logger) =>
             {
                 StartRebuild(ProjectionNames.BeheerHistoriek, store, shardTimeout, logger);
+
+                return Results.Accepted();
+            });
+
+        app.MapPost(
+            pattern: "v1/projections/powerbi/rebuild",
+            handler: async (IDocumentStore store, ILogger<Program> logger) =>
+            {
+                StartRebuild(ProjectionNames.PowerBi, store, shardTimeout, logger);
 
                 return Results.Accepted();
             });

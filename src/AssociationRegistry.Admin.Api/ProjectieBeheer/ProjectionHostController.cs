@@ -63,6 +63,14 @@ public class ProjectionController : ApiController
         return await OkOrForwardedResponse(cancellationToken, response);
     }
 
+    [HttpPost("admin/powerbi/rebuild")]
+    public async Task<IActionResult> RebuildAdminProjectionPowerBiExport(CancellationToken cancellationToken)
+    {
+        var response = await _adminHttpClient.RebuildPowerBiExportProjection(cancellationToken);
+
+        return await OkOrForwardedResponse(cancellationToken, response);
+    }
+
     [HttpPost("admin/historiek/rebuild")]
     public async Task<IActionResult> RebuildAdminProjectionHistoriek(CancellationToken cancellationToken)
     {
@@ -152,7 +160,7 @@ public class ProjectionController : ApiController
         {
             var result = await response.Content.ReadFromJsonAsync<ProjectionStatus[]>(_jsonSerializerOptions, cancellationToken);
 
-            return result is not null
+            return result is not null && result.Length > 0
                 ? new OkObjectResult(new MinimalProjectionStatusResponse(result))
                 : new EmptyResult();
         }
