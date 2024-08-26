@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
+using Schema.PowerBiExport;
 using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
@@ -51,6 +52,7 @@ public static class MartenExtensions
 
                                           opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
                                           opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+                                          opts.RegisterDocumentType<PowerBiExportDocument>();
                                           opts.RegisterDocumentType<LocatieLookupDocument>();
                                           opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
                                           opts.RegisterDocumentType<AddressKafkaConsumerOffset>();

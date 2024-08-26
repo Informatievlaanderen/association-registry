@@ -187,6 +187,7 @@ NUGET
     Confluent.Kafka (2.4)
       librdkafka.redist (>= 2.4)
       System.Memory (>= 4.5)
+    CSVHelper (33.0.1)
     Destructurama.JsonNet (3.0)
       Newtonsoft.Json (>= 13.0.3)
       Serilog (>= 3.1.1)

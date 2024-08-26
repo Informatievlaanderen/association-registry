@@ -120,6 +120,8 @@ public static class AutoFixtureCustomizations
         fixture.Customize<DateOnly>(composer => composer.FromFactory<DateTime>(DateOnly.FromDateTime));
     }
 
+    // public static int VCodeNumber
+
     private static void CustomizeVCode(this IFixture fixture)
     {
         fixture.Customize<VCode>(
