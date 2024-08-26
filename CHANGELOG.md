@@ -1,3 +1,22 @@
+# [8.136.0](https://github.com/informatievlaanderen/association-registry/compare/v8.135.3...v8.136.0) (2024-08-26)
+
+
+### Bug Fixes
+
+* hotfix pipeline add adressensync ([3a7041b](https://github.com/informatievlaanderen/association-registry/commit/3a7041bb92da929cdcbc84cc083b1304edbbf7ab))
+* or-2189 change order of error messages delete vertegenwoordiger ([664ac91](https://github.com/informatievlaanderen/association-registry/commit/664ac91a44a8df47c5eb534a6d625a3d0a79275b))
+* or-2313 embedded resources text template ([63ac4fb](https://github.com/informatievlaanderen/association-registry/commit/63ac4fb7fa925bca4a9416976bb2228c10408bed))
+* or-2313 embedded resources text template ([65d671d](https://github.com/informatievlaanderen/association-registry/commit/65d671d094628f0bc5564021a4bb530f4636aa21))
+
+
+### Features
+
+* or-2190 last locatie cannot be deleted ([ce1730d](https://github.com/informatievlaanderen/association-registry/commit/ce1730d0663b42d50f6118f4188411da62dc849e))
+* or-2273  check on duplicate phone when adding a feitelijke vereniging ([a5de5c8](https://github.com/informatievlaanderen/association-registry/commit/a5de5c8fbd93e92e3b65628cfee629c58d3de12b))
+* or-2273  check on duplicate phone when wijzig contactgegeven ([d1c6905](https://github.com/informatievlaanderen/association-registry/commit/d1c6905fac7ba1a039484f7e0e9eba87d8a4fcb1))
+* or-2273 add phone number validation for contactgegeven ([9e60309](https://github.com/informatievlaanderen/association-registry/commit/9e6030959664953ddb012236b4f39c40c516c73a))
+* or-2273 check on duplicate phone when adding contactgegeven ([7aa59ea](https://github.com/informatievlaanderen/association-registry/commit/7aa59ea85c638560e03a1ecfca22c5b1717ea773))
+
 ## [8.135.3](https://github.com/informatievlaanderen/association-registry/compare/v8.135.2...v8.135.3) (2024-08-22)
 
 
