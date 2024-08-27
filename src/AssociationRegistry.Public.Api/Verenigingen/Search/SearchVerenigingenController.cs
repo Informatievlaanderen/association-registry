@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
+using Amazon.SQS.Model;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -165,6 +166,11 @@ public class SearchVerenigingenController : ApiController
                                 pattern: @"No mapping found for \[(.*).keyword\] in order to sort on");
 
         logger.LogError(searchResponse.OriginalException, message: "Fout bij het aanroepen van ElasticSearch");
+
+        foreach (var rootcause in searchResponse.ServerError.Error.RootCause)
+        {
+            logger.LogError("Elastic search root cause: {Reason}", rootcause.Reason);
+        }
 
         if (match.Success)
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
