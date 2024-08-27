@@ -1,16 +1,16 @@
 namespace AssociationRegistry.Admin.AddressSync.Infrastructure.Extensions;
 
-using ConfigurationBindings;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 
 public static class ConfigurationExtensions
 {
-    public static PostgreSqlOptions GetPostgreSqlOptions(this IConfiguration configuration)
+    public static PostgreSqlOptionsSection GetPostgreSqlOptions(this IConfiguration configuration)
     {
         var postgreSqlOptions = configuration
-                               .GetSection(PostgreSqlOptions.SectionName)
-                               .Get<PostgreSqlOptions>();
+                               .GetSection(PostgreSqlOptionsSection.SectionName)
+                               .Get<PostgreSqlOptionsSection>();
 
         ThrowIfInvalid();
 
@@ -21,19 +21,19 @@ public static class ConfigurationExtensions
             if (postgreSqlOptions == null)
                 throw new ArgumentNullException(nameof(postgreSqlOptions));
 
-            const string sectionName = nameof(PostgreSqlOptions);
+            const string sectionName = PostgreSqlOptionsSection.SectionName;
 
             Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptions.Database)}");
+               .IfNullOrWhiteSpace(postgreSqlOptions.Database, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Database)}");
 
             Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptions.Host)}");
+               .IfNullOrWhiteSpace(postgreSqlOptions.Host, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Host)}");
 
             Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptions.Username)}");
+               .IfNullOrWhiteSpace(postgreSqlOptions.Username, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Username)}");
 
             Throw<ArgumentNullException>
-               .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptions.Password)}");
+               .IfNullOrWhiteSpace(postgreSqlOptions.Password, $"{sectionName}.{nameof(PostgreSqlOptionsSection.Password)}");
         }
     }
 

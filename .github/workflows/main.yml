@@ -249,7 +249,7 @@ jobs:
       run-docker-otelcollector: true
       pre-gen-marten: true
     secrets: inherit
-  
+
   build-admin-address-sync:
     name: Build Admin Address Sync Scheduled Task
     uses: ./.github/workflows/build-image.yml
@@ -268,6 +268,26 @@ jobs:
       run-docker-localstack: false
       run-docker-otelcollector: true
       pre-gen-marten: false
+    secrets: inherit
+
+  build-powerbi-exporthost:
+    name: Build PowerBI Export Scheduled Task
+    uses: ./.github/workflows/build-image.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      image-file: ar-powerbiexport-image.tar
+      image-name: verenigingsregister-powerbiexport
+      test-project: AssociationRegistry.Test.PowerBi.ExportHost
+      build-project: AssociationRegistry.PowerBi.ExportHost/
+      semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: true
     secrets: inherit
 
   run-e2e-tests:
@@ -319,6 +339,7 @@ jobs:
       build-admin-api,
       build-admin-projections,
       build-admin-address-sync,
+      build-powerbi-exporthost,
       pack-association-registry,
       pack-association-registry-magda
     ]
@@ -605,6 +626,16 @@ jobs:
         shell: bash
         run: docker image load -i ~/ar-admin-address-sync-image.tar
 
+      - name: Download PowerBI Export Scheduled Task artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: verenigingsregister-powerbiexport
+          path: ~/
+
+      - name: Load PowerBI Export Scheduled Task image
+        shell: bash
+        run: docker image load -i ~/ar-powerbiexport-image.tar
+
       - name: Push docker images to ECR Test
         if: needs.release.outputs.version != 'none'
         shell: bash
@@ -616,6 +647,7 @@ jobs:
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicapi:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-publicprojections:$SEMVER
           docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-adressensync:$SEMVER
+          docker push $BUILD_DOCKER_REGISTRY_IK4/verenigingsregister-powerbiexport:$SEMVER
         env:
           BUILD_DOCKER_REGISTRY_IK4: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.release.outputs.version }}
@@ -643,6 +675,7 @@ jobs:
         run: |
           echo ${{ needs.release.outputs.version }}
       - name: CD
+        id: awscurl-polling-action
         if: needs.release.outputs.version != 'none'
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
@@ -677,6 +710,7 @@ jobs:
         services:
           [
             'adressensync',
+            'powerbiexport'
           ]
     steps:
       - name: debug_output
@@ -684,6 +718,7 @@ jobs:
         run: |
           echo ${{ needs.release.outputs.version }}
       - name: CD
+        id: awscurl-polling-action
         if: needs.release.outputs.version != 'none'
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}

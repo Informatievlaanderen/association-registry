@@ -14,4 +14,11 @@ public class PostgreSqlOptionsSection
            !string.IsNullOrWhiteSpace(Database) &&
            !string.IsNullOrWhiteSpace(Password) &&
            !string.IsNullOrWhiteSpace(Username);
+
+    public string GetConnectionString()
+        => $"host={Host};" +
+           $"database={Database};" +
+           $"password={Password};" +
+           $"username={Username}";
+
 }

@@ -112,11 +112,12 @@ jobs:
         projects:
           [
             "test/AssociationRegistry.Test",
-            "test/AssociationRegistry.Test.Public.Api",
+            "test/AssociationRegistry.Test.Acm.Api",
             "test/AssociationRegistry.Test.Admin.AddressSync",
             "test/AssociationRegistry.Test.Admin.Api",
-            "test/AssociationRegistry.Test.Acm.Api",
-            "test/AssociationRegistry.Test.E2E"
+            "test/AssociationRegistry.Test.E2E",
+            "test/AssociationRegistry.Test.PowerBi.ExportHost",
+            "test/AssociationRegistry.Test.Public.Api",
           ]
 
     steps:

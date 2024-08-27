@@ -8,6 +8,7 @@ nuget AutoBogus
 nuget AutoFixture
 nuget AutoFixture.Xunit2
 
+nuget AWSSDK.S3
 nuget AWSSDK.SQS
 
 nuget Be.Vlaanderen.Basisregisters.AggregateSource
