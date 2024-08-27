@@ -1,3 +1,15 @@
+# [8.138.0](https://github.com/informatievlaanderen/association-registry/compare/v8.137.0...v8.138.0) (2024-08-27)
+
+
+### Bug Fixes
+
+* or-2379 disable regen marten for powerbi export ([f6237a0](https://github.com/informatievlaanderen/association-registry/commit/f6237a0869b9884e183352e43ec81761ad4bd60e))
+
+
+### Features
+
+* or-2379 add scheduled task PowerBiExport ([0e95af6](https://github.com/informatievlaanderen/association-registry/commit/0e95af6ab5d8a80f1c15d4d93e968b0ebd3b0e44))
+
 # [8.137.0](https://github.com/informatievlaanderen/association-registry/compare/v8.136.0...v8.137.0) (2024-08-26)
 
 
