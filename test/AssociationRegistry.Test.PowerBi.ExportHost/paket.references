@@ -1,0 +1,10 @@
+Microsoft.NET.Test.Sdk
+xunit.assert
+xunit.runner.visualstudio
+xunit.categories
+AutoFixture
+FluentAssertions.Json
+Moq
+Microsoft.AspNetCore.Mvc.Testing
+Scriban
+Microsoft.AspNetCore.Hosting
