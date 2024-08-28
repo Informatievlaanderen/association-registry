@@ -206,7 +206,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 sod =>
                     sod.AdresId is not null &&
                     sod.AdresId == adresWerdOvergenomen.AdresId &&
-                    sod.Naam == locatie.Naam);
+                    sod.Naam == locatie.Naam &&
+                    sod.Locatietype == locatie.Locatietype);
 
             if (stateLocatie is not null)
             {
