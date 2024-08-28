@@ -6,6 +6,8 @@ using Grar.AddressMatch;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Polly;
+using Polly.Retry;
 using Schema.Detail;
 
 [ApiVersion("1.0")]
@@ -39,7 +41,11 @@ public class AdresMatchController : ApiController
         {
             try
             {
-                await handler.Handle(message, cancellationToken);
+                await Policy
+                     .Handle<System.Threading.Tasks.TaskCanceledException>()
+                     .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                     .ExecuteAsync(() => handler.Handle(message, cancellationToken));
+
                 succeededMessages++;
             }
             catch (Exception e)
