@@ -1,3 +1,16 @@
+# [8.139.0](https://github.com/informatievlaanderen/association-registry/compare/v8.138.0...v8.139.0) (2024-08-28)
+
+
+### Bug Fixes
+
+* add retry policy on Task Canceled for initial AdresMatch ([743be33](https://github.com/informatievlaanderen/association-registry/commit/743be33e8c3ed0cd1adf65b1b1f0450b950cad4b))
+* take locatie type into account for handling doubles in adresmatch ([721a692](https://github.com/informatievlaanderen/association-registry/commit/721a692429ef05a92c3498951aca5fa430a79fe1))
+
+
+### Features
+
+* or-2354 add demo flag for power bi export ([7d93cf4](https://github.com/informatievlaanderen/association-registry/commit/7d93cf4e25102f47837a3e16635710f5cd3b4804))
+
 # [8.138.0](https://github.com/informatievlaanderen/association-registry/compare/v8.137.0...v8.138.0) (2024-08-27)
 
 
