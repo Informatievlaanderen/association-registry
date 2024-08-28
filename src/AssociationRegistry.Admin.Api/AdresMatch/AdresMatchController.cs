@@ -43,7 +43,11 @@ public class AdresMatchController : ApiController
             {
                 await Policy
                      .Handle<System.Threading.Tasks.TaskCanceledException>()
-                     .WaitAndRetryAsync(5, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)))
+                     .WaitAndRetryAsync(5, retryAttempt =>
+                      {
+                          logger.LogInformation($"Retrying initial adresmatch ({retryAttempt})");
+                          return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
+                      })
                      .ExecuteAsync(async () => await handler.Handle(message, cancellationToken));
 
                 succeededMessages++;
