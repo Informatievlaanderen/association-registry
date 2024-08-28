@@ -19,7 +19,7 @@ using Weasel.Core;
 
 public static class ServiceCollectionMartenExtensions
 {
-    public static StoreOptions GetStoreOptions(PostgreSqlOptionsSection postgreSqlOptions)
+    public static StoreOptions GetStoreOptions(this PostgreSqlOptionsSection postgreSqlOptions)
     {
         var opts = new StoreOptions();
         opts.Connection(postgreSqlOptions.GetConnectionString());

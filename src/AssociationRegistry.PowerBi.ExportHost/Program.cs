@@ -56,7 +56,7 @@ public static class Program
 
         services
            .AddOpenTelemetryServices()
-           .AddSingleton<IDocumentStore>(new DocumentStore(ServiceCollectionMartenExtensions.GetStoreOptions(postgreSqlOptions)));
+           .AddSingleton<IDocumentStore>(new DocumentStore(postgreSqlOptions.GetStoreOptions()));
 
         services
            .AddSingleton(postgreSqlOptions)
