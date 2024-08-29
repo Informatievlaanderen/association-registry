@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_Getting_Address;
+﻿namespace AssociationRegistry.Test.GrarClient.When_Getting_AddressMatches;
 
+using AssociationRegistry.Grar;
 using FluentAssertions;
-using Grar;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using Xunit;
 
-public class With_BoxNumber_Is_Null
+public class Given_Grar_Returns_A_Null_BoxNumber
 {
     [Fact]
     public async Task Then_Returns_Empty_String_BoxNumber()

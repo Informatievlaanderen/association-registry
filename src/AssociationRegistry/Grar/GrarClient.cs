@@ -13,7 +13,6 @@ public class GrarClient : IGrarClient
 {
     private readonly IGrarHttpClient _grarHttpClient;
     private readonly ILogger<GrarClient> _logger;
-
     public const string BadRequestSuccessStatusCodeMessage = "Foutieve request.";
     public const string OtherNonSuccessStatusCodeMessage = "Adressenregister niet bereikbaar.";
 
@@ -36,8 +35,10 @@ public class GrarClient : IGrarClient
             {
                 throw response.StatusCode switch
                 {
-                    HttpStatusCode.BadRequest => new AdressenregisterReturnedClientErrorStatusCode(response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
-                    HttpStatusCode.NotFound => new AdressenregisterReturnedClientErrorStatusCode(response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.BadRequest => new AdressenregisterReturnedClientErrorStatusCode(
+                        response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
+                    HttpStatusCode.NotFound => new AdressenregisterReturnedClientErrorStatusCode(
+                        response.StatusCode, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister),
                     HttpStatusCode.Gone => new AdressenregisterReturnedGoneStatusCode(),
                     _ => new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode)
                 };
@@ -110,23 +111,31 @@ public class GrarClient : IGrarClient
             if (!response.IsSuccessStatusCode)
                 throw new AdressenregisterReturnedNonSuccessStatusCode(response.StatusCode);
 
-            return JsonConvert.DeserializeObject<AddressMatchOsloCollection>(await response.Content.ReadAsStringAsync(cancellationToken))
-                              .AdresMatches
-                              .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
-                              .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd && w.AdresStatus != AdresStatus.Afgekeurd)
-                              .Select(s => new AddressMatchResponse(
-                                          Score: s.Score,
-                                          AdresId: new Registratiedata.AdresId(
-                                              Adresbron.AR.Code,
-                                              s.Identificator.Id
-                                          ),
-                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
-                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                          s.Huisnummer,
-                                          s.Busnummer ?? string.Empty,
-                                          s.Postinfo.ObjectId,
-                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-                                      )).ToArray();
+            var content = await response.Content.ReadAsStringAsync(cancellationToken);
+
+            var addressMatchOsloCollection = JsonConvert.DeserializeObject<AddressMatchOsloCollection>(content)
+                                                        .AdresMatches
+                                                        .Where(w => !string.IsNullOrEmpty(w.Identificator?.ObjectId))
+                                                        .Where(w => w.AdresStatus != AdresStatus.Gehistoreerd &&
+                                                                    w.AdresStatus != AdresStatus.Afgekeurd)
+                                                        .ToList();
+
+            if (addressMatchOsloCollection.Count == 0)
+                return Array.Empty<AddressMatchResponse>();
+
+            return addressMatchOsloCollection.Select(s => new AddressMatchResponse(
+                                                         Score: s.Score,
+                                                         AdresId: new Registratiedata.AdresId(
+                                                             Adresbron.AR.Code,
+                                                             s.Identificator.Id
+                                                         ),
+                                                         Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
+                                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                                         s.Huisnummer,
+                                                         s.Busnummer ?? string.Empty,
+                                                         s.Postinfo.ObjectId,
+                                                         s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+                                                     )).ToArray();
         }
         catch (TaskCanceledException ex)
         {
