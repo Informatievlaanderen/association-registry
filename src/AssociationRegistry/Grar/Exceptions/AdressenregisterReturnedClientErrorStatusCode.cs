@@ -8,10 +8,6 @@ public class AdressenregisterReturnedClientErrorStatusCode : DomainException
 {
     public HttpStatusCode StatusCode { get; }
 
-    public AdressenregisterReturnedClientErrorStatusCode(HttpStatusCode statusCode) : this(statusCode, ExceptionMessages.AdresKonNietOvergenomenWorden)
-    {
-    }
-
     public AdressenregisterReturnedClientErrorStatusCode(HttpStatusCode statusCode, string message) : base(message)
     {
         StatusCode = statusCode;
