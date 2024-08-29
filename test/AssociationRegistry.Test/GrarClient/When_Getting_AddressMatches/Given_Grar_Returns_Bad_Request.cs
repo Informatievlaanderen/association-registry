@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_Getting_Address;
+﻿namespace AssociationRegistry.Test.GrarClient.When_Getting_AddressMatches;
 
-using Grar;
-using Grar.Exceptions;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
 using Xunit;
 
-public class With_Bad_Request
+public class Given_Grar_Returns_Bad_Request
 {
     [Fact]
     public async Task Then_Throws_AdressenregisterReturnedNonSuccessStatusCode()

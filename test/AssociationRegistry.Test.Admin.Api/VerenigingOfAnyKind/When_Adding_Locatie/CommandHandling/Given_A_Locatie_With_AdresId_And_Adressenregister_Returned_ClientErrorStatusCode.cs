@@ -1,17 +1,17 @@
-namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
 using Acties.VoegLocatieToe;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Exceptions;
-using AssociationRegistry.Grar.Models;
 using AutoFixture;
-using Events;
-using Fakes;
-using Fixtures.Scenarios.CommandHandling;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using FluentAssertions;
 using Framework;
+using Grar;
+using Grar.Exceptions;
 using Marten;
 using Moq;
+using Resources;
 using System.Net;
 using Vereniging;
 using Wolverine.Marten;
@@ -44,12 +44,17 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_ClientEr
             AdresId = adresId,
             Adres = null,
         };
+
         var command = new VoegLocatieToeCommand(scenario.VCode, locatie);
 
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
-                  .ThrowsAsync(new AdressenregisterReturnedClientErrorStatusCode(HttpStatusCode.InternalServerError));
+                  .ThrowsAsync(new AdressenregisterReturnedClientErrorStatusCode(HttpStatusCode.InternalServerError, ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister));
 
-        await Assert.ThrowsAsync<AdressenregisterReturnedClientErrorStatusCode>(async () => await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+         var exception = await Assert.ThrowsAsync<AdressenregisterReturnedClientErrorStatusCode>(
+            async () => await commandHandler.Handle(
+                new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>())));
+
+         exception.Message.Should().Be(ExceptionMessages.AdresKonNietGevalideerdWordenBijAdressenregister);
     }
 
     public static IEnumerable<object[]> Data
