@@ -1,3 +1,10 @@
+## [8.139.1](https://github.com/informatievlaanderen/association-registry/compare/v8.139.0...v8.139.1) (2024-08-29)
+
+
+### Bug Fixes
+
+* or-2354 add logging + fix csv name ([fcbec86](https://github.com/informatievlaanderen/association-registry/commit/fcbec863d2fa228418141742ce445f12050e532a))
+
 # [8.139.0](https://github.com/informatievlaanderen/association-registry/compare/v8.138.0...v8.139.0) (2024-08-28)
 
 
