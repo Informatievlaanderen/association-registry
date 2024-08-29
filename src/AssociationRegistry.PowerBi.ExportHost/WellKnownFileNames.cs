@@ -2,5 +2,5 @@
 
 public class WellKnownFileNames
 {
-    public const string HoofdActiviteiten = "HoofdActiviteiten.csv";
+    public const string HoofdActiviteiten = "Hoofdactiviteiten.csv";
 }
