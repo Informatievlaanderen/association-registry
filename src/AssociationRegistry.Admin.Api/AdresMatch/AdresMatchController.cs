@@ -6,8 +6,6 @@ using Grar.AddressMatch;
 using Marten;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Polly;
-using Polly.Retry;
 using Schema.Detail;
 
 [ApiVersion("1.0")]
@@ -41,14 +39,9 @@ public class AdresMatchController : ApiController
         {
             try
             {
-                await Policy
-                     .Handle<System.Threading.Tasks.TaskCanceledException>()
-                     .WaitAndRetryAsync(5, retryAttempt =>
-                      {
-                          logger.LogInformation($"Retrying initial adresmatch ({retryAttempt})");
-                          return TimeSpan.FromSeconds(Math.Pow(2, retryAttempt));
-                      })
-                     .ExecuteAsync(async () => await handler.Handle(message, cancellationToken));
+                await handler.Handle(message, CancellationToken.None);
+
+                logger.LogInformation($"Te adresmatchen vCode:{message.VCode} met locatie: {message.LocatieId} is succesvol verwerkt");
 
                 succeededMessages++;
             }
@@ -61,7 +54,8 @@ public class AdresMatchController : ApiController
             }
         }
 
-        logger.LogInformation($"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
+        logger.LogInformation(
+            $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
 
         return Ok(
             $"Aantal verwerkte locaties:{succeededMessages}. Aantal gefaalde locaties: {failedMessages}. Totaal aantal berichten: {messages.Count}");
