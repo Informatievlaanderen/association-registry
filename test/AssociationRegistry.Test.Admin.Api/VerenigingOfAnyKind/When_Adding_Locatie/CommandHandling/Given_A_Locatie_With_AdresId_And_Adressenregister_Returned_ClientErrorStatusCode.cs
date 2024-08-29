@@ -1,17 +1,16 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
 using Acties.VoegLocatieToe;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Exceptions;
 using AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
+using Fakes;
+using Fixtures.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework;
-using Grar;
-using Grar.Exceptions;
 using Marten;
 using Moq;
-using Resources;
 using System.Net;
 using Vereniging;
 using Wolverine.Marten;
