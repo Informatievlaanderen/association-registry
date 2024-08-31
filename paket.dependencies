@@ -11,6 +11,8 @@ nuget AutoFixture.Xunit2
 nuget AWSSDK.S3
 nuget AWSSDK.SQS
 
+nuget Coravel
+
 nuget Be.Vlaanderen.Basisregisters.AggregateSource
 nuget Be.Vlaanderen.Basisregisters.Api
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline

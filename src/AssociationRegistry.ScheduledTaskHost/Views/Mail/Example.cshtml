@@ -1,0 +1,15 @@
+@{
+   ViewBag.Heading = "Welcome!";
+   ViewBag.Preview = "Example Email";
+}
+
+<p>
+   Let's see what you can build!
+   To render a button inside your email, use the EmailLinkButton component:
+   @await Component.InvokeAsync("EmailLinkButton", new  { text = "Click Me!", url = "https://www.google.com" })
+</p>
+
+@section links
+{
+   <a href="https://github.com/jamesmh/coravel">Coravel</a>
+}

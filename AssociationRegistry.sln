@@ -176,6 +176,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.PowerBi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Test.PowerBi.ExportHost", "test\AssociationRegistry.Test.PowerBi.ExportHost\AssociationRegistry.Test.PowerBi.ExportHost.csproj", "{14C4D10A-7BE1-4C89-833C-2699605319A9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.ScheduledTaskHost", "src\AssociationRegistry.ScheduledTaskHost\AssociationRegistry.ScheduledTaskHost.csproj", "{873929C8-7E70-4288-A8C8-FA18C54345DB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -273,6 +275,10 @@ Global
 		{14C4D10A-7BE1-4C89-833C-2699605319A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C4D10A-7BE1-4C89-833C-2699605319A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14C4D10A-7BE1-4C89-833C-2699605319A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{873929C8-7E70-4288-A8C8-FA18C54345DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873929C8-7E70-4288-A8C8-FA18C54345DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873929C8-7E70-4288-A8C8-FA18C54345DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873929C8-7E70-4288-A8C8-FA18C54345DB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3BD77833-6175-4440-903D-88F9B07C6FE6} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
@@ -311,5 +317,6 @@ Global
 		{3949D87F-4DE3-44CC-96AA-CF93BE770DAE} = {C812C887-6495-405A-8B99-4F686D243126}
 		{AC334242-4A17-4E1B-883F-9B0E85B47163} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 		{14C4D10A-7BE1-4C89-833C-2699605319A9} = {C812C887-6495-405A-8B99-4F686D243126}
+		{873929C8-7E70-4288-A8C8-FA18C54345DB} = {1157AB42-EACF-454D-92D5-DBA9FF3D0E24}
 	EndGlobalSection
 EndGlobal
