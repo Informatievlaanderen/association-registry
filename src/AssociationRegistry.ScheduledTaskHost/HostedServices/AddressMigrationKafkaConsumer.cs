@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
+using Configuration;
 using Confluent.Kafka;
 using Helpers;
 using IdentityModel;

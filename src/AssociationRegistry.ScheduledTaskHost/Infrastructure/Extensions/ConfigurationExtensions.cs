@@ -1,6 +1,7 @@
 namespace AssociationRegistry.ScheduledTaskHost.Infrastructure.Extensions;
 
 using AssociationRegistry.Framework;
+using Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Invocables;
 using Microsoft.Extensions.Configuration;

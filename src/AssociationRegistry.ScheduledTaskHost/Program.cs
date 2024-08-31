@@ -1,6 +1,7 @@
 namespace AssociationRegistry.ScheduledTaskHost;
 
 using AssociationRegistry.Notifications;
+using Configuration;
 using Coravel;
 using EventStore;
 using Grar;

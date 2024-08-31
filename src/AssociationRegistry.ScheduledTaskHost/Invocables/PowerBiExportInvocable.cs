@@ -3,11 +3,12 @@ namespace AssociationRegistry.ScheduledTaskHost.Invocables;
 using Admin.Schema.PowerBiExport;
 using Amazon.S3;
 using Amazon.S3.Model;
+using Configuration;
 using Coravel.Invocable;
 using Helpers;
 using Marten;
 
-public class PowerBiExportInvocable : IInvocable
+public class PowerBiExportInvocable : IInvocable, ICancellableInvocable
 {
     private readonly IAmazonS3 _s3Client;
     private readonly IDocumentStore _store;
@@ -61,7 +62,7 @@ public class PowerBiExportInvocable : IInvocable
         else
         {
             await using var session = _store.LightweightSession();
-            var docs = await session.Query<PowerBiExportDocument>().ToListAsync(CancellationToken.None);
+            var docs = await session.Query<PowerBiExportDocument>().ToListAsync(CancellationToken);
             _logger.LogInformation($"Amount of docs found: {docs.Count}");
             await UploadListAsCsvToS3(docs);
         }
@@ -85,13 +86,10 @@ public class PowerBiExportInvocable : IInvocable
         };
 
         _logger.LogInformation("Send to s3");
-        await _s3Client.PutObjectAsync(putRequest);
+        await _s3Client.PutObjectAsync(putRequest, CancellationToken);
     }
-}
 
-public record PowerBiExportOptions(string BucketName, bool Demo, string CronExpression)
-{
-    public const string SectionName = "PowerBiExport";
+    public CancellationToken CancellationToken { get; set; }
 }
 
 public static class WellKnownFileNames

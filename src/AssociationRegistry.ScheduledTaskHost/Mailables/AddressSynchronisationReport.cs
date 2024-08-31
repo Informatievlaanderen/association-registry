@@ -2,18 +2,18 @@ using Coravel.Mailer.Mail;
 
 namespace AssociationRegistry.ScheduledTaskHost.Mailables
 {
-    public class AddressSynchronisationReport : Mailable<string>
+    public class AddressSynchronisationReport : Mailable<AddressSynchronisationReportModel>
     {
-        public AddressSynchronisationReport()
-        {
-            // Inject a model if using this.View()
-        }
+        private readonly AddressSynchronisationReportModel _model;
+        public AddressSynchronisationReport(AddressSynchronisationReportModel model) => _model = model;
 
-        public override void Build()
-        {
-            this.To("coravel@is.awesome")
-                .From("from@test.com")
-                .View("~/Views/Mail/AddressSynchronisationReport.cshtml", null);
-        }
+        public override void Build() => this
+                                       .To("orca-devs@vlaanderen.be")
+                                       .From("digitaal.vlaanderen@vlaanderen.be")
+                                       .View("~/Views/Mail/AddressSynchronisationReport.cshtml", _model);
+    }
+
+    public class AddressSynchronisationReportModel
+    {
     }
 }

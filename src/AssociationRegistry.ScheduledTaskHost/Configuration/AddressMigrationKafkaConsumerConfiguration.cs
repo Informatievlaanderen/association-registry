@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.ScheduledTaskHost.HostedServices;
+﻿namespace AssociationRegistry.ScheduledTaskHost.Configuration;
 
 using AssociationRegistry.Hosts.Configuration;
 using Confluent.Kafka;
