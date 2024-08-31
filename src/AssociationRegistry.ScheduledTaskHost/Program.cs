@@ -9,6 +9,8 @@ using Helpers;
 using HostedServices;
 using Infrastructure.Extensions;
 using Invocables;
+using Polly;
+using Polly.Retry;
 using Serilog;
 using Serilog.Debugging;
 using System.Net;
@@ -82,8 +84,26 @@ public class Program
                 httpClient.BaseAddress = new Uri(addressSynchronisationOptions.BaseUrl);
             });
     }
+
     private static void ConfigureHostedServices(IServiceCollection services)
     {
+        services.AddResiliencePipeline(nameof(AddressMigrationKafkaConsumer), static builder =>
+        {
+            builder.AddRetry(new RetryStrategyOptions()
+            {
+                MaxRetryAttempts = int.MaxValue,
+                Delay = TimeSpan.FromSeconds(1),
+                BackoffType = DelayBackoffType.Exponential,
+                ShouldHandle = new PredicateBuilder().Handle<Exception>(exception =>
+                {
+                    Log.Error(exception, $"{nameof(AddressMigrationKafkaConsumer)} failed");
+
+                    // await _notifier.Notify(new AdresKafkaConsumerGefaald(exception));
+                    return true;
+                }),
+            });
+        });
+
         services.AddHostedService<AddressMigrationKafkaConsumer>();
     }
 

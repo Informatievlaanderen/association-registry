@@ -15,7 +15,7 @@ using OpenTelemetry.Trace;
 using System.Reflection;
 using Weasel.Core;
 
-public static class ServiceCollectionExtensions
+internal static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddOpenTelemetryServices(this IServiceCollection services)
     {

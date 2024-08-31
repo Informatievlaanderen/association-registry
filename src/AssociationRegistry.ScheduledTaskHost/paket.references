@@ -1,8 +1,11 @@
-CSVHelper
-Marten
+Be.Vlaanderen.Basisregisters.GrAr.Contracts
+
 AWSSDK.S3
+CSVHelper
+Confluent.Kafka
 Coravel
 Coravel.Mailer
+Marten
 
 Serilog
 Serilog.Enrichers.Environment
@@ -23,7 +26,10 @@ OpenTelemetry.Instrumentation.Http
 OpenTelemetry.Instrumentation.Runtime
 NpgSql.OpenTelemetry
 
+IdentityModel
 Destructurama.JsonNet
+
 Microsoft.Extensions.Hosting
 Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.Http
+Microsoft.Extensions.Resilience

@@ -3,7 +3,7 @@ namespace AssociationRegistry.ScheduledTaskHost.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using System.Net;
 
-public static class ConfigureKestrel
+internal static class ConfigureKestrel
 {
     public static void AddEndpoint(this KestrelServerOptions source, IPAddress ipAddress, int port)
     {

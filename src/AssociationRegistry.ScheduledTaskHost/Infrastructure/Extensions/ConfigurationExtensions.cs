@@ -5,7 +5,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Invocables;
 using Microsoft.Extensions.Configuration;
 
-public static class ConfigurationExtensions
+internal static class ConfigurationExtensions
 {
     public static PostgreSqlOptionsSection GetPostgreSqlOptions(this IConfiguration configuration)
     {
