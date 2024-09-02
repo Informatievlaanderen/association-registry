@@ -12,6 +12,7 @@ nuget AWSSDK.S3
 nuget AWSSDK.SQS
 
 nuget Coravel
+nuget Coravel.Mailer
 
 nuget Be.Vlaanderen.Basisregisters.AggregateSource
 nuget Be.Vlaanderen.Basisregisters.Api
@@ -41,6 +42,7 @@ nuget Microsoft.AspNetCore.Mvc.Testing
 nuget Microsoft.Extensions.Configuration.Binder
 nuget Microsoft.Extensions.Diagnostics.HealthChecks
 nuget Microsoft.Extensions.Http
+nuget Microsoft.Extensions.Resilience
 nuget Microsoft.NETCore.Platforms
 nuget Moq
 nuget NpgSql.OpenTelemetry
