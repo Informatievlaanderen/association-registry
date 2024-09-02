@@ -39,6 +39,7 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
         {
             Contactgegeven = command.Contactgegeven with
             {
+                Waarde = command.Contactgegeven.Waarde + "0",
                 Beschrijving = _fixture.Create<string>(),
             },
         };
