@@ -204,6 +204,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var stateLocatie = State.Locaties.SingleOrDefault(
                 sod =>
+                    sod.LocatieId != locatieId &&
                     sod.AdresId is not null &&
                     sod.AdresId == adresWerdOvergenomen.AdresId &&
                     sod.Naam == locatie.Naam &&
