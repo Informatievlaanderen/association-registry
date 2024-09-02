@@ -1,3 +1,13 @@
+## [8.139.2](https://github.com/informatievlaanderen/association-registry/compare/v8.139.1...v8.139.2) (2024-09-02)
+
+
+### Bug Fixes
+
+* flaky test ([4e6ae5b](https://github.com/informatievlaanderen/association-registry/commit/4e6ae5bfee5c28f49f169fd3c048c1df04b5e14f))
+* or-2386 use cancelationtoken.none for initial adresmatch ([8ee62dd](https://github.com/informatievlaanderen/association-registry/commit/8ee62dd1853538ce843dbd80ecac9c6725b4c59a))
+* or-2387 components need to be different per address with different locations ([d85ae09](https://github.com/informatievlaanderen/association-registry/commit/d85ae0949a7e13bb3934751cc7e9422c7276e0f5))
+* return empty collection when grarclient returns data without addresscomponents" ([bfed94f](https://github.com/informatievlaanderen/association-registry/commit/bfed94f743cbdc600707c403f81f8d5fba025bbb))
+
 ## [8.139.1](https://github.com/informatievlaanderen/association-registry/compare/v8.139.0...v8.139.1) (2024-08-29)
 
 
