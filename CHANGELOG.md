@@ -1,3 +1,10 @@
+## [8.139.3](https://github.com/informatievlaanderen/association-registry/compare/v8.139.2...v8.139.3) (2024-09-02)
+
+
+### Bug Fixes
+
+* await admin rebuilds ([6c84f70](https://github.com/informatievlaanderen/association-registry/commit/6c84f70dbe53195110667d52ab6d13d8381eb416))
+
 ## [8.139.2](https://github.com/informatievlaanderen/association-registry/compare/v8.139.1...v8.139.2) (2024-09-02)
 
 
