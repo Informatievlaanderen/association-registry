@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_Contactgegeven;
 
 using Vereniging;
+using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,7 +26,7 @@ public class With_Different_PhoneNumbers
     [InlineData("+4989 9982804-50", "004989998280450")]
     public void NormalizePhoneNumber_ShouldReturnCorrectFormat(string input, string expected)
     {
-        var actual = Contactgegeven.NormalizePhoneNumber(input);
+        var actual = TelefoonNummer.NormalizePhoneNumber(input);
 
         Assert.Equal(expected, actual);
     }

@@ -62,36 +62,7 @@ public record Contactgegeven
                Bron == other.Bron;
     }
 
-    private bool EqualsPhoneNumber(string phoneNumber)
-    {
-        var originalPhoneNumber = NormalizePhoneNumber(Waarde);
-        var otherPhoneNumber = NormalizePhoneNumber(phoneNumber);
 
-        return originalPhoneNumber == otherPhoneNumber;
-    }
-
-    public static string NormalizePhoneNumber(string phoneNumber)
-    {
-        phoneNumber = phoneNumber.Replace("+", "00");
-
-        var firstSpaceIndex = phoneNumber.IndexOf(" ");
-        var phoneNumberDigits = Convert.ToInt64(Regex.Replace(phoneNumber, @"\D", "")).ToString();
-
-        // Local number
-        if (phoneNumberDigits.Length <= 9)
-            return "0032" + phoneNumberDigits;
-
-        // Country coded number
-        if (firstSpaceIndex.Equals(-1)) // Does not use spaces inside number
-            return Regex.Replace(phoneNumber, @"\D", "");
-
-        var countryCode = phoneNumber.Substring(0, firstSpaceIndex);
-        var countryCodeDigits = Regex.Replace(countryCode, @"\D", "");
-        var phone = phoneNumber.Substring(firstSpaceIndex);
-        var phoneDigits = Convert.ToInt64(Regex.Replace(phone, @"\D", "")).ToString();
-
-        return countryCodeDigits + phoneDigits;
-    }
 
     public static Contactgegeven Hydrate(
         int contactgegevenId,
@@ -132,9 +103,10 @@ public record Contactgegeven
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
         => Contactgegeventype == contactgegeven.Contactgegeventype
         && Beschrijving == contactgegeven.Beschrijving
-        && (contactgegeven.Contactgegeventype == Contactgegeventype.Telefoon
-               ? EqualsPhoneNumber(contactgegeven.Waarde)
-               : Waarde == contactgegeven.Waarde);
+        && CompareWaarde(contactgegeven.Waarde);
+
+    protected virtual bool CompareWaarde(string waarde)
+        => Waarde == waarde;
 
     private static bool IsKnownType(string type)
         => Contactgegeventype.CanParse(type);
