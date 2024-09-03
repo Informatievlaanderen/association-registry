@@ -55,6 +55,7 @@ public class PowerBiDocumentExporter
                                                          vereniging.Verenigingstype.Naam,
                                                          vereniging.KboNummer,
                                                          string.Join(", ", vereniging.CorresponderendeVCodes),
+                                                         vereniging.AantalVertegenwoordigers,
                                                          vereniging.DatumLaatsteAanpassing));
 
             await basisgegevensSetup.CsvWriter.NextRecordAsync();

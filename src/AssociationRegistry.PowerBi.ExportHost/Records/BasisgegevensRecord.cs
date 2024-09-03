@@ -19,4 +19,5 @@ record BasisgegevensRecord(
     [property: Name("verenigingstype.naam"), Index(13)] string NaamVerenigingsType,
     [property: Name("kboNummer"), Index(14)] string KboNummer,
     [property: Name("corresponderendeVCodes"), Index(15)] string CorresponderendeVCodes,
-    [property: Name("datumLaatsteAanpassing"), Index(16)] string DatumLaatsteAanpassing);
+    [property: Name("aantalVertegenwoordigers"), Index(16)] int AantalVertegenwoordigers,
+    [property: Name("datumLaatsteAanpassing"), Index(17)] string DatumLaatsteAanpassing);
