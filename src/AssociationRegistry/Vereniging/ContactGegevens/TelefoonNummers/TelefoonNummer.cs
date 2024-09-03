@@ -2,6 +2,7 @@
 
 using Exceptions;
 using Framework;
+using System.Text.RegularExpressions;
 
 public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
     : Contactgegeven(Contactgegeventype.Telefoon, Waarde, Beschrijving, IsPrimair)
@@ -26,6 +27,40 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
 
         return new TelefoonNummer(telefoonNummer, beschrijving, isPrimair);
     }
+
+    private bool EqualsPhoneNumber(string phoneNumber)
+    {
+        var originalPhoneNumber = NormalizePhoneNumber(Waarde);
+        var otherPhoneNumber = NormalizePhoneNumber(phoneNumber);
+
+        return originalPhoneNumber == otherPhoneNumber;
+    }
+
+    public static string NormalizePhoneNumber(string phoneNumber)
+    {
+        phoneNumber = phoneNumber.Replace("+", "00");
+
+        var firstSpaceIndex = phoneNumber.IndexOf(" ");
+        var phoneNumberDigits = Convert.ToInt64(Regex.Replace(phoneNumber, @"\D", "")).ToString();
+
+        // Local number
+        if (phoneNumberDigits.Length <= 9)
+            return "0032" + phoneNumberDigits;
+
+        // Country coded number
+        if (firstSpaceIndex.Equals(-1)) // Does not use spaces inside number
+            return Regex.Replace(phoneNumber, @"\D", "");
+
+        var countryCode = phoneNumber.Substring(0, firstSpaceIndex);
+        var countryCodeDigits = Regex.Replace(countryCode, @"\D", "");
+        var phone = phoneNumber.Substring(firstSpaceIndex);
+        var phoneDigits = Convert.ToInt64(Regex.Replace(phone, @"\D", "")).ToString();
+
+        return countryCodeDigits + phoneDigits;
+    }
+
+    protected override bool CompareWaarde(string waarde)
+        => EqualsPhoneNumber(waarde);
 
     public static TelefoonNummer Hydrate(string telefoonNummer)
         => new(telefoonNummer, string.Empty, IsPrimair: false);
