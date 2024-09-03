@@ -5,9 +5,8 @@ using AssociationRegistry.PowerBi.ExportHost;
 using FluentAssertions;
 using System.Text;
 using Xunit;
-using Xunit.Abstractions;
 
-public class CsvExportTests
+public class hoofdactiviteitenExportTests
 {
     [Fact]
     public async Task WithNoDocuments_ThenCsvExportsOnlyHeaders()
@@ -67,7 +66,7 @@ public class CsvExportTests
     {
         var exporter = new PowerBiDocumentExporter();
 
-        var exportStream = await exporter.ExportAsync(docs);
+        var exportStream = await exporter.ExportHoofdactiviteiten(docs);
 
         using var reader = new StreamReader(exportStream, Encoding.UTF8);
 

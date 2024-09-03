@@ -1,9 +1,8 @@
 namespace AssociationRegistry.PowerBi.ExportHost;
 
-using AssociationRegistry.Admin.Schema.PowerBiExport;
+using Admin.Schema.PowerBiExport;
 using CsvHelper;
-using CsvHelper.Configuration;
-using CsvHelper.Configuration.Attributes;
+using Records;
 using System.Globalization;
 using System.Text;
 
@@ -14,40 +13,80 @@ public class PowerBiDocumentExporter
     {
     }
 
-    public async Task<MemoryStream> ExportAsync(IEnumerable<PowerBiExportDocument> docs)
+    public async Task<MemoryStream> ExportHoofdactiviteiten(IEnumerable<PowerBiExportDocument> docs)
     {
-        var memoryStream = new MemoryStream();
-        var writer = new StreamWriter(memoryStream, Encoding.UTF8);
-        await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteHeader<HoofdactiviteitenRecord>();
-        await csv.NextRecordAsync();
+        var hoofdactiviteitenSetup = await GetFileSetup<HoofdactiviteitenRecord>();
 
         foreach (var vereniging in docs)
         {
             foreach (var hoofdactiviteitVerenigingsloket in vereniging.HoofdactiviteitenVerenigingsloket)
             {
-                csv.WriteRecord(new HoofdactiviteitenRecord(
-                                    hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam,
-                                    vereniging.VCode));
+                hoofdactiviteitenSetup.CsvWriter.WriteRecord(new HoofdactiviteitenRecord(
+                                                       hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam,
+                                                       vereniging.VCode));
 
-                await csv.NextRecordAsync();
+                await hoofdactiviteitenSetup.CsvWriter.NextRecordAsync();
             }
         }
 
-        await csv.FlushAsync();
+        return await CloseCsvAndCopyStream(hoofdactiviteitenSetup);
+    }
 
-        memoryStream.Position = 0;
+    public async Task<MemoryStream> ExportBasisgegevens(IEnumerable<PowerBiExportDocument> docs)
+    {
+        var basisgegevensSetup = await GetFileSetup<BasisgegevensRecord>();
+
+        foreach (var vereniging in docs)
+        {
+            basisgegevensSetup.CsvWriter.WriteRecord(new BasisgegevensRecord(
+                                                         vereniging.Bron,
+                                                         vereniging.Doelgroep.Maximumleeftijd,
+                                                         vereniging.Doelgroep.Minimumleeftijd,
+                                                         vereniging.Einddatum,
+                                                         vereniging.IsUitgeschrevenUitPubliekeDatastroom,
+                                                         vereniging.KorteBeschrijving,
+                                                         vereniging.KorteNaam,
+                                                         vereniging.Naam,
+                                                         vereniging.Roepnaam,
+                                                         vereniging.Startdatum,
+                                                         vereniging.Status,
+                                                         vereniging.VCode,
+                                                         vereniging.Verenigingstype.Code,
+                                                         vereniging.Verenigingstype.Naam,
+                                                         vereniging.KboNummer,
+                                                         string.Join(", ", vereniging.CorresponderendeVCodes),
+                                                         vereniging.DatumLaatsteAanpassing));
+
+            await basisgegevensSetup.CsvWriter.NextRecordAsync();
+        }
+
+        return await CloseCsvAndCopyStream(basisgegevensSetup);
+    }
+
+    public record FileSetup(MemoryStream Stream, CsvWriter CsvWriter);
+
+    private async Task<FileSetup> GetFileSetup<T>()
+    {
+        var memoryStream = new MemoryStream();
+        var writer = new StreamWriter(memoryStream, Encoding.UTF8);
+        var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
+        csv.WriteHeader<T>();
+        await csv.NextRecordAsync();
+
+        return new FileSetup(memoryStream, csv);
+    }
+
+    private async Task<MemoryStream> CloseCsvAndCopyStream(FileSetup fileSetup)
+    {
+        await fileSetup.CsvWriter.FlushAsync();
+
+        fileSetup.Stream.Position = 0;
 
         var exportStream = new MemoryStream();
-        await memoryStream.CopyToAsync(exportStream);
+        await fileSetup.Stream.CopyToAsync(exportStream);
 
         exportStream.Position = 0;
 
         return exportStream;
     }
-
-    public record HoofdactiviteitenRecord(
-        [property: Name("code"), Index(0)] string Code,
-        [property: Name("naam"), Index(1)] string Naam,
-        [property: Name("vcode"), Index(2)] string VCode);
 }

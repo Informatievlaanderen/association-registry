@@ -6,7 +6,7 @@ using Marten.Schema;
 
 public record PowerBiExportDocument : IVCode
 {
-    //public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
+    public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
     public string Naam { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
@@ -29,4 +29,6 @@ public record PowerBiExportDocument : IVCode
     [Identity] public string VCode { get; init; } = null!;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
+    public string KboNummer { get; set; }
+    public string DatumLaatsteAanpassing { get; set; }
 }
