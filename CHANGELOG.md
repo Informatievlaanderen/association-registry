@@ -1,3 +1,10 @@
+# [8.141.0](https://github.com/informatievlaanderen/association-registry/compare/v8.140.1...v8.141.0) (2024-09-03)
+
+
+### Features
+
+* or-2366 add basisgegevens for powerbi export ([24c8065](https://github.com/informatievlaanderen/association-registry/commit/24c8065252128b234431a42032a7dbfc74109779))
+
 ## [8.140.1](https://github.com/informatievlaanderen/association-registry/compare/v8.140.0...v8.140.1) (2024-09-03)
 
 
