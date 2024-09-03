@@ -9,6 +9,7 @@ using Moq;
 using System.Net;
 using Vereniging;
 using Vereniging.Exceptions;
+using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 
@@ -73,7 +74,7 @@ public class With_A_Duplicate_PhoneNumber
             new VerenigingState()
                .Apply(feitelijkeVerenigingWerdGeregistreerd));
 
-        var contactgegeven = fixture.Create<Contactgegeven>() with
+        var contactgegeven = fixture.Create<TelefoonNummer>() with
         {
             Beschrijving = beschrijving,
             Contactgegeventype = Contactgegeventype.Telefoon,
