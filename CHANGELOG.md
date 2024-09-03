@@ -1,3 +1,10 @@
+## [8.140.1](https://github.com/informatievlaanderen/association-registry/compare/v8.140.0...v8.140.1) (2024-09-03)
+
+
+### Bug Fixes
+
+* or-2388 beschrijving is always relevant when comparing contactgegevens ([4bcb7c9](https://github.com/informatievlaanderen/association-registry/commit/4bcb7c9771328db9a9f49a9f31e5844060564b1d))
+
 # [8.140.0](https://github.com/informatievlaanderen/association-registry/compare/v8.139.3...v8.140.0) (2024-09-03)
 
 
