@@ -1,3 +1,11 @@
+# [8.142.0](https://github.com/informatievlaanderen/association-registry/compare/v8.141.0...v8.142.0) (2024-09-03)
+
+
+### Features
+
+* or-2366 add aantal vertegenwoordigers to basisgegevens power bi export ([06b5f39](https://github.com/informatievlaanderen/association-registry/commit/06b5f39a8e805078bac67ac40788f4ddef973a25))
+* or-2389 add locaties for power bi export ([edf0254](https://github.com/informatievlaanderen/association-registry/commit/edf0254a8513fd044b017cd06c5151889cd87ed2))
+
 # [8.141.0](https://github.com/informatievlaanderen/association-registry/compare/v8.140.1...v8.141.0) (2024-09-03)
 
 
