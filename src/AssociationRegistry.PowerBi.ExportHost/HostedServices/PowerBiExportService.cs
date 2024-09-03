@@ -62,6 +62,7 @@ public class PowerBiExportService : BackgroundService
         {
             (WellKnownFileNames.Hoofdactiviteiten, await exporter.ExportHoofdactiviteiten(documents)),
             (WellKnownFileNames.Basisgegevens, await exporter.ExportBasisgegevens(documents)),
+            (WellKnownFileNames.Locaties, await exporter.ExportLocaties(documents)),
         };
 
         foreach (var (fileName, stream) in streamsToWrite)
@@ -74,7 +75,7 @@ public class PowerBiExportService : BackgroundService
                 ContentType = "text/csv",
             };
 
-            _logger.LogInformation($"Send file{fileName} to s3.");
+            _logger.LogInformation($"Send file {fileName} to s3.");
             await _s3Client.PutObjectAsync(putRequest);
         }
     }

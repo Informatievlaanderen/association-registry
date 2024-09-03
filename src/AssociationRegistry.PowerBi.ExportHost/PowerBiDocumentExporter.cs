@@ -63,6 +63,38 @@ public class PowerBiDocumentExporter
         return await CloseCsvAndCopyStream(basisgegevensSetup);
     }
 
+    public async Task<MemoryStream> ExportLocaties(IEnumerable<PowerBiExportDocument> docs)
+    {
+        var basisgegevensSetup = await GetFileSetup<LocatiesRecord>();
+
+        foreach (var vereniging in docs)
+        {
+            foreach (var locatie in vereniging.Locaties)
+            {
+                basisgegevensSetup.CsvWriter.WriteRecord(new LocatiesRecord(
+                                                             locatie.AdresId?.Broncode,
+                                                             locatie.AdresId?.Bronwaarde,
+                                                             locatie.Adresvoorstelling,
+                                                             locatie.Bron,
+                                                             locatie.Adres?.Busnummer,
+                                                             locatie.Adres?.Gemeente,
+                                                             locatie.Adres?.Huisnummer,
+                                                             locatie.IsPrimair,
+                                                             locatie.Adres?.Land,
+                                                             locatie.LocatieId,
+                                                             locatie.Locatietype,
+                                                             locatie.Naam,
+                                                             locatie.Adres?.Postcode,
+                                                             locatie.Adres.Straatnaam,
+                                                             vereniging.VCode));
+
+                await basisgegevensSetup.CsvWriter.NextRecordAsync();
+            }
+        }
+
+        return await CloseCsvAndCopyStream(basisgegevensSetup);
+    }
+
     public record FileSetup(MemoryStream Stream, CsvWriter CsvWriter);
 
     private async Task<FileSetup> GetFileSetup<T>()
