@@ -66,13 +66,13 @@ public class PowerBiDocumentExporter
 
     public async Task<MemoryStream> ExportLocaties(IEnumerable<PowerBiExportDocument> docs)
     {
-        var basisgegevensSetup = await GetFileSetup<LocatiesRecord>();
+        var locatiesSetup = await GetFileSetup<LocatiesRecord>();
 
         foreach (var vereniging in docs)
         {
             foreach (var locatie in vereniging.Locaties)
             {
-                basisgegevensSetup.CsvWriter.WriteRecord(new LocatiesRecord(
+                locatiesSetup.CsvWriter.WriteRecord(new LocatiesRecord(
                                                              locatie.AdresId?.Broncode,
                                                              locatie.AdresId?.Bronwaarde,
                                                              locatie.Adresvoorstelling,
@@ -89,11 +89,35 @@ public class PowerBiDocumentExporter
                                                              locatie.Adres.Straatnaam,
                                                              vereniging.VCode));
 
-                await basisgegevensSetup.CsvWriter.NextRecordAsync();
+                await locatiesSetup.CsvWriter.NextRecordAsync();
             }
         }
 
-        return await CloseCsvAndCopyStream(basisgegevensSetup);
+        return await CloseCsvAndCopyStream(locatiesSetup);
+    }
+
+    public async Task<MemoryStream> ExportContactgegevens(IEnumerable<PowerBiExportDocument> docs)
+    {
+        var contactgegevensSetup = await GetFileSetup<ContactgegevensRecord>();
+
+        foreach (var vereniging in docs)
+        {
+            foreach (var contactgegeven in vereniging.Contactgegevens)
+            {
+                contactgegevensSetup.CsvWriter.WriteRecord(new ContactgegevensRecord(
+                                                             contactgegeven.Beschrijving,
+                                                             contactgegeven.Bron,
+                                                             contactgegeven.ContactgegevenId,
+                                                             contactgegeven.Contactgegeventype,
+                                                             contactgegeven.IsPrimair,
+                                                             vereniging.VCode,
+                                                             contactgegeven.Waarde));
+
+                await contactgegevensSetup.CsvWriter.NextRecordAsync();
+            }
+        }
+
+        return await CloseCsvAndCopyStream(contactgegevensSetup);
     }
 
     public record FileSetup(MemoryStream Stream, CsvWriter CsvWriter);

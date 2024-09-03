@@ -63,6 +63,7 @@ public class PowerBiExportService : BackgroundService
             (WellKnownFileNames.Hoofdactiviteiten, await exporter.ExportHoofdactiviteiten(documents)),
             (WellKnownFileNames.Basisgegevens, await exporter.ExportBasisgegevens(documents)),
             (WellKnownFileNames.Locaties, await exporter.ExportLocaties(documents)),
+            (WellKnownFileNames.Contactgegevens, await exporter.ExportContactgegevens(documents)),
         };
 
         foreach (var (fileName, stream) in streamsToWrite)
