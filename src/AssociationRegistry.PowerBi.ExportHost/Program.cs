@@ -1,11 +1,6 @@
 ﻿namespace AssociationRegistry.PowerBi.ExportHost;
 
 using Amazon.S3;
-using EventStore;
-using Grar;
-using Grar.AddressSync;
-using Notifications;
-using Vereniging;
 using Destructurama;
 using HostedServices;
 using Hosts.Configuration;
@@ -66,8 +61,6 @@ public static class Program
 
         services.AddHostedService<PowerBiExportService>();
     }
-
-
 
     private static void ConfigureLogger(HostBuilderContext context, ILoggingBuilder builder)
     {

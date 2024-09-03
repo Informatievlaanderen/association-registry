@@ -13,50 +13,42 @@ public class PowerBiExportService : BackgroundService
     private readonly IAmazonS3 _s3Client;
     private readonly IDocumentStore _store;
     private readonly ILogger<PowerBiExportService> _logger;
-    private readonly bool _demo;
+    private readonly IHostApplicationLifetime _hostApplicationLifetime;
     private readonly string _bucketName;
 
-    public PowerBiExportService(IAmazonS3 s3Client, IDocumentStore store, PowerBiExportOptionsSection optionsSection, ILogger<PowerBiExportService> logger)
+    public PowerBiExportService(
+        IAmazonS3 s3Client,
+        IDocumentStore store,
+        PowerBiExportOptionsSection optionsSection,
+        ILogger<PowerBiExportService> logger,
+        IHostApplicationLifetime hostApplicationLifetime)
     {
         _s3Client = s3Client;
         _store = store;
         _logger = logger;
-        _demo = optionsSection.Demo;
+        _hostApplicationLifetime = hostApplicationLifetime;
         _bucketName = optionsSection.BucketName;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        if (_demo)
-        {
-            _logger.LogInformation("This is demo data.");
-            var docs = new List<PowerBiExportDocument>
-            {
-                new()
-                {
-                    VCode = "V0001001",
-                    HoofdactiviteitenVerenigingsloket = [
-                        new HoofdactiviteitVerenigingsloket(){ Naam = "hoofd", Code = "activiteit"},
-                    ]
-                },
-                new()
-                {
-                    VCode = "V0001002",
-                    HoofdactiviteitenVerenigingsloket = [
-                        new HoofdactiviteitVerenigingsloket(){ Naam = "hoofd1", Code = "activiteit1"},
-                        new HoofdactiviteitVerenigingsloket(){ Naam = "hoofd2", Code = "activiteit2"},
-                        new HoofdactiviteitVerenigingsloket(){ Naam = "hoofd3", Code = "activiteit3"},
-                    ]
-                }
-            };
-            await UploadListAsCsvToS3(docs);
-        }
-        else
+        try
         {
             await using var session = _store.LightweightSession();
             var docs = await session.Query<PowerBiExportDocument>().ToListAsync(cancellationToken);
             _logger.LogInformation($"Amount of docs found: {docs.Count}");
             await UploadListAsCsvToS3(docs);
+            _logger.LogInformation("PowerBi export succeeded");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "PowerBi export failed");
+
+            throw;
+        }
+        finally
+        {
+            _hostApplicationLifetime.StopApplication();
         }
     }
 
