@@ -1,3 +1,10 @@
+# [8.140.0](https://github.com/informatievlaanderen/association-registry/compare/v8.139.3...v8.140.0) (2024-09-03)
+
+
+### Features
+
+* or-2354 stop powerbi application and cleanup demo ([240caff](https://github.com/informatievlaanderen/association-registry/commit/240caff32a191d0091c588aae62565ee5bccb41f))
+
 ## [8.139.3](https://github.com/informatievlaanderen/association-registry/compare/v8.139.2...v8.139.3) (2024-09-02)
 
 
