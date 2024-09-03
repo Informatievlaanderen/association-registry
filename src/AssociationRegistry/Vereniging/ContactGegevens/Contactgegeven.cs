@@ -131,10 +131,10 @@ public record Contactgegeven
 
     public bool IsEquivalentTo(Contactgegeven contactgegeven)
         => Contactgegeventype == contactgegeven.Contactgegeventype
-            && contactgegeven.Contactgegeventype == Contactgegeventype.Telefoon
-                ? EqualsPhoneNumber(contactgegeven.Waarde)
-                : Waarde == contactgegeven.Waarde
-            && Beschrijving == contactgegeven.Beschrijving;
+        && Beschrijving == contactgegeven.Beschrijving
+        && (contactgegeven.Contactgegeventype == Contactgegeventype.Telefoon
+               ? EqualsPhoneNumber(contactgegeven.Waarde)
+               : Waarde == contactgegeven.Waarde);
 
     private static bool IsKnownType(string type)
         => Contactgegeventype.CanParse(type);
