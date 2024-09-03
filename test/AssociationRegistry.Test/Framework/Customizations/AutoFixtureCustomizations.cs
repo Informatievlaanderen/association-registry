@@ -182,7 +182,8 @@ public static class AutoFixtureCustomizations
         fixture.Customize<TelefoonNummer>(
             composerTransformation: composer => composer.FromFactory(
                                                              factory: () => new TelefoonNummer(
-                                                                 fixture.Create<int>().ToString(), fixture.Create<string>(),
+                                                                 Random.Shared.NextInt64(1000000000,9999999999).ToString(),
+                                                                 fixture.Create<string>(),
                                                                  IsPrimair: false))
                                                         .OmitAutoProperties());
 
