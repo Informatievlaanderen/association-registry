@@ -55,21 +55,27 @@ public class PowerBiExportService : BackgroundService
     public async Task UploadListAsCsvToS3(IEnumerable<PowerBiExportDocument> documents)
     {
         _logger.LogInformation("UploadListAsCsvToS3 started");
-        await using var stream = new MemoryStream();
-        await using var writer = new StreamWriter(stream);
+
         var exporter = new PowerBiDocumentExporter();
 
-       await using var exportStream = await exporter.ExportAsync(documents);
-
-        var putRequest = new PutObjectRequest
+        var streamsToWrite = new List<(string, MemoryStream)>
         {
-            BucketName = _bucketName,
-            Key = WellKnownFileNames.HoofdActiviteiten,
-            InputStream = exportStream,
-            ContentType = "text/csv",
+            (WellKnownFileNames.Hoofdactiviteiten, await exporter.ExportHoofdactiviteiten(documents)),
+            (WellKnownFileNames.Basisgegevens, await exporter.ExportBasisgegevens(documents)),
         };
 
-        _logger.LogInformation("Send to s3");
-        await _s3Client.PutObjectAsync(putRequest);
+        foreach (var (fileName, stream) in streamsToWrite)
+        {
+            var putRequest = new PutObjectRequest
+            {
+                BucketName = _bucketName,
+                Key = fileName,
+                InputStream = stream,
+                ContentType = "text/csv",
+            };
+
+            _logger.LogInformation($"Send file{fileName} to s3.");
+            await _s3Client.PutObjectAsync(putRequest);
+        }
     }
 }
