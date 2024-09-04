@@ -58,25 +58,26 @@ public class PowerBiExportService : BackgroundService
 
         var exporter = new PowerBiDocumentExporter();
 
-        var streamsToWrite = new List<(string, MemoryStream)>
+        var streamsToWrite = new List<(string, Func<Task<MemoryStream>>)>
         {
-            (WellKnownFileNames.Hoofdactiviteiten, await exporter.ExportHoofdactiviteiten(documents)),
-            (WellKnownFileNames.Basisgegevens, await exporter.ExportBasisgegevens(documents)),
-            (WellKnownFileNames.Locaties, await exporter.ExportLocaties(documents)),
-            (WellKnownFileNames.Contactgegevens, await exporter.ExportContactgegevens(documents)),
+            (WellKnownFileNames.Hoofdactiviteiten, async () => await exporter.ExportHoofdactiviteiten(documents)),
+            (WellKnownFileNames.Basisgegevens, async () => await exporter.ExportBasisgegevens(documents)),
+            (WellKnownFileNames.Locaties, async () => await exporter.ExportLocaties(documents)),
+            (WellKnownFileNames.Contactgegevens, async () => await exporter.ExportContactgegevens(documents)),
         };
 
-        foreach (var (fileName, stream) in streamsToWrite)
+        foreach (var (fileName, streamFunc) in streamsToWrite)
         {
+            var memoryStream = await streamFunc();
             var putRequest = new PutObjectRequest
             {
                 BucketName = _bucketName,
                 Key = fileName,
-                InputStream = stream,
+                InputStream = memoryStream,
                 ContentType = "text/csv",
             };
 
-            _logger.LogInformation($"Send file {fileName} to s3.");
+            _logger.LogInformation("Send file {FileName} to s3. Memory stream bytes: {MemoryStreamByteCount}", fileName, memoryStream.Length);
             await _s3Client.PutObjectAsync(putRequest);
         }
     }

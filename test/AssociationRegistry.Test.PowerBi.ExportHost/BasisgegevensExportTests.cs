@@ -8,7 +8,7 @@ using FluentAssertions;
 using System.Text;
 using Xunit;
 
-public class basisgegevensExportTests
+public class BasisgegevensExportTests
 {
     [Fact]
     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
