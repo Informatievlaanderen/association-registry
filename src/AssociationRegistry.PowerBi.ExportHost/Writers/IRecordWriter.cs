@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.PowerBi.ExportHost.Exporters;
+﻿namespace AssociationRegistry.PowerBi.ExportHost.Writers;
 
 using Admin.Schema.PowerBiExport;
 using CsvHelper;

@@ -16,6 +16,7 @@ using OpenTelemetry.Logs;
 using OpenTelemetry.Resources;
 using Serilog;
 using Serilog.Debugging;
+using Writers;
 
 public static class Program
 {
@@ -57,7 +58,14 @@ public static class Program
            .AddSingleton(postgreSqlOptions)
            .AddSingleton(powerBiExportOptions)
            .AddSingleton<IClock>(SystemClock.Instance)
-           .AddSingleton<IAmazonS3, AmazonS3Client>();
+           .AddSingleton<IAmazonS3, AmazonS3Client>()
+           .AddSingleton(sp => new[]
+            {
+                new Exporter(WellKnownFileNames.Basisgegevens, powerBiExportOptions.BucketName, new BasisgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+                new Exporter(WellKnownFileNames.Contactgegevens, powerBiExportOptions.BucketName, new ContactgegevensRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+                new Exporter(WellKnownFileNames.Hoofdactiviteiten, powerBiExportOptions.BucketName, new HoofdactiviteitenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+                new Exporter(WellKnownFileNames.Locaties, powerBiExportOptions.BucketName, new LocatiesRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+            });
 
         services.AddHostedService<PowerBiExportService>();
     }

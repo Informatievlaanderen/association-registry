@@ -2,19 +2,10 @@
 
 using Admin.Schema.Detail;
 using Hosts.Configuration.ConfigurationBindings;
-using JasperFx.CodeGeneration;
 using Marten;
 using Marten.Events;
 using Marten.Services;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using Npgsql;
-using OpenTelemetry.Exporter;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Resources;
-using OpenTelemetry.Trace;
-using System.Reflection;
 using Weasel.Core;
 
 public static class ServiceCollectionMartenExtensions
