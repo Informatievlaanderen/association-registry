@@ -4,22 +4,15 @@ using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
 
-public class ContactgegevensExporter
+public class ContactgegevensExporter : IExporter
 {
-    private readonly CsvWriter _csvWriter;
-
-    public ContactgegevensExporter(CsvWriter csvWriter)
-    {
-        _csvWriter = csvWriter;
-    }
-
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs)
+   public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
         foreach (var vereniging in docs)
         {
             foreach (var contactgegeven in vereniging.Contactgegevens)
             {
-                _csvWriter.WriteRecord(new ContactgegevensRecord(
+                csvWriter.WriteRecord(new ContactgegevensRecord(
                                            contactgegeven.Beschrijving,
                                            contactgegeven.Bron,
                                            contactgegeven.ContactgegevenId,
@@ -28,7 +21,7 @@ public class ContactgegevensExporter
                                            vereniging.VCode,
                                            contactgegeven.Waarde));
 
-                await _csvWriter.NextRecordAsync();
+                await csvWriter.NextRecordAsync();
             }
         }
     }

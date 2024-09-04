@@ -11,37 +11,25 @@ public class PowerBiDocumentExporter
 {
     public PowerBiDocumentExporter()
     {
+
     }
 
     public async Task<MemoryStream> ExportHoofdactiviteiten(IEnumerable<PowerBiExportDocument> docs)
-    {
-        var fileSetup = await GetFileSetup<HoofdactiviteitenRecord>();
-        var exporter = new HoofdactiviteitenExporter(fileSetup.CsvWriter);
-        await exporter.Export(docs);
-        return await CloseCsvAndCopyStream(fileSetup);
-    }
+        => await ExportFile<HoofdactiviteitenRecord>(docs, new HoofdactiviteitenExporter());
 
     public async Task<MemoryStream> ExportBasisgegevens(IEnumerable<PowerBiExportDocument> docs)
-    {
-        var fileSetup = await GetFileSetup<BasisgegevensRecord>();
-        var exporter = new BasisgegevensExporter(fileSetup.CsvWriter);
-        await exporter.Export(docs);
-        return await CloseCsvAndCopyStream(fileSetup);
-    }
+        => await ExportFile<BasisgegevensRecord>(docs, new BasisgegevensExporter());
 
     public async Task<MemoryStream> ExportLocaties(IEnumerable<PowerBiExportDocument> docs)
-    {
-        var fileSetup = await GetFileSetup<LocatiesRecord>();
-        var exporter = new LocatiesExporter(fileSetup.CsvWriter);
-        await exporter.Export(docs);
-        return await CloseCsvAndCopyStream(fileSetup);
-    }
+        => await ExportFile<LocatiesRecord>(docs, new LocatiesExporter());
 
     public async Task<MemoryStream> ExportContactgegevens(IEnumerable<PowerBiExportDocument> docs)
+        => await ExportFile<ContactgegevensRecord>(docs, new ContactgegevensExporter());
+
+    private async Task<MemoryStream> ExportFile<T>(IEnumerable<PowerBiExportDocument> docs, IExporter exporter)
     {
-        var fileSetup = await GetFileSetup<ContactgegevensRecord>();
-        var exporter = new ContactgegevensExporter(fileSetup.CsvWriter);
-        await exporter.Export(docs);
+        var fileSetup = await GetFileSetup<T>();
+        await exporter.Export(docs, fileSetup.CsvWriter);
         return await CloseCsvAndCopyStream(fileSetup);
     }
 

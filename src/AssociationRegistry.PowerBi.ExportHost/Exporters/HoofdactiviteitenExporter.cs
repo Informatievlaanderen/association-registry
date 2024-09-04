@@ -4,26 +4,23 @@ using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
 
-public class HoofdactiviteitenExporter
+public class HoofdactiviteitenExporter : IExporter
 {
-    private readonly CsvWriter _csvWriter;
 
-    public HoofdactiviteitenExporter(CsvWriter csvWriter)
-    {
-        _csvWriter = csvWriter;
-    }
+    public HoofdactiviteitenExporter()
+    { }
 
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs)
+    public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
         foreach (var vereniging in docs)
         {
             foreach (var hoofdactiviteitVerenigingsloket in vereniging.HoofdactiviteitenVerenigingsloket)
             {
-                _csvWriter.WriteRecord(new HoofdactiviteitenRecord(
-                                           hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam,
-                                           vereniging.VCode));
+                csvWriter.WriteRecord(new HoofdactiviteitenRecord(
+                                          hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam,
+                                          vereniging.VCode));
 
-                await _csvWriter.NextRecordAsync();
+                await csvWriter.NextRecordAsync();
             }
         }
     }
