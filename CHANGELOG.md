@@ -1,3 +1,10 @@
+# [8.144.0](https://github.com/informatievlaanderen/association-registry/compare/v8.143.1...v8.144.0) (2024-09-04)
+
+
+### Features
+
+* or-2354 use less memory for power bi export ([97ef8c2](https://github.com/informatievlaanderen/association-registry/commit/97ef8c20dc13c52bfd779bf54addce9e3187f0ed))
+
 ## [8.143.1](https://github.com/informatievlaanderen/association-registry/compare/v8.143.0...v8.143.1) (2024-09-04)
 
 
