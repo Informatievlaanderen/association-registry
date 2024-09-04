@@ -6,7 +6,7 @@ using FluentAssertions;
 using System.Text;
 using Xunit;
 
-public class HoofdactiviteitenExportTests
+public class HoofdactiviteitenExporterTests
 {
     [Fact]
     public async Task WithNoDocuments_ThenCsvExportsOnlyHeaders()
