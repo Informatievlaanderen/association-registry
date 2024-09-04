@@ -10,21 +10,28 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Net;
 using System.Text;
 using Xunit;
 
 public class BasisgegevensExportTests
 {
-    private Stream _resultStream = null;
+    private Stream _resultStream;
+    private readonly Fixture _fixture;
+    private readonly Mock<IAmazonS3> _s3ClientMock;
+
+    public BasisgegevensExportTests()
+    {
+        _fixture = new Fixture().CustomizeDomain();
+        _s3ClientMock = SetupS3Client();
+    }
 
     [Fact]
     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-        var fixture = new Fixture().CustomizeDomain();
-        var s3ClientMock = SetupS3Client();
-        var docs = fixture.CreateMany<PowerBiExportDocument>();
+        var docs = _fixture.CreateMany<PowerBiExportDocument>();
 
-        await Export(docs, s3ClientMock.Object);
+        await Export(docs);
 
         var actualResult = await GetActualResult();
         var expectedResult = GetExpectedResult(docs);
@@ -44,12 +51,14 @@ public class BasisgegevensExportTests
     private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append("bron,doelgroep.maximumleeftijd,doelgroep.minimumleeftijd,einddatum,isUitgeschrevenUitPubliekeDatastroom,korteBeschrijving,korteNaam,naam,roepnaam,startdatum,status,vCode,verenigingstype.code,verenigingstype.naam,kboNummer,corresponderendeVCodes,aantalVertegenwoordigers,datumLaatsteAanpassing\r\n");
+
+        stringBuilder.Append(
+            "bron,doelgroep.maximumleeftijd,doelgroep.minimumleeftijd,einddatum,isUitgeschrevenUitPubliekeDatastroom,korteBeschrijving,korteNaam,naam,roepnaam,startdatum,status,vCode,verenigingstype.code,verenigingstype.naam,kboNummer,corresponderendeVCodes,aantalVertegenwoordigers,datumLaatsteAanpassing\r\n");
 
         foreach (var doc in docs)
         {
             stringBuilder.Append(
-                $"{doc.Bron},{doc.Doelgroep.Maximumleeftijd},{doc.Doelgroep.Minimumleeftijd},{doc.Einddatum},{doc.IsUitgeschrevenUitPubliekeDatastroom},{doc.KorteBeschrijving},{doc.KorteNaam},{doc.Naam},{doc.Roepnaam},{doc.Startdatum},{doc.Status},{doc.VCode},{doc.Verenigingstype.Code},{doc.Verenigingstype.Naam},{doc.KboNummer},\"{string.Join(", ", doc.CorresponderendeVCodes)}\",{doc.AantalVertegenwoordigers},{doc.DatumLaatsteAanpassing}\r\n");
+                $"{doc.Bron},{doc.Doelgroep.Maximumleeftijd},{doc.Doelgroep.Minimumleeftijd},{doc.Einddatum},{doc.IsUitgeschrevenUitPubliekeDatastroom},{doc.KorteBeschrijving},{doc.KorteNaam},{doc.Naam},{doc.Roepnaam},{doc.Startdatum},{doc.Status},{doc.VCode},{doc.Verenigingstype.Code},{doc.Verenigingstype.Naam},{doc.KboNummer},\"{string.Join(separator: ", ", doc.CorresponderendeVCodes)}\",{doc.AantalVertegenwoordigers},{doc.DatumLaatsteAanpassing}\r\n");
         }
 
         return stringBuilder.ToString();
@@ -61,17 +70,17 @@ public class BasisgegevensExportTests
 
         s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
                     .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
-                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = System.Net.HttpStatusCode.OK });
+                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = HttpStatusCode.OK });
 
         return s3ClientMock;
     }
 
-    private static async Task Export(IEnumerable<PowerBiExportDocument> docs, IAmazonS3 s3Client)
+    private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
         var exporter = new Exporter(WellKnownFileNames.Basisgegevens,
-                                    "something",
+                                    bucketName: "something",
                                     new BasisgegevensRecordWriter(),
-                                    s3Client,
+                                    _s3ClientMock.Object,
                                     new NullLogger<Exporter>());
 
         await exporter.Export(docs);
