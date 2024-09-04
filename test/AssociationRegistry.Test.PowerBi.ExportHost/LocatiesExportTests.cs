@@ -16,16 +16,22 @@ using Xunit;
 
 public class LocatiesExportTests
 {
-    private Stream _resultStream = null;
+    private Stream _resultStream;
+    private readonly Fixture _fixture;
+    private readonly Mock<IAmazonS3> _s3ClientMock;
+
+    public LocatiesExportTests()
+    {
+        _fixture = new Fixture().CustomizeDomain();
+        _s3ClientMock = SetupS3Client();
+    }
 
     [Fact]
     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-        var fixture = new Fixture().CustomizeDomain();
-        var s3ClientMock = SetupS3Client();
-        var docs = fixture.CreateMany<PowerBiExportDocument>();
+        var docs = _fixture.CreateMany<PowerBiExportDocument>();
 
-        await Export(docs, s3ClientMock.Object);
+        await Export(docs);
 
         var actualResult = await GetActualResult();
         var expectedResult = GetExpectedResult(docs);
@@ -45,7 +51,9 @@ public class LocatiesExportTests
     private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
     {
         var stringBuilder = new StringBuilder();
-        stringBuilder.Append("adresId.broncode,adresId.bronwaarde,adresvoorstelling,bron,busnummer,gemeente,huisnummer,isPrimair,land,locatieId,locatieType,naam,postcode,straatnaam,vCode\r\n");
+
+        stringBuilder.Append(
+            "adresId.broncode,adresId.bronwaarde,adresvoorstelling,bron,busnummer,gemeente,huisnummer,isPrimair,land,locatieId,locatieType,naam,postcode,straatnaam,vCode\r\n");
 
         foreach (var doc in docs)
         {
@@ -70,12 +78,12 @@ public class LocatiesExportTests
         return s3ClientMock;
     }
 
-    private static async Task Export(IEnumerable<PowerBiExportDocument> docs, IAmazonS3 s3Client)
+    private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
         var exporter = new Exporter(WellKnownFileNames.Locaties,
-                                    "something",
+                                    bucketName: "something",
                                     new LocatiesRecordWriter(),
-                                    s3Client,
+                                    _s3ClientMock.Object,
                                     new NullLogger<Exporter>());
 
         await exporter.Export(docs);

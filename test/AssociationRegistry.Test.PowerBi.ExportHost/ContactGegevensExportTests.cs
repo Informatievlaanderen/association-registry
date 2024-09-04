@@ -10,21 +10,28 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Net;
 using System.Text;
 using Xunit;
 
 public class ContactgegevensExportTests
 {
-    private Stream _resultStream = null;
+    private Stream _resultStream;
+    private readonly Fixture _fixture;
+    private readonly Mock<IAmazonS3> _s3ClientMock;
+
+    public ContactgegevensExportTests()
+    {
+        _fixture = new Fixture().CustomizeDomain();
+        _s3ClientMock = SetupS3Client();
+    }
 
     [Fact]
     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-        var fixture = new Fixture().CustomizeDomain();
-        var s3ClientMock = SetupS3Client();
-        var docs = fixture.CreateMany<PowerBiExportDocument>();
+        var docs = _fixture.CreateMany<PowerBiExportDocument>();
 
-        await Export(docs, s3ClientMock.Object);
+        await Export(docs);
 
         var actualResult = await GetActualResult();
         var expectedResult = GetExpectedResult(docs);
@@ -50,7 +57,8 @@ public class ContactgegevensExportTests
         {
             foreach (var contactgegeven in doc.Contactgegevens)
             {
-                stringBuilder.Append($"{contactgegeven.Beschrijving},{contactgegeven.Bron},{contactgegeven.ContactgegevenId},{contactgegeven.Contactgegeventype},{contactgegeven.IsPrimair},{doc.VCode},{contactgegeven.Waarde}\r\n");
+                stringBuilder.Append(
+                    $"{contactgegeven.Beschrijving},{contactgegeven.Bron},{contactgegeven.ContactgegevenId},{contactgegeven.Contactgegeventype},{contactgegeven.IsPrimair},{doc.VCode},{contactgegeven.Waarde}\r\n");
             }
         }
 
@@ -63,17 +71,17 @@ public class ContactgegevensExportTests
 
         s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
                     .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
-                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = System.Net.HttpStatusCode.OK });
+                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = HttpStatusCode.OK });
 
         return s3ClientMock;
     }
 
-    private static async Task Export(IEnumerable<PowerBiExportDocument> docs, IAmazonS3 s3Client)
+    private async Task Export(IEnumerable<PowerBiExportDocument> docs)
     {
         var exporter = new Exporter(WellKnownFileNames.Contactgegevens,
-                                    "something",
+                                    bucketName: "something",
                                     new ContactgegevensRecordWriter(),
-                                    s3Client,
+                                    _s3ClientMock.Object,
                                     new NullLogger<Exporter>());
 
         await exporter.Export(docs);
