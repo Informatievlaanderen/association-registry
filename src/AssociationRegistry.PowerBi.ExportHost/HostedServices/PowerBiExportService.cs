@@ -4,6 +4,7 @@ using Amazon.S3;
 using Amazon.S3.Model;
 using Admin.Schema.PowerBiExport;
 using Configuration;
+using Exporters;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -60,10 +61,10 @@ public class PowerBiExportService : BackgroundService
 
         var streamsToWrite = new List<(string, Func<Task<MemoryStream>>)>
         {
-            (WellKnownFileNames.Hoofdactiviteiten, async () => await exporter.ExportHoofdactiviteiten(documents)),
-            (WellKnownFileNames.Basisgegevens, async () => await exporter.ExportBasisgegevens(documents)),
-            (WellKnownFileNames.Locaties, async () => await exporter.ExportLocaties(documents)),
-            (WellKnownFileNames.Contactgegevens, async () => await exporter.ExportContactgegevens(documents)),
+            (WellKnownFileNames.Hoofdactiviteiten, async () => await exporter.Export(documents, new HoofdactiviteitenRecordWriter())),
+            (WellKnownFileNames.Basisgegevens, async () => await exporter.Export(documents, new BasisgegevensRecordWriter())),
+            (WellKnownFileNames.Locaties, async () => await exporter.Export(documents, new LocatiesRecordWriter())),
+            (WellKnownFileNames.Contactgegevens, async () => await exporter.Export(documents, new ContactgegevensRecordWriter())),
         };
 
         foreach (var (fileName, streamFunc) in streamsToWrite)

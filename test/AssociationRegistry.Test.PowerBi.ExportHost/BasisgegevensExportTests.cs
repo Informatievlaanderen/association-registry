@@ -2,6 +2,7 @@
 
 using Admin.Schema.PowerBiExport;
 using AssociationRegistry.PowerBi.ExportHost;
+using AssociationRegistry.PowerBi.ExportHost.Exporters;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
@@ -34,7 +35,7 @@ public class BasisgegevensExportTests
     {
         var exporter = new PowerBiDocumentExporter();
 
-        var exportStream = await exporter.ExportBasisgegevens(docs);
+        var exportStream = await exporter.Export(docs, new BasisgegevensRecordWriter());
 
         using var reader = new StreamReader(exportStream, Encoding.UTF8);
 
