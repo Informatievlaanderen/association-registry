@@ -1,3 +1,10 @@
+# [8.143.0](https://github.com/informatievlaanderen/association-registry/compare/v8.142.0...v8.143.0) (2024-09-04)
+
+
+### Features
+
+* or-2390 add contactgegeven for power bi export ([e7b3041](https://github.com/informatievlaanderen/association-registry/commit/e7b3041adc9e0fb5f2e206c7f94858424131d95b))
+
 # [8.142.0](https://github.com/informatievlaanderen/association-registry/compare/v8.141.0...v8.142.0) (2024-09-03)
 
 
