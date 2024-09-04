@@ -11,50 +11,38 @@ public class PowerBiDocumentExporter
 {
     public PowerBiDocumentExporter()
     {
-
     }
 
     public async Task<MemoryStream> ExportHoofdactiviteiten(IEnumerable<PowerBiExportDocument> docs)
-        => await ExportFile<HoofdactiviteitenRecord>(docs, new HoofdactiviteitenExporter());
+        => await ExportFile(docs, new HoofdactiviteitenExporter());
 
     public async Task<MemoryStream> ExportBasisgegevens(IEnumerable<PowerBiExportDocument> docs)
-        => await ExportFile<BasisgegevensRecord>(docs, new BasisgegevensExporter());
+        => await ExportFile(docs, new BasisgegevensExporter());
 
     public async Task<MemoryStream> ExportLocaties(IEnumerable<PowerBiExportDocument> docs)
-        => await ExportFile<LocatiesRecord>(docs, new LocatiesExporter());
+        => await ExportFile(docs, new LocatiesExporter());
 
     public async Task<MemoryStream> ExportContactgegevens(IEnumerable<PowerBiExportDocument> docs)
-        => await ExportFile<ContactgegevensRecord>(docs, new ContactgegevensExporter());
+        => await ExportFile(docs, new ContactgegevensExporter());
 
-    private async Task<MemoryStream> ExportFile<T>(IEnumerable<PowerBiExportDocument> docs, IExporter exporter)
-    {
-        var fileSetup = await GetFileSetup<T>();
-        await exporter.Export(docs, fileSetup.CsvWriter);
-        return await CloseCsvAndCopyStream(fileSetup);
-    }
-
-    public record FileSetup(MemoryStream Stream, CsvWriter CsvWriter);
-
-    private async Task<FileSetup> GetFileSetup<T>()
+    private async Task<MemoryStream> ExportFile(IEnumerable<PowerBiExportDocument> docs, IExporter exporter)
     {
         var memoryStream = new MemoryStream();
         var writer = new StreamWriter(memoryStream, Encoding.UTF8);
-        var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);
-        csv.WriteHeader<T>();
-        await csv.NextRecordAsync();
+        var csvWriter = new CsvWriter(writer, CultureInfo.InvariantCulture);
 
-        return new FileSetup(memoryStream, csv);
+        await exporter.Export(docs, csvWriter);
+        await csvWriter.FlushAsync();
+
+        return await CopyStream(memoryStream);
     }
 
-    private async Task<MemoryStream> CloseCsvAndCopyStream(FileSetup fileSetup)
+    private static async Task<MemoryStream> CopyStream(MemoryStream memoryStream)
     {
-        await fileSetup.CsvWriter.FlushAsync();
-
-        fileSetup.Stream.Position = 0;
+        memoryStream.Position = 0;
 
         var exportStream = new MemoryStream();
-        await fileSetup.Stream.CopyToAsync(exportStream);
-
+        await memoryStream.CopyToAsync(exportStream);
         exportStream.Position = 0;
 
         return exportStream;

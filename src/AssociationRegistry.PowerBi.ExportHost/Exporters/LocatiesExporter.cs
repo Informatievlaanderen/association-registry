@@ -8,6 +8,9 @@ public class LocatiesExporter : IExporter
 {
     public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
+        csvWriter.WriteHeader<LocatiesRecord>();
+        await csvWriter.NextRecordAsync();
+
         foreach (var vereniging in docs)
         {
             foreach (var locatie in vereniging.Locaties)
