@@ -6,12 +6,11 @@ using CsvHelper;
 
 public class HoofdactiviteitenExporter : IExporter
 {
-
-    public HoofdactiviteitenExporter()
-    { }
-
     public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
+        csvWriter.WriteHeader<HoofdactiviteitenRecord>();
+        await csvWriter.NextRecordAsync();
+
         foreach (var vereniging in docs)
         {
             foreach (var hoofdactiviteitVerenigingsloket in vereniging.HoofdactiviteitenVerenigingsloket)

@@ -8,6 +8,9 @@ public class ContactgegevensExporter : IExporter
 {
    public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
+        csvWriter.WriteHeader<ContactgegevensRecord>();
+        await csvWriter.NextRecordAsync();
+
         foreach (var vereniging in docs)
         {
             foreach (var contactgegeven in vereniging.Contactgegevens)
