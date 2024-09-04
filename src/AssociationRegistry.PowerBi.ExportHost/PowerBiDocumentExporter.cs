@@ -86,7 +86,7 @@ public class PowerBiDocumentExporter
                                                              locatie.Locatietype,
                                                              locatie.Naam,
                                                              locatie.Adres?.Postcode,
-                                                             locatie.Adres.Straatnaam,
+                                                             locatie.Adres?.Straatnaam,
                                                              vereniging.VCode));
 
                 await locatiesSetup.CsvWriter.NextRecordAsync();
