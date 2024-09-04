@@ -4,9 +4,9 @@ using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
 
-public class BasisgegevensExporter : IExporter
+public class BasisgegevensRecordWriter : IRecordWriter
 {
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
+    public async Task Write(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
         csvWriter.WriteHeader<BasisgegevensRecord>();
         await csvWriter.NextRecordAsync();

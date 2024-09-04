@@ -2,6 +2,7 @@
 
 using Admin.Schema.PowerBiExport;
 using AssociationRegistry.PowerBi.ExportHost;
+using AssociationRegistry.PowerBi.ExportHost.Exporters;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
@@ -37,7 +38,7 @@ public class LocatiesExportTests
     {
         var exporter = new PowerBiDocumentExporter();
 
-        var exportStream = await exporter.ExportLocaties(docs);
+        var exportStream = await exporter.Export(docs, new LocatiesRecordWriter());
 
         using var reader = new StreamReader(exportStream, Encoding.UTF8);
 

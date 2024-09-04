@@ -4,9 +4,9 @@ using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
 
-public class LocatiesExporter : IExporter
+public class LocatiesRecordWriter : IRecordWriter
 {
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
+    public async Task Write(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
         csvWriter.WriteHeader<LocatiesRecord>();
         await csvWriter.NextRecordAsync();
