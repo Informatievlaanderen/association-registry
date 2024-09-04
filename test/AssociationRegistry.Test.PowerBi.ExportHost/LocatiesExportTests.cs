@@ -1,51 +1,83 @@
-﻿// namespace AssociationRegistry.Test.PowerBi.ExportHost;
-//
-// using Admin.Schema.PowerBiExport;
-// using AssociationRegistry.PowerBi.ExportHost;
-// using AssociationRegistry.PowerBi.ExportHost.Writers;
-// using AutoFixture;
-// using Common.AutoFixture;
-// using FluentAssertions;
-// using System.Text;
-// using Xunit;
-//
-// public class LocatiesExportTests
-// {
-//     [Fact]
-//     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
-//     {
-//
-//         var fixture = new Fixture().CustomizeDomain();
-//
-//         var docs = fixture.CreateMany<PowerBiExportDocument>();
-//
-//         var content = await GenerateCsv(docs);
-//         var stringBuilder = new StringBuilder();
-//         stringBuilder.Append("adresId.broncode,adresId.bronwaarde,adresvoorstelling,bron,busnummer,gemeente,huisnummer,isPrimair,land,locatieId,locatieType,naam,postcode,straatnaam,vCode\r\n");
-//
-//         foreach (var doc in docs)
-//         {
-//             foreach (var locatie in doc.Locaties)
-//             {
-//                 stringBuilder.Append(
-//                     $"{locatie.AdresId?.Broncode},{locatie.AdresId?.Bronwaarde},{locatie.Adresvoorstelling},{locatie.Bron},{locatie.Adres?.Busnummer},{locatie.Adres?.Gemeente},{locatie.Adres?.Huisnummer},{locatie.IsPrimair},{locatie.Adres?.Land},{locatie.LocatieId},{locatie.Locatietype},{locatie.Naam},{locatie.Adres?.Postcode},{locatie.Adres?.Straatnaam},{doc.VCode}\r\n");
-//             }
-//         }
-//         content.Should().BeEquivalentTo(stringBuilder.ToString());
-//     }
-//
-//     private static async Task<string> GenerateCsv(IEnumerable<PowerBiExportDocument> docs)
-//     {
-//         var exporter = new PowerBiDocumentExporter();
-//
-//         var exportStream = await exporter.Export(docs, new LocatiesRecordWriter());
-//
-//         using var reader = new StreamReader(exportStream, Encoding.UTF8);
-//
-//         var content = await reader.ReadToEndAsync();
-//
-//         return content;
-//     }
-// }
-//
-//
+﻿namespace AssociationRegistry.Test.PowerBi.ExportHost;
+
+using Admin.Schema.PowerBiExport;
+using Amazon.S3;
+using Amazon.S3.Model;
+using AssociationRegistry.PowerBi.ExportHost;
+using AssociationRegistry.PowerBi.ExportHost.Writers;
+using AutoFixture;
+using Common.AutoFixture;
+using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
+using System.Net;
+using System.Text;
+using Xunit;
+
+public class LocatiesExportTests
+{
+    private Stream _resultStream = null;
+
+    [Fact]
+    public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
+    {
+        var fixture = new Fixture().CustomizeDomain();
+        var s3ClientMock = SetupS3Client();
+        var docs = fixture.CreateMany<PowerBiExportDocument>();
+
+        await Export(docs, s3ClientMock.Object);
+
+        var actualResult = await GetActualResult();
+        var expectedResult = GetExpectedResult(docs);
+
+        actualResult.Should().BeEquivalentTo(expectedResult);
+    }
+
+    private async Task<string> GetActualResult()
+    {
+        using var reader = new StreamReader(_resultStream, Encoding.UTF8);
+
+        var content = await reader.ReadToEndAsync();
+
+        return content;
+    }
+
+    private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
+    {
+        var stringBuilder = new StringBuilder();
+        stringBuilder.Append("adresId.broncode,adresId.bronwaarde,adresvoorstelling,bron,busnummer,gemeente,huisnummer,isPrimair,land,locatieId,locatieType,naam,postcode,straatnaam,vCode\r\n");
+
+        foreach (var doc in docs)
+        {
+            foreach (var locatie in doc.Locaties)
+            {
+                stringBuilder.Append(
+                    $"{locatie.AdresId?.Broncode},{locatie.AdresId?.Bronwaarde},{locatie.Adresvoorstelling},{locatie.Bron},{locatie.Adres?.Busnummer},{locatie.Adres?.Gemeente},{locatie.Adres?.Huisnummer},{locatie.IsPrimair},{locatie.Adres?.Land},{locatie.LocatieId},{locatie.Locatietype},{locatie.Naam},{locatie.Adres?.Postcode},{locatie.Adres?.Straatnaam},{doc.VCode}\r\n");
+            }
+        }
+
+        return stringBuilder.ToString();
+    }
+
+    private Mock<IAmazonS3> SetupS3Client()
+    {
+        var s3ClientMock = new Mock<IAmazonS3>();
+
+        s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
+                    .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
+                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = HttpStatusCode.OK });
+
+        return s3ClientMock;
+    }
+
+    private static async Task Export(IEnumerable<PowerBiExportDocument> docs, IAmazonS3 s3Client)
+    {
+        var exporter = new Exporter(WellKnownFileNames.Locaties,
+                                    "something",
+                                    new LocatiesRecordWriter(),
+                                    s3Client,
+                                    new NullLogger<Exporter>());
+
+        await exporter.Export(docs);
+    }
+}

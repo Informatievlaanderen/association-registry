@@ -60,7 +60,7 @@ public class BasisgegevensExportTests
         var s3ClientMock = new Mock<IAmazonS3>();
 
         s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
-                    .Callback<PutObjectRequest, CancellationToken>((request, token) => _resultStream = request.InputStream)
+                    .Callback<PutObjectRequest, CancellationToken>((request, _) => _resultStream = request.InputStream)
                     .ReturnsAsync(new PutObjectResponse { HttpStatusCode = System.Net.HttpStatusCode.OK });
 
         return s3ClientMock;
@@ -77,5 +77,3 @@ public class BasisgegevensExportTests
         await exporter.Export(docs);
     }
 }
-
-
