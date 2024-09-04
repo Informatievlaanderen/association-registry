@@ -1,3 +1,10 @@
+## [8.143.1](https://github.com/informatievlaanderen/association-registry/compare/v8.143.0...v8.143.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* or-2389 fix locatie record null ref for power bi export ([48b8f6f](https://github.com/informatievlaanderen/association-registry/commit/48b8f6f8780997df7962dfcb67f27dc2ab48824b))
+
 # [8.143.0](https://github.com/informatievlaanderen/association-registry/compare/v8.142.0...v8.143.0) (2024-09-04)
 
 
