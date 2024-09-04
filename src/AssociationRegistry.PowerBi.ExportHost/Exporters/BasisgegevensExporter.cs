@@ -4,20 +4,13 @@ using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
 
-public class BasisgegevensExporter
+public class BasisgegevensExporter : IExporter
 {
-    private readonly CsvWriter _csvWriter;
-
-    public BasisgegevensExporter(CsvWriter csvWriter)
-    {
-        _csvWriter = csvWriter;
-    }
-
-    public async Task Export(IEnumerable<PowerBiExportDocument> docs)
+    public async Task Export(IEnumerable<PowerBiExportDocument> docs, IWriter csvWriter)
     {
         foreach (var vereniging in docs)
         {
-            _csvWriter.WriteRecord(new BasisgegevensRecord(
+            csvWriter.WriteRecord(new BasisgegevensRecord(
                                        vereniging.Bron,
                                        vereniging.Doelgroep.Maximumleeftijd,
                                        vereniging.Doelgroep.Minimumleeftijd,
@@ -37,7 +30,7 @@ public class BasisgegevensExporter
                                        vereniging.AantalVertegenwoordigers,
                                        vereniging.DatumLaatsteAanpassing));
 
-            await _csvWriter.NextRecordAsync();
+            await csvWriter.NextRecordAsync();
         }
     }
 }
