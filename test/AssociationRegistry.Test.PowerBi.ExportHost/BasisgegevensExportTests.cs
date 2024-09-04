@@ -1,25 +1,48 @@
 ﻿namespace AssociationRegistry.Test.PowerBi.ExportHost;
 
 using Admin.Schema.PowerBiExport;
+using Amazon.S3;
+using Amazon.S3.Model;
 using AssociationRegistry.PowerBi.ExportHost;
-using AssociationRegistry.PowerBi.ExportHost.Exporters;
+using AssociationRegistry.PowerBi.ExportHost.Writers;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
+using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using System.Text;
 using Xunit;
 
 public class BasisgegevensExportTests
 {
+    private Stream _resultStream = null;
+
     [Fact]
     public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
     {
-
         var fixture = new Fixture().CustomizeDomain();
-
+        var s3ClientMock = SetupS3Client();
         var docs = fixture.CreateMany<PowerBiExportDocument>();
 
-        var content = await GenerateCsv(docs);
+        await Export(docs, s3ClientMock.Object);
+
+        var actualResult = await GetActualResult();
+        var expectedResult = GetExpectedResult(docs);
+
+        actualResult.Should().BeEquivalentTo(expectedResult);
+    }
+
+    private async Task<string> GetActualResult()
+    {
+        using var reader = new StreamReader(_resultStream, Encoding.UTF8);
+
+        var content = await reader.ReadToEndAsync();
+
+        return content;
+    }
+
+    private static string GetExpectedResult(IEnumerable<PowerBiExportDocument> docs)
+    {
         var stringBuilder = new StringBuilder();
         stringBuilder.Append("bron,doelgroep.maximumleeftijd,doelgroep.minimumleeftijd,einddatum,isUitgeschrevenUitPubliekeDatastroom,korteBeschrijving,korteNaam,naam,roepnaam,startdatum,status,vCode,verenigingstype.code,verenigingstype.naam,kboNummer,corresponderendeVCodes,aantalVertegenwoordigers,datumLaatsteAanpassing\r\n");
 
@@ -28,20 +51,30 @@ public class BasisgegevensExportTests
             stringBuilder.Append(
                 $"{doc.Bron},{doc.Doelgroep.Maximumleeftijd},{doc.Doelgroep.Minimumleeftijd},{doc.Einddatum},{doc.IsUitgeschrevenUitPubliekeDatastroom},{doc.KorteBeschrijving},{doc.KorteNaam},{doc.Naam},{doc.Roepnaam},{doc.Startdatum},{doc.Status},{doc.VCode},{doc.Verenigingstype.Code},{doc.Verenigingstype.Naam},{doc.KboNummer},\"{string.Join(", ", doc.CorresponderendeVCodes)}\",{doc.AantalVertegenwoordigers},{doc.DatumLaatsteAanpassing}\r\n");
         }
-        content.Should().BeEquivalentTo(stringBuilder.ToString());
+
+        return stringBuilder.ToString();
     }
 
-    private static async Task<string> GenerateCsv(IEnumerable<PowerBiExportDocument> docs)
+    private Mock<IAmazonS3> SetupS3Client()
     {
-        var exporter = new PowerBiDocumentExporter();
+        var s3ClientMock = new Mock<IAmazonS3>();
 
-        var exportStream = await exporter.Export(docs, new BasisgegevensRecordWriter());
+        s3ClientMock.Setup(x => x.PutObjectAsync(It.IsAny<PutObjectRequest>(), default))
+                    .Callback<PutObjectRequest, CancellationToken>((request, token) => _resultStream = request.InputStream)
+                    .ReturnsAsync(new PutObjectResponse { HttpStatusCode = System.Net.HttpStatusCode.OK });
 
-        using var reader = new StreamReader(exportStream, Encoding.UTF8);
+        return s3ClientMock;
+    }
 
-        var content = await reader.ReadToEndAsync();
+    private static async Task Export(IEnumerable<PowerBiExportDocument> docs, IAmazonS3 s3Client)
+    {
+        var exporter = new Exporter(WellKnownFileNames.Basisgegevens,
+                                    "something",
+                                    new BasisgegevensRecordWriter(),
+                                    s3Client,
+                                    new NullLogger<Exporter>());
 
-        return content;
+        await exporter.Export(docs);
     }
 }
 

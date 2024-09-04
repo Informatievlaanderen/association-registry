@@ -1,44 +1,42 @@
 namespace AssociationRegistry.PowerBi.ExportHost.HostedServices;
 
-using Amazon.S3;
-using Amazon.S3.Model;
 using Admin.Schema.PowerBiExport;
-using Configuration;
-using Exporters;
 using Marten;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 public class PowerBiExportService : BackgroundService
 {
-    private readonly IAmazonS3 _s3Client;
     private readonly IDocumentStore _store;
     private readonly ILogger<PowerBiExportService> _logger;
     private readonly IHostApplicationLifetime _hostApplicationLifetime;
-    private readonly string _bucketName;
+    private readonly IEnumerable<Exporter> _exporters;
 
     public PowerBiExportService(
-        IAmazonS3 s3Client,
         IDocumentStore store,
-        PowerBiExportOptionsSection optionsSection,
         ILogger<PowerBiExportService> logger,
-        IHostApplicationLifetime hostApplicationLifetime)
+        IHostApplicationLifetime hostApplicationLifetime,
+        IEnumerable<Exporter> exporters)
     {
-        _s3Client = s3Client;
         _store = store;
         _logger = logger;
         _hostApplicationLifetime = hostApplicationLifetime;
-        _bucketName = optionsSection.BucketName;
+        _exporters = exporters;
     }
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
+        _logger.LogInformation("PowerBi export started");
+
         try
         {
-            await using var session = _store.LightweightSession();
-            var docs = await session.Query<PowerBiExportDocument>().ToListAsync(cancellationToken);
-            _logger.LogInformation($"Amount of docs found: {docs.Count}");
-            await UploadListAsCsvToS3(docs);
+            var docs = await GetPowerBiExportDocuments(cancellationToken);
+
+            _logger.LogInformation("Amount of PowerBiExportDocuments found: {AmountOfPowerBiExportDocuments}", docs.Count);
+
+            foreach (var exporter in _exporters)
+                await exporter.Export(docs);
+
             _logger.LogInformation("PowerBi export succeeded");
         }
         catch (Exception e)
@@ -53,33 +51,11 @@ public class PowerBiExportService : BackgroundService
         }
     }
 
-    public async Task UploadListAsCsvToS3(IEnumerable<PowerBiExportDocument> documents)
+    private async Task<IReadOnlyList<PowerBiExportDocument>> GetPowerBiExportDocuments(CancellationToken cancellationToken)
     {
-        _logger.LogInformation("UploadListAsCsvToS3 started");
+        await using var session = _store.LightweightSession();
+        var docs = await session.Query<PowerBiExportDocument>().ToListAsync(cancellationToken);
 
-        var exporter = new PowerBiDocumentExporter();
-
-        var streamsToWrite = new List<(string, Func<Task<MemoryStream>>)>
-        {
-            (WellKnownFileNames.Hoofdactiviteiten, async () => await exporter.Export(documents, new HoofdactiviteitenRecordWriter())),
-            (WellKnownFileNames.Basisgegevens, async () => await exporter.Export(documents, new BasisgegevensRecordWriter())),
-            (WellKnownFileNames.Locaties, async () => await exporter.Export(documents, new LocatiesRecordWriter())),
-            (WellKnownFileNames.Contactgegevens, async () => await exporter.Export(documents, new ContactgegevensRecordWriter())),
-        };
-
-        foreach (var (fileName, streamFunc) in streamsToWrite)
-        {
-            var memoryStream = await streamFunc();
-            var putRequest = new PutObjectRequest
-            {
-                BucketName = _bucketName,
-                Key = fileName,
-                InputStream = memoryStream,
-                ContentType = "text/csv",
-            };
-
-            _logger.LogInformation("Send file {FileName} to s3. Memory stream bytes: {MemoryStreamByteCount}", fileName, memoryStream.Length);
-            await _s3Client.PutObjectAsync(putRequest);
-        }
+        return docs;
     }
 }
