@@ -1,3 +1,10 @@
+## [8.144.1](https://github.com/informatievlaanderen/association-registry/compare/v8.144.0...v8.144.1) (2024-09-05)
+
+
+### Bug Fixes
+
+* or-2395 add handle for VerenigingWerdVerwijderd inside powerbi export projection ([c2c9be3](https://github.com/informatievlaanderen/association-registry/commit/c2c9be3dc730424a1e968a10a82d86c39884f782))
+
 # [8.144.0](https://github.com/informatievlaanderen/association-registry/compare/v8.143.1...v8.144.0) (2024-09-04)
 
 
