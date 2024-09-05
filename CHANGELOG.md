@@ -1,3 +1,17 @@
+# [8.145.0](https://github.com/informatievlaanderen/association-registry/compare/v8.144.1...v8.145.0) (2024-09-05)
+
+
+### Bug Fixes
+
+* or-2354 add historiek for each event type in powerbi export ([24d49e4](https://github.com/informatievlaanderen/association-registry/commit/24d49e4829cd2d5b4348bc5de25f5558cfcf3d35))
+
+
+### Features
+
+* or-1721 add historiek metadata for power bi export ([4263373](https://github.com/informatievlaanderen/association-registry/commit/426337302b00c45ad925dd0f4204fe91f9a2975d))
+* or-2354 add historiek exporter ([c643d7c](https://github.com/informatievlaanderen/association-registry/commit/c643d7cd1a9e46507406835960db1ce79912e47f))
+* or-2354 add historiek in powerbi export projection ([25e7668](https://github.com/informatievlaanderen/association-registry/commit/25e7668807bec49129a0b27b51aebf598c6a4b7b))
+
 ## [8.144.1](https://github.com/informatievlaanderen/association-registry/compare/v8.144.0...v8.144.1) (2024-09-05)
 
 
