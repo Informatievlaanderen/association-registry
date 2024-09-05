@@ -42,8 +42,7 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<Feitelijke
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
-                 .Where(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd2.VCode)
-                 .SingleOrDefaultAsync();
+                 .SingleOrDefaultAsync(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd2.VCode);
 
         vereniging2.Should().NotBeNull();
     }
