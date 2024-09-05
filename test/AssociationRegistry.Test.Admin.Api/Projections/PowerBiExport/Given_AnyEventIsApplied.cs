@@ -1,39 +1,36 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
 
 using AssociationRegistry.Admin.Schema.PowerBiExport;
-using Events;
 using FluentAssertions;
-using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AnyEventIsApplied : IClassFixture<HoofdactiviteitenWerdenGewijzigdScenario>
+public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
 {
     private readonly ProjectionContext _context;
-    private readonly HoofdactiviteitenWerdenGewijzigdScenario _scenario;
+    private readonly ApplyAllEventsScenario _scenario;
 
     public Given_AnyEventIsApplied(
         ProjectionContext context,
-        HoofdactiviteitenWerdenGewijzigdScenario scenario)
+        ApplyAllEventsScenario scenario)
     {
         _context = context;
         _scenario = scenario;
     }
 
-   [Fact]
+    [Fact]
     public async Task AGebeurtenisIsAddedForEachEvent()
     {
         var powerBiExportDocument =
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
+                 .Where(doc => doc.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                  .SingleAsync();
 
-        powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
         powerBiExportDocument.Historiek.Should().NotBeEmpty();
-        powerBiExportDocument.Historiek[0].EventType.Should().Be(_scenario.VerenigingWerdGeregistreerd.GetType().Name);
-        powerBiExportDocument.Historiek[0].EventType.Should().Be(_scenario.VerenigingWerdGeregistreerd.GetType().Name);
+        powerBiExportDocument.Historiek[0].EventType.Should().Be(_scenario.FeitelijkeVerenigingWerdGeregistreerd.GetType().Name);
     }
 }
