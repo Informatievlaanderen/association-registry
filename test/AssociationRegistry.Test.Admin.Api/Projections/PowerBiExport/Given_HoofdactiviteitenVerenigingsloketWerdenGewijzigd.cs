@@ -53,7 +53,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
-                 .SingleAsync();
+                 .SingleAsync(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
         powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
         powerBiExportDocument.Historiek.Should().NotBeEmpty();

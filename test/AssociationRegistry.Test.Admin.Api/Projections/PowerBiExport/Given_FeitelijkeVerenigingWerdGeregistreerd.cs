@@ -29,7 +29,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
-                 .SingleAsync();
+                 .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
         powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
         powerBiExportDocument.Naam.Should().Be(_scenario.VerenigingWerdGeregistreerd.Naam);
@@ -42,7 +42,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
-                 .SingleAsync();
+                 .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
         var expectedHoofdactiviteiten =
             _scenario
@@ -65,7 +65,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
             await _context
                  .Session
                  .Query<PowerBiExportDocument>()
-                 .SingleAsync();
+                 .SingleAsync(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
         powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
         powerBiExportDocument.Historiek.Should().NotBeEmpty();
