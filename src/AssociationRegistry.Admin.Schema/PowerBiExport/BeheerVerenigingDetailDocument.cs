@@ -1,9 +1,26 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
 using Detail;
+using Formats;
+using Framework;
 using Marten.Schema;
+using IEvent = Marten.Events.IEvent;
 
-public record Gebeurtenis(string Datum, string Tijdstip, string EventType, string Initiator, long Sequence);
+public record Gebeurtenis(string Datum, string Tijdstip, string EventType, string Initiator, long Sequence)
+{
+    public static Gebeurtenis FromEvent(IEvent @event)
+    {
+        var instant = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
+
+        return new Gebeurtenis(
+            instant.ToBelgianDate(),
+            instant.ToBelgianTime(),
+            @event.EventType.Name,
+            @event.GetHeaderString(MetadataHeaderNames.Initiator),
+            @event.Sequence
+        );
+    }
+};
 
 public record PowerBiExportDocument : IVCode
 {

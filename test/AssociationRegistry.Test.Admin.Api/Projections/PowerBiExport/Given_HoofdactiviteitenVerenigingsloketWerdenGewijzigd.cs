@@ -45,4 +45,19 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
 
         powerBiExportDocument.HoofdactiviteitenVerenigingsloket.ShouldCompare(expectedHoofdactiviteiten);
     }
+
+    [Fact]
+    public async Task ARecordIsStored_With_Historiek()
+    {
+        var powerBiExportDocument =
+            await _context
+                 .Session
+                 .Query<PowerBiExportDocument>()
+                 .SingleAsync();
+
+        powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
+        powerBiExportDocument.Historiek.Should().NotBeEmpty();
+        powerBiExportDocument.Historiek.Should()
+                             .ContainSingle(x => x.EventType == "HoofdactiviteitenVerenigingsloketWerdenGewijzigd");
+    }
 }

@@ -4,6 +4,7 @@ using Detail;
 using Events;
 using Formats;
 using Framework;
+using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
 using Marten.Events.Aggregation;
@@ -25,17 +26,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     {
     }
 
-    public void Apply(IEvent @event, PowerBiExportDocument document)
+    public override PowerBiExportDocument ApplyMetadata(PowerBiExportDocument document, IEvent @event)
     {
-        var instant = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip);
+        document.Historiek = document.Historiek.Append(Gebeurtenis.FromEvent(@event));
 
-        document.Historiek = document.Historiek.Append(new Gebeurtenis(
-                                                           instant.ToBelgianDate(),
-                                                           instant.ToBelgianTime(),
-                                                           @event.EventTypeName,
-                                                           @event.GetHeaderString(MetadataHeaderNames.Initiator),
-                                                           @event.Sequence
-                                                       )).ToArray();
+        return document;
     }
 
     public PowerBiExportDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
@@ -71,6 +66,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                      .ToArray(),
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            Historiek = [Gebeurtenis.FromEvent(feitelijkeVerenigingWerdGeregistreerd)],
         };
 
     public PowerBiExportDocument Create(
@@ -106,6 +102,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             KboNummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                                         .ToBelgianDate(),
+            Historiek = [Gebeurtenis.FromEvent(verenigingMetRechtspersoonlijkheidWerdGeregistreerd)],
         };
 
     public void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, PowerBiExportDocument document)
@@ -164,21 +161,20 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PowerBiExportDocument document)
     {
-        document.Contactgegevens = document.Contactgegevens.Append(
-                                                new Contactgegeven
-                                                {
-                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                                        JsonLdType.Contactgegeven, document.VCode,
-                                                        contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
-                                                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
-                                                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                                                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                                                    Bron = contactgegevenWerdToegevoegd.Data.Bron,
-                                                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
-                                                })
-                                           .OrderBy(c => c.ContactgegevenId)
-                                           .ToArray();
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new Contactgegeven
+                                              {
+                                                  JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                      JsonLdType.Contactgegeven, document.VCode,
+                                                      contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                                                  ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                                                  Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
+                                                  Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                                                  Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
+                                                  Bron = contactgegevenWerdToegevoegd.Data.Bron,
+                                                  IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                                              })
+                                             .OrderBy(c => c.ContactgegevenId)
+                                             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
@@ -264,12 +260,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PowerBiExportDocument document)
     {
-        document.Locaties = document.Locaties
-                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie,
-                                                                                    locatieWerdToegevoegd.Data.Bron,
-                                                                                    document.VCode))
-                                    .OrderBy(l => l.LocatieId)
-                                    .ToArray();
+        document.Locaties = Enumerable.Append(document.Locaties, BeheerVerenigingDetailMapper.MapLocatie(locatieWerdToegevoegd.Data.Locatie,
+                                                  locatieWerdToegevoegd.Data.Bron,
+                                                  document.VCode))
+                                      .OrderBy(l => l.LocatieId)
+                                      .ToArray();
 
         document.DatumLaatsteAanpassing = locatieWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
@@ -312,12 +307,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
         PowerBiExportDocument document)
     {
-        document.Locaties = document.Locaties
-                                    .Append(BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
-                                                                                    maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
-                                                                                    document.VCode))
-                                    .OrderBy(l => l.LocatieId)
-                                    .ToArray();
+        document.Locaties = Enumerable.Append(document.Locaties, BeheerVerenigingDetailMapper.MapLocatie(maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie,
+                                                  maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Bron,
+                                                  document.VCode))
+                                      .OrderBy(l => l.LocatieId)
+                                      .ToArray();
 
         document.DatumLaatsteAanpassing =
             maatschappelijkeZetelWerdOvergenomenUitKbo.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
@@ -346,20 +340,19 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdToegevoegd,
         PowerBiExportDocument document)
     {
-        document.Contactgegevens = document.Contactgegevens.Append(
-                                                new Contactgegeven
-                                                {
-                                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                                        JsonLdType.Contactgegeven, document.VCode,
-                                                        contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
-                                                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
-                                                    Beschrijving = string.Empty,
-                                                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                                                    Bron = contactgegevenWerdToegevoegd.Data.Bron,
-                                                })
-                                           .OrderBy(c => c.ContactgegevenId)
-                                           .ToArray();
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new Contactgegeven
+                                              {
+                                                  JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                                      JsonLdType.Contactgegeven, document.VCode,
+                                                      contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                                                  ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                                                  Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
+                                                  Beschrijving = string.Empty,
+                                                  Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                                                  Bron = contactgegevenWerdToegevoegd.Data.Bron,
+                                              })
+                                             .OrderBy(c => c.ContactgegevenId)
+                                             .ToArray();
 
         document.DatumLaatsteAanpassing = contactgegevenWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
