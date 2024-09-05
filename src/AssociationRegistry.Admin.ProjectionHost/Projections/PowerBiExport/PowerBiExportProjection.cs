@@ -18,6 +18,8 @@ using Locatie = Schema.Detail.Locatie;
 
 public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument>
 {
+    public const string StatusVerwijderd = "Verwijderd";
+
     public PowerBiExportProjection()
     {
 
@@ -219,11 +221,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     }
 
     public void Apply(
-        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom,
+        IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdUitgeschrevenUitPubliekeDatastroom,
         PowerBiExportDocument document)
     {
         document.IsUitgeschrevenUitPubliekeDatastroom = true;
-        document.DatumLaatsteAanpassing = verenigingWerdVerwijderdUitPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = verenigingWerdUitgeschrevenUitPubliekeDatastroom.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 
     public void Apply(
@@ -602,5 +604,13 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
         document.DatumLaatsteAanpassing = locatieDuplicaatWerdVerwijderdNaAdresMatch.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+    }
+
+    public void Apply(
+        IEvent<VerenigingWerdVerwijderd> verenigingWerdVerwijderd,
+        PowerBiExportDocument document)
+    {
+        document.Status = StatusVerwijderd;
+        document.DatumLaatsteAanpassing = verenigingWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
     }
 }
