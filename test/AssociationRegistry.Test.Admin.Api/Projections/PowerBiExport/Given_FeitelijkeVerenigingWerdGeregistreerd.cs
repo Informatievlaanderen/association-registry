@@ -34,6 +34,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
         powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
         powerBiExportDocument.Naam.Should().Be(_scenario.VerenigingWerdGeregistreerd.Naam);
     }
+
     [Fact]
     public async Task ARecordIsStored_With_Hoofdactiviteiten()
     {
@@ -56,4 +57,18 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
 
         powerBiExportDocument.HoofdactiviteitenVerenigingsloket.ShouldCompare(expectedHoofdactiviteiten);
     }
+
+    [Fact]
+    public async Task ARecordIsStored_With_Historiek()
+    {
+        var powerBiExportDocument =
+            await _context
+                 .Session
+                 .Query<PowerBiExportDocument>()
+                 .SingleAsync();
+
+        powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
+        powerBiExportDocument.Historiek.Should().NotBeEmpty();
+    }
+
 }

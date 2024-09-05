@@ -1,11 +1,13 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
 using Detail;
-using Marten.Metadata;
 using Marten.Schema;
+
+public record Gebeurtenis(string Datum, string Tijdstip, string EventType, string Initiator, long Sequence);
 
 public record PowerBiExportDocument : IVCode
 {
+    public Gebeurtenis[] Historiek { get; set; } = Array.Empty<Gebeurtenis>();
     public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
     public string Naam { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
@@ -21,7 +23,7 @@ public record PowerBiExportDocument : IVCode
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public int AantalVertegenwoordigers { get; set; }
 
-    public PowerBiExport.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
         Array.Empty<HoofdactiviteitVerenigingsloket>();
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
