@@ -1,3 +1,10 @@
+## [8.145.1](https://github.com/informatievlaanderen/association-registry/compare/v8.145.0...v8.145.1) (2024-09-07)
+
+
+### Bug Fixes
+
+* or-1721 inject array of exporters for power bi export ([f8d811c](https://github.com/informatievlaanderen/association-registry/commit/f8d811c8b8e65aa0b118c42e10fcdd52e0e5a4fb))
+
 # [8.145.0](https://github.com/informatievlaanderen/association-registry/compare/v8.144.1...v8.145.0) (2024-09-05)
 
 
