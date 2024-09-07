@@ -16,7 +16,7 @@ public class PowerBiExportService : BackgroundService
         IDocumentStore store,
         ILogger<PowerBiExportService> logger,
         IHostApplicationLifetime hostApplicationLifetime,
-        IEnumerable<Exporter> exporters)
+        Exporter[] exporters)
     {
         _store = store;
         _logger = logger;
