@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
+using System.Text.Json;
 using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
@@ -54,6 +55,38 @@ public class DetailVerenigingenController : ApiController
             return NotFound();
 
         return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
+    }
+
+    /// <summary>
+    ///     Vraag het detail van alle vereniging op.
+    /// </summary>
+    /// <response code="200">Het detail van alle vereniging</response>
+    /// <response code="500">Er is een interne fout opgetreden.</response>
+    [HttpGet("detail/all")]
+    [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
+    [Produces(WellknownMediaTypes.JsonLd)]
+    public async Task GetAll(CancellationToken cancellationToken)
+    {
+        await using var session = _documentStore.LightweightSession();
+
+        var query = session.Query<PubliekVerenigingDetailDocument>().ToAsyncEnumerable(cancellationToken);
+
+        await foreach (var vereniging in query)
+        {
+            await Task.Delay(500, cancellationToken);
+
+            await JsonSerializer.SerializeAsync(Response.Body, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings),
+                                                new JsonSerializerOptions()
+                                                {
+                                                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                                                    WriteIndented = true
+                                                }, cancellationToken);
+
+            await Response.Body.FlushAsync(cancellationToken);
+        }
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)
