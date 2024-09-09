@@ -1,3 +1,17 @@
+# [8.146.0](https://github.com/informatievlaanderen/association-registry/compare/v8.145.1...v8.146.0) (2024-09-09)
+
+
+### Bug Fixes
+
+* or-2248 correct output for detail get all ([c2ec004](https://github.com/informatievlaanderen/association-registry/commit/c2ec004172fd7d2ac0126cbd7ae15dbc18501255))
+* or-2248 flush the writer for public detail all ([3c1b201](https://github.com/informatievlaanderen/association-registry/commit/3c1b201849d5eaac54fcff42c1b8c346e9004d42))
+
+
+### Features
+
+* or-2248 add controller get all publiek detail ([3cca6d8](https://github.com/informatievlaanderen/association-registry/commit/3cca6d874434189b504509c2ece2adc4ec6f57cd))
+* or-2248 remove System.Text.Json serializer from detail get all and use streamwriter with Newtonsoft ([ff5d15f](https://github.com/informatievlaanderen/association-registry/commit/ff5d15fddbb72ecc109414bda375e24971d469d7))
+
 ## [8.145.1](https://github.com/informatievlaanderen/association-registry/compare/v8.145.0...v8.145.1) (2024-09-07)
 
 
