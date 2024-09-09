@@ -64,7 +64,7 @@ public class DetailVerenigingenController : ApiController
     [HttpGet("detail/all")]
     [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailVerenigingResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task GetAll(CancellationToken cancellationToken)
@@ -77,11 +77,14 @@ public class DetailVerenigingenController : ApiController
 
         try
         {
+            await writer.WriteAsync('[');
             await foreach (var vereniging in query)
             {
                 serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
+                await writer.WriteAsync(',');
                 await Response.Body.FlushAsync(cancellationToken);
             }
+            await writer.WriteAsync(']');
         }
         catch (TaskCanceledException)
         {
