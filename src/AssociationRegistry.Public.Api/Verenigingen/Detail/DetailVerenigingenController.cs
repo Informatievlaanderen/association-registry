@@ -70,7 +70,8 @@ public class DetailVerenigingenController : ApiController
     {
         await using var session = _documentStore.LightweightSession();
 
-        var query = session.Query<PubliekVerenigingDetailDocument>().ToAsyncEnumerable(cancellationToken);
+        var query = session.Query<PubliekVerenigingDetailDocument>()
+                           .ToAsyncEnumerable(cancellationToken);
         await using var writer = new StreamWriter(Response.Body);
         var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
 
@@ -78,14 +79,16 @@ public class DetailVerenigingenController : ApiController
         {
             var isFirst = true;
             await writer.WriteAsync('[');
+
             await foreach (var vereniging in query)
             {
                 isFirst = await SeparateWithComma(writer, isFirst);
 
                 serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
 
-                await Response.Body.FlushAsync(cancellationToken);
+                await writer.FlushAsync(cancellationToken);
             }
+
             await writer.WriteAsync(']');
         }
         catch (TaskCanceledException)
