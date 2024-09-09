@@ -9,7 +9,6 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
@@ -72,16 +71,19 @@ public class DetailVerenigingenController : ApiController
         await using var session = _documentStore.LightweightSession();
 
         var query = session.Query<PubliekVerenigingDetailDocument>().ToAsyncEnumerable(cancellationToken);
-        var writer = new StreamWriter(Response.Body);
+        await using var writer = new StreamWriter(Response.Body);
         var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
 
         try
         {
+            var isFirst = true;
             await writer.WriteAsync('[');
             await foreach (var vereniging in query)
             {
+                isFirst = await SeparateWithComma(writer, isFirst);
+
                 serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
-                await writer.WriteAsync(',');
+
                 await Response.Body.FlushAsync(cancellationToken);
             }
             await writer.WriteAsync(']');
@@ -90,6 +92,17 @@ public class DetailVerenigingenController : ApiController
         {
             // Nothing to do, user stopped the request
         }
+    }
+
+    private static async Task<bool> SeparateWithComma(StreamWriter writer, bool isFirst)
+    {
+        if (!isFirst)
+        {
+            await writer.WriteAsync(',');
+
+        }
+
+        return false;
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

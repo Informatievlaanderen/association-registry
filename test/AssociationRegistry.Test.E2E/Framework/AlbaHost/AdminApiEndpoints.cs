@@ -22,4 +22,7 @@ public static class PublicApiEndpoints
 {
     public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static PubliekVerenigingDetailResponse[] GetPubliekDetailAll(this IAlbaHost source, string vCode)
+        => source.GetAsJson<PubliekVerenigingDetailResponse[]>($"/v1/verenigingen/detail/all").GetAwaiter().GetResult()!;
 }
