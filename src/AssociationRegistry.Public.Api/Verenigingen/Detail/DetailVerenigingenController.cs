@@ -9,11 +9,10 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.CodeAnalysis.VisualBasic.Syntax;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
-using System.Text.Json;
-using System.Threading.Tasks;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 
 [ApiVersion("1.0")]
@@ -73,19 +72,20 @@ public class DetailVerenigingenController : ApiController
         await using var session = _documentStore.LightweightSession();
 
         var query = session.Query<PubliekVerenigingDetailDocument>().ToAsyncEnumerable(cancellationToken);
+        var writer = new StreamWriter(Response.Body);
+        var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
 
-        await foreach (var vereniging in query)
+        try
         {
-            await Task.Delay(500, cancellationToken);
-
-            await JsonSerializer.SerializeAsync(Response.Body, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings),
-                                                new JsonSerializerOptions()
-                                                {
-                                                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                                                    WriteIndented = true
-                                                }, cancellationToken);
-
-            await Response.Body.FlushAsync(cancellationToken);
+            await foreach (var vereniging in query)
+            {
+                serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
+                await Response.Body.FlushAsync(cancellationToken);
+            }
+        }
+        catch (TaskCanceledException)
+        {
+            // Nothing to do, user stopped the request
         }
     }
 
