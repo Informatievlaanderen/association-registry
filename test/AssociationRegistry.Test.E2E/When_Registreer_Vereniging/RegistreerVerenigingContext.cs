@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema;
@@ -32,6 +33,8 @@ public class PubliekRegistreerVerenigingCollection : ICollectionFixture<Registre
 public class RegistreerVerenigingContext<T> : End2EndContext<RegistreerFeitelijkeVerenigingRequest, EmptyScenario>, IAsyncLifetime
     where T : IApiSetup, new()
 {
+    private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+
     public override EmptyScenario Scenario => new();
     public override RegistreerFeitelijkeVerenigingRequest Request { get; }
     protected override string SchemaName => $"registreer{GetType().GetGenericArguments().First().Name}";
@@ -155,8 +158,12 @@ public class RegistreerVerenigingContext<T> : End2EndContext<RegistreerFeitelijk
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+
             s.Header("Location").ShouldHaveValues();
             s.Header("Location").SingleValueShouldMatch($"{AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response.Headers.Location.First().Split('/').Last();
 
         await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
