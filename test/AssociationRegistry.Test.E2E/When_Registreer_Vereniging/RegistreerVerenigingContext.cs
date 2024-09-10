@@ -6,10 +6,13 @@ using Admin.Schema;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
+using FluentAssertions;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Marten.Events;
+using Microsoft.Extensions.DependencyInjection;
 using Scenarios;
 using System.Net;
 using Vereniging;
@@ -153,6 +156,7 @@ public class RegistreerVerenigingContext<T> : End2EndContext<RegistreerFeitelijk
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
             s.Header("Location").ShouldHaveValues();
+            s.Header("Location").SingleValueShouldMatch($"{AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
         })).Context.Response.Headers.Location.First().Split('/').Last();
 
         await ProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));

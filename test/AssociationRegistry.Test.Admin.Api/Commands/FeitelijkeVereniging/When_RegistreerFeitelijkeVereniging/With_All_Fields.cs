@@ -195,6 +195,7 @@ public class With_All_Fields
         => When_RegistreerFeitelijkeVereniging_WithAllFields.Called(_fixture).Response;
 
     [Fact]
+    [Obsolete("Move to unit test")]
     public void Then_it_saves_the_events()
     {
         using var session = _fixture.DocumentStore
@@ -235,22 +236,7 @@ public class With_All_Fields
                 new Registratiedata.HoofdactiviteitVerenigingsloket(Code: "BWWC", Naam: "Buurtwerking & Wijkcomité"),
             });
     }
-
-    [Fact]
-    public void Then_it_returns_an_accepted_response()
-    {
-        Response.StatusCode.Should().Be(HttpStatusCode.Accepted);
-    }
-
-    [Fact]
-    public void Then_it_returns_a_location_header()
-    {
-        Response.Headers.Should().ContainKey(HeaderNames.Location);
-
-        Response.Headers.Location!.OriginalString.Should()
-                .StartWith($"{_fixture.ServiceProvider.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
-    }
-
+    
     [Fact]
     public void Then_it_returns_a_sequence_header()
     {
@@ -262,6 +248,7 @@ public class With_All_Fields
     }
 
     [Fact]
+    [Obsolete("Move to unit test")]
     public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var savedEvent = GetFeitelijkeVerenigingWerdGeregistreerdEvent();
