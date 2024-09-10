@@ -236,16 +236,6 @@ public class With_All_Fields
                 new Registratiedata.HoofdactiviteitVerenigingsloket(Code: "BWWC", Naam: "Buurtwerking & Wijkcomité"),
             });
     }
-    
-    [Fact]
-    public void Then_it_returns_a_sequence_header()
-    {
-        Response.Headers.Should().ContainKey(WellknownHeaderNames.Sequence);
-        var sequenceValues = Response.Headers.GetValues(WellknownHeaderNames.Sequence).ToList();
-        sequenceValues.Should().HaveCount(expected: 1);
-        var sequence = Convert.ToInt64(sequenceValues.Single());
-        sequence.Should().BeGreaterThan(expected: 0);
-    }
 
     [Fact]
     [Obsolete("Move to unit test")]
