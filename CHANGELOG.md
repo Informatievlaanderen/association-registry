@@ -1,3 +1,10 @@
+## [8.146.1](https://github.com/informatievlaanderen/association-registry/compare/v8.146.0...v8.146.1) (2024-09-11)
+
+
+### Bug Fixes
+
+* or-2403 add logging for registreer inschrijving magda ([1f8b2ec](https://github.com/informatievlaanderen/association-registry/commit/1f8b2ecd4bf8c20c0dcf0c9982f273243dbbb974))
+
 # [8.146.0](https://github.com/informatievlaanderen/association-registry/compare/v8.145.1...v8.146.0) (2024-09-09)
 
 
