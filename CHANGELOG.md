@@ -1,3 +1,12 @@
+## [8.146.4](https://github.com/informatievlaanderen/association-registry/compare/v8.146.3...v8.146.4) (2024-09-11)
+
+
+### Bug Fixes
+
+* or-2273 incorrect formatter for telephone number ([00796f9](https://github.com/informatievlaanderen/association-registry/commit/00796f96511ecddc05be7f55b6a062a5b3d9462a))
+* or-2403 remove logging for registreer inschrijving ([e0e0178](https://github.com/informatievlaanderen/association-registry/commit/e0e01787fd5383956348e55a905c0ddc92cf8806))
+* or-2404 remove dead letter queue name in the dead leteer configuration ([11fd5e2](https://github.com/informatievlaanderen/association-registry/commit/11fd5e21209bfc9c682e6f0bbb9a4d62d001ae0e))
+
 ## [8.146.3](https://github.com/informatievlaanderen/association-registry/compare/v8.146.2...v8.146.3) (2024-09-11)
 
 
