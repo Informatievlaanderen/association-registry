@@ -1,3 +1,11 @@
+## [8.146.3](https://github.com/informatievlaanderen/association-registry/compare/v8.146.2...v8.146.3) (2024-09-11)
+
+
+### Bug Fixes
+
+* or-2403 add try catch for deserializing xml registreer vereniging ([c736e48](https://github.com/informatievlaanderen/association-registry/commit/c736e48ecb4bce8c9db9075b672071f9a780f8c7))
+* or-2403 logging xml for registreer inschrijving ([3373849](https://github.com/informatievlaanderen/association-registry/commit/3373849e257cb53057cd05da6e6e56cdcbf69775))
+
 ## [8.146.2](https://github.com/informatievlaanderen/association-registry/compare/v8.146.1...v8.146.2) (2024-09-11)
 
 
