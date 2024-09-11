@@ -1,3 +1,10 @@
+## [8.146.2](https://github.com/informatievlaanderen/association-registry/compare/v8.146.1...v8.146.2) (2024-09-11)
+
+
+### Bug Fixes
+
+* or-2403 add extra logging registreer inschrijving ([45617ec](https://github.com/informatievlaanderen/association-registry/commit/45617ec97aee87abea697aef5fedf59b7fcbe6dc))
+
 ## [8.146.1](https://github.com/informatievlaanderen/association-registry/compare/v8.146.0...v8.146.1) (2024-09-11)
 
 
