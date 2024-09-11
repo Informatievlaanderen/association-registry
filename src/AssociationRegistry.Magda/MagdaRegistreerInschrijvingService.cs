@@ -47,7 +47,6 @@ public class MagdaRegistreerInschrijvingService : IMagdaRegistreerInschrijvingSe
             _logger.LogInformation($"MAGDA Call Reference - RegistreerInschrijving Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
 
             var response = await _magdaClient.RegistreerInschrijving(kboNummer, reference);
-            _logger.LogInformation($"response success");
 
             var uitzonderingen = response?.Body?.RegistreerInschrijvingResponse?.Repliek.Antwoorden.Antwoord.Uitzonderingen;
 

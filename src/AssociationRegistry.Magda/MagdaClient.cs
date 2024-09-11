@@ -34,7 +34,8 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
 
-        _logger.LogInformation($"MAGDA Call Reference - GeefOndernemingVKBO - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+        _logger.LogInformation(
+            $"MAGDA Call Reference - GeefOndernemingVKBO - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(GeefOndernemingVKBOBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
@@ -70,7 +71,8 @@ public class MagdaClient : IMagdaClient
         Throw<ArgumentNullException>
            .IfNullOrWhiteSpace(_magdaOptions.GeefOndernemingVkboEndpoint, $"{nameof(MagdaOptionsSection.GeefOndernemingVkboEndpoint)}");
 
-        _logger.LogInformation($"MAGDA Call Reference - RegistreerUitschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+        _logger.LogInformation(
+            $"MAGDA Call Reference - RegistreerUitschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(RegistreerUitschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
@@ -90,25 +92,12 @@ public class MagdaClient : IMagdaClient
            .IfNullOrWhiteSpace(_magdaOptions.RegistreerInschrijvingEndpoint,
                                $"{nameof(MagdaOptionsSection.RegistreerInschrijvingEndpoint)}");
 
-        _logger.LogInformation($"MAGDA Call Reference - RegistreerInschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
+        _logger.LogInformation(
+            $"MAGDA Call Reference - RegistreerInschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
-        _logger.LogInformation("MagdaClient.MagdaClient -> after MakeEnvelope");
-        if (unsignedEnvelope == null)
-            _logger.LogInformation("unsignedEnvelope is null");
-
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
-        _logger.LogInformation("MagdaClient.MagdaClient -> after GetMagdaClientCertificate");
-        if (clientCertificate == null)
-            _logger.LogInformation("clientCertificate is null");
-
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
-        _logger.LogInformation("MagdaClient.MagdaClient -> after SignEnvelope");
-        if (clientCertificate == null)
-            _logger.LogInformation("signedEnvelope is null");
-
-        if (_magdaOptions == null)
-            _logger.LogInformation("_magdaOptions is null");
 
         return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingEndpoint!,
@@ -134,13 +123,10 @@ public class MagdaClient : IMagdaClient
         X509Certificate? magdaClientCertificate,
         string signedEnvelope)
     {
-        _logger.LogInformation("MagdaClient.PerformMagdaRequest");
+        using var client = GetMagdaHttpClient(magdaClientCertificate);
 
         try
         {
-            using var client = GetMagdaHttpClient(magdaClientCertificate);
-            _logger.LogInformation("Client created");
-
             return await SendEnvelopeToendpoint<T>(endpoint, signedEnvelope, client);
         }
         catch (TaskCanceledException ex)
@@ -167,25 +153,10 @@ public class MagdaClient : IMagdaClient
 
     private async Task<ResponseEnvelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
-        _logger.LogInformation("MagdaClient -> SendEnvelopeToendpoint");
-
-        HttpResponseMessage response;
-        try
-        {
-           response = await client
-               .PostAsync(
-                    endpoint,
-                    new StringContent(signedEnvelope, Encoding.UTF8, mediaType: "application/soap+xml"));
-
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Error while executing a POST on MagdaClient -> SendEnvelopeToendpoint");
-
-            throw;
-        }
-
-        _logger.LogInformation("Client returned response: {STATUSCODE}", response);
+        var response = await client
+           .PostAsync(
+                endpoint,
+                new StringContent(signedEnvelope, Encoding.UTF8, mediaType: "application/soap+xml"));
 
         if (!response.IsSuccessStatusCode)
         {
@@ -200,20 +171,10 @@ public class MagdaClient : IMagdaClient
         var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
 
         var xml = await response.Content.ReadAsStringAsync();
-        _logger.LogInformation("Reading xml response as string: {XML}", xml);
 
-        try
+        using var reader = new StringReader(xml);
         {
-            using var reader = new StringReader(xml);
-            {
-                return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
-            }
-        }
-        catch (Exception e)
-        {
-            _logger.LogError(e, "Fout bij serializen van xml");
-
-            throw;
+            return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
         }
     }
 
