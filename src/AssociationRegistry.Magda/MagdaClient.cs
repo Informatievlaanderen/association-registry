@@ -110,7 +110,6 @@ public class MagdaClient : IMagdaClient
         if (_magdaOptions == null)
             _logger.LogInformation("_magdaOptions is null");
 
-
         return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingEndpoint!,
             clientCertificate,
@@ -186,7 +185,7 @@ public class MagdaClient : IMagdaClient
             throw;
         }
 
-        _logger.LogInformation("Client returned statuscode: {STATUSCODE}", response.StatusCode);
+        _logger.LogInformation("Client returned response: {STATUSCODE}", response);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -201,12 +200,11 @@ public class MagdaClient : IMagdaClient
         var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
 
         var xml = await response.Content.ReadAsStringAsync();
-        _logger.LogInformation("Reading xml response as string");
+        _logger.LogInformation("Reading xml response as string: {XML}", xml);
 
         try
         {
             using var reader = new StringReader(xml);
-
             {
                 return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
             }
