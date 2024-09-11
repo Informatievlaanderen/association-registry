@@ -92,8 +92,23 @@ public class MagdaClient : IMagdaClient
         _logger.LogInformation($"MAGDA Call Reference - RegistreerInschrijving - KBO nummer '{kbonummer}' met referentie '{reference.Reference}'");
 
         var unsignedEnvelope = MakeEnvelope(RegistreerInschrijvingBody.CreateRequest(kbonummer, reference.Reference, _magdaOptions));
+        _logger.LogInformation("MagdaClient.MagdaClient -> after MakeEnvelope");
+        if (unsignedEnvelope == null)
+            _logger.LogInformation("unsignedEnvelope is null");
+
         var clientCertificate = GetMagdaClientCertificate(_magdaOptions);
+        _logger.LogInformation("MagdaClient.MagdaClient -> after GetMagdaClientCertificate");
+        if (clientCertificate == null)
+            _logger.LogInformation("clientCertificate is null");
+
         var signedEnvelope = unsignedEnvelope.SignEnvelope(clientCertificate);
+        _logger.LogInformation("MagdaClient.MagdaClient -> after SignEnvelope");
+        if (clientCertificate == null)
+            _logger.LogInformation("signedEnvelope is null");
+
+        if (_magdaOptions == null)
+            _logger.LogInformation("_magdaOptions is null");
+
 
         return await PerformMagdaRequest<RegistreerInschrijvingResponseBody>(
             _magdaOptions.RegistreerInschrijvingEndpoint!,
@@ -119,6 +134,8 @@ public class MagdaClient : IMagdaClient
         X509Certificate? magdaClientCertificate,
         string signedEnvelope)
     {
+        _logger.LogInformation("MagdaClient.PerformMagdaRequest");
+
         using var client = GetMagdaHttpClient(magdaClientCertificate);
 
         try
