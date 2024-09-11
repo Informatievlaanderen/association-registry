@@ -203,10 +203,19 @@ public class MagdaClient : IMagdaClient
         var xml = await response.Content.ReadAsStringAsync();
         _logger.LogInformation("Reading xml response as string");
 
-        using var reader = new StringReader(xml);
-
+        try
         {
-            return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
+            using var reader = new StringReader(xml);
+
+            {
+                return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
+            }
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Fout bij serializen van xml");
+
+            throw;
         }
     }
 
