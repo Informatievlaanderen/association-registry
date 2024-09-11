@@ -3,6 +3,7 @@ namespace AssociationRegistry.Magda;
 using Extensions;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOnderneming;
@@ -136,10 +137,11 @@ public class MagdaClient : IMagdaClient
     {
         _logger.LogInformation("MagdaClient.PerformMagdaRequest");
 
-        using var client = GetMagdaHttpClient(magdaClientCertificate);
-
         try
         {
+            using var client = GetMagdaHttpClient(magdaClientCertificate);
+            _logger.LogInformation("Client created");
+
             return await SendEnvelopeToendpoint<T>(endpoint, signedEnvelope, client);
         }
         catch (TaskCanceledException ex)
@@ -166,10 +168,25 @@ public class MagdaClient : IMagdaClient
 
     private async Task<ResponseEnvelope<T>?> SendEnvelopeToendpoint<T>(string endpoint, string signedEnvelope, HttpClient client)
     {
-        var response = await client
-           .PostAsync(
-                endpoint,
-                new StringContent(signedEnvelope, Encoding.UTF8, mediaType: "application/soap+xml"));
+        _logger.LogInformation("MagdaClient -> SendEnvelopeToendpoint");
+
+        HttpResponseMessage response;
+        try
+        {
+           response = await client
+               .PostAsync(
+                    endpoint,
+                    new StringContent(signedEnvelope, Encoding.UTF8, mediaType: "application/soap+xml"));
+
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Error while executing a POST on MagdaClient -> SendEnvelopeToendpoint");
+
+            throw;
+        }
+
+        _logger.LogInformation("Client returned statuscode: {STATUSCODE}", response.StatusCode);
 
         if (!response.IsSuccessStatusCode)
         {
@@ -184,6 +201,8 @@ public class MagdaClient : IMagdaClient
         var serializer = new XmlSerializer(typeof(ResponseEnvelope<T>));
 
         var xml = await response.Content.ReadAsStringAsync();
+        _logger.LogInformation("Reading xml response as string");
+
         using var reader = new StringReader(xml);
 
         {
