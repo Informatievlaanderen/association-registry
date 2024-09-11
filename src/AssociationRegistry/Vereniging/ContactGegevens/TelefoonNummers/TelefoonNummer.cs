@@ -41,7 +41,7 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
         phoneNumber = phoneNumber.Replace("+", "00");
 
         var firstSpaceIndex = phoneNumber.IndexOf(" ");
-        var phoneNumberDigits = Convert.ToInt64(Regex.Replace(phoneNumber, @"\D", "")).ToString();
+        var phoneNumberDigits = AbstractDigitsWithRegExAsInt64(phoneNumber);
 
         // Local number
         if (phoneNumberDigits.Length <= 9)
@@ -49,15 +49,23 @@ public record TelefoonNummer(string Waarde, string Beschrijving, bool IsPrimair)
 
         // Country coded number
         if (firstSpaceIndex.Equals(-1)) // Does not use spaces inside number
-            return Regex.Replace(phoneNumber, @"\D", "");
+            return AbstractDigitsWithRegEx(phoneNumber);
 
         var countryCode = phoneNumber.Substring(0, firstSpaceIndex);
-        var countryCodeDigits = Regex.Replace(countryCode, @"\D", "");
+        var countryCodeDigits = AbstractDigitsWithRegEx(countryCode);
         var phone = phoneNumber.Substring(firstSpaceIndex);
-        var phoneDigits = Convert.ToInt64(Regex.Replace(phone, @"\D", "")).ToString();
+        var phoneDigits = AbstractDigitsWithRegExAsInt64(phone);
 
         return countryCodeDigits + phoneDigits;
     }
+
+    private static string AbstractDigitsWithRegExAsInt64(string input)
+    {
+        var digits = AbstractDigitsWithRegEx(input);
+        return !string.IsNullOrEmpty(digits) ? Convert.ToInt64(digits).ToString() : "";
+    }
+
+    private static string AbstractDigitsWithRegEx(string input) => Regex.Replace(input, @"\D", "");
 
     protected override bool CompareWaarde(string waarde)
         => EqualsPhoneNumber(waarde);
