@@ -68,19 +68,18 @@ public static class WolverineExtensions
     private static void ConfigureAddressMatchPublisher(WolverineOptions options, string sqsQueueName)
     {
         options.PublishMessage<TeAdresMatchenLocatieMessage>()
-               .ToSqsQueue(sqsQueueName);
+               .ToSqsQueue(sqsQueueName)
+               .MessageBatchSize(1);
     }
 
     private static void ConfiguredAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
     {
         options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
+                    configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
-                {
-                    queue.DeadLetterQueueName = sqsDeadLetterQueueName;
-                })
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
                .MaximumParallelMessages(1);
     }
 
@@ -104,12 +103,10 @@ public static class WolverineExtensions
 
         options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
+                    configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
-                {
-                    queue.DeadLetterQueueName = sqsDeadLetterQueueName;
-                })
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
                .ReceiveRawJsonMessage(typeof(TeHeradresserenLocatiesMessage))
                .MaximumParallelMessages(1);
     }
