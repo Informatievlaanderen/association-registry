@@ -1,3 +1,12 @@
+## [8.146.5](https://github.com/informatievlaanderen/association-registry/compare/v8.146.4...v8.146.5) (2024-09-12)
+
+
+### Bug Fixes
+
+* or-2409 adopt gemeentenaam from postnaam when component is null ([ada8fe4](https://github.com/informatievlaanderen/association-registry/commit/ada8fe404662022f7250f43f673327a246e3afa0))
+* or-2411 add AdresHeeftGeenVerschillenMetAdressenregister for LocatieZonderAdresMatchProjections ([58f1ddb](https://github.com/informatievlaanderen/association-registry/commit/58f1ddbca27cffccea5ce1cd697c5be1a2b5e6a8))
+* or-2411 move AdresHeeftGeenVerschillenMetAdressenregister to adresmatch ([51a5ea7](https://github.com/informatievlaanderen/association-registry/commit/51a5ea772a2c730a6bbfe9ba7a9b382cf2406761))
+
 ## [8.146.4](https://github.com/informatievlaanderen/association-registry/compare/v8.146.3...v8.146.4) (2024-09-11)
 
 
