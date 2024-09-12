@@ -171,11 +171,12 @@ public class GrarClient : IGrarClient
                     var jsonContent = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
 
-                    var postalInformationResponse = new PostalInformationResponse(postcode,
-                                                                                  result.Gemeente.Gemeentenaam.GeografischeNaam.Spelling,
-                                                                                  result.Postnamen.Select(s => s.GeografischeNaam.Spelling)
-                                                                                        .ToArray());
+                    var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
+                    var postnamen = result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray();
 
+                    var postalInformationResponse = new PostalInformationResponse(postcode,
+                                                                                  gemeentenaam ?? postnamen[0],
+                                                                                  postnamen);
                     return postalInformationResponse;
                 }
 
