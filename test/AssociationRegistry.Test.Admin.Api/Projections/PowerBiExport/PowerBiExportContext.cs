@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.When_Retrieving_LocatieZonderAdresMatch;
+﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
 
 using Alba;
 using AssociationRegistry.Framework;
@@ -17,13 +17,13 @@ using Oakton;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
-[CollectionDefinition(nameof(ProjectionContext))]
-public class LocatieZonderAdresMatchCollection : ICollectionFixture<ProjectionContext>
+[CollectionDefinition(nameof(PowerBiExportContext))]
+public class RegistreerVerenigingCollection : ICollectionFixture<PowerBiExportContext>
 { }
 
-public class ProjectionContext : IAsyncLifetime
+public class PowerBiExportContext : IAsyncLifetime
 {
-    private string? _dbName = "newprojections";
+    private string? _dbName = "prowerbiexportprojections";
     private const string RootDatabase = @"postgres";
 
     public string? AuthCookie { get; private set; }

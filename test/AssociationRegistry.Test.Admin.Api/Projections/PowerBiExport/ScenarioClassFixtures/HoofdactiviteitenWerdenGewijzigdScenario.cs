@@ -3,12 +3,12 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport.ScenarioC
 using AutoFixture;
 using Events;
 
-public class HoofdactiviteitenWerdenGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class HoofdactiviteitenWerdenGewijzigdScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
     public HoofdactiviteitenVerenigingsloketWerdenGewijzigd HoofdactiviteitenVerenigingsloketWerdenGewijzigd { get; set; }
 
-    public HoofdactiviteitenWerdenGewijzigdScenario(ProjectionContext context): base(context)
+    public HoofdactiviteitenWerdenGewijzigdScenario(PowerBiExportContext context): base(context)
     {
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 

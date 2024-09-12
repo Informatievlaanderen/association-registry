@@ -6,14 +6,14 @@ using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(ProjectionContext))]
+[Collection(nameof(LocatieZonderAdresMatchProjectionContext))]
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>
 {
-    private readonly ProjectionContext _context;
+    private readonly LocatieZonderAdresMatchProjectionContext _context;
     private readonly AdresHeeftGeenVerschillenMetAdressenregisterScenario _scenario;
 
     public Given_AdresHeeftGeenVerschillenMetAdressenregister(
-        ProjectionContext context,
+        LocatieZonderAdresMatchProjectionContext context,
         AdresHeeftGeenVerschillenMetAdressenregisterScenario scenario)
     {
         _context = context;

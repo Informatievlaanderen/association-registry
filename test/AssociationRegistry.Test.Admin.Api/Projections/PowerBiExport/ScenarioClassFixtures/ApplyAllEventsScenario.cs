@@ -5,7 +5,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Events;
 
-public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>
+public class ApplyAllEventsScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {
     private readonly Fixture _fixture;
 
@@ -25,7 +25,7 @@ public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContex
         };
     }
 
-    public ApplyAllEventsScenario(ProjectionContext context) : base(context)
+    public ApplyAllEventsScenario(PowerBiExportContext context) : base(context)
     {
         _fixture = new Fixture().CustomizeDomain();
         FeitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();

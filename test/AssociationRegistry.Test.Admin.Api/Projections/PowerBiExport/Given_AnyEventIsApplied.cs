@@ -6,14 +6,14 @@ using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(ProjectionContext))]
+[Collection(nameof(PowerBiExportContext))]
 public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
 {
-    private readonly ProjectionContext _context;
+    private readonly PowerBiExportContext _context;
     private readonly ApplyAllEventsScenario _scenario;
 
     public Given_AnyEventIsApplied(
-        ProjectionContext context,
+        PowerBiExportContext context,
         ApplyAllEventsScenario scenario)
     {
         _context = context;

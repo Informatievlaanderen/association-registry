@@ -8,14 +8,14 @@ using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(ProjectionContext))]
+[Collection(nameof(PowerBiExportContext))]
 public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixture<HoofdactiviteitenWerdenGewijzigdScenario>
 {
-    private readonly ProjectionContext _context;
+    private readonly PowerBiExportContext _context;
     private readonly HoofdactiviteitenWerdenGewijzigdScenario _scenario;
 
     public Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-        ProjectionContext context,
+        PowerBiExportContext context,
         HoofdactiviteitenWerdenGewijzigdScenario scenario)
     {
         _context = context;
