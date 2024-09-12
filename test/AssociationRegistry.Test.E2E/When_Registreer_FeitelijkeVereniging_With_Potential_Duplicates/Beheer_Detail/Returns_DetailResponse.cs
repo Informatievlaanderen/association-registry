@@ -1,29 +1,29 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.Beheer_Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates.Beheer_Detail;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema.Constants;
 using Alba;
-using Formats;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.TestClasses;
-using JsonLdContext;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Schema.Constants;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Vereniging;
-using Vereniging.Bronnen;
 using Xunit;
 using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
-[Collection(nameof(RegistreerVerenigingContext<AdminApiSetup>))]
-public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> context)
-    : End2EndTest<RegistreerVerenigingContext<AdminApiSetup>, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>(context)
+[Collection(nameof(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>))]
+public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup> context)
+    : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>(context)
 {
     protected override Func<IAlbaHost, DetailVerenigingResponse> GetResponse =>
         host => host.GetDetail(VCode);
@@ -43,7 +43,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> c
     }
 
     [Fact]
-    public async Task WithVereniging()
+    public async Task WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,
@@ -65,7 +65,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> c
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = Request.Naam,
-            Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).ToBelgianDate(),
+            Startdatum = LocalDateTime.FromDateTime(DateTime.Now).ToBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,

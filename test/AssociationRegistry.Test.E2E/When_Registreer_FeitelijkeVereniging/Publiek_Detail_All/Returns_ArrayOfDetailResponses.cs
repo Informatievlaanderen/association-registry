@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.Publiek_Detail_All;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek_Detail_All;
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
@@ -26,8 +26,8 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(nameof(PubliekRegistreerVerenigingCollection))]
-public class Returns_ArrayOfDetailResponses(RegistreerVerenigingContext<PublicApiSetup> context)
-    : End2EndTest<RegistreerVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse[]>(
+public class Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContext<PublicApiSetup> context)
+    : End2EndTest<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse[]>(
         context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse[]> GetResponse =>
@@ -48,7 +48,7 @@ public class Returns_ArrayOfDetailResponses(RegistreerVerenigingContext<PublicAp
     }
 
     [Fact]
-    public void WithVereniging()
+    public void WithFeitelijkeVereniging()
         => Response.Single().Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
