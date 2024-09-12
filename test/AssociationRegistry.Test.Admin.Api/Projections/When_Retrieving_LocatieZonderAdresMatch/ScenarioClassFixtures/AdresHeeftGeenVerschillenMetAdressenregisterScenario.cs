@@ -2,14 +2,13 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.When_Retrieving_Locatie
 
 using Events;
 using AutoFixture;
-using PowerBiExport.ScenarioClassFixtures;
 
-public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ProjectionScenarioFixture<ProjectionContext>
+public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ProjectionScenarioFixture<LocatieZonderAdresMatchProjectionContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
     public AdresHeeftGeenVerschillenMetAdressenregister AdresHeeftGeenVerschillenMetAdressenregister { get; }
 
-    public AdresHeeftGeenVerschillenMetAdressenregisterScenario(ProjectionContext context) : base(context)
+    public AdresHeeftGeenVerschillenMetAdressenregisterScenario(LocatieZonderAdresMatchProjectionContext context) : base(context)
     {
         FeitelijkeVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         AdresHeeftGeenVerschillenMetAdressenregister = AutoFixture.Create<AdresHeeftGeenVerschillenMetAdressenregister>()

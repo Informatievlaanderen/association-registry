@@ -3,13 +3,13 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport.ScenarioC
 using AutoFixture;
 using Events;
 
-public class FeitelijkeVerenigingWerdVerwijderdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class FeitelijkeVerenigingWerdVerwijderdScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd1 { get; }
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd2 { get; }
     public VerenigingWerdVerwijderd VerenigingWerdVerwijderd { get; }
 
-    public FeitelijkeVerenigingWerdVerwijderdScenario(ProjectionContext context) : base(context)
+    public FeitelijkeVerenigingWerdVerwijderdScenario(PowerBiExportContext context) : base(context)
     {
         FeitelijkeVerenigingWerdGeregistreerd1 = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         FeitelijkeVerenigingWerdGeregistreerd2 = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();

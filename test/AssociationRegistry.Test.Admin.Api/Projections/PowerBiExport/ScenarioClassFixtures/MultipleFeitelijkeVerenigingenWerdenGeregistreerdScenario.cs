@@ -3,11 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport.ScenarioC
 using AutoFixture;
 using Events;
 
-public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd[] VerenigingenwerdenGeregistreerd { get; }
 
-    public MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario(ProjectionContext context): base(context)
+    public MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario(PowerBiExportContext context): base(context)
     {
         VerenigingenwerdenGeregistreerd = AutoFixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>()
                                              .ToArray();

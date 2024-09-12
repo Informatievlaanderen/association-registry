@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
+﻿namespace AssociationRegistry.Test.Admin.Api.Projections.When_Retrieving_LocatieZonderAdresMatch;
 
 using Alba;
 using AssociationRegistry.Framework;
@@ -17,13 +17,13 @@ using Oakton;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
-[CollectionDefinition(nameof(ProjectionContext))]
-public class RegistreerVerenigingCollection : ICollectionFixture<ProjectionContext>
+[CollectionDefinition(nameof(LocatieZonderAdresMatchProjectionContext))]
+public class LocatieZonderAdresMatchCollection : ICollectionFixture<LocatieZonderAdresMatchProjectionContext>
 { }
 
-public class ProjectionContext : IAsyncLifetime
+public class LocatieZonderAdresMatchProjectionContext : IAsyncLifetime
 {
-    private string? _dbName = "newprojections";
+    private string? _dbName = "locatiezonderadresmatchprojections";
     private const string RootDatabase = @"postgres";
 
     public string? AuthCookie { get; private set; }
@@ -117,7 +117,7 @@ public class ProjectionContext : IAsyncLifetime
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS \"{GetConfiguration()["PostgreSQLOptions:database"]}\" WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE IF EXISTS {GetConfiguration()["PostgreSQLOptions:database"]} WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally

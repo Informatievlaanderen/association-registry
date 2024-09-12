@@ -8,15 +8,15 @@ using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(ProjectionContext))]
+[Collection(nameof(PowerBiExportContext))]
 public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario>
 {
     private readonly MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario _setup;
-    private readonly ProjectionContext _context;
+    private readonly PowerBiExportContext _context;
     private ComparisonConfig _compareVCodeOnly;
 
     public Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(
-        ProjectionContext context,
+        PowerBiExportContext context,
         MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario setup)
     {
         _context = context;

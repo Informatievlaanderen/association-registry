@@ -7,14 +7,14 @@ using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(ProjectionContext))]
+[Collection(nameof(PowerBiExportContext))]
 public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>
 {
-    private readonly ProjectionContext _context;
+    private readonly PowerBiExportContext _context;
     private readonly FeitelijkeVerenigingWerdVerwijderdScenario _scenario;
 
     public Given_FeitelijkeVerenigingWerdVerwijderd(
-        ProjectionContext context,
+        PowerBiExportContext context,
         FeitelijkeVerenigingWerdVerwijderdScenario scenario)
     {
         _context = context;
