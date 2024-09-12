@@ -599,4 +599,7 @@ public record VerenigingState : IHasVersion
                    .Without(@event.VerwijderdeLocatieId)),
         };
     }
+
+    public VerenigingState Apply(AdresHeeftGeenVerschillenMetAdressenregister @event)
+        => this;
 }
