@@ -5,7 +5,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Events;
 
-public class ApplyAllEventsScenario : ProjectionScenarioFixture
+public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     private readonly Fixture _fixture;
 
