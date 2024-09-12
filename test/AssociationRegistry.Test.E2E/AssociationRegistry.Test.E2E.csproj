@@ -22,10 +22,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.json" />
-    <Content Include="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

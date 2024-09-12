@@ -12,9 +12,6 @@
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <None Update="appsettings.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Update="EmbeddedResourceTemplate.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>EmbeddedResourceTemplate.cs</LastGenOutput>
@@ -29,6 +26,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EmbeddedResourceTemplate.tt</DependentUpon>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
+    <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
