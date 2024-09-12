@@ -103,14 +103,3 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
     public CommandMetadata GetCommandMetadata()
         => Metadata;
 }
-
-public static class VCodeGenerator
-{
-    private static int count = 1000000;
-
-    private static int Count
-        => Interlocked.Increment(ref count);
-
-    public static VCode GetNext()
-        => VCode.Create(Count);
-}
