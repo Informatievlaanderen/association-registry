@@ -138,7 +138,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
                                                               adresDetail.AdresId,
-                                                              Registratiedata.AdresUitAdressenregister.With(adresDetailUitAdressenregister)!,
+                                                              Registratiedata.AdresUitAdressenregister.With(
+                                                                  adresDetailUitAdressenregister)!,
                                                               idempotenceKey));
         }
     }
@@ -162,6 +163,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                              locatieId,
                              Registratiedata.AdresId.With(locatie.AdresId),
                              Registratiedata.Adres.With(locatie.Adres)));
+
                 continue;
             }
 
@@ -170,20 +172,12 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
 
             var adresUitAdressenregister = AdresDetailUitAdressenregister
-                                                .FromResponse(adresDetail)
-                                                .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
+                                          .FromResponse(adresDetail)
+                                          .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
 
             if (HeeftVerschillenBinnenAdres(locatie, adresUitAdressenregister.Adres))
             {
                 AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
-                                                                  locatieId,
-                                                                  adresDetail.AdresId,
-                                                                  Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
-                                                                  idempotenceKey));
-            }
-            else
-            {
-                AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
                                                                   locatieId,
                                                                   adresDetail.AdresId,
                                                                   Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
@@ -208,7 +202,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             }
 
             if (!NieuweWaardenIndienWerdOvergenomen(adresWerdOvergenomen, locatie))
+            {
+                AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
+                                                                          locatieId,
+                                                                          adresWerdOvergenomen.AdresId,
+                                                                          adresWerdOvergenomen.Adres));
+
                 return;
+            }
 
             var stateLocatie = State.Locaties.SingleOrDefault(
                 sod =>
@@ -261,18 +262,17 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
         var decoratedAdres = AdresDetailUitAdressenregister
-                              .FromResponse(adresDetailResponse)
-                              .DecorateWithPostalInformation(
-                                   adresDetailResponse.Gemeente, postalInformation);
+                            .FromResponse(adresDetailResponse)
+                            .DecorateWithPostalInformation(
+                                 adresDetailResponse.Gemeente, postalInformation);
 
         var decoratedLocatie = locatie.DecorateWithAdresDetail(decoratedAdres);
 
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
-                                                    adresDetailResponse.AdresId,
-                                                    Registratiedata.AdresUitAdressenregister.With(decoratedAdres)));
-
+                                                             adresDetailResponse.AdresId,
+                                                             Registratiedata.AdresUitAdressenregister.With(decoratedAdres)));
     }
 
     private async Task<IEvent> GetAdresMatchEvent(
@@ -286,7 +286,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return new AdresKonNietOvergenomenWordenUitAdressenregister(VCode,
                                                                         locatieId,
                                                                         string.Empty,
-                                                                        AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd);
+                                                                        AdresKonNietOvergenomenWordenUitAdressenregister
+                                                                           .RedenLocatieWerdVerwijderd);
         }
 
         var adresMatch = await grarClient.GetAddressMatches(
