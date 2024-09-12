@@ -1,36 +1,35 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging;
 
-using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema;
 using Alba;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.Scenarios;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using FluentAssertions;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
-using Scenarios;
 using System.Net;
-using Vereniging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
-[CollectionDefinition(nameof(RegistreerVerenigingContext<AdminApiSetup>))]
-public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<AdminApiSetup>>
+[CollectionDefinition(nameof(RegistreerFeitelijkeVerenigingContext<AdminApiSetup>))]
+public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingContext<AdminApiSetup>>
 {
 }
 
 [CollectionDefinition(nameof(PubliekRegistreerVerenigingCollection))]
-public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerVerenigingContext<PublicApiSetup>>
+public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>>
 {
 }
 
-public class RegistreerVerenigingContext<T> : End2EndContext<RegistreerFeitelijkeVerenigingRequest, EmptyScenario>, IAsyncLifetime
+public class RegistreerFeitelijkeVerenigingContext<T> : End2EndContext<RegistreerFeitelijkeVerenigingRequest, EmptyScenario>, IAsyncLifetime
     where T : IApiSetup, new()
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
@@ -39,7 +38,7 @@ public class RegistreerVerenigingContext<T> : End2EndContext<RegistreerFeitelijk
     public override RegistreerFeitelijkeVerenigingRequest Request { get; }
     protected override string SchemaName => $"registreer{GetType().GetGenericArguments().First().Name}";
 
-    public RegistreerVerenigingContext() : base(new T())
+    public RegistreerFeitelijkeVerenigingContext() : base(new T())
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 

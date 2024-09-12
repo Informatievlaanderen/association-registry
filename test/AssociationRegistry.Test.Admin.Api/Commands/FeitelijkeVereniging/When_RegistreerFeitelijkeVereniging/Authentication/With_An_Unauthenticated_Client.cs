@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
+namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.Authentication;
 
 using FluentAssertions;
 using Framework.Fixtures;

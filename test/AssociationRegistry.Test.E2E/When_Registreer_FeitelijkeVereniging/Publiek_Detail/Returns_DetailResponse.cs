@@ -1,19 +1,19 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_Vereniging.Publiek_Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek_Detail;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema.Constants;
 using Alba;
-using Formats;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.TestClasses;
-using JsonLdContext;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Schema.Constants;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
-using Vereniging;
 using Xunit;
 using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
@@ -26,8 +26,8 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(nameof(PubliekRegistreerVerenigingCollection))]
-public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiSetup> context)
-    : End2EndTest<RegistreerVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(
+public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingContext<PublicApiSetup> context)
+    : End2EndTest<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(
         context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse> GetResponse =>
@@ -48,7 +48,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<PublicApiSetup> 
     }
 
     [Fact]
-    public async Task WithVereniging()
+    public async Task WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
