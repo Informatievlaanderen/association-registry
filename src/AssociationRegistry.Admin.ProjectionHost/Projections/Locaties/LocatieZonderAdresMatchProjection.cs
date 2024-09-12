@@ -61,6 +61,7 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         DeleteEvent<AdresNietUniekInAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
         DeleteEvent<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
         DeleteEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.StreamKey}-{x.Data.VerwijderdeLocatieId}");
+        DeleteEvent<AdresHeeftGeenVerschillenMetAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
 
         IncludeType<AdresKonNietOvergenomenWordenUitAdressenregister>();
         Identity<AdresKonNietOvergenomenWordenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");

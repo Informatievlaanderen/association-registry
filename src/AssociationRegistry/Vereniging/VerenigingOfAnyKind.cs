@@ -181,6 +181,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                   Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
                                                                   idempotenceKey));
             }
+            else
+            {
+                AddEvent(new AdresHeeftGeenVerschillenMetAdressenregister(VCode,
+                                                                  locatieId,
+                                                                  adresDetail.AdresId,
+                                                                  Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
+                                                                  idempotenceKey));
+            }
         }
     }
 

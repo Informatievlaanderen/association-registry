@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport.ScenarioClassFixtures;
+namespace AssociationRegistry.Test.Admin.Api.Projections;
 
+using AssociationRegistry.Test.Framework.Customizations;
 using AutoFixture;
-using Marten;
-using Test.Framework.Customizations;
+using PowerBiExport;
 using Xunit;
 
-public abstract class ProjectionScenarioFixture: IDisposable, IAsyncLifetime
+public abstract class ProjectionScenarioFixture<TProjectionContext>: IDisposable, IAsyncLifetime
 {
-    public ProjectionContext Context { get; }
+    public TProjectionContext Context { get; }
     public Fixture AutoFixture { get; }
 
     public abstract Task Given();
 
-    protected ProjectionScenarioFixture(ProjectionContext context)
+    protected ProjectionScenarioFixture(TProjectionContext context)
     {
         Context = context;
         AutoFixture = new Fixture().CustomizeDomain();
