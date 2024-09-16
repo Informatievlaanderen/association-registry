@@ -8,8 +8,10 @@ using AssociationRegistry.PowerBi.ExportHost.Writers;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
+using Formats;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using NodaTime;
 using System.Net;
 using System.Text;
 using Xunit;
@@ -59,8 +61,10 @@ public class HistoriekExportTests
         {
             foreach (var gebeurtenis in doc.Historiek)
             {
+                var gebeurtenisDatum = Instant.FromDateTimeOffset(DateTimeOffset.Parse(gebeurtenis.Datum));
+
                 stringBuilder.Append(
-                    $"{gebeurtenis.Datum},{gebeurtenis.EventType},{gebeurtenis.Initiator},{gebeurtenis.Tijdstip},{doc.VCode},{gebeurtenis.Sequence}\r\n");
+                    $"{gebeurtenisDatum.ToBelgianDateFormat()},{gebeurtenis.EventType},{gebeurtenis.Initiator},{gebeurtenisDatum.ToBelgianTimeFormat()},{doc.VCode},{gebeurtenis.Sequence}\r\n");
             }
         }
 

@@ -65,7 +65,7 @@ public class Returns_DetailResponse(RegistreerVerenigingContext<AdminApiSetup> c
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = Request.Naam,
-            Startdatum = LocalDateTime.FromDateTime(DateTime.Now).ToBelgianDate(),
+            Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).ToBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,

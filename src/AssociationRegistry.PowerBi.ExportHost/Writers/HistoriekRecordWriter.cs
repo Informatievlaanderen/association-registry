@@ -3,6 +3,8 @@
 using Admin.Schema.PowerBiExport;
 using Records;
 using CsvHelper;
+using Formats;
+using NodaTime;
 
 public class HistoriekRecordWriter : IRecordWriter
 {
@@ -15,18 +17,17 @@ public class HistoriekRecordWriter : IRecordWriter
         {
             foreach (var gebeurtenis in vereniging.Historiek)
             {
+                var gebeurtenisDatum = Instant.FromDateTimeOffset(DateTimeOffset.Parse(gebeurtenis.Datum));
                 csvWriter.WriteRecord(new HistoriekRecord(
-                                           gebeurtenis.Datum,
-                                           gebeurtenis.EventType,
-                                           gebeurtenis.Initiator,
-                                           gebeurtenis.Tijdstip,
-                                           vereniging.VCode,
-                                           gebeurtenis.Sequence));
+                                          gebeurtenisDatum.ToBelgianDateFormat(),
+                                          gebeurtenis.EventType,
+                                          gebeurtenis.Initiator,
+                                          gebeurtenisDatum.ToBelgianTimeFormat(),
+                                          vereniging.VCode,
+                                          gebeurtenis.Sequence));
 
                 await csvWriter.NextRecordAsync();
             }
         }
-
     }
-
 }
