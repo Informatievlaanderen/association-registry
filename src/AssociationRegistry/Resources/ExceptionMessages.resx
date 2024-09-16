@@ -235,4 +235,7 @@
   <data name="LaatsteLocatieKanNietVerwijderdWorden">
     <value>De vereniging moet minstens 1 locatie hebben. Je kan de laatste locatie niet verwijderen.</value>
   </data>
+  <data name="MagdaException">
+    <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst.</value>
+  </data>
 </root>

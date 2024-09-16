@@ -33,6 +33,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeAdresId();
         fixture.CustomizeAdres();
         fixture.CustomizeGebeurtenis();
+        fixture.CustomizeMagdaResponses();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);

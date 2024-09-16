@@ -8,7 +8,6 @@ using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
@@ -22,21 +21,9 @@ public class Given_Geslaagd_Uitzondering_Waarschuwing
 {
     private readonly MagdaRegistreerInschrijvingService _service;
     private readonly Fixture _fixture;
-    private readonly string _verenigingNaam;
-    private readonly string _verenigingKorteNaam;
-    private readonly DateOnly _startDatum;
-    private readonly AdresVolgensKbo _adres;
-    private readonly ContactgegevensVolgensKbo _contactgegevens;
-
     public Given_Geslaagd_Uitzondering_Waarschuwing()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-
-        _verenigingNaam = _fixture.Create<string>();
-        _verenigingKorteNaam = _fixture.Create<string>();
-        _startDatum = _fixture.Create<DateOnly>();
-        _adres = _fixture.Create<AdresVolgensKbo>();
-        _contactgegevens = _fixture.Create<ContactgegevensVolgensKbo>();
 
         var magdaClient = new Mock<IMagdaClient>();
         var responseEnvelope = CreateResponseEnvelope();

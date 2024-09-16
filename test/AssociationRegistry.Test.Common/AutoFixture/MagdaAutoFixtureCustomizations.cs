@@ -2,18 +2,24 @@
 
 using global::AutoFixture;
 using Magda.Constants;
+using Magda.Models;
+using Magda.Models.RegistreerInschrijving;
 using Magda.Onderneming.GeefOnderneming;
+using AntwoordenType = Magda.Repertorium.RegistreerInschrijving.AntwoordenType;
+using ContextType = Magda.Repertorium.RegistreerInschrijving.ContextType;
+using RepliekType = Magda.Repertorium.RegistreerInschrijving.RepliekType;
 
 public static class MagdaAutoFixtureCustomizations
 {
     public static void CustomizeMagdaResponses(this IFixture fixture)
     {
-        fixture.DoNotAutoGenerateUitzonderingen();
+        fixture.DoNotAutoGenerateAntwoordUitzonderingen();
         fixture.OnlyAllowSupportedRechtsvorm();
         fixture.OnlyAllowActiveStatus();
         fixture.OnlyAllowOnderneming();
         fixture.OnlyAllowRechtspersoon();
         fixture.OnlyAllowNamenWithValidTaalCodes();
+        fixture.DoNotAutoGenerateRepliekUitzonderingen();
 
         fixture.Customize<Onderneming2_0Type>(
             composer => composer
@@ -102,7 +108,7 @@ public static class MagdaAutoFixtureCustomizations
                 }).OmitAutoProperties());
     }
 
-    private static void DoNotAutoGenerateUitzonderingen(this IFixture fixture)
+    private static void DoNotAutoGenerateAntwoordUitzonderingen(this IFixture fixture)
     {
         fixture.Customize<AntwoordType>(
             composer => composer.FromFactory(
@@ -111,6 +117,19 @@ public static class MagdaAutoFixtureCustomizations
                     Inhoud = fixture.Create<AntwoordInhoudType>(),
                     Referte = fixture.Create<string>(),
                     Uitzonderingen = Array.Empty<UitzonderingType>(),
+                }
+            ).OmitAutoProperties());
+    }
+
+    private static void DoNotAutoGenerateRepliekUitzonderingen(this IFixture fixture)
+    {
+        fixture.Customize<RepliekType>(
+            composer => composer.FromFactory(
+                () => new RepliekType()
+                {
+                    Uitzonderingen = Array.Empty<Magda.Repertorium.RegistreerInschrijving.UitzonderingType>(),
+                    Antwoorden = fixture.Create<AntwoordenType>(),
+                    Context = fixture.Create<ContextType>(),
                 }
             ).OmitAutoProperties());
     }
