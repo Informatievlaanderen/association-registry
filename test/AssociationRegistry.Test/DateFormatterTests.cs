@@ -1,14 +1,38 @@
 ﻿namespace AssociationRegistry.Test;
 
+using AssociationRegistry.Formats;
+using FluentAssertions;
+using NodaTime;
 using Xunit;
+using Xunit.Abstractions;
 
 public class DateFormatterTests
 {
-    [Theory]
-    [MemberData("2024-09-16 07:15:17.297401+00")]
-    public void Then_It_Should_Convert_And_Format_ToBelgianDateFormat(string dateTime)
+    private readonly ITestOutputHelper _output;
+
+    public DateFormatterTests(ITestOutputHelper output)
     {
-
-
+        _output = output;
     }
+
+    [Fact]
+    public void Then_It_Should_Convert_And_Format_ToBelgianDateFormat_Also()
+    {
+        var winterInstant = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-01 00:00:00.000000+00"));
+
+        _output.WriteLine(winterInstant.ToString());
+        _output.WriteLine(winterInstant.ToBelgianDateFormat());
+        _output.WriteLine(winterInstant.ToBelgianTimeFormat());
+
+        winterInstant.ToBelgianTimeFormat().Should().Be("01:00:00");
+
+        var summerInstant = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-08-01 00:00:00.000000+00"));
+
+        _output.WriteLine(summerInstant.ToString());
+        _output.WriteLine(summerInstant.ToBelgianDateFormat());
+        _output.WriteLine(summerInstant.ToBelgianTimeFormat());
+
+        summerInstant.ToBelgianTimeFormat().Should().Be("02:00:00");
+    }
+
 }
