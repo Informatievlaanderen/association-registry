@@ -1,11 +1,16 @@
 ﻿namespace AssociationRegistry.Magda.Exceptions;
 
+using Resources;
 using System.Runtime.Serialization;
 
 [Serializable]
 public class MagdaException : Exception
 {
     public MagdaException()
+    {
+    }
+
+    public MagdaException(Exception? innerException) : base(ExceptionMessages.MagdaException, innerException)
     {
     }
 

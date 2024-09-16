@@ -458,6 +458,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst..
+        /// </summary>
+        public static string MagdaException {
+            get {
+                return ResourceManager.GetString("MagdaException", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een locatie moet minstens een adresId of een adres bevatten..
         /// </summary>
         public static string MissingAdres {

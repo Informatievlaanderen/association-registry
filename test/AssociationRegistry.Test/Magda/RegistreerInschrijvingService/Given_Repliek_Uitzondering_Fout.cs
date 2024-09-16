@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Exceptions;
 using AssociationRegistry.Magda.Models;
 using AssociationRegistry.Magda.Models.RegistreerInschrijving;
 using AssociationRegistry.Magda.Repertorium.RegistreerInschrijving;
@@ -10,24 +11,26 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using ResultNet;
+using Resources;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
 
 [UnitTest]
-public class Given_Geslaagd
+public class Given_Repliek_Uitzondering_Fout
 {
     private readonly MagdaRegistreerInschrijvingService _service;
     private readonly Fixture _fixture;
+    private readonly string _diagnose;
 
-    public Given_Geslaagd()
+    public Given_Repliek_Uitzondering_Fout()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var magdaClient = new Mock<IMagdaClient>();
-        var responseEnvelope = CreateResponseEnvelope();
+        _diagnose = _fixture.Create<string>();
+        var responseEnvelope = CreateResponseEnvelope(_diagnose);
+
 
         magdaClient.Setup(facade => facade.RegistreerInschrijving(It.IsAny<string>(), It.IsAny<MagdaCallReference>()))
                    .ReturnsAsync(responseEnvelope);
@@ -37,28 +40,30 @@ public class Given_Geslaagd
                                                           new NullLogger<MagdaRegistreerInschrijvingService>());
     }
 
-    private ResponseEnvelope<RegistreerInschrijvingResponseBody> CreateResponseEnvelope()
+    private ResponseEnvelope<RegistreerInschrijvingResponseBody> CreateResponseEnvelope(string diagnose)
     {
         var responseEnvelope = _fixture.Create<ResponseEnvelope<RegistreerInschrijvingResponseBody>>();
 
-        responseEnvelope.Body!.RegistreerInschrijvingResponse!.Repliek.Antwoorden.Antwoord.Inhoud = new AntwoordInhoudType
-        {
-            Resultaat = new ResultaatCodeType
+        responseEnvelope.Body!.RegistreerInschrijvingResponse!.Repliek.Uitzonderingen =
+        [
+            new UitzonderingType()
             {
-                Value = ResultaatEnumType.Item1,
-                Beschrijving = "Wel geslaagd",
+                Type = UitzonderingTypeType.FOUT,
+                Diagnose = diagnose,
             },
-        };
+        ];
 
         return responseEnvelope;
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async Task Then_It_Throws_A_MagdaException()
     {
-        var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
+        var result = async () => await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                            CancellationToken.None);
 
-        result.IsSuccess().Should().BeTrue();
+        var exception = await Assert.ThrowsAsync<MagdaException>(result);
+        exception.InnerException!.Should().BeOfType<MagdaRepliekException>();
+        exception.InnerException!.Message.Should().Be($"De volgende fouten hebben zich voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst.{Environment.NewLine}{_diagnose}{Environment.NewLine}");
     }
 }
