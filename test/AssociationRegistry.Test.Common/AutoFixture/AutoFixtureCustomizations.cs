@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using Admin.Schema.PowerBiExport;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;
@@ -8,6 +9,7 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
+using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public static class AutoFixtureCustomizations
 {
@@ -30,6 +32,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDoelgroep();
         fixture.CustomizeAdresId();
         fixture.CustomizeAdres();
+        fixture.CustomizeGebeurtenis();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -321,4 +324,20 @@ public static class AutoFixtureCustomizations
                         .OmitAutoProperties()
         );
     }
+
+    private static void CustomizeGebeurtenis(this IFixture fixture)
+    {
+        fixture.Customize<Gebeurtenis>(
+            composer =>
+                composer.FromFactory(
+                             () => new Gebeurtenis(
+                                 fixture.Create<DateTimeOffset>().UtcDateTime.ToString(),
+                                 fixture.Create<string>(),
+                                 fixture.Create<string>(),
+                                 fixture.Create<long>()
+                             ))
+                        .OmitAutoProperties()
+        );
+    }
+
 }
