@@ -1,3 +1,11 @@
+## [8.146.6](https://github.com/informatievlaanderen/association-registry/compare/v8.146.5...v8.146.6) (2024-09-17)
+
+
+### Bug Fixes
+
+* or-2412 remove dubbel registreer records for powerbi export historiek ([8307a2c](https://github.com/informatievlaanderen/association-registry/commit/8307a2c4cec43392f8b7270fc801d0a89b464c1a))
+* or-2413 export PowerBi historiek should contain localized date stamp ([043647c](https://github.com/informatievlaanderen/association-registry/commit/043647c0171dd33952158c4dd06e8c49d2575710))
+
 ## [8.146.5](https://github.com/informatievlaanderen/association-registry/compare/v8.146.4...v8.146.5) (2024-09-12)
 
 
