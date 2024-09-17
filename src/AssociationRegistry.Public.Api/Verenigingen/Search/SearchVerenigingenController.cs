@@ -273,7 +273,7 @@ public class SearchVerenigingenController : ApiController
                                                         .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
                                                                    h => h.Code).Suffix("keyword")
                                                          )
-                                                        .Size(size: 20)
+                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount)
         );
     }
 

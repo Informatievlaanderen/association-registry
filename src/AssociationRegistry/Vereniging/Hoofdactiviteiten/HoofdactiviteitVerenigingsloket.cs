@@ -30,6 +30,8 @@ public class HoofdactiviteitVerenigingsloket
         new HoofdactiviteitVerenigingsloket(code: "WESE", naam: "Werk & Sociale economie"),
     };
 
+    public static readonly int HoofdactiviteitenVerenigingsloketCount = HoofdactiviteitenVerenigingsloket.Count;
+
     private HoofdactiviteitVerenigingsloket(string code, string naam)
     {
         Code = code;
