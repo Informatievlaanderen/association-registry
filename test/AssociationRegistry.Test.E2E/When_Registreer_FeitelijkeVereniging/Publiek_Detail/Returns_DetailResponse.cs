@@ -42,7 +42,7 @@ public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingContext<Public
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
                                                                compareConfig: new ComparisonConfig
                                                                    { MaxMillisecondsDateDifference = 5000 });
     }

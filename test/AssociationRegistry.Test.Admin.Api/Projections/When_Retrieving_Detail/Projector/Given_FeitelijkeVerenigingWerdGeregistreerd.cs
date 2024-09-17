@@ -57,7 +57,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     Minimumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Minimumleeftijd,
                     Maximumleeftijd = feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep.Maximumleeftijd,
                 },
-                DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.ToBelgianDate(),
+                DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.Tijdstip.FormatAsBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                     c => new Contactgegeven

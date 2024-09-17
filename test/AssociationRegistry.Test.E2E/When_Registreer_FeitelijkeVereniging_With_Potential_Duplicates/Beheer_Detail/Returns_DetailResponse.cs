@@ -37,7 +37,7 @@ public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialD
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).ToBelgianDate(),
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
                                                                compareConfig: new ComparisonConfig
                                                                    { MaxMillisecondsDateDifference = 5000 });
     }
@@ -65,7 +65,7 @@ public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialD
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = Request.Naam,
-            Startdatum = LocalDateTime.FromDateTime(DateTime.Now).ToBelgianDate(),
+            Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).ConvertAndFormatToBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,

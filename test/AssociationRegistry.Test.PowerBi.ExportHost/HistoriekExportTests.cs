@@ -64,7 +64,7 @@ public class HistoriekExportTests
                 var gebeurtenisDatum = Instant.FromDateTimeOffset(DateTimeOffset.Parse(gebeurtenis.Datum));
 
                 stringBuilder.Append(
-                    $"{gebeurtenisDatum.ToBelgianDateFormat()},{gebeurtenis.EventType},{gebeurtenis.Initiator},{gebeurtenisDatum.ToBelgianTimeFormat()},{doc.VCode},{gebeurtenis.Sequence}\r\n");
+                    $"{gebeurtenisDatum.ConvertAndFormatToBelgianDate()},{gebeurtenis.EventType},{gebeurtenis.Initiator},{gebeurtenisDatum.ConvertAndFormatToBelgianTime()},{doc.VCode},{gebeurtenis.Sequence}\r\n");
             }
         }
 

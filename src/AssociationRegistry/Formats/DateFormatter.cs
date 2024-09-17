@@ -12,13 +12,20 @@ public static class DateFormatter
         return TimeZoneInfo.ConvertTime(utcDateTimeOffset, belgiumTimeZone);
     }
 
+    public static string ConvertAndFormatToBelgianDate(this Instant instant)
+        => instant.ToBelgianDateTimeOffset()
+                  .FormatAsBelgianDate();
+    public static string ConvertAndFormatToBelgianTime(this Instant instant)
+        => instant.ToBelgianDateTimeOffset()
+                  .FormatAsBelgianTime();
 
-    public static string ToBelgianDateFormat(this Instant instant)
-        => instant.ToBelgianDateTimeOffset().ToString(WellknownFormats.DateOnly, WellknownFormats.België);
-    public static string ToBelgianTimeFormat(this Instant instant)
-        => instant.ToBelgianDateTimeOffset().ToString(WellknownFormats.TimeOnly, WellknownFormats.België);
-    public static string ToBelgianDate(this Instant instant)
+    public static string FormatAsBelgianDate(this Instant instant)
         => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
-    public static string ToBelgianTime(this Instant instant)
+    public static string FormatAsBelgianTime(this Instant instant)
+        => instant.ToString(WellknownFormats.TimeOnly, WellknownFormats.België);
+
+    public static string FormatAsBelgianDate(this DateTimeOffset instant)
+        => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
+    public static string FormatAsBelgianTime(this DateTimeOffset instant)
         => instant.ToString(WellknownFormats.TimeOnly, WellknownFormats.België);
 }

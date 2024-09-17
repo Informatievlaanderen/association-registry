@@ -19,10 +19,10 @@ public class HistoriekRecordWriter : IRecordWriter
             {
                 var gebeurtenisDatum = Instant.FromDateTimeOffset(DateTimeOffset.Parse(gebeurtenis.Datum));
                 csvWriter.WriteRecord(new HistoriekRecord(
-                                          gebeurtenisDatum.ToBelgianDateFormat(),
+                                          gebeurtenisDatum.ConvertAndFormatToBelgianDate(),
                                           gebeurtenis.EventType,
                                           gebeurtenis.Initiator,
-                                          gebeurtenisDatum.ToBelgianTimeFormat(),
+                                          gebeurtenisDatum.ConvertAndFormatToBelgianTime(),
                                           vereniging.VCode,
                                           gebeurtenis.Sequence));
 
