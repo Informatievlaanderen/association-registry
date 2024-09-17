@@ -68,7 +68,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-                DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToBelgianDate(),
+                DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.FormatAsBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 Contactgegevens = Array.Empty<Contactgegeven>(),
                 Locaties = Array.Empty<Locatie>(),

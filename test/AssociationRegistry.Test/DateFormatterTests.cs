@@ -21,18 +21,18 @@ public class DateFormatterTests
         var winterInstant = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-01-01 00:00:00.000000+00"));
 
         _output.WriteLine(winterInstant.ToString());
-        _output.WriteLine(winterInstant.ToBelgianDateFormat());
-        _output.WriteLine(winterInstant.ToBelgianTimeFormat());
+        _output.WriteLine(winterInstant.ConvertAndFormatToBelgianDate());
+        _output.WriteLine(winterInstant.ConvertAndFormatToBelgianTime());
 
-        winterInstant.ToBelgianTimeFormat().Should().Be("01:00:00");
+        winterInstant.ConvertAndFormatToBelgianTime().Should().Be("01:00:00");
 
         var summerInstant = Instant.FromDateTimeOffset(DateTimeOffset.Parse("2024-08-01 00:00:00.000000+00"));
 
         _output.WriteLine(summerInstant.ToString());
-        _output.WriteLine(summerInstant.ToBelgianDateFormat());
-        _output.WriteLine(summerInstant.ToBelgianTimeFormat());
+        _output.WriteLine(summerInstant.ConvertAndFormatToBelgianDate());
+        _output.WriteLine(summerInstant.ConvertAndFormatToBelgianTime());
 
-        summerInstant.ToBelgianTimeFormat().Should().Be("02:00:00");
+        summerInstant.ConvertAndFormatToBelgianTime().Should().Be("02:00:00");
     }
 
 }
