@@ -1,3 +1,10 @@
+# [8.148.0](https://github.com/informatievlaanderen/association-registry/compare/v8.147.0...v8.148.0) (2024-09-17)
+
+
+### Features
+
+* or-2402 set size limit to total count of facets on publiek zoeken ([c8cf621](https://github.com/informatievlaanderen/association-registry/commit/c8cf621c9d568f797e2ba63237d525af086089ed))
+
 # [8.147.0](https://github.com/informatievlaanderen/association-registry/compare/v8.146.6...v8.147.0) (2024-09-17)
 
 
