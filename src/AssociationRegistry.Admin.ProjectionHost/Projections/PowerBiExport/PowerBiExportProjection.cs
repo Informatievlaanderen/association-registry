@@ -59,7 +59,6 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                      .ToArray(),
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDateFormat(),
-            Historiek = [Gebeurtenis.FromEvent(feitelijkeVerenigingWerdGeregistreerd)],
         };
 
         UpdateHistoriek(document, feitelijkeVerenigingWerdGeregistreerd);
@@ -101,7 +100,6 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             KboNummer = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                                         .ToBelgianDateFormat(),
-            Historiek = [Gebeurtenis.FromEvent(verenigingMetRechtspersoonlijkheidWerdGeregistreerd)],
         };
 
         UpdateHistoriek(document, verenigingMetRechtspersoonlijkheidWerdGeregistreerd);
