@@ -10,6 +10,7 @@ using Common.Scenarios.EventsInDb;
 using EventStore;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
@@ -19,6 +20,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_A_Vereniging_Has_Been_Deleted
 {

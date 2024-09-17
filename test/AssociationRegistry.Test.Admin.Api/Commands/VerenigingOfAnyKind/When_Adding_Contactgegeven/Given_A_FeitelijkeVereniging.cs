@@ -3,6 +3,7 @@
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -50,6 +51,7 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Post_A_New_Contactgegeven>
 {
     private readonly Post_A_New_Contactgegeven _classFixture;

@@ -7,6 +7,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
@@ -38,6 +39,7 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom :
     IClassFixture<With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup>

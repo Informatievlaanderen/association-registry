@@ -3,6 +3,7 @@
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -53,6 +54,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZ
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel : IClassFixture<
     Given_A_VerenigingMetRechtspersoonlijkheid_With_A_MaatschappelijkeZetel_Setup>
 {

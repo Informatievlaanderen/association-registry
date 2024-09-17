@@ -4,9 +4,11 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Categories;
 using Framework.Fixtures;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 public class RegistreerPrivateStichtingSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
@@ -14,7 +16,8 @@ public class RegistreerPrivateStichtingSetup : RegistreerVereniginMetRechtsperso
     {
     }
 }
-
+[Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class With_KboNummer_For_PrivateStichting : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerPrivateStichtingSetup>
 {
     public With_KboNummer_For_PrivateStichting(EventsInDbScenariosFixture fixture, RegistreerPrivateStichtingSetup registreerSetup) : base(

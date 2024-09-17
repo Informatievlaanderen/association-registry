@@ -6,6 +6,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using Newtonsoft.Json;
@@ -47,6 +48,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_New_Vertegenwoordiger : IClassFixture<Post_A_New_Vertegenwoordiger>
 {
     private readonly Post_A_New_Vertegenwoordiger _classFixture;

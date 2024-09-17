@@ -9,6 +9,7 @@ using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
@@ -64,6 +65,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Same_Naam_And_Postc
 //TODO: Rework to unit test
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Same_Naam_And_Postcode
 {

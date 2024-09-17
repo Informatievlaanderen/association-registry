@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using System.Net;
 using Xunit;
@@ -9,6 +10,7 @@ using Xunit.Categories;
 
 [UnitTest]
 [Category("Middleware")]
+[IntegrationTestToRefactor]
 [Collection(nameof(AdminApiCollection))]
 public class When_A_CorrelationId_Is_Given
 {

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Swagger;
 using AssociationRegistry.Admin.Api;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Categories;
 using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
@@ -13,6 +14,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_SwaggerExampleProviders
 {

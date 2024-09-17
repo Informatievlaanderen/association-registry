@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
@@ -41,6 +42,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithMinimalFields
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Minimal_Fields
 {

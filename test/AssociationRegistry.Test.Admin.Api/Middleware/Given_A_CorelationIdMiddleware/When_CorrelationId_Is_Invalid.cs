@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
@@ -11,6 +12,7 @@ using Xunit.Categories;
 
 [UnitTest]
 [Category("Middleware")]
+[IntegrationTestToRefactor]
 [Collection(nameof(AdminApiCollection))]
 public class When_CorrelationId_Is_Invalid
 {

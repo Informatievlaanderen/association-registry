@@ -5,6 +5,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -68,6 +69,7 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
     private readonly Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;

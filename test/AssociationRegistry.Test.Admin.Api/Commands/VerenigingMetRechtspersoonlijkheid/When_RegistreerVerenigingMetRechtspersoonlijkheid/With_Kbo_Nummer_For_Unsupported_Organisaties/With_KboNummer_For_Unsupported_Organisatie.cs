@@ -3,12 +3,14 @@
 
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public abstract class With_KboNummer_For_Unsupported_Organisatie
 {

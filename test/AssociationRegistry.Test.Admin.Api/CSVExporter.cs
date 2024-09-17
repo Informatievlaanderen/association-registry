@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api;
 using AssociationRegistry.Admin.Schema.Detail;
 using CsvHelper;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Globalization;
@@ -12,6 +13,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class CSVExporter
 {

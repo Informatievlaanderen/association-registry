@@ -3,10 +3,12 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Categories;
 using Framework.Fixtures;
 using Vereniging;
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
+using Xunit.Categories;
 
 public class RegistreerForInvalidAdresSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
@@ -15,7 +17,9 @@ public class RegistreerForInvalidAdresSetup : RegistreerVereniginMetRechtspersoo
     }
 }
 
-public class With_KboNummer_But_Invalid_Adres : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerForInvalidAdresSetup>
+[Category("AdminApi")]
+[IntegrationTestToRefactor]
+class With_KboNummer_But_Invalid_Adres : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerForInvalidAdresSetup>
 {
     public With_KboNummer_But_Invalid_Adres(
         EventsInDbScenariosFixture fixture,

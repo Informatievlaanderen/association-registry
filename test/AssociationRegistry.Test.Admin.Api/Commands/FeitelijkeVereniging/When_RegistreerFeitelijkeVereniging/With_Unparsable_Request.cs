@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
@@ -28,6 +29,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Unparsable_Request
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Unparsable_Request
 {

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -36,6 +37,7 @@ public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLife
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_An_Client_With_Insufficient_Rights : IClassFixture<Remove_An_Existing_Vereniging_With_Insufficient_Rights>
 {
     private readonly Remove_An_Existing_Vereniging_With_Insufficient_Rights _classFixture;

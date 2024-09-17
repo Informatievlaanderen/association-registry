@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using Polly;
@@ -58,6 +59,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenre
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister : IClassFixture<
     Given_A_FeitelijkeVereniging_With_AdresWerdNietGevondenInAdressenregister_Setup>
 {

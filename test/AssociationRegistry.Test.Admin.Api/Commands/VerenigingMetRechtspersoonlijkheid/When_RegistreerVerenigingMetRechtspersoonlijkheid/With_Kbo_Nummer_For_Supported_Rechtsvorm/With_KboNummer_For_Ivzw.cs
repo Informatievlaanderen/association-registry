@@ -4,9 +4,11 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Categories;
 using Framework.Fixtures;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 public class RegistreerIVzwSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
@@ -15,6 +17,8 @@ public class RegistreerIVzwSetup : RegistreerVereniginMetRechtspersoonlijkheidSe
     }
 }
 
+[Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class With_KboNummer_For_Ivzw : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerIVzwSetup>
 {
     public With_KboNummer_For_Ivzw(

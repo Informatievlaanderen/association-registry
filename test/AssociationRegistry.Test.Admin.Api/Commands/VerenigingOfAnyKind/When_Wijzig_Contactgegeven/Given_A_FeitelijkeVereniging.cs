@@ -5,6 +5,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -60,6 +61,7 @@ public class Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging : IAsyncLif
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging>
 {
     private readonly Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging _classFixture;
