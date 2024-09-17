@@ -1,3 +1,10 @@
+# [8.147.0](https://github.com/informatievlaanderen/association-registry/compare/v8.146.6...v8.147.0) (2024-09-17)
+
+
+### Features
+
+* or-2403 improve magda exceptions ([ec756a0](https://github.com/informatievlaanderen/association-registry/commit/ec756a0cc302a3656c07560e3a1ab1acd8acb1d5))
+
 ## [8.146.6](https://github.com/informatievlaanderen/association-registry/compare/v8.146.5...v8.146.6) (2024-09-17)
 
 
