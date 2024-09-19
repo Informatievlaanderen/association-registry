@@ -16,15 +16,20 @@ public class StopVerenigingCollection : ICollectionFixture<StopVerenigingContext
 {
 }
 
+[CollectionDefinition(nameof(PubliekStopVerenigingCollection))]
+public class PubliekStopVerenigingCollection : ICollectionFixture<StopVerenigingContext<PublicApiSetup>>
+{
+}
+
 public class StopVerenigingContext<T> : End2EndContext<StopVerenigingRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
     where T : IApiSetup, new()
 {
-    protected override string SchemaName => $"stopvereniging{GetType().GetGenericArguments().First().Name}";
+    protected override string SchemaName => $"wijzig{GetType().GetGenericArguments().First().Name}";
     public override FeitelijkeVerenigingWerdGeregistreerdScenario Scenario => new();
 
     public override StopVerenigingRequest Request => new()
     {
-        Einddatum = DateOnly.FromDateTime(DateTime.UtcNow),
+        Einddatum = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)
     };
 
     public StopVerenigingContext() : base(new T())
