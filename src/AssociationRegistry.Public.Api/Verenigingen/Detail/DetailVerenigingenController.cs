@@ -10,6 +10,7 @@ using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ResponseModels;
+using Schema.Constants;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
@@ -71,6 +72,7 @@ public class DetailVerenigingenController : ApiController
         await using var session = _documentStore.LightweightSession();
 
         var query = session.Query<PubliekVerenigingDetailDocument>()
+                           .Where(w => w.Status != VerenigingStatus.Gestopt)
                            .ToAsyncEnumerable(cancellationToken);
         await using var writer = new StreamWriter(Response.Body);
         var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();

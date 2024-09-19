@@ -17,7 +17,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
     public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = VCode.Create("V9999002");
+        VCode = VCodeGenerator.GetNext();
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
@@ -102,4 +102,15 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;
+}
+
+public static class VCodeGenerator
+{
+    private static int count = 1000000;
+
+    private static int Count
+        => Interlocked.Increment(ref count);
+
+    public static VCode GetNext()
+        => VCode.Create(Count);
 }
