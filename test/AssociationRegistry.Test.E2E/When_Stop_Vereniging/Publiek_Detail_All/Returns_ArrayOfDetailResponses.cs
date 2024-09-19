@@ -10,9 +10,10 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.ProjectionHost.Infrastructure.Extensions;
+using When_Registreer_Vereniging;
 using Xunit;
 
-[Collection(nameof(StopVerenigingCollection))]
+[Collection(nameof(PubliekStopVerenigingCollection))]
 public class Returns_ArrayOfDetailResponses(StopVerenigingContext<PublicApiSetup> context)
     : End2EndTest<StopVerenigingContext<PublicApiSetup>, StopVerenigingRequest, PubliekVerenigingDetailResponse[]>(
         context)
