@@ -19,6 +19,7 @@ public class PostgreSqlOptionsSection
         => $"host={Host};" +
            $"database={Database};" +
            $"password={Password};" +
-           $"username={Username}";
+           $"username={Username};" +
+           $"options='-c lock_timeout=30000';";
 
 }

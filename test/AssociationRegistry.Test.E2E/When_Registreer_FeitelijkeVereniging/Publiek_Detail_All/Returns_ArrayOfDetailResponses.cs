@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
 using Alba;
+using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -12,7 +13,6 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
-using Public.ProjectionHost.Infrastructure.Extensions;
 using Vereniging;
 using Xunit;
 using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
@@ -25,7 +25,7 @@ using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
-[Collection(nameof(PubliekRegistreerVerenigingCollection))]
+[Collection(RegistreerVerenigingPublicCollection.Name)]
 public class Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContext<PublicApiSetup> context)
     : End2EndTest<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse[]>(
         context)

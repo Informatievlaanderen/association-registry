@@ -15,7 +15,7 @@ using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
-[Collection(nameof(WijzigLocatieContext<AdminApiSetup>))]
+[Collection(WijzigLocatieAdminCollection.Name)]
 public class Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext<AdminApiSetup> context)
     : End2EndTest<WijzigLocatieContext<AdminApiSetup>, WijzigLocatieRequest, DetailVerenigingResponse>(context)
 {

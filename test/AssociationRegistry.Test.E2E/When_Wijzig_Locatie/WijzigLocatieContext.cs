@@ -13,15 +13,9 @@ using Vereniging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
-[CollectionDefinition(nameof(WijzigLocatieContext<AdminApiSetup>))]
-public class WijzigLocatieCollection : ICollectionFixture<WijzigLocatieContext<AdminApiSetup>>
-{
-}
-
 public class WijzigLocatieContext<T> : End2EndContext<WijzigLocatieRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
     where T : IApiSetup, new()
 {
-    protected override string SchemaName => $"wijzig{GetType().GetGenericArguments().First().Name}";
     public override FeitelijkeVerenigingWerdGeregistreerdScenario Scenario => new();
 
     public override WijzigLocatieRequest Request => new()

@@ -19,7 +19,8 @@ public static class MartenExtensions
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         PostgreSqlOptionsSection postgreSqlOptions,
-        IConfiguration configuration)
+        IConfiguration configuration,
+        bool isDevelopment)
     {
         var martenConfiguration = services
                                  .AddSingleton(postgreSqlOptions)
@@ -51,7 +52,8 @@ public static class MartenExtensions
                                           return opts;
                                       });
 
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         if (configuration["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);

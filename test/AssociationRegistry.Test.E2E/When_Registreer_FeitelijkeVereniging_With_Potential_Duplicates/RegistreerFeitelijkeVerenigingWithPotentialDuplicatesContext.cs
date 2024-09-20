@@ -1,35 +1,24 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema;
 using Alba;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Admin.Schema;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Test.E2E.Scenarios;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.AutoFixture;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
+using Scenarios;
 using System.Net;
+using Vereniging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
-using Microsoft.Net.Http.Headers;
-
-[CollectionDefinition(nameof(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>))]
-public class RegistreerVerenigingWithPotentialDuplicatesCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>>
-{
-}
-
-[CollectionDefinition(nameof(PubliekRegistreerVerenigingWithPotentialDuplicationCollection))]
-public class PubliekRegistreerVerenigingWithPotentialDuplicationCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<PublicApiSetup>>
-{
-}
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<T> : End2EndContext<RegistreerFeitelijkeVerenigingRequest, FeitelijkeVerenigingWerdGeregistreerdScenario>, IAsyncLifetime
     where T : IApiSetup, new()
@@ -38,7 +27,6 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<T> : E
 
     public override FeitelijkeVerenigingWerdGeregistreerdScenario Scenario => new();
     public override RegistreerFeitelijkeVerenigingRequest Request { get; }
-    protected override string SchemaName => $"registreer{GetType().GetGenericArguments().First().Name}";
 
     public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext() : base(new T())
     {

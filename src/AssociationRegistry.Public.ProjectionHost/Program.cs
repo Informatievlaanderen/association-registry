@@ -66,7 +66,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .ConfigureProjectionsWithMarten(builder.Configuration)
+               .ConfigureProjectionsWithMarten(builder.Configuration, builder.Environment.IsDevelopment())
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
                .AddMvc()

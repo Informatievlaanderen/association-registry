@@ -38,11 +38,16 @@ public class AdminApiSetup : IApiSetup
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, schema));
 
-        await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await QueryApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        //await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+       // await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+       // await QueryApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await ProjectionHost.ResumeAllDaemonsAsync();
+    }
+
+    public async Task InitializeStorageAsync()
+    {
+
     }
 
     private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
@@ -78,6 +83,7 @@ public class AdminApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
+             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
              .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
              .UseSetting("GrarOptions:Sqs:AddressMatchQueueName", schema.ToLowerInvariant())
              .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"admin_{schema.ToLowerInvariant()}");
