@@ -1,3 +1,10 @@
+## [8.148.1](https://github.com/informatievlaanderen/association-registry/compare/v8.148.0...v8.148.1) (2024-09-20)
+
+
+### Bug Fixes
+
+* or-2248 dont return gestopte verenigingen on publiek detail all ([062e6ab](https://github.com/informatievlaanderen/association-registry/commit/062e6abcf16238d99387887c0d22df205f04ffb2))
+
 # [8.148.0](https://github.com/informatievlaanderen/association-registry/compare/v8.147.0...v8.148.0) (2024-09-17)
 
 
