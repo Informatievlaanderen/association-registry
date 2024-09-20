@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
@@ -45,6 +46,7 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumNull
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_StartdatumWerdGewijzigd_Null
 {

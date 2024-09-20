@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Microsoft.Net.Http.Headers;
 using System.Net;
@@ -39,6 +40,7 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_A_NonMatching_ETag
 {

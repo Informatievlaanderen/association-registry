@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using System.Net;
 using Xunit;
@@ -8,6 +9,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_An_Unauthenticated_Client
 {

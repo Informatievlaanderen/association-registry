@@ -2,9 +2,11 @@
     With_Kbo_Nummer_For_Unsupported_Organisaties;
 
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class RegistreerOnbekendKboNummerSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
@@ -13,6 +15,8 @@ public class RegistreerOnbekendKboNummerSetup : RegistreerVereniginMetRechtspers
     }
 }
 
+[Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class With_KboNummer_For_Vestiging : With_KboNummer_For_Unsupported_Organisatie, IClassFixture<RegistreerVestigingSetup>
 {
     public With_KboNummer_For_Vestiging(EventsInDbScenariosFixture fixture, RegistreerVestigingSetup registreerSetup) : base(

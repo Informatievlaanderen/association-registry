@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_R
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -38,6 +39,7 @@ public class Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging : IAsyncLif
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging>
 {
     private readonly Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging _classFixture;

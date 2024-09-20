@@ -7,6 +7,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
@@ -19,6 +20,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Valid_Hash.Setup>
 {

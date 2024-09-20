@@ -10,6 +10,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Formats;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
@@ -178,6 +179,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_All_Fields
 {

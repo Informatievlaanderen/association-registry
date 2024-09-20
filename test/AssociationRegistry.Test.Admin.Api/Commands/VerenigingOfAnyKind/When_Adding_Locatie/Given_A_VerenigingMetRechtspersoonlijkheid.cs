@@ -3,6 +3,7 @@
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -53,6 +54,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_Setup : IAsyncLifetime
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Given_A_VerenigingMetRechtspersoonlijkheid_Setup>
 {
     private readonly Given_A_VerenigingMetRechtspersoonlijkheid_Setup _classFixture;

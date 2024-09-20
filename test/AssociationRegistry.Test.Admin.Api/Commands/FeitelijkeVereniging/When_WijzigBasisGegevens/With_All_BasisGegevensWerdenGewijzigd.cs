@@ -9,6 +9,7 @@ using Events;
 using FluentAssertions;
 using Formats;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
@@ -56,6 +57,7 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
 {

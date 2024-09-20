@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_R
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
@@ -37,6 +38,7 @@ public class Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoo
 [IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid>
 {

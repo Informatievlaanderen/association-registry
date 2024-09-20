@@ -7,6 +7,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -18,6 +19,7 @@ using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
 {

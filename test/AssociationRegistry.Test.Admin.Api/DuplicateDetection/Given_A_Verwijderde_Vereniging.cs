@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
@@ -16,6 +17,7 @@ using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_A_Verwijderde_Vereniging
 {

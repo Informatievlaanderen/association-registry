@@ -3,12 +3,14 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 using Events;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Framework.Categories;
 using Framework.Fixtures;
 using Polly;
 using Vereniging;
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
 using Xunit.Abstractions;
+using Xunit.Categories;
 
 public class RegistreerForValidAdresSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {
@@ -17,6 +19,8 @@ public class RegistreerForValidAdresSetup : RegistreerVereniginMetRechtspersoonl
     }
 }
 
+[Category("AdminApi")]
+[IntegrationTestToRefactor]
 public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Vereniging, IClassFixture<RegistreerForValidAdresSetup>
 {
     private readonly ITestOutputHelper _testOutputHelper;

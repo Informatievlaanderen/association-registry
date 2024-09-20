@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.E2E.When_Wijzig_Anything_In_A_Vereniging;
 
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using System.Net;
 using Xunit;
@@ -8,6 +9,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_A_Vereniging_Does_Not_Exist
 {

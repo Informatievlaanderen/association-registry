@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijk
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using System.Net;
 using Vereniging;
@@ -49,6 +50,7 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Dupli
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Duplicate_Requests
 {

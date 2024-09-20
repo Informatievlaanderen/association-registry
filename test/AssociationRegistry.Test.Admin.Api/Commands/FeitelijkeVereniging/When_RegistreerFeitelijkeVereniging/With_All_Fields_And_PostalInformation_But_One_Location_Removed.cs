@@ -9,6 +9,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using Formats;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
@@ -144,6 +145,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields_And_Postal
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_All_Fields_And_PostalInformation_But_One_Location_Removed
 {

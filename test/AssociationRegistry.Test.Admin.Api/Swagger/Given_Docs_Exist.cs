@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Swagger;
 
 using FluentAssertions;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
@@ -26,6 +27,8 @@ public sealed class When_RetrievingDocs
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
+
 [IntegrationTest]
 public class Given_Docs_Exist
 {

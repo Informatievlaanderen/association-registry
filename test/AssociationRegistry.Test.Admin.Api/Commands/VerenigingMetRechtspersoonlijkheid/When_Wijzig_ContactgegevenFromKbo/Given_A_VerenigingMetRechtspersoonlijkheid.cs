@@ -7,6 +7,7 @@ using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
@@ -45,6 +46,7 @@ public sealed class When_ContactgegevenWerdOvergenomen_Setup
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_ContactgegevenWerdOvergenomen_Setup>
 {

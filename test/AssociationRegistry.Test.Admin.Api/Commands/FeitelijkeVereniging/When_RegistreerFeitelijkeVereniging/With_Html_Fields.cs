@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Formats;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Collections;
@@ -53,6 +54,7 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Html_Fields
 {

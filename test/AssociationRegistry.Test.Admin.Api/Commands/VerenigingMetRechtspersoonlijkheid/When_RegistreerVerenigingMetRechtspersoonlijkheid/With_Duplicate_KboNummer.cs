@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijk
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Categories;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,6 +41,7 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithDuplic
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[IntegrationTestToRefactor]
 [IntegrationTest]
 public class With_Duplicate_KboNummer
 {
