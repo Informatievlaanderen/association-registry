@@ -25,7 +25,7 @@ using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
-[Collection(nameof(PubliekRegistreerVerenigingCollection))]
+[Collection(RegistreerVerenigingPublicCollection.Name)]
 public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingContext<PublicApiSetup> context)
     : End2EndTest<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>(
         context)

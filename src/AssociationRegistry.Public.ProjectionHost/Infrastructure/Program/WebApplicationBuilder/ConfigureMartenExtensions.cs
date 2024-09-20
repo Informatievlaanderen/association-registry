@@ -23,12 +23,13 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(
         this IServiceCollection source,
-        ConfigurationManager configurationManager)
+        ConfigurationManager configurationManager,
+        bool isDevelopment)
     {
         source
            .AddTransient<IElasticRepository, ElasticRepository>();
 
-        var martenConfiguration = AddMarten(source, configurationManager);
+        var martenConfiguration = AddMarten(source, configurationManager, isDevelopment);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
@@ -38,7 +39,8 @@ public static class ConfigureMartenExtensions
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
         IServiceCollection services,
-        ConfigurationManager configurationManager)
+        ConfigurationManager configurationManager,
+        bool isDevelopment)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -118,7 +120,8 @@ public static class ConfigureMartenExtensions
                 return opts;
             });
 
-        martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
+        if (configurationManager["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+            martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
 
         return martenConfigurationExpression;
     }

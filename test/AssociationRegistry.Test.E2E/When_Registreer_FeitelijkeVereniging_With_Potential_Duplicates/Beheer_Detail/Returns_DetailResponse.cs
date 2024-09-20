@@ -21,7 +21,7 @@ using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingslok
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
-[Collection(nameof(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>))]
+[Collection(RegistreerVerenigingWithPotentialDuplicatesAdminCollection.Name)]
 public class Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup> context)
     : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<AdminApiSetup>, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>(context)
 {

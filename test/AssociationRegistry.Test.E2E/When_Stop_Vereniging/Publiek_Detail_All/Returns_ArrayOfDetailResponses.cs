@@ -9,7 +9,7 @@ using Framework.TestClasses;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(PubliekStopVerenigingCollection))]
+[Collection(StopVerenigingPublicCollection.Name)]
 public class Returns_ArrayOfDetailResponses(StopVerenigingContext<PublicApiSetup> context)
     : End2EndTest<StopVerenigingContext<PublicApiSetup>, StopVerenigingRequest, PubliekVerenigingDetailResponse[]>(
         context)

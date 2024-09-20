@@ -57,6 +57,7 @@ public class PublicApiSetup : IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
+             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
              .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
              .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"public_{schema.ToLowerInvariant()}");
         };

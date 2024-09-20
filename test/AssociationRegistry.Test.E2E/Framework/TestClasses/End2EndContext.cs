@@ -4,12 +4,16 @@ using Alba;
 using ApiSetup;
 using AssociationRegistry.Framework;
 using Events;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
+using Microsoft.Extensions.Configuration;
 using NodaTime;
 using NodaTime.Text;
+using Npgsql;
 
 public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TRequest> where TScenario : IScenario
 {
+    private static Mutex hostInitializationLock = new Mutex(false, nameof(hostInitializationLock));
     private readonly IApiSetup _fixture;
     public string VCode { get; protected set; }
     public abstract TRequest Request { get; }
@@ -17,21 +21,31 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
     public IAlbaHost AdminApiHost { get; }
     public IAlbaHost QueryApiHost { get; }
     public IAlbaHost ProjectionHost { get; }
-    public IAlbaHost ProjectionHost2 => _fixture.ProjectionHost;
 
     protected End2EndContext(IApiSetup fixture)
     {
         _fixture = fixture;
+        var schema = $"{GetType().Name[..^9]}{GetType().GetGenericArguments().First().Name.Substring(0, 3)}";
 
-        _fixture.InitializeAsync(SchemaName)
+        _fixture.InitializeAsync(schema)
                 .GetAwaiter().GetResult();
 
         AdminApiHost = _fixture.AdminApiHost;
         QueryApiHost = _fixture.QueryApiHost;
         ProjectionHost = _fixture.ProjectionHost;
-    }
 
-    protected abstract string SchemaName { get; }
+        try
+        {
+            hostInitializationLock.WaitOne();
+            AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+            ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+            QueryApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
+        }
+        finally
+        {
+            hostInitializationLock.ReleaseMutex();
+        }
+    }
 
     protected async Task Given(TScenario scenario)
     {
@@ -55,7 +69,7 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
 
         while (!events.Any(a => a.EventType == typeof(AdresWerdOvergenomenUitAdressenregister)))
         {
-            await Task.Delay(400 + (200 * counter));
+            await Task.Delay(300);
             events = await session.Events.FetchStreamAsync(Scenario.VCode);
 
             if (++counter > 20)

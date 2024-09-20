@@ -12,7 +12,7 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(RegistreerFeitelijkeVerenigingContext<AdminApiSetup>))]
+[Collection(RegistreerVerenigingAdminCollection.Name)]
 public class Returns_Historiek(RegistreerFeitelijkeVerenigingContext<AdminApiSetup> context)
     : End2EndTest<RegistreerFeitelijkeVerenigingContext<AdminApiSetup>, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>(context)
 {

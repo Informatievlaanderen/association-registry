@@ -24,6 +24,7 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
+        IConfigurationRoot configuration,
         PostgreSqlOptionsSection postgreSqlOptions,
         bool isDevelopment)
     {
@@ -90,7 +91,8 @@ public static class MartenExtensions
                                  .IntegrateWithWolverine()
                                  .UseLightweightSessions();
 
-        martenConfiguration.ApplyAllDatabaseChangesOnStartup();
+        if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
+            martenConfiguration.ApplyAllDatabaseChangesOnStartup();
 
         return services;
     }

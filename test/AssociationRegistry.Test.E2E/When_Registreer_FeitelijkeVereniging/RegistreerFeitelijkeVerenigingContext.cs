@@ -19,16 +19,6 @@ using System.Net;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
-[CollectionDefinition(nameof(RegistreerFeitelijkeVerenigingContext<AdminApiSetup>))]
-public class RegistreerVerenigingCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingContext<AdminApiSetup>>
-{
-}
-
-[CollectionDefinition(nameof(PubliekRegistreerVerenigingCollection))]
-public class PubliekRegistreerVerenigingCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingContext<PublicApiSetup>>
-{
-}
-
 public class RegistreerFeitelijkeVerenigingContext<T> : End2EndContext<RegistreerFeitelijkeVerenigingRequest, EmptyScenario>, IAsyncLifetime
     where T : IApiSetup, new()
 {
@@ -36,7 +26,6 @@ public class RegistreerFeitelijkeVerenigingContext<T> : End2EndContext<Registree
 
     public override EmptyScenario Scenario => new();
     public override RegistreerFeitelijkeVerenigingRequest Request { get; }
-    protected override string SchemaName => $"registreer{GetType().GetGenericArguments().First().Name}";
 
     public RegistreerFeitelijkeVerenigingContext() : base(new T())
     {
