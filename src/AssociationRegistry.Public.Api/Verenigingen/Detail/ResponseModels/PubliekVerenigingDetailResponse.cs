@@ -7,7 +7,7 @@ public class PubliekVerenigingDetailResponse
 {
     /// <summary>De JSON-LD open data context</summary>
     [DataMember(Name = "@context")]
-    public string Context { get; init; } = null!;
+    public string Context { get; set; } = null!;
 
     /// <summary> De vereniging waarvan het detail opgevraagd werd</summary>
     [DataMember(Name = "Vereniging")]

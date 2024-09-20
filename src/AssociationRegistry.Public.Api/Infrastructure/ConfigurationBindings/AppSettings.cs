@@ -4,6 +4,7 @@ public class AppSettings
 {
     private string? _baseUrl;
     public string OrganisationRegistryUri { get; set; } = null!;
+    public string TempContext { get; set; } = null!;
 
     public string BaseUrl
     {

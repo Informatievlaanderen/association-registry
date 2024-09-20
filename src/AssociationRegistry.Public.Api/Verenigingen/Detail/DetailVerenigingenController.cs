@@ -9,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
@@ -73,23 +74,18 @@ public class DetailVerenigingenController : ApiController
         var query = session.Query<PubliekVerenigingDetailDocument>()
                            .ToAsyncEnumerable(cancellationToken);
         await using var writer = new StreamWriter(Response.Body);
-        var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
 
         try
         {
-            var isFirst = true;
-            await writer.WriteAsync('[');
-
             await foreach (var vereniging in query)
             {
-                isFirst = await SeparateWithComma(writer, isFirst);
-
-                serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
-
+                var mappedVereniging = PubliekVerenigingDetailMapper.Map(vereniging, _appsettings);
+                mappedVereniging.Context = _appsettings.TempContext;
+                var json = JsonConvert.SerializeObject(mappedVereniging);
+                await writer.WriteLineAsync(json);
                 await writer.FlushAsync(cancellationToken);
+                Thread.Sleep(2000);
             }
-
-            await writer.WriteAsync(']');
         }
         catch (TaskCanceledException)
         {
