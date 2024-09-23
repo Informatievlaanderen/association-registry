@@ -72,7 +72,6 @@ public class DetailVerenigingenController : ApiController
         [FromServices] IResponseWriter responseWriter,
         CancellationToken cancellationToken)
     {
-
         try
         {
             var data = await query.ExecuteAsync(cancellationToken);
@@ -124,7 +123,6 @@ public class ResponseWriter : IResponseWriter
         }
 
         await writer.WriteAsync(']');
-
     }
 
 
