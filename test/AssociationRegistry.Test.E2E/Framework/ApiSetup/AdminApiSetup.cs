@@ -38,16 +38,7 @@ public class AdminApiSetup : IApiSetup
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, schema));
 
-        //await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-       // await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-       // await QueryApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
         await ProjectionHost.ResumeAllDaemonsAsync();
-    }
-
-    public async Task InitializeStorageAsync()
-    {
-
     }
 
     private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
