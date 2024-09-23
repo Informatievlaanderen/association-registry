@@ -29,30 +29,25 @@ public class PubliekDetailAllQueryFixture : IAsyncLifetime
 }
 
 [IntegrationTest]
-public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFixture>
+public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFixture>, IDisposable, IAsyncDisposable
 {
-    private readonly PubliekDetailAllQueryFixture _setupFixture;
-    private readonly Fixture _autoFixture;
+    private readonly IDocumentSession _session;
 
     public PubliekDetailAllQueryTests(PubliekDetailAllQueryFixture setupFixture)
     {
-        _autoFixture = new Fixture().CustomizeDomain();
-        _setupFixture = setupFixture;
+        _session = setupFixture.Store.LightweightSession();
     }
 
     [Fact]
     public async Task Does_Not_Return_IsUitgeschrevenUitPubliekeDatastroom_Verenigingen()
     {
-        await using var session = _setupFixture.Store.LightweightSession();
+        var uitgeschrevenVereniging = await StoreVereniging(_session, vereniging =>
+        {
+            vereniging.IsUitgeschrevenUitPubliekeDatastroom = true;
+            vereniging.Status = VerenigingStatus.Actief;
+        });
 
-        var uitgeschrevenVereniging = _autoFixture.Create<PubliekVerenigingDetailDocument>();
-        uitgeschrevenVereniging.IsUitgeschrevenUitPubliekeDatastroom = true;
-        uitgeschrevenVereniging.Status = VerenigingStatus.Actief;
-
-        session.Store(uitgeschrevenVereniging);
-        await session.SaveChangesAsync();
-
-        var query = new PubliekDetailAllQuery(session);
+        var query = new PubliekDetailAllQuery(_session);
 
         var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
 
@@ -62,31 +57,67 @@ public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFix
     [Fact]
     public async Task Does_Not_Return_Gestopte_Verenigingen()
     {
-        await using var session = _setupFixture.Store.LightweightSession();
+        var gestopteVereniging = await StoreVereniging(_session, vereniging =>
+        {
+            vereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
+            vereniging.Status = VerenigingStatus.Gestopt;
+        });
 
-        var uitgeschrevenVereniging = _autoFixture.Create<PubliekVerenigingDetailDocument>();
-        uitgeschrevenVereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
-        uitgeschrevenVereniging.Status = VerenigingStatus.Gestopt;
-
-        session.Store(uitgeschrevenVereniging);
-        await session.SaveChangesAsync();
-
-        var query = new PubliekDetailAllQuery(session);
+        var query = new PubliekDetailAllQuery(_session);
 
         var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
 
-        actual.Should().NotContain(x => x.VCode == uitgeschrevenVereniging.VCode);
+        actual.Should().NotContain(x => x.VCode == gestopteVereniging.VCode);
+    }
+
+    [Fact]
+    public async Task Does_Return_Actieve_En_Ingeschreven_Verenigingen()
+    {
+        var vereniging = await StoreVereniging(_session, vereniging =>
+        {
+            vereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
+            vereniging.Status = VerenigingStatus.Actief;
+        });
+
+        var query = new PubliekDetailAllQuery(_session);
+
+        var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
+
+        actual.Should().Contain(x => x.VCode == vereniging.VCode);
+    }
+
+    private async Task<PubliekVerenigingDetailDocument> StoreVereniging(IDocumentSession session, Action<PubliekVerenigingDetailDocument> func)
+    {
+        var fixture = new Fixture().CustomizeDomain();
+
+        var vereniging = fixture.Create<PubliekVerenigingDetailDocument>();
+        func(vereniging);
+
+        session.Store(vereniging);
+        await session.SaveChangesAsync();
+
+        return vereniging;
     }
 
     private async Task<List<T>> ConvertToListAsync<T>(IAsyncEnumerable<T> asyncEnumerable)
     {
         var list = new List<T>();
+
         await foreach (var item in asyncEnumerable)
         {
             list.Add(item);
         }
+
         return list;
     }
+
+    public void Dispose()
+    {
+        _session.Dispose();
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        await _session.DisposeAsync();
+    }
 }
-
-
