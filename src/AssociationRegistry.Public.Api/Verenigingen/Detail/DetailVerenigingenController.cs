@@ -9,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Queries;
 using ResponseModels;
 using Schema.Constants;
 using Schema.Detail;
@@ -22,12 +23,10 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 public class DetailVerenigingenController : ApiController
 {
     private readonly AppSettings _appsettings;
-    private readonly IDocumentStore _documentStore;
 
-    public DetailVerenigingenController(AppSettings appsettings, IDocumentStore documentStore)
+    public DetailVerenigingenController(AppSettings appsettings)
     {
         _appsettings = appsettings;
-        _documentStore = documentStore;
     }
 
     /// <summary>
@@ -44,9 +43,10 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
+        [FromServices] IDocumentStore store,
         [FromRoute] string vCode)
     {
-        await using var session = _documentStore.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var vereniging = await GetDetail(session, vCode);
 
@@ -67,37 +67,66 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
-    public async Task GetAll(CancellationToken cancellationToken)
+    public async Task GetAll(
+        [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
+        [FromServices] IResponseWriter responseWriter,
+        CancellationToken cancellationToken)
     {
-        await using var session = _documentStore.LightweightSession();
-
-        var query = session.Query<PubliekVerenigingDetailDocument>()
-                           .Where(w => w.Status != VerenigingStatus.Gestopt)
-                           .ToAsyncEnumerable(cancellationToken);
-        await using var writer = new StreamWriter(Response.Body);
-        var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
 
         try
         {
-            var isFirst = true;
-            await writer.WriteAsync('[');
-
-            await foreach (var vereniging in query)
-            {
-                isFirst = await SeparateWithComma(writer, isFirst);
-
-                serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
-
-                await writer.FlushAsync(cancellationToken);
-            }
-
-            await writer.WriteAsync(']');
+            var data = await query.ExecuteAsync(cancellationToken);
+            await responseWriter.Write(Response, data, cancellationToken);
         }
         catch (TaskCanceledException)
         {
             // Nothing to do, user stopped the request
         }
     }
+
+    private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)
+        => await session
+                .Query<PubliekVerenigingDetailDocument>()
+                .WithVCode(vCode)
+                .OnlyIngeschrevenInPubliekeDatastroom()
+                .OnlyActief()
+                .SingleOrDefaultAsync();
+}
+
+public interface IResponseWriter
+{
+    Task Write(HttpResponse response, IAsyncEnumerable<PubliekVerenigingDetailDocument> data, CancellationToken cancellationToken);
+}
+
+public class ResponseWriter : IResponseWriter
+{
+    private readonly AppSettings _appSettings;
+
+    public ResponseWriter(AppSettings appSettings)
+    {
+        _appSettings = appSettings;
+    }
+
+    public async Task Write(HttpResponse response, IAsyncEnumerable<PubliekVerenigingDetailDocument> data, CancellationToken cancellationToken)
+    {
+        await using var writer = new StreamWriter(response.Body);
+        var serializer = Newtonsoft.Json.JsonSerializer.CreateDefault();
+        var isFirst = true;
+        await writer.WriteAsync('[');
+
+        await foreach (var vereniging in data.WithCancellation(cancellationToken))
+        {
+            isFirst = await SeparateWithComma(writer, isFirst);
+
+            serializer.Serialize(writer, PubliekVerenigingDetailMapper.Map(vereniging, _appSettings));
+
+            await writer.FlushAsync(cancellationToken);
+        }
+
+        await writer.WriteAsync(']');
+
+    }
+
 
     private static async Task<bool> SeparateWithComma(StreamWriter writer, bool isFirst)
     {
@@ -109,12 +138,4 @@ public class DetailVerenigingenController : ApiController
 
         return false;
     }
-
-    private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)
-        => await session
-                .Query<PubliekVerenigingDetailDocument>()
-                .WithVCode(vCode)
-                .OnlyIngeschrevenInPubliekeDatastroom()
-                .OnlyActief()
-                .SingleOrDefaultAsync();
 }
