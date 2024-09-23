@@ -38,6 +38,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
+using Queries;
+using Schema.Detail;
 using Serilog;
 using Serilog.Debugging;
 using System;
@@ -51,6 +53,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using Verenigingen.Detail;
 using Verenigingen.Search;
 
 public class Program
@@ -250,6 +253,10 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
+
+               .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
+               .AddScoped<IResponseWriter, ResponseWriter>()
+
                .AddHttpContextAccessor()
                .AddControllers();
 
