@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
 using Constants;
 using JasperFx.CodeGeneration;
 using Json;
@@ -16,20 +15,18 @@ using Projections.Search;
 using Projections.Sequence;
 using Schema.Detail;
 using Schema.Sequence;
-using Wolverine;
 using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection;
 
 public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(
         this IServiceCollection source,
-        ConfigurationManager configurationManager,
-        bool isDevelopment)
+        ConfigurationManager configurationManager)
     {
         source
            .AddTransient<IElasticRepository, ElasticRepository>();
 
-        var martenConfiguration = AddMarten(source, configurationManager, isDevelopment);
+        var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
@@ -39,8 +36,7 @@ public static class ConfigureMartenExtensions
 
     private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
         IServiceCollection services,
-        ConfigurationManager configurationManager,
-        bool isDevelopment)
+        ConfigurationManager configurationManager)
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -66,8 +62,8 @@ public static class ConfigureMartenExtensions
         var martenConfigurationExpression = services.AddMarten(
             serviceProvider =>
             {
-                var postgreSqlOptions = configurationManager.GetSection(Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection.SectionName)
-                                                            .Get<Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection>();
+                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
+                                                            .Get<PostgreSqlOptionsSection>();
 
                 var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 

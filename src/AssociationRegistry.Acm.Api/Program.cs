@@ -261,7 +261,7 @@ public class Program
 
         builder.Services
                .AddSingleton(appSettings)
-               .AddMarten(postgreSqlOptionsSection, builder.Configuration, builder.Environment.IsDevelopment())
+               .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddHttpContextAccessor()
                .AddControllers();
 

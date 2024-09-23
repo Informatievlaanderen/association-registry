@@ -10,7 +10,6 @@ using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
@@ -66,7 +65,7 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .ConfigureProjectionsWithMarten(builder.Configuration, builder.Environment.IsDevelopment())
+               .ConfigureProjectionsWithMarten(builder.Configuration)
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
                .AddMvc()

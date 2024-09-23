@@ -19,8 +19,7 @@ public static class MartenExtensions
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         PostgreSqlOptionsSection postgreSqlOptions,
-        IConfiguration configuration,
-        bool isDevelopment)
+        IConfiguration configuration)
     {
         var martenConfiguration = services
                                  .AddSingleton(postgreSqlOptions)
