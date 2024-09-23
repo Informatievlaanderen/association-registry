@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.Controller;
+namespace AssociationRegistry.Test.Public.Api.Controller;
 
+using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Api.Verenigingen.Detail;
+using AssociationRegistry.Public.Schema.Detail;
 using Moq;
-using Public.Api.Infrastructure.ConfigurationBindings;
-using Public.Api.Queries;
-using Public.Api.Verenigingen.Detail;
-using Public.Schema.Detail;
 using Xunit;
 
 public class PubliekGetAllTests
