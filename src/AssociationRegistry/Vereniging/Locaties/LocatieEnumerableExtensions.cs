@@ -31,7 +31,7 @@ public static class LocatieEnumerableExtensions
         );
 
     public static bool ContainsEquivalent(this IEnumerable<Locatie> source, Locatie locatie)
-        => source.Any(locatie.IsEquivalentTo);
+        => source.Any(locatie.IsADuplicateOf);
 
     public static bool HasPrimaireLocatie(this IEnumerable<Locatie> locaties)
         => locaties.Any(l => l.IsPrimair);

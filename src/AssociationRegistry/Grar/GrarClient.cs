@@ -53,7 +53,7 @@ public class GrarClient : IGrarClient
                                              ),
                                              addressDetailOsloResponse.AdresStatus is AdresStatus.Voorgesteld or AdresStatus.InGebruik,
                                              addressDetailOsloResponse.VolledigAdres.GeografischeNaam.Spelling,
-                                             addressDetailOsloResponse.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                             addressDetailOsloResponse.Straatnaam.GivenDifferentStraatnaam.GeografischeNaam.Spelling,
                                              addressDetailOsloResponse.Huisnummer,
                                              addressDetailOsloResponse.Busnummer ?? string.Empty,
                                              addressDetailOsloResponse.Postinfo.ObjectId,
@@ -130,7 +130,7 @@ public class GrarClient : IGrarClient
                                                              s.Identificator.Id
                                                          ),
                                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
-                                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                                         s.Straatnaam.GivenDifferentStraatnaam.GeografischeNaam.Spelling,
                                                          s.Huisnummer,
                                                          s.Busnummer ?? string.Empty,
                                                          s.Postinfo.ObjectId,
