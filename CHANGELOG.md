@@ -1,3 +1,10 @@
+## [8.148.3](https://github.com/informatievlaanderen/association-registry/compare/v8.148.2...v8.148.3) (2024-09-24)
+
+
+### Bug Fixes
+
+* or-2438 don't show uitgeschreven verenigingen in publiek detail all ([707ece6](https://github.com/informatievlaanderen/association-registry/commit/707ece68cb47d523ffd12ccd41f1def74daa1dac))
+
 ## [8.148.2](https://github.com/informatievlaanderen/association-registry/compare/v8.148.1...v8.148.2) (2024-09-20)
 
 ## [8.148.1](https://github.com/informatievlaanderen/association-registry/compare/v8.148.0...v8.148.1) (2024-09-20)
