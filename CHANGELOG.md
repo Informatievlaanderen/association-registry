@@ -1,3 +1,10 @@
+## [8.148.4](https://github.com/informatievlaanderen/association-registry/compare/v8.148.3...v8.148.4) (2024-09-24)
+
+
+### Bug Fixes
+
+* or-2249 dont use array for streaming response publiek detail get all ([428712a](https://github.com/informatievlaanderen/association-registry/commit/428712aba263ef29eea4890975220d3b165c8525))
+
 ## [8.148.3](https://github.com/informatievlaanderen/association-registry/compare/v8.148.2...v8.148.3) (2024-09-24)
 
 
