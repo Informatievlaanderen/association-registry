@@ -38,6 +38,37 @@ public static class PubliekVerenigingDetailMapper
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
 
+    public static PubliekVerenigingDetailResponse MapDetailAll(PubliekVerenigingDetailDocument document, AppSettings appSettings)
+        => new()
+        {
+            Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-all-vereniging-context.json",
+            Vereniging = new Vereniging
+            {
+                type = document.JsonLdMetadataType,
+                VCode = document.VCode,
+                Verenigingstype = Map(document.Verenigingstype),
+                Naam = document.Naam,
+                Roepnaam = document.Roepnaam,
+                KorteNaam = document.KorteNaam,
+                KorteBeschrijving = document.KorteBeschrijving,
+                Startdatum = document.Startdatum,
+                Doelgroep = new DoelgroepResponse
+                {
+                    id = document.Doelgroep.JsonLdMetadata.Id,
+                    type = document.Doelgroep.JsonLdMetadata.Type,
+                    Minimumleeftijd = document.Doelgroep.Minimumleeftijd,
+                    Maximumleeftijd = document.Doelgroep.Maximumleeftijd,
+                },
+                Status = document.Status,
+                Contactgegevens = document.Contactgegevens.Select(Map).ToArray(),
+                Locaties = document.Locaties.Select(Map).ToArray(),
+                HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
+                Sleutels = document.Sleutels.Select(Map).ToArray(),
+                Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
+            },
+            Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
+        };
+
     private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
         => new()
         {
