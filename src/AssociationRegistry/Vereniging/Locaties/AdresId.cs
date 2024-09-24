@@ -33,6 +33,7 @@ public record AdresId
     public static AdresId Hydrate(Adresbron adresbron, string bronwaarde)
         => new(adresbron, bronwaarde);
 
+
     public bool Equals(Registratiedata.AdresId adresId)
         => this == adresId;
 
@@ -47,4 +48,11 @@ public record AdresId
 
     public override string ToString()
         => new Uri(Bronwaarde).Segments.Last();
+
+    public static bool AreDuplicates(AdresId? adresId, AdresId? otherAdresId)
+    {
+        if (adresId is null && otherAdresId is null) return false;
+
+        return adresId == otherAdresId;
+    }
 }

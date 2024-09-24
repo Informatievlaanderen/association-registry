@@ -7,7 +7,6 @@ using Framework;
 public record Locatie
 {
     public const int MaxLengthLocatienaam = 42;
-
     public int LocatieId { get; init; }
     public string Naam { get; init; }
     public bool IsPrimair { get; init; }
@@ -34,17 +33,11 @@ public record Locatie
     public static Locatie Hydrate(int locatieId, string naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
         => new(Locatienaam.Hydrate(naam), isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
-    public bool IsEquivalentTo(Locatie other)
-    {
-        if (Naam != other.Naam)
-            return false;
-
-        if (Locatietype != other.Locatietype)
-            return false;
-
-        return HasSameAdresId(other.AdresId) ||
-               HasSameAdres(other.Adres);
-    }
+    public bool IsADuplicateOf(Locatie other)
+        => Naam == other.Naam &&
+           Locatietype == other.Locatietype &&
+           (Adres.AreDuplicates(Adres, other.Adres) ||
+            AdresId.AreDuplicates(AdresId, other.AdresId));
 
     public virtual bool Equals(Locatie? other)
     {
@@ -81,12 +74,23 @@ public record Locatie
     public override int GetHashCode()
         => HashCode.Combine(LocatieId, Naam, IsPrimair, Locatietype, AdresId, Adres);
 
-    public Locatie Wijzig(string? naam = null, Locatietype? locatietype = null, bool? isPrimair = null, AdresId? adresId = null, Adres? adres = null)
+    public Locatie Wijzig(
+        string? naam = null,
+        Locatietype? locatietype = null,
+        bool? isPrimair = null,
+        AdresId? adresId = null,
+        Adres? adres = null)
     {
         if (adres is null && adresId is null)
-            return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with { LocatieId = LocatieId };
+            return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, AdresId, Adres) with
+            {
+                LocatieId = LocatieId
+            };
 
-        return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with { LocatieId = LocatieId };
+        return Create(Locatienaam.Create(naam ?? Naam), isPrimair ?? IsPrimair, locatietype ?? Locatietype, adresId, adres) with
+        {
+            LocatieId = LocatieId
+        };
     }
 
     public Locatie Wijzig(string? naam, bool? isPrimair)
@@ -121,5 +125,6 @@ public record Locatienaam
 
     public static Locatienaam Hydrate(string naam)
         => new(naam);
+
     public static implicit operator string(Locatienaam locatienaam) => locatienaam.Naam;
 }

@@ -93,11 +93,11 @@
 
         [DataMember(Name = "Straatnaam", Order = 3)]
         [JsonProperty(Required = Required.DisallowNull)]
-        public Straatnaam Straatnaam { get; set; }
+        public GivenDifferentStraatnaam GivenDifferentStraatnaam { get; set; }
     }
 
     [DataContract(Name = "Straatnaam", Namespace = "")]
-    public class Straatnaam
+    public class GivenDifferentStraatnaam
     {
         [DataMember(Name = "GeografischeNaam")]
         [JsonProperty(Required = Required.DisallowNull)]
