@@ -15,7 +15,7 @@ public class Returns_ArrayOfDetailResponses(StopVerenigingContext<PublicApiSetup
         context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse[]> GetResponse =>
-        host => host.GetPubliekDetailAll(VCode);
+        host => host.GetPubliekDetailAll();
 
     [Fact]
     public void WithVereniging()

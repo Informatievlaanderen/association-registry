@@ -31,12 +31,12 @@ public class Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContex
         context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse[]> GetResponse =>
-        host => host.GetPubliekDetailAll(VCode);
+        host => host.GetPubliekDetailAll();
 
     [Fact]
     public void With_Context()
     {
-        Response.Single().Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-vereniging-context.json");
+        Response.Single().Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-all-vereniging-context.json");
     }
 
     [Fact]
