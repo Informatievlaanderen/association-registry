@@ -12,7 +12,7 @@ public class Given_One_Adres_Is_Null
     public void Then_Return_False()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var sut = new AdresComparer(new StringStringNormalizer());
+        var sut = new AdresComparer(new AdresComponentNormalizer());
 
         var result = sut.HasDuplicates(fixture.Create<Adres>(), null);
 
@@ -23,7 +23,7 @@ public class Given_One_Adres_Is_Null
     public void With_Other_Adres_Null_Then_Return_False()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var sut = new AdresComparer(new StringStringNormalizer());
+        var sut = new AdresComparer(new AdresComponentNormalizer());
 
         var result = sut.HasDuplicates(null, fixture.Create<Adres>());
 

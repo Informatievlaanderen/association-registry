@@ -12,7 +12,7 @@ public class Given_Adressen_Are_Equal
     public void Then_Return_True()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var sut = new AdresComparer(new StringStringNormalizer());
+        var sut = new AdresComparer(new AdresComponentNormalizer());
 
         var adres = fixture.Create<Adres>();
 

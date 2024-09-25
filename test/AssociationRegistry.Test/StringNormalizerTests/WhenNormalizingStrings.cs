@@ -54,7 +54,7 @@ public class WhenNormalizingStrings
     [Theory]
     public void Then_Equalizing_Returns_True(string input1, string input2)
     {
-        var normalizer = new StringStringNormalizer();
+        var normalizer = new AdresComponentNormalizer();
         var normalizedString1 = normalizer.NormalizeString(input1);
         var normalizedString2 = normalizer.NormalizeString(input2);
 
