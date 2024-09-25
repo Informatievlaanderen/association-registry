@@ -30,7 +30,7 @@ public class To_VoegLocatieToeCommand
         command.Locatie.Locatietype.Waarde.Should().Be(request.Locatie.Locatietype);
         command.Locatie.Naam.Should().Be(request.Locatie.Naam);
         command.Locatie.IsPrimair.Should().Be(request.Locatie.IsPrimair);
-        command.Locatie.Adres!.Straatnaam.Should().Be(request.Locatie.Adres!.Straatnaam);
+        command.Locatie.Adres!.Straatnaam.Should().Be(new AdresComponent(request.Locatie.Adres!.Straatnaam));
         command.Locatie.Adres!.Huisnummer.Should().Be(request.Locatie.Adres!.Huisnummer);
         command.Locatie.Adres!.Busnummer.Should().Be(request.Locatie.Adres!.Busnummer);
         command.Locatie.Adres!.Postcode.Should().Be(request.Locatie.Adres!.Postcode);

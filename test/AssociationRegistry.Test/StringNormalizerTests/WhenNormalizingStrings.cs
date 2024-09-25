@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.StringNormalizerTests;
 
 using Normalizers;
+using Vereniging;
 using Xunit;
 
 public class WhenNormalizingStrings
