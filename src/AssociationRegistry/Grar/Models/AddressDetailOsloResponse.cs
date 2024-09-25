@@ -174,7 +174,7 @@ public class AdresDetailStraatnaam
     /// </summary>
     [DataMember(Name = "Straatnaam", Order = 3)]
     [JsonProperty(Required = Required.DisallowNull)]
-    public GivenDifferentStraatnaam GivenDifferentStraatnaam { get; set; }
+    public Straatnaam Straatnaam { get; set; }
 }
 
 
