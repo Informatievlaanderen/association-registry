@@ -9,29 +9,61 @@ using Xunit;
 
 public class Given_Both_Adressen_Are_Not_Null
 {
-    [Fact]
-    public void Then_The_StringComparer_Is_Called_For_Every_Component()
+    private readonly Mock<IStringNormalizer> _mock;
+    private readonly Adres? _adres1;
+    private readonly Adres? _adres2;
+
+    public Given_Both_Adressen_Are_Not_Null()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var mock = new Mock<IStringNormalizer>();
-        var sut = new AdresComparer(mock.Object);
+        _mock = new Mock<IStringNormalizer>();
+        var sut = new AdresComparer(_mock.Object);
 
-        var adres1 = fixture.Create<Adres>();
-        var adres2 = fixture.Create<Adres>();
-        var result = sut.HasDuplicates(adres1, adres2);
+        _adres1 = fixture.Create<Adres>();
+        _adres2 = fixture.Create<Adres>();
+        sut.HasDuplicates(_adres1, _adres2);
+    }
 
-        mock.Verify(v => v.NormalizeString(adres1.Straatnaam));
-        mock.Verify(v => v.NormalizeString(adres1.Huisnummer));
-        mock.Verify(v => v.NormalizeString(adres1.Busnummer));
-        mock.Verify(v => v.NormalizeString(adres1.Gemeente));
-        mock.Verify(v => v.NormalizeString(adres1.Land));
-        mock.Verify(v => v.NormalizeString(adres1.Postcode));
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Straatnaam()
+    {
+        _mock.Verify(v => v.NormalizeString(_adres1!.Straatnaam));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Straatnaam));
+    }
 
-        mock.Verify(v => v.NormalizeString(adres2.Straatnaam));
-        mock.Verify(v => v.NormalizeString(adres2.Huisnummer));
-        mock.Verify(v => v.NormalizeString(adres2.Busnummer));
-        mock.Verify(v => v.NormalizeString(adres2.Gemeente));
-        mock.Verify(v => v.NormalizeString(adres2.Land));
-        mock.Verify(v => v.NormalizeString(adres2.Postcode));
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Huisnummer()
+    {
+        _mock.Verify(v => v.NormalizeString(_adres1!.Huisnummer));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Huisnummer));
+    }
+
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Gemeente()
+    {
+        _mock.Verify(v => v.NormalizeString(_adres1!.Gemeente));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Gemeente));
+    }
+
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Busnummer()
+    {
+        _mock.Verify(v => v.NormalizeString(_adres1!.Busnummer));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Busnummer));
+    }
+
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Land()
+    {
+        _mock.Verify(v => v.NormalizeString(_adres1!.Land));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Land));
+    }
+
+    [Fact]
+    public void Then_The_StringComparer_Is_Called_For_Postcode()
+    {
+
+        _mock.Verify(v => v.NormalizeString(_adres1!.Postcode));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Postcode));
     }
 }
