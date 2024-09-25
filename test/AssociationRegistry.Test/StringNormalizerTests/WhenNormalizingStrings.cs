@@ -1,22 +1,10 @@
-﻿namespace AssociationRegistry.Test.When_Checking_For_Duplicate_Adresses;
+﻿namespace AssociationRegistry.Test.StringNormalizerTests;
 
-using AutoFixture;
-using Common.AutoFixture;
-using Vereniging;
+using Normalizers;
 using Xunit;
 
-public class Given_Different_Straatnaam
+public class WhenNormalizingStrings
 {
-    private Fixture _fixture;
-    private Adres _adres;
-
-    public Given_Different_Straatnaam()
-    {
-        _fixture = new Fixture().CustomizeDomain();
-
-        _adres = _fixture.Create<Adres>();
-    }
-
     [InlineData("België", "België")]
     [InlineData("Kerks-traat", "Kerkstraat")]
     [InlineData("Kerkstraat", "Kerkstraat")]
@@ -64,20 +52,12 @@ public class Given_Different_Straatnaam
     [InlineData("Kerkstraat", "Kerkstraat'")] // Single quote appended
     [InlineData("Kerkstraat", "Kerkstraat\\")] // Backslash appended
     [Theory]
-    public void With_Different_Casing_Then_Returns_True(string straatnaam1, string straatnaam2)
+    public void Then_Equalizing_Returns_True(string input1, string input2)
     {
-        var adres1 = _adres with
-        {
-            Gemeente = straatnaam1,
-        };
+        var normalizer = new StringStringNormalizer();
+        var normalizedString1 = normalizer.NormalizeString(input1);
+        var normalizedString2 = normalizer.NormalizeString(input2);
 
-        var adres2 = _adres with
-        {
-            Gemeente = straatnaam2,
-        };
-
-        var result = Adres.AreDuplicates(adres1, adres2);
-
-        Assert.True(result);
+        Assert.True(normalizedString1 == normalizedString2);
     }
 }
