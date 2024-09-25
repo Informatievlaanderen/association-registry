@@ -5,8 +5,6 @@ using Events;
 using Exceptions;
 using Framework;
 using Kbo;
-using System.Text;
-using System.Text.RegularExpressions;
 
 public record Adres
 {
@@ -73,38 +71,4 @@ public record Adres
                   adres.Postcode,
                   adres.Gemeente,
                   België);
-
-    public static bool AreDuplicates(Adres? adres, Adres? otherAdres)
-    {
-        if (adres is null && otherAdres is null) return false;
-        if (adres is null && otherAdres is not null) return false;
-        if (adres is not null && otherAdres is null) return false;
-
-        return NormalizeString(adres!.Straatnaam) == NormalizeString(otherAdres!.Straatnaam) &&
-               NormalizeString(adres.Postcode) == NormalizeString(otherAdres.Postcode) &&
-               NormalizeString(adres.Huisnummer) == NormalizeString(otherAdres.Huisnummer) &&
-               NormalizeString(adres.Busnummer) == NormalizeString(otherAdres.Busnummer) &&
-               NormalizeString(adres.Gemeente) == NormalizeString(otherAdres.Gemeente) &&
-               NormalizeString(adres.Land) == NormalizeString(otherAdres.Land);
-    }
-
-    private static string NormalizeString(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return string.Empty;
-
-        // Convert to lowercase
-        input = input.ToLowerInvariant();
-
-        // Normalize to decompose accented characters
-        input = input.Normalize(NormalizationForm.FormD);
-
-        // Remove diacritics
-        input = Regex.Replace(input, @"\p{Mn}", "");
-
-        // Remove all non-alphanumeric characters
-        input = Regex.Replace(input, "[^a-z0-9]", string.Empty);
-
-        return input;
-    }
 }

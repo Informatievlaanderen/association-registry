@@ -3,6 +3,7 @@
 using Events;
 using Exceptions;
 using Framework;
+using Normalizers;
 
 public record Locatie
 {
@@ -33,11 +34,6 @@ public record Locatie
     public static Locatie Hydrate(int locatieId, string naam, bool isPrimair, string locatieType, Adres? adres, AdresId? adresId)
         => new(Locatienaam.Hydrate(naam), isPrimair, locatieType, adresId, adres) { LocatieId = locatieId };
 
-    public bool IsADuplicateOf(Locatie other)
-        => Naam == other.Naam &&
-           Locatietype == other.Locatietype &&
-           (Adres.AreDuplicates(Adres, other.Adres) ||
-            AdresId.AreDuplicates(AdresId, other.AdresId));
 
     public virtual bool Equals(Locatie? other)
     {

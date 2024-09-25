@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 
 public class Locaties : ReadOnlyCollection<Locatie>
 {
+    private LocatieComparer _locatieComparer;
+
     private const int InitialId = 1;
     public int NextId { get; }
     public Locatie? MaatschappelijkeZetel => this.SingleOrDefault(l => l.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo);
@@ -13,9 +15,12 @@ public class Locaties : ReadOnlyCollection<Locatie>
     public static Locaties Empty
         => new(Array.Empty<Locatie>(), InitialId);
 
-    private Locaties(IEnumerable<Locatie> locaties, int nextId) : base(locaties.ToArray())
+
+    private Locaties(IEnumerable<Locatie> locaties, int nextId)
+        : base(locaties.ToArray())
     {
         NextId = nextId;
+        _locatieComparer = new LocatieComparer();
     }
 
     public Locaties Hydrate(IEnumerable<Locatie> locaties)
@@ -139,5 +144,7 @@ public class Locaties : ReadOnlyCollection<Locatie>
             this.Without(locatie).HasPrimaireLocatie());
 
     private void MustNotHaveDuplicateOf(Locatie locatie)
-        => Throw<LocatieIsNietUniek>.If(this.Without(locatie).ContainsEquivalent(locatie));
+    {
+        Throw<LocatieIsNietUniek>.If(_locatieComparer.HasDuplicates(this.Without(locatie), locatie));
+    }
 }
