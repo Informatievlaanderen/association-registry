@@ -9,7 +9,7 @@ public class LocatieComparer
 
     public LocatieComparer()
     {
-        _adresComparer = new AdresComparer(new StringStringNormalizer());
+        _adresComparer = new AdresComparer(new AdresComponentNormalizer());
         _adresIdComparer = new AdresIdComparer();
     }
 

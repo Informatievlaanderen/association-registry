@@ -3,7 +3,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-public class StringStringNormalizer : IStringNormalizer
+public class AdresComponentNormalizer : IStringNormalizer
 {
     public string NormalizeString(string input)
     {
@@ -25,10 +25,3 @@ public class StringStringNormalizer : IStringNormalizer
         return input;
     }
 }
-
-public interface IStringNormalizer
-{
-    public string NormalizeString(string input);
-}
-
-
