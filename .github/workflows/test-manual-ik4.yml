@@ -28,7 +28,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@v2.1.0
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
           environment: test
           version: ${{ github.event.inputs.version }}
@@ -65,7 +65,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/test/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/test/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@v2.1.0
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
           environment: test
           version: ${{ github.event.inputs.version }}
