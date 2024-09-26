@@ -39,51 +39,18 @@ public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFix
     }
 
     [Fact]
-    public async Task Does_Not_Return_IsUitgeschrevenUitPubliekeDatastroom_Verenigingen()
-    {
-        var uitgeschrevenVereniging = await StoreVereniging(_session, vereniging =>
-        {
-            vereniging.IsUitgeschrevenUitPubliekeDatastroom = true;
-            vereniging.Status = VerenigingStatus.Actief;
-        });
-
-        var query = new PubliekDetailAllQuery(_session);
-
-        var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
-
-        actual.Should().NotContain(x => x.VCode == uitgeschrevenVereniging.VCode);
-    }
-
-    [Fact]
-    public async Task Does_Not_Return_Gestopte_Verenigingen()
+    public async Task Does_Return_Verwijderde_Verenigingen()
     {
         var gestopteVereniging = await StoreVereniging(_session, vereniging =>
         {
-            vereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
-            vereniging.Status = VerenigingStatus.Gestopt;
+            vereniging.Deleted = true;
         });
 
         var query = new PubliekDetailAllQuery(_session);
 
         var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
 
-        actual.Should().NotContain(x => x.VCode == gestopteVereniging.VCode);
-    }
-
-    [Fact]
-    public async Task Does_Return_Actieve_En_Ingeschreven_Verenigingen()
-    {
-        var vereniging = await StoreVereniging(_session, vereniging =>
-        {
-            vereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
-            vereniging.Status = VerenigingStatus.Actief;
-        });
-
-        var query = new PubliekDetailAllQuery(_session);
-
-        var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
-
-        actual.Should().Contain(x => x.VCode == vereniging.VCode);
+        actual.Should().Contain(x => x.VCode == gestopteVereniging.VCode);
     }
 
     private async Task<PubliekVerenigingDetailDocument> StoreVereniging(IDocumentSession session, Action<PubliekVerenigingDetailDocument> func)

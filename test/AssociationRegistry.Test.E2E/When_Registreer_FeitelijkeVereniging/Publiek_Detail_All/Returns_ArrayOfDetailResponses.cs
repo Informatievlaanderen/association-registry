@@ -31,7 +31,7 @@ public class Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContex
         context)
 {
     protected override Func<IAlbaHost, PubliekVerenigingDetailResponse[]> GetResponse =>
-        host => host.GetPubliekDetailAll();
+        host => host.GetPubliekDetailAll<PubliekVerenigingDetailResponse>();
 
     [Fact]
     public void With_Context()

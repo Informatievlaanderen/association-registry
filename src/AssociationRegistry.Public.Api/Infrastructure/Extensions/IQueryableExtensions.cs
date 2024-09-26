@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using Marten.Linq.SoftDeletes;
 using Schema;
 using Schema.Constants;
 using Schema.Detail;
@@ -20,4 +21,8 @@ public static class IQueryableExtensions
         => source.Where(x => !x.IsUitgeschrevenUitPubliekeDatastroom.HasValue ||
                              (x.IsUitgeschrevenUitPubliekeDatastroom.HasValue &&
                              !x.IsUitgeschrevenUitPubliekeDatastroom.Value));
+
+    public static IQueryable<T> IncludeDeleted<T>(this IQueryable<T> source)
+        where T : ICanBeUitgeschrevenUitPubliekeDatastroom
+        => source.Where(x => x.MaybeDeleted());
 }
