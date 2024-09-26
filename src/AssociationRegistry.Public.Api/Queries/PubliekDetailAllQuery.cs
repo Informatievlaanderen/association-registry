@@ -16,8 +16,7 @@ public class PubliekDetailAllQuery : IQuery<IAsyncEnumerable<PubliekVerenigingDe
     public async Task<IAsyncEnumerable<PubliekVerenigingDetailDocument>> ExecuteAsync(CancellationToken cancellationToken)
     {
         return _session.Query<PubliekVerenigingDetailDocument>()
-                       .OnlyIngeschrevenInPubliekeDatastroom()
-                       .OnlyActief()
+                       .IncludeDeleted()
                        .ToAsyncEnumerable(cancellationToken);
     }
 }

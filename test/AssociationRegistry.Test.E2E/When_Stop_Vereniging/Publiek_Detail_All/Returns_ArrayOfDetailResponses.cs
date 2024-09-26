@@ -11,13 +11,17 @@ using Xunit;
 
 [Collection(StopVerenigingPublicCollection.Name)]
 public class Returns_ArrayOfDetailResponses(StopVerenigingContext<PublicApiSetup> context)
-    : End2EndTest<StopVerenigingContext<PublicApiSetup>, StopVerenigingRequest, PubliekVerenigingDetailResponse[]>(
+    : End2EndTest<StopVerenigingContext<PublicApiSetup>, StopVerenigingRequest, TeVerwijderenVereniging[]>(
         context)
 {
-    protected override Func<IAlbaHost, PubliekVerenigingDetailResponse[]> GetResponse =>
-        host => host.GetPubliekDetailAll();
+    protected override Func<IAlbaHost, TeVerwijderenVereniging[]> GetResponse =>
+        host => host.GetPubliekDetailAll<TeVerwijderenVereniging>();
 
     [Fact]
     public void WithVereniging()
-        => Response.Should().BeEmpty();
+        => Response.Single().Should().BeEquivalentTo(new TeVerwijderenVereniging
+        {
+            VCode = VCode,
+            TeVerwijderen = true,
+        });
 }
