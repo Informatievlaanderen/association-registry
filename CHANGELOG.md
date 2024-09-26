@@ -1,3 +1,16 @@
+# [8.149.0](https://github.com/informatievlaanderen/association-registry/compare/v8.148.4...v8.149.0) (2024-09-26)
+
+
+### Bug Fixes
+
+* or-2421 change givenstraatnaam back to straatnaam ([6a8735f](https://github.com/informatievlaanderen/association-registry/commit/6a8735f85a0aa1ff81a62cbe4b315c70a63650a4))
+
+
+### Features
+
+* or-2421 remove non-alphanumeric when comparing adressesÃ ([4d948d9](https://github.com/informatievlaanderen/association-registry/commit/4d948d90ef2f6b544a886f6377d5f210dd22a8fc))
+* or-2421 rename to AdresComponentNormalizer ([95d9a8d](https://github.com/informatievlaanderen/association-registry/commit/95d9a8dbc72f269cad448597b9a320120a114fc6))
+
 ## [8.148.4](https://github.com/informatievlaanderen/association-registry/compare/v8.148.3...v8.148.4) (2024-09-24)
 
 
