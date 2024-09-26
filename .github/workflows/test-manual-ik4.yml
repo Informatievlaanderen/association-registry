@@ -39,6 +39,7 @@ jobs:
           deploy-target: 'ecs'
           domain: 'verenigingsregister'
           project: 'verenigingsregister'
+          application: ${{matrix.services}}
           interval: 2
       - name: output
         shell: bash
@@ -76,6 +77,7 @@ jobs:
           domain: 'verenigingsregister'
           project: 'verenigingsregister'
           deploy-target: 'ecs'
+          application: ${{matrix.services}}
           interval: 2
       - name: output
         shell: bash
