@@ -1,3 +1,11 @@
+# [8.150.0](https://github.com/informatievlaanderen/association-registry/compare/v8.149.0...v8.150.0) (2024-09-26)
+
+
+### Features
+
+* or-2441 add domain and project to aws commands ([451e9ff](https://github.com/informatievlaanderen/association-registry/commit/451e9ff1a7b39c7d035266c775f0eb25c6ad87d8))
+* or-2441 add domain and project to manual deploy to tst ([05b44b7](https://github.com/informatievlaanderen/association-registry/commit/05b44b708645f8d5034cd906fdd313a2f7e5620f))
+
 # [8.149.0](https://github.com/informatievlaanderen/association-registry/compare/v8.148.4...v8.149.0) (2024-09-26)
 
 
