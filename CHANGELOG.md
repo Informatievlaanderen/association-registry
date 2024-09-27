@@ -1,3 +1,11 @@
+## [8.150.1](https://github.com/informatievlaanderen/association-registry/compare/v8.150.0...v8.150.1) (2024-09-27)
+
+
+### Bug Fixes
+
+* or-2441 force build ([a658271](https://github.com/informatievlaanderen/association-registry/commit/a658271faec0408105103d9c845aca49f7d1a4cc))
+* update test manual ik4 with an application argument ([f2f08c7](https://github.com/informatievlaanderen/association-registry/commit/f2f08c75eca4f2264da18b2e9fff67b03c0abc2b))
+
 # [8.150.0](https://github.com/informatievlaanderen/association-registry/compare/v8.149.0...v8.150.0) (2024-09-26)
 
 
