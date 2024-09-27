@@ -348,7 +348,6 @@ jobs:
       version: ${{ steps.set-version.outputs.version }}
 
     steps:
-      # build
       - name: Checkout Code
         uses: actions/checkout@v4
 
