@@ -2,10 +2,12 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using FluentValidation;
 using Infrastructure.Validation;
+using Normalizers;
 using Vereniging;
 
 public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
 {
+    private static readonly AdresComponentNormalizer _normalizer = new();
     public const string MustHaveAdresOrAdresIdMessage = "'Locatie' moet of een adres of een adresId bevatten.";
 
     public ToeTeVoegenLocatieValidator()
@@ -50,12 +52,31 @@ public class ToeTeVoegenLocatieValidator : AbstractValidator<ToeTeVoegenLocatie>
         => locaties.Count(l => string.Equals(l.Locatietype, Locatietype.Correspondentie, StringComparison.InvariantCultureIgnoreCase)) <= 1;
 
     internal static bool NotHaveDuplicates(ToeTeVoegenLocatie[] locaties)
-        => locaties.Length == locaties.DistinctBy(ToAnonymousObject).Count();
+        => locaties.Length == locaties
+                             .DistinctBy(ToNormalized)
+                             .Count();
 
-    private static object ToAnonymousObject(ToeTeVoegenLocatie l)
-        => new
+    private static object ToNormalized(ToeTeVoegenLocatie l)
+    {
+        var straatnaam = _normalizer.NormalizeString(l.Adres?.Straatnaam);
+        var huisnummer = _normalizer.NormalizeString(l.Adres?.Huisnummer);
+        var busnummer = _normalizer.NormalizeString(l.Adres?.Busnummer);
+        var postcode = _normalizer.NormalizeString(l.Adres?.Postcode);
+        var gemeente = _normalizer.NormalizeString(l.Adres?.Gemeente);
+        var land = _normalizer.NormalizeString(l.Adres?.Land);
+
+        return new
         {
-            l.Locatietype, l.Naam, l.Adres?.Straatnaam, l.Adres?.Huisnummer, l.Adres?.Busnummer, l.Adres?.Postcode, l.Adres?.Gemeente,
-            l.Adres?.Land, l.AdresId?.Bronwaarde, l.AdresId?.Broncode,
+            l.Locatietype,
+            l.Naam,
+            straatnaam,
+            huisnummer,
+            busnummer,
+            postcode,
+            gemeente,
+            land,
+            l.AdresId?.Bronwaarde,
+            l.AdresId?.Broncode,
         };
+    }
 }
