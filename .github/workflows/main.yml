@@ -737,6 +737,7 @@ jobs:
           deploy-target: 'ecs'
           domain: 'verenigingsregister'
           project: 'verenigingsregister'
+          application: ${{matrix.services}}
           interval: 2
       - name: output
         shell: bash
