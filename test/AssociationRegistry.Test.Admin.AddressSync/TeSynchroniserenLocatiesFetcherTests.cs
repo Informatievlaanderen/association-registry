@@ -22,7 +22,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     {
         var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var teSynchroniserenLocatiesFetcher =
             new TeSynchroniserenLocatiesFetcher(Mock.Of<IGrarClient>(), NullLogger<TeSynchroniserenLocatiesFetcher>.Instance);
@@ -36,9 +36,9 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async Task Given_1_LocatieLookupDocumenten_Returns_1_Locatie()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
+        await using var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var document = new LocatieLookupDocument
         {
@@ -79,10 +79,10 @@ public class TeSynchroniserenLocatiesFetcherTests
     public async Task Given_Several_LocatieLookupDocumenten_Returns_Grouped_Messages()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
+        await using var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
         var grarClient = new Mock<IGrarClient>();
 
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var vCode1 = "VCode1";
         var vCode2 = "VCode2";
@@ -131,7 +131,7 @@ public class TeSynchroniserenLocatiesFetcherTests
         var fixture = new Fixture().CustomizeDomain();
         var store = await TestDocumentStoreFactory.Create(nameof(TeSynchroniserenLocatiesFetcherTests));
 
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         var document = new LocatieLookupDocument
         {

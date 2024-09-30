@@ -66,6 +66,11 @@ public class PublicApiSetup : IApiSetup
     public async Task DisposeAsync()
     {
         await AdminApiHost.Services.GetRequiredService<IDocumentStore>().Advanced.ResetAllData();
+        await AdminApiHost.StopAsync();
+        await QueryApiHost.StopAsync();
+        await ProjectionHost.StopAsync();
         await AdminApiHost.DisposeAsync();
+        await QueryApiHost.DisposeAsync();
+        await ProjectionHost.DisposeAsync();
     }
 }

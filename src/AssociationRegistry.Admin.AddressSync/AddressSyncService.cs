@@ -25,7 +25,7 @@ public class AddressSyncService(
 
     protected override async Task ExecuteAsync(CancellationToken cancellationToken)
     {
-        var session = store.LightweightSession();
+        await using var session = store.LightweightSession();
 
         try
         {
