@@ -25,9 +25,11 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
     [Fact]
     public async Task ARecordIsStored_With_Hoofdactiviteiten()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .Where(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode)
                  .SingleAsync();
@@ -49,9 +51,11 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
     [Fact]
     public async Task ARecordIsStored_With_Historiek()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .SingleAsync(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 

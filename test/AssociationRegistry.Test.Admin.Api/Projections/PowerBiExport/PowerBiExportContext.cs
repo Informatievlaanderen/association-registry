@@ -24,11 +24,12 @@ public class RegistreerVerenigingCollection : ICollectionFixture<PowerBiExportCo
 public class PowerBiExportContext : IAsyncLifetime
 {
     private string? _dbName = "prowerbiexportprojections";
+    private IDocumentStore? _store;
     private const string RootDatabase = @"postgres";
 
     public string? AuthCookie { get; private set; }
     public IAlbaHost ProjectionHost { get; private set; }
-    public IDocumentSession Session { get; private set; }
+    public IDocumentSession Session => _store.LightweightSession();
 
     public async Task InitializeAsync()
     {
@@ -42,17 +43,19 @@ public class PowerBiExportContext : IAsyncLifetime
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, _dbName));
 
-        await ProjectionHost.DocumentStore().Advanced.ResetAllData();
+        _store = ProjectionHost.DocumentStore();
+        await _store.Advanced.ResetAllData();
 
-        await ProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await _store.Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
         await ProjectionHost.ResumeAllDaemonsAsync();
 
-        Session = ProjectionHost.DocumentStore().LightweightSession();
     }
 
     public async Task DisposeAsync()
-    { }
+    {
+        await ProjectionHost.DisposeAsync();
+    }
 
     private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
     {
