@@ -24,9 +24,11 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<Feitelijke
     [Fact]
     public async Task ARecordIsStored_For_Vereniging1_With_StatusVerwijderd()
     {
+        await using var documentSession = _context
+           .Session;
+
         var vereniging1 =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .Where(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd1.VCode)
                  .SingleOrDefaultAsync();
@@ -38,9 +40,11 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<Feitelijke
     [Fact]
     public async Task ARecordIsStored_For_Vereniging2()
     {
+        await using var documentSession = _context
+           .Session;
+
         var vereniging2 =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .SingleOrDefaultAsync(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd2.VCode);
 

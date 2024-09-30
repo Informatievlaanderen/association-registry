@@ -23,9 +23,11 @@ public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
     [Fact]
     public async Task AGebeurtenisIsAddedForEachEvent()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .Where(doc => doc.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
                  .SingleAsync();
