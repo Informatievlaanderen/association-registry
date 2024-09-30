@@ -1,3 +1,10 @@
+# [8.151.0](https://github.com/informatievlaanderen/association-registry/compare/v8.150.1...v8.151.0) (2024-09-30)
+
+
+### Features
+
+* or-2421 check for duplicates with equivalence as soon as request validation ([e0d42be](https://github.com/informatievlaanderen/association-registry/commit/e0d42bead456ca75f08aace572cffe7e2c1d1154))
+
 ## [8.150.1](https://github.com/informatievlaanderen/association-registry/compare/v8.150.0...v8.150.1) (2024-09-27)
 
 
