@@ -4,6 +4,7 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Infrastructure.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
+using ResponseModels;
 using Schema.Constants;
 using Schema.Detail;
 using System.Text;
@@ -34,8 +35,11 @@ public class ResponseWriter : IResponseWriter
                     JsonConvert.SerializeObject(
                         new
                         {
-                            vCode = vereniging.VCode,
-                            TeVerwijderen = true,
+                            vereniging = new
+                            {
+                                vCode = vereniging.VCode,
+                                teVerwijderen = true,
+                            },
                         },
                         _serializerSettings);
 

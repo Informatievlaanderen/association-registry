@@ -2,11 +2,11 @@
 
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using Alba;
+using Data;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(StopVerenigingPublicCollection.Name)]
@@ -21,7 +21,10 @@ public class Returns_ArrayOfDetailResponses(StopVerenigingContext<PublicApiSetup
     public void WithVereniging()
         => Response.Single().Should().BeEquivalentTo(new TeVerwijderenVereniging
         {
-            VCode = VCode,
-            TeVerwijderen = true,
+            Vereniging = new TeVerwijderenVerenigingData()
+            {
+                VCode = VCode,
+                TeVerwijderen = true,
+            },
         });
 }
