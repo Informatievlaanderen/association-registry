@@ -1,24 +1,18 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Wijzig_Locatie.Beheer_Detail;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Test.E2E.Data;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.V2.When_Wijzig_Locatie;
-using Azure.Core;
-using FluentAssertions;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Framework.AlbaHost;
+using When_Wijzig_Locatie;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Newtonsoft.Json;
-using Scenarios;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
-using Xunit.Abstractions;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
-[Collection(RegistreerVerenigingAdminCollection2.Name)]
+[Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocatieContext>, IAsyncLifetime
 {
     private readonly WijzigLocatieContext _context;

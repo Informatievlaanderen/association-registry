@@ -1,17 +1,13 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
 
-using Acties.WijzigLocatie;
-using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using Alba;
 using Events;
 using Framework.ApiSetup;
-using Framework.TestClasses;
 using Marten;
 using Marten.Events;
 using System.Net;
 using Vereniging;
-using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
 {

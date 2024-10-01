@@ -1,17 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Stop_Vereniging.Publiek_Detail_All;
 
-using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Test.E2E.Data;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using E2E.When_Stop_Vereniging;
+using Data;
+using Framework.AlbaHost;
 using FluentAssertions;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(RegistreerVerenigingAdminCollection2.Name)]
+[Collection(FullBlownApiCollection.Name)]
 public class Returns_ArrayOfDetailResponses : IClassFixture<StopVerenigingContext>, IAsyncLifetime
 {
     private readonly StopVerenigingContext _context;

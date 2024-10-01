@@ -5,7 +5,6 @@ using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Alba;
 using Newtonsoft.Json;
 using Public.Api.Verenigingen.Detail.ResponseModels;
-using System.Runtime.InteropServices.JavaScript;
 
 public static class AdminApiEndpoints
 {

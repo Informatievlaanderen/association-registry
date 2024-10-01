@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using E2E.Scenarios.Commands;
 using Marten.Events;
 using Xunit;

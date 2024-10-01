@@ -1,15 +1,11 @@
 namespace AssociationRegistry.Test.E2E.Scenarios;
 
-using Acties.StopVereniging;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Commands;
 using Common.AutoFixture;
 using Events;
 using EventStore;
-using Framework.ApiSetup;
 using Framework.TestClasses;
 using Vereniging;
 

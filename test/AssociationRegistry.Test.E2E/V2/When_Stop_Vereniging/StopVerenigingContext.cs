@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Test.E2E.V2.When_Stop_Vereniging;
 
 using Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using E2E.Scenarios.Commands;
 using Marten.Events;
 using Xunit;

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
-using Admin.Api.Infrastructure.HttpClients;
 using Alba;
 using AlbaHost;
 using AssociationRegistry.Framework;
@@ -15,7 +14,6 @@ using Microsoft.Extensions.Logging;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
-using Scenarios;
 using TestClasses;
 using Vereniging;
 using Xunit;
