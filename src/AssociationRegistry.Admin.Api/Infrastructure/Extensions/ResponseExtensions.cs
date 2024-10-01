@@ -21,4 +21,13 @@ public static class ResponseExtensions
         var responseHeaders = source.GetTypedHeaders();
         responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), isWeak: true);
     }
+
+    public static void AddVertegenwoordigerHeader(this HttpResponse source, string vertegenwoordigerId, string baseUrl)
+    {
+        if (string.IsNullOrEmpty(vertegenwoordigerId))
+            return;
+
+        var responseHeaders = source.GetTypedHeaders();
+        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/vertegenwoordigers/{vertegenwoordigerId}");
+    }
 }

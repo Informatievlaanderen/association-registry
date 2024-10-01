@@ -9,6 +9,7 @@ using AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -25,20 +26,26 @@ public class With_Valid_Request
 {
     private readonly VoegVertegenwoordigerToeController _controller;
     private readonly Fixture _fixture;
-    private readonly CommandResult _commandResult;
+    private readonly EntityCommandResult _entityCommandResult;
 
     public With_Valid_Request()
     {
         _fixture = new Fixture().CustomizeAdminApi();
 
         var messageBusMock = new Mock<IMessageBus>();
-        _commandResult = new Fixture().CustomizeAdminApi().Create<CommandResult>();
+        _entityCommandResult = new Fixture().CustomizeAdminApi().Create<EntityCommandResult>();
 
         messageBusMock
-           .Setup(mb => mb.InvokeAsync<CommandResult>(It.IsAny<CommandEnvelope<VoegVertegenwoordigerToeCommand>>(), default, null))
-           .ReturnsAsync(_commandResult);
+           .Setup(mb => mb.InvokeAsync<EntityCommandResult>(It.IsAny<CommandEnvelope<VoegVertegenwoordigerToeCommand>>(), default, null))
+           .ReturnsAsync(_entityCommandResult);
 
-        _controller = new VoegVertegenwoordigerToeController(messageBusMock.Object, new VoegVertegenwoordigerToeValidator())
+        _controller = new VoegVertegenwoordigerToeController(
+                messageBusMock.Object,
+                new VoegVertegenwoordigerToeValidator(),
+                new AppSettings()
+                {
+                    BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
+                })
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
@@ -67,7 +74,7 @@ public class With_Valid_Request
 
         using (new AssertionScope())
         {
-            _controller.Response.Headers[WellknownHeaderNames.Sequence].Should().BeEquivalentTo(_commandResult.Sequence.ToString());
+            _controller.Response.Headers[WellknownHeaderNames.Sequence].Should().BeEquivalentTo(_entityCommandResult.Sequence.ToString());
         }
     }
 
@@ -82,7 +89,24 @@ public class With_Valid_Request
         using (new AssertionScope())
         {
             _controller.Response.GetTypedHeaders().ETag.Should()
-                       .BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_commandResult.Version}"""), isWeak: true));
+                       .BeEquivalentTo(new EntityTagHeaderValue(new StringSegment($@"""{_entityCommandResult.Version}"""), isWeak: true));
+        }
+    }
+
+    [Fact]
+    public async Task Then_it_returns_an_entity_id()
+    {
+        await _controller.Post(
+            _fixture.Create<VCode>(),
+            _fixture.Create<VoegVertegenwoordigerToeRequest>(),
+            _fixture.Create<CommandMetadataProviderStub>());
+
+        using (new AssertionScope())
+        {
+            _controller.Response.GetTypedHeaders().Location.Should()
+                       .BeEquivalentTo(
+                            new Uri(
+                                $"https://beheer.verenigingen.vlaanderen.be/v1/verenigingen/vertegenwoordigers/{_entityCommandResult.EntityId}"));
         }
     }
 }

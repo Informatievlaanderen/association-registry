@@ -13,7 +13,7 @@ public class VoegVertegenwoordigerToeCommandHandler
         _repository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(
+    public async Task<EntityCommandResult> Handle(
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
         CancellationToken cancellationToken = default)
     {
@@ -21,10 +21,10 @@ public class VoegVertegenwoordigerToeCommandHandler
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 
-        vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
+        var vertegenwoordigerId = vereniging.VoegVertegenwoordigerToe(envelope.Command.Vertegenwoordiger);
 
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 
-        return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), vertegenwoordigerId.ToString(), result);
     }
 }

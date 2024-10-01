@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVe
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -28,10 +29,16 @@ public class With_Valid_ETag : IAsyncLifetime
         _messageBusMock = new Mock<IMessageBus>();
 
         _messageBusMock
-           .Setup(x => x.InvokeAsync<CommandResult>(It.IsAny<object>(), default, null))
-           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<CommandResult>());
+           .Setup(x => x.InvokeAsync<EntityCommandResult>(It.IsAny<object>(), default, null))
+           .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<EntityCommandResult>());
 
-        _toeController = new VoegVertegenwoordigerToeController(_messageBusMock.Object, new VoegVertegenwoordigerToeValidator())
+        _toeController = new VoegVertegenwoordigerToeController(
+                _messageBusMock.Object,
+                new VoegVertegenwoordigerToeValidator(),
+                new AppSettings()
+                {
+                    BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
+                })
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
@@ -49,7 +56,7 @@ public class With_Valid_ETag : IAsyncLifetime
     {
         _messageBusMock.Verify(
             expression: messageBus =>
-                messageBus.InvokeAsync<CommandResult>(
+                messageBus.InvokeAsync<EntityCommandResult>(
                     It.Is<CommandEnvelope<VoegVertegenwoordigerToeCommand>>(
                         env =>
                             env.Metadata.ExpectedVersion == ETagNumber),

@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
@@ -28,11 +29,13 @@ public class VoegVertegenwoordigerToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<VoegVertegenwoordigerToeRequest> _validator;
+    private readonly AppSettings _appSettings;
 
-    public VoegVertegenwoordigerToeController(IMessageBus messageBus, IValidator<VoegVertegenwoordigerToeRequest> validator)
+    public VoegVertegenwoordigerToeController(IMessageBus messageBus, IValidator<VoegVertegenwoordigerToeRequest> validator, AppSettings appSettings)
     {
         _messageBus = messageBus;
         _validator = validator;
+        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -46,6 +49,7 @@ public class VoegVertegenwoordigerToeController : ApiController
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="request">De gegevens van de toe te voegen vertegenwoordiger</param>
     /// <param name="metadataProvider"></param>
+    /// <param name="appSettings"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">De vertegenwoordiger werd toegevoegd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -76,10 +80,11 @@ public class VoegVertegenwoordigerToeController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegVertegenwoordigerToeCommand>(request.ToCommand(vCode), metaData);
-        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
+        var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
+        Response.AddVertegenwoordigerHeader(commandResult.EntityId, _appSettings.BaseUrl);
 
         return Accepted();
     }
