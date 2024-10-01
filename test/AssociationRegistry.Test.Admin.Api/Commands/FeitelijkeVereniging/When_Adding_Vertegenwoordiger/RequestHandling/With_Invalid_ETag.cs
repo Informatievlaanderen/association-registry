@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVe
 using AutoFixture;
 using FluentAssertions;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -24,7 +25,13 @@ public class With_Invalid_ETag
         _fixture = new Fixture().CustomizeAdminApi();
         var messageBusMock = new Mock<IMessageBus>();
 
-        _controller = new VoegVertegenwoordigerToeController(messageBusMock.Object, new VoegVertegenwoordigerToeValidator())
+        _controller = new VoegVertegenwoordigerToeController(
+                messageBusMock.Object,
+                new VoegVertegenwoordigerToeValidator(),
+                new AppSettings()
+                {
+                    BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
+                })
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 

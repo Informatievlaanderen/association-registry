@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -16,7 +17,13 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBus = Mock.Of<IMessageBus>();
-        _controller = new VoegVertegenwoordigerToeController(messageBus, new VoegVertegenwoordigerToeValidator());
+        _controller = new VoegVertegenwoordigerToeController(
+            messageBus,
+            new VoegVertegenwoordigerToeValidator(),
+            new AppSettings()
+            {
+                BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
+            });
     }
 
     [Fact]
