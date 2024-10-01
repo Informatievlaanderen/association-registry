@@ -26,11 +26,11 @@ jobs:
       - name: CD
         id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/staging/deploy/v4
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/staging/deploy/v4/status
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/stg/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: staging
+          environment: stg
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
@@ -64,11 +64,11 @@ jobs:
       - name: CD
         id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/staging/deploy/v4
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/staging/deploy/v4/status
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/stg/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: staging
+          environment: stg
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
