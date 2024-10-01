@@ -1,3 +1,10 @@
+## [8.152.1](https://github.com/informatievlaanderen/association-registry/compare/v8.152.0...v8.152.1) (2024-10-01)
+
+
+### Bug Fixes
+
+* or-2441 use stg instead of staging as environment name inside workflow files ([568ef49](https://github.com/informatievlaanderen/association-registry/commit/568ef49575d7d96dd2461b4987fad7782f55c205))
+
 # [8.152.0](https://github.com/informatievlaanderen/association-registry/compare/v8.151.0...v8.152.0) (2024-10-01)
 
 
