@@ -53,7 +53,7 @@ public class WijzigLocatieContext<T> : End2EndContext<WijzigLocatieRequest, Feit
         {
             s.Patch
              .Json(Request, JsonStyle.MinimalApi)
-             .ToUrl($"/v1/verenigingen/{Scenario.VCode}/locaties/{Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
+             .ToUrl($"/v1/verenigingen/{Scenario.VCode}/locaties/{Scenario.VerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });

@@ -1,25 +1,29 @@
 namespace AssociationRegistry.Test.E2E.Scenarios;
 
+using Acties.StopVereniging;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
 using EventStore;
+using Framework.ApiSetup;
 using Framework.TestClasses;
 using Vereniging;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
-    public readonly CommandMetadata Metadata;
-    public VCode VCode { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; set; }
+    private CommandMetadata Metadata;
+    public string VCode { get; private set; }
 
-    public FeitelijkeVerenigingWerdGeregistreerdScenario()
+    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        VCode = VCode.Create("V1000100");
+        VCode = await service.GetNext();
 
-        FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
+        VerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
             Naam: "Feestcommittee Oudenaarde",
             KorteNaam: "FOud",
@@ -92,13 +96,27 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                 new(HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
             });
 
-        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+                Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+
+        return new Dictionary<string, IEvent[]>()
+        {
+            {VCode, [VerenigingWerdGeregistreerd] },
+        };
     }
 
-    public IEvent[] CreateEvents()
-        => [FeitelijkeVerenigingWerdGeregistreerd];
+    public async Task WhenCommand(FullBlownApiSetup setup)
+    {
+        Request = new StopVerenigingRequest
+        {
+            Einddatum = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)
+        };
+    }
+
+    public IEvent[] GivenEvents()
+        => [VerenigingWerdGeregistreerd];
 
     public StreamActionResult Result { get; set; } = null!;
+    public StopVerenigingRequest Request { get; set; }
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

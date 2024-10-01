@@ -1,36 +1,28 @@
-namespace AssociationRegistry.Test.E2E.Scenarios;
+namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
 
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
-using Framework.TestClasses;
 using Hosts.Configuration.ConfigurationBindings;
+using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
-using Marten.Events;
-using IEvent = AssociationRegistry.Framework.IEvent;
 
-public class EmptyScenario : IScenario
+public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<VCode>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
-    public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
-    public string VCode { get; private set; }
 
-    public Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService requiredService)
-        => Task.FromResult(new Dictionary<string, IEvent[]>());
-
-    public async Task WhenCommand(FullBlownApiSetup setup)
+    public async Task<VCode> Run(IApiSetup setup)
     {
-        var autoFixture = new Fixture().CustomizeAdminApi();
+                var autoFixture = new Fixture().CustomizeAdminApi();
 
-        Request = new RegistreerFeitelijkeVerenigingRequest
+        var request = new RegistreerFeitelijkeVerenigingRequest
         {
             Naam = autoFixture.Create<string>(),
             KorteNaam = autoFixture.Create<string>(),
@@ -131,11 +123,10 @@ public class EmptyScenario : IScenario
             ],
             HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
         };
-
-        VCode = (await setup.AdminApiHost.Scenario(s =>
+        var vCode = (await setup.AdminApiHost.Scenario(s =>
         {
             s.Post
-             .Json(Request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.MinimalApi)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
@@ -148,8 +139,12 @@ public class EmptyScenario : IScenario
         })).Context.Response.Headers.Location.First().Split('/').Last();
 
         await setup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-    }
 
-    public CommandMetadata GetCommandMetadata()
-        => null;
+        return VCode.Create(vCode);
+    }
+}
+
+public interface ITestCommandFactory<T>
+{
+    Task<T> Run(IApiSetup setup);
 }
