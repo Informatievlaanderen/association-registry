@@ -5,6 +5,7 @@ using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Commands;
 using Common.AutoFixture;
 using Events;
 using EventStore;
@@ -12,18 +13,18 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Vereniging;
 
-public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
+public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGeregistreerdScenario, IScenario
 {
-    public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; set; }
+    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;
-    public string VCode { get; private set; }
+    public VCode VCode { get; private set; }
 
     public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = await service.GetNext();
 
-        VerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
+        FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
             Naam: "Feestcommittee Oudenaarde",
             KorteNaam: "FOud",
@@ -100,23 +101,14 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 
         return new Dictionary<string, IEvent[]>()
         {
-            {VCode, [VerenigingWerdGeregistreerd] },
-        };
-    }
-
-    public async Task WhenCommand(FullBlownApiSetup setup)
-    {
-        Request = new StopVerenigingRequest
-        {
-            Einddatum = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)
+            {VCode, [FeitelijkeVerenigingWerdGeregistreerd] },
         };
     }
 
     public IEvent[] GivenEvents()
-        => [VerenigingWerdGeregistreerd];
+        => [FeitelijkeVerenigingWerdGeregistreerd];
 
     public StreamActionResult Result { get; set; } = null!;
-    public StopVerenigingRequest Request { get; set; }
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

@@ -4,7 +4,6 @@ using Framework.ApiSetup;
 using When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates;
 using When_Registreer_FeitelijkeVereniging;
 using When_Stop_Vereniging;
-using When_Wijzig_Locatie;
 using Xunit;
 
 [CollectionDefinition(Name)]
@@ -42,10 +41,4 @@ public class RegistreerVerenigingWithPotentialDuplicatesPublicCollection : IColl
 public class StopVerenigingPublicCollection : ICollectionFixture<StopVerenigingContext<PublicApiSetup>>
 {
     public const string Name = "stopverenigingpublic";
-}
-
-[CollectionDefinition(Name)]
-public class WijzigLocatieAdminCollection : ICollectionFixture<WijzigLocatieContext<AdminApiSetup>>
-{
-    public const string Name = "wijziglocatieadmin";
 }

@@ -1,0 +1,63 @@
+namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
+
+using Acties.WijzigLocatie;
+using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using Admin.Api.Verenigingen.Stop.RequestModels;
+using Alba;
+using Events;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using Marten;
+using Marten.Events;
+using System.Net;
+using Vereniging;
+using Adres = Admin.Api.Verenigingen.Common.Adres;
+
+public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
+{
+    private readonly IVerenigingWerdGeregistreerdScenario _scenario;
+
+    public StopVerenigingRequestFactory(IVerenigingWerdGeregistreerdScenario scenario)
+    {
+        _scenario = scenario;
+    }
+
+    public async Task<RequestResult<StopVerenigingRequest>> ExecuteRequest(FullBlownApiSetup apiSetup)
+    {
+        var request = new StopVerenigingRequest
+        {
+            Einddatum = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)
+        };
+
+        await apiSetup.AdminApiHost.Scenario(s =>
+        {
+            s.Post
+             .Json(request, JsonStyle.MinimalApi)
+             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/stop");
+
+            s.StatusCodeShouldBe(HttpStatusCode.Accepted);
+        });
+
+        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+
+        return new RequestResult<StopVerenigingRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+    }
+
+    protected async Task WaitForAdresMatchEvent(FullBlownApiSetup apiSetup)
+    {
+        await using var session = apiSetup.AdminProjectionHost.DocumentStore().LightweightSession();
+        var events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+        var counter = 0;
+
+        while (!events.Any(a => a.EventType == typeof(AdresWerdOvergenomenUitAdressenregister)))
+        {
+            await Task.Delay(300);
+            events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+            if (++counter > 20)
+                throw new Exception(
+                    $"Kept waiting for Adresmatch... Events committed: {string.Join(separator: ", ", events.Select(x => x.EventTypeName))}");
+        }
+    }}
