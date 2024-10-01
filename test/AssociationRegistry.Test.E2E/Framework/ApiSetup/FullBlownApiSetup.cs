@@ -1,0 +1,107 @@
+﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
+
+using Admin.Api;
+using Admin.Api.Infrastructure.HttpClients;
+using Alba;
+using AlbaHost;
+using Hosts.Configuration.ConfigurationBindings;
+using Marten;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Oakton;
+using Scenarios;
+using TestClasses;
+using Vereniging;
+using Xunit;
+using ProjectionHostProgram = Public.ProjectionHost.Program;
+
+public class FullBlownApiSetup: IAsyncLifetime
+{
+    private string _schema;
+
+    public FullBlownApiSetup()
+    {
+
+    }
+
+    public string? AuthCookie { get; private set; }
+    public ILogger<Program> Logger { get; private set; }
+    public IAlbaHost AdminApiHost { get; private set; }
+    public IAlbaHost AdminProjectionHost { get; private set; }
+    public IAlbaHost PublicProjectionHost { get; private set; }
+    public IAlbaHost PublicApiHost { get; private set; }
+
+    public async Task InitializeAsync()
+    {
+        _schema = "e2e";
+        OaktonEnvironment.AutoStartHost = true;
+
+        var configuration = new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.json").Build();
+
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(configuration, _schema)))
+           .EnsureEachCallIsAuthenticated();
+        AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(ConfigureForTesting(configuration, _schema));
+
+        Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
+
+        PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, _schema));
+        PublicApiHost = await AlbaHost.For<Public.Api.Program>(ConfigureForTesting(configuration, _schema));
+
+        await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await PublicProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await PublicApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
+        await PublicProjectionHost.ResumeAllDaemonsAsync();
+        await AdminProjectionHost.ResumeAllDaemonsAsync();
+    }
+
+    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
+    {
+        return b =>
+        {
+            b.UseEnvironment("Development");
+            b.UseContentRoot(Directory.GetCurrentDirectory());
+
+            b.UseConfiguration(configuration);
+
+            b.ConfigureServices((context, services) =>
+              {
+                  context.HostingEnvironment.EnvironmentName = "Development";
+                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
+              })
+             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
+             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
+             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
+             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"public_{schema.ToLowerInvariant()}");
+        };
+    }
+
+    public async Task DisposeAsync()
+    {
+        await AdminApiHost.StopAsync();
+        await PublicApiHost.StopAsync();
+        await AdminProjectionHost.StopAsync();
+        await PublicProjectionHost.StopAsync();
+        await AdminApiHost.DisposeAsync();
+        await PublicApiHost.DisposeAsync();
+        await PublicProjectionHost.DisposeAsync();
+        await AdminProjectionHost.DisposeAsync();
+    }
+
+    public async Task RunScenario(IScenario emptyScenario)
+    {
+        var documentStore = AdminApiHost.DocumentStore();
+        await using var session = documentStore.LightweightSession();
+
+        foreach (var eventsPerStream in await emptyScenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>()))
+        {
+            session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+        }
+
+        await emptyScenario.WhenCommand(this);
+    }
+}

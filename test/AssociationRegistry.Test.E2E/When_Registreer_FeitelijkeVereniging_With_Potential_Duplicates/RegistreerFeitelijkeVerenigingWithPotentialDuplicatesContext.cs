@@ -34,7 +34,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<T> : E
 
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
-            Naam = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = Scenario.VerenigingWerdGeregistreerd.Naam,
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
@@ -65,7 +65,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext<T> : E
                         Huisnummer = "99",
                         Busnummer = "",
                         Postcode = "9200",
-                        Gemeente = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente,
+                        Gemeente = Scenario.VerenigingWerdGeregistreerd.Locaties.First().Adres.Gemeente,
                         Land = "België",
                     },
                     IsPrimair = true,

@@ -55,7 +55,7 @@ public abstract class End2EndContext<TRequest, TScenario> : IEnd2EndContext<TReq
             session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
             session.CorrelationId = Guid.NewGuid().ToString();
 
-            session.Events.Append(scenario.VCode, scenario.CreateEvents());
+            session.Events.Append(scenario.VCode, scenario.GivenEvents(null));
             await session.SaveChangesAsync();
         }
     }

@@ -8,6 +8,12 @@ using When_Wijzig_Locatie;
 using Xunit;
 
 [CollectionDefinition(Name)]
+public class RegistreerVerenigingAdminCollection2 : ICollectionFixture<FullBlownApiSetup>
+{
+    public const string Name = "registreerfeitelijkeverenigingadmin2";
+}
+
+[CollectionDefinition(Name)]
 public class RegistreerVerenigingAdminCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingContext<AdminApiSetup>>
 {
     public const string Name = "registreerfeitelijkeverenigingadmin";
