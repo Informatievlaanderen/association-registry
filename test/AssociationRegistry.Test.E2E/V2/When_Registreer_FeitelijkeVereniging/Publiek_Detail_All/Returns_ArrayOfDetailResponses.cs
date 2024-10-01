@@ -7,7 +7,9 @@ using Formats;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
 using Framework.Comparison;
+using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
@@ -23,13 +25,13 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : IClassFixture<RegistreerFeitelijkeVerenigingContext>, IAsyncLifetime
+public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse[]>
 {
-    private readonly RegistreerFeitelijkeVerenigingContext _context;
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse[]> GetResponse =>
+        setup => setup.PublicApiHost.GetPubliekDetailAll<PubliekVerenigingDetailResponse>();
 
-    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContext context)
+    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContext context) : base(context)
     {
-        _context = context;
     }
 
     [Fact]
@@ -54,26 +56,26 @@ public class Returns_ArrayOfDetailResponses : IClassFixture<RegistreerFeitelijke
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_context.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(Context.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _context.VCode,
-            KorteBeschrijving = _context.Request.KorteBeschrijving,
-            KorteNaam = _context.Request.KorteNaam,
+            VCode = Context.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = _context.Request.Naam,
+            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = MapLocaties(_context.Request.Contactgegevens, _context.VCode),
-            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(_context.Request.HoofdactiviteitenVerenigingsloket),
-            Locaties = MapLocaties(_context.Request.Locaties, _context.VCode),
-            Relaties = MapRelaties([], _context.VCode),
-            Sleutels = MapSleutels(_context.Request, _context.VCode),
+            Contactgegevens = MapLocaties(Request.Contactgegevens, Context.VCode),
+            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Locaties = MapLocaties(Request.Locaties, Context.VCode),
+            Relaties = MapRelaties([], Context.VCode),
+            Sleutels = MapSleutels(Request, Context.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
@@ -146,16 +148,5 @@ public class Returns_ArrayOfDetailResponses : IClassFixture<RegistreerFeitelijke
                 type = JsonLdType.Hoofdactiviteit.Type,
             };
         }).ToArray();
-    }
-
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetailAll<PubliekVerenigingDetailResponse>();
-    }
-
-    public PubliekVerenigingDetailResponse[] Response { get; set; }
-
-    public async Task DisposeAsync()
-    {
     }
 }

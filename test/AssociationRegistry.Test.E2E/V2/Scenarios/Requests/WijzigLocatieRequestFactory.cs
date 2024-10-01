@@ -19,7 +19,7 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<WijzigLocatieRequest>> ExecuteRequest(FullBlownApiSetup apiSetup)
+    public async Task<RequestResult<WijzigLocatieRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new WijzigLocatieRequest()
         {
@@ -58,7 +58,7 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         return new RequestResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 
-    protected async Task WaitForAdresMatchEvent(FullBlownApiSetup apiSetup)
+    protected async Task WaitForAdresMatchEvent(IApiSetup apiSetup)
     {
         await using var session = apiSetup.AdminProjectionHost.DocumentStore().LightweightSession();
         var events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);

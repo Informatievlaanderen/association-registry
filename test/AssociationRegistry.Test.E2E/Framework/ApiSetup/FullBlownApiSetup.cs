@@ -19,7 +19,7 @@ using Vereniging;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-public class FullBlownApiSetup: IAsyncLifetime
+public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 {
     private string _schema;
 

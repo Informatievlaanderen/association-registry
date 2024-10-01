@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Publiek_Detail;
 
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
@@ -7,7 +8,9 @@ using Formats;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
 using Framework.Comparison;
+using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
@@ -22,11 +25,11 @@ using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigingContext>, IAsyncLifetime
+public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
     private readonly RegistreerFeitelijkeVerenigingContext _context;
 
-    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingContext context)
+    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingContext context) : base(context)
     {
         _context = context;
     }
@@ -58,21 +61,21 @@ public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigi
                 Maximumleeftijd = 149,
             },
             VCode = _context.VCode,
-            KorteBeschrijving = _context.Request.KorteBeschrijving,
-            KorteNaam = _context.Request.KorteNaam,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = _context.Request.Naam,
+            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = MapLocaties(_context.Request.Contactgegevens, _context.VCode),
-            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(_context.Request.HoofdactiviteitenVerenigingsloket),
-            Locaties = MapLocaties(_context.Request.Locaties, _context.VCode),
+            Contactgegevens = MapLocaties(Request.Contactgegevens, _context.VCode),
+            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Locaties = MapLocaties(Request.Locaties, _context.VCode),
             Relaties = MapRelaties([], _context.VCode),
-            Sleutels = MapSleutels(_context.Request, _context.VCode),
+            Sleutels = MapSleutels(Request, _context.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
@@ -148,14 +151,6 @@ public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigi
     }
 
 
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
-    }
-
-    public PubliekVerenigingDetailResponse Response { get; set; }
-
-    public async Task DisposeAsync()
-    {
-    }
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetail(_context.VCode);
 }

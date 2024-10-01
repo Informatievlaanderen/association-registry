@@ -18,7 +18,7 @@ public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRe
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<StopVerenigingRequest>> ExecuteRequest(FullBlownApiSetup apiSetup)
+    public async Task<RequestResult<StopVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new StopVerenigingRequest
         {
