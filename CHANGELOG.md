@@ -1,3 +1,16 @@
+# [8.152.0](https://github.com/informatievlaanderen/association-registry/compare/v8.151.0...v8.152.0) (2024-10-01)
+
+
+### Bug Fixes
+
+* or-2440 change datacontract TeVerwijderenVereniging ([58be57f](https://github.com/informatievlaanderen/association-registry/commit/58be57fc817ce339021c3bc1f83c4d5d344d1828))
+* or-2441 use new deployment and status api for staging environment ([57ea1d9](https://github.com/informatievlaanderen/association-registry/commit/57ea1d929219226925ddebe4b02dceed25fecace))
+
+
+### Features
+
+* or-2440 return te verwijderde verenigingen bij publiek detail all ([5b4f666](https://github.com/informatievlaanderen/association-registry/commit/5b4f666bffe49409fa20fe326a22f1f1b7896c6d))
+
 # [8.151.0](https://github.com/informatievlaanderen/association-registry/compare/v8.150.1...v8.151.0) (2024-09-30)
 
 
