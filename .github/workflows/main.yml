@@ -108,6 +108,7 @@ jobs:
           ./.sonar/scanner/dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
 
+
   set-release-version:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Decide next version
