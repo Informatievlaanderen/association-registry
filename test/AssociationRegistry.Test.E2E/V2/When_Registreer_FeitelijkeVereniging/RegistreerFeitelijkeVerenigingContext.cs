@@ -4,8 +4,8 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
 using AssociationRegistry.Vereniging;
+using E2E.Scenarios.Commands;
 using Marten.Events;
-using Scenarios.Commands;
 using Xunit;
 
 public class RegistreerFeitelijkeVerenigingContext: IAsyncLifetime
