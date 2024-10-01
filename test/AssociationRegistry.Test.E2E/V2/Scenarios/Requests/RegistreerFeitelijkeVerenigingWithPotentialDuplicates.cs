@@ -26,7 +26,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
         _potentialDuplicateVerenigingWerdGeregistreerd = potentialDuplicateVerenigingWerdGeregistreerd;
     }
 
-    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(FullBlownApiSetup apiSetup)
+    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 

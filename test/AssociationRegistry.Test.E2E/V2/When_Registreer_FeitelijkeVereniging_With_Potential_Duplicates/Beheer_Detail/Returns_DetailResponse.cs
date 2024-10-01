@@ -11,6 +11,8 @@ using Framework.Comparison;
 using Vereniging;
 using Vereniging.Bronnen;
 using E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
@@ -20,13 +22,13 @@ using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext>, IAsyncLifetime
+public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
 {
-    private readonly RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext _context;
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetDetail(Context.VCode);
 
-    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context)
+    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context): base(context)
     {
-        _context = context;
     }
 
     [Fact]
@@ -53,29 +55,29 @@ public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigi
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_context.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(Context.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _context.VCode,
-            KorteBeschrijving = _context.Request.KorteBeschrijving,
-            KorteNaam = _context.Request.KorteNaam,
+            VCode = Context.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = _context.Request.Naam,
+            Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).ConvertAndFormatToBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = _context.Request.IsUitgeschrevenUitPubliekeDatastroom,
-            Contactgegevens = MapLocaties(_context.Request.Contactgegevens, _context.VCode),
-            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(_context.Request.HoofdactiviteitenVerenigingsloket),
-            Locaties = MapLocaties(_context.Request.Locaties, _context.VCode),
-            Vertegenwoordigers = MapVertegenwoordigers(_context.Request.Vertegenwoordigers, _context.VCode),
-            Relaties = MapRelaties([], _context.VCode),
-            Sleutels = MapSleutels(_context.Request, _context.VCode),
+            IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,
+            Contactgegevens = MapLocaties(Request.Contactgegevens, Context.VCode),
+            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Locaties = MapLocaties(Request.Locaties, Context.VCode),
+            Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, Context.VCode),
+            Relaties = MapRelaties([], Context.VCode),
+            Sleutels = MapSleutels(Request, Context.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
@@ -186,16 +188,4 @@ public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigi
             };
         }).ToArray();
     }
-
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetDetail(_context.VCode);
-    }
-
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async Task DisposeAsync()
-    {
-    }
-
 }

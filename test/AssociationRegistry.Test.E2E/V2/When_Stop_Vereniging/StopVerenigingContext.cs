@@ -5,12 +5,13 @@ using Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
 using Vereniging;
 using E2E.Scenarios.Commands;
+using Framework.TestClasses;
 using Marten.Events;
 using Xunit;
 
-public class StopVerenigingContext: IAsyncLifetime
+public class StopVerenigingContext: IAsyncLifetime, ITestContext<StopVerenigingRequest>
 {
-    public FullBlownApiSetup ApiSetup { get; }
+    public IApiSetup ApiSetup { get; }
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public StopVerenigingRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;
@@ -23,9 +24,6 @@ public class StopVerenigingContext: IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

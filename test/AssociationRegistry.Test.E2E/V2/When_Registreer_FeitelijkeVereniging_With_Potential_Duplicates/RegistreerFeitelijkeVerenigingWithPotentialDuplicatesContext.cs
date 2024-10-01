@@ -2,15 +2,17 @@
 
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework.ApiSetup;
+using Framework.TestClasses;
 using Marten.Events;
 using Scenarios;
 using Scenarios.Commands;
+using V2.When_Stop_Vereniging;
 using Vereniging;
 using Xunit;
 
-public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: IAsyncLifetime
+public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: ITestContext<RegistreerFeitelijkeVerenigingRequest>
 {
-    public FullBlownApiSetup ApiSetup { get; }
+    public IApiSetup ApiSetup { get; }
     private FeitelijkeVerenigingWerdGeregistreerdScenario _verenigingWerdGeregistreerdScenario;
     public RegistreerFeitelijkeVerenigingRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;

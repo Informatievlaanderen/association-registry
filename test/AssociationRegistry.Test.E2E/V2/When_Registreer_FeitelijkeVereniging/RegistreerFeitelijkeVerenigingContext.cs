@@ -5,12 +5,13 @@ using Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
 using Vereniging;
 using E2E.Scenarios.Commands;
+using Framework.TestClasses;
 using Marten.Events;
 using Xunit;
 
-public class RegistreerFeitelijkeVerenigingContext: IAsyncLifetime
+public class RegistreerFeitelijkeVerenigingContext: ITestContext<RegistreerFeitelijkeVerenigingRequest>
 {
-    public FullBlownApiSetup ApiSetup { get; }
+    public IApiSetup ApiSetup { get; }
     private EmptyScenario _emptyScenario;
     public RegistreerFeitelijkeVerenigingRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;
