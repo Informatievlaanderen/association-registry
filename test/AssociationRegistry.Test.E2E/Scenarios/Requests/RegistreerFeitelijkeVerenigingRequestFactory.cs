@@ -14,13 +14,17 @@ using System.Net;
 using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
-public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<VCode>
+public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<RegistreerFeitelijkeVerenigingRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
-    public async Task<VCode> Run(IApiSetup setup)
+    public RegistreerFeitelijkeVerenigingRequestFactory()
     {
-                var autoFixture = new Fixture().CustomizeAdminApi();
+    }
+
+    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(FullBlownApiSetup apiSetup)
+    {
+        var autoFixture = new Fixture().CustomizeAdminApi();
 
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
@@ -34,8 +38,8 @@ public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            Contactgegevens = new ToeTeVoegenContactgegeven[]
-            {
+            Contactgegevens =
+            [
                 new()
                 {
                     Contactgegeventype = Contactgegeventype.Email,
@@ -43,9 +47,9 @@ public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<
                     Beschrijving = "Algemeen",
                     IsPrimair = false,
                 },
-            },
-            Locaties = new[]
-            {
+            ],
+            Locaties =
+            [
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Kantoor",
@@ -91,7 +95,7 @@ public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<
                     IsPrimair = false,
                     Locatietype = Locatietype.Activiteiten,
                 },
-            },
+            ],
             Vertegenwoordigers =
             [
                 new ToeTeVoegenVertegenwoordiger
@@ -121,9 +125,10 @@ public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<
                     SocialMedia = "http://example.com/scrum",
                 },
             ],
-            HoofdactiviteitenVerenigingsloket = new[] { "BIAG", "BWWC" },
+            HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
         };
-        var vCode = (await setup.AdminApiHost.Scenario(s =>
+
+        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.MinimalApi)
@@ -132,19 +137,16 @@ public class RegistreerFeitelijkeVerenigingCommandFactory : ITestCommandFactory<
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
             s.Header("Location").ShouldHaveValues();
-            s.Header("Location").SingleValueShouldMatch($"{setup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+
+            s.Header("Location")
+             .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
         })).Context.Response.Headers.Location.First().Split('/').Last();
 
-        await setup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return VCode.Create(vCode);
+        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
     }
-}
-
-public interface ITestCommandFactory<T>
-{
-    Task<T> Run(IApiSetup setup);
 }

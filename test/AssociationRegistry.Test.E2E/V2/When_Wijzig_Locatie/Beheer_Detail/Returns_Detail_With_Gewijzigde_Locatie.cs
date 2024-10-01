@@ -8,10 +8,12 @@ using Azure.Core;
 using FluentAssertions;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using Newtonsoft.Json;
 using Scenarios;
 using Vereniging;
 using Vereniging.Bronnen;
 using Xunit;
+using Xunit.Abstractions;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
@@ -33,39 +35,41 @@ public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocati
         comparisonConfig.MaxDifferences = 10;
         comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
 
+        var expected = new Locatie
+        {
+            id = JsonLdType.Locatie.CreateWithIdValues(_context.VCode, "1"),
+            type = JsonLdType.Locatie.Type,
+            LocatieId = 1,
+            Naam = "Kantoor",
+            Adres = new Adres
+            {
+                id = JsonLdType.Adres.CreateWithIdValues(_context.VCode, "1"),
+                type = JsonLdType.Adres.Type,
+                Straatnaam = _context.Request.Locatie.Adres.Straatnaam,
+                Huisnummer = "99",
+                Busnummer = "",
+                Postcode = "9200",
+                Gemeente = "Dendermonde",
+                Land = "België",
+            },
+            Adresvoorstelling = "Leopold II-laan 99, 9200 Dendermonde, België",
+            AdresId = new AdresId
+            {
+                Broncode = Adresbron.AR,
+                Bronwaarde = "https://data.vlaanderen.be/id/adres/3213019",
+            },
+            VerwijstNaar = new AdresVerwijzing
+            {
+                id = JsonLdType.AdresVerwijzing.CreateWithIdValues("3213019"),
+                type = JsonLdType.AdresVerwijzing.Type,
+            },
+            Bron = Bron.Initiator,
+            IsPrimair = true,
+            Locatietype = Locatietype.Correspondentie,
+        };
+
         Response.Vereniging.Locaties.Single(x => x.LocatieId == 1)
-                .ShouldCompare(new Locatie
-                 {
-                     id = JsonLdType.Locatie.CreateWithIdValues(_context.VCode, "1"),
-                     type = JsonLdType.Locatie.Type,
-                     LocatieId = 1,
-                     Naam = "Kantoor",
-                     Adres = new Adres
-                     {
-                         id = JsonLdType.Adres.CreateWithIdValues(_context.VCode, "1"),
-                         type = JsonLdType.Adres.Type,
-                         Straatnaam = _context.Request.Locatie.Adres.Straatnaam,
-                         Huisnummer = "99",
-                         Busnummer = "",
-                         Postcode = "9200",
-                         Gemeente = "Dendermonde",
-                         Land = "België",
-                     },
-                     Adresvoorstelling = "Leopold II-laan 99, 9200 Dendermonde, België",
-                     AdresId = new AdresId
-                     {
-                         Broncode = Adresbron.AR,
-                         Bronwaarde = "https://data.vlaanderen.be/id/adres/3213019",
-                     },
-                     VerwijstNaar = new AdresVerwijzing
-                     {
-                         id = JsonLdType.AdresVerwijzing.CreateWithIdValues("3213019"),
-                         type = JsonLdType.AdresVerwijzing.Type,
-                     },
-                     Bron = Bron.Initiator,
-                     IsPrimair = true,
-                     Locatietype = Locatietype.Correspondentie,
-                 }, compareConfig: comparisonConfig);
+                .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 
     public DetailVerenigingResponse Response { get; set; }

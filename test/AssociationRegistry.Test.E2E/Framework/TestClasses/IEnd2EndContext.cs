@@ -15,7 +15,5 @@ public interface IEnd2EndContext<TRequest>
 
 public interface IScenario
 {
-    string VCode { get; }
     Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service);
-    Task WhenCommand(FullBlownApiSetup setup);
 }

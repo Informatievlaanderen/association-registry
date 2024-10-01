@@ -4,12 +4,16 @@ using Admin.Api;
 using Admin.Api.Infrastructure.HttpClients;
 using Alba;
 using AlbaHost;
+using AssociationRegistry.Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;
+using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NodaTime;
+using NodaTime.Text;
 using Oakton;
 using Scenarios;
 using TestClasses;
@@ -92,16 +96,23 @@ public class FullBlownApiSetup: IAsyncLifetime
         await AdminProjectionHost.DisposeAsync();
     }
 
-    public async Task RunScenario(IScenario emptyScenario)
+    public async Task ExecuteGiven(IScenario emptyScenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
+
         await using var session = documentStore.LightweightSession();
+        session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
+        session.CorrelationId = Guid.NewGuid().ToString();
 
         foreach (var eventsPerStream in await emptyScenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>()))
         {
             session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
         }
 
-        await emptyScenario.WhenCommand(this);
+        await session.SaveChangesAsync();
+
+        await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 }

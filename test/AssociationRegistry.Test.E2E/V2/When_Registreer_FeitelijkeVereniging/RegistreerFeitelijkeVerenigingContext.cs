@@ -12,20 +12,27 @@ public class RegistreerFeitelijkeVerenigingContext: IAsyncLifetime
 {
     public FullBlownApiSetup ApiSetup { get; }
     private EmptyScenario _emptyScenario;
-    public RegistreerFeitelijkeVerenigingRequest Request => _emptyScenario.Request;
-    public VCode VCode => VCode.Create(_emptyScenario.VCode);
+    public RegistreerFeitelijkeVerenigingRequest Request => RequestResult.Request;
+    public VCode VCode => RequestResult.VCode;
 
     public RegistreerFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
+        _emptyScenario = new EmptyScenario();
     }
 
     public async Task InitializeAsync()
     {
         _emptyScenario = new EmptyScenario();
-        await ApiSetup.RunScenario(_emptyScenario);
+
+        var requestFactory = new RegistreerFeitelijkeVerenigingRequestFactory();
+
+        await ApiSetup.ExecuteGiven(_emptyScenario);
+        RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
+
+    public RequestResult<RegistreerFeitelijkeVerenigingRequest> RequestResult { get; set; }
 
     public async Task DisposeAsync()
     {
