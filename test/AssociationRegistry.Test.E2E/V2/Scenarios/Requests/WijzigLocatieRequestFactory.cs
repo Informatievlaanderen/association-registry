@@ -1,11 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
 
-using Acties.WijzigLocatie;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
 using Events;
 using Framework.ApiSetup;
-using Framework.TestClasses;
 using Marten;
 using Marten.Events;
 using System.Net;

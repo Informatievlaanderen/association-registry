@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Beheer_Detail;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema.Constants;
+using Formats;
+using JsonLdContext;
+using Framework.AlbaHost;
+using Framework.Comparison;
+using Vereniging;
+using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
@@ -18,7 +18,7 @@ using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingslok
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
-[Collection(RegistreerVerenigingAdminCollection2.Name)]
+[Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigingContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingContext _context;

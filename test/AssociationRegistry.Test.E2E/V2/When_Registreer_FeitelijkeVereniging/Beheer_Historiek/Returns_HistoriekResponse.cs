@@ -1,20 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Beheer_Historiek;
 
-using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using Beheer_Detail;
-using E2E.When_Registreer_FeitelijkeVereniging;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Events;
+using Framework.AlbaHost;
+using Framework.Comparison;
+using Framework.Mappers;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(RegistreerVerenigingAdminCollection2.Name)]
+[Collection(FullBlownApiCollection.Name)]
 public class Returns_Historiek : IClassFixture<RegistreerFeitelijkeVerenigingContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingContext _context;

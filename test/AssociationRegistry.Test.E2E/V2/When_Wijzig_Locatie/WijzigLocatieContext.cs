@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Test.E2E.V2.When_Wijzig_Locatie;
 
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using E2E.Scenarios.Commands;
 using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 public class WijzigLocatieContext: IAsyncLifetime

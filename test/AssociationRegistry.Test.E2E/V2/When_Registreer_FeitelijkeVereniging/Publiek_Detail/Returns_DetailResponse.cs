@@ -1,21 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Publiek_Detail;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Alba;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
-using Beheer_Detail;
-using E2E.When_Registreer_FeitelijkeVereniging;
-using Framework.Mappers;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema.Constants;
+using Formats;
+using JsonLdContext;
+using Public.Api.Verenigingen.Detail.ResponseModels;
+using Framework.AlbaHost;
+using Framework.Comparison;
+using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
@@ -28,7 +21,7 @@ using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
 using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
-[Collection(RegistreerVerenigingAdminCollection2.Name)]
+[Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : IClassFixture<RegistreerFeitelijkeVerenigingContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingContext _context;
