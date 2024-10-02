@@ -84,7 +84,7 @@ public class VoegVertegenwoordigerToeController : ApiController
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
-        Response.AddVertegenwoordigerHeader(vCode, commandResult.EntityId, _appSettings.BaseUrl);
+        Response.AddLocationHeader(vCode, WellKnownHeaderLocations.Vertegenwoordigers, commandResult.EntityId, _appSettings.BaseUrl);
 
         return Accepted();
     }

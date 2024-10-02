@@ -22,12 +22,12 @@ public static class ResponseExtensions
         responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), isWeak: true);
     }
 
-    public static void AddVertegenwoordigerHeader(this HttpResponse source, string vCode, string vertegenwoordigerId, string baseUrl)
+    public static void AddLocationHeader(this HttpResponse source, string vCode, string location, string id, string baseUrl)
     {
-        if (string.IsNullOrEmpty(vertegenwoordigerId))
+        if (string.IsNullOrEmpty(id))
             return;
 
         var responseHeaders = source.GetTypedHeaders();
-        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/{vCode}/vertegenwoordigers/{vertegenwoordigerId}");
+        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/{vCode}/{location}/{id}");
     }
 }

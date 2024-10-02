@@ -28,7 +28,7 @@ public class VoegLocatieToeCommandHandler
         _grarClient = grarClient;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<EntityCommandResult> Handle(CommandEnvelope<VoegLocatieToeCommand> envelope, CancellationToken cancellationToken = default)
     {
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(
@@ -42,7 +42,7 @@ public class VoegLocatieToeCommandHandler
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 
-        return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), toegevoegdeLocatie.LocatieId.ToString(), result);
     }
 
     private async Task SynchroniseerLocatie(

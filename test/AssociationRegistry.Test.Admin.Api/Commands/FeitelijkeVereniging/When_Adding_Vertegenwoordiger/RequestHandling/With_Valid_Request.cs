@@ -94,7 +94,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_an_entity_id()
+    public async Task Then_it_returns_an_location_header()
     {
         var vCode = _fixture.Create<VCode>();
         await _controller.Post(
