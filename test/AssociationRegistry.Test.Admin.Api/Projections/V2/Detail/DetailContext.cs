@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
+﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V2.Detail;
 
 using Alba;
 using AssociationRegistry.Framework;
-using Common.Configuration;
-using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Hosts.Configuration;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.Configuration;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -17,13 +17,13 @@ using Oakton;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
-[CollectionDefinition(nameof(PowerBiExportContext))]
-public class RegistreerVerenigingCollection : ICollectionFixture<PowerBiExportContext>
+[CollectionDefinition("detailcollection")]
+public class DetailCollection : ICollectionFixture<DetailContext>
 { }
 
-public class PowerBiExportContext : IAsyncLifetime
+public class DetailContext : IAsyncLifetime
 {
-    private string? _dbName = "prowerbiexportprojections";
+    private string? _dbName = "detailprojections";
     private const string RootDatabase = @"postgres";
 
     public string? AuthCookie { get; private set; }

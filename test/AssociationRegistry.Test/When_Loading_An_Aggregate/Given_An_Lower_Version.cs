@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.When_Loading_An_Aggregate;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
@@ -55,21 +56,30 @@ public class Given_An_Lower_Version
         documentStore.Dispose();
     }
 
-    [Fact]
-    public async Task With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version()
+    [Theory]
+    [InlineData(typeof(AdresWerdOvergenomenUitAdressenregister))]
+    [InlineData(typeof(AdresKonNietOvergenomenWordenUitAdressenregister))]
+    [InlineData(typeof(AdresWerdNietGevondenInAdressenregister))]
+    [InlineData(typeof(AdresNietUniekInAdressenregister))]
+    [InlineData(typeof(AdresWerdGewijzigdInAdressenregister))]
+    [InlineData(typeof(AdresWerdOntkoppeldVanAdressenregister))]
+    [InlineData(typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch))]
+    [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
+    public async Task With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
         var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        var adresWerdOvergenomenUitAdressenregister = _fixture.Create<AdresWerdOvergenomenUitAdressenregister>();
+
+        var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);
 
         var vCode = _fixture.Create<VCode>();
 
         await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              feitelijkeVerenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
+                              feitelijkeVerenigingWerdGeregistreerd, @event);
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);

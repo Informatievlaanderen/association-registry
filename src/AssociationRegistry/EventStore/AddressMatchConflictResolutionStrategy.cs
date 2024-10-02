@@ -21,5 +21,6 @@ public class AddressMatchConflictResolutionStrategy : IEventPostConflictResoluti
             typeof(AdresWerdGewijzigdInAdressenregister),
             typeof(AdresWerdOntkoppeldVanAdressenregister),
             typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
+            typeof(AdresHeeftGeenVerschillenMetAdressenregister),
         }.Contains(eventType);
 }
