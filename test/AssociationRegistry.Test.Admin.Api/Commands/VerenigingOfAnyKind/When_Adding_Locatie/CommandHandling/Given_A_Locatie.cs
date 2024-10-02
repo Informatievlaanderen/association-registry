@@ -20,21 +20,19 @@ using Xunit.Categories;
 public class Given_A_Locatie
 {
     private Fixture _fixture;
-    private VerenigingRepositoryMock _verenigingRepositoryMock;
 
     public Given_A_Locatie()
     {
         _fixture = new Fixture().CustomizeAdminApi();
-
     }
 
     [Theory]
     [MemberData(nameof(Data))]
     public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new VoegLocatieToeCommandHandler(_verenigingRepositoryMock,
+        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
                                                               Mock.Of<IGrarClient>()
@@ -47,7 +45,7 @@ public class Given_A_Locatie
 
         await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldHaveSaved(
+        verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdToegevoegd(
                 Registratiedata.Locatie.With(command.Locatie) with
                 {
@@ -60,7 +58,9 @@ public class Given_A_Locatie
     [MemberData(nameof(Data))]
     public async Task Then_An_EntityId_Is_Returned(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var commandHandler = new VoegLocatieToeCommandHandler(_verenigingRepositoryMock,
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+
+        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
                                                               Mock.Of<IGrarClient>()
