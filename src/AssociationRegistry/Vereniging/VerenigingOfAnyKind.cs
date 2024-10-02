@@ -31,11 +31,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
         => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
 
-    public void VoegContactgegevenToe(Contactgegeven contactgegeven)
+    public Contactgegeven VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
         AddEvent(ContactgegevenWerdToegevoegd.With(toegevoegdContactgegeven));
+
+        return toegevoegdContactgegeven;
     }
 
     public void WijzigContactgegeven(int contactgegevenId, string? waarde, string? beschrijving, bool? isPrimair)

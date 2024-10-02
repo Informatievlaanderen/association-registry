@@ -138,13 +138,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
     }
 
-    public int VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
+    public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
     {
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
         AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
 
-        return toegevoegdeVertegenwoordiger.VertegenwoordigerId;
+        return toegevoegdeVertegenwoordiger;
     }
 
     public void WijzigVertegenwoordiger(

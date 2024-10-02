@@ -12,17 +12,17 @@ public class VoegContactgegevenToeCommandHandler
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(
+    public async Task<EntityCommandResult> Handle(
         CommandEnvelope<VoegContactgegevenToeCommand> envelope,
         CancellationToken cancellationToken = default)
     {
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
 
-        vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
+       var contactgegeven = vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 
-        return CommandResult.Create(VCode.Create(envelope.Command.VCode), result);
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), contactgegeven.ContactgegevenId, result);
     }
 }

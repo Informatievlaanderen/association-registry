@@ -22,12 +22,9 @@ public static class ResponseExtensions
         responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), isWeak: true);
     }
 
-    public static void AddLocationHeader(this HttpResponse source, string vCode, string location, string id, string baseUrl)
+    public static void AddLocationHeader(this HttpResponse source, string vCode, string entityName, int id, string baseUrl)
     {
-        if (string.IsNullOrEmpty(id))
-            return;
-
         var responseHeaders = source.GetTypedHeaders();
-        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/{vCode}/{location}/{id}");
+        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/{vCode}/{entityName}/{id}");
     }
 }

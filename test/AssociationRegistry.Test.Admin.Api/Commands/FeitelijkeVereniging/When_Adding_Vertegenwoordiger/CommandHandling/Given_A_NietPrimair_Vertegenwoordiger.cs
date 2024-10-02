@@ -66,6 +66,6 @@ public class Given_A_NietPrimair_Vertegenwoordiger
         var vertegenwoordigerId = _verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.ToArray()[0]
                                                            .As<VertegenwoordigerWerdToegevoegd>().VertegenwoordigerId;
 
-        result.EntityId.Should().Be(vertegenwoordigerId.ToString());
+        result.EntityId.Should().Be(vertegenwoordigerId);
     }
 }
