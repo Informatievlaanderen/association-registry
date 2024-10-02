@@ -1,3 +1,16 @@
+# [8.154.0](https://github.com/informatievlaanderen/association-registry/compare/v8.153.1...v8.154.0) (2024-10-02)
+
+
+### Bug Fixes
+
+* or-2315 add vcode to location header when adding vertegenwoordigerÃ ([2a4dbae](https://github.com/informatievlaanderen/association-registry/commit/2a4dbaea83ccd786b9c084508746ac2890886a0c))
+
+
+### Features
+
+* or-2315 return locatie id on adding locatie ([df57d6e](https://github.com/informatievlaanderen/association-registry/commit/df57d6ed9c75c099e0026e6cb3cd6b5cf315c2fd))
+* or-2316 return contactgegeven id on adding contactegegeven ([a3ff720](https://github.com/informatievlaanderen/association-registry/commit/a3ff720450b64c79e16bcfb95fdf63676e2480c2))
+
 ## [8.153.1](https://github.com/informatievlaanderen/association-registry/compare/v8.153.0...v8.153.1) (2024-10-02)
 
 
