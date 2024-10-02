@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Moq;
 using Wolverine;
 using Xunit;
@@ -16,7 +17,14 @@ public class With_Null_Request
     public With_Null_Request()
     {
         var messageBus = Mock.Of<IMessageBus>();
-        _controller = new VoegLocatieToeController(messageBus, new VoegLocatieToeValidator());
+
+        _controller = new VoegLocatieToeController(
+            messageBus,
+            new VoegLocatieToeValidator(),
+            new AppSettings()
+            {
+                BaseUrl = "https://beheer.verenigingen.vlaanderen.be",
+            });
     }
 
     [Fact]

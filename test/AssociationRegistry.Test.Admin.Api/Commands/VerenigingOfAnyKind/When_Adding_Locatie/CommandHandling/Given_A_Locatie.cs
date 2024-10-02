@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using FluentAssertions;
 using Framework;
 using Grar;
 using Marten;
@@ -18,34 +19,61 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_Locatie
 {
+    private Fixture _fixture;
+    private VerenigingRepositoryMock _verenigingRepositoryMock;
+
+    public Given_A_Locatie()
+    {
+        _fixture = new Fixture().CustomizeAdminApi();
+
+    }
+
     [Theory]
     [MemberData(nameof(Data))]
     public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var fixture = new Fixture().CustomizeAdminApi();
-
-        var commandHandler = new VoegLocatieToeCommandHandler(verenigingRepositoryMock,
+        var commandHandler = new VoegLocatieToeCommandHandler(_verenigingRepositoryMock,
                                                               Mock.Of<IMartenOutbox>(),
                                                               Mock.Of<IDocumentSession>(),
                                                               Mock.Of<IGrarClient>()
         );
 
-        var command = new VoegLocatieToeCommand(scenario.VCode, fixture.Create<Locatie>() with
+        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
         {
             AdresId = null,
         });
 
-        await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
+        _verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdToegevoegd(
                 Registratiedata.Locatie.With(command.Locatie) with
                 {
                     LocatieId = expectedLocatieId,
                 })
         );
+    }
+
+    [Theory]
+    [MemberData(nameof(Data))]
+    public async Task Then_An_EntityId_Is_Returned(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    {
+        var commandHandler = new VoegLocatieToeCommandHandler(_verenigingRepositoryMock,
+                                                              Mock.Of<IMartenOutbox>(),
+                                                              Mock.Of<IDocumentSession>(),
+                                                              Mock.Of<IGrarClient>()
+        );
+
+        var command = new VoegLocatieToeCommand(scenario.VCode, _fixture.Create<Locatie>() with
+        {
+            AdresId = null,
+        });
+
+        var result = await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        result.EntityId.Should().Be(expectedLocatieId.ToString());
     }
 
     public static IEnumerable<object[]> Data
