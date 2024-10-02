@@ -96,8 +96,9 @@ public class With_Valid_Request
     [Fact]
     public async Task Then_it_returns_an_entity_id()
     {
+        var vCode = _fixture.Create<VCode>();
         await _controller.Post(
-            _fixture.Create<VCode>(),
+            vCode,
             _fixture.Create<VoegVertegenwoordigerToeRequest>(),
             _fixture.Create<CommandMetadataProviderStub>());
 
@@ -106,7 +107,7 @@ public class With_Valid_Request
             _controller.Response.GetTypedHeaders().Location.Should()
                        .BeEquivalentTo(
                             new Uri(
-                                $"https://beheer.verenigingen.vlaanderen.be/v1/verenigingen/vertegenwoordigers/{_entityCommandResult.EntityId}"));
+                                $"https://beheer.verenigingen.vlaanderen.be/v1/verenigingen/{vCode}/vertegenwoordigers/{_entityCommandResult.EntityId}"));
         }
     }
 }
