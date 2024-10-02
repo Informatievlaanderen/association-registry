@@ -1,3 +1,10 @@
+## [8.153.1](https://github.com/informatievlaanderen/association-registry/compare/v8.153.0...v8.153.1) (2024-10-02)
+
+
+### Bug Fixes
+
+* or-2445 add AdresHeeftGeenVerschillenMetAdressenregister to ignore address events + update metadate in detail projection (WIP) ([4df4ce9](https://github.com/informatievlaanderen/association-registry/commit/4df4ce9ad69197f4bf8728efc6487de3b5c0e6bd))
+
 # [8.153.0](https://github.com/informatievlaanderen/association-registry/compare/v8.152.1...v8.153.0) (2024-10-02)
 
 
