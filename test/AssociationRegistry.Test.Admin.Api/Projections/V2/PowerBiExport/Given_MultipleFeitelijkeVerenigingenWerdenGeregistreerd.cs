@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
+﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V2.PowerBiExport;
 
 using AssociationRegistry.Admin.Schema.PowerBiExport;
-using Events;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
