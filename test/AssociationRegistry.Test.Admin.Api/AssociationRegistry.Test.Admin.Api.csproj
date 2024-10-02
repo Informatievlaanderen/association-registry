@@ -38,5 +38,8 @@
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Projections\V1\" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

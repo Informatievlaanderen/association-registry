@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.PowerBiExport;
+﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V2.PowerBiExport;
 
 using Alba;
 using AssociationRegistry.Framework;
-using Common.Configuration;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
+using Common.Configuration;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
