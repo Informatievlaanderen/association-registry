@@ -1,3 +1,10 @@
+# [8.153.0](https://github.com/informatievlaanderen/association-registry/compare/v8.152.1...v8.153.0) (2024-10-02)
+
+
+### Features
+
+* or-2314 return vertegenwoordigerid when adding vertegenwoordiger ([eb0849b](https://github.com/informatievlaanderen/association-registry/commit/eb0849b5363791ba3206f0ff4415df143e9c02c8))
+
 ## [8.152.1](https://github.com/informatievlaanderen/association-registry/compare/v8.152.0...v8.152.1) (2024-10-01)
 
 
