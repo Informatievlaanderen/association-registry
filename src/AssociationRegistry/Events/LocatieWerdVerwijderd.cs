@@ -9,5 +9,3 @@ public record LocatieWerdVerwijderd(string VCode,
     public static LocatieWerdVerwijderd With(VCode vCode, Locatie locatie)
         => new(vCode, Registratiedata.Locatie.With(locatie));
 }
-public record LocatieWerdVerwijderdMetVCode(string VCode,
-    Registratiedata.Locatie Locatie) : IEvent;
