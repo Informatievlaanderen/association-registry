@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using FluentAssertions;
 using Framework;
 using Vereniging;
 using Xunit;
@@ -50,5 +51,26 @@ public class Given_A_Second_NietPrimair_Contactgegeven
             new ContactgegevenWerdToegevoegd(ContactgegevenId: 2, command.Contactgegeven.Contactgegeventype, command.Contactgegeven.Waarde,
                                              command.Contactgegeven.Beschrijving, IsPrimair: false)
         );
+    }
+
+    [Fact]
+    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved()
+    {
+        var command = new VoegContactgegevenToeCommand(
+            _scenario.VCode,
+            Contactgegeven.CreateFromInitiator(
+                Contactgegeventype.Parse("SocialMedia"),
+                "https://www.example.org",
+                _fixture.Create<string?>(),
+                isPrimair: false));
+
+        var result = await _commandHandler.Handle(
+            new CommandEnvelope<VoegContactgegevenToeCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        var contactgegevenId = _verenigingRepositoryMock.SaveInvocations[0].Vereniging.UncommittedEvents.ToArray()[0]
+                                                        .As<ContactgegevenWerdToegevoegd>()
+                                                        .ContactgegevenId;
+
+        result.EntityId.Should().Be(contactgegevenId);
     }
 }

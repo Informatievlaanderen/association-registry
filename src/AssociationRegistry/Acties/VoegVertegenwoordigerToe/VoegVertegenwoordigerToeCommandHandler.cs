@@ -25,6 +25,6 @@ public class VoegVertegenwoordigerToeCommandHandler
 
         var result = await _repository.Save(vereniging, envelope.Metadata, cancellationToken);
 
-        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), vertegenwoordigerId.ToString(), result);
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), vertegenwoordigerId.VertegenwoordigerId, result);
     }
 }

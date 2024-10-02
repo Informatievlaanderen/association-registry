@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
@@ -28,11 +29,13 @@ public class VoegContactgegevenToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly IValidator<VoegContactgegevenToeRequest> _validator;
+    private readonly AppSettings _appSettings;
 
-    public VoegContactgegevenToeController(IMessageBus messageBus, IValidator<VoegContactgegevenToeRequest> validator)
+    public VoegContactgegevenToeController(IMessageBus messageBus, IValidator<VoegContactgegevenToeRequest> validator, AppSettings appSettings)
     {
         _messageBus = messageBus;
         _validator = validator;
+        _appSettings = appSettings;
     }
 
     /// <summary>
@@ -76,10 +79,11 @@ public class VoegContactgegevenToeController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
-        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
+        var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
+        Response.AddLocationHeader(vCode, WellKnownHeaderLocations.Contactgegevens, commandResult.EntityId, _appSettings.BaseUrl);
 
         return Accepted();
     }

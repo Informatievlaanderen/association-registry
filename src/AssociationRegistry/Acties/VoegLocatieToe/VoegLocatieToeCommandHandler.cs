@@ -42,7 +42,7 @@ public class VoegLocatieToeCommandHandler
 
         var result = await _verenigingRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 
-        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), toegevoegdeLocatie.LocatieId.ToString(), result);
+        return EntityCommandResult.Create(VCode.Create(envelope.Command.VCode), toegevoegdeLocatie.LocatieId, result);
     }
 
     private async Task SynchroniseerLocatie(

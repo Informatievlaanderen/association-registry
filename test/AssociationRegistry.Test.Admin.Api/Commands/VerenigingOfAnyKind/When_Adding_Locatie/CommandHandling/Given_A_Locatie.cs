@@ -73,7 +73,7 @@ public class Given_A_Locatie
 
         var result = await commandHandler.Handle(new CommandEnvelope<VoegLocatieToeCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        result.EntityId.Should().Be(expectedLocatieId.ToString());
+        result.EntityId.Should().Be(expectedLocatieId);
     }
 
     public static IEnumerable<object[]> Data
