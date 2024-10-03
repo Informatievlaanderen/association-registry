@@ -37,7 +37,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 
     public async Task InitializeAsync()
     {
-        _schema = "e2e";
+        _schema = "fullblowne2e";
         OaktonEnvironment.AutoStartHost = true;
 
         var configuration = new ConfigurationBuilder()

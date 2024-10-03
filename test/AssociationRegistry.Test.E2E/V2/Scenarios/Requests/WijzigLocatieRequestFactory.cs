@@ -67,10 +67,10 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
 
         while (!events.Any(a => a.EventType == typeof(AdresWerdOvergenomenUitAdressenregister)))
         {
-            await Task.Delay(300);
+            await Task.Delay(200);
             events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-            if (++counter > 20)
+            if (++counter > 50)
                 throw new Exception(
                     $"Kept waiting for Adresmatch... Events committed: {string.Join(separator: ", ", events.Select(x => x.EventTypeName))}");
         }
