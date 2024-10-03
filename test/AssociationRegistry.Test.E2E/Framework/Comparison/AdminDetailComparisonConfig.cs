@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Bogus;
+using FluentAssertions.Equivalency;
 
 public class AdminDetailComparisonConfig : End2EndComparisonConfig
 {
@@ -14,6 +16,7 @@ public class AdminDetailComparisonConfig : End2EndComparisonConfig
         {
             { typeof(Vertegenwoordiger), [nameof(Vertegenwoordiger.id)] },
             { typeof(Sleutel), [nameof(Sleutel.id)] },
+            { typeof(Werkingsgebied), [nameof(Werkingsgebied.Code)] },
         };
 
         // Ignore specific properties
