@@ -81,10 +81,6 @@ public class VoegContactgegevenToeController : ApiController
         var envelope = new CommandEnvelope<VoegContactgegevenToeCommand>(request.ToCommand(vCode), metaData);
         var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
-        Response.AddSequenceHeader(commandResult.Sequence);
-        Response.AddETagHeader(commandResult.Version);
-        Response.AddLocationHeader(vCode, WellKnownHeaderLocations.Contactgegevens, commandResult.EntityId, _appSettings.BaseUrl);
-
-        return Accepted();
+        return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Contactgegevens, commandResult);
     }
 }

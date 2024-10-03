@@ -14,4 +14,12 @@ public static class ControllerExtensions
 
         return source.Accepted($"{appSettings.BaseUrl}/v1/verenigingen/{commandResult.Vcode}");
     }
+
+    public static AcceptedResult AcceptedEntityCommand(this ApiController source, AppSettings appSettings, string entityName, EntityCommandResult entityCommandResult)
+    {
+        source.Response.AddSequenceHeader(entityCommandResult.Sequence);
+        source.Response.AddETagHeader(entityCommandResult.Version);
+
+        return source.Accepted($"{appSettings.BaseUrl}/v1/verenigingen/{entityCommandResult.Vcode}/{entityName}/{entityCommandResult.EntityId}");
+    }
 }

@@ -96,17 +96,17 @@ public class With_Valid_Request
     [Fact]
     public async Task Then_it_returns_a_location_header()
     {
-        var vCode = _fixture.Create<VCode>();
-        await _controller.Post(
-            vCode,
+        var response = await _controller.Post(
+            _entityCommandResult.Vcode,
             _fixture.Create<VoegLocatieToeRequest>(),
             _fixture.Create<CommandMetadataProviderStub>());
 
         using (new AssertionScope())
         {
-            _controller.Response.GetTypedHeaders().Location.Should()
-                       .BeEquivalentTo(new Uri(
-                                           $"https://beheer.verenigingen.vlaanderen.be/v1/verenigingen/{vCode}/locaties/{_entityCommandResult.EntityId}"));
+            ((AcceptedResult)response)
+               .Location.Should()
+               .BeEquivalentTo(
+                    $"https://beheer.verenigingen.vlaanderen.be/v1/verenigingen/{_entityCommandResult.Vcode}/locaties/{_entityCommandResult.EntityId}");
         }
     }
 }
