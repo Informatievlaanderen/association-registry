@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Schema.PowerBiExport;
 using FluentAssertions;
 using Marten;
+using Projections.PowerBiExport;
 using ScenarioClassFixtures;
 using Xunit;
 

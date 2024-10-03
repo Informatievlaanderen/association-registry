@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Schema.PowerBiExport;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Projections.PowerBiExport;
 using ScenarioClassFixtures;
 using Xunit;
 
