@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
+using FluentAssertions;
 using Formats;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
@@ -12,6 +13,7 @@ using Framework.Comparison;
 using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
+using Newtonsoft.Json.Linq;
 using NodaTime;
 using Xunit;
 using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
@@ -25,10 +27,12 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse[]>
+public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse[]> GetResponse =>
-        setup => setup.PublicApiHost.GetPubliekDetailAll<PubliekVerenigingDetailResponse>();
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
+        setup => setup.PublicApiHost
+                      .GetPubliekDetailAll()
+                      .FindVereniging(Context.VCode);
 
     public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingContext context) : base(context)
     {
@@ -37,20 +41,20 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVe
     [Fact]
     public void With_Context()
     {
-        Response.Single().Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-all-vereniging-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-all-vereniging-context.json");
     }
 
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Single().Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
                                                                         compareConfig: new ComparisonConfig
                                                                             { MaxMillisecondsDateDifference = 5000 });
     }
 
     [Fact]
     public void WithFeitelijkeVereniging()
-        => Response.Single().Vereniging.ShouldCompare(new Vereniging
+        => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
             Doelgroep = new DoelgroepResponse

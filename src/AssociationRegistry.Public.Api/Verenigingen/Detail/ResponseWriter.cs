@@ -33,17 +33,15 @@ public class ResponseWriter : IResponseWriter
             {
                 var teVerwijderenVereniging =
                     JsonConvert.SerializeObject(
-                        new
-                        {
-                            vereniging = new
-                            {
-                                vCode = vereniging.VCode,
-                                teVerwijderen = true,
-                            },
-                        },
+                        new TeVerwijderenVereniging()
+                        {Vereniging = new TeVerwijderenVereniging.TeVerwijderenVerenigingData(){
+                            VCode = vereniging.VCode,
+                            TeVerwijderen = true,
+                        }},
                         _serializerSettings);
 
                 await writer.WriteLineAsync(teVerwijderenVereniging);
+
                 continue;
             }
 
@@ -58,4 +56,14 @@ public class ResponseWriter : IResponseWriter
            vereniging.Status == VerenigingStatus.Gestopt ||
            vereniging.IsUitgeschrevenUitPubliekeDatastroom is not null &&
            vereniging.IsUitgeschrevenUitPubliekeDatastroom.Value;
+
+    public class TeVerwijderenVereniging
+    {
+        public TeVerwijderenVerenigingData Vereniging { get; set; }
+        public class TeVerwijderenVerenigingData
+        {
+            public string VCode { get; set; }
+            public bool TeVerwijderen { get; set; }
+        }
+    }
 }
