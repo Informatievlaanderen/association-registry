@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure;
 
-public class WellKnownHeaderLocations
+public class WellKnownHeaderEntityNames
 {
     public const string Vertegenwoordigers = "vertegenwoordigers";
     public const string Locaties = "locaties";

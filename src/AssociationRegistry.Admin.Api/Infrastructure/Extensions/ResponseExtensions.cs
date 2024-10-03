@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Be.Vlaanderen.Basisregisters.Api;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 
@@ -20,11 +22,5 @@ public static class ResponseExtensions
 
         var responseHeaders = source.GetTypedHeaders();
         responseHeaders.ETag = new EntityTagHeaderValue(new StringSegment($"\"{version}\""), isWeak: true);
-    }
-
-    public static void AddLocationHeader(this HttpResponse source, string vCode, string entityName, int id, string baseUrl)
-    {
-        var responseHeaders = source.GetTypedHeaders();
-        responseHeaders.Location = new Uri($"{baseUrl}/v1/verenigingen/{vCode}/{entityName}/{id}");
     }
 }
