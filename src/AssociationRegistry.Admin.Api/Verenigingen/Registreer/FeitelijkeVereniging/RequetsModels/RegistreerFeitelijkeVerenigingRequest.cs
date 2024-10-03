@@ -54,6 +54,10 @@ public class RegistreerFeitelijkeVerenigingRequest
     [DataMember]
     public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
 
+    /// <summary>De codes van de werkingsgebieden</summary>
+    [DataMember]
+    public string[] Werkingsgebieden { get; set; } = Array.Empty<string>();
+
     public RegistreerFeitelijkeVerenigingCommand ToCommand()
         => new(
             VerenigingsNaam.Create(Naam),
