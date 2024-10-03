@@ -1,11 +1,14 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
+using Scenarios;
+using TestClasses;
 
 public interface IApiSetup
 {
-    Task InitializeAsync(string schema);
-    IAlbaHost AdminApiHost { get; }
-    IAlbaHost ProjectionHost { get; }
-    IAlbaHost QueryApiHost { get; }
+    public IAlbaHost AdminApiHost { get; }
+    public IAlbaHost AdminProjectionHost { get; }
+    public IAlbaHost PublicProjectionHost { get; }
+    public IAlbaHost PublicApiHost { get; }
+    Task ExecuteGiven(IScenario werdGeregistreerdScenario);
 }

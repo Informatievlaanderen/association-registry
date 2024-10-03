@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Schema.PowerBiExport;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Projections.PowerBiExport;
 using ScenarioClassFixtures;
 using Xunit;
 
@@ -24,9 +25,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
     [Fact]
     public async Task ARecordIsStored_With_VCodeAndNaam()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
@@ -37,9 +40,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
     [Fact]
     public async Task ARecordIsStored_With_Hoofdactiviteiten()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 
@@ -60,9 +65,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
     [Fact]
     public async Task ARecordIsStored_With_Historiek()
     {
+        await using var documentSession = _context
+           .Session;
+
         var powerBiExportDocument =
-            await _context
-                 .Session
+            await documentSession
                  .Query<PowerBiExportDocument>()
                  .SingleAsync(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
 

@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Projections.V2.PowerBiExport;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Projections.PowerBiExport;
 
 public class ApplyAllEventsScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {

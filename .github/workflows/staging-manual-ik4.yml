@@ -30,7 +30,7 @@ jobs:
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: stg
+          environment: staging
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
@@ -68,7 +68,7 @@ jobs:
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/stg/deploy/v4/status
         uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: stg
+          environment: staging
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL

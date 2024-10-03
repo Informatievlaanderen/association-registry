@@ -1,20 +1,28 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
-using Alba;
+using ApiSetup;
+using V2.When_Stop_Vereniging;
+using Xunit;
 
-public abstract class End2EndTest<TContext, TRequest, TResponse> where TContext : IEnd2EndContext<TRequest>
+public abstract class End2EndTest<TContext, TRequest, TResponse>: IClassFixture<TContext>, IAsyncLifetime where TContext : class, ITestContext<TRequest>
 {
-    private readonly TContext _context;
-
-    protected End2EndTest(TContext context)
+    public TContext Context { get; }
+    // Convenience props
+    public TRequest Request => Context.Request;
+    public End2EndTest(TContext context)
     {
-        _context = context;
-
-        Response = GetResponse(context.QueryApiHost)!;
+        Context = context;
     }
 
-    protected string VCode => _context.VCode;
-    protected TRequest Request => _context.Request;
-    protected TResponse Response { get; init; }
-    protected abstract Func<IAlbaHost, TResponse> GetResponse { get; }
+    public async Task InitializeAsync()
+    {
+        Response = GetResponse(Context.ApiSetup);
+    }
+
+    public TResponse Response { get; private set; }
+
+    public abstract Func<IApiSetup, TResponse> GetResponse { get; }
+    public async Task DisposeAsync()
+    {
+    }
 }

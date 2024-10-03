@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V2.PowerBiExport.Scenar
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Projections.V2.PowerBiExport;
 using AutoFixture;
+using Projections.PowerBiExport;
 
 public class HoofdactiviteitenWerdenGewijzigdScenario : ProjectionScenarioFixture<PowerBiExportContext>
 {
