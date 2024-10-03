@@ -9,6 +9,7 @@ on:
 
 jobs:
   deployment:
+    name: Deploy services (Production IK4)
     environment: production_ik4
     runs-on: ubuntu-latest
     strategy:
@@ -22,27 +23,24 @@ jobs:
             'adminprojections',
           ]
     steps:
-      - name: secrets
-        shell: bash
-        if: always()
-        run: |
-          echo Build API: ${{ secrets.VBR_AWS_BUILD_API }}
-          echo Status: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}
       - name: CD
+        id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/prd/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/prd/deploy/v4/status
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: prd
+          environment: production
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
-          region: eu-west-1
+          deploy-target: 'ecs'
+          domain: 'verenigingsregister'
+          project: 'verenigingsregister'
+          application: ${{matrix.services}}
           interval: 2
-          deploy-target: 'ecs_service'
       - name: output
         shell: bash
         if: always()
@@ -60,22 +58,26 @@ jobs:
         services:
           [
             'adressensync',
+            'powerbiexport'
           ]
     steps:
       - name: CD
+        id: awscurl-polling-action
         env:
-          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}
-          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@main
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/${{matrix.services}}/prd/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/${{matrix.services}}/prd/deploy/v4/status
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
-          environment: prd
+          environment: production
           version: ${{ github.event.inputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
           access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
           secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
-          region: eu-west-1
-          deploy-target: 'ecs_scheduled_task'
+          domain: 'verenigingsregister'
+          project: 'verenigingsregister'
+          deploy-target: 'ecs'
+          application: ${{matrix.services}}
           interval: 2
       - name: output
         shell: bash
