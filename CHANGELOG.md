@@ -1,3 +1,10 @@
+## [8.154.1](https://github.com/informatievlaanderen/association-registry/compare/v8.154.0...v8.154.1) (2024-10-03)
+
+
+### Bug Fixes
+
+* or-2316 remove port in url on returning ids when adding entities ([8c34774](https://github.com/informatievlaanderen/association-registry/commit/8c34774dacdda7b6bcc34ade9c28e54d5a58aa1f))
+
 # [8.154.0](https://github.com/informatievlaanderen/association-registry/compare/v8.153.1...v8.154.0) (2024-10-02)
 
 
