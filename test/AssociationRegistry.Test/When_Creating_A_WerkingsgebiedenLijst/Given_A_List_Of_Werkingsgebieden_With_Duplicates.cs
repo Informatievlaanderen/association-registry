@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.When_Creating_A_WerkingsgebiedenLijst;
 
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Framework.Helpers;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
