@@ -8,6 +8,7 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
+using Vereniging.Werkingsgebied;
 
 public static class AutoFixtureCustomizations
 {
@@ -30,6 +31,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeDoelgroep();
         fixture.CustomizeAdresId();
         fixture.CustomizeAdres();
+        fixture.CustomizeWerkingsgebied();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -44,6 +46,18 @@ public static class AutoFixtureCustomizations
     public static void CustomizeTestEvent(this Fixture fixture, Type testEventType)
     {
         fixture.Customizations.Add(new TestEventSpecimenBuilder(testEventType));
+    }
+
+    private static void CustomizeWerkingsgebied(this IFixture fixture)
+    {
+        fixture.Customize<Werkingsgebied>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var werkingsgebieden = Werkingsgebied.All;
+
+                    return werkingsgebieden[value % werkingsgebieden.Length];
+                }).OmitAutoProperties());
     }
 
     public static Contactgegeven CreateContactgegevenVolgensType(this IFixture source, string type)

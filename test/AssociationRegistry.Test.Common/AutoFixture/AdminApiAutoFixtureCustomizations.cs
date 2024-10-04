@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
@@ -14,6 +15,8 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
+using Contactgegeven = Vereniging.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public static class AdminApiAutoFixtureCustomizations
 {
@@ -100,7 +103,9 @@ public static class AdminApiAutoFixtureCustomizations
 
                     request.KorteBeschrijving = fixture.Create<string>();
                     request.KorteNaam = fixture.Create<string>();
-
+                    request.Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
+                                                      .Distinct()
+                                                      .Select(x => x.Code).ToArray();
                     return request;
                 }).OmitAutoProperties());
     }

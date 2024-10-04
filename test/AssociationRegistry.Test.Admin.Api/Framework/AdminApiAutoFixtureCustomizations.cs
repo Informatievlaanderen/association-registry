@@ -16,6 +16,7 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
+using Vereniging.Werkingsgebied;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using WijzigContactgegevenRequest =
     AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.
@@ -108,7 +109,9 @@ public static class AutoFixtureCustomizations
 
                     request.KorteBeschrijving = fixture.Create<string>();
                     request.KorteNaam = fixture.Create<string>();
-
+                    request.Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
+                                                      .Distinct()
+                                                      .Select(x => x.Code).ToArray();
                     return request;
                 }).OmitAutoProperties());
     }
