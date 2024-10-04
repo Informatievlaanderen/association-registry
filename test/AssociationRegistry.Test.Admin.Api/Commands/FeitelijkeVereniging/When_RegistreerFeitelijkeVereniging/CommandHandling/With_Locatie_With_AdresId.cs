@@ -14,6 +14,7 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
+using Vereniging.Werkingsgebied;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -65,7 +66,8 @@ public class With_Locatie_With_AdresId
                 locatie,
             },
             Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>());
+            Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            Array.Empty<Werkingsgebied>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
