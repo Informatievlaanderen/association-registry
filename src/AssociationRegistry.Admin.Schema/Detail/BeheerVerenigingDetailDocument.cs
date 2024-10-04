@@ -25,6 +25,9 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
         Array.Empty<HoofdactiviteitVerenigingsloket>();
 
+    public Werkingsgebied[] Werkingsgebieden { get; set; } =
+        Array.Empty<Werkingsgebied>();
+
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }

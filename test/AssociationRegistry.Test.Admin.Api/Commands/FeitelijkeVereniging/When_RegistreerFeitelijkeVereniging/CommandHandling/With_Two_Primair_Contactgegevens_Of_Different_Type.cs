@@ -107,6 +107,10 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
-                        h.Naam)).ToArray()));
+                        h.Naam)).ToArray(),
+                _command.Werkingsgebieden.Select(
+                    h =>
+                        new Registratiedata.Werkingsgebied(h.Code, h.Naam)
+                ).ToArray()));
     }
 }
