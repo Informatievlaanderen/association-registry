@@ -17,8 +17,9 @@ public class Given_A_Known_Code
     {
         var ctor = () => Werkingsgebied.Create(code);
 
-        ctor.Should().NotBeNull();
         ctor.Should().NotThrow<WerkingsgebiedCodeIsNietGekend>();
+
+        Werkingsgebied.Create(code).Should().NotBeNull();
     }
 
     [Theory]
@@ -29,7 +30,8 @@ public class Given_A_Known_Code
     {
         var ctor = () => Werkingsgebied.Create(code);
 
-        ctor.Should().NotThrow();
         ctor.Should().NotThrow<WerkingsgebiedCodeIsNietGekend>();
+
+        Werkingsgebied.Create(code).Should().NotBeNull();
     }
 }

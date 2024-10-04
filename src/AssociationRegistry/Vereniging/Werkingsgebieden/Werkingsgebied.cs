@@ -15,7 +15,6 @@ public class Werkingsgebied
 
     public static Werkingsgebied Create(string code)
     {
-        throw new Exception();
         var value = All.SingleOrDefault(p => string.Equals(p.Code, code, StringComparison.InvariantCultureIgnoreCase));
 
         return value ?? throw new WerkingsgebiedCodeIsNietGekend(code);
@@ -24,19 +23,14 @@ public class Werkingsgebied
     public static Werkingsgebied[] All =
     [
         new("BE", "België"),
-        new("BE2", "Vlaams gewest"),
-        new("BE25", "West-Vlaanderen"),
-        new("BE255", "Arrondissement Oostende"),
+        new("BE1", "Brussels Gewest"),
+        new("BE2", "Vlaams Gewest"),
+        new("BE21", "Provincie Antwerpen"),
+        new("BE22", "Provincie Limburg"),
+        new("BE25", "Provincie West-Vlaanderen"),
+        new("BE212", "Arrondissement Machelen"),
+        new("BE213", "Distriuct Turnhout"),
+        new("BE255", "District Oostende"),
         new("BE25535002", "Bredene"),
-
-        new("BE3", "Brussels Hoofdstedelijk Gewest"),
-        new("BE33", "Brussels"),
-        new("BE331", "Brussels Hoofdstad"),
-        new("BE33101001", "Elsene"),
-
-        new("BE1", "Waals gewest"),
-        new("BE32", "Namen"),
-        new("BE325", "Arrondissement Namen"),
-        new("BE32594045", "Dinant"),
     ];
 }
