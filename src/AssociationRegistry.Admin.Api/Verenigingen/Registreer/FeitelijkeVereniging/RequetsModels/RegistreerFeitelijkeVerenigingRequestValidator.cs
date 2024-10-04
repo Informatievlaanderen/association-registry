@@ -37,6 +37,10 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
            .Must(NotHaveDuplicates)
            .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 
+        RuleFor(request => request.Werkingsgebieden)
+           .Must(NotHaveDuplicates)
+           .WithMessage("Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.");
+
         RuleFor(request => request.Startdatum)
            .Must(BeTodayOrBefore)
            .When(r => r.Startdatum is not null)
