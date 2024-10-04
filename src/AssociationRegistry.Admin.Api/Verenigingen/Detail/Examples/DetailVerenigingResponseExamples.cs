@@ -13,6 +13,7 @@ using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<DetailVerenigingResponse>
 {
@@ -62,6 +63,16 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Code = "CULT",
                             Naam = "Cultuur",
                         },
+                    },
+                    Werkingsgebieden = new []
+                    {
+                        new Werkingsgebied()
+                        {
+                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Hoofdactiviteit.Type,
+                            Code = "BE25",
+                            Naam = "Provincie West-Vlaanderen",
+                        }
                     },
                     Contactgegevens = new[]
                     {

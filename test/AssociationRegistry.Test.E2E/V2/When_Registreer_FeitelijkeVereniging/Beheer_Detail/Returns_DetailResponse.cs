@@ -201,6 +201,8 @@
                 {
                     Code = werkingsgebied.Code,
                     Naam = werkingsgebied.Naam,
+                    id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                    type = JsonLdType.Werkingsgebied.Type,
                 };
             }).ToArray();
         }

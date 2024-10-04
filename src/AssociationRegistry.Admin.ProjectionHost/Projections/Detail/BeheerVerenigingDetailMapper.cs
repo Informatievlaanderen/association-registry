@@ -145,6 +145,7 @@ public class BeheerVerenigingDetailMapper
         Registratiedata.Werkingsgebied w)
         => new()
         {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Werkingsgebied, w.Code),
             Code = w.Code,
             Naam = w.Naam,
         };
