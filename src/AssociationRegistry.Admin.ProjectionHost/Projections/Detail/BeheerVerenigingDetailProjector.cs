@@ -17,6 +17,7 @@ using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigings
 using IEvent = Marten.Events.IEvent;
 using Locatie = Schema.Detail.Locatie;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
+using Werkingsgebied = Vereniging.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -54,6 +55,12 @@ public class BeheerVerenigingDetailProjector
                                                                                      .Select(BeheerVerenigingDetailMapper
                                                                                          .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
+            Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data
+                                                                    .Werkingsgebieden?
+                                                                    .Select(BeheerVerenigingDetailMapper
+                                                                               .MapWerkingsgebied)
+                                                                    .ToArray() ?? [],
+
             Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
@@ -519,7 +526,8 @@ public class BeheerVerenigingDetailProjector
                                          {
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres, document.VCode, l.LocatieId),
-                                             Adresvoorstelling = AdresFormatter.ToAdresString(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres),
+                                             Adresvoorstelling =
+                                             AdresFormatter.ToAdresString(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
                                              VerwijstNaar =
@@ -552,7 +560,8 @@ public class BeheerVerenigingDetailProjector
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  adresWerdOvergenomenUitAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
-                                             Adresvoorstelling = AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
+                                             Adresvoorstelling =
+                                             AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
@@ -574,7 +583,8 @@ public class BeheerVerenigingDetailProjector
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  adresWerdGewijzigdInAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
-                                             Adresvoorstelling = AdresFormatter.ToAdresString(adresWerdGewijzigdInAdressenregister.Data.Adres),
+                                             Adresvoorstelling =
+                                             AdresFormatter.ToAdresString(adresWerdGewijzigdInAdressenregister.Data.Adres),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
@@ -658,7 +668,6 @@ public class BeheerVerenigingDetailProjector
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
-
 
     public static void Apply(
         IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderdNaAdresMatch,

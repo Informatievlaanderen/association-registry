@@ -74,6 +74,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = MapLocaties(Request.Contactgegevens, Context.VCode),
             HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, Context.VCode),
             Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, Context.VCode),
             Relaties = MapRelaties([], Context.VCode),
@@ -185,6 +186,21 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
                 Naam = hoofdactiviteitVerenigingsloket.Naam,
                 id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
                 type = JsonLdType.Hoofdactiviteit.Type,
+            };
+        }).ToArray();
+    }
+
+    private static Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied[] MapWerkingsgebieden(
+        string[] werkingsgebieden)
+    {
+        return werkingsgebieden.Select(x =>
+        {
+            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+
+            return new Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied
+            {
+                Code = werkingsgebied.Code,
+                Naam = werkingsgebied.Naam,
             };
         }).ToArray();
     }

@@ -97,7 +97,8 @@ public class With_Locatie_With_AdresId
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Registratiedata.Locatie.With(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
+                Array.Empty<Registratiedata.Werkingsgebied>()),
             new AdresWerdOvergenomenUitAdressenregister(vCodeService.GetLast(), LocatieId: 1, adresDetailResponse.AdresId,
                                                         adresDetailResponse.ToAdresUitAdressenregister())
         );

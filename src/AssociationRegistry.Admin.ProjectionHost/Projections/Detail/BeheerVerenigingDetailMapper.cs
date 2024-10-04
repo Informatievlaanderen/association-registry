@@ -13,6 +13,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = Schema.Detail.Locatie;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
+using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailMapper
 {
@@ -138,6 +139,14 @@ public class BeheerVerenigingDetailMapper
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Hoofdactiviteit, h.Code),
             Code = h.Code,
             Naam = h.Naam,
+        };
+
+    public static Werkingsgebied MapWerkingsgebied(
+        Registratiedata.Werkingsgebied w)
+        => new()
+        {
+            Code = w.Code,
+            Naam = w.Naam,
         };
 
     public static VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)

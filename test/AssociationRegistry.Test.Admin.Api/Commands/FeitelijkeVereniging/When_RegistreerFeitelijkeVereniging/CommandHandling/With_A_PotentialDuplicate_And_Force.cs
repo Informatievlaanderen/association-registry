@@ -113,6 +113,10 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
+                        h.Naam)).ToArray(),
+                 _command.Werkingsgebieden.Select(
+                    h => new Registratiedata.Werkingsgebied(
+                        h.Code,
                         h.Naam)).ToArray()
             ));
     }

@@ -79,6 +79,8 @@ public class With_Required_Fields
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()));
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
+                Array.Empty<Registratiedata.Werkingsgebied>()
+                ));
     }
 }

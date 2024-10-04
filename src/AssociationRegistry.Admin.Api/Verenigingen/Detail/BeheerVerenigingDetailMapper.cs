@@ -15,6 +15,7 @@ using Sleutel = ResponseModels.Sleutel;
 using VerenigingsType = ResponseModels.VerenigingsType;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class BeheerVerenigingDetailMapper
 {
@@ -66,6 +67,7 @@ public class BeheerVerenigingDetailMapper
             Locaties = vereniging.Locaties.Select(Map).ToArray(),
             Vertegenwoordigers = vereniging.Vertegenwoordigers.Select(Map).ToArray(),
             HoofdactiviteitenVerenigingsloket = vereniging.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
+            Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
             Bron = vereniging.Bron,
@@ -136,6 +138,14 @@ public class BeheerVerenigingDetailMapper
             type = hoofdactiviteitVerenigingsloket.JsonLdMetadata.Type,
             Code = hoofdactiviteitVerenigingsloket.Code,
             Naam = hoofdactiviteitVerenigingsloket.Naam,
+        };
+
+    private static Werkingsgebied Map(
+        Schema.Detail.Werkingsgebied werkingsgebied)
+        => new()
+        {
+            Code = werkingsgebied.Code,
+            Naam = werkingsgebied.Naam,
         };
 
     private static Vertegenwoordiger Map(Schema.Detail.Vertegenwoordiger ver)
