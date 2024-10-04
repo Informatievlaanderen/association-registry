@@ -32,6 +32,7 @@ public static class PubliekVerenigingDetailMapper
                 Contactgegevens = document.Contactgegevens.Select(Map).ToArray(),
                 Locaties = document.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
+                Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
             },
@@ -63,6 +64,7 @@ public static class PubliekVerenigingDetailMapper
                 Contactgegevens = document.Contactgegevens.Select(Map).ToArray(),
                 Locaties = document.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
+                //Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
             },
@@ -127,6 +129,15 @@ public static class PubliekVerenigingDetailMapper
             type = ha.JsonLdMetadata.Type,
             Code = ha.Code,
             Naam = ha.Naam,
+        };
+
+ private static Werkingsgebied Map(PubliekVerenigingDetailDocument.Werkingsgebied wg)
+        => new()
+        {
+            id = wg.JsonLdMetadata.Id,
+            type = wg.JsonLdMetadata.Type,
+            Code = wg.Code,
+            Naam = wg.Naam,
         };
 
     private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)

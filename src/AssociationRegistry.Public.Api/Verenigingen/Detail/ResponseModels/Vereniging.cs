@@ -61,6 +61,11 @@ public class Vereniging
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } =
         Array.Empty<HoofdactiviteitVerenigingsloket>();
 
+    /// <summary>De werkingsgebieden van deze vereniging</summary>
+    [DataMember(Name = "Werkingsgebieden")]
+    public Werkingsgebied[] Werkingsgebieden { get; init; } =
+        Array.Empty<Werkingsgebied>();
+
     /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]
     public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();

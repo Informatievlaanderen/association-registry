@@ -13,8 +13,7 @@ using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
-
-
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenigingDetailResponse>
 {
@@ -105,6 +104,17 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
 
                         Code = "CULT",
                         Naam = "Cultuur",
+                    },
+                },
+                Werkingsgebieden = new[]
+                {
+                    new Werkingsgebied()
+                    {
+                        id = JsonLdType.Werkingsgebied.CreateWithIdValues("CULT"),
+                        type = JsonLdType.Werkingsgebied.Type,
+
+                        Code = "BE25",
+                        Naam = "Provincie West-Vlaanderen",
                     },
                 },
                 Sleutels = new []

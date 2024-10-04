@@ -53,6 +53,13 @@ public static class PubliekVerenigingDetailProjector
                                                             .ToArray(),
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
+
+            Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd
+                              .Data
+                              .Werkingsgebieden?
+                              .Select(MapWerkingsgebied)
+                              .ToArray() ?? [],
+
             Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
             {
                 new()
@@ -109,6 +116,7 @@ public static class PubliekVerenigingDetailProjector
             Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
+            //Werkingsgebieden = Array.Empty<PubliekVerenigingDetailDocument.Werkingsgebied>(),
             Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
             {
                 new()
@@ -161,6 +169,17 @@ public static class PubliekVerenigingDetailProjector
                 JsonLdType.Hoofdactiviteit.Type),
             Code = arg.Code,
             Naam = arg.Naam,
+        };
+
+    private static PubliekVerenigingDetailDocument.Werkingsgebied MapWerkingsgebied(
+        Registratiedata.Werkingsgebied werkingsgebied)
+        => new()
+        {
+            JsonLdMetadata = new JsonLdMetadata(
+                JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                JsonLdType.Werkingsgebied.Type),
+            Code = werkingsgebied.Code,
+            Naam = werkingsgebied.Naam,
         };
 
     public static void Apply(IEvent<NaamWerdGewijzigd> naamWerdGewijzigd, PubliekVerenigingDetailDocument document)
@@ -481,7 +500,8 @@ public static class PubliekVerenigingDetailProjector
                                          Adres = Map(adresWerdOvergenomenUitAdressenregister.Data.VCode,
                                                      adresWerdOvergenomenUitAdressenregister.Data.LocatieId,
                                                      adresWerdOvergenomenUitAdressenregister.Data.Adres),
-                                         Adresvoorstelling = AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
+                                         Adresvoorstelling =
+                                         AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
                                          AdresId = Map(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                          VerwijstNaar =
                                          MapVerwijstNaar(adresWerdOvergenomenUitAdressenregister.Data.AdresId),
@@ -600,7 +620,10 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
-    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.AdresUitAdressenregister? adresUitAdressenregister)
+    private static PubliekVerenigingDetailDocument.Adres? Map(
+        string vCode,
+        int locatieId,
+        Registratiedata.AdresUitAdressenregister? adresUitAdressenregister)
         => adresUitAdressenregister is null
             ? null
             : new PubliekVerenigingDetailDocument.Adres

@@ -126,7 +126,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
                 },
             ],
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            Werkingsgebieden = ["BE25", "BE25535002"]
+            Werkingsgebieden = ["BE25", "BE25535002"],
         };
 
         var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
