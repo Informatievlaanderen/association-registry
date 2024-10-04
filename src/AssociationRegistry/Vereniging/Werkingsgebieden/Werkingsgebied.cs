@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Exceptions;
+
 public class Werkingsgebied
 {
     private Werkingsgebied(string code, string naam)
@@ -13,7 +15,10 @@ public class Werkingsgebied
 
     public static Werkingsgebied Create(string code)
     {
-        return All.Single(x => x.Code == code);
+        throw new Exception();
+        var value = All.SingleOrDefault(p => string.Equals(p.Code, code, StringComparison.InvariantCultureIgnoreCase));
+
+        return value ?? throw new WerkingsgebiedCodeIsNietGekend(code);
     }
 
     public static Werkingsgebied[] All =

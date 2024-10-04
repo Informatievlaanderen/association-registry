@@ -7,7 +7,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_An_Unknow_Code
+public class Given_An_Unknown_Code
 {
     [Theory]
     [InlineData(null)]
