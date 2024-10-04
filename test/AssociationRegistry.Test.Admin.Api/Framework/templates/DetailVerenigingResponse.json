@@ -168,6 +168,14 @@
       },
 {{end}}
     ],
+    "werkingsgebieden": [
+{{for werkingsgebied in vereniging.werkingsgebieden}}
+    {
+      "code": "{{werkingsgebied.code}}",
+      "naam": "{{werkingsgebied.naam}}"
+    },
+{{end}}
+    ],
     "bron": "{{vereniging.bron}}"
   },
   "metadata": {
