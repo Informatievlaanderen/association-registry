@@ -6,11 +6,11 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Werkingsgebied
 {
-    /// <summary>De code van de werkingsgebied</summary>
+    /// <summary>De code van het werkingsgebied</summary>
     [DataMember(Name = "Code")]
     public string Code { get; init; } = null!;
 
-    /// <summary>De beschrijving van de werkingsgebied</summary>
+    /// <summary>De beschrijving van het werkingsgebied</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 }
