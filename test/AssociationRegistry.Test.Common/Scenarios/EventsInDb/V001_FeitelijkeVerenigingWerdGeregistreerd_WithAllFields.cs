@@ -18,24 +18,24 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
         VCode = "V9999001";
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
-            VCode,
+            VCode: VCode,
             Naam: "Feestcommittee Oudenaarde",
             KorteNaam: "FOud",
             KorteBeschrijving: "Het feestcommittee van Oudenaarde",
-            DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
-            new Registratiedata.Doelgroep(Minimumleeftijd: 18, Maximumleeftijd: 90),
+            Startdatum: DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
+            Doelgroep: new Registratiedata.Doelgroep(Minimumleeftijd: 18, Maximumleeftijd: 90),
             IsUitgeschrevenUitPubliekeDatastroom: false,
-            new[]
-            {
+            Contactgegevens:
+            [
                 new Registratiedata.Contactgegeven(
                     ContactgegevenId: 1,
                     Contactgegeventype.Email,
                     Waarde: "info@FOud.be",
                     Beschrijving: "Algemeen",
                     IsPrimair: true),
-            },
-            new[]
-            {
+            ],
+            Locaties:
+            [
                 new Registratiedata.Locatie(
                     LocatieId: 1,
                     Locatietype: "Correspondentie",
@@ -69,9 +69,9 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                         Gemeente: "Affligem",
                         Land: "België"),
                     AdresId: null),
-            },
-            new[]
-            {
+            ],
+            Vertegenwoordigers:
+            [
                 new Registratiedata.Vertegenwoordiger(
                     VertegenwoordigerId: 1,
                     Insz: "01234567890",
@@ -84,11 +84,15 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
                     Telefoon: "",
                     Mobiel: "",
                     SocialMedia: ""),
-            },
-            new Registratiedata.HoofdactiviteitVerenigingsloket[]
-            {
+            ],
+            HoofdactiviteitenVerenigingsloket:
+            [
                 new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
-            });
+            ],
+            Werkingsgebieden:
+            [
+                new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
+            ]);
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
@@ -97,8 +101,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
     public StreamActionResult Result { get; set; } = null!;
 
     public IEvent[] GetEvents()
-        => new IEvent[]
-            { FeitelijkeVerenigingWerdGeregistreerd };
+        => [FeitelijkeVerenigingWerdGeregistreerd];
 
     public CommandMetadata GetCommandMetadata()
         => Metadata;

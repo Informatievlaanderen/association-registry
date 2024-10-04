@@ -171,6 +171,8 @@
     "werkingsgebieden": [
 {{for werkingsgebied in vereniging.werkingsgebieden}}
     {
+      "@id": "{{werkingsgebied.jsonldid}}",
+      "@type": "{{werkingsgebied.jsonldtype}}",
       "code": "{{werkingsgebied.code}}",
       "naam": "{{werkingsgebied.naam}}"
     },

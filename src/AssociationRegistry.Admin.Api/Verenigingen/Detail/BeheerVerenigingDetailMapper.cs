@@ -144,6 +144,8 @@ public class BeheerVerenigingDetailMapper
         Schema.Detail.Werkingsgebied werkingsgebied)
         => new()
         {
+            id = werkingsgebied.JsonLdMetadata.Id,
+            type = werkingsgebied.JsonLdMetadata.Type,
             Code = werkingsgebied.Code,
             Naam = werkingsgebied.Naam,
         };
