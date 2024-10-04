@@ -72,6 +72,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.Locaties,
             message.Command.Vertegenwoordigers,
             command.HoofdactiviteitenVerenigingsloket,
+            command.Werkingsgebieden,
             _clock);
 
         var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<FeitelijkeVerenigingWerdGeregistreerd>()

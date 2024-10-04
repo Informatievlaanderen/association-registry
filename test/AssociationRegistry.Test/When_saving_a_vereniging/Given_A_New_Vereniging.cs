@@ -40,6 +40,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
             Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            Array.Empty<Werkingsgebied>(),
             new ClockStub(DateTime.Today));
     }
 

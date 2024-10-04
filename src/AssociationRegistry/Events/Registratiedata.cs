@@ -159,4 +159,12 @@ public static class Registratiedata
         public static HoofdactiviteitVerenigingsloket With(Vereniging.HoofdactiviteitVerenigingsloket activiteit)
             => new(activiteit.Code, activiteit.Naam);
     }
+
+    public record Werkingsgebied(
+        string Code,
+        string Naam)
+    {
+        public static Werkingsgebied With(Vereniging.Werkingsgebied werkingsgebied)
+            => new(werkingsgebied.Code, werkingsgebied.Naam);
+    }
 }

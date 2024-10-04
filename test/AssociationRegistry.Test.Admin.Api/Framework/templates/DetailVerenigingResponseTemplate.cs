@@ -9,7 +9,6 @@ using NodaTime;
 using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
-using Vereniging.Werkingsgebied;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {

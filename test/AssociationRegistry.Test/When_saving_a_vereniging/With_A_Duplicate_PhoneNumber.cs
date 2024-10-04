@@ -50,12 +50,12 @@ public class With_A_Duplicate_PhoneNumber
         const string beschrijving = "zelfde beschrijving";
 
         Assert.Throws<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerFeitelijkeVereniging(
-                                                     vCode,
-                                                     naam,
+                                                     vCode: vCode,
+                                                     naam: naam,
                                                      korteNaam: null,
                                                      korteBeschrijving: null,
                                                      startDatum: null,
-                                                     Doelgroep.Null,
+                                                     doelgroep: Doelgroep.Null,
                                                      uitgeschrevenUitPubliekeDatastroom: false,
                                                      toeTeVoegenContactgegevens:
                                                      [
@@ -72,9 +72,10 @@ public class With_A_Duplicate_PhoneNumber
                                                              Waarde = waarde,
                                                          },
                                                      ],
-                                                     Array.Empty<Locatie>(),
-                                                     Array.Empty<Vertegenwoordiger>(),
-                                                     Array.Empty<HoofdactiviteitVerenigingsloket>(),
-                                                     new ClockStub(DateTime.Today)));
+                                                     toeTeVoegenLocaties: [],
+                                                     toeTeVoegenVertegenwoordigers: [],
+                                                     hoofdactiviteitenVerenigingsloketLijst: [],
+                                                     werkingsgebieden: [],
+                                                     clock: new ClockStub(DateTime.Today)));
     }
 }

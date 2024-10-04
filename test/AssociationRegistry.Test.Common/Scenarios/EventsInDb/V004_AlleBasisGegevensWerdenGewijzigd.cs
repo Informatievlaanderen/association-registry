@@ -6,7 +6,6 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 using Vereniging;
-using Vereniging.Werkingsgebied;
 
 public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
 {

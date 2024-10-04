@@ -4,7 +4,6 @@ using Acties.RegistreerFeitelijkeVereniging;
 using Acties.VoegContactgegevenToe;
 using AutoFixture;
 using Vereniging;
-using Vereniging.Werkingsgebied;
 
 public static class CommandCustomizations
 {

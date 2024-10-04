@@ -16,7 +16,6 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using Vereniging.Werkingsgebied;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using WijzigContactgegevenRequest =
     AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels.

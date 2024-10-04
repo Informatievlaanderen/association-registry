@@ -12,7 +12,6 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
-using Vereniging.Werkingsgebied;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;

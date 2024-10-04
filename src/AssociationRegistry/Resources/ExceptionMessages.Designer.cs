@@ -186,6 +186,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een waarde in de werkingsgebieden lijst mag slechts 1 maal voorkomen..
+        /// </summary>
+        public static string DuplicateWerkingsgebied {
+            get {
+                return ResourceManager.GetString("DuplicateWerkingsgebied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Einddatum moet na startdatum liggen..
         /// </summary>
         public static string EinddatumIsBeforeStartdatum {

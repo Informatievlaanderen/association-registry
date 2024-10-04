@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 using Acties.RegistreerFeitelijkeVereniging;
 using global::AutoFixture;
 using Vereniging;
-using Vereniging.Werkingsgebied;
 
 public static class CommandCustomizations
 {
