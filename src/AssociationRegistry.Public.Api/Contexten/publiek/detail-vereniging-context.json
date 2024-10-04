@@ -19,6 +19,8 @@
   "con": "http://lblod.data.gift/concepts/",
   "verenigingsregister": "https://publiek.verenigingen.vlaanderen.be/ns/verenigingsregister#",
   "hoofdactiviteitenVerenigingsloket": "regorg:orgActivity",
+  "werkingsgebieden": "dc:spatial",
+  "wg": "http://data.vlaanderen.be/id/concept/werkingsgebied/",
   "regorg": "http://www.w3.org/ns/regorg#",
   "cont": "http://data.lblod.info/id/contact-punten/",
   "org": "http://www.w3.org/ns/org#",

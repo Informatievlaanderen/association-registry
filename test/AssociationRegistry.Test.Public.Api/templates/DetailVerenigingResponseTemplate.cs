@@ -25,6 +25,7 @@ public class DetailVerenigingResponseTemplate
         _vereniging.hoofdactiviteiten = new List<object>();
         _vereniging.relaties = new List<object>();
         _vereniging.sleutels = new List<object>();
+        _vereniging.werkingsgebieden = new List<object>();
 
         WithStatus(VerenigingStatus.Actief);
         WithKorteNaam(string.Empty);
@@ -111,7 +112,7 @@ public class DetailVerenigingResponseTemplate
 
     public DetailVerenigingResponseTemplate WithHoofdactiviteit(string code, string naam)
     {
-        var foo = new
+        var hoofdactiviteit = new
         {
             jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
             jsonldtype = JsonLdType.Hoofdactiviteit.Type,
@@ -119,7 +120,22 @@ public class DetailVerenigingResponseTemplate
             naam = naam,
         };
 
-        _vereniging.hoofdactiviteiten.Add(foo);
+        _vereniging.hoofdactiviteiten.Add(hoofdactiviteit);
+
+        return this;
+    }
+
+    public DetailVerenigingResponseTemplate WithWerkingsgebied(string code, string naam)
+    {
+        var werkingsgebied = new
+        {
+            jsonldid = JsonLdType.Werkingsgebied.CreateWithIdValues(code),
+            jsonldtype = JsonLdType.Werkingsgebied.Type,
+            code = code,
+            naam = naam,
+        };
+
+        _vereniging.werkingsgebieden.Add(werkingsgebied);
 
         return this;
     }
@@ -292,6 +308,11 @@ public class DetailVerenigingResponseTemplate
         foreach (var h in e.HoofdactiviteitenVerenigingsloket)
         {
             template.WithHoofdactiviteit(h.Code, h.Naam);
+        }
+
+        foreach (var w in e.Werkingsgebieden ?? [])
+        {
+            template.WithWerkingsgebied(w.Code, w.Naam);
         }
 
         foreach (var c in e.Contactgegevens)

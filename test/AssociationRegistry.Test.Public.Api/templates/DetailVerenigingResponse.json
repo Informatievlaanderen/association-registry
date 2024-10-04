@@ -42,6 +42,16 @@
       },
 {{end}}
     ],
+    "werkingsgebieden": [
+{{for werkingsgebied in vereniging.werkingsgebieden}}
+      {
+        "@id": "{{werkingsgebied.jsonldid}}",
+        "@type": "{{werkingsgebied.jsonldtype}}",
+        "code": "{{werkingsgebied.code}}",
+        "naam": "{{werkingsgebied.naam}}"
+      },
+{{end}}
+    ],
     "doelgroep": {
       "@id": "{{vereniging.doelgroep.jsonldid}}",
       "@type": "{{vereniging.doelgroep.jsonldtype}}",

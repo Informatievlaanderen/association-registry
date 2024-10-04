@@ -68,8 +68,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     {
                         new Werkingsgebied()
                         {
-                            id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("BE25"),
-                            type = JsonLdType.Hoofdactiviteit.Type,
+                            id = JsonLdType.Werkingsgebied.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Werkingsgebied.Type,
                             Code = "BE25",
                             Naam = "Provincie West-Vlaanderen",
                         }

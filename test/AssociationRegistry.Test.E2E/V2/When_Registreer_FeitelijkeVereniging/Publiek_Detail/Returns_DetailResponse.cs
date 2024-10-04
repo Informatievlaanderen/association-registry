@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Publiek_Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Schema.Constants;
+using Azure;
 using Formats;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
@@ -24,6 +24,8 @@ using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
 using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
+
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
@@ -73,6 +75,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Status = VerenigingStatus.Actief,
             Contactgegevens = MapLocaties(Request.Contactgegevens, _context.VCode),
             HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, _context.VCode),
             Relaties = MapRelaties([], _context.VCode),
             Sleutels = MapSleutels(Request, _context.VCode),
@@ -150,6 +153,22 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
         }).ToArray();
     }
 
+    private static Werkingsgebied[] MapWerkingsgebieden(
+        string[] werkingsgebieden)
+    {
+        return werkingsgebieden.Select(x =>
+        {
+            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+
+            return new Werkingsgebied
+            {
+                Code = werkingsgebied.Code,
+                Naam = werkingsgebied.Naam,
+                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                type = JsonLdType.Werkingsgebied.Type,
+            };
+        }).ToArray();
+    }
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
         => setup => setup.PublicApiHost.GetPubliekDetail(_context.VCode);

@@ -12,34 +12,34 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         Naam: "Feestcommittee Oudenaarde",
         KorteNaam: "FOud",
         KorteBeschrijving: "Het feestcommittee van Oudenaarde",
-        DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
-        new Registratiedata.Doelgroep(Minimumleeftijd: 20, Maximumleeftijd: 71),
+        Startdatum: DateOnly.FromDateTime(dateTime: new DateTime(year: 2022, month: 11, day: 9)),
+        Doelgroep: new Registratiedata.Doelgroep(Minimumleeftijd: 20, Maximumleeftijd: 71),
         IsUitgeschrevenUitPubliekeDatastroom: false,
-        new[]
-        {
+        Contactgegevens:
+        [
             new Registratiedata.Contactgegeven(
                 ContactgegevenId: 1,
-                Contactgegeventype.Email,
+                Contactgegeventype: Contactgegeventype.Email,
                 Waarde: "info@FOud.be",
                 Beschrijving: "Algemeen",
                 IsPrimair: true),
-        },
-        new[]
-        {
+        ],
+        Locaties:
+        [
             new(
                 LocatieId: 1,
                 Locatietype: "Correspondentie",
                 IsPrimair: true,
                 Naam: "Correspondentie",
-                new Registratiedata.Adres(
+                Adres: new Registratiedata.Adres(
                     Straatnaam: "Stationsstraat",
                     Huisnummer: "1",
                     Busnummer: "B",
                     Postcode: "1790",
                     Gemeente: "Affligem",
                     Land: "België"),
-                new Registratiedata.AdresId(
-                    Adresbron.AR,
+                AdresId: new Registratiedata.AdresId(
+                    Broncode: Adresbron.AR,
                     Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
             new(
                 LocatieId: 2,
@@ -47,15 +47,15 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                 IsPrimair: false,
                 Naam: "Activiteiten",
                 Adres: null,
-                new Registratiedata.AdresId(
-                    Adresbron.AR,
+                AdresId: new Registratiedata.AdresId(
+                    Broncode: Adresbron.AR,
                     Bronwaarde: "https://data.vlaanderen.be/id/adres/0")),
             new Registratiedata.Locatie(
                 LocatieId: 3,
                 Locatietype: "Activiteiten",
                 IsPrimair: false,
                 Naam: "Activiteiten",
-                new Registratiedata.Adres(
+                Adres: new Registratiedata.Adres(
                     Straatnaam: "Dorpstraat",
                     Huisnummer: "1",
                     Busnummer: "B",
@@ -63,9 +63,9 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                     Gemeente: "Affligem",
                     Land: "België"),
                 AdresId: null),
-        },
-        new[]
-        {
+        ],
+        Vertegenwoordigers:
+        [
             new Registratiedata.Vertegenwoordiger(
                 VertegenwoordigerId: 1,
                 Insz: "01234567890",
@@ -78,23 +78,29 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
                 Telefoon: "",
                 Mobiel: "",
                 SocialMedia: ""),
-        },
-        new Registratiedata.HoofdactiviteitVerenigingsloket[]
-        {
+        ],
+        HoofdactiviteitenVerenigingsloket:
+        [
             new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
-        });
+        ],
+        Werkingsgebieden:
+        [
+            new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
+        ]);
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     public IEvent[] GetEvents()
     {
-        return new IEvent[]
-        {
+        return
+        [
             FeitelijkeVerenigingWerdGeregistreerd,
-        };
+        ];
     }
 
     public CommandMetadata GetCommandMetadata()
-        => new(Initiator: "OVO000001", new Instant(), Guid.NewGuid());
+        => new(Initiator: "OVO000001",
+               Tijdstip: new Instant(),
+               CorrelationId: Guid.NewGuid());
 }
