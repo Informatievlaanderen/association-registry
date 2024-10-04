@@ -4,6 +4,7 @@ using Acties.RegistreerFeitelijkeVereniging;
 using Acties.VoegContactgegevenToe;
 using AutoFixture;
 using Vereniging;
+using Vereniging.Werkingsgebied;
 
 public static class CommandCustomizations
 {
@@ -28,6 +29,7 @@ public static class CommandCustomizations
                                                                  fixture.CreateMany<Locatie>().ToArray(),
                                                                  fixture.CreateMany<Vertegenwoordiger>().ToArray(),
                                                                  fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray(),
+                                                                 fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
                                                                  SkipDuplicateDetection: true)
                                                          )
                                                         .OmitAutoProperties());

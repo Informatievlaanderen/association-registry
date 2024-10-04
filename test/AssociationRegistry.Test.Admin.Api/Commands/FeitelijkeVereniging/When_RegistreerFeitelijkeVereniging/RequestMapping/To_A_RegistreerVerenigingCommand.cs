@@ -35,6 +35,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
             out var locaties,
             out var vertegenwoordigers,
             out var hoofdactiviteiten,
+            out var werkingsgebieden,
             out var skipDuplicateDetection);
 
         naam.ToString().Should().Be(request.Naam);
@@ -49,6 +50,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
         AssertVertegenwoordigers(vertegenwoordigers, request);
 
         hoofdactiviteiten.Select(x => x.Code).Should().BeEquivalentTo(request.HoofdactiviteitenVerenigingsloket);
+        werkingsgebieden.Select(x => x.Code).Should().BeEquivalentTo(request.Werkingsgebieden);
         skipDuplicateDetection.Should().BeFalse();
     }
 

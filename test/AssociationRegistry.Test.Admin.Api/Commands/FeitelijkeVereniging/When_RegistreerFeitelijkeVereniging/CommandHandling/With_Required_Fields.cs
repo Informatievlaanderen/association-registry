@@ -12,6 +12,7 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
+using Vereniging.Werkingsgebied;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -43,7 +44,8 @@ public class With_Required_Fields
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
-            Array.Empty<HoofdactiviteitVerenigingsloket>());
+            Array.Empty<HoofdactiviteitVerenigingsloket>(),
+            Array.Empty<Werkingsgebied>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
