@@ -56,7 +56,8 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                       .WithStartdatum(_scenario.StartdatumWerdGewijzigd.Startdatum)
                       .WithDoelgroep(_scenario.VCode, _scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
                                      _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
-                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);
+                      .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip)
+                      .WithWerkingsgebieden(_scenario.Werkingsgebieden);
 
         content.Should().BeEquivalentJson(expected);
     }

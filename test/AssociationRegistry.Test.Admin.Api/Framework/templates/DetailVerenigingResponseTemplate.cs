@@ -9,6 +9,7 @@ using NodaTime;
 using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
+using Vereniging.Werkingsgebied;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {
@@ -26,6 +27,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
         _vereniging.relaties = new List<object>();
         _vereniging.sleutels = new List<object>();
         _vereniging.vertegenwoordigers = new List<object>();
+        _vereniging.werkingsgebieden = new List<object>();
 
         WithStatus(VerenigingStatus.Actief);
         WithKorteNaam(string.Empty);
@@ -462,4 +464,12 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
         return this;
     }
+
+    public DetailVerenigingResponseTemplate WithWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    {
+        _vereniging.werkingsgebieden.AddRange(werkingsgebieden);
+
+        return this;
+    }
+
 }

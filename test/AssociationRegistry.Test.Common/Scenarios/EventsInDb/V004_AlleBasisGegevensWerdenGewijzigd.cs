@@ -6,6 +6,7 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 using Vereniging;
+using Vereniging.Werkingsgebied;
 
 public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
 {
@@ -17,6 +18,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     public readonly VerenigingWerdUitgeschrevenUitPubliekeDatastroom VerenigingWerdUitgeschrevenUitPubliekeDatastroom;
     public readonly VerenigingWerdIngeschrevenInPubliekeDatastroom VerenigingWerdIngeschrevenInPubliekeDatastroom;
     public readonly DoelgroepWerdGewijzigd DoelgroepWerdGewijzigd;
+    public readonly Werkingsgebied[] Werkingsgebieden;
     public readonly CommandMetadata Metadata;
 
     public V004_AlleBasisGegevensWerdenGewijzigd()
@@ -49,6 +51,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
         DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(Minimumleeftijd: 12, Maximumleeftijd: 18));
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = new VerenigingWerdUitgeschrevenUitPubliekeDatastroom();
         VerenigingWerdIngeschrevenInPubliekeDatastroom = new VerenigingWerdIngeschrevenInPubliekeDatastroom();
+        Werkingsgebieden = fixture.CreateMany<Werkingsgebied>().ToArray();
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
