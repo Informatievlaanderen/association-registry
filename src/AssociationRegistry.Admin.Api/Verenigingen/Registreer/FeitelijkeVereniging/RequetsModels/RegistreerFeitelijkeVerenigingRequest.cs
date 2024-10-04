@@ -5,7 +5,6 @@ using Common;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
-using Vereniging.Werkingsgebied;
 
 [DataContract]
 public class RegistreerFeitelijkeVerenigingRequest
@@ -71,5 +70,5 @@ public class RegistreerFeitelijkeVerenigingRequest
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden.Select(Werkingsgebied.Parse).ToArray());
+            Werkingsgebieden.Select(Werkingsgebied.Create).ToArray());
 }

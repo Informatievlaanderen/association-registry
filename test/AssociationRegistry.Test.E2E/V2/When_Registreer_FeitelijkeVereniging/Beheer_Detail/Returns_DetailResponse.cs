@@ -19,6 +19,7 @@
     using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
     using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
     using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
+    using Werkingsgebied = Vereniging.Werkingsgebied;
 
     [Collection(FullBlownApiCollection.Name)]
     public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>, IAsyncLifetime
@@ -190,14 +191,13 @@
             }).ToArray();
         }
 
-        private static Werkingsgebied[] MapWerkingsgebieden(
-            string[] werkingsgebieden)
+        private static Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebieden)
         {
             return werkingsgebieden.Select(x =>
             {
-                var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Werkingsgebied.Parse(x);
+                var werkingsgebied = Werkingsgebied.Create(x);
 
-                return new Werkingsgebied
+                return new Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied
                 {
                     Code = werkingsgebied.Code,
                     Naam = werkingsgebied.Naam,

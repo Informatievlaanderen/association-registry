@@ -17,6 +17,7 @@ using Vereniging.TelefoonNummers;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 using Contactgegeven = Vereniging.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using Werkingsgebied = Vereniging.Werkingsgebied;
 
 public static class AdminApiAutoFixtureCustomizations
 {

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Vereniging.Werkingsgebied;
+﻿namespace AssociationRegistry.Vereniging;
 
 public class Werkingsgebied
 {
@@ -11,7 +11,7 @@ public class Werkingsgebied
     public string Naam { get; }
     public string Code { get; }
 
-    public static Werkingsgebied Parse(string code)
+    public static Werkingsgebied Create(string code)
     {
         return All.Single(x => x.Code == code);
     }

@@ -8,7 +8,6 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
-using Vereniging.Werkingsgebied;
 
 public static class AutoFixtureCustomizations
 {

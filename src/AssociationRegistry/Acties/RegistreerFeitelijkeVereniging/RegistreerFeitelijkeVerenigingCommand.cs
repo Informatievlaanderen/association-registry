@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
 using Vereniging;
-using Vereniging.Werkingsgebied;
 
 public record RegistreerFeitelijkeVerenigingCommand(
     VerenigingsNaam Naam,

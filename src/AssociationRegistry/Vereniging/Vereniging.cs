@@ -26,6 +26,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Locatie[] toeTeVoegenLocaties,
         Vertegenwoordiger[] toeTeVoegenVertegenwoordigers,
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst,
+        Werkingsgebied[] werkingsgebieden,
         IClock clock)
     {
         Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
@@ -48,7 +49,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst).ToArray())));
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst)),
+                ToWerkingsgebiedenLijst(Werkingsgebieden.FromArray(werkingsgebieden))
+                ));
 
         return vereniging;
     }
@@ -59,6 +62,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
         => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
+
+    private static Registratiedata.Werkingsgebied[] ToWerkingsgebiedenLijst(
+        Werkingsgebied[] werkingsgebieden)
+        => werkingsgebieden.Select(Registratiedata.Werkingsgebied.With).ToArray();
 
     private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
         => vertegenwoordigersLijst.Select(Registratiedata.Vertegenwoordiger.With).ToArray();

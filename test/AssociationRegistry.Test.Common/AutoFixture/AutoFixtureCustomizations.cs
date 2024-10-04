@@ -9,7 +9,6 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
-using Vereniging.Werkingsgebied;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public static class AutoFixtureCustomizations
