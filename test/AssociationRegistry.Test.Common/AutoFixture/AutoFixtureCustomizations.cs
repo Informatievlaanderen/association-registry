@@ -9,6 +9,7 @@ using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
 using Vereniging.Websites;
+using Vereniging.Werkingsgebied;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 public static class AutoFixtureCustomizations
@@ -34,6 +35,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeAdres();
         fixture.CustomizeGebeurtenis();
         fixture.CustomizeMagdaResponses();
+        fixture.CustomizeWerkingsgebied();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -156,6 +158,18 @@ public static class AutoFixtureCustomizations
                                                              })
                                                         .OmitAutoProperties()
         );
+    }
+
+    private static void CustomizeWerkingsgebied(this IFixture fixture)
+    {
+        fixture.Customize<Werkingsgebied>(
+            composerTransformation: composer => composer.FromFactory<int>(
+                factory: value =>
+                {
+                    var werkingsgebieden = Werkingsgebied.All;
+
+                    return werkingsgebieden[value % werkingsgebieden.Length];
+                }).OmitAutoProperties());
     }
 
     private static void CustomizeContactgegeven(this IFixture fixture)
