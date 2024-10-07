@@ -115,10 +115,56 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         content.Should().BeEquivalentJson(goldenMaster);
     }
 
-    [Fact]
-    public async Task? Then_one_vereniging_is_not_retrieved_by_a_sub_werkingsgebied()
+    [Theory]
+    [InlineData("BE")]
+    [InlineData("BE2")]
+    [InlineData("BE255")]
+    public async Task? Then_one_vereniging_is_not_retrieved_by_a_another_werkingsgebied(string werkingsgebiedCode)
     {
         var query = "werkingsgebieden.code:BE255";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_one_of_the_werkingsgebieden()
+    {
+        var query = "werkingsgebieden.code:(BE OR BE25 OR BE21 OR BE212)";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+        var goldenMaster = GoldenMaster(query);
+
+        content.Should().BeEquivalentJson(goldenMaster);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_not_retrieved_if_none_of_the_werkingsgebieden_match()
+    {
+        var query = "werkingsgebieden.code:(BE OR BE2 OR BE21 OR BE212)";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_if_none_of_the_werkingsgebieden_match()
+    {
+        var query = "werkingsgebieden.code:(BE25 AND BE25535002)";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+
+        var goldenMaster = GoldenMaster(query);
+
+        content.Should().BeEquivalentJson(goldenMaster);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_not_retrieved_if_not_all_of_the_werkingsgebieden_match()
+    {
+        var query = "werkingsgebieden.code:(BE25 AND BE2)";
         var response = await _publicApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 

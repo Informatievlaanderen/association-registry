@@ -86,6 +86,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         Werkingsgebieden:
         [
             new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
+            new("BE25535002", "Bredene"),
         ]);
 
     public VCode VCode
