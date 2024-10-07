@@ -39,7 +39,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/zoeken-vereniging-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/zoek-vereniging-context.json");
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

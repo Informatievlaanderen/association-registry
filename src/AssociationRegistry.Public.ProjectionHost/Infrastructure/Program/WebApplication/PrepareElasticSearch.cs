@@ -24,7 +24,7 @@ public static class PrepareElasticSearch
     {
         if (!(await elasticClient.Indices.ExistsAsync(verenigingenIndexName)).Exists)
         {
-            var response = elasticClient.Indices.CreateVerenigingIndex(verenigingenIndexName);
+            var response = await elasticClient.Indices.CreateVerenigingIndexAsync(verenigingenIndexName);
 
             if (!response.IsValid)
                 throw response.OriginalException;
