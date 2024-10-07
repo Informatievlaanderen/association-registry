@@ -1,3 +1,21 @@
+# [8.155.0](https://github.com/informatievlaanderen/association-registry/compare/v8.154.1...v8.155.0) (2024-10-07)
+
+
+### Bug Fixes
+
+* or-2446 fix article ([4a18c79](https://github.com/informatievlaanderen/association-registry/commit/4a18c79065176cddd35b5fec366b982c075067fc))
+* or-2446 remove comment and change exception message ([f626431](https://github.com/informatievlaanderen/association-registry/commit/f626431efb9f3c672a041b116ab89d07946e7b94))
+
+
+### Features
+
+* or-2446 add json ld to rbeheerdetail responsee ([ecffe34](https://github.com/informatievlaanderen/association-registry/commit/ecffe3432f9d39ba020e5cb8b0c445f92cf9769a))
+* or-2446 add projections for werkingsgebied registreer fv ([74fc893](https://github.com/informatievlaanderen/association-registry/commit/74fc8931242069e25aa8e73bc7626dce921842e8))
+* or-2446 add request handling and mapping werkingsgebied ([bf0ff22](https://github.com/informatievlaanderen/association-registry/commit/bf0ff22566e3f976995a3951a817903d8cf08746))
+* or-2446 add request response Werkingsgebied ([9be4fe2](https://github.com/informatievlaanderen/association-registry/commit/9be4fe231f94cce70b0557f631821e4dc4d289ea))
+* or-2446 add werkingsgebieden for publiek detail ([191da35](https://github.com/informatievlaanderen/association-registry/commit/191da35aff01bf04f4c44018d676d57cadb9a7f4))
+* or-2446 parse werkingsgebied from list of all werkingsgebied ([fbcda36](https://github.com/informatievlaanderen/association-registry/commit/fbcda3606ebd6a621eba0526e6c7808bc28c6699))
+
 ## [8.154.1](https://github.com/informatievlaanderen/association-registry/compare/v8.154.0...v8.154.1) (2024-10-03)
 
 
