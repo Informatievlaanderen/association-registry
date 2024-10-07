@@ -9,6 +9,7 @@ using Vereniging;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
 {
@@ -43,6 +44,15 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             id = JsonLdType.Hoofdactiviteit.CreateWithIdValues("CULT"),
                             type = JsonLdType.Hoofdactiviteit.Type,
                             Code = "CULT", Naam = "Cultuur",
+                        },
+                    },
+                    Werkingsgebieden = new[]
+                    {
+                        new Werkingsgebied
+                        {
+                            id = JsonLdType.Werkingsgebied.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Werkingsgebied.Type,
+                            Code = "BE25", Naam = "Provincie West-Vlaanderen",
                         },
                     },
                     Doelgroep = new DoelgroepResponse

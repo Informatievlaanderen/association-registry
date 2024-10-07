@@ -69,6 +69,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.HoofdactiviteitenVerenigingsloket)
                                                    .IncludeInRoot()
                                                    .Properties(HoofdactiviteitMapping.Get))
+                         .Nested<VerenigingZoekDocument.Werkingsgebied>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Werkingsgebieden)
+                                                   .IncludeInRoot()
+                                                   .Properties(WerkingsgebiedMapping.Get))
                          .Nested<VerenigingZoekDocument.Sleutel>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Sleutels)
@@ -140,6 +145,27 @@ public static class VerenigingZoekDocumentMapping
     private static class HoofdactiviteitMapping
     {
         public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket> map)
+            => map
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Code)
+                                          .WithKeyword()
+                                          .Analyzer(PubliekZoekenAnalyzer))
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Naam)
+                                          .WithKeyword(PubliekZoekenNormalizer)
+                                          .Analyzer(PubliekZoekenAnalyzer));
+    }
+
+    private static class WerkingsgebiedMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Werkingsgebied> map)
             => map
               .Text(
                    propertiesDescriptor => propertiesDescriptor

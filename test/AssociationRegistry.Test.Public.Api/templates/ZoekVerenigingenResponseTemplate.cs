@@ -87,6 +87,7 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging = new ExpandoObject();
             _vereniging.locaties = new List<object>();
             _vereniging.hoofdactiviteiten = new List<object>();
+            _vereniging.werkingsgebieden = new List<object>();
             _vereniging.relaties = new List<object>();
             _vereniging.sleutels = new List<object>();
 
@@ -171,6 +172,22 @@ public class ZoekVerenigingenResponseTemplate
             return this;
         }
 
+        public VerenigingTemplate WithWerkingsgebied(string code, string beschrijving)
+        {
+            _vereniging.werkingsgebieden.Add(new
+            {
+                jsonldid = JsonLdType.Werkingsgebied.CreateWithIdValues(code),
+                jsonldtype = JsonLdType.Werkingsgebied.Type,
+                code = code,
+                beschrijving = beschrijving,
+            });
+
+            //TODO: facets
+            //_zoekVerenigingenResponseTemplate.UpdateFacet(code);
+
+            return this;
+        }
+
         public VerenigingTemplate WithKboNummer(string kboNummer, string vCode)
         {
             _vereniging.sleutels.Add(new
@@ -244,6 +261,11 @@ public class ZoekVerenigingenResponseTemplate
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
                 template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
+
+            foreach (var h in e.Werkingsgebieden ?? [])
+            {
+                template.WithWerkingsgebied(h.Code, h.Naam);
             }
 
             foreach (var l in e.Locaties)

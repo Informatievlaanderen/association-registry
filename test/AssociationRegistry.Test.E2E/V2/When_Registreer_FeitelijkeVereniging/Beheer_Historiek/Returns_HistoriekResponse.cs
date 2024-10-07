@@ -12,19 +12,19 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingContext, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>
+public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetHistoriek(Context.VCode);
+        => setup => setup.AdminApiHost.GetHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(RegistreerFeitelijkeVerenigingContext context) : base(context)
+    public Returns_Historiek(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
     }
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(Context.VCode);
+        Response.VCode.ShouldCompare(TestContext.VCode);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingConte
         var werdGeregistreerd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(FeitelijkeVerenigingWerdGeregistreerd));
 
-        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(Context.Request, Context.VCode),
+        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
 
     }

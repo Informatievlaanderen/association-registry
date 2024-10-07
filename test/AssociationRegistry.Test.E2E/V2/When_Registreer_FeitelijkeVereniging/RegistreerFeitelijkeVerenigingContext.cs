@@ -7,22 +7,19 @@ using Vereniging;
 using E2E.Scenarios.Commands;
 using Framework.TestClasses;
 using Marten.Events;
-using Xunit;
 
-public class RegistreerFeitelijkeVerenigingContext: ITestContext<RegistreerFeitelijkeVerenigingRequest>
+public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
-    public IApiSetup ApiSetup { get; }
     private EmptyScenario _emptyScenario;
-    public RegistreerFeitelijkeVerenigingRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;
 
-    public RegistreerFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
+    public RegistreerFeitelijkeVerenigingTestContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
         _emptyScenario = new EmptyScenario();
     }
 
-    public async Task InitializeAsync()
+    public override async Task InitializeAsync()
     {
         _emptyScenario = new EmptyScenario();
 
@@ -31,12 +28,5 @@ public class RegistreerFeitelijkeVerenigingContext: ITestContext<RegistreerFeite
         await ApiSetup.ExecuteGiven(_emptyScenario);
         RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-    }
-
-    public RequestResult<RegistreerFeitelijkeVerenigingRequest> RequestResult { get; set; }
-
-    public async Task DisposeAsync()
-    {
-
     }
 }
