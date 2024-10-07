@@ -178,6 +178,15 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
+                    Werkingsgebieden = new[]
+                    {
+                        new Werkingsgebied
+                        {
+                            id = JsonLdType.Werkingsgebied.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Werkingsgebied.Type,
+                            Code = "BE25", Naam = "Provincie West-Vlaanderen",
+                        },
+                    },
                 },
             },
             Facets = new Facets
