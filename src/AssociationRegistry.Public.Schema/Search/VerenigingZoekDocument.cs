@@ -14,7 +14,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public Werkingsgebied[] Werkingsgebieden { get; set; } = null!;
+    public Werkingsgebied[] Werkingsgebieden { get; init; } = []!;
     public Sleutel[] Sleutels { get; set; } = null!;
     public Relatie[] Relaties { get; set; } = null!;
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
