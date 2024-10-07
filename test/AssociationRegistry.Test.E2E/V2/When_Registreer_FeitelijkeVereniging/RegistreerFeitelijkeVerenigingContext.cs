@@ -7,6 +7,8 @@ using Vereniging;
 using E2E.Scenarios.Commands;
 using Framework.TestClasses;
 using Marten.Events;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
 
 public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
@@ -28,5 +30,6 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
         await ApiSetup.ExecuteGiven(_emptyScenario);
         RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }
