@@ -104,6 +104,28 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Fact]
+    public async Task? Then_one_vereniging_is_retrieved_by_its_werkingsgebied()
+    {
+        var query = "werkingsgebieden.code:BE25";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+
+        var goldenMaster = GoldenMaster(query);
+
+        content.Should().BeEquivalentJson(goldenMaster);
+    }
+
+    [Fact]
+    public async Task? Then_one_vereniging_is_not_retrieved_by_a_sub_werkingsgebied()
+    {
+        var query = "werkingsgebieden.code:BE255";
+        var response = await _publicApiClient.Search(query);
+        var content = await response.Content.ReadAsStringAsync();
+
+        content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
+    }
+
+    [Fact]
     public async Task? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");
