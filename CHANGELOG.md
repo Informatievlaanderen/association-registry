@@ -1,3 +1,15 @@
+# [8.156.0](https://github.com/informatievlaanderen/association-registry/compare/v8.155.0...v8.156.0) (2024-10-07)
+
+
+### Bug Fixes
+
+* or-2447 add werkingsgebied to all examples ([896ba97](https://github.com/informatievlaanderen/association-registry/commit/896ba9744e1dc5778a07e5b06eabd0ddeb68bff8))
+
+
+### Features
+
+* or-2447 add werkingsgebieden to publiek zoek ([0d36cf4](https://github.com/informatievlaanderen/association-registry/commit/0d36cf47674823c810dc73d620848444db4db6eb))
+
 # [8.155.0](https://github.com/informatievlaanderen/association-registry/compare/v8.154.1...v8.155.0) (2024-10-07)
 
 
