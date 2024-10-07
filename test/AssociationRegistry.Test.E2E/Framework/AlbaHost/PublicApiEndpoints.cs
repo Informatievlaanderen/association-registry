@@ -3,11 +3,15 @@ namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using Alba;
 using Newtonsoft.Json.Linq;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.Verenigingen.Search.ResponseModels;
 
 public static class PublicApiEndpoints
 {
     public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string vCode)
+        => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q=*").GetAwaiter().GetResult()!;
 
     public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {
