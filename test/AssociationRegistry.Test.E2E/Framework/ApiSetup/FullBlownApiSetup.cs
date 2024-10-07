@@ -5,6 +5,7 @@ using Alba;
 using AlbaHost;
 using AssociationRegistry.Framework;
 using Hosts.Configuration.ConfigurationBindings;
+using JasperFx.RuntimeCompiler.Scenarios;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -18,6 +19,7 @@ using TestClasses;
 using Vereniging;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
+
 
 public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 {
@@ -43,14 +45,26 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.json").Build();
 
-        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(configuration, _schema)))
+        var adminIndexName = $"{_schema}-admin";
+        var publicIndexName = $"{_schema}-public";
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(
+                                                        configuration, _schema, adminIndexName)))
            .EnsureEachCallIsAuthenticated();
-        AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(ConfigureForTesting(configuration, _schema));
 
+
+        AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
+            ConfigureForTesting(
+                configuration,
+                                _schema,
+                adminIndexName));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
-        PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, _schema));
-        PublicApiHost = await AlbaHost.For<Public.Api.Program>(ConfigureForTesting(configuration, _schema));
+        PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
+            ConfigureForTesting(
+                configuration,
+                _schema,
+                publicIndexName));        PublicApiHost = await AlbaHost.For<Public.Api.Program>(
+            ConfigureForTesting(configuration, _schema, publicIndexName));
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -61,7 +75,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
         await AdminProjectionHost.ResumeAllDaemonsAsync();
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
+    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema, string indexName)
     {
         return b =>
         {
@@ -77,8 +91,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
-             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
-             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", $"public_{schema.ToLowerInvariant()}");
+             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", indexName);
         };
     }
 
