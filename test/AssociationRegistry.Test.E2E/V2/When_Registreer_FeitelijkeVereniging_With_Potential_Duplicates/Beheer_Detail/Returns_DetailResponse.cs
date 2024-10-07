@@ -10,7 +10,6 @@ using Framework.AlbaHost;
 using Framework.Comparison;
 using Vereniging;
 using Vereniging.Bronnen;
-using E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
@@ -25,7 +24,7 @@ using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenw
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
 {
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetDetail(Context.VCode);
+        => setup => setup.AdminApiHost.GetDetail(TestContext.VCode);
 
     public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context): base(context)
     {
@@ -55,11 +54,11 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(Context.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = Context.VCode,
+            VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
@@ -72,13 +71,13 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,
-            Contactgegevens = MapLocaties(Request.Contactgegevens, Context.VCode),
+            Contactgegevens = MapLocaties(Request.Contactgegevens, TestContext.VCode),
             HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = MapLocaties(Request.Locaties, Context.VCode),
-            Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, Context.VCode),
-            Relaties = MapRelaties([], Context.VCode),
-            Sleutels = MapSleutels(Request, Context.VCode),
+            Locaties = MapLocaties(Request.Locaties, TestContext.VCode),
+            Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),
+            Relaties = MapRelaties([], TestContext.VCode),
+            Sleutels = MapSleutels(Request, TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)

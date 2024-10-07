@@ -14,6 +14,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
+    public Werkingsgebied[] Werkingsgebieden { get; set; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
     public Relatie[] Relaties { get; set; } = null!;
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
@@ -39,6 +40,13 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     }
 
     public class HoofdactiviteitVerenigingsloket
+    {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
+        public string Code { get; init; } = null!;
+        public string Naam { get; init; } = null!;
+    }
+
+    public class Werkingsgebied
     {
         public JsonLdMetadata JsonLdMetadata { get; set; }
         public string Code { get; init; } = null!;

@@ -11,7 +11,7 @@ public class JsonLdType
     public static readonly JsonLdType FeitelijkeVereniging = new(JsonLdContext.GuidNamespace.Vereniging, type: "fei:FeitelijkeVerenigingen");
     public static readonly JsonLdType VerenigingMetRechtspersoonlijkheid = new(JsonLdContext.GuidNamespace.Vereniging, type: "regorg:RegisteredOrganization");
     public static readonly JsonLdType Hoofdactiviteit = new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept", prefix:"act");
-    public static readonly JsonLdType Werkingsgebied = new(JsonLdContext.GuidNamespace.Werkingsgebied, type: "skos:Concept", prefix:"act");
+    public static readonly JsonLdType Werkingsgebied = new(JsonLdContext.GuidNamespace.Werkingsgebied, type: "skos:Concept", prefix:"wg");
 
     public static readonly JsonLdType Vertegenwoordiger =
         new(JsonLdContext.GuidNamespace.Vertegenwoordiger, type: "person:Person", prefix: "person");

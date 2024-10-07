@@ -28,7 +28,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext,
                     {
                         Vereniging = new ResponseWriter.TeVerwijderenVereniging.TeVerwijderenVerenigingData()
                         {
-                            VCode = Context.VCode,
+                            VCode = TestContext.VCode,
                             TeVerwijderen = true,
                         },
                     });

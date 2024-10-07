@@ -10,8 +10,8 @@ public static class PublicApiEndpoints
     public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
 
-    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string vCode)
-        => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q=*").GetAwaiter().GetResult()!;
+    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
+        => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
 
     public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {
