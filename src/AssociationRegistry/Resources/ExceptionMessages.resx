@@ -60,7 +60,7 @@
     <value>Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.</value>
   </data>
   <data name="DuplicateWerkingsgebied">
-    <value>Een waarde in de werkingsgebieden lijst mag slechts 1 maal voorkomen.</value>
+    <value>Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.</value>
   </data>
   <data name="InvalidInszChars">
     <value>Foutieve tekens in INSZ.</value>

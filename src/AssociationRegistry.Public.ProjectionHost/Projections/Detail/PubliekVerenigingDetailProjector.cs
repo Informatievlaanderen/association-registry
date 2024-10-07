@@ -116,7 +116,6 @@ public static class PubliekVerenigingDetailProjector
             Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
             Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-            //Werkingsgebieden = Array.Empty<PubliekVerenigingDetailDocument.Werkingsgebied>(),
             Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
             {
                 new()

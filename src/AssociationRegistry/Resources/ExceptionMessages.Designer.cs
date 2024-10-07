@@ -186,7 +186,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een waarde in de werkingsgebieden lijst mag slechts 1 maal voorkomen..
+        ///   Looks up a localized string similar to Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen..
         /// </summary>
         public static string DuplicateWerkingsgebied {
             get {
