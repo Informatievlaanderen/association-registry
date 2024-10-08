@@ -58,6 +58,11 @@ public class Given_All_BasisGegevensWerdenGewijzigd
                                      _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
                       .WithDatumLaatsteAanpassing(_scenario.Metadata.Tijdstip);
 
+        foreach (var werkingsgebied in _scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden)
+        {
+            expected.WithWerkingsgebied(werkingsgebied.Code, werkingsgebied.Naam);
+        }
+
         content.Should().BeEquivalentJson(expected);
     }
 }

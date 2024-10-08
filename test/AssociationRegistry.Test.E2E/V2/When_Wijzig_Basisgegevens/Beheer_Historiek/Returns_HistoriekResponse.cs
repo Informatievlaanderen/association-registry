@@ -36,24 +36,46 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensTestContext, Wij
     [Fact]
     public void With_All_Gebeurtenissen()
     {
-        /*HandleNaam(vereniging, message.Command.Naam);
-        HandleKorteNaam(vereniging, message.Command.KorteNaam);
-        HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
-        HandleStartdatum(vereniging, message.Command.Startdatum, clock);
-        WijzigHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
-        HandleUitgeschrevenUitPubliekeDatastroom(vereniging, message.Command.IsUitgeschrevenUitPubliekeDatastroom);
-        HandleDoelgroep(vereniging, message.Command.Doelgroep);*/
-        var werdGeregistreerd =
+        var feitelijkeVerenigingWerdGeregistreerd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(FeitelijkeVerenigingWerdGeregistreerd));
 
-        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.RegistratieData),
+        feitelijkeVerenigingWerdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.RegistratieData),
                                         compareConfig: HistoriekComparisonConfig.Instance);
 
-        // TODO: add werkingsgebiedwerdgewijzigd
-        // var werkgebiedWerdGewijzigd =
-        //     Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkgebiedWerdGewijzigd));
-        //
-        // werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.RegistratieData),
+        // var naamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(NaamWerdGewijzigd));
+        // naamWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.NaamWerdGewijzigd(TestContext.Request.Naam),
         //                                 compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var korteNaamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KorteNaamWerdGewijzigd));
+        // korteNaamWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.KorteNaamWerdGewijzigd(TestContext.Request.KorteNaam),
+        //                                      compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var korteBeschrijvingWerdGewijzigd =
+        //     Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KorteBeschrijvingWerdGewijzigd));
+        // korteBeschrijvingWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.KorteBeschrijvingWerdGewijzigd(TestContext.Request.KorteBeschrijving),
+        //                                              compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var startdatumWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(StartdatumWerdGewijzigd));
+        // startdatumWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.StartdatumWerdGewijzigd(TestContext.Request.Startdatum),
+        //                                       compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var hoofdactiviteitenVerenigingsloketWerdenGewijzigd =
+        //     Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
+        // hoofdactiviteitenVerenigingsloketWerdenGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(TestContext.Request.HoofdactiviteitenVerenigingsloket),
+        //                                                                compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var publiekeDatastroomWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(
+        //     x => x.Gebeurtenis == nameof(VerenigingWerdIngeschrevenInPubliekeDatastroom) ||
+        //          x.Gebeurtenis == nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom));
+        // publiekeDatastroomWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.IsUitgeschrevenUitPubliekeDatastroom(TestContext.Request.IsUitgeschrevenUitPubliekeDatastroom),
+        //                                               compareConfig: HistoriekComparisonConfig.Instance);
+        //
+        // var doelgroepWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(DoelgroepWerdGewijzigd));
+        // doelgroepWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.DoelgroepWerdGewijzigd(TestContext.Request.Doelgroep),
+        //                                      compareConfig: HistoriekComparisonConfig.Instance);
+
+        var werkingsgebiedenWerdenGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkingsgebiedenWerdenGewijzigd));
+        werkingsgebiedenWerdenGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(TestContext.Request.Werkingsgebieden),
+                                             compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

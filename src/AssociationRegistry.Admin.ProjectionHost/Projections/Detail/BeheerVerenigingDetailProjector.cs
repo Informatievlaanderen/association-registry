@@ -206,6 +206,15 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
+           .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
+    }
+
+
+    public static void Apply(
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
         BeheerVerenigingDetailDocument document)
     {

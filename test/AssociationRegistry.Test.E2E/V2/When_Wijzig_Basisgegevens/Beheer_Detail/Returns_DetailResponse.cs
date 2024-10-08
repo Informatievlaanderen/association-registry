@@ -17,7 +17,8 @@
     using Xunit;
 
     [Collection(FullBlownApiCollection.Name)]
-    public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>, IAsyncLifetime
+    public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>,
+                                          IAsyncLifetime
     {
         public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
             => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
@@ -69,15 +70,15 @@
                 IsUitgeschrevenUitPubliekeDatastroom = TestContext.RegistratieData.IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens =
                     BeheerDetailResponseMapper.MapContactgegevens(TestContext.RegistratieData.Contactgegevens,
-                                                                 TestContext.VCode),
-                HoofdactiviteitenVerenigingsloket = BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+                                                                  TestContext.VCode),
+                HoofdactiviteitenVerenigingsloket =
+                    BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
                 Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
                 Locaties = BeheerDetailResponseMapper.MapLocaties(TestContext.RegistratieData.Locaties, TestContext.VCode),
-                Vertegenwoordigers = BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
+                Vertegenwoordigers =
+                    BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
                 Relaties = BeheerDetailResponseMapper.MapRelaties([], TestContext.VCode),
                 Sleutels = BeheerDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
             }, compareConfig: AdminDetailComparisonConfig.Instance);
-
-
     }
 }

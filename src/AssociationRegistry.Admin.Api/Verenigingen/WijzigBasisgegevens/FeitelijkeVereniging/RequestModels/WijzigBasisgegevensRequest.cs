@@ -58,6 +58,7 @@ public class WijzigBasisgegevensRequest
             Startdatum is { IsNull: false } ? Startdatum.Map(Datum.Create) : NullOrEmpty<Datum>.Null,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
+            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom
         );
 }

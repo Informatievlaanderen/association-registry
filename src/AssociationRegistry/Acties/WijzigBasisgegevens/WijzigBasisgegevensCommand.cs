@@ -11,4 +11,5 @@ public record WijzigBasisgegevensCommand(
     NullOrEmpty<Datum> Startdatum = default,
     Doelgroep? Doelgroep = null,
     HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null,
+    Werkingsgebied[]? Werkingsgebieden = null,
     bool? IsUitgeschrevenUitPubliekeDatastroom = null);
