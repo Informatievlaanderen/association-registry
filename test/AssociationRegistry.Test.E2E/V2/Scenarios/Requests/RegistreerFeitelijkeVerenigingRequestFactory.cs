@@ -1,17 +1,17 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
 
-using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Framework.ApiSetup;
-using Hosts.Configuration.ConfigurationBindings;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<RegistreerFeitelijkeVerenigingRequest>

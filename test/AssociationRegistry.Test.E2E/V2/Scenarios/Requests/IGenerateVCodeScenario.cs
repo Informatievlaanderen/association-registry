@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
 
-using Events;
+using AssociationRegistry.Events;
 
 public interface IVerenigingWerdGeregistreerdScenario
 {

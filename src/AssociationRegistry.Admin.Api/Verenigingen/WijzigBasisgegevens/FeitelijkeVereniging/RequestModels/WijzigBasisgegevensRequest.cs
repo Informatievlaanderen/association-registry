@@ -38,6 +38,12 @@ public class WijzigBasisgegevensRequest
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
     /// <summary>
+    /// De codes van de nieuwe werkingsgebieden
+    /// </summary>
+    [DataMember]
+    public string[]? Werkingsgebieden { get; set; }
+
+    /// <summary>
     /// Is deze vereniging uitgeschreven uit de publiek datastroom, dit kan enkel gewijzigd worden voor een feitelijke vereniging
     /// </summary>
     [DataMember]

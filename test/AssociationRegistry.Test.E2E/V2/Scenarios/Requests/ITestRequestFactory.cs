@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Commands;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
 
-using Framework.ApiSetup;
-using Vereniging;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Vereniging;
 
 public interface ITestRequestFactory<TRequest>
 {

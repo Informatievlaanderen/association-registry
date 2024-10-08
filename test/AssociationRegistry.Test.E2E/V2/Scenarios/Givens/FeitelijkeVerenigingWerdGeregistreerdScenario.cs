@@ -1,15 +1,14 @@
-namespace AssociationRegistry.Test.E2E.Scenarios;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Commands;
-using Common.AutoFixture;
-using Events;
-using EventStore;
-using Framework.TestClasses;
-using Vereniging;
+using Requests;
 
-public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGeregistreerdScenario, IScenario
+public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
 {
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;

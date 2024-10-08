@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates;
 
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using E2E.Scenarios;
-using E2E.Scenarios.Commands;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;
+using Scenarios.Givens;
+using Scenarios.Requests;
 using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>

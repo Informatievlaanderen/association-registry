@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.E2E.V2.When_Stop_Vereniging;
 
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Scenarios;
 using Vereniging;
-using E2E.Scenarios.Commands;
 using Framework.TestClasses;
 using Marten.Events;
+using Scenarios.Givens;
+using Scenarios.Requests;
 
 public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {

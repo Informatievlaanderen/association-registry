@@ -2,13 +2,13 @@ namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging;
 
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Scenarios;
 using Vereniging;
-using E2E.Scenarios.Commands;
 using Framework.TestClasses;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Scenarios.Givens;
+using Scenarios.Requests;
 
 public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {

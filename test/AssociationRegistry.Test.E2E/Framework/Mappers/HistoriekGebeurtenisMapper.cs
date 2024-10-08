@@ -64,6 +64,59 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse FeitelijkeVerenigingWerdGeregistreerd(
+        FeitelijkeVerenigingWerdGeregistreerd feitelijkeVerenigingWerdGeregistreerd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Naam}'.",
+            Gebeurtenis = nameof(Events.FeitelijkeVerenigingWerdGeregistreerd),
+            Data = new FeitelijkeVerenigingWerdGeregistreerdData(
+                feitelijkeVerenigingWerdGeregistreerd.VCode,
+                feitelijkeVerenigingWerdGeregistreerd.Naam,
+                feitelijkeVerenigingWerdGeregistreerd.KorteNaam!,
+                feitelijkeVerenigingWerdGeregistreerd.KorteBeschrijving!,
+                Startdatum: feitelijkeVerenigingWerdGeregistreerd.Startdatum,
+                Doelgroep: new Registratiedata.Doelgroep(
+                    feitelijkeVerenigingWerdGeregistreerd.Doelgroep!.Minimumleeftijd,
+                    feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd),
+                IsUitgeschrevenUitPubliekeDatastroom: feitelijkeVerenigingWerdGeregistreerd
+                   .IsUitgeschrevenUitPubliekeDatastroom,
+                Contactgegevens: feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
+                                             (x, i) => new Registratiedata.Contactgegeven(
+                                                 i + 1,
+                                                 x.Contactgegeventype,
+                                                 x.Waarde,
+                                                 x.Beschrijving!,
+                                                 x.IsPrimair))
+                                        .ToArray(),
+                Locaties: feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(
+                                      (x, i) => new Registratiedata.Locatie(
+                                          i + 1,
+                                          x.Locatietype,
+                                          x.IsPrimair,
+                                          x.Naam!,
+                                          x.Adres == null
+                                              ? null
+                                              : new Registratiedata.Adres(
+                                                  x.Adres.Straatnaam,
+                                                  x.Adres.Huisnummer,
+                                                  x.Adres.Busnummer!,
+                                                  x.Adres.Postcode,
+                                                  x.Adres.Gemeente,
+                                                  x.Adres.Land
+                                              ),
+                                          x.AdresId is null
+                                              ? null
+                                              : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)))
+                                 .ToArray(),
+                Vertegenwoordigers: null,
+                HoofdactiviteitenVerenigingsloket: null,
+                Werkingsgebieden: feitelijkeVerenigingWerdGeregistreerd.Werkingsgebieden),
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     private static Registratiedata.Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebiedenCodes)
     {
         return werkingsgebiedenCodes
