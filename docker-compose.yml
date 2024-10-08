@@ -76,21 +76,6 @@ services:
     networks:
       - vr-net
 
-  e2edb:
-    image: postgres:15.0
-    container_name: vr_postgres_e2e
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: verenigingsregister
-      PGOPTIONS: '-c lock_timeout=30s'
-    ports:
-      - "5435:5432"
-    volumes:
-      - e2e-data:/var/lib/postgresql/data
-    networks:
-      - vr-net
 
   wiremock:
     image: wiremock/wiremock:3.9.1-1
