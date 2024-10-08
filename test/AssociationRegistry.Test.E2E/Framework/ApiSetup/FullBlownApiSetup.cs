@@ -42,13 +42,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(schema, "adminapi")))
            .EnsureEachCallIsAuthenticated();
 
-
-        AdminApiHost = await AlbaHost.For<Program>(
-            ConfigureForTesting(
-                configuration: configuration,
-                schema: _schema,
-                indexName: adminIndexName,
-                baseUrl: "http://127.0.0.1:11003"));
         AdminApiHost.EnsureEachCallIsAuthenticated();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
@@ -91,7 +84,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
                   context.HostingEnvironment.EnvironmentName = "Development";
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
-             .UseSetting(key: "BaseUrl", value: baseUrl)
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
