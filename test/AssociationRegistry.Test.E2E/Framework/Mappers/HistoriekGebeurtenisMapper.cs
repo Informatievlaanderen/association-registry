@@ -1,7 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Events;
@@ -119,50 +121,98 @@ public static class HistoriekGebeurtenisMapper
     }
 
     public static HistoriekGebeurtenisResponse NaamWerdGewijzigd(
-        NaamWerdGewijzigd naamWerdGewijzigd)
+        string vCode,
+        string naam)
     {
+        var @event = new NaamWerdGewijzigd(vCode, naam);
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = $"Naam werd gewijzigd naar '{@event.Naam}'.",
+            Gebeurtenis = nameof(Events.NaamWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
     public static HistoriekGebeurtenisResponse KorteNaamWerdGewijzigd(
-        KorteNaamWerdGewijzigd korteNaamWerdGewijzigd)
+        string vCode,
+        string naam)
     {
+        var @event = new KorteNaamWerdGewijzigd(vCode, naam);
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = $"Korte naam werd gewijzigd naar '{@event.KorteNaam}'.",
+            Gebeurtenis = nameof(Events.KorteNaamWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
     public static HistoriekGebeurtenisResponse KorteBeschrijvingWerdGewijzigd(
-        KorteBeschrijvingWerdGewijzigd korteBeschrijvingWerdGewijzigd)
+        string vCode,
+        string naam)
     {
+        var @event = new KorteBeschrijvingWerdGewijzigd(vCode, naam);
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = $"Korte beschrijving werd gewijzigd naar '{@event.KorteBeschrijving}'.",
+            Gebeurtenis = nameof(Events.KorteBeschrijvingWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
     public static HistoriekGebeurtenisResponse StartdatumWerdGewijzigd(
-        StartdatumWerdGewijzigd startdatumWerdGewijzigd)
+        string vCode,
+        DateOnly dateOnly)
     {
+        var @event = new StartdatumWerdGewijzigd(vCode, dateOnly);
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = $"Startdatum werd gewijzigd naar '{dateOnly.ToString(WellknownFormats.DateOnly)}'.",
+            Gebeurtenis = nameof(Events.StartdatumWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
     public static HistoriekGebeurtenisResponse DoelgroepWerdGewijzigd(
-        DoelgroepWerdGewijzigd doelgroepWerdGewijzigd)
+        DoelgroepRequest doelgroep)
     {
+        var @event = new DoelgroepWerdGewijzigd(
+            new Registratiedata.Doelgroep(doelgroep.Minimumleeftijd!.Value, doelgroep.Maximumleeftijd!.Value));
+
+        var beschrijving = $"Doelgroep werd gewijzigd naar '{doelgroep.Minimumleeftijd} " +
+                           $"- {doelgroep.Maximumleeftijd}'.";
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = beschrijving,
+            Gebeurtenis = nameof(Events.DoelgroepWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
     public static HistoriekGebeurtenisResponse HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-        HoofdactiviteitenVerenigingsloketWerdenGewijzigd hoofdactiviteitenVerenigingsloketWerdenGewijzigd)
+        string[] hoofdactiviteiten)
     {
+        var @event = new HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten
+                                                                         .Select(HoofdactiviteitVerenigingsloket.Create)
+                                                                         .Select(wg => new Registratiedata.HoofdactiviteitVerenigingsloket(
+                                                                                     wg.Code, wg.Naam))
+                                                                         .ToArray());
+
         return new HistoriekGebeurtenisResponse
         {
+            Beschrijving = "Hoofdactiviteiten verenigingsloket werden gewijzigd.",
+            Gebeurtenis = nameof(Events.HoofdactiviteitenVerenigingsloketWerdenGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
         };
     }
 
@@ -173,11 +223,12 @@ public static class HistoriekGebeurtenisMapper
                                                         .Select(Werkingsgebied.Create)
                                                         .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                                                         .ToArray());
+
         return new HistoriekGebeurtenisResponse
         {
             Beschrijving = "Werkingsgebieden werden gewijzigd.",
             Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenGewijzigd),
-            Data = @event.Werkingsgebieden,
+            Data = @event,
             Initiator = AuthenticationSetup.Initiator,
         };
     }
@@ -313,4 +364,23 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse IsUitgeschrevenUitPubliekeDatastroom(bool? isUitgeschrevenUitPubliekeDatastroom)
+    {
+        var isUitgeschreven = isUitgeschrevenUitPubliekeDatastroom!.Value;
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = isUitgeschreven
+                ? "Vereniging werd uitgeschreven uit de publieke datastroom."
+                : "Vereniging werd ingeschreven in de publieke datastroom.",
+            Gebeurtenis = isUitgeschreven
+                ? nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom)
+                : nameof(VerenigingWerdIngeschrevenInPubliekeDatastroom),
+            Data = isUitgeschreven
+                ? new VerenigingWerdUitgeschrevenUitPubliekeDatastroom()
+                : new VerenigingWerdIngeschrevenInPubliekeDatastroom(),
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
 }

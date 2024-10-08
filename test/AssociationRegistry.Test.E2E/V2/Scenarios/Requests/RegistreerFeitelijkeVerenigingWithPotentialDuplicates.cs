@@ -140,7 +140,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
         {
             s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
             s.Post
-             .Json(request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);

@@ -132,7 +132,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
         var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
-             .Json(request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
