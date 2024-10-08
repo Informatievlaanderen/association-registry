@@ -70,7 +70,7 @@ public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocati
 
     public async Task InitializeAsync()
     {
-        Response = _context.ApiSetup.AdminApiHost.GetDetail(_context.VCode);
+        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
     }
 
     public async Task DisposeAsync()
