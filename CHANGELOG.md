@@ -1,3 +1,16 @@
+# [8.157.0](https://github.com/informatievlaanderen/association-registry/compare/v8.156.1...v8.157.0) (2024-10-08)
+
+
+### Bug Fixes
+
+* or-2448 add werkingsgebieden to beheer zoeken response example ([ab7a753](https://github.com/informatievlaanderen/association-registry/commit/ab7a7534a0cf9c5aa442dfc586d0a2b359199295))
+
+
+### Features
+
+* or-2448 add gebeurtenissen to historiek ([f9ac86b](https://github.com/informatievlaanderen/association-registry/commit/f9ac86b820371183c27ebbac175f7a17b0ca76db))
+* or-2448 add werkingsgebieden to beheer zoeken ([21b89ac](https://github.com/informatievlaanderen/association-registry/commit/21b89ace34ae126bd50014d25a2d7c35b6d9452f))
+
 ## [8.156.1](https://github.com/informatievlaanderen/association-registry/compare/v8.156.0...v8.156.1) (2024-10-08)
 
 
