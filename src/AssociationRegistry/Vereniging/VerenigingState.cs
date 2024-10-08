@@ -108,6 +108,10 @@ public record VerenigingState : IHasVersion
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
                       .ToArray()),
+            Werkingsgebieden = Werkingsgebieden.Hydrate(
+                @event.Werkingsgebieden?.Select(
+                           h => Werkingsgebied.Create(h.Code))
+                      .ToArray() ?? []),
         };
 
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
@@ -217,6 +221,15 @@ public record VerenigingState : IHasVersion
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
                 @event.HoofdactiviteitenVerenigingsloket.Select(
                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                      .ToArray()),
+        };
+
+    public VerenigingState Apply(WerkingsgebiedenWerdenGewijzigd @event)
+        => this with
+        {
+            Werkingsgebieden = Werkingsgebieden.Hydrate(
+                @event.Werkingsgebieden.Select(
+                           h => Werkingsgebied.Create(h.Code))
                       .ToArray()),
         };
 

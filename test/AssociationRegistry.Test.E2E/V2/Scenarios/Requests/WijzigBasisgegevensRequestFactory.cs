@@ -33,20 +33,20 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
-            IsUitgeschrevenUitPubliekeDatastroom = false,
+            IsUitgeschrevenUitPubliekeDatastroom = !_scenario.FeitelijkeVerenigingWerdGeregistreerd.IsUitgeschrevenUitPubliekeDatastroom,
             Doelgroep = new DoelgroepRequest
             {
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            Werkingsgebieden = ["BE25", "BE25535002"],
+            Werkingsgebieden = ["BE"],
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
-             .Json(request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);

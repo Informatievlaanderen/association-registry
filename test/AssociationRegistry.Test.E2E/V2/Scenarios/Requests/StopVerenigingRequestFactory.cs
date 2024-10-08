@@ -28,7 +28,7 @@ public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRe
         await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
-             .Json(request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/stop");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);

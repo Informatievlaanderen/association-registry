@@ -14,6 +14,7 @@ public class HistoriekComparisonConfig : End2EndComparisonConfig
         IgnoreProperty<FeitelijkeVerenigingWerdGeregistreerdData>(x => x.Vertegenwoordigers);
         IgnoreProperty<FeitelijkeVerenigingWerdGeregistreerdData>(x => x.HoofdactiviteitenVerenigingsloket);
         IgnoreProperty<HistoriekGebeurtenisResponse>(x => x.Tijdstip);
+        IgnoreProperty<HistoriekGebeurtenisResponse>(x => x.Initiator);
 
         CustomPropertyComparer<HistoriekGebeurtenisResponse>(
             customProperty: x => x.Data, new HistoriekDataComparer(RootComparerFactory.GetRootComparer()));

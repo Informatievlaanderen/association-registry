@@ -44,7 +44,7 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
-             .Json(request, JsonStyle.MinimalApi)
+             .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/locaties/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);

@@ -126,6 +126,13 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
                         ""data"":{JsonConvert.SerializeObject(_scenario.DoelgroepWerdGewijzigd)},
                         ""initiator"":""{Metadata.Initiator}"",
                         ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
+                    }},
+                    {{
+                        ""beschrijving"": ""Werkingsgebieden werden gewijzigd."",
+                        ""gebeurtenis"":""WerkingsgebiedenWerdenGewijzigd"",
+                        ""data"":{JsonConvert.SerializeObject(_scenario.WerkingsgebiedenWerdenGewijzigd)},
+                        ""initiator"":""{Metadata.Initiator}"",
+                        ""tijdstip"":""{Metadata.Tijdstip.ToZuluTime()}""
                     }}
                 ]
             }}
