@@ -1,3 +1,10 @@
+## [8.156.1](https://github.com/informatievlaanderen/association-registry/compare/v8.156.0...v8.156.1) (2024-10-08)
+
+
+### Bug Fixes
+
+* or-2473 add swagger docs for accepted location header ([b206b07](https://github.com/informatievlaanderen/association-registry/commit/b206b07c022a11872e8b210fd553b46b4e42db9b))
+
 # [8.156.0](https://github.com/informatievlaanderen/association-registry/compare/v8.155.0...v8.156.0) (2024-10-07)
 
 
