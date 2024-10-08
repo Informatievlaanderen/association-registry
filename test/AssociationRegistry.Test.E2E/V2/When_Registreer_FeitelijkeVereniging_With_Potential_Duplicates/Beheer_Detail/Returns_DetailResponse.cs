@@ -24,7 +24,7 @@ using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenw
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
 {
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetDetail(TestContext.VCode);
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 
     public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context): base(context)
     {

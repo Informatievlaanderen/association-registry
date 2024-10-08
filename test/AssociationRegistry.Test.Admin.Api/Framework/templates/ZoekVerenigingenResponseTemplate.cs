@@ -62,6 +62,7 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
             _vereniging.corresponderendevcodes = Array.Empty<string>();
             _vereniging.locaties = new List<object>();
             _vereniging.hoofdactiviteiten = new List<object>();
+            _vereniging.werkingsgebieden = new List<object>();
             _vereniging.sleutels = new List<object>();
 
             WithStatus(VerenigingStatus.Actief);
@@ -135,6 +136,19 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
             {
                 jsonldid = JsonLdType.Hoofdactiviteit.CreateWithIdValues(code),
                 jsonldtype = JsonLdType.Hoofdactiviteit.Type,
+                code = code,
+                naam = naam,
+            });
+
+            return this;
+        }
+
+        public VerenigingTemplate WithWerkingsgebied(string code, string naam)
+        {
+            _vereniging.werkingsgebieden.Add(new
+            {
+                jsonldid = JsonLdType.Werkingsgebied.CreateWithIdValues(code),
+                jsonldtype = JsonLdType.Werkingsgebied.Type,
                 code = code,
                 naam = naam,
             });
@@ -235,6 +249,11 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
                 template.WithHoofdactiviteit(h.Code, h.Naam);
+            }
+
+            foreach (var w in e.Werkingsgebieden ?? [])
+            {
+                template.WithWerkingsgebied(w.Code, w.Naam);
             }
 
             foreach (var l in e.Locaties)

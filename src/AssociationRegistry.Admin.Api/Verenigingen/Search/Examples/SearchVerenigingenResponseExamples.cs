@@ -10,6 +10,7 @@ using Vereniging;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVerenigingenResponse>
 {
@@ -42,6 +43,16 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Naam = "Cultuur",
                         },
                     },
+                    Werkingsgebieden =
+                    [
+                        new Werkingsgebied
+                        {
+                            id = JsonLdType.Werkingsgebied.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Werkingsgebied.Type,
+                            Code = "BE25",
+                            Naam = "Provincie West-Vlaanderen",
+                        },
+                    ],
                     Status = VerenigingStatus.Actief,
                     Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
                     Einddatum = null,
