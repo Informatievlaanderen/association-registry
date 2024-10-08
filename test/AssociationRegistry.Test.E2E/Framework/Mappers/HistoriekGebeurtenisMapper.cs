@@ -6,6 +6,7 @@ using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Events;
 using EventStore;
+using Vereniging;
 
 public static class HistoriekGebeurtenisMapper
 {
@@ -57,9 +58,18 @@ public static class HistoriekGebeurtenisMapper
                                               : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)))
                                  .ToArray(),
                 Vertegenwoordigers: null,
-                HoofdactiviteitenVerenigingsloket: null),
+                HoofdactiviteitenVerenigingsloket: null,
+                Werkingsgebieden: MapWerkingsgebieden(request.Werkingsgebieden)),
             Initiator = AuthenticationSetup.Initiator,
         };
+    }
+
+    private static Registratiedata.Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebiedenCodes)
+    {
+        return werkingsgebiedenCodes
+              .Select(code => Werkingsgebied.Create(code))
+              .Select(werkingsgebied => new Registratiedata.Werkingsgebied(werkingsgebied.Code, werkingsgebied.Naam))
+              .ToArray();
     }
 
     public static HistoriekGebeurtenisResponse AdresWerdOvergenomen(string vCode)

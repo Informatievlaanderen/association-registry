@@ -41,6 +41,5 @@ public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestC
 
         werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
-
     }
 }
