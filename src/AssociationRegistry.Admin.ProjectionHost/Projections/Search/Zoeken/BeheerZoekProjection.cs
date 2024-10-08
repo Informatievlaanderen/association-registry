@@ -53,6 +53,20 @@ public class BeheerZoekProjectionHandler
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
+
+                Werkingsgebieden = message.Data.Werkingsgebieden?
+                                                           .Select(
+                                                                werkingsgebied =>
+                                                                    new VerenigingZoekDocument.Werkingsgebied
+                                                                    {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Werkingsgebied,
+                                                                                werkingsgebied.Code),
+                                                                        Code = werkingsgebied.Code,
+                                                                        Naam = werkingsgebied.Naam,
+                                                                    })
+                                                           .ToArray() ?? [],
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel

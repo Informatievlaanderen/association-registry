@@ -24,6 +24,16 @@
         },
         {{end}}
       ],
+      "werkingsgebieden": [
+        {{for werkingsgebied in vereniging.werkingsgebieden}}
+        {
+          "@id": "{{werkingsgebied.jsonldid}}",
+          "@type": "{{werkingsgebied.jsonldtype}}",
+          "code": "{{werkingsgebied.code}}",
+          "naam": "{{werkingsgebied.naam}}"
+        },
+        {{end}}
+      ],
       "startdatum": {{if vereniging.startdatum}}"{{vereniging.startdatum}}",{{else}}null,{{end}}
       "einddatum": {{if vereniging.einddatum}}"{{vereniging.einddatum}}",{{else}}null,{{end}}
       "doelgroep": {

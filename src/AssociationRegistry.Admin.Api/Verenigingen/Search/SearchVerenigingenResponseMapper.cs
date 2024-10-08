@@ -52,6 +52,9 @@ public class SearchVerenigingenResponseMapper
                 HoofdactiviteitenVerenigingsloket = verenigingZoekDocument.HoofdactiviteitenVerenigingsloket
                                                                           .Select(Map)
                                                                           .ToArray(),
+                Werkingsgebieden = verenigingZoekDocument.Werkingsgebieden
+                                                         .Select(Map)
+                                                         .ToArray(),
                 Locaties = verenigingZoekDocument.Locaties
                                                  .Select(Map)
                                                  .ToArray(),
@@ -88,6 +91,15 @@ public class SearchVerenigingenResponseMapper
             type = h.JsonLdMetadata.Type,
             Code = h.Code,
             Naam = h.Naam,
+        };
+
+    private static Werkingsgebied Map(VerenigingZoekDocument.Werkingsgebied wg)
+        => new()
+        {
+            id = wg.JsonLdMetadata.Id,
+            type = wg.JsonLdMetadata.Type,
+            Code = wg.Code,
+            Naam = wg.Naam,
         };
 
     private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)

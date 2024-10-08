@@ -15,7 +15,7 @@ using Xunit;
 public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetHistoriek(TestContext.VCode);
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
     public Returns_Historiek(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
@@ -41,6 +41,5 @@ public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestC
 
         werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
-
     }
 }

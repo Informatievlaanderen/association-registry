@@ -16,5 +16,6 @@ public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
     public TRequest Request => RequestResult.Request;
     public RequestResult<TRequest> RequestResult { get; protected set; }
 
-    public AppSettings PublicApiAppSettings => ApiSetup.PublicApiHost.Services.GetRequiredService<AppSettings>();
+    public Hosts.Configuration.ConfigurationBindings.AppSettings AdminApiAppSettings => ApiSetup.AdminApiHost.Services.GetRequiredService<Hosts.Configuration.ConfigurationBindings.AppSettings>();
+    public AppSettings PublicApiAppSettings => ApiSetup.PublicApiHost.Services.GetRequiredService<Public.Api.Infrastructure.ConfigurationBindings.AppSettings>();
 }

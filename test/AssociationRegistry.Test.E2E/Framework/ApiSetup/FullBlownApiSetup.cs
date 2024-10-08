@@ -20,13 +20,11 @@ using Vereniging;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-
-public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
+public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 {
 
     public FullBlownApiSetup()
     {
-
     }
 
     public string? AuthCookie { get; private set; }
@@ -45,6 +43,14 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
            .EnsureEachCallIsAuthenticated();
 
 
+        AdminApiHost = await AlbaHost.For<Program>(
+            ConfigureForTesting(
+                configuration: configuration,
+                schema: _schema,
+                indexName: adminIndexName,
+                baseUrl: "http://127.0.0.1:11003"));
+        AdminApiHost.EnsureEachCallIsAuthenticated();
+
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting(schema, "adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
@@ -54,6 +60,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 
         PublicApiHost = await AlbaHost.For<Public.Api.Program>(
             ConfigureForTesting(schema, "publicapi"));
+
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -84,6 +91,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
                   context.HostingEnvironment.EnvironmentName = "Development";
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
+             .UseSetting(key: "BaseUrl", value: baseUrl)
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
