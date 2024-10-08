@@ -41,8 +41,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = 1,
-                Maximumleeftijd = 149,
+                Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
+                Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
             },
             VCode = _testContext.VCode,
             KorteNaam = Request.KorteNaam,
@@ -52,13 +52,15 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = Request.Naam,
-            Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
+            Startdatum = Instant.FromDateTimeOffset(
+                new DateTimeOffset(Request.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
+            ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
-            Sleutels = [],
+            Sleutels = BeheerZoekResponseMapper.MapSleutels(Request, _testContext.VCode),
             Links = new VerenigingLinks()
             {
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),

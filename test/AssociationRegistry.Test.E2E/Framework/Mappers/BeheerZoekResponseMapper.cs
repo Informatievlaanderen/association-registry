@@ -28,7 +28,7 @@ public class BeheerZoekResponseMapper
         }).ToArray();
     }
 
-    private static Sleutel[] MapSleutels(WijzigBasisgegevensRequest request, string vCode)
+    public static Sleutel[] MapSleutels(WijzigBasisgegevensRequest request, string vCode)
         =>
         [
             new Sleutel

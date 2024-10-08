@@ -35,13 +35,22 @@ public class Given_BasisGegevenWerdGewijzigd
         var goldenMaster = new ZoekVerenigingenResponseTemplate()
                           .FromQuery(_scenario.VCode)
                           .WithVereniging(
-                               v => v
-                                   .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-                                   .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
-                                   .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
-                                   .WithDoelgroep(_scenario.VCode, _scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
-                                                  _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd)
-                           );
+                               v =>
+                               {
+                                   foreach (var werkingsgebied in _scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden)
+                                   {
+                                       v.WithWerkingsgebied(werkingsgebied.Code, werkingsgebied.Naam);
+                                   }
+
+                                   return v
+                                         .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
+                                         .WithNaam(_scenario.NaamWerdGewijzigd.Naam)
+                                         .WithKorteNaam(_scenario.KorteNaamWerdGewijzigd.KorteNaam)
+                                         .WithDoelgroep(_scenario.VCode, _scenario.DoelgroepWerdGewijzigd.Doelgroep.Minimumleeftijd,
+                                                        _scenario.DoelgroepWerdGewijzigd.Doelgroep.Maximumleeftijd);
+
+                                   ;
+                               });
 
         content.Should().BeEquivalentJson(goldenMaster);
     }

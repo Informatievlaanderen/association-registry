@@ -52,8 +52,8 @@
                 {
                     type = JsonLdType.Doelgroep.Type,
                     id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
-                    Minimumleeftijd = 1,
-                    Maximumleeftijd = 149,
+                    Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
+                    Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
                 },
                 VCode = TestContext.VCode,
                 KorteBeschrijving = Request.KorteBeschrijving,
@@ -64,10 +64,12 @@
                     Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
                 Naam = Request.Naam,
-                Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
+                Startdatum = Instant.FromDateTimeOffset(
+                    new DateTimeOffset(Request.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
+                ).FormatAsBelgianDate(),
                 Einddatum = null,
                 Status = VerenigingStatus.Actief,
-                IsUitgeschrevenUitPubliekeDatastroom = TestContext.RegistratieData.IsUitgeschrevenUitPubliekeDatastroom,
+                IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom.Value,
                 Contactgegevens =
                     BeheerDetailResponseMapper.MapContactgegevens(TestContext.RegistratieData.Contactgegevens,
                                                                   TestContext.VCode),
