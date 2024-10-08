@@ -31,6 +31,7 @@ public class To_A_WijzigBasisgegevensCommand
             out var startdatum,
             out var doelgroep,
             out var hoofdactiviteitenVerenigingsloket,
+            out var werkingsgebieden,
             out var isUitgeschrevenUitPubliekeDatastroom);
 
         vCode.Should().Be(actualVCode);
@@ -45,6 +46,10 @@ public class To_A_WijzigBasisgegevensCommand
         hoofdactiviteitenVerenigingsloket.Should()
                                          .BeEquivalentTo(
                                               request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        werkingsgebieden.Should()
+                        .BeEquivalentTo(
+                             request.Werkingsgebieden!.Select(Werkingsgebied.Create));
 
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }
@@ -68,6 +73,7 @@ public class To_A_WijzigBasisgegevensCommand
             out var startdatum,
             out var doelgroep,
             out var hoofdactiviteitenVerenigingsloket,
+            out var werkingsgebieden,
             out var isUitgeschrevenUitPubliekeDatastroom);
 
         vCode.Should().Be(actualVCode);
@@ -82,6 +88,10 @@ public class To_A_WijzigBasisgegevensCommand
         hoofdactiviteitenVerenigingsloket.Should()
                                          .BeEquivalentTo(
                                               request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        werkingsgebieden.Should()
+                        .BeEquivalentTo(
+                             request.Werkingsgebieden!.Select(Werkingsgebied.Create));
 
         isUitgeschrevenUitPubliekeDatastroom.Should().Be(request.IsUitgeschrevenUitPubliekeDatastroom);
     }

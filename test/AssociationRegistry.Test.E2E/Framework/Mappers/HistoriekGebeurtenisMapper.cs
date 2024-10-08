@@ -83,36 +83,101 @@ public static class HistoriekGebeurtenisMapper
                 IsUitgeschrevenUitPubliekeDatastroom: feitelijkeVerenigingWerdGeregistreerd
                    .IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens: feitelijkeVerenigingWerdGeregistreerd.Contactgegevens.Select(
-                                             (x, i) => new Registratiedata.Contactgegeven(
-                                                 i + 1,
-                                                 x.Contactgegeventype,
-                                                 x.Waarde,
-                                                 x.Beschrijving!,
-                                                 x.IsPrimair))
-                                        .ToArray(),
+                                                                           (x, i) => new Registratiedata.Contactgegeven(
+                                                                               i + 1,
+                                                                               x.Contactgegeventype,
+                                                                               x.Waarde,
+                                                                               x.Beschrijving!,
+                                                                               x.IsPrimair))
+                                                                      .ToArray(),
                 Locaties: feitelijkeVerenigingWerdGeregistreerd.Locaties.Select(
-                                      (x, i) => new Registratiedata.Locatie(
-                                          i + 1,
-                                          x.Locatietype,
-                                          x.IsPrimair,
-                                          x.Naam!,
-                                          x.Adres == null
-                                              ? null
-                                              : new Registratiedata.Adres(
-                                                  x.Adres.Straatnaam,
-                                                  x.Adres.Huisnummer,
-                                                  x.Adres.Busnummer!,
-                                                  x.Adres.Postcode,
-                                                  x.Adres.Gemeente,
-                                                  x.Adres.Land
-                                              ),
-                                          x.AdresId is null
-                                              ? null
-                                              : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)))
-                                 .ToArray(),
+                                                                    (x, i) => new Registratiedata.Locatie(
+                                                                        i + 1,
+                                                                        x.Locatietype,
+                                                                        x.IsPrimair,
+                                                                        x.Naam!,
+                                                                        x.Adres == null
+                                                                            ? null
+                                                                            : new Registratiedata.Adres(
+                                                                                x.Adres.Straatnaam,
+                                                                                x.Adres.Huisnummer,
+                                                                                x.Adres.Busnummer!,
+                                                                                x.Adres.Postcode,
+                                                                                x.Adres.Gemeente,
+                                                                                x.Adres.Land
+                                                                            ),
+                                                                        x.AdresId is null
+                                                                            ? null
+                                                                            : new Registratiedata.AdresId(
+                                                                                x.AdresId.Broncode, x.AdresId.Bronwaarde)))
+                                                               .ToArray(),
                 Vertegenwoordigers: null,
                 HoofdactiviteitenVerenigingsloket: null,
                 Werkingsgebieden: feitelijkeVerenigingWerdGeregistreerd.Werkingsgebieden),
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse NaamWerdGewijzigd(
+        NaamWerdGewijzigd naamWerdGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse KorteNaamWerdGewijzigd(
+        KorteNaamWerdGewijzigd korteNaamWerdGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse KorteBeschrijvingWerdGewijzigd(
+        KorteBeschrijvingWerdGewijzigd korteBeschrijvingWerdGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse StartdatumWerdGewijzigd(
+        StartdatumWerdGewijzigd startdatumWerdGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse DoelgroepWerdGewijzigd(
+        DoelgroepWerdGewijzigd doelgroepWerdGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
+        HoofdactiviteitenVerenigingsloketWerdenGewijzigd hoofdactiviteitenVerenigingsloketWerdenGewijzigd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenGewijzigd(
+        string[] werkingsgebieden)
+    {
+        var @event = new WerkingsgebiedenWerdenGewijzigd(werkingsgebieden
+                                                        .Select(Werkingsgebied.Create)
+                                                        .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+                                                        .ToArray());
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = "Werkingsgebieden werden gewijzigd.",
+            Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenGewijzigd),
+            Data = @event.Werkingsgebieden,
             Initiator = AuthenticationSetup.Initiator,
         };
     }

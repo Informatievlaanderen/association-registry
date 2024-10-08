@@ -35,8 +35,8 @@ public record VerenigingState : IHasVersion
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
+    public Werkingsgebieden Werkingsgebieden { get; private init; } = Werkingsgebieden.Empty;
     public bool IsGestopt => Einddatum is not null;
-
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsVerwijderd { get; set; }
@@ -462,7 +462,8 @@ public record VerenigingState : IHasVersion
             return this;
         }
 
-        return this with {
+        return this with
+        {
             Locaties = Locaties.Hydrate(
                 Locaties
                    .Without(@event.LocatieId)
@@ -473,6 +474,7 @@ public record VerenigingState : IHasVersion
                     })),
         };
     }
+
     public VerenigingState Apply(AdresWerdNietGevondenInAdressenregister @event)
     {
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
@@ -494,6 +496,7 @@ public record VerenigingState : IHasVersion
             ),
         };
     }
+
     public VerenigingState Apply(AdresKonNietOvergenomenWordenUitAdressenregister @event)
     {
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
@@ -540,7 +543,7 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(AdresWerdGewijzigdInAdressenregister @event)
     {
-        if(!HandledIdempotenceKeys.Contains(@event.IdempotenceKey))
+        if (!HandledIdempotenceKeys.Contains(@event.IdempotenceKey))
             HandledIdempotenceKeys.Add(@event.IdempotenceKey);
 
         var locatie = Locaties.SingleOrDefault(x => x.LocatieId == @event.LocatieId);
@@ -550,7 +553,8 @@ public record VerenigingState : IHasVersion
             return this;
         }
 
-        return this with {
+        return this with
+        {
             Locaties = Locaties.Hydrate(
                 Locaties
                    .Without(@event.LocatieId)
@@ -593,7 +597,8 @@ public record VerenigingState : IHasVersion
             return this;
         }
 
-        return this with {
+        return this with
+        {
             Locaties = Locaties.Hydrate(
                 Locaties
                    .Without(@event.VerwijderdeLocatieId)),

@@ -125,6 +125,15 @@ public class BeheerVerenigingHistoriekProjector
             document,
             beschrijving: "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
+        BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            werkingsgebiedenWerdenGewijzigd,
+            document,
+            beschrijving: "Werkingsgebieden werden gewijzigd.");
+
+
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(

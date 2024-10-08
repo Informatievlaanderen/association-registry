@@ -51,7 +51,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst)),
                 ToWerkingsgebiedenLijst(Werkingsgebieden.FromArray(werkingsgebieden))
-                ));
+            ));
 
         return vereniging;
     }
@@ -139,10 +139,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (HoofdactiviteitenVerenigingsloket.Equals(hoofdactiviteitenVerenigingsloket, State.HoofdactiviteitenVerenigingsloket))
             return;
 
-        Throw<LaatsteHoofdActiviteitKanNietVerwijderdWorden>.If(State.HoofdactiviteitenVerenigingsloket.Any() && !hoofdactiviteitenVerenigingsloket.Any());
+        Throw<LaatsteHoofdActiviteitKanNietVerwijderdWorden>.If(State.HoofdactiviteitenVerenigingsloket.Any() &&
+                                                                !hoofdactiviteitenVerenigingsloket.Any());
 
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
         AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
+    }
+
+    public void WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    {
+        if (Werkingsgebieden.Equals(werkingsgebieden, State.Werkingsgebieden))
+            return;
+
+        var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
+        AddEvent(WerkingsgebiedenWerdenGewijzigd.With(werkingsgebiedenData.ToArray()));
     }
 
     public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
@@ -197,7 +207,11 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         State = obj;
     }
 
-    public async Task NeemAdresDetailOver(int locatieId, Registratiedata.AdresId adresId, IGrarClient grarClient, CancellationToken cancellationToken)
+    public async Task NeemAdresDetailOver(
+        int locatieId,
+        Registratiedata.AdresId adresId,
+        IGrarClient grarClient,
+        CancellationToken cancellationToken)
     {
         var adresDetailResponse = await grarClient.GetAddressById(adresId.ToString(), cancellationToken);
 

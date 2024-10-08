@@ -70,6 +70,11 @@ public static class AutoFixtureCustomizations
                                                        .Distinct()
                                                        .Select(h => h.Code)
                                                        .ToArray(),
+                    Werkingsgebieden = fixture
+                                      .CreateMany<Werkingsgebied>()
+                                      .Distinct()
+                                      .Select(h => h.Code)
+                                      .ToArray(),
                 }).OmitAutoProperties());
 
         fixture
@@ -108,9 +113,11 @@ public static class AutoFixtureCustomizations
 
                     request.KorteBeschrijving = fixture.Create<string>();
                     request.KorteNaam = fixture.Create<string>();
+
                     request.Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
                                                       .Distinct()
                                                       .Select(x => x.Code).ToArray();
+
                     return request;
                 }).OmitAutoProperties());
     }

@@ -17,7 +17,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
     public readonly VerenigingWerdUitgeschrevenUitPubliekeDatastroom VerenigingWerdUitgeschrevenUitPubliekeDatastroom;
     public readonly VerenigingWerdIngeschrevenInPubliekeDatastroom VerenigingWerdIngeschrevenInPubliekeDatastroom;
     public readonly DoelgroepWerdGewijzigd DoelgroepWerdGewijzigd;
-    public readonly Werkingsgebied[] Werkingsgebieden;
+    public readonly WerkingsgebiedenWerdenGewijzigd WerkingsgebiedenWerdenGewijzigd;
     public readonly CommandMetadata Metadata;
 
     public V004_AlleBasisGegevensWerdenGewijzigd()
@@ -50,7 +50,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
         DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(Minimumleeftijd: 12, Maximumleeftijd: 18));
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = new VerenigingWerdUitgeschrevenUitPubliekeDatastroom();
         VerenigingWerdIngeschrevenInPubliekeDatastroom = new VerenigingWerdIngeschrevenInPubliekeDatastroom();
-        Werkingsgebieden = fixture.CreateMany<Werkingsgebied>().ToArray();
+        WerkingsgebiedenWerdenGewijzigd = new WerkingsgebiedenWerdenGewijzigd(fixture.CreateMany<Registratiedata.Werkingsgebied>().ToArray());
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 
@@ -68,6 +68,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
             VerenigingWerdUitgeschrevenUitPubliekeDatastroom,
             VerenigingWerdIngeschrevenInPubliekeDatastroom,
             DoelgroepWerdGewijzigd,
+            WerkingsgebiedenWerdenGewijzigd,
         };
 
     public CommandMetadata GetCommandMetadata()

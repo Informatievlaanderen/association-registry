@@ -19,6 +19,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleStartdatum(vereniging, message.Command.Startdatum, clock);
         WijzigHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
+        WijzigWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
         HandleUitgeschrevenUitPubliekeDatastroom(vereniging, message.Command.IsUitgeschrevenUitPubliekeDatastroom);
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
 
@@ -54,6 +55,17 @@ public class WijzigBasisgegevensCommandHandler
 
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
     }
+
+    private static void WijzigWerkingsgebieden(
+        Vereniging vereniging,
+        Werkingsgebied[]? werkingsgebieden)
+    {
+        if (werkingsgebieden is null)
+            return;
+
+        vereniging.WijzigWerkingsgebieden(werkingsgebieden);
+    }
+
 
     private static void HandleStartdatum(Vereniging vereniging, NullOrEmpty<Datum> startdatum, IClock clock)
     {
