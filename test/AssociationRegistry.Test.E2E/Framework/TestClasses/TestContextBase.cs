@@ -3,7 +3,7 @@
 using ApiSetup;
 using Microsoft.Extensions.DependencyInjection;
 using Public.Api.Infrastructure.ConfigurationBindings;
-using Scenarios.Commands;
+using V2.Scenarios.Requests;
 
 public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
 {

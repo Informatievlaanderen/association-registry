@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
-using Scenarios;
 using TestClasses;
 
 public interface IApiSetup

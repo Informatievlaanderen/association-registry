@@ -1,23 +1,22 @@
-namespace AssociationRegistry.Test.E2E.Scenarios;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens;
 
-using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Hosts.Configuration.ConfigurationBindings;
+using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
-using Marten.Events;
 using IEvent = AssociationRegistry.Framework.IEvent;
 
-public class EmptyScenario : IScenario
+public class EmptyScenario : Framework.TestClasses.IScenario
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
     public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
