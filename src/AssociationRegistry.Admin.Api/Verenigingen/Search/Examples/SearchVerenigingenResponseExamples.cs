@@ -122,6 +122,16 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Naam = "Sport",
                         },
                     },
+                    Werkingsgebieden =
+                    [
+                        new Werkingsgebied
+                        {
+                            id = JsonLdType.Werkingsgebied.CreateWithIdValues("BE25"),
+                            type = JsonLdType.Werkingsgebied.Type,
+                            Code = "BE25",
+                            Naam = "Provincie West-Vlaanderen",
+                        },
+                    ],
                     Verenigingstype = new VerenigingsType
                     {
                         Code = Verenigingstype.VZW.Code,
