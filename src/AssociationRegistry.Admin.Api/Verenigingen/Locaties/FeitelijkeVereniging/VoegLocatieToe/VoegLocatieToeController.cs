@@ -65,6 +65,8 @@ public class VoegLocatieToeController : ApiController
                            description: "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
                            description: "De versie van de geregistreerde vereniging.")]
+    [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
+                           description: "De locatie van de toegevoegde locatie.")]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
