@@ -23,7 +23,6 @@ using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 {
-    private string _schema;
 
     public FullBlownApiSetup()
     {
@@ -39,32 +38,22 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
 
     public async Task InitializeAsync()
     {
-        _schema = "fullblowne2e";
+        var schema = "fullblowne2e";
         OaktonEnvironment.AutoStartHost = true;
 
-        var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.json").Build();
-
-        var adminIndexName = $"{_schema}-admin";
-        var publicIndexName = $"{_schema}-public";
-        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(
-                                                        configuration, _schema, adminIndexName)))
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(schema, "adminapi")))
            .EnsureEachCallIsAuthenticated();
 
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
-            ConfigureForTesting(
-                configuration,
-                                _schema,
-                adminIndexName));
+            ConfigureForTesting(schema, "adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
-            ConfigureForTesting(
-                configuration,
-                _schema,
-                publicIndexName));        PublicApiHost = await AlbaHost.For<Public.Api.Program>(
-            ConfigureForTesting(configuration, _schema, publicIndexName));
+            ConfigureForTesting(schema, "publicproj"));
+
+        PublicApiHost = await AlbaHost.For<Public.Api.Program>(
+            ConfigureForTesting(schema, "publicapi"));
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -75,8 +64,14 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
         await AdminProjectionHost.ResumeAllDaemonsAsync();
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema, string indexName)
+    private Action<IWebHostBuilder> ConfigureForTesting(string schema, string name)
     {
+        var configuration = new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.development.json", false)
+                           .AddJsonFile("appsettings.e2e.json", false)
+                           .AddJsonFile($"appsettings.e2e.{name}.json", false)
+                           .Build();
+
         return b =>
         {
             b.UseEnvironment("Development");
@@ -90,8 +85,7 @@ public class FullBlownApiSetup: IAsyncLifetime, IApiSetup
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
-             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", indexName);
+             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
 
