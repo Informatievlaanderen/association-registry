@@ -213,6 +213,29 @@ public class PubliekZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenGewijzigd> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden = message.Data.Werkingsgebieden
+                                                           .Select(
+                                                                werkingsgebied =>
+                                                                    new VerenigingZoekDocument.Werkingsgebied()
+                                                                    {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Werkingsgebied,
+                                                                                werkingsgebied.Code),
+
+                                                                        Code = werkingsgebied.Code,
+                                                                        Naam = werkingsgebied.Naam,
+                                                                    })
+                                                           .ToArray(),
+            });
+    }
+
     public async Task Handle(EventEnvelope<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> message)
     {
         await _elasticRepository.UpdateAsync(

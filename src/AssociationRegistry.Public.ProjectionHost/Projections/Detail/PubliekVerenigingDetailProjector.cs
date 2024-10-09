@@ -318,6 +318,22 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
+           .Select(
+                h => new PubliekVerenigingDetailDocument.Werkingsgebied
+                {
+                    JsonLdMetadata = new JsonLdMetadata(
+                        JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
+                        JsonLdType.Werkingsgebied.Type),
+                    Code = h.Code,
+                    Naam = h.Naam,
+                }).ToArray();
+    }
+
+    public static void Apply(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> verenigingWerdVerwijderdUitPubliekeDatastroom,
         PubliekVerenigingDetailDocument document)
     {

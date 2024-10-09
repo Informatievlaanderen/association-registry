@@ -105,6 +105,11 @@ public class PubliekVerenigingDetailProjection : EventProjection
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     public async Task Project(
+        IEvent<WerkingsgebiedenWerdenGewijzigd> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
         IEvent<VerenigingWerdUitgeschrevenUitPubliekeDatastroom> @event,
         IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);

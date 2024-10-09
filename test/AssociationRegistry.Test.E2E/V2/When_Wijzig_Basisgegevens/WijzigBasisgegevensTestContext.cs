@@ -23,7 +23,7 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
 
     public override async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _werdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

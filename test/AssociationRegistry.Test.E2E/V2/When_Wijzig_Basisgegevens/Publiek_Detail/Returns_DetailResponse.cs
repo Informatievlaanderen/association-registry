@@ -40,7 +40,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/detail-vereniging-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json");
     }
 
     [Fact]
