@@ -5,13 +5,14 @@ using Framework.ApiSetup;
 using Vereniging;
 using Marten.Events;
 using Scenarios.Givens;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Xunit;
 
 public class WijzigLocatieContext: IAsyncLifetime
 {
     public FullBlownApiSetup ApiSetup { get; }
-    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public WijzigLocatieRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;
 
@@ -22,7 +23,7 @@ public class WijzigLocatieContext: IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario();
+        _werdGeregistreerdScenario = new();
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new WijzigLocatieRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

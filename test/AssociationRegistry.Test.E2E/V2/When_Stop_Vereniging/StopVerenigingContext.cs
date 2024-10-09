@@ -6,17 +6,18 @@ using Vereniging;
 using Framework.TestClasses;
 using Marten.Events;
 using Scenarios.Givens;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 
 public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {
-    private readonly FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 
     public StopVerenigingContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
-        _werdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario();
+        _werdGeregistreerdScenario = new();
     }
 
     public override async Task InitializeAsync()

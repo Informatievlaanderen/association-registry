@@ -6,6 +6,7 @@ using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
+using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
@@ -47,10 +48,10 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
     }
 
     [Fact]
-    public void WithFeitelijkeVereniging()
+    public void WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
-            type = JsonLdType.FeitelijkeVereniging.Type,
+            type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
@@ -63,17 +64,17 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
             KorteNaam = TestContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZW.Code,
+                Naam = Verenigingstype.VZW.Naam,
             },
             Naam = TestContext.RegistratieData.Naam,
+            Roepnaam = "",
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = [],
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Locaties = [],
             Relaties = [],
-            // Sleutels = PubliekDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
-            Sleutels = [],
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

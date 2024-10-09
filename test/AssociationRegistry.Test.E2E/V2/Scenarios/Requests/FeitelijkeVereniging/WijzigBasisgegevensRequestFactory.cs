@@ -1,16 +1,16 @@
-namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Alba;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Primitives;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Framework.ApiSetup;
 using Marten.Events;
-using Primitives;
 using System.Net;
-using Vereniging;
 
 public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
 {

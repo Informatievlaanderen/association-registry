@@ -1,22 +1,22 @@
-namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging;
+namespace AssociationRegistry.Test.E2E.V2.When_Registreer_VerenigingMetRechtspersoonlijkheid;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Framework.ApiSetup;
-using Vereniging;
-using Framework.TestClasses;
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.V2.Scenarios.Givens;
+using AssociationRegistry.Test.E2E.V2.Scenarios.Requests.FeitelijkeVereniging;
+using AssociationRegistry.Vereniging;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Scenarios.Givens;
-using Scenarios.Requests;
-using Scenarios.Requests.FeitelijkeVereniging;
 
-public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
+public class RegistreerVerenigingMetRechtspersoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {
     private EmptyScenario _emptyScenario;
     public VCode VCode => RequestResult.VCode;
 
-    public RegistreerFeitelijkeVerenigingTestContext(FullBlownApiSetup apiSetup)
+    public RegistreerVerenigingMetRechtspersoonlijkheidTestContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
         _emptyScenario = new EmptyScenario();

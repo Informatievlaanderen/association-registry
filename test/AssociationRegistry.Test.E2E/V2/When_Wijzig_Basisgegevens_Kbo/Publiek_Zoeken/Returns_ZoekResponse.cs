@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.Reques
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
+using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
@@ -30,10 +31,10 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async Task WithVerenigingMetRechtspersoonlijkheid()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
-            type = JsonLdType.FeitelijkeVereniging.Type,
+            type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
@@ -46,16 +47,16 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZW.Code,
+                Naam = Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            HoofdactiviteitenVerenigingsloket = [],
-            Werkingsgebieden = [],
+            Roepnaam = "",
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
-            // Sleutels = PubliekZoekResponseMapper.MapSleutels(Request, _testContext.VCode),
-            Sleutels = [],
+            Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             Links = new VerenigingLinks()
             {
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),

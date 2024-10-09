@@ -7,8 +7,11 @@ using Framework.TestClasses;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens;
+using Scenarios.Givens.MetRechtspersoonlijkheid;
 using Scenarios.Requests;
+using Scenarios.Requests.VerenigingMetRechtspersoonlijkheid;
 using Vereniging;
+using WijzigBasisgegevensRequestFactory = Scenarios.Requests.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevensRequestFactory;
 
 public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgegevensRequest>
 {
@@ -29,7 +32,7 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
         _werdGeregistreerdScenario = new();
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        RequestResult = await new WijzigBasisgegevensKboRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

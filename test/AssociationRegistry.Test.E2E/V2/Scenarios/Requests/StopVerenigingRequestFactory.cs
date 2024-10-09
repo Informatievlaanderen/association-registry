@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Vereniging;
+using FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
 using System.Net;
