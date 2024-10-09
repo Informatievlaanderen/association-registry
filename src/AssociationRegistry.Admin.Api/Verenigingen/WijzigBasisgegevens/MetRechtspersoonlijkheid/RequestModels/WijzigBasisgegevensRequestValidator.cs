@@ -26,6 +26,13 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .WithMessage("Elke waarde in de hoofdactiviteiten mag slechts 1 maal voorkomen.")
            .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
 
+        RuleForEach(request => request.Werkingsgebieden).MustNotContainHtml();
+
+        RuleFor(request => request.Werkingsgebieden)
+           .Must(NotHaveDuplicates!)
+           .WithMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.")
+           .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
+
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
            .When(r => r.Doelgroep is not null);
