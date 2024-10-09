@@ -10,21 +10,21 @@ using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _verenigingWerdGeregistreerdScenario;
+    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 
     public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
-        _verenigingWerdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _feitelijkeVerenigingWerdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario();
     }
 
     public override async Task InitializeAsync()
     {
-        await ApiSetup.ExecuteGiven(_verenigingWerdGeregistreerdScenario);
+        await ApiSetup.ExecuteGiven(_feitelijkeVerenigingWerdGeregistreerdScenario);
 
         var requestFactory = new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(
-            _verenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd);
+            _feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd);
 
         RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

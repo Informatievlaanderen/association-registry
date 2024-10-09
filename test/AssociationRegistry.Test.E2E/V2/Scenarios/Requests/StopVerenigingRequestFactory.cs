@@ -11,9 +11,9 @@ using System.Net;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
 {
-    private readonly IVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly IFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public StopVerenigingRequestFactory(IVerenigingWerdGeregistreerdScenario scenario)
+    public StopVerenigingRequestFactory(IFeitelijkeVerenigingWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }

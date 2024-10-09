@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.E2E.V2.When_Wijzig_Basisgegevens.Beheer_Detail;
+﻿namespace AssociationRegistry.Test.E2E.V2.When_Wijzig_Basisgegevens_Kbo.Beheer_Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Admin.Schema.Constants;
 using Formats;
 using Framework.AlbaHost;
@@ -17,13 +17,10 @@ using Vereniging.Bronnen;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>,
-                                      IAsyncLifetime
+public class Returns_DetailResponse :
+    End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
 {
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
-
-    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext) : base(testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
     {
     }
 
@@ -50,36 +47,35 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
             CorresponderendeVCodes = [],
             Doelgroep = new DoelgroepResponse
             {
-                type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
+                @id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
+                @type = JsonLdType.Doelgroep.Type,
                 Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
                 Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
             },
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            KorteNaam = TestContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = Request.Naam,
+            Naam = TestContext.RegistratieData.Naam,
             Startdatum = Instant.FromDateTimeOffset(
-                new DateTimeOffset(Request.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
+                new DateTimeOffset(TestContext.RegistratieData.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom.Value,
-            Contactgegevens =
-                BeheerDetailResponseMapper.MapContactgegevens(TestContext.RegistratieData.Contactgegevens,
-                                                              TestContext.VCode),
-            HoofdactiviteitenVerenigingsloket =
-                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = BeheerDetailResponseMapper.MapLocaties(TestContext.RegistratieData.Locaties, TestContext.VCode),
-            Vertegenwoordigers =
-                BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
-            Relaties = BeheerDetailResponseMapper.MapRelaties([], TestContext.VCode),
-            Sleutels = BeheerDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
+            IsUitgeschrevenUitPubliekeDatastroom = false,
+            Contactgegevens = [],
+            HoofdactiviteitenVerenigingsloket = [],
+            Werkingsgebieden = [],
+            Locaties = [],
+            Vertegenwoordigers = [],
+            Relaties = [],
+            Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
+
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 }

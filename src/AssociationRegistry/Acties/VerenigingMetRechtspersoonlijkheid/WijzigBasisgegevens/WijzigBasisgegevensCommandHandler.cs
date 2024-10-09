@@ -19,6 +19,7 @@ public class WijzigBasisgegevensCommandHandler
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);
         HandleDoelgroep(vereniging, message.Command.Doelgroep);
         HandleHoofdactiviteitenVerenigingsloket(vereniging, message.Command.HoofdactiviteitenVerenigingsloket);
+        HandleWerkingsgebieden(vereniging, message.Command.Werkingsgebieden);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
@@ -41,6 +42,16 @@ public class WijzigBasisgegevensCommandHandler
             return;
 
         vereniging.WijzigHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket);
+    }
+
+    private static void HandleWerkingsgebieden(
+        VerenigingMetRechtspersoonlijkheid vereniging,
+        Werkingsgebied[]? werkingsgebieden)
+    {
+        if (werkingsgebieden is null)
+            return;
+
+        vereniging.WijzigWerkingsgebieden(werkingsgebieden);
     }
 
     private static void HandleKorteBeschrijving(VerenigingMetRechtspersoonlijkheid vereniging, string? korteBeschrijving)

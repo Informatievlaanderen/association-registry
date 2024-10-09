@@ -25,6 +25,12 @@ public class WijzigBasisgegevensRequest
     public string[]? HoofdactiviteitenVerenigingsloket { get; set; }
 
     /// <summary>
+    /// De codes van de nieuwe werkingsgebieden
+    /// </summary>
+    [DataMember]
+    public string[]? Werkingsgebieden { get; set; }
+
+    /// <summary>
     /// De nieuwe roepnaam van de vereniging
     /// </summary>
     [DataMember]
@@ -36,6 +42,7 @@ public class WijzigBasisgegevensRequest
             Roepnaam,
             KorteBeschrijving,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
-            HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray()
+            HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
+            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray()
         );
 }

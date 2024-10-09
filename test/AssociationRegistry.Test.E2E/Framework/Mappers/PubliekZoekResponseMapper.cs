@@ -30,6 +30,39 @@ public class PubliekZoekResponseMapper
             },
         ];
 
+    public static Sleutel[] MapSleutels(string vCode, string kboNummer)
+        =>
+        [
+            new()
+            {
+                @id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                @type = JsonLdType.Sleutel.Type,
+                Bron = Sleutelbron.VR.Waarde,
+                GestructureerdeIdentificator = new()
+                {
+                    @id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                    @type = JsonLdType.GestructureerdeSleutel.Type,
+                    Nummer = vCode,
+                },
+                Waarde = vCode,
+                CodeerSysteem = CodeerSysteem.VR,
+            },
+            new()
+            {
+                @id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
+                @type = JsonLdType.Sleutel.Type,
+                Bron = Sleutelbron.KBO.Waarde,
+                GestructureerdeIdentificator = new()
+                {
+                    @id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.KBO.Waarde),
+                    @type = JsonLdType.GestructureerdeSleutel.Type,
+                    Nummer = kboNummer,
+                },
+                Waarde = kboNummer,
+                CodeerSysteem = CodeerSysteem.KBO,
+            },
+        ];
+
     public static Locatie[] MapLocaties(Registratiedata.Locatie[] locaties, string vCode)
     {
         return locaties.Select((x, i) => new Locatie
