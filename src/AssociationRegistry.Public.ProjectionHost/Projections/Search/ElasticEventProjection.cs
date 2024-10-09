@@ -107,6 +107,7 @@ public class PubliekZoekProjectionHandler
                 },
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
+                Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel
