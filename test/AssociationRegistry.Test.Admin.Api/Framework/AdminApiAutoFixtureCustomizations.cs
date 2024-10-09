@@ -52,6 +52,11 @@ public static class AutoFixtureCustomizations
 
     private static void CustomizeWijzigBasisgegevensRequest(this IFixture fixture)
     {
+        fixture.Customize<Werkingsgebied>(
+            composer => composer.FromFactory<int>(
+                factory: i => Werkingsgebied.All[i % Werkingsgebied.All.Length])
+        );
+
         fixture.Customize<WijzigBasisgegevensRequest>(
             composer => composer.FromFactory(
                 () => new WijzigBasisgegevensRequest
@@ -80,13 +85,27 @@ public static class AutoFixtureCustomizations
         fixture
            .Customize<AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.
                 WijzigBasisgegevensRequest>(
-                composer => composer.With(
-                    propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
-                    valueFactory: () => fixture
-                                       .CreateMany<HoofdactiviteitVerenigingsloket>()
-                                       .Distinct()
-                                       .Select(h => h.Code)
-                                       .ToArray()));
+                composer => composer.FromFactory(
+                    () => new AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.
+                        WijzigBasisgegevensRequest
+                    {
+                        KorteBeschrijving = fixture.Create<string>(),
+                        Doelgroep = new DoelgroepRequest
+                        {
+                            Minimumleeftijd = fixture.Create<int>() % 50,
+                            Maximumleeftijd = 50 + fixture.Create<int>() % 50,
+                        },
+                        HoofdactiviteitenVerenigingsloket = fixture
+                                                           .CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                           .Distinct()
+                                                           .Select(h => h.Code)
+                                                           .ToArray(),
+                        Werkingsgebieden = fixture
+                                          .CreateMany<Werkingsgebied>()
+                                          .Distinct()
+                                          .Select(h => h.Code)
+                                          .ToArray(),
+                    }).OmitAutoProperties());
     }
 
     private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)

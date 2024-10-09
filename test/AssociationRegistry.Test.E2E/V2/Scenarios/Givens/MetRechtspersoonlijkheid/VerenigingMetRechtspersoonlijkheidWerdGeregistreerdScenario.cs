@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens.MetRechtspersoonlijkheid;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
@@ -6,10 +6,10 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Requests;
+using Requests.VerenigingMetRechtspersoonlijkheid;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
-                                                                           Framework.TestClasses.IScenario
+                                         Framework.TestClasses.IScenario
 {
     private readonly bool _isUitgeschreven;
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; set; }
@@ -28,11 +28,11 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
 
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
             VCode,
-            KboNummer: "",
-            Rechtsvorm: "",
-            Naam: "Feestcommittee Oudenaarde",
-            KorteNaam: "FOud",
-            Startdatum: DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9))
+            KboNummer: "0554790609",
+            Rechtsvorm: Verenigingstype.VZW.Code,
+            Naam: "Abstrkt Events",
+            KorteNaam: "Abstrkt",
+            Startdatum: DateOnly.FromDateTime(DateTime.Now)
         );
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

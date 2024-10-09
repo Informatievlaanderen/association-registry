@@ -1,21 +1,22 @@
-namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Givens.FeitelijkeVereniging;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Requests;
+using Requests.FeitelijkeVereniging;
 
-public class FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
+public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
 {
     private readonly bool _isUitgeschreven;
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;
     public VCode VCode { get; private set; }
 
-    public FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario(bool isUitgeschreven = false)
+    public FeitelijkeVerenigingWerdGeregistreerdScenario(bool isUitgeschreven = false)
     {
         _isUitgeschreven = isUitgeschreven;
     }

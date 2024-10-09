@@ -5,18 +5,20 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;
 using Scenarios.Givens;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
+using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
-    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
+    private FeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 
     public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
-        _feitelijkeVerenigingWerdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario();
+        _feitelijkeVerenigingWerdGeregistreerdScenario = new();
     }
 
     public override async Task InitializeAsync()

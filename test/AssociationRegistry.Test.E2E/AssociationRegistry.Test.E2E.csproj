@@ -23,6 +23,19 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
+    <Content Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

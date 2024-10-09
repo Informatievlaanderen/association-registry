@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.W
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Vereniging;
+using FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
 using System.Net;

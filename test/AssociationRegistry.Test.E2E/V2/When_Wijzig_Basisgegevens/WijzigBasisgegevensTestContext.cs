@@ -7,12 +7,14 @@ using Framework.TestClasses;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
+using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
 
 public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevensRequest>
 {
-    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
     public VCode VCode => RequestResult.VCode;
 
@@ -23,7 +25,7 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
 
     public override async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario(true);
+        _werdGeregistreerdScenario = new(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

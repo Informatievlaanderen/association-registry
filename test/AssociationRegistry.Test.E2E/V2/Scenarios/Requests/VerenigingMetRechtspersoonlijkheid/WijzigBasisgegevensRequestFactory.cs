@@ -1,22 +1,22 @@
-namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests.VerenigingMetRechtspersoonlijkheid;
 
-using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Alba;
+using AssociationRegistry.Admin.Api.Infrastructure;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Framework.ApiSetup;
 using Marten.Events;
 using System.Net;
-using Vereniging;
 
-public class WijzigBasisgegevensKboRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
+public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
     private readonly IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
 
-    public WijzigBasisgegevensKboRequestFactory(IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
+    public WijzigBasisgegevensRequestFactory(IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
@@ -35,7 +35,6 @@ public class WijzigBasisgegevensKboRequestFactory : ITestRequestFactory<WijzigBa
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
             Werkingsgebieden = ["BE"],
-            Roepnaam = autoFixture.Create<string>(),
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

@@ -42,10 +42,10 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async Task WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
-            type = JsonLdType.FeitelijkeVereniging.Type,
+            type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
@@ -58,15 +58,16 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZW.Code,
+                Naam = Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
+            Roepnaam = "",
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = [],
-            Werkingsgebieden = [],
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),

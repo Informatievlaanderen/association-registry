@@ -39,11 +39,11 @@ public class Returns_DetailResponse :
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async Task WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
-            Bron = Bron.Initiator,
-            type = JsonLdType.FeitelijkeVereniging.Type,
+            Bron = Bron.KBO,
+            type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             CorresponderendeVCodes = [],
             Doelgroep = new DoelgroepResponse
             {
@@ -52,13 +52,14 @@ public class Returns_DetailResponse :
                 Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
                 Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
             },
+            Roepnaam = "",
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = TestContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZW.Code,
+                Naam = Verenigingstype.VZW.Naam,
             },
             Naam = TestContext.RegistratieData.Naam,
             Startdatum = Instant.FromDateTimeOffset(
@@ -68,8 +69,8 @@ public class Returns_DetailResponse :
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = [],
-            Werkingsgebieden = [],
+            HoofdactiviteitenVerenigingsloket = BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(TestContext.Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(TestContext.Request.Werkingsgebieden),
             Locaties = [],
             Vertegenwoordigers = [],
             Relaties = [],

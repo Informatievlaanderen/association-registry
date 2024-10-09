@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
+namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests.VerenigingMetRechtspersoonlijkheid;
 
 using AssociationRegistry.Events;
 
