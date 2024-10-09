@@ -10,9 +10,15 @@ using Requests;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
 {
+    private readonly bool _isUitgeschreven;
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;
     public VCode VCode { get; private set; }
+
+    public FeitelijkeVerenigingWerdGeregistreerdScenario(bool isUitgeschreven = false)
+    {
+        _isUitgeschreven = isUitgeschreven;
+    }
 
     public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
     {
@@ -26,7 +32,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGere
             KorteBeschrijving: "Het feestcommittee van Oudenaarde",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
             new Registratiedata.Doelgroep(Minimumleeftijd: 18, Maximumleeftijd: 90),
-            IsUitgeschrevenUitPubliekeDatastroom: false,
+            IsUitgeschrevenUitPubliekeDatastroom: _isUitgeschreven,
             new[]
             {
                 new Registratiedata.Contactgegeven(

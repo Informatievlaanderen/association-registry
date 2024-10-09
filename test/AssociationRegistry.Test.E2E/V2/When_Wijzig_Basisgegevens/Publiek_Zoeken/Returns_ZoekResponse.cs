@@ -31,7 +31,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11004/v1/contexten/publiek/zoek-verenigingen-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json");
     }
 
     [Fact]

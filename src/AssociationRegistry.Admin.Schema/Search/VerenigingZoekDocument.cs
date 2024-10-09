@@ -16,7 +16,7 @@ public class VerenigingZoekDocument
     public Doelgroep Doelgroep { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
-    public Werkingsgebied[] Werkingsgebieden { get; init; } = [];
+    public Werkingsgebied[] Werkingsgebieden { get; init; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public bool IsVerwijderd { get; set; }
