@@ -76,6 +76,7 @@ services:
     networks:
       - vr-net
 
+
   wiremock:
     image: wiremock/wiremock:3.9.1-1
     container_name: vr_wiremock
@@ -99,6 +100,7 @@ services:
 
 volumes:
   pg-data:
+  e2e-data:
   es-data:
   seq-data:
   localstack-data:

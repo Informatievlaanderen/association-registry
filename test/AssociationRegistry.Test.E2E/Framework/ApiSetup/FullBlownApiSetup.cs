@@ -22,7 +22,6 @@ using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 {
-    private string _schema;
 
     public FullBlownApiSetup()
     {
@@ -37,49 +36,24 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public async Task InitializeAsync()
     {
-        _schema = "fullblowne2e";
+        var schema = "fullblowne2e";
         OaktonEnvironment.AutoStartHost = true;
 
-        var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.json")
-                           .Build();
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(schema, "adminapi")))
+           .EnsureEachCallIsAuthenticated();
 
-        var adminIndexName = $"{_schema}-admin";
-        var publicIndexName = $"{_schema}-public";
-
-        AdminApiHost = await AlbaHost.For<Program>(
-            ConfigureForTesting(
-                configuration: configuration,
-                schema: _schema,
-                indexName: adminIndexName,
-                baseUrl: "http://127.0.0.1:11003"));
         AdminApiHost.EnsureEachCallIsAuthenticated();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
-            ConfigureForTesting(
-                configuration: configuration,
-                schema: _schema,
-                indexName: adminIndexName,
-                baseUrl: "http://127.0.0.1:11003"
-            ));
-
+            ConfigureForTesting(schema, "adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
-            ConfigureForTesting(
-                configuration: configuration,
-                schema: _schema,
-                indexName: publicIndexName,
-                baseUrl: "http://127.0.0.1:11004"
-            ));
+            ConfigureForTesting(schema, "publicproj"));
 
         PublicApiHost = await AlbaHost.For<Public.Api.Program>(
-            ConfigureForTesting(
-                configuration: configuration,
-                schema: _schema,
-                indexName: publicIndexName,
-                baseUrl: "http://127.0.0.1:11004"
-            ));
+            ConfigureForTesting(schema, "publicapi"));
+
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -90,8 +64,14 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AdminProjectionHost.ResumeAllDaemonsAsync();
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema, string indexName, string baseUrl)
+    private Action<IWebHostBuilder> ConfigureForTesting(string schema, string name)
     {
+        var configuration = new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.development.json", false)
+                           .AddJsonFile("appsettings.e2e.json", false)
+                           .AddJsonFile($"appsettings.e2e.{name}.json", false)
+                           .Build();
+
         return b =>
         {
             b.UseEnvironment("Development");
@@ -104,10 +84,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
                   context.HostingEnvironment.EnvironmentName = "Development";
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
-             .UseSetting(key: "BaseUrl", value: baseUrl)
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true")
-             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", indexName);
+             .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
 
