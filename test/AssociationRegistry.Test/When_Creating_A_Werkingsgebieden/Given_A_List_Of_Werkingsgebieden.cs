@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.When_Creating_A_WerkingsgebiedenLijst;
+﻿namespace AssociationRegistry.Test.When_Creating_A_Werkingsgebieden;
 
 using AssociationRegistry.Vereniging;
 using AutoFixture;
@@ -10,7 +10,7 @@ using Xunit.Categories;
 public class Given_A_List_Of_Werkingsgebieden
 {
     [Fact]
-    public void Then_It_Returns_A_Filled_WerkingsgebiedenLijst()
+    public void Then_It_Returns_A_Filled_Werkingsgebieden()
     {
         var fixture = new Fixture();
 
@@ -19,8 +19,6 @@ public class Given_A_List_Of_Werkingsgebieden
                                                                .Take(2)
                                                                .ToArray();
 
-        var werkingsgebiedenLijst = Werkingsgebieden.FromArray(werkingsgebieden);
-
-        werkingsgebiedenLijst.Should().BeEquivalentTo(werkingsgebieden);
+        Werkingsgebieden.FromArray(werkingsgebieden).Should().BeEquivalentTo(werkingsgebieden);
     }
 }
