@@ -111,6 +111,7 @@ public class BeheerZoekProjectionHandler
                 },
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
+                Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel
