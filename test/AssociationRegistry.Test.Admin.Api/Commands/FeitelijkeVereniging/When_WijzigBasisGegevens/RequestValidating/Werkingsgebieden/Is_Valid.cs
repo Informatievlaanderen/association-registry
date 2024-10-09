@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.
-    HoofdActiviteitenLijst;
+    Werkingsgebieden;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 
@@ -17,9 +17,9 @@ public class Is_Valid : ValidatorTest
 
         var result = validator.TestValidate(new WijzigBasisgegevensRequest
         {
-            HoofdactiviteitenVerenigingsloket = new[] { "abcd" },
+            Werkingsgebieden = new[] { "BE25" },
         });
 
-        result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.HoofdactiviteitenVerenigingsloket);
+        result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden);
     }
 }
