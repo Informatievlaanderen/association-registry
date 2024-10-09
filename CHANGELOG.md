@@ -1,3 +1,17 @@
+# [8.158.0](https://github.com/informatievlaanderen/association-registry/compare/v8.157.0...v8.158.0) (2024-10-09)
+
+
+### Bug Fixes
+
+* or-2449 initialize empty werkingsgebied array on registreer kbo vereniging ([de9ff2c](https://github.com/informatievlaanderen/association-registry/commit/de9ff2c1a041b6f8e9541a574982b2bd769df0ee))
+
+
+### Features
+
+* or-2449 add validation for wijzig basisgegevens werkingsgebieden ([96a8895](https://github.com/informatievlaanderen/association-registry/commit/96a88957e200a82d43592c08d1c8298694cfa6bf))
+* or-2449 add werkingsgebieden to state and complete e2e wijzig basisgegevens ([0f35d31](https://github.com/informatievlaanderen/association-registry/commit/0f35d319a5e2cf655bf90866b9b9d9ffa87b90a0))
+* or-2449 add werkingsgebieden wijzig basisgegevens to publiek zoeken ([2a766e5](https://github.com/informatievlaanderen/association-registry/commit/2a766e5e392396c4b2abdd83033243f4cedc3712))
+
 # [8.157.0](https://github.com/informatievlaanderen/association-registry/compare/v8.156.1...v8.157.0) (2024-10-08)
 
 
