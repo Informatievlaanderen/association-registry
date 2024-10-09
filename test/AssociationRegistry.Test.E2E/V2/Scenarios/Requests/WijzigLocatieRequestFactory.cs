@@ -12,9 +12,9 @@ using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequest>
 {
-    private readonly IVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly IFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public WijzigLocatieRequestFactory(IVerenigingWerdGeregistreerdScenario scenario)
+    public WijzigLocatieRequestFactory(IFeitelijkeVerenigingWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }

@@ -7,4 +7,5 @@ public record WijzigBasisgegevensCommand(
     string? Roepnaam = null,
     string? KorteBeschrijving = null,
     Doelgroep? Doelgroep = null,
-    HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null);
+    HoofdactiviteitVerenigingsloket[]? HoofdactiviteitenVerenigingsloket = null,
+    Werkingsgebied[]? Werkingsgebieden = null);

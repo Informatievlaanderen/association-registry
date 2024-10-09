@@ -12,7 +12,7 @@ using Vereniging;
 
 public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevensRequest>
 {
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
     public VCode VCode => RequestResult.VCode;
 
@@ -23,7 +23,7 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
 
     public override async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario(true);
+        _werdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

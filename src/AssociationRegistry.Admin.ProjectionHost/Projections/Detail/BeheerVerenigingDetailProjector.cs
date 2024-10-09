@@ -14,10 +14,10 @@ using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Werkingsgebied = Schema.Detail.Werkingsgebied;
 using IEvent = Marten.Events.IEvent;
 using Locatie = Schema.Detail.Locatie;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
-using Werkingsgebied = Vereniging.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -61,7 +61,7 @@ public class BeheerVerenigingDetailProjector
                                                                                .MapWerkingsgebied)
                                                                     .ToArray() ?? [],
 
-            Sleutels = new[] { BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode) },
+            Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
@@ -95,16 +95,17 @@ public class BeheerVerenigingDetailProjector
                                                                                         .ToBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
-            Contactgegevens = Array.Empty<Contactgegeven>(),
-            Locaties = Array.Empty<Locatie>(),
-            Vertegenwoordigers = Array.Empty<Vertegenwoordiger>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Sleutels = new[]
-            {
+            Contactgegevens = [],
+            Locaties = [],
+            Vertegenwoordigers = [],
+            HoofdactiviteitenVerenigingsloket = [],
+            Werkingsgebieden = [],
+            Sleutels =
+            [
                 BeheerVerenigingDetailMapper.MapVrSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
                 BeheerVerenigingDetailMapper.MapKboSleutel(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                                                            verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode),
-            },
+            ],
             Bron = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Bron,
             Metadata = new Metadata(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Sequence,
                                     verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Version),

@@ -60,8 +60,8 @@ public static class PubliekVerenigingDetailProjector
                               .Select(MapWerkingsgebied)
                               .ToArray() ?? [],
 
-            Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
-            {
+            Sleutels =
+            [
                 new()
                 {
                     JsonLdMetadata = new JsonLdMetadata(
@@ -81,7 +81,7 @@ public static class PubliekVerenigingDetailProjector
                     Waarde = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                     CodeerSysteem = CodeerSysteem.VR,
                 },
-            },
+            ],
         };
 
     public static PubliekVerenigingDetailDocument Create(
@@ -113,11 +113,11 @@ public static class PubliekVerenigingDetailProjector
                                                                                         .ToBelgianDate(),
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Status = VerenigingStatus.Actief,
-            Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
-            Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
-            HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-            Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
-            {
+            Contactgegevens = [],
+            Locaties = [],
+            HoofdactiviteitenVerenigingsloket = [],
+            Sleutels =
+            [
                 new()
                 {
                     JsonLdMetadata = new JsonLdMetadata(
@@ -156,7 +156,7 @@ public static class PubliekVerenigingDetailProjector
                     Waarde = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KboNummer,
                     CodeerSysteem = CodeerSysteem.KBO,
                 },
-            },
+            ],
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(

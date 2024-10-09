@@ -8,14 +8,14 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Requests;
 
-public class FeitelijkeVerenigingWerdGeregistreerdScenario : IVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
+public class FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
 {
     private readonly bool _isUitgeschreven;
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
     private CommandMetadata Metadata;
     public VCode VCode { get; private set; }
 
-    public FeitelijkeVerenigingWerdGeregistreerdScenario(bool isUitgeschreven = false)
+    public FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario(bool isUitgeschreven = false)
     {
         _isUitgeschreven = isUitgeschreven;
     }

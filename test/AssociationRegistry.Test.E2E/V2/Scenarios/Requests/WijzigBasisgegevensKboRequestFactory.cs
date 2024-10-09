@@ -2,23 +2,21 @@ namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests;
 
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
 using Marten.Events;
-using Primitives;
 using System.Net;
 using Vereniging;
 
-public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
+public class WijzigBasisgegevensKboRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
+    private readonly IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
 
-    private readonly IFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-
-    public WijzigBasisgegevensRequestFactory(IFeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    public WijzigBasisgegevensKboRequestFactory(IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
@@ -27,13 +25,9 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
-        var request = new WijzigBasisgegevensRequest()
+        var request = new WijzigBasisgegevensRequest
         {
-            Naam = autoFixture.Create<string>(),
-            KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
-            Startdatum = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Today)),
-            IsUitgeschrevenUitPubliekeDatastroom = !_scenario.FeitelijkeVerenigingWerdGeregistreerd.IsUitgeschrevenUitPubliekeDatastroom,
             Doelgroep = new DoelgroepRequest
             {
                 Minimumleeftijd = 1,
@@ -41,13 +35,14 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
             Werkingsgebieden = ["BE"],
+            Roepnaam = autoFixture.Create<string>(),
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode}/kbo");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
@@ -58,6 +53,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
         await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<WijzigBasisgegevensRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new RequestResult<WijzigBasisgegevensRequest>(
+            VCode.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

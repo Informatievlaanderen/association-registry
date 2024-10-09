@@ -1,0 +1,77 @@
+﻿namespace AssociationRegistry.Test.E2E.V2.When_Wijzig_Basisgegevens_Kbo.Publiek_Detail;
+
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Schema.Constants;
+using Formats;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
+using JsonLdContext;
+using KellermanSoftware.CompareNetObjects;
+using NodaTime;
+using Public.Api.Verenigingen.Detail.ResponseModels;
+using Vereniging;
+using Xunit;
+using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
+    PubliekVerenigingDetailResponse>
+{
+    private readonly WijzigBasisgegevensKboTestContext _testContext;
+
+    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
+    {
+        _testContext = testContext;
+    }
+
+    [Fact]
+    public void With_Context()
+    {
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json");
+    }
+
+    [Fact]
+    public void With_Metadata_DatumLaatsteAanpassing()
+    {
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
+                                                               compareConfig: new ComparisonConfig
+                                                                   { MaxMillisecondsDateDifference = 5000 });
+    }
+
+    [Fact]
+    public async Task WithFeitelijkeVereniging()
+        => Response.Vereniging.ShouldCompare(new Vereniging
+        {
+            type = JsonLdType.FeitelijkeVereniging.Type,
+            Doelgroep = new DoelgroepResponse
+            {
+                type = JsonLdType.Doelgroep.Type,
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                Minimumleeftijd = 1,
+                Maximumleeftijd = 149,
+            },
+            VCode = _testContext.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = _testContext.RegistratieData.KorteNaam,
+            Verenigingstype = new VerenigingsType
+            {
+                Code = Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+            },
+            Naam = _testContext.RegistratieData.Naam,
+            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            Status = VerenigingStatus.Actief,
+            Contactgegevens = [],
+            HoofdactiviteitenVerenigingsloket = [],
+            Werkingsgebieden = [],
+            Locaties = [],
+            Relaties = [],
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
+        }, compareConfig: AdminDetailComparisonConfig.Instance);
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
+}

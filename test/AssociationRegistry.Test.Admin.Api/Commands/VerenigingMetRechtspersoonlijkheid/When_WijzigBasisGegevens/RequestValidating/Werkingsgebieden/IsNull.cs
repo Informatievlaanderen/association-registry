@@ -1,25 +1,27 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestValidating.
-    HoofdActiviteitenLijst;
+    Werkingsgebieden;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Is_Valid : ValidatorTest
+public class IsNull : ValidatorTest
 {
     [Fact]
-    public void Has_no_validation_errors()
+    public void Has_no_validation_error_for_werkingsgebieden()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
 
-        var result = validator.TestValidate(new WijzigBasisgegevensRequest
+        var request = new WijzigBasisgegevensRequest
         {
-            HoofdactiviteitenVerenigingsloket = new[] { "abcd" },
-        });
+            Werkingsgebieden = null,
+        };
 
-        result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.HoofdactiviteitenVerenigingsloket);
+        var result = validator.TestValidate(request);
+
+        result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden);
     }
 }

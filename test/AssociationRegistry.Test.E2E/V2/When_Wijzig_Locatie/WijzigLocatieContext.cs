@@ -11,7 +11,7 @@ using Xunit;
 public class WijzigLocatieContext: IAsyncLifetime
 {
     public FullBlownApiSetup ApiSetup { get; }
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    private FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public WijzigLocatieRequest Request => RequestResult.Request;
     public VCode VCode => RequestResult.VCode;
 
@@ -22,7 +22,7 @@ public class WijzigLocatieContext: IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _werdGeregistreerdScenario = new FeitelijkeFeitelijkeVerenigingWerdGeregistreerdScenario();
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new WijzigLocatieRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

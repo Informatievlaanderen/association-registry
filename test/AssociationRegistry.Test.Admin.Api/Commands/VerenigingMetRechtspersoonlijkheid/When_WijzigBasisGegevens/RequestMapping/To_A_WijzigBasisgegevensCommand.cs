@@ -23,7 +23,7 @@ public class To_A_WijzigBasisgegevensCommand
         var actual = request.ToCommand(actualVCode);
 
         actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving, out var doelgroep,
-                           out var hoofdactiviteitenVerenigingsloket);
+                           out var hoofdactiviteitenVerenigingsloket, out var werkingsgebieden);
 
         vCode.Should().Be(actualVCode);
         roepnaam.Should().Be(request.Roepnaam);
@@ -33,5 +33,9 @@ public class To_A_WijzigBasisgegevensCommand
         hoofdactiviteitenVerenigingsloket.Should()
                                          .BeEquivalentTo(
                                               request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create));
+
+        werkingsgebieden.Should()
+                        .BeEquivalentTo(
+                             request.Werkingsgebieden!.Select(Werkingsgebied.Create));
     }
 }
