@@ -62,7 +62,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
                 Naam = Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = "",
+            Roepnaam = Request.Roepnaam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],

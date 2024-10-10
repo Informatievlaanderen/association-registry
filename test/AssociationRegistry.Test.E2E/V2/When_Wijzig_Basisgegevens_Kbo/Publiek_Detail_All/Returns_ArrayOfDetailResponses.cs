@@ -68,7 +68,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
                 Naam = Verenigingstype.VZW.Naam,
             },
             Naam = TestContext.RegistratieData.Naam,
-            Roepnaam = "",
+            Roepnaam = Request.Roepnaam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
