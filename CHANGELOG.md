@@ -1,3 +1,18 @@
+# [8.159.0](https://github.com/informatievlaanderen/association-registry/compare/v8.158.0...v8.159.0) (2024-10-10)
+
+
+### Bug Fixes
+
+* or-2450 accommodate Roepnaam inside response models and projections after wijzig basisgegevens KBO ([4140f81](https://github.com/informatievlaanderen/association-registry/commit/4140f81453bae40644528f4a05b82abed6dd12b7))
+* or-2450 add validation for duplicate entries inside werkingsgebieden ([4a39648](https://github.com/informatievlaanderen/association-registry/commit/4a39648ed23a641b259fafb04518848bd4044c14))
+* or-2450 validator was null checking incorrect property ([f7ce6c2](https://github.com/informatievlaanderen/association-registry/commit/f7ce6c2e5b1fc858d6f469bd1141462ce01730e8))
+* or-2450 validator WijzigBasisgegevensRequestValidator did not handle null very well ([d0a5e0f](https://github.com/informatievlaanderen/association-registry/commit/d0a5e0f5fa0057f0be5fde7a293b2e6b874ddf27))
+
+
+### Features
+
+* or-2450 add werkingsbgebieden for verenigingen uit KBO ([05ee46a](https://github.com/informatievlaanderen/association-registry/commit/05ee46a21de2880ec36897ca67615c5433232962))
+
 # [8.158.0](https://github.com/informatievlaanderen/association-registry/compare/v8.157.0...v8.158.0) (2024-10-09)
 
 
