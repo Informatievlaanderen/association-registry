@@ -31,7 +31,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
         RuleFor(request => request.Werkingsgebieden)
            .Must(NotHaveDuplicates!)
            .WithMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.")
-           .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
+           .When(r => r.Werkingsgebieden is not null);
 
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
