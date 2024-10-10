@@ -38,8 +38,10 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .When(r => r.Doelgroep is not null);
     }
 
-    private static bool NotHaveDuplicates(string[] values)
-        => values.Length == values.DistinctBy(v => v.ToLower()).Count();
+    private static bool NotHaveDuplicates(string[]? values)
+        => values is not null
+            ? values.Length == values.DistinctBy(v => v.ToLower()).Count()
+            : true;
 
     private static bool HaveAtLeastOneValue(WijzigBasisgegevensRequest request)
         => request.KorteBeschrijving is not null ||
