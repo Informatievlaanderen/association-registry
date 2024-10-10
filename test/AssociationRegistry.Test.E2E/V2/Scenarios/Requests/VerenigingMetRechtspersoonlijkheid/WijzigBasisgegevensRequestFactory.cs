@@ -35,6 +35,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
             Werkingsgebieden = ["BE"],
+            Roepnaam = "Roep!",
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

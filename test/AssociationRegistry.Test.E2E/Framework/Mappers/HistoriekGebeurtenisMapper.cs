@@ -120,6 +120,19 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving =
+                $"Vereniging met rechtspersoonlijkheid werd geregistreerd met naam '{verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam}'.",
+            Gebeurtenis = nameof(Events.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
+            Data = verenigingMetRechtspersoonlijkheidWerdGeregistreerd,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     public static HistoriekGebeurtenisResponse NaamWerdGewijzigd(
         string vCode,
         string naam)
@@ -160,6 +173,20 @@ public static class HistoriekGebeurtenisMapper
         {
             Beschrijving = $"Korte beschrijving werd gewijzigd naar '{@event.KorteBeschrijving}'.",
             Gebeurtenis = nameof(Events.KorteBeschrijvingWerdGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse RoepnaamWerdGewijzigd(
+        string roepnaam)
+    {
+        var @event = new RoepnaamWerdGewijzigd(roepnaam);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"Roepnaam werd gewijzigd naar '{roepnaam}'.",
+            Gebeurtenis = nameof(Events.RoepnaamWerdGewijzigd),
             Data = @event,
             Initiator = AuthenticationSetup.Initiator,
         };

@@ -52,7 +52,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Naam = Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = "",
+            Roepnaam = Request.Roepnaam,
             Startdatum = Instant.FromDateTimeOffset(
                 new DateTimeOffset(_testContext.RegistratieData.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
             ).FormatAsBelgianDate(),

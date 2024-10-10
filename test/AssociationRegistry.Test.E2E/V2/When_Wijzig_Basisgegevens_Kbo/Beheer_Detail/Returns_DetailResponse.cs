@@ -52,7 +52,7 @@ public class Returns_DetailResponse :
                 Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
                 Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
             },
-            Roepnaam = "",
+            Roepnaam = Request.Roepnaam,
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = TestContext.RegistratieData.KorteNaam,
