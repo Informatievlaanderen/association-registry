@@ -37,7 +37,8 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
                 ""minimumleeftijd"": {Request.Doelgroep!.Minimumleeftijd!},
                 ""maximumleeftijd"": {Request.Doelgroep!.Maximumleeftijd!}
             }},
-            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}]
+            ""hoofdactiviteitenVerenigingsloket"":[{Request.HoofdactiviteitenVerenigingsloket!.Select(h => $@"""{h}""").Join(",")}],
+            ""werkingsgebieden"":[{Request.Werkingsgebieden!.Select(h => $@"""{h}""").Join(",")}]
             }}";
 
         Response = fixture.DefaultClient.PatchVerenigingMetRechtspersoonlijkheid(Scenario.VCode, jsonBody).GetAwaiter().GetResult();
@@ -76,7 +77,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
                             .FetchStream(_vCode);
 
         var roepnaamWerdGewijzigd = events.Single(e => e.Data.GetType() == typeof(RoepnaamWerdGewijzigd));
-        roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam!));
+        roepnaamWerdGewijzigd.Data.Should().BeEquivalentTo(new RoepnaamWerdGewijzigd(_request.Roepnaam ?? ""));
 
         var korteBeschrijvingWerdGewijzigd = events.Single(@event => @event.Data.GetType() == typeof(KorteBeschrijvingWerdGewijzigd));
 
@@ -96,6 +97,13 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!
                                                                           .Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
+        var werkingsgebiedenWerdenGewijzigd = events
+           .Single(@event => @event.Data.GetType() == typeof(WerkingsgebiedenWerdenGewijzigd));
+
+        werkingsgebiedenWerdenGewijzigd.Data.Should().BeEquivalentTo(
+            WerkingsgebiedenWerdenGewijzigd.With(_request.Werkingsgebieden!
+                                                                          .Select(Werkingsgebied.Create).ToArray()));
+
     }
 
     [Fact]
