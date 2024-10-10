@@ -1,3 +1,10 @@
+## [8.159.1](https://github.com/informatievlaanderen/association-registry/compare/v8.159.0...v8.159.1) (2024-10-10)
+
+
+### Bug Fixes
+
+* or-2449 fix empty request validation error on wijzig basisgegevens werkingsgebieden ([84894b8](https://github.com/informatievlaanderen/association-registry/commit/84894b8d9cca3a55127b438a4094b93d65714707))
+
 # [8.159.0](https://github.com/informatievlaanderen/association-registry/compare/v8.158.0...v8.159.0) (2024-10-10)
 
 
