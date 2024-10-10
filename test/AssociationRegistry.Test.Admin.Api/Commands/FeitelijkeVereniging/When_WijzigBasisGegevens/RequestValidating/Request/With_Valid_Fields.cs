@@ -12,16 +12,17 @@ using Xunit.Categories;
 public class With_Valid_Fields
 {
     [Theory]
-    [InlineData("naam", null, null, null, null, null, null, null)]
-    [InlineData(null, "korte naam", null, null, null, null, null, null)]
-    [InlineData(null, null, "korte beschrijving", null, null, null, null, null)]
-    [InlineData(null, null, null, false, null, null, null, null)]
-    [InlineData(null, null, null, null, "1996-12-31", null, null, null)]
-    [InlineData(null, null, null, null, null, new[] { "abcd" }, null, null)]
-    [InlineData("naam", "korte naam", "korte beschrijving", true, "2000-03-22", new[] { "abcd" }, null, null)]
-    [InlineData("naam", null, null, null, null, null, 12, null)]
-    [InlineData("naam", null, null, null, null, null, null, 111)]
-    [InlineData("naam", "korte naam", "korte beschrijving", true, "2000-03-22", new[] { "abcd" }, 12, 18)]
+    [InlineData(null, null, null, null, null, null, null, null, new []{"BE25"})]
+    [InlineData("naam", null, null, null, null, null, null, null, null)]
+    [InlineData(null, "korte naam", null, null, null, null, null, null, null)]
+    [InlineData(null, null, "korte beschrijving", null, null, null, null, null, null)]
+    [InlineData(null, null, null, false, null, null, null, null, null)]
+    [InlineData(null, null, null, null, "1996-12-31", null, null, null, null)]
+    [InlineData(null, null, null, null, null, new[] { "abcd" }, null, null, null)]
+    [InlineData("naam", "korte naam", "korte beschrijving", true, "2000-03-22", new[] { "abcd" }, null, null, null)]
+    [InlineData("naam", null, null, null, null, null, 12, null, null)]
+    [InlineData("naam", null, null, null, null, null, null, 111, null)]
+    [InlineData("naam", "korte naam", "korte beschrijving", true, "2000-03-22", new[] { "abcd" }, 12, 18, null)]
     public void Then_it_should_not_have_errors(
         string? naam,
         string? korteNaam,
@@ -30,7 +31,8 @@ public class With_Valid_Fields
         string? startdatum,
         string[] hoofdactiviteiten,
         int? minimumLeeftijd,
-        int? maximumLeeftijd)
+        int? maximumLeeftijd,
+        string[] werkingsgebieden)
     {
         var validator = new WijzigBasisgegevensRequestValidator();
 
@@ -48,6 +50,7 @@ public class With_Valid_Fields
                 },
                 HoofdactiviteitenVerenigingsloket = hoofdactiviteiten,
                 IsUitgeschrevenUitPubliekeDatastroom = isUitgeschreven,
+                Werkingsgebieden = werkingsgebieden,
             });
 
         result.ShouldNotHaveAnyValidationErrors();
