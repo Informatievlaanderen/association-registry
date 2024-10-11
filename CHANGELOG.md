@@ -1,3 +1,10 @@
+# [8.160.0](https://github.com/informatievlaanderen/association-registry/compare/v8.159.2...v8.160.0) (2024-10-11)
+
+
+### Features
+
+* or-2249 add deletedAt on teverwijderden verenigingen publiek get all ([2f3beb8](https://github.com/informatievlaanderen/association-registry/commit/2f3beb8014c904d8668816f4a55595e863c2408f))
+
 ## [8.159.2](https://github.com/informatievlaanderen/association-registry/compare/v8.159.1...v8.159.2) (2024-10-11)
 
 
