@@ -37,6 +37,7 @@ public class ResponseWriter : IResponseWriter
                         {Vereniging = new TeVerwijderenVereniging.TeVerwijderenVerenigingData(){
                             VCode = vereniging.VCode,
                             TeVerwijderen = true,
+                            DeletedAt = vereniging.DatumLaatsteAanpassing,
                         }},
                         _serializerSettings);
 
@@ -64,6 +65,7 @@ public class ResponseWriter : IResponseWriter
         {
             public string VCode { get; set; }
             public bool TeVerwijderen { get; set; }
+            public string DeletedAt { get; set; }
         }
     }
 }
