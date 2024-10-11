@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.Examples;
 
 using Common;
+using JsonLdContext;
 using RequetsModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
@@ -23,8 +24,9 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
                                                .All().Take(5).Select(h => h.Code).ToArray(),
-            Locaties = new[]
-            {
+            Werkingsgebieden = Werkingsgebied.All.Take(5).Select(h => h.Code).ToArray(),
+            Locaties =
+            [
                 new ToeTeVoegenLocatie
                 {
                     Naam = "Naam locatie",
@@ -45,7 +47,7 @@ public class RegistreerFeitelijkeVerenigingRequestExamples : IExamplesProvider<R
                     },
                     Locatietype = Locatietype.Activiteiten,
                 },
-            },
+            ],
             Contactgegevens = new[]
             {
                 new ToeTeVoegenContactgegeven
