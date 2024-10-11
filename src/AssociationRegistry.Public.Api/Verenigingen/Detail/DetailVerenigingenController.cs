@@ -67,20 +67,16 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
-    public async Task GetAll(
+    public async Task<IActionResult> GetAll(
         [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
         [FromServices] IResponseWriter responseWriter,
         CancellationToken cancellationToken)
     {
-        try
-        {
-            var data = await query.ExecuteAsync(cancellationToken);
-            await responseWriter.Write(Response, data, cancellationToken);
-        }
-        catch (TaskCanceledException)
-        {
-            // Nothing to do, user stopped the request
-        }
+        var data = await query.ExecuteAsync(cancellationToken);
+        //await responseWriter.Write(Response, data, cancellationToken);
+        var preSignedUrl = await responseWriter.WriteToS3(Response, data, cancellationToken);
+
+        return Ok(preSignedUrl);
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

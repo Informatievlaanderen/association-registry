@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Public.Api;
 
+using Amazon;
+using Amazon.Runtime;
+using Amazon.S3;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -247,16 +250,19 @@ public class Program
 
         var appSettings = builder.Configuration.Get<AppSettings>();
 
+        var s3Client = appSettings.DetailAllS3.UseLocalStack
+            ? new AmazonS3Client(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"), RegionEndpoint.EUWest1)
+            : new AmazonS3Client(RegionEndpoint.EUWest1);
+
         builder.Services
                .AddSingleton(postgreSqlOptionsSection)
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
-
                .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
+               .AddSingleton<IAmazonS3>(s3Client)
                .AddScoped<IResponseWriter, ResponseWriter>()
-
                .AddHttpContextAccessor()
                .AddControllers();
 

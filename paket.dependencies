@@ -10,6 +10,7 @@ nuget AutoFixture.Xunit2
 
 nuget AWSSDK.S3
 nuget AWSSDK.SQS
+nuget Amazon.S3
 
 nuget Be.Vlaanderen.Basisregisters.AggregateSource
 nuget Be.Vlaanderen.Basisregisters.Api

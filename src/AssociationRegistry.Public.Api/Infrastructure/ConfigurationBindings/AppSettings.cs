@@ -15,6 +15,14 @@ public class AppSettings
     public string ApiKeyRequestFormUrl { get; set; } = null!;
     public ApiDocsSettings ApiDocs { get; set; } = null!;
     public SearchSettings Search { get; set; } = new();
+    public DetailAllS3Settings DetailAllS3 { get; set; } = new();
+
+    public class DetailAllS3Settings
+    {
+        public string BucketName { get; set; }
+        public string Key { get; set; }
+        public bool UseLocalStack { get; set; }
+    }
 
     public class ApiDocsSettings
     {
