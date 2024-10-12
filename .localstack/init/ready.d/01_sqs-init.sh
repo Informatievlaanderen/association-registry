@@ -1,5 +1,7 @@
 #!/bin/sh
 
+awslocal s3api create-bucket --bucket verenigingsregister-uwp-data
+
 # Set variables
 REGION="eu-west-1"
 ACCOUNT_ID="000000000000" # Default account ID used by LocalStack

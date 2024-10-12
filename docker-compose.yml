@@ -17,7 +17,7 @@ services:
       - 127.0.0.1:4566:4566            # LocalStack Gateway
       - 127.0.0.1:4510-4559:4510-4559  # external services port range
     environment:
-      SERVICES: sqs
+      SERVICES: sqs,s3
       DOCKER_HOST: unix:///var/run/docker.sock
       DEFAULT_REGION: eu-west-1
       DEBUG: 1
@@ -75,7 +75,6 @@ services:
       - pg-data:/var/lib/postgresql/data
     networks:
       - vr-net
-
 
   wiremock:
     image: wiremock/wiremock:3.9.1-1

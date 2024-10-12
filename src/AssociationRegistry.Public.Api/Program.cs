@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Public.Api;
 
+using Amazon.Runtime;
+using Amazon.S3;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -17,22 +19,15 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -42,19 +37,16 @@ using Queries;
 using Schema.Detail;
 using Serilog;
 using Serilog.Debugging;
-using System;
-using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
-using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using Verenigingen.Detail;
 using Verenigingen.Search;
+using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
 public class Program
 {
@@ -171,7 +163,7 @@ public class Program
         var exceptionHandler = new ExceptionHandler(
             logger,
             Array.Empty<ApiProblemDetailsExceptionMapping>(),
-            Array.Empty<Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler>(),
+            Array.Empty<IExceptionHandler>(),
             problemDetailsHelper);
 
         app.UseExceptionHandler404Allowed(
@@ -253,10 +245,16 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
-
                .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
                .AddScoped<IResponseWriter, ResponseWriter>()
-
+               .AddScoped<IAmazonS3>(sp => appSettings.Publiq.UseLocalstack
+                                         ? new AmazonS3Client(new BasicAWSCredentials("dummy", "dummy"), new AmazonS3Config
+                                         {
+                                             ServiceURL = "http://localhost:4566",
+                                             ForcePathStyle = true,
+                                         })
+                                         : new AmazonS3Client())
+               .AddScoped<IS3Wrapper, S3Wrapper>()
                .AddHttpContextAccessor()
                .AddControllers();
 
@@ -274,7 +272,7 @@ public class Program
                         },
                     })
                .ConfigureOptions<ProblemDetailsSetup>()
-               .Configure<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>(
+               .Configure<ProblemDetailsOptions>(
                     cfg =>
                     {
                         foreach (var header in StartupConstants.ExposedHeaders)
@@ -283,7 +281,7 @@ public class Program
                         }
                     })
                .TryAddEnumerable(ServiceDescriptor
-                                    .Transient<IConfigureOptions<Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions>,
+                                    .Transient<IConfigureOptions<ProblemDetailsOptions>,
                                          ProblemDetailsOptionsSetup>());
 
         builder.Services
@@ -334,7 +332,7 @@ public class Program
                     })
                .AddXmlDataContractSerializerFormatters()
                .AddFormatterMappings()
-                .AddApiExplorer();
+               .AddApiExplorer();
 
         builder.Services
                .AddValidatorsFromAssembly(Assembly.GetExecutingAssembly())
@@ -447,6 +445,8 @@ public class Program
                         listenOptions.UseConnectionLogging();
                         listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                     });
+
+                options.ConfigureEndpointDefaults(c => c.Protocols = HttpProtocols.Http2);
             });
     }
 

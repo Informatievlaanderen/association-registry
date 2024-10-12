@@ -15,6 +15,7 @@ public class AppSettings
     public string ApiKeyRequestFormUrl { get; set; } = null!;
     public ApiDocsSettings ApiDocs { get; set; } = null!;
     public SearchSettings Search { get; set; } = new();
+    public PubliqSettings Publiq { get; set; } = null!;
 
     public class ApiDocsSettings
     {
@@ -39,5 +40,12 @@ public class AppSettings
     public class SearchSettings
     {
         public int MaxNumberOfSearchResults { get; set; } = 1000;
+    }
+
+    public class PubliqSettings
+    {
+        public string BucketName { get; set; }
+        public string Key { get; set; }
+        public bool UseLocalstack { get; set; }
     }
 }
