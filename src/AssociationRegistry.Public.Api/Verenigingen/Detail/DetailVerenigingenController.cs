@@ -11,6 +11,7 @@ using Marten;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
+using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
 using Queries;
 using ResponseModels;
@@ -142,7 +143,8 @@ public class DetailVerenigingenController : ApiController
         await s3Wrapper.PutAsync(_appsettings.Publiq.BucketName, _appsettings.Publiq.Key, inputStream, cancellationToken);
         var redirectUrl = await s3Wrapper.GetPreSignedUrlAsync(_appsettings.Publiq.BucketName, _appsettings.Publiq.Key, cancellationToken);
 
-        return Redirect(redirectUrl);
+        Response.Headers.Location = redirectUrl;
+        return StatusCode(StatusCodes.Status307TemporaryRedirect, redirectUrl);
 
         bool IsTeVerwijderenVereniging(PubliekVerenigingDetailDocument vereniging)
             => vereniging.Deleted ||
