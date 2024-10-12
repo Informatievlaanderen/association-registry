@@ -22,8 +22,8 @@ public class S3Wrapper : IS3Wrapper
         {
             BucketName = bucketName,
             Key = key,
-            ContentType = MediaTypeNames.Text.Plain,
-            Expires = DateTime.Now.AddMinutes(5),
+            Expires = DateTime.Now.AddHours(1),
+            Verb = HttpVerb.GET,
         });
 
     public async Task PutAsync(string bucketName, string key, Stream stream, CancellationToken cancellationToken)
