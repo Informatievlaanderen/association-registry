@@ -1,3 +1,11 @@
+## [8.162.2](https://github.com/informatievlaanderen/association-registry/compare/v8.162.1...v8.162.2) (2024-10-12)
+
+
+### Bug Fixes
+
+* allow 5 minutes instead of one hour of access to the S3 bucket for publiek detail all" ([679f13d](https://github.com/informatievlaanderen/association-registry/commit/679f13d20301187374df5c01bb59a6e300736263))
+* allow only 5 minutes for presigned url results for S3 ([32b7cf6](https://github.com/informatievlaanderen/association-registry/commit/32b7cf60ae016a082d8d51beed6e8e191f1cece4))
+
 ## [8.162.1](https://github.com/informatievlaanderen/association-registry/compare/v8.162.0...v8.162.1) (2024-10-12)
 
 
