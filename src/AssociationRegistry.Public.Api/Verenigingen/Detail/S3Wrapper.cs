@@ -22,7 +22,7 @@ public class S3Wrapper : IS3Wrapper
         {
             BucketName = bucketName,
             Key = key,
-            Expires = DateTime.Now.AddHours(1),
+            Expires = DateTime.Now.AddMinutes(5),
             Verb = HttpVerb.GET,
         });
 
