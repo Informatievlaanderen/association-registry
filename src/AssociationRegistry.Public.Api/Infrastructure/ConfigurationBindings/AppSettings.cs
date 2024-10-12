@@ -47,5 +47,6 @@ public class AppSettings
         public string BucketName { get; set; }
         public string Key { get; set; }
         public bool UseLocalstack { get; set; }
+        public string KeyManagementServiceKeyId { get; set; }
     }
 }
