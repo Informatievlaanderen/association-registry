@@ -1,3 +1,10 @@
+# [8.162.0](https://github.com/informatievlaanderen/association-registry/compare/v8.161.0...v8.162.0) (2024-10-12)
+
+
+### Features
+
+* add s3 export into publiek detail all ([50059cc](https://github.com/informatievlaanderen/association-registry/commit/50059cc9ca672d79660a4f1183a726f725774d82))
+
 # [8.161.0](https://github.com/informatievlaanderen/association-registry/compare/v8.160.0...v8.161.0) (2024-10-12)
 
 
