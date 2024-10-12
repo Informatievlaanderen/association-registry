@@ -1,3 +1,10 @@
+# [8.161.0](https://github.com/informatievlaanderen/association-registry/compare/v8.160.0...v8.161.0) (2024-10-12)
+
+
+### Features
+
+* add endpoint which writes to s3 and gives redirect url for publiek detail all ([13aaf72](https://github.com/informatievlaanderen/association-registry/commit/13aaf72b1ea2860f8301ddb5d83a91ca843dd3d8))
+
 # [8.160.0](https://github.com/informatievlaanderen/association-registry/compare/v8.159.2...v8.160.0) (2024-10-11)
 
 
