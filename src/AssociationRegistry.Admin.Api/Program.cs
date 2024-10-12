@@ -637,6 +637,8 @@ public class Program
                         listenOptions.UseConnectionLogging();
                         listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
                     });
+
+                options.ConfigureEndpointDefaults(c => c.Protocols = HttpProtocols.Http2);
             });
     }
 
