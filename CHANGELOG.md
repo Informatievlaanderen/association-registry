@@ -1,3 +1,10 @@
+## [8.162.1](https://github.com/informatievlaanderen/association-registry/compare/v8.162.0...v8.162.1) (2024-10-12)
+
+
+### Bug Fixes
+
+* incorrect presigned url for S3 object ([f943bad](https://github.com/informatievlaanderen/association-registry/commit/f943badeb7ff1cacfe56ceb6022b7018afebf0be))
+
 # [8.162.0](https://github.com/informatievlaanderen/association-registry/compare/v8.161.0...v8.162.0) (2024-10-12)
 
 
