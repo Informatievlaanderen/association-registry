@@ -1,3 +1,10 @@
+## [8.162.3](https://github.com/informatievlaanderen/association-registry/compare/v8.162.2...v8.162.3) (2024-10-14)
+
+
+### Bug Fixes
+
+* or-2487 fix allowing empty doelgroep on wijzig basisgegevens ([d097ca9](https://github.com/informatievlaanderen/association-registry/commit/d097ca9fdea071f1cc38e82ee1661398d463299f))
+
 ## [8.162.2](https://github.com/informatievlaanderen/association-registry/compare/v8.162.1...v8.162.2) (2024-10-12)
 
 
