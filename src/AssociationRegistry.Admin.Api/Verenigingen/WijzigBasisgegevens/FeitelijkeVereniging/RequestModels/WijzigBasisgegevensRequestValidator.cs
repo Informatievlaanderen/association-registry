@@ -52,8 +52,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            request.KorteBeschrijving is not null ||
            request.IsUitgeschrevenUitPubliekeDatastroom is not null ||
            request.Startdatum is { IsNull: false } ||
-           request.Doelgroep?.Maximumleeftijd is not null ||
-           request.Doelgroep?.Minimumleeftijd is not null ||
+           request.Doelgroep is not null ||
            request.HoofdactiviteitenVerenigingsloket is not null ||
            request.Werkingsgebieden is not null;
 }
