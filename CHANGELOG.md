@@ -1,3 +1,10 @@
+## [8.162.4](https://github.com/informatievlaanderen/association-registry/compare/v8.162.3...v8.162.4) (2024-10-15)
+
+
+### Bug Fixes
+
+* or-2249 change lblod to data.vlaanderen.be on context ([e52cfe8](https://github.com/informatievlaanderen/association-registry/commit/e52cfe835f7f0d766fb7785d93119123eb10f06b))
+
 ## [8.162.3](https://github.com/informatievlaanderen/association-registry/compare/v8.162.2...v8.162.3) (2024-10-14)
 
 
