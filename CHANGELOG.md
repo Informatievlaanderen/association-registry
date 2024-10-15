@@ -1,3 +1,15 @@
+# [8.163.0](https://github.com/informatievlaanderen/association-registry/compare/v8.162.4...v8.163.0) (2024-10-15)
+
+
+### Bug Fixes
+
+* or-2249 comment detail all and change detail all to s3 ([212aa94](https://github.com/informatievlaanderen/association-registry/commit/212aa94f774a22be908ae27b2e8e670b23c3b67d))
+
+
+### Features
+
+* or-2249 comment unused tests ([421832e](https://github.com/informatievlaanderen/association-registry/commit/421832ef1902f256cbc0d5a62d4cb57d4ec45c07))
+
 ## [8.162.4](https://github.com/informatievlaanderen/association-registry/compare/v8.162.3...v8.162.4) (2024-10-15)
 
 
