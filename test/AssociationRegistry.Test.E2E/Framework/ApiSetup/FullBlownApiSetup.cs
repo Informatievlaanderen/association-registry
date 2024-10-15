@@ -43,8 +43,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(schema, "adminapi")))
            .EnsureEachCallIsAuthenticated();
 
-        AdminApiHost.EnsureEachCallIsAuthenticated();
-
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting(schema, "adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
@@ -55,8 +53,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         PublicApiHost = await AlbaHost.For<Public.Api.Program>(
             ConfigureForTesting(schema, "publicapi"));
 
-        AcmApiHost = await AlbaHost.For<Acm.Api.Program>(
-            ConfigureForTesting(schema, "acmapi"));
+        AcmApiHost = (await AlbaHost.For<Acm.Api.Program>(
+            ConfigureForTesting(schema, "acmapi")))
+               .EnsureEachCallIsAuthenticatedForAcmApi();
 
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();

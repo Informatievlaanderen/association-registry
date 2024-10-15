@@ -24,7 +24,7 @@ public class When_Initiator_Is_Empty
     [Fact]
     public async Task Then_It_Returns_A_400_Response()
     {
-        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
+        var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.Initiator);
         testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, string.Empty);

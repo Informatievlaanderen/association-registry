@@ -349,6 +349,10 @@ public class Program
                .AddFormatterMappings()
                .AddApiExplorer();
 
+        var oAuth2IntrospectionOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                                   .Get<OAuth2IntrospectionOptions>()!;
+
+        builder.Services.AddSingleton(oAuth2IntrospectionOptions);
         builder.Services.AddAuthentication(
                     options =>
                     {
@@ -360,13 +364,13 @@ public class Program
                     JwtBearerDefaults.AuthenticationScheme,
                     configureOptions: options =>
                     {
-                        var configOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
-                                                   .Get<OAuth2IntrospectionOptions>();
+                        // var oAuth2IntrospectionOptions = builder.Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                        //                                         .Get<OAuth2IntrospectionOptions>()!;
 
-                        options.ClientId = configOptions.ClientId;
-                        options.ClientSecret = configOptions.ClientSecret;
-                        options.Authority = configOptions.Authority;
-                        options.IntrospectionEndpoint = configOptions.IntrospectionEndpoint;
+                        options.ClientId = oAuth2IntrospectionOptions.ClientId;
+                        options.ClientSecret = oAuth2IntrospectionOptions.ClientSecret;
+                        options.Authority = oAuth2IntrospectionOptions.Authority;
+                        options.IntrospectionEndpoint = oAuth2IntrospectionOptions.IntrospectionEndpoint;
                     }
                 );
 

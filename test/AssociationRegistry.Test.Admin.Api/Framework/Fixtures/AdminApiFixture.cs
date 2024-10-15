@@ -43,10 +43,10 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => _adminApiServer.Services.GetRequiredService<EventConflictResolver>();
 
     public AdminApiClient AdminApiClient
-        => new(Clients.GetAuthenticatedHttpClient());
+        => new(AdminApiClients.GetAuthenticatedHttpClient());
 
     public AdminApiClient SuperAdminApiClient
-        => Clients.SuperAdmin;
+        => AdminApiClients.SuperAdmin;
 
     private string VerenigingenIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:Verenigingen"];
@@ -78,7 +78,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         _adminApiServer.CreateClient();
 
-        Clients = new Clients(
+        AdminApiClients = new AdminApiClients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
                               .Get<OAuth2IntrospectionOptions>(),
             _adminApiServer.CreateClient);
@@ -117,15 +117,15 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         => _projectionHostServer.Services.GetRequiredService<IProjectionCoordinator>();
 
     public AdminApiClient UnauthenticatedClient
-        => Clients.Unauthenticated;
+        => AdminApiClients.Unauthenticated;
 
     public IServiceProvider ServiceProvider
         => _adminApiServer.Services;
 
-    public Clients Clients { get; }
+    public AdminApiClients AdminApiClients { get; }
 
     public AdminApiClient DefaultClient
-        => Clients.Authenticated;
+        => AdminApiClients.Authenticated;
 
     public async Task InitializeAsync()
     {
@@ -139,7 +139,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        Clients.SafeDispose();
+        AdminApiClients.SafeDispose();
 
         _adminApiServer.SafeDispose();
         _projectionHostServer.SafeDispose();
@@ -229,12 +229,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     protected abstract Task Given();
 }
 
-public class Clients : IDisposable
+public class AdminApiClients : IDisposable
 {
     private readonly Func<HttpClient> _createClientFunc;
     private readonly OAuth2IntrospectionOptions _oAuth2IntrospectionOptions;
 
-    public Clients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
+    public AdminApiClients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
     {
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;

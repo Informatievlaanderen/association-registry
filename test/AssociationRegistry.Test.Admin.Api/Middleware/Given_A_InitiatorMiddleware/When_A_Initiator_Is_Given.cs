@@ -22,7 +22,7 @@ public class When_A_Initiator_Is_Given
     [Fact]
     public async Task Then_It_Does_Not_Returns_A_400_Response()
     {
-        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
+        var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
         const string initiator = "OVO000001";
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.Initiator);

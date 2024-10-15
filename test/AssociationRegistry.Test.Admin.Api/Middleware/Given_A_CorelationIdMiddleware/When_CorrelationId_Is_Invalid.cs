@@ -24,7 +24,7 @@ public class When_CorrelationId_Is_Invalid
     [Fact]
     public async Task Then_It_Returns_A_400_Response()
     {
-        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
+        var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
         const string correlationId = "not_a_guid";
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);

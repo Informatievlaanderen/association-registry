@@ -1,15 +1,13 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using AssociationRegistry.Acm.Api;
-using AssociationRegistry.Acm.Api.Constants;
 using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.Framework;
+using Common.Fixtures;
 using EventStore;
 using Framework.Helpers;
-using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
-using IdentityModel.Client;
 using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
@@ -21,7 +19,6 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using Polly;
-using System.Net.Http.Headers;
 using System.Reflection;
 using Xunit;
 
@@ -38,10 +35,10 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         => new(Array.Empty<IEventPreConflictResolutionStrategy>(), Array.Empty<IEventPostConflictResolutionStrategy>());
 
     public AcmApiClient AcmApiClient
-        => Clients.Authenticated;
+        => AcmApiClients.Authenticated;
 
     public AcmApiClient UnauthenticatedClient
-        => Clients.Unauthenticated;
+        => AcmApiClients.Unauthenticated;
 
     public IServiceProvider ServiceProvider
         => _webApplicationFactory.Services;
@@ -69,6 +66,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
 
+                    builder.UseConfiguration(GetConfiguration());
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
@@ -88,16 +86,16 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AcmApiFixture>(), GetRootConnectionString(postgreSqlOptionsSection))
                .GetAwaiter().GetResult();
 
-        Clients = new Clients(
+        AcmApiClients = new AcmApiClients(
             GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
                               .Get<OAuth2IntrospectionOptions>(),
             _webApplicationFactory.CreateClient);
     }
 
-    public Clients Clients { get; }
+    public AcmApiClients AcmApiClients { get; }
 
     public AcmApiClient DefaultClient
-        => Clients.Authenticated;
+        => AcmApiClients.Authenticated;
 
     public async Task InitializeAsync()
         => await Given();
@@ -108,7 +106,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        Clients.SafeDispose();
+        AcmApiClients.SafeDispose();
         _webApplicationFactory.SafeDispose();
         DropDatabase();
     }
@@ -240,64 +238,4 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
     protected abstract Task Given();
-}
-
-public class Clients : IDisposable
-{
-    private readonly Func<HttpClient> _createClientFunc;
-    private readonly OAuth2IntrospectionOptions _oAuth2IntrospectionOptions;
-
-    public Clients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
-    {
-        _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
-        _createClientFunc = createClientFunc;
-
-        Authenticated = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.ACM, clientSecret: "secret")
-                                        .GetAwaiter().GetResult());
-
-        Unauthenticated = new AcmApiClient(_createClientFunc());
-
-        Unauthorized = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.Info, clientSecret: "secret")
-                                       .GetAwaiter().GetResult());
-    }
-
-    public AcmApiClient Authenticated { get; }
-    public AcmApiClient Unauthenticated { get; }
-    public AcmApiClient Unauthorized { get; }
-
-    public void Dispose()
-    {
-        Authenticated.SafeDispose();
-        Unauthenticated.SafeDispose();
-        Unauthorized.SafeDispose();
-    }
-
-    private async Task<HttpClient> CreateMachine2MachineClientFor(
-        string clientId,
-        string scope,
-        string clientSecret)
-    {
-        var tokenClient = new TokenClient(
-            client: () => new HttpClient(),
-            new TokenClientOptions
-            {
-                Address = $"{_oAuth2IntrospectionOptions.Authority}/connect/token",
-                ClientId = clientId,
-                ClientSecret = clientSecret,
-                Parameters = new Parameters(
-                    new[]
-                    {
-                        new KeyValuePair<string, string>(key: "scope", scope),
-                    }),
-            });
-
-        var acmResponse = await tokenClient.RequestTokenAsync(OidcConstants.GrantTypes.ClientCredentials);
-
-        var token = acmResponse.AccessToken;
-        var httpClientFor = _createClientFunc();
-        httpClientFor.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-        httpClientFor.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(scheme: "Bearer", token);
-
-        return httpClientFor;
-    }
 }

@@ -15,7 +15,7 @@ public class Given_An_Authorized_Client
 
     public Given_An_Authorized_Client(EventsInDbScenariosFixture fixture)
     {
-        _client = fixture.Clients.SuperAdmin;
+        _client = fixture.AdminApiClients.SuperAdmin;
     }
 
     [Fact]
