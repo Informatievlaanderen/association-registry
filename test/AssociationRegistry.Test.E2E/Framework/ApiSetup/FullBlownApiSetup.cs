@@ -30,6 +30,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public string? AuthCookie { get; private set; }
     public ILogger<Program> Logger { get; private set; }
     public IAlbaHost AdminApiHost { get; private set; }
+    public IAlbaHost AcmApiHost { get; private set; }
     public IAlbaHost AdminProjectionHost { get; private set; }
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
@@ -54,14 +55,21 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         PublicApiHost = await AlbaHost.For<Public.Api.Program>(
             ConfigureForTesting(schema, "publicapi"));
 
+        AcmApiHost = await AlbaHost.For<Acm.Api.Program>(
+            ConfigureForTesting(schema, "acmapi"));
+
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
         await PublicProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
         await PublicApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
+        await AcmApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
         await PublicProjectionHost.ResumeAllDaemonsAsync();
         await AdminProjectionHost.ResumeAllDaemonsAsync();
+        await AcmApiHost.ResumeAllDaemonsAsync();
     }
 
     private Action<IWebHostBuilder> ConfigureForTesting(string schema, string name)
@@ -99,6 +107,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await PublicApiHost.DisposeAsync();
         await PublicProjectionHost.DisposeAsync();
         await AdminProjectionHost.DisposeAsync();
+        await AcmApiHost.DisposeAsync();
     }
 
     public async Task ExecuteGiven(IScenario emptyScenario)
@@ -119,5 +128,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
         await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+        await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
     }
 }
