@@ -1,44 +1,40 @@
-namespace AssociationRegistry.Test.Common.Fixtures;
+﻿namespace AssociationRegistry.Test.Common.Fixtures;
 
-using Admin.Api.Constants;
-using Common.Clients;
+using Acm.Api.Constants;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
+using JasperFx.Core;
 using System.Net.Http.Headers;
 
-public class Clients : IDisposable
+public class AcmApiClients : IDisposable
 {
     private readonly Func<HttpClient> _createClientFunc;
     private readonly OAuth2IntrospectionOptions _oAuth2IntrospectionOptions;
 
-    public Clients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
+    public AcmApiClients(OAuth2IntrospectionOptions oAuth2IntrospectionOptions, Func<HttpClient> createClientFunc)
     {
         _oAuth2IntrospectionOptions = oAuth2IntrospectionOptions;
         _createClientFunc = createClientFunc;
+
+        Authenticated = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.ACM, clientSecret: "secret")
+                                        .GetAwaiter().GetResult());
+
+        Unauthenticated = new AcmApiClient(_createClientFunc());
+
+        Unauthorized = new AcmApiClient(CreateMachine2MachineClientFor(clientId: "acmClient", Security.Scopes.Info, clientSecret: "secret")
+                                       .GetAwaiter().GetResult());
     }
 
-    public HttpClient GetAuthenticatedHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "vloketClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter().GetResult();
-
-    private HttpClient GetSuperAdminHttpClient()
-        => CreateMachine2MachineClientFor(clientId: "superAdminClient", Security.Scopes.Admin, clientSecret: "secret").GetAwaiter()
-           .GetResult();
-
-    public AdminApiClient Authenticated
-        => new(GetAuthenticatedHttpClient());
-
-    public AdminApiClient SuperAdmin
-        => new(GetSuperAdminHttpClient());
-
-    public AdminApiClient Unauthenticated
-        => new(_createClientFunc());
-
-    public AdminApiClient Unauthorized
-        => new(CreateMachine2MachineClientFor(clientId: "vloketClient", scope: "vo_info", clientSecret: "secret").GetAwaiter().GetResult());
+    public AcmApiClient Authenticated { get; }
+    public AcmApiClient Unauthenticated { get; }
+    public AcmApiClient Unauthorized { get; }
 
     public void Dispose()
     {
+        Authenticated.SafeDispose();
+        Unauthenticated.SafeDispose();
+        Unauthorized.SafeDispose();
     }
 
     private async Task<HttpClient> CreateMachine2MachineClientFor(

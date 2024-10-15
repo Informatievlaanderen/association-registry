@@ -21,14 +21,14 @@ public class With_An_Unauthenticated_Client
     [Fact]
     public async Task Then_It_Returns_401_With_Unauthenticated_Client()
     {
-        var response = await _fixture.Clients.Unauthenticated.RegistreerFeitelijkeVereniging(string.Empty);
+        var response = await _fixture.AdminApiClients.Unauthenticated.RegistreerFeitelijkeVereniging(string.Empty);
         response.StatusCode.Should().Be(HttpStatusCode.Unauthorized);
     }
 
     [Fact]
     public async Task Then_It_Returns_403_With_Unauthorized_Client()
     {
-        var response = await _fixture.Clients.Unauthorized.RegistreerFeitelijkeVereniging(string.Empty);
+        var response = await _fixture.AdminApiClients.Unauthorized.RegistreerFeitelijkeVereniging(string.Empty);
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);
     }
 }

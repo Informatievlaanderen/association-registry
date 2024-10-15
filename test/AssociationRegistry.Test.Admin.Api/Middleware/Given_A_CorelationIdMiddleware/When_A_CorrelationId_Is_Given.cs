@@ -22,7 +22,7 @@ public class When_A_CorrelationId_Is_Given
     [Fact]
     public async Task Then_It_Does_Not_Returns_A_400_Response()
     {
-        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
+        var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
         var correlationId = Guid.NewGuid().ToString();
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);
@@ -36,7 +36,7 @@ public class When_A_CorrelationId_Is_Given
     [Fact]
     public async Task Then_It_Returns_The_CorrelationId()
     {
-        var testClient = new AdminApiClient(_fixture.Clients.GetAuthenticatedHttpClient()).HttpClient;
+        var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
         var correlationId = Guid.NewGuid().ToString();
         testClient.DefaultRequestHeaders.Remove(WellknownHeaderNames.CorrelationId);

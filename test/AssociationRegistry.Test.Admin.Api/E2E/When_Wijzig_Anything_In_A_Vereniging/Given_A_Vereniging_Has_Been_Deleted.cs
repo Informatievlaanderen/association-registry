@@ -23,14 +23,14 @@ using Xunit.Categories;
 public class Given_A_Vereniging_Has_Been_Deleted
 {
     private const string TEST_INITIATOR = EventStore.DigitaalVlaanderenOvoNumber;
-    private readonly Clients _clients;
+    private readonly AdminApiClients _adminApiClients;
     private readonly Fixture _fixture;
     private readonly V061_VerenigingWerdGeregistreerd_And_Verwijderd_And_FollowedByUpdates _scenario;
 
     public Given_A_Vereniging_Has_Been_Deleted(EventsInDbScenariosFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
-        _clients = fixture.Clients;
+        _adminApiClients = fixture.AdminApiClients;
         _scenario = fixture.V061VerenigingWerdGeregistreerdAndVerwijderdAndFollowedByUpdates;
     }
 
@@ -38,7 +38,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
     // Naam wijzigen van vereniging
     public async Task It_Should_Return_NotFound_Or_BadRequest_OnPatch_When_WijzigVereniging()
     {
-        var response = await _clients.Authenticated.PatchVereniging(
+        var response = await _adminApiClients.Authenticated.PatchVereniging(
             VCode.Create(_scenario.VCode),
             JsonConvert.SerializeObject(new WijzigBasisgegevensRequest
             {
@@ -53,7 +53,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
     // Nieuw contactgegeven toevoegen
     public async Task It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Contactgegeven()
     {
-        var response = await _clients.Authenticated.PostContactgegevens(
+        var response = await _adminApiClients.Authenticated.PostContactgegevens(
             VCode.Create(_scenario.VCode),
             JsonConvert.SerializeObject(new VoegContactgegevenToeRequest
             {
@@ -68,7 +68,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
     // Vertegenwoordiger verwijderen
     public async Task It_Should_Return_NotFound_Or_BadRequest_OnDelete_When_Removing_Vertegenwoordiger()
     {
-        var response = await _clients.Authenticated.DeleteVertegenwoordiger(
+        var response = await _adminApiClients.Authenticated.DeleteVertegenwoordiger(
             VCode.Create(_scenario.VCode),
             _scenario.VertegenwoordigerId,
             jsonBody: "",
@@ -81,7 +81,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
     // Nieuwe locatie toevoegen
     public async Task It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Locatie()
     {
-        var response = await _clients.Authenticated.PostLocatie(
+        var response = await _adminApiClients.Authenticated.PostLocatie(
             VCode.Create(_scenario.VCode),
             JsonConvert.SerializeObject(new VoegLocatieToeRequest
             {
@@ -96,7 +96,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
     // Nieuwe locatie toevoegen
     public async Task It_Should_Return_NotFound_Or_BadRequest_OnDelete()
     {
-        var response = await _clients.SuperAdmin.DeleteVereniging(
+        var response = await _adminApiClients.SuperAdmin.DeleteVereniging(
             VCode.Create(_scenario.VCode),
             JsonConvert.SerializeObject(_fixture.Create<VerwijderVerenigingRequest>()),
             initiator: TEST_INITIATOR);
