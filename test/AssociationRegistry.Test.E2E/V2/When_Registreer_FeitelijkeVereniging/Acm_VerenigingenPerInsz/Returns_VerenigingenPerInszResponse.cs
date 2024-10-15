@@ -1,28 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.V2.When_Registreer_FeitelijkeVereniging.Acm_VerenigingenPerInsz;
 
 using Acm.Api.VerenigingenPerInsz;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Acm.Schema.Constants;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema.Constants;
-using FluentAssertions;
-using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
-using Framework.Comparison;
 using Framework.TestClasses;
-using Vereniging;
-using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
-using NodaTime;
 using Xunit;
-using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Verenigingstype = Vereniging.Verenigingstype;
-using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
-using Werkingsgebied = Vereniging.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VerenigingenPerInszResponse :
@@ -38,7 +24,26 @@ public class Returns_VerenigingenPerInszResponse :
     [Fact]
     public void With_Context()
     {
-        Response.Insz.Should().Be(_inszToCompare);
+        Response.ShouldCompare(new VerenigingenPerInszResponse()
+        {
+            Insz = _inszToCompare,
+            Verenigingen =
+            [
+                new VerenigingenPerInszResponse.Vereniging()
+                {
+                    VCode = TestContext.VCode,
+                    CorresponderendeVCodes = [],
+                    VertegenwoordigerId = 1,
+                    Naam = TestContext.Request.Naam,
+                    Status = VerenigingStatus.Actief,
+                    KboNummer = string.Empty,
+                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype(
+                        Verenigingstype.FeitelijkeVereniging.Code,
+                        Verenigingstype.FeitelijkeVereniging.Naam),
+                    IsHoofdvertegenwoordigerVan = true,
+                },
+            ],
+        });
     }
 
     public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
