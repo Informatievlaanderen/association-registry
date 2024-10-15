@@ -99,7 +99,7 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status307TemporaryRedirect, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
-    public async Task<IActionResult> GetAllThroughS3(
+    public async Task<IActionResult> GetAll(
         [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
         [FromServices] IS3Wrapper s3Wrapper,
         [FromServices] AppSettings appSettings,
