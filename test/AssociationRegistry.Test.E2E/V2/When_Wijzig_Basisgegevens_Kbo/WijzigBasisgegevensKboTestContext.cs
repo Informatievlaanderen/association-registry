@@ -30,8 +30,8 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
     public override async Task InitializeAsync()
     {
         _werdGeregistreerdScenario = new();
-
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
+
         RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

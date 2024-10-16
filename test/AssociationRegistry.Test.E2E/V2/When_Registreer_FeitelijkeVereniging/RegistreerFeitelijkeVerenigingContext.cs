@@ -8,7 +8,6 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens;
-using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 
 public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
