@@ -40,11 +40,11 @@ public class VerenigingenPerInszController : ApiController
     {
         await using var session = documentStore.LightweightSession();
 
-        var document = await GetDocument(session, insz);
-        return Ok(document.ToResponse());
+        var verenigingenPerInsz = await GetVerenigingenPerInsz(session, insz);
+        return Ok(verenigingenPerInsz.ToResponse());
     }
 
-    private static async Task<VerenigingenPerInszDocument> GetDocument(IDocumentSession session, string insz)
+    private static async Task<VerenigingenPerInszDocument> GetVerenigingenPerInsz(IDocumentSession session, string insz)
     {
         return await session.Query<VerenigingenPerInszDocument>()
                             .Where(x => x.Insz.Equals(insz, StringComparison.CurrentCultureIgnoreCase))
