@@ -37,24 +37,23 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public async Task InitializeAsync()
     {
-        var schema = "fullblowne2e";
         OaktonEnvironment.AutoStartHost = true;
 
-        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting(schema, "adminapi")))
+        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting("adminapi")))
            .EnsureEachCallIsAuthenticated();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
-            ConfigureForTesting(schema, "adminproj"));
+            ConfigureForTesting("adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
-            ConfigureForTesting(schema, "publicproj"));
+            ConfigureForTesting("publicproj"));
 
         PublicApiHost = await AlbaHost.For<Public.Api.Program>(
-            ConfigureForTesting(schema, "publicapi"));
+            ConfigureForTesting("publicapi"));
 
         AcmApiHost = (await AlbaHost.For<Acm.Api.Program>(
-            ConfigureForTesting(schema, "acmapi")))
+            ConfigureForTesting("acmapi")))
                .EnsureEachCallIsAuthenticatedForAcmApi();
 
 
@@ -71,7 +70,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AcmApiHost.ResumeAllDaemonsAsync();
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(string schema, string name)
+    private Action<IWebHostBuilder> ConfigureForTesting(string name)
     {
         var configuration = new ConfigurationBuilder()
                            .AddJsonFile("appsettings.development.json", false)
@@ -89,7 +88,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
             b.ConfigureServices((context, services) =>
               {
                   context.HostingEnvironment.EnvironmentName = "Development";
-                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
@@ -102,6 +100,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await PublicApiHost.StopAsync();
         await AdminProjectionHost.StopAsync();
         await PublicProjectionHost.StopAsync();
+        await AcmApiHost.StopAsync();
         await AdminApiHost.DisposeAsync();
         await PublicApiHost.DisposeAsync();
         await PublicProjectionHost.DisposeAsync();
