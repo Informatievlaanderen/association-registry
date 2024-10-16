@@ -42,6 +42,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting("adminapi")))
            .EnsureEachCallIsAuthenticated();
 
+        await AdminApiHost.ResetAllMartenDataAsync();
+
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting("adminproj"));
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
