@@ -6,6 +6,9 @@ using System.Runtime.Serialization;
 public class VerenigingenPerInszRequest
 {
     [DataMember]
+    public string Insz { get; set; }
+
+    [DataMember]
     public KboData KboNummers { get; set; }
 
     [DataContract]
