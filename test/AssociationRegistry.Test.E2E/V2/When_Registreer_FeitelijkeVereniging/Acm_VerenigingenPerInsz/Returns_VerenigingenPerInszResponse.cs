@@ -47,5 +47,6 @@ public class Returns_VerenigingenPerInszResponse :
     }
 
     public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
-        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_inszToCompare);
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_inszToCompare)
+                         .GetAwaiter().GetResult();
 }
