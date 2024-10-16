@@ -67,12 +67,13 @@ services:
     environment:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
-      POSTGRES_DB: verenigingsregister
+      POSTGRES_MULTIPLE_DATABASES: verenigingsregister,fullblowne2e
       PGOPTIONS: '-c lock_timeout=30s'
     ports:
       - "5432:5432"
     volumes:
       - pg-data:/var/lib/postgresql/data
+      - ./scripts/multipledb:/docker-entrypoint-initdb.d
     networks:
       - vr-net
 
