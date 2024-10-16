@@ -26,9 +26,10 @@ public class VerenigingenPerInszController : ApiController
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="insz">Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn</param>
+    /// <param name="request"></param>
     /// <response code="200">Als het INSZ gevonden is.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpGet]
+    [HttpPost]
     [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
     [ProducesResponseType(typeof(VerenigingenPerInszResponse), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
@@ -36,11 +37,14 @@ public class VerenigingenPerInszController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
         [FromServices] IDocumentStore documentStore,
-        [FromQuery] string insz)
+        [FromQuery] string insz,
+        [FromBody] VerenigingenPerInszRequest request)
     {
         await using var session = documentStore.LightweightSession();
 
         var verenigingenPerInsz = await GetVerenigingenPerInsz(session, insz);
+        // Get verenigingenPerKbo from request & map
+
         return Ok(verenigingenPerInsz.ToResponse());
     }
 
