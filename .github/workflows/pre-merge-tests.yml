@@ -160,9 +160,16 @@ jobs:
           docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
 
       - name: Run db container
+        if: matrix.projects != 'test/AssociationRegistry.Test.E2E'
         shell: bash
         run: |
           docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+
+      - name: Run e2e db container
+        if: matrix.projects == 'test/AssociationRegistry.Test.E2E'
+        shell: bash
+        run: |
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=fullblowne2e postgres:15.0
 
       - name: Run OpenTelemetry container
         shell: bash
