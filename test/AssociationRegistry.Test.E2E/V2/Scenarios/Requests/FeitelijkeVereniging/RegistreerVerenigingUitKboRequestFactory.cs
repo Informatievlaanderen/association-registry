@@ -15,7 +15,7 @@ using System.Net;
 using Vereniging;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
-public class RegistreerVerenigingUitKboRequestFactory : ITestKboRequestFactory<RegistreerVerenigingUitKboRequest>
+public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<RegistreerVerenigingUitKboRequest>
 {
     private readonly string _isPositiveInteger = "^[1-9][0-9]*$";
 
@@ -23,7 +23,7 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestKboRequestFactory<R
     {
     }
 
-    public async Task<RequestKboResult<RegistreerVerenigingUitKboRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<RegistreerVerenigingUitKboRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -33,7 +33,7 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestKboRequestFactory<R
         };
 
 
-        var kboNummer = (await apiSetup.AdminApiHost.Scenario(s =>
+        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
@@ -46,12 +46,12 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestKboRequestFactory<R
             s.Header("Location")
              .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
 
-            // s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
-            // s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response.Headers.Location.First()!.Split('/').Last();
+            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
+            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
+        })).Context.Response.Headers.Location.First()!.Split('/').Last();;
 
         await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestKboResult<RegistreerVerenigingUitKboRequest>(KboNummer.Create(kboNummer), request);
+        return new RequestResult<RegistreerVerenigingUitKboRequest>(VCode.Create(vCode), request);
     }
 }
