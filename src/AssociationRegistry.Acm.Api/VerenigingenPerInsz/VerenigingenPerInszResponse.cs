@@ -16,6 +16,10 @@ public class VerenigingenPerInszResponse
     [DataMember]
     public Vereniging[] Verenigingen { get; init; } = null!;
 
+    /// <summary>De lijst van kbo nummers waarvoor deze persoon vertegenwoordiger is</summary>
+    [DataMember]
+    public KboData[] KboNummers { get; init; } = null!;
+
     [DataContract]
     public class Vereniging
     {
@@ -66,6 +70,19 @@ public class VerenigingenPerInszResponse
         /// </summary>
         [DataMember]
         public bool IsHoofdvertegenwoordigerVan { get; init; }
+    }
+
+    [DataContract]
+    public class KboData
+    {
+        [DataMember]
+        public string KboNummer { get; set; }
+
+        [DataMember]
+        public string VCode { get; set; }
+
+        [DataMember]
+        public bool IsHoofdVertegenwoordiger { get; set; }
     }
 }
 

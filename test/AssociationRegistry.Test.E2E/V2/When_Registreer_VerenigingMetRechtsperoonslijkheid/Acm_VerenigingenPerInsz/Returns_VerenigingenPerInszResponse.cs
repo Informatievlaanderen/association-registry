@@ -18,7 +18,6 @@ public class Returns_VerenigingenPerInszResponse :
     private readonly string _inszToCompare;
     private readonly FeitelijkeVerenigingWerdGeregistreerd _geregistreerdeVereniging;
 
-
     public Returns_VerenigingenPerInszResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext context) : base(context)
     {
         _geregistreerdeVereniging = context.RegistratieData;

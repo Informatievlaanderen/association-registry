@@ -6,6 +6,9 @@ using Alba;
 public static class AcmApiEndpoints
 {
     public static VerenigingenPerInszResponse GetVerenigingenPerInsz(this IAlbaHost source, string insz)
-        => source.GetAsJson<VerenigingenPerInszResponse>(url: $"/v1/verenigingen?insz={insz}")
-                 .GetAwaiter().GetResult()!;
+    {
+        return source.PostJson(new VerenigingenPerInszRequest(), $"/v1/verenigingen?insz={insz}", JsonStyle.Mvc)
+                     .Receive<VerenigingenPerInszResponse>()
+                     .GetAwaiter().GetResult()!;
+    }
 }

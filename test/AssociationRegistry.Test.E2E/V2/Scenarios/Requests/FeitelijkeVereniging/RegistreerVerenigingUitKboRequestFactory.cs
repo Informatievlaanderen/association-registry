@@ -13,7 +13,6 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Vereniging;
-using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<RegistreerVerenigingUitKboRequest>
 {
@@ -31,7 +30,6 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
         {
             KboNummer = "0442528054",
         };
-
 
         var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
         {
