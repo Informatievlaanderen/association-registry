@@ -5,6 +5,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Constants;
+using Framework;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
