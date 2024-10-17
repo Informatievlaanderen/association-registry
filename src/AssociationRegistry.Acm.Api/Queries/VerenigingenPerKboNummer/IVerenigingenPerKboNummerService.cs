@@ -2,7 +2,7 @@
 
 public interface IVerenigingenPerKboNummerService
 {
-    Task<KboNummerInfo[]> GetKboNummerInfo(string kboNummer);
+    Task<KboNummerInfo[]> GetKboNummerInfo();
 }
 
 public record KboNummerInfo(string KboNummer, string VCode, bool IsHoofdvertegenwoordiger);
