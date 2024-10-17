@@ -21,27 +21,6 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijke verenigingen")]
 public class VerenigingenPerInszController : ApiController
 {
-    [HttpPost("bla")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ProducesResponseType(typeof(VerenigingenPerInszResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenPerInszResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    public async Task<IActionResult> Bla()
-    {
-        return this.StatusCode(StatusCodes.Status200OK);
-    }
-    [HttpGet("bla")]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    [ProducesResponseType(typeof(VerenigingenPerInszResponse), StatusCodes.Status200OK)]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenPerInszResponseExamples))]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    public async Task<IActionResult> Blag()
-    {
-        return Ok(new VerenigingenPerInszResponse());
-    }
-
     /// <summary>
     ///     Vraag de lijst van verenigingen voor een INSZ op.
     /// </summary>

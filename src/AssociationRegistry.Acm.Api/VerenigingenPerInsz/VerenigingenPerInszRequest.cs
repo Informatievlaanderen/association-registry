@@ -9,10 +9,10 @@ public class VerenigingenPerInszRequest
     public string Insz { get; set; }
 
     [DataMember]
-    public KboData KboNummers { get; set; }
+    public KboRequest[] KboNummers { get; set; }
 
     [DataContract]
-    public class KboData
+    public class KboRequest
     {
         [DataMember]
         public string KboNummer { get; set; }

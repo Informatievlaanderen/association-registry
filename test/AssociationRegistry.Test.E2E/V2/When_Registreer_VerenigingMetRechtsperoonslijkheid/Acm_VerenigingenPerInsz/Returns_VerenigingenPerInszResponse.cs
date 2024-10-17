@@ -15,13 +15,22 @@ using Verenigingstype = Vereniging.Verenigingstype;
 public class Returns_VerenigingenPerInszResponse :
     End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, VerenigingenPerInszResponse>
 {
-    private readonly string _inszToCompare;
-    private readonly FeitelijkeVerenigingWerdGeregistreerd _geregistreerdeVereniging;
+    private readonly VerenigingenPerInszRequest _request;
 
     public Returns_VerenigingenPerInszResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext context) : base(context)
     {
-        _geregistreerdeVereniging = context.RegistratieData;
-        _inszToCompare = _geregistreerdeVereniging.Vertegenwoordigers[0].Insz;
+        _request = new VerenigingenPerInszRequest()
+        {
+            Insz = "0123456789",
+            KboNummers =
+            [
+                new VerenigingenPerInszRequest.KboRequest()
+                {
+                    KboNummer = context.Request.KboNummer,
+                    Rechtsvorm = "NVT",
+                },
+            ],
+        };
     }
 
     [Fact]
@@ -29,27 +38,18 @@ public class Returns_VerenigingenPerInszResponse :
     {
         Response.ShouldCompare(new VerenigingenPerInszResponse()
         {
-            Insz = _inszToCompare,
-            Verenigingen =
-            [
-                new VerenigingenPerInszResponse.Vereniging()
+            Insz = _request.Insz,
+            Verenigingen = [],
+            KboNummers = _request.KboNummers.Select(s => new VerenigingenPerInszResponse.KboResponse()
                 {
-                    VCode = TestContext.VCode,
-                    CorresponderendeVCodes = [],
-                    VertegenwoordigerId = 1,
-                    Naam = _geregistreerdeVereniging.Naam,
-                    Status = VerenigingStatus.Actief,
-                    KboNummer = string.Empty,
-                    Verenigingstype = new Acm.Api.VerenigingenPerInsz.Verenigingstype(
-                        Verenigingstype.FeitelijkeVereniging.Code,
-                        Verenigingstype.FeitelijkeVereniging.Naam),
-                    IsHoofdvertegenwoordigerVan = true,
-                },
-            ],
+                    KboNummer = _request.KboNummers.First().KboNummer,
+                    VCode = TestContext.RequestResult.VCode,
+                    IsHoofdVertegenwoordiger = true,
+                }).ToArray(),
         });
     }
 
     public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
-        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_inszToCompare)
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
                          .GetAwaiter().GetResult();
 }

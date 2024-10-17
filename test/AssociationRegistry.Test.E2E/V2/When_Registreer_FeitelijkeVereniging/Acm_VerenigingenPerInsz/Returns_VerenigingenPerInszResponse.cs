@@ -15,14 +15,20 @@ public class Returns_VerenigingenPerInszResponse :
     End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, VerenigingenPerInszResponse>
 {
     private readonly string _inszToCompare;
+    private readonly VerenigingenPerInszRequest _request;
 
     public Returns_VerenigingenPerInszResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
         _inszToCompare = TestContext.Request.Vertegenwoordigers[0].Insz;
+        _request = new VerenigingenPerInszRequest()
+        {
+            Insz = _inszToCompare,
+            KboNummers = [],
+        };
     }
 
     [Fact]
-    public void With_Context()
+    public void With_Verenigingen()
     {
         Response.ShouldCompare(new VerenigingenPerInszResponse()
         {
@@ -47,6 +53,6 @@ public class Returns_VerenigingenPerInszResponse :
     }
 
     public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
-        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_inszToCompare)
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
                          .GetAwaiter().GetResult();
 }
