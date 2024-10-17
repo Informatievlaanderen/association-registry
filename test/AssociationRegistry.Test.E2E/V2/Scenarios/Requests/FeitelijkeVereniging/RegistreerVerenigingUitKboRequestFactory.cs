@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Test.E2E.V2.Scenarios.Requests.FeitelijkeVereniging;
 
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Alba;
 using AutoFixture;
@@ -28,7 +26,7 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
 
         var request = new RegistreerVerenigingUitKboRequest
         {
-            KboNummer = "0442528054",
+            KboNummer = "0451289431",
         };
 
         var vCode = (await apiSetup.AdminApiHost.Scenario(s =>

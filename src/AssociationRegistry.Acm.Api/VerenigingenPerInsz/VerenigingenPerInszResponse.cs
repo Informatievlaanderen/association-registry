@@ -18,7 +18,7 @@ public class VerenigingenPerInszResponse
 
     /// <summary>De lijst van kbo nummers waarvoor deze persoon vertegenwoordiger is</summary>
     [DataMember]
-    public KboData[] KboNummers { get; init; } = null!;
+    public KboResponse[] KboNummers { get; init; } = null!;
 
     [DataContract]
     public class Vereniging
@@ -73,7 +73,7 @@ public class VerenigingenPerInszResponse
     }
 
     [DataContract]
-    public class KboData
+    public class KboResponse
     {
         [DataMember]
         public string KboNummer { get; set; }
