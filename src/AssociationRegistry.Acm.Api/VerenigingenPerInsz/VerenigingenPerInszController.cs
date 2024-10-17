@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Queries.VerenigingenPerInsz;
-using Queries.VerenigingenPerKboNummer;
 using Schema.VerenigingenPerInsz;
+using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Linq;
@@ -46,8 +46,15 @@ public class VerenigingenPerInszController : ApiController
         [FromBody] VerenigingenPerInszRequest request,
         CancellationToken cancellationToken)
     {
-        var verenigingenPerInsz = await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
+        var verenigingenPerInsz =
+            await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
 
-        return Ok(verenigingenPerInsz.ToResponse());
+        var kboNummersMetRechtsvorm = request.KboNummers
+                                             .Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
+                                             .ToArray();
+
+        var verenigingenPerKbo = await kboNummerService.GetKboNummerInfo(kboNummersMetRechtsvorm, cancellationToken);
+
+        return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, verenigingenPerKbo));
     }
 }

@@ -1,27 +1,37 @@
 ﻿namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using Schema.VerenigingenPerInsz;
+using Services;
 using System.Linq;
 
 public static class VerenigingPerInszMapper
 {
-    public static VerenigingenPerInszResponse ToResponse(this VerenigingenPerInszDocument doc)
+    public static VerenigingenPerInszResponse ToResponse(VerenigingenPerInszDocument doc, VerenigingenPerKbo[] verenigingenPerKbo)
         => new()
         {
             Insz = doc.Insz,
             Verenigingen = doc.Verenigingen.Select(Map).ToArray(),
+            KboNummers = verenigingenPerKbo.Select(Map).ToArray(),
         };
 
-    private static VerenigingenPerInszResponse.Vereniging Map(Vereniging v)
+    private static VerenigingenPerInszResponse.Vereniging Map(Vereniging vereniging)
         => new()
         {
-            Naam = v.Naam,
-            CorresponderendeVCodes = v.CorresponderendeVCodes,
-            VertegenwoordigerId = v.VertegenwoordigerId,
-            Status = v.Status,
-            KboNummer = v.KboNummer,
-            VCode = v.VCode,
-            Verenigingstype = new Verenigingstype(v.Verenigingstype.Code, v.Verenigingstype.Naam),
-            IsHoofdvertegenwoordigerVan = v.IsHoofdvertegenwoordigerVan,
+            Naam = vereniging.Naam,
+            CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
+            VertegenwoordigerId = vereniging.VertegenwoordigerId,
+            Status = vereniging.Status,
+            KboNummer = vereniging.KboNummer,
+            VCode = vereniging.VCode,
+            Verenigingstype = new Verenigingstype(vereniging.Verenigingstype.Code, vereniging.Verenigingstype.Naam),
+            IsHoofdvertegenwoordigerVan = vereniging.IsHoofdvertegenwoordigerVan,
+        };
+
+    private static VerenigingenPerInszResponse.VerenigingenPerKbo Map(VerenigingenPerKbo verenigingenPerKbo)
+        => new()
+        {
+            KboNummer = verenigingenPerKbo.KboNummer,
+            VCode = verenigingenPerKbo.VCode,
+            IsHoofdVertegenwoordiger = verenigingenPerKbo.IsHoofdvertegenwoordiger
         };
 }

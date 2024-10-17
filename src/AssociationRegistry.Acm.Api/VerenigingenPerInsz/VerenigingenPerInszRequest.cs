@@ -6,17 +6,17 @@ using System.Runtime.Serialization;
 public class VerenigingenPerInszRequest
 {
     [DataMember]
-    public string Insz { get; set; }
+    public string Insz { get; set; } = string.Empty;
 
     [DataMember]
-    public KboRequest[] KboNummers { get; set; }
+    public KboRequest[] KboNummers { get; set; } = [];
 
     [DataContract]
     public class KboRequest
     {
         [DataMember]
-        public string KboNummer { get; set; }
+        public string KboNummer { get; set; } = string.Empty;
         [DataMember]
-        public string Rechtsvorm { get; set; }
+        public string Rechtsvorm { get; set; } = string.Empty;
     }
 }
