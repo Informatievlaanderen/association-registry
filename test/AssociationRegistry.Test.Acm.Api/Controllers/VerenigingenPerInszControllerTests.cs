@@ -1,32 +1,136 @@
 namespace AssociationRegistry.Test.Acm.Api.Controllers;
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKboNummer;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
+using AssociationRegistry.Magda.Constants;
+using AutoFixture;
 using FluentAssertions;
+using Framework;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
+using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype;
 
 public class VerenigingenPerInszControllerTests
 {
     [Fact]
-    public async Task VerifyQueryIsCalled()
+    public async Task Given_No_Verenigingen_Per_Insz_Returns_Insz_With_Empty_Verenigingen()
     {
-        var cancellationToken = CancellationToken.None;
-        var mockQuery = new Mock<IVerenigingenPerInszQuery>();
-        var insz = "123";
-        var verenigingenPerInszRequest = new VerenigingenPerInszRequest(){Insz = insz};
+        var verenigingenPerInsz = new VerenigingenPerInszDocument()
+        {
+            Insz = "123",
+            Verenigingen = [],
+        };
+        KboNummerInfo[] kboNummerInfos = [];
 
-        mockQuery.Setup(x => x.ExecuteAsync(
-                            It.Is<VerenigingenPerInszFilter>(filter => filter.Insz == insz),
-                            It.IsAny<CancellationToken>()))
-                 .ReturnsAsync(new VerenigingenPerInszDocument());
+        var request = new VerenigingenPerInszRequest { Insz = verenigingenPerInsz.Insz };
+
+        var verenigingenPerInszResponse = await GetVerenigingenPerInsz(verenigingenPerInsz, kboNummerInfos, request);
+
+        verenigingenPerInszResponse.Should().BeEquivalentTo(new VerenigingenPerInszResponse()
+        {
+            Insz = verenigingenPerInsz.Insz,
+            Verenigingen = [],
+        });
+    }
+
+    [Fact]
+    public async Task Given_Verenigingen_Per_Kbo_Returns_Insz_With_Empty_Verenigingen()
+    {
+        var verenigingenPerInsz = new VerenigingenPerInszDocument()
+        {
+            Insz = "123",
+            Verenigingen = [],
+        };
+
+        KboNummerInfo[] kboNummerInfos =
+        [
+            new("0987654321", "V0001001", true),
+        ];
+
+        var request = new VerenigingenPerInszRequest
+        {
+            Insz = verenigingenPerInsz.Insz,
+            KboNummers =
+            [
+                new VerenigingenPerInszRequest.KboRequest
+                {
+                    KboNummer = "0987654321",
+                    Rechtsvorm = RechtsvormCodes.IVZW,
+                },
+            ],
+        };
+
+        var verenigingenPerInszResponse = await GetVerenigingenPerInsz(verenigingenPerInsz, kboNummerInfos, request);
+
+        verenigingenPerInszResponse.Should().BeEquivalentTo(new VerenigingenPerInszResponse()
+        {
+            Insz = verenigingenPerInsz.Insz,
+            Verenigingen = [],
+            KboNummers = kboNummerInfos.Select(x => new VerenigingenPerInszResponse.KboResponse()
+            {
+                KboNummer = x.KboNummer,
+                IsHoofdVertegenwoordiger = x.IsHoofdvertegenwoordiger,
+                VCode = x.VCode,
+            }).ToArray(),
+        });
+    }
+
+    [Fact]
+    public async Task Given_Verenigingen_Per_Insz_Returns_Insz_With_Verenigingen()
+    {
+        var fixture = new Fixture().CustomizeAcmApi();
+        var verenigingenPerInsz = new VerenigingenPerInszDocument()
+        {
+            Insz = "123",
+            Verenigingen = fixture.CreateMany<Vereniging>().ToList(),
+        };
+        KboNummerInfo[] kboNummerInfos = [];
+
+        var verenigingenPerInszRequest = new VerenigingenPerInszRequest { Insz = verenigingenPerInsz.Insz };
+
+        var verenigingenPerInszResponse = await GetVerenigingenPerInsz(verenigingenPerInsz, kboNummerInfos, verenigingenPerInszRequest);
+
+        verenigingenPerInszResponse.Should().BeEquivalentTo(new VerenigingenPerInszResponse()
+        {
+            Insz = verenigingenPerInsz.Insz,
+            Verenigingen = verenigingenPerInsz.Verenigingen.Select(s => new VerenigingenPerInszResponse.Vereniging()
+            {
+                VCode = s.VCode,
+                CorresponderendeVCodes = s.CorresponderendeVCodes,
+                VertegenwoordigerId = s.VertegenwoordigerId,
+                Naam = s.Naam,
+                Status = s.Status,
+                KboNummer = s.KboNummer,
+                Verenigingstype = new Verenigingstype(s.Verenigingstype.Code, s.Verenigingstype.Naam),
+                IsHoofdvertegenwoordigerVan = s.IsHoofdvertegenwoordigerVan
+            }).ToArray(),
+        });
+    }
+
+    private async Task<VerenigingenPerInszResponse?> GetVerenigingenPerInsz(VerenigingenPerInszDocument verenigingenPerInsz, KboNummerInfo[] kboNummerInfos, VerenigingenPerInszRequest verenigingenPerInszRequest)
+    {
+        var mockVerenigingenPerInszQuery = new Mock<IVerenigingenPerInszQuery>();
+
+        mockVerenigingenPerInszQuery.Setup(x => x.ExecuteAsync(
+                                               It.Is<VerenigingenPerInszFilter>(filter => filter.Insz == verenigingenPerInsz.Insz),
+                                               It.IsAny<CancellationToken>()))
+                                    .ReturnsAsync(verenigingenPerInsz);
+
+        var mockVerenigingenPerKboNummerService = new Mock<IVerenigingenPerKboNummerService>();
+        mockVerenigingenPerKboNummerService.Setup(x => x.GetKboNummerInfo())
+                                           .ReturnsAsync(kboNummerInfos);
 
         var sut = new VerenigingenPerInszController();
 
-        var result = await sut.Get(mockQuery.Object, verenigingenPerInszRequest, CancellationToken.None);
+        var result = await sut.Get(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object, verenigingenPerInszRequest, CancellationToken.None);
 
-        result.Should().BeEquivalentTo(new VerenigingenPerInszResponse() { Insz = insz });
+        var okResult = result as OkObjectResult;
+        var verenigingenPerInszResponse = okResult!.Value as VerenigingenPerInszResponse;
+
+        return verenigingenPerInszResponse;
     }
 }
 
