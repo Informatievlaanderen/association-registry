@@ -10,5 +10,5 @@ public interface IApiSetup
     public IAlbaHost AdminProjectionHost { get; }
     public IAlbaHost PublicProjectionHost { get; }
     public IAlbaHost PublicApiHost { get; }
-    Task ExecuteGiven(IScenario werdGeregistreerdScenario);
+    Task ExecuteGiven(IScenario scenario);
 }
