@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Queries.VerenigingenPerInsz;
+using Queries.VerenigingenPerKboNummer;
 using Schema.VerenigingenPerInsz;
 using Swashbuckle.AspNetCore.Filters;
 using System;
@@ -27,7 +28,8 @@ public class VerenigingenPerInszController : ApiController
     /// </summary>
     /// <param name="documentStore"></param>
     /// <param name="insz">Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn</param>
-    /// <param name="query"></param>
+    /// <param name="verenigingenPerInszQuery"></param>
+    /// <param name="kboNummerService"></param>
     /// <param name="request"></param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Als het INSZ gevonden is.</response>
@@ -39,11 +41,12 @@ public class VerenigingenPerInszController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(VerenigingenPerInszResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     public async Task<IActionResult> Get(
-        [FromServices] IVerenigingenPerInszQuery query,
+        [FromServices] IVerenigingenPerInszQuery verenigingenPerInszQuery,
+        [FromServices] IVerenigingenPerKboNummerService kboNummerService,
         [FromBody] VerenigingenPerInszRequest request,
         CancellationToken cancellationToken)
     {
-        var verenigingenPerInsz = await query.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
+        var verenigingenPerInsz = await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
 
         return Ok(verenigingenPerInsz.ToResponse());
     }

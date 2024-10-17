@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Acm.Api.Controllers;
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
+using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKboNummer;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using AutoFixture;
@@ -62,17 +63,19 @@ public class VerenigingenPerInszControllerTests
 
     private async Task<VerenigingenPerInszResponse?> GetVerenigingenPerInsz(VerenigingenPerInszDocument verenigingenPerInsz)
     {
-        var mockQuery = new Mock<IVerenigingenPerInszQuery>();
+        var mockVerenigingenPerInszQuery = new Mock<IVerenigingenPerInszQuery>();
+        var mockVerenigingenPerKboNummerService = new Mock<IVerenigingenPerKboNummerService>();
+
         var verenigingenPerInszRequest = new VerenigingenPerInszRequest(){Insz = verenigingenPerInsz.Insz};
 
-        mockQuery.Setup(x => x.ExecuteAsync(
-                            It.Is<VerenigingenPerInszFilter>(filter => filter.Insz == verenigingenPerInsz.Insz),
-                            It.IsAny<CancellationToken>()))
-                 .ReturnsAsync(verenigingenPerInsz);
+        mockVerenigingenPerInszQuery.Setup(x => x.ExecuteAsync(
+                                               It.Is<VerenigingenPerInszFilter>(filter => filter.Insz == verenigingenPerInsz.Insz),
+                                               It.IsAny<CancellationToken>()))
+                                    .ReturnsAsync(verenigingenPerInsz);
 
         var sut = new VerenigingenPerInszController();
 
-        var result = await sut.Get(mockQuery.Object, verenigingenPerInszRequest, CancellationToken.None);
+        var result = await sut.Get(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object, verenigingenPerInszRequest, CancellationToken.None);
 
         var okResult = result as OkObjectResult;
         var verenigingenPerInszResponse = okResult!.Value as VerenigingenPerInszResponse;
