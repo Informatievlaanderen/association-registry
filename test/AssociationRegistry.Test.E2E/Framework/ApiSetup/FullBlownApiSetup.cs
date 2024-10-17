@@ -110,7 +110,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task ExecuteGiven(IScenario emptyScenario)
+    public async Task ExecuteGiven(IScenario scenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
 
@@ -119,10 +119,15 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
         session.CorrelationId = Guid.NewGuid().ToString();
 
-        foreach (var eventsPerStream in await emptyScenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>()))
+        var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
+
+        foreach (var eventsPerStream in givenEvents)
         {
             session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
         }
+
+        if (givenEvents.Count == 0)
+            return;
 
         await session.SaveChangesAsync();
 
