@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Acm.Api.Queries.VerenigingenPerKboNummer;
 
+using Api.VerenigingenPerInsz;
+
 public interface IVerenigingenPerKboNummerService
 {
-    Task<KboNummerInfo[]> GetKboNummerInfo();
+    Task<VerenigingenPerKbo[]> GetKboNummerInfo(VerenigingenPerInszRequest.KboRequest[] kboRequest);
 }
 
-public record KboNummerInfo(string KboNummer, string VCode, bool IsHoofdvertegenwoordiger);
+public record VerenigingenPerKbo(string KboNummer, string VCode, bool IsHoofdvertegenwoordiger);

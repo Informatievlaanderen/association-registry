@@ -48,6 +48,8 @@ public class VerenigingenPerInszController : ApiController
     {
         var verenigingenPerInsz = await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
 
-        return Ok(verenigingenPerInsz.ToResponse());
+        var verenigingenPerKbo = await kboNummerService.GetKboNummerInfo(request.KboNummers);
+
+        return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, verenigingenPerKbo));
     }
 }

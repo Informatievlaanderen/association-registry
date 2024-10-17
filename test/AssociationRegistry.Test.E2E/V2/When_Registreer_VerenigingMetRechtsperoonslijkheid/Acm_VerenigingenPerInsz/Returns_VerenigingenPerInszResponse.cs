@@ -40,7 +40,7 @@ public class Returns_VerenigingenPerInszResponse :
         {
             Insz = _request.Insz,
             Verenigingen = [],
-            KboNummers = _request.KboNummers.Select(s => new VerenigingenPerInszResponse.KboResponse()
+            KboNummers = _request.KboNummers.Select(s => new VerenigingenPerInszResponse.VerenigingenPerKbo()
                 {
                     KboNummer = _request.KboNummers.First().KboNummer,
                     VCode = TestContext.RequestResult.VCode,
