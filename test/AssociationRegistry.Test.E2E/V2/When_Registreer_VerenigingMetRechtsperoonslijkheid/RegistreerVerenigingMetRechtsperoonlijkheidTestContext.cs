@@ -7,16 +7,13 @@ using Framework.TestClasses;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Scenarios.Givens;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
 
 public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {
-    public VCode VCode => _werdGeregistreerdScenario.VCode;
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
-
     public RegistreerVerenigingMetRechtsperoonlijkheidTestContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
@@ -24,8 +21,7 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
 
     public override async Task InitializeAsync()
     {
-        _werdGeregistreerdScenario = new(true);
-        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
+        await ApiSetup.ExecuteGiven(new EmptyScenario());
 
         RequestResult = await new RegistreerVerenigingUitKboRequestFactory().ExecuteRequest(ApiSetup);
 
