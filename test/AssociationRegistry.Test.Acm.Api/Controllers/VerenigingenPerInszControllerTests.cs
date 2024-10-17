@@ -1,15 +1,16 @@
 namespace AssociationRegistry.Test.Acm.Api.Controllers;
 
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
-using AssociationRegistry.Acm.Api.Queries.VerenigingenPerKboNummer;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using AssociationRegistry.Magda.Constants;
+using AssociationRegistry.Services;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Services;
 using Xunit;
 using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype;
 
@@ -23,6 +24,7 @@ public class VerenigingenPerInszControllerTests
             Insz = "123",
             Verenigingen = [],
         };
+
         VerenigingenPerKbo[] kboNummerInfos = [];
 
         var request = new VerenigingenPerInszRequest { Insz = verenigingenPerInsz.Insz };
@@ -83,11 +85,13 @@ public class VerenigingenPerInszControllerTests
     public async Task Given_Verenigingen_Per_Insz_Returns_Insz_With_Verenigingen()
     {
         var fixture = new Fixture().CustomizeAcmApi();
+
         var verenigingenPerInsz = new VerenigingenPerInszDocument()
         {
             Insz = "123",
             Verenigingen = fixture.CreateMany<Vereniging>().ToList(),
         };
+
         VerenigingenPerKbo[] kboNummerInfos = [];
 
         var verenigingenPerInszRequest = new VerenigingenPerInszRequest { Insz = verenigingenPerInsz.Insz };
@@ -124,13 +128,18 @@ public class VerenigingenPerInszControllerTests
                                                It.IsAny<CancellationToken>()))
                                     .ReturnsAsync(verenigingenPerInsz);
 
+        var kboNummersMetRechtsvorm = verenigingenPerInszRequest.KboNummers
+                                                                .Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
+                                                                .ToArray();
+
         var mockVerenigingenPerKboNummerService = new Mock<IVerenigingenPerKboNummerService>();
-        mockVerenigingenPerKboNummerService.Setup(x => x.GetKboNummerInfo(verenigingenPerInszRequest.KboNummers))
+        mockVerenigingenPerKboNummerService.Setup(x => x.GetKboNummerInfo(kboNummersMetRechtsvorm, It.IsAny<CancellationToken>()))
                                            .ReturnsAsync(kboNummerInfos);
 
         var sut = new VerenigingenPerInszController();
 
-        var result = await sut.Get(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object, verenigingenPerInszRequest, CancellationToken.None);
+        var result = await sut.Get(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object,
+                                   verenigingenPerInszRequest, CancellationToken.None);
 
         var okResult = result as OkObjectResult;
         var verenigingenPerInszResponse = okResult!.Value as VerenigingenPerInszResponse;
@@ -138,4 +147,3 @@ public class VerenigingenPerInszControllerTests
         return verenigingenPerInszResponse;
     }
 }
-

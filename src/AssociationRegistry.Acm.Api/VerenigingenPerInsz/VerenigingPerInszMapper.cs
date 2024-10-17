@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
-using Queries.VerenigingenPerKboNummer;
 using Schema.VerenigingenPerInsz;
+using Services;
 using System.Linq;
 
 public static class VerenigingPerInszMapper
