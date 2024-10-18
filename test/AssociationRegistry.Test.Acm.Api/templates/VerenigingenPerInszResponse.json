@@ -17,5 +17,6 @@
       "isHoofdvertegenwoordigerVan": {{vereniging.ishoofdvertegenwoordigervan}}
     }
     {{ end }}
-  ]
+  ],
+  "kboNummers": [],
 }

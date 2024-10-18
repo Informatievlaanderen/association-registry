@@ -138,7 +138,7 @@ public class VerenigingenPerInszControllerTests
 
         var sut = new VerenigingenPerInszController();
 
-        var result = await sut.Get(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object,
+        var result = await sut.Post(mockVerenigingenPerInszQuery.Object, mockVerenigingenPerKboNummerService.Object,
                                    verenigingenPerInszRequest, CancellationToken.None);
 
         var okResult = result as OkObjectResult;
