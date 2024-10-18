@@ -58,7 +58,7 @@ public class VerenigingenPerInszControllerTests
             Insz = verenigingenPerInsz.Insz,
             KboNummers =
             [
-                new VerenigingenPerInszRequest.KboRequest
+                new VerenigingenPerInszRequest.KboNummerMetRechtsvormRequest
                 {
                     KboNummer = "0987654321",
                     Rechtsvorm = RechtsvormCodes.IVZW,

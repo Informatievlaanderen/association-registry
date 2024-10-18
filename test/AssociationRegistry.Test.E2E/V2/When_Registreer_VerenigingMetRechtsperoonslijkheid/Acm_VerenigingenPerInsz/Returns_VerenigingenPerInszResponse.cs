@@ -25,7 +25,7 @@ public class Returns_VerenigingenPerInszResponse :
             Insz = "0123456789",
             KboNummers =
             [
-                new VerenigingenPerInszRequest.KboRequest()
+                new VerenigingenPerInszRequest.KboNummerMetRechtsvormRequest()
                 {
                     KboNummer = context.Request.KboNummer,
                     Rechtsvorm = "ONGEKENDE RECHTSVORM", // TODO: Veranderen naar happy path

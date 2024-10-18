@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 public class VerenigingenPerInszResponse
 {
     /// <summary>
-    ///     Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn
+    ///     De unieke identificatie van de bevraagde persoon
     /// </summary>
     [DataMember]
     public string Insz { get; init; } = null!;
@@ -16,7 +16,7 @@ public class VerenigingenPerInszResponse
     [DataMember]
     public Vereniging[] Verenigingen { get; init; } = null!;
 
-    /// <summary>De lijst van kbo nummers waarvoor deze persoon vertegenwoordiger is</summary>
+    /// <summary>De lijst van KBO-nummers waarvoor deze persoon vertegenwoordiger is</summary>
     [DataMember]
     public VerenigingenPerKbo[] KboNummers { get; init; } = null!;
 
@@ -54,13 +54,13 @@ public class VerenigingenPerInszResponse
         public string Status { get; init; } = null!;
 
         /// <summary>
-        /// Het kbo nummer van de vereniging
+        /// Het KBO-nummer van de vereniging
         /// </summary>
         [DataMember]
         public string? KboNummer { get; init; }
 
-        // <summary>
-        /// Het kbo nummer van de vereniging
+        /// <summary>
+        /// Het type van de vereniging
         /// </summary>
         [DataMember]
         public Verenigingstype Verenigingstype { get; set; } = null!;
@@ -72,15 +72,23 @@ public class VerenigingenPerInszResponse
         public bool IsHoofdvertegenwoordigerVan { get; init; }
     }
 
-    [DataContract]
     public class VerenigingenPerKbo
     {
+        /// <summary>
+        /// Het KBO-nummer van de vereniging
+        /// </summary>
         [DataMember]
-        public string KboNummer { get; set; }
+        public string KboNummer { get; set; } = string.Empty;
 
+        /// <summary>
+        /// De vCode van de vereniging
+        /// </summary>
         [DataMember]
-        public string VCode { get; set; }
+        public string VCode { get; set; } = string.Empty;
 
+        /// <summary>
+        /// Is True als deze persoon een hoofdvertegenwoordiger is van deze vereniging
+        /// </summary>
         [DataMember]
         public bool IsHoofdVertegenwoordiger { get; set; }
     }
@@ -99,11 +107,11 @@ public class Verenigingstype
     /// De code van het type van de vereniging
     /// </summary>
     [DataMember]
-    public string Code { get; set; } = null!;
+    public string Code { get; set; }
 
     /// <summary>
     /// De naam van het type van de vereniging
     /// </summary>
     [DataMember]
-    public string Naam { get; set; } = null!;
+    public string Naam { get; set; }
 }
