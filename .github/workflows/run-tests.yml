@@ -73,7 +73,7 @@ jobs:
         shell: bash
         if: ${{ inputs.run-docker-db }}
         run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=fullblowne2e postgres:15.0
 
       - name: Run OpenTelemetry container
         shell: bash
