@@ -1,31 +1,31 @@
 namespace AssociationRegistry.Test.Services.VerenigingenPerKboNummerService;
 
+using AcmBevraging;
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Services;
-using AssociationRegistry.Services;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
 
-public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
+public class Given_KboNummersMetOngeldigeRechtsvorm
 {
     [Fact]
-    public async Task Returns_VerenigingenPerKbo_With_NNB()
+    public async Task Returns_VerenigingenPerKbo_With_NVT()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var rechtsvorm = RechtsvormCodes.IVZW;
+        var ongeldigeRechtsvorm = fixture.Create<string>();
         var kboNummer = fixture.Create<KboNummer>();
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService());
 
-        var actual = await service.GetKboNummerInfo([
-            new KboNummerMetRechtsvorm(kboNummer, rechtsvorm),
+        var actual = await service.GetVerenigingenPerKbo([
+            new KboNummerMetRechtsvorm(kboNummer, ongeldigeRechtsvorm),
         ], CancellationToken.None);
 
         actual.Should().BeEquivalentTo([
-            new VerenigingenPerKbo(kboNummer, VerenigingenPerKboNummerService.VCodeUitzonderingen.NogNietBekend, false),
+            new VerenigingenPerKbo(kboNummer, VerenigingenPerKbo.VCodeUitzonderingen.NietVanToepassing, false),
         ]);
     }
 }

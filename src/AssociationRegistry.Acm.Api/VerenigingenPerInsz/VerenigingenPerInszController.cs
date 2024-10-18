@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
+using AcmBevraging;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -10,7 +11,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Queries.VerenigingenPerInsz;
 using Schema.VerenigingenPerInsz;
-using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System;
 using System.Linq;
@@ -53,7 +53,7 @@ public class VerenigingenPerInszController : ApiController
                                              .Select(s => new KboNummerMetRechtsvorm(s.KboNummer, s.Rechtsvorm))
                                              .ToArray();
 
-        var verenigingenPerKbo = await kboNummerService.GetKboNummerInfo(kboNummersMetRechtsvorm, cancellationToken);
+        var verenigingenPerKbo = await kboNummerService.GetVerenigingenPerKbo(kboNummersMetRechtsvorm, cancellationToken);
 
         return Ok(VerenigingPerInszMapper.ToResponse(verenigingenPerInsz, verenigingenPerKbo));
     }
