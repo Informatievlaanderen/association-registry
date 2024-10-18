@@ -1,3 +1,19 @@
+# [8.164.0](https://github.com/informatievlaanderen/association-registry/compare/v8.163.0...v8.164.0) (2024-10-18)
+
+
+### Bug Fixes
+
+* or-2246 correct swagger docs wrt vertegenwoordigerid ([a969754](https://github.com/informatievlaanderen/association-registry/commit/a96975482d28839cdb6501c5964a33c67a1f18f0))
+
+
+### Features
+
+* or-2246 add kbo nummers to request and response acm api ([de69f36](https://github.com/informatievlaanderen/association-registry/commit/de69f36be746333aa5caf2de858ab2b4ddf3ad8f))
+* or-2246 complete documentation on verenigingen per insz controller ([1704990](https://github.com/informatievlaanderen/association-registry/commit/1704990db6da079106922ef11b91aa4452f53379))
+* or-2246 pass kbo request data to verenigingen per kbo service ([60ef5a3](https://github.com/informatievlaanderen/association-registry/commit/60ef5a3b3a29934da8eaaf7576e03e5f7883b9e8))
+* or-2246 provide old and new way to check insz for acm ([12f61b1](https://github.com/informatievlaanderen/association-registry/commit/12f61b13b18cd6b8669c4345287317ac339cd84d))
+* or-2246 use request object io query param for insz ([909d8ed](https://github.com/informatievlaanderen/association-registry/commit/909d8ed2e20d0d57bf5a6b4136ec6a8618ee6c5e))
+
 # [8.163.0](https://github.com/informatievlaanderen/association-registry/compare/v8.162.4...v8.163.0) (2024-10-15)
 
 
