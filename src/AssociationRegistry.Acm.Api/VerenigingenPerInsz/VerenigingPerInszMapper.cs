@@ -32,6 +32,6 @@ public static class VerenigingPerInszMapper
         {
             KboNummer = verenigingenPerKbo.KboNummer,
             VCode = verenigingenPerKbo.VCode,
-            IsHoofdVertegenwoordiger = verenigingenPerKbo.IsHoofdvertegenwoordiger
+            IsHoofdVertegenwoordiger = verenigingenPerKbo.IsHoofdvertegenwoordiger,
         };
 }

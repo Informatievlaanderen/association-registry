@@ -26,8 +26,6 @@ public class VerenigingenPerInszController : ApiController
     /// <summary>
     ///     Vraag de lijst van verenigingen voor een INSZ op.
     /// </summary>
-    /// <param name="documentStore"></param>
-    /// <param name="insz">Dit is de unieke identificatie van een persoon, dit kan een rijksregisternummer of bisnummer zijn</param>
     /// <param name="verenigingenPerInszQuery"></param>
     /// <param name="kboNummerService"></param>
     /// <param name="request"></param>
