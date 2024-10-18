@@ -36,7 +36,7 @@ public class VerenigingenPerInszResponse
         public string[] CorresponderendeVCodes { get; set; } = null!;
 
         /// <summary>
-        /// De naam van de vereniging
+        /// De id van de vertegenwoordiger
         /// </summary>
         [DataMember]
         public int VertegenwoordigerId { get; init; }
