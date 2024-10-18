@@ -2,13 +2,13 @@
 
 using Acm.Api.VerenigingenPerInsz;
 using Acm.Schema.Constants;
+using AcmBevraging;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Services;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 
@@ -44,7 +44,7 @@ public class Returns_VerenigingenPerInszResponse :
             KboNummers = _request.KboNummers.Select(s => new VerenigingenPerInszResponse.VerenigingenPerKbo()
                 {
                     KboNummer = _request.KboNummers.First().KboNummer,
-                    VCode = VerenigingenPerKboNummerService.VCodeUitzonderingen.NietVanToepassing,
+                    VCode = VerenigingenPerKbo.VCodeUitzonderingen.NietVanToepassing,
                     IsHoofdVertegenwoordiger = false,
                 }).ToArray(),
         });

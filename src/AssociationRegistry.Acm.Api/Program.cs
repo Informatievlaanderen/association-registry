@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Api;
 
+using AcmBevraging;
 using Asp.Versioning.ApplicationModels;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
@@ -48,7 +49,6 @@ using OpenTelemetry.Extensions;
 using Queries.VerenigingenPerInsz;
 using Serilog;
 using Serilog.Debugging;
-using Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

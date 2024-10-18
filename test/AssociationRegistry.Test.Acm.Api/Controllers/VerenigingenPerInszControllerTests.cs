@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Acm.Api.Controllers;
 
+using AcmBevraging;
 using AssociationRegistry.Acm.Api.Queries.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using AssociationRegistry.Magda.Constants;
-using AssociationRegistry.Services;
 using AutoFixture;
 using FluentAssertions;
 using Framework;
@@ -133,7 +133,7 @@ public class VerenigingenPerInszControllerTests
                                                                 .ToArray();
 
         var mockVerenigingenPerKboNummerService = new Mock<IVerenigingenPerKboNummerService>();
-        mockVerenigingenPerKboNummerService.Setup(x => x.GetKboNummerInfo(kboNummersMetRechtsvorm, It.IsAny<CancellationToken>()))
+        mockVerenigingenPerKboNummerService.Setup(x => x.GetVerenigingenPerKbo(kboNummersMetRechtsvorm, It.IsAny<CancellationToken>()))
                                            .ReturnsAsync(kboNummerInfos);
 
         var sut = new VerenigingenPerInszController();

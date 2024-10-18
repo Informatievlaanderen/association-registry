@@ -1,11 +1,6 @@
-﻿namespace AssociationRegistry.Services;
+namespace AssociationRegistry.AcmBevraging;
 
 using Magda;
-
-public interface IVerenigingenPerKboNummerService
-{
-    Task<VerenigingenPerKbo[]> GetKboNummerInfo(KboNummerMetRechtsvorm[] kboNummersMetRechtsvorm, CancellationToken cancellationToken);
-}
 
 public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
 {
@@ -16,13 +11,7 @@ public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
         _rechtsvormCodeService = rechtsvormCodeService;
     }
 
-    public static class VCodeUitzonderingen
-    {
-        public const string NietVanToepassing = "NVT";
-        public const string NogNietBekend = "NNB";
-    }
-
-    public async Task<VerenigingenPerKbo[]> GetKboNummerInfo(
+    public async Task<VerenigingenPerKbo[]> GetVerenigingenPerKbo(
         KboNummerMetRechtsvorm[] kboNummersMetRechtsvorm,
         CancellationToken cancellationToken)
     {
@@ -44,15 +33,3 @@ public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
         return VerenigingenPerKbo.NogNietBekend(kboNummerMetRechtsvorm.KboNummer);
     }
 }
-
-
-public record VerenigingenPerKbo(string KboNummer, string VCode, bool IsHoofdvertegenwoordiger)
-{
-    public static VerenigingenPerKbo NietVanToepassing(string kboNummer)
-        => new (kboNummer, VerenigingenPerKboNummerService.VCodeUitzonderingen.NietVanToepassing, false);
-
-    public static VerenigingenPerKbo NogNietBekend(string kboNummer)
-        => new (kboNummer, VerenigingenPerKboNummerService.VCodeUitzonderingen.NogNietBekend, false);
-
-};
-public record KboNummerMetRechtsvorm(string KboNummer, string Rechtsvorm);
