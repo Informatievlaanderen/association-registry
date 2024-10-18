@@ -8,6 +8,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Services;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 
@@ -27,7 +28,7 @@ public class Returns_VerenigingenPerInszResponse :
                 new VerenigingenPerInszRequest.KboRequest()
                 {
                     KboNummer = context.Request.KboNummer,
-                    Rechtsvorm = "NVT",
+                    Rechtsvorm = "ONGEKENDE RECHTSVORM", // TODO: Veranderen naar happy path
                 },
             ],
         };
@@ -43,8 +44,8 @@ public class Returns_VerenigingenPerInszResponse :
             KboNummers = _request.KboNummers.Select(s => new VerenigingenPerInszResponse.VerenigingenPerKbo()
                 {
                     KboNummer = _request.KboNummers.First().KboNummer,
-                    VCode = TestContext.RequestResult.VCode,
-                    IsHoofdVertegenwoordiger = true,
+                    VCode = VerenigingenPerKboNummerService.VCodeUitzonderingen.NietVanToepassing,
+                    IsHoofdVertegenwoordiger = false,
                 }).ToArray(),
         });
     }

@@ -49,6 +49,7 @@ public class Returns_VerenigingenPerInszResponse :
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],
+            KboNummers = [],
         });
     }
 

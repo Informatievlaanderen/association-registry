@@ -19,6 +19,8 @@ using Infrastructure.Configuration;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Metrics;
+using Magda;
+using Magda.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -43,8 +45,10 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Queries.VerenigingenPerInsz;
 using Serilog;
 using Serilog.Debugging;
+using Services;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -450,6 +454,11 @@ public class Program
                .Configure<KestrelServerOptions>(serverOptions => serverOptions.AllowSynchronousIO = true);
 
         builder.Services.AddAcmApiSwagger(appSettings);
+
+        builder.Services
+               .AddTransient<IVerenigingenPerInszQuery, VerenigingenPerInszQuery>()
+               .AddTransient<IVerenigingenPerKboNummerService, VerenigingenPerKboNummerService>()
+               .AddTransient<IRechtsvormCodeService, RechtsvormCodeService>();
 
         builder.Services.AddSingleton<ProblemDetailsHelper>();
     }

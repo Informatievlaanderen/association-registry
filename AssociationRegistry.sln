@@ -21,7 +21,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".Solution Items", ".Solutio
 		CONTRIBUTING.md = CONTRIBUTING.md
 		regen-marten.sh = regen-marten.sh
 		paket.lock = paket.lock
-		otel-collector-config.yaml = otel-collector-config.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{C812C887-6495-405A-8B99-4F686D243126}"
