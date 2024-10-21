@@ -1,3 +1,10 @@
+# [8.165.0](https://github.com/informatievlaanderen/association-registry/compare/v8.164.0...v8.165.0) (2024-10-21)
+
+
+### Features
+
+* or-2246 implement domain for acm bevraging ([3922506](https://github.com/informatievlaanderen/association-registry/commit/3922506c4c57f2cab9cd969d35ab80529ef6951a))
+
 # [8.164.0](https://github.com/informatievlaanderen/association-registry/compare/v8.163.0...v8.164.0) (2024-10-18)
 
 
