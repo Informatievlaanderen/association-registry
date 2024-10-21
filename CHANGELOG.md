@@ -1,3 +1,10 @@
+## [8.165.1](https://github.com/informatievlaanderen/association-registry/compare/v8.165.0...v8.165.1) (2024-10-21)
+
+
+### Bug Fixes
+
+* or-2246 validator for verenigingen per insz request ([508a4b0](https://github.com/informatievlaanderen/association-registry/commit/508a4b038d2711b3c4f35eef2e0218a8719dd330))
+
 # [8.165.0](https://github.com/informatievlaanderen/association-registry/compare/v8.164.0...v8.165.0) (2024-10-21)
 
 
