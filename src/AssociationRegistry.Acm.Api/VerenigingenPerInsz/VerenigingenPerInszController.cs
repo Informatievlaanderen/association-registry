@@ -44,6 +44,9 @@ public class VerenigingenPerInszController : ApiController
         [FromBody] VerenigingenPerInszRequest request,
         CancellationToken cancellationToken)
     {
+        var validator = new VerenigingenPerInszRequestValidator();
+        await validator.ValidateAndThrowAsync(request, cancellationToken: cancellationToken);
+
         var verenigingenPerInsz =
             await verenigingenPerInszQuery.ExecuteAsync(new VerenigingenPerInszFilter(request.Insz), cancellationToken);
 
