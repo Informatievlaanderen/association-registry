@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Services.VerenigingenPerKboNummerService;
+namespace AssociationRegistry.Test.AcmBevraging.VerenigingenPerKboNummerService;
 
-using AcmBevraging;
-using AssociationRegistry.Magda.Constants;
+using AssociationRegistry.AcmBevraging;
 using AssociationRegistry.Magda.Services;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Framework;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
@@ -18,7 +18,9 @@ public class Given_KboNummersMetOngeldigeRechtsvorm
         var ongeldigeRechtsvorm = fixture.Create<string>();
         var kboNummer = fixture.Create<KboNummer>();
 
-        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService());
+        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetOngeldigeRechtsvorm));
+
+        var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
 
         var actual = await service.GetVerenigingenPerKbo([
             new KboNummerMetRechtsvorm(kboNummer, ongeldigeRechtsvorm),
