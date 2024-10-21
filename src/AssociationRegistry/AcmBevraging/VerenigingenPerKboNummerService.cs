@@ -1,14 +1,17 @@
 namespace AssociationRegistry.AcmBevraging;
 
 using Magda;
+using Marten;
 
 public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
 {
     private readonly IRechtsvormCodeService _rechtsvormCodeService;
+    private readonly IDocumentStore _store;
 
-    public VerenigingenPerKboNummerService(IRechtsvormCodeService rechtsvormCodeService)
+    public VerenigingenPerKboNummerService(IRechtsvormCodeService rechtsvormCodeService, IDocumentStore store)
     {
         _rechtsvormCodeService = rechtsvormCodeService;
+        _store = store;
     }
 
     public async Task<VerenigingenPerKbo[]> GetVerenigingenPerKbo(
@@ -19,16 +22,29 @@ public class VerenigingenPerKboNummerService : IVerenigingenPerKboNummerService
 
         foreach (var kboNummerMetRechtsvorm in kboNummersMetRechtsvorm)
         {
-            result.Add(Process(kboNummerMetRechtsvorm));
+            result.Add(await Process(kboNummerMetRechtsvorm));
         }
 
         return result.ToArray();
     }
 
-    private VerenigingenPerKbo Process(KboNummerMetRechtsvorm kboNummerMetRechtsvorm)
+    private async Task<VerenigingenPerKbo> Process(KboNummerMetRechtsvorm kboNummerMetRechtsvorm)
     {
         if (!_rechtsvormCodeService.IsValidRechtsvormCode(kboNummerMetRechtsvorm.Rechtsvorm))
             return VerenigingenPerKbo.NietVanToepassing(kboNummerMetRechtsvorm.KboNummer);
+
+        await using var session = _store.LightweightSession();
+
+        var events = await session.Events.FetchStreamAsync(kboNummerMetRechtsvorm.KboNummer);
+
+        if (events.Any())
+        {
+            var data = events.First().Data as dynamic;
+            var vCodeProperty = data.GetType().GetProperty("VCode");
+            var vCode = vCodeProperty.GetValue(data);
+
+            return VerenigingenPerKbo.Bekend(kboNummerMetRechtsvorm.KboNummer, vCode);
+        }
 
         return VerenigingenPerKbo.NogNietBekend(kboNummerMetRechtsvorm.KboNummer);
     }

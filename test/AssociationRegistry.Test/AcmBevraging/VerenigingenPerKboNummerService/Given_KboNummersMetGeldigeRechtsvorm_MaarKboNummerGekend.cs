@@ -10,16 +10,21 @@ using FluentAssertions;
 using Vereniging;
 using Xunit;
 
-public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
+public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
 {
     [Fact]
-    public async Task Returns_VerenigingenPerKbo_With_NNB()
+    public async Task Returns_VerenigingenPerKbo_With_VCode()
     {
         var fixture = new Fixture().CustomizeDomain();
         var rechtsvorm = RechtsvormCodes.IVZW;
         var kboNummer = fixture.Create<KboNummer>();
 
-        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend));
+        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend));
+
+        await using var session = store.LightweightSession();
+        var vCode = fixture.Create<VCode>().Value;
+        session.Events.StartStream<KboNummer>(kboNummer, new { VCode = vCode });
+        await session.SaveChangesAsync();
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
 
@@ -28,7 +33,7 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
         ], CancellationToken.None);
 
         actual.Should().BeEquivalentTo([
-            new VerenigingenPerKbo(kboNummer, VerenigingenPerKbo.VCodeUitzonderingen.NogNietBekend, false),
+            new VerenigingenPerKbo(kboNummer, vCode, true),
         ]);
     }
 }
