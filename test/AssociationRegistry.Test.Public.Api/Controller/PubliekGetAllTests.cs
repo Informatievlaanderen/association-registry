@@ -1,42 +1,41 @@
 namespace AssociationRegistry.Test.Public.Api.Controller;
 
-using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
-using AssociationRegistry.Public.Api.Queries;
-using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Schema.Detail;
-using Microsoft.AspNetCore.Http;
+using FluentAssertions;
+using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
 
-public class PubliekGetAllTests
+public class PubliekGetAllTests : IClassFixture<PubliekGetAllFixture>
 {
-    // [Fact]
-    // public async Task VerifyQueryIsCalled()
-    // {
-    //     var cancellationToken = CancellationToken.None;
-    //     var mock = new Mock<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>>();
-    //
-    //     var sut = new DetailVerenigingenController(
-    //         new AppSettings());
-    //
-    //     await sut.GetAll(mock.Object, Mock.Of<IResponseWriter>(), cancellationToken);
-    //
-    //     mock.Verify(x => x.ExecuteAsync(cancellationToken), Times.Once);
-    // }
-    //
-    // [Fact]
-    // public async Task VerifyWriterIsCalled()
-    // {
-    //     var cancellationToken = CancellationToken.None;
-    //     var mock = new Mock<IResponseWriter>();
-    //
-    //     var sut = new DetailVerenigingenController(
-    //         new AppSettings());
-    //
-    //     await sut.GetAll(new Mock<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>>().Object, mock.Object, cancellationToken);
-    //
-    //     mock.Verify(
-    //         x => x.Write(It.IsAny<HttpResponse>(), It.IsAny<IAsyncEnumerable<PubliekVerenigingDetailDocument>>(),
-    //                      It.IsAny<CancellationToken>()), Times.Once);
-    // }
+    private readonly PubliekGetAllFixture _fixture;
+
+    public PubliekGetAllTests(PubliekGetAllFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
+    [Fact]
+    public void VerifyQueryIsCalled()
+        => _fixture.Query.Verify(x => x.ExecuteAsync(CancellationToken.None), Times.Once);
+
+    [Fact]
+    public void VerifyWriterIsCalled()
+        => _fixture.StreamWriter.Verify(x => x.WriteAsync(It.IsAny<IAsyncEnumerable<PubliekVerenigingDetailDocument>>(),
+                                                          It.IsAny<CancellationToken>()), Times.Once);
+
+    [Fact]
+    public void VerifyS3ClientPutIsCalled()
+        => _fixture.S3Client.Verify(x => x.PutAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()), Times.Once);
+
+    [Fact]
+    public void VerifyS3ClientGetPreSignedUrlIsCalled()
+        => _fixture.S3Client.Verify(x => x.GetPreSignedUrlAsync(It.IsAny<CancellationToken>()), Times.Once);
+
+    [Fact]
+    public void VerifyRedirectWithLocationHeaderIsProvided()
+    {
+        var redirectResult = Assert.IsType<RedirectResult>(_fixture.Response);
+        redirectResult.Url.Should().Be(_fixture.RedirectUrl);
+    }
 }

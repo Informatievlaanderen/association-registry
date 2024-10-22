@@ -43,7 +43,6 @@ public static class PublicApiEndpoints
     private static HttpResponseMessage GetS3Response(Uri? locationHeader)
     {
         using var handler = new HttpClientHandler();
-        handler.AllowAutoRedirect = true;
         handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
 
         using var s3HttpClient = new HttpClient(handler);
