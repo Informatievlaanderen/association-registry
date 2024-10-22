@@ -33,13 +33,13 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
         _testContext = testContext;
     }
 
-    [Fact(Skip = "Skipping this test cause of detail all changes.")]
+    [Fact]
     public void With_Context()
     {
         Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/detail-all-vereniging-context.json");
     }
 
-    [Fact(Skip = "Skipping this test cause of detail all changes.")]
+    [Fact]
 
     public void With_Metadata_DatumLaatsteAanpassing()
     {
@@ -48,7 +48,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
                                                                             { MaxMillisecondsDateDifference = 5000 });
     }
 
-    [Fact(Skip = "Skipping this test cause of detail all changes.")]
+    [Fact]
     public void WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
