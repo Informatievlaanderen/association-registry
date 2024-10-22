@@ -10,7 +10,7 @@ using Xunit;
 public class With_Invalid_Beschrijving_Length : ValidatorTest
 {
     [Fact]
-    public void Has_validation_error__contactgegeven_moet_een_waarde_bevatten()
+    public void Has_validation_error()
     {
         var validator = new VoegContactgegevenToeValidator();
 
