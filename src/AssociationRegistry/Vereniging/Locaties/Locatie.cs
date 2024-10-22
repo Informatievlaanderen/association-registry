@@ -7,7 +7,7 @@ using Normalizers;
 
 public record Locatie
 {
-    public const int MaxLengthLocatienaam = 42;
+    public const int MaxLengthLocatienaam = 128;
     public int LocatieId { get; init; }
     public string Naam { get; init; }
     public bool IsPrimair { get; init; }
