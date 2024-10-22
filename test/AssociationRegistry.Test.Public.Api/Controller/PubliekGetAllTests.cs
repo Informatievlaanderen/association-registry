@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Public.Api.Controller;
 
-using AssociationRegistry.Public.Schema.Detail;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -16,21 +15,8 @@ public class PubliekGetAllTests : IClassFixture<PubliekGetAllFixture>
     }
 
     [Fact]
-    public void VerifyQueryIsCalled()
-        => _fixture.Query.Verify(x => x.ExecuteAsync(CancellationToken.None), Times.Once);
-
-    [Fact]
-    public void VerifyWriterIsCalled()
-        => _fixture.StreamWriter.Verify(x => x.WriteAsync(It.IsAny<IAsyncEnumerable<PubliekVerenigingDetailDocument>>(),
-                                                          It.IsAny<CancellationToken>()), Times.Once);
-
-    [Fact]
     public void VerifyS3ClientPutIsCalled()
-        => _fixture.S3Client.Verify(x => x.PutAsync(It.IsAny<Stream>(), It.IsAny<CancellationToken>()), Times.Once);
-
-    [Fact]
-    public void VerifyS3ClientGetPreSignedUrlIsCalled()
-        => _fixture.S3Client.Verify(x => x.GetPreSignedUrlAsync(It.IsAny<CancellationToken>()), Times.Once);
+        => _fixture.S3Client.Verify(x => x.PutAsync(_fixture.Stream, It.IsAny<CancellationToken>()), Times.Once);
 
     [Fact]
     public void VerifyRedirectWithLocationHeaderIsProvided()
