@@ -5,7 +5,6 @@ using JsonLdContext;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
-using System;
 using Vereniging;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
@@ -108,7 +107,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 },
                 Werkingsgebieden = new[]
                 {
-                    new Werkingsgebied()
+                    new Werkingsgebied
                     {
                         id = JsonLdType.Werkingsgebied.CreateWithIdValues("CULT"),
                         type = JsonLdType.Werkingsgebied.Type,
@@ -117,7 +116,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         Naam = "Provincie West-Vlaanderen",
                     },
                 },
-                Sleutels = new []
+                Sleutels = new[]
                 {
                     new Sleutel
                     {
@@ -355,6 +354,6 @@ public class DetailAllVerenigingResponseExamples : IExamplesProvider<PubliekVere
                     Relaties = Array.Empty<Relatie>(),
                 },
                 Metadata = new Metadata { DatumLaatsteAanpassing = "2024-09-09" },
-            }
+            },
         ];
 }

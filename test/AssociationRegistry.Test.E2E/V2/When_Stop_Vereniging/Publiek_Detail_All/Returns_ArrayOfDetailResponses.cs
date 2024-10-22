@@ -30,9 +30,9 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext,
     public void WithVereniging()
         => Response.OnlyTeVerwijderen()
                    .Should()
-                   .ContainEquivalentOf(new ResponseWriter.TeVerwijderenVereniging()
+                   .ContainEquivalentOf(new DetailAllWriter.TeVerwijderenVereniging()
                     {
-                        Vereniging = new ResponseWriter.TeVerwijderenVereniging.TeVerwijderenVerenigingData()
+                        Vereniging = new DetailAllWriter.TeVerwijderenVereniging.TeVerwijderenVerenigingData()
                         {
                             VCode = TestContext.VCode,
                             TeVerwijderen = true,
