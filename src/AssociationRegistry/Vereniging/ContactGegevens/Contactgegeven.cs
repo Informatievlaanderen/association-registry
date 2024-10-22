@@ -12,7 +12,7 @@ using Websites;
 
 public record Contactgegeven
 {
-    public const int MaxLengthBeschrijving = 42;
+    public const int MaxLengthBeschrijving = 128;
 
     protected Contactgegeven(Contactgegeventype contactgegeventype, string waarde, string beschrijving, bool isPrimair)
     {
