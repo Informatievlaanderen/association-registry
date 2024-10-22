@@ -3,7 +3,6 @@
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
-using System.Linq;
 
 public static class PubliekVerenigingDetailMapper
 {
@@ -131,7 +130,7 @@ public static class PubliekVerenigingDetailMapper
             Naam = ha.Naam,
         };
 
- private static Werkingsgebied Map(PubliekVerenigingDetailDocument.Werkingsgebied wg)
+    private static Werkingsgebied Map(PubliekVerenigingDetailDocument.Werkingsgebied wg)
         => new()
         {
             id = wg.JsonLdMetadata.Id,

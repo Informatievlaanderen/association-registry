@@ -247,7 +247,7 @@ public class Program
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
                .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
-               .AddScoped<IResponseWriter, ResponseWriter>()
+               .AddScoped<IDetailAllWriter, DetailAllWriter>()
                .AddScoped<IAmazonS3>(sp => appSettings.Publiq.UseLocalstack
                                          ? new AmazonS3Client(new BasicAWSCredentials("dummy", "dummy"), new AmazonS3Config
                                          {
