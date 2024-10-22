@@ -93,16 +93,19 @@ public class DetailVerenigingenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> GetAll(
-        [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
+        [FromServices] IPubliekVerenigingenDetailAllQuery query,
         [FromServices] IDetailAllStreamWriter streamWriter,
         [FromServices] IDetailAllS3Client s3Client,
         CancellationToken cancellationToken)
     {
         var data = await query.ExecuteAsync(cancellationToken);
+        
         var stream = await streamWriter.WriteAsync(data, cancellationToken);
         await s3Client.PutAsync(stream, cancellationToken);
 
-        return Redirect(await s3Client.GetPreSignedUrlAsync(cancellationToken));
+        var preSignedUrl = await s3Client.GetPreSignedUrlAsync(cancellationToken);
+
+        return Redirect(preSignedUrl);
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)
