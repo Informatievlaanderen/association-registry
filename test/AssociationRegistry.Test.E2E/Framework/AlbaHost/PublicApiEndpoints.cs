@@ -15,14 +15,22 @@ public static class PublicApiEndpoints
 
     public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {
-        // Watch out, we only receive the first vereniging due to streaming
-        var response = source.GetAsText($"/v1/verenigingen/detail/all").GetAwaiter().GetResult()!;
+        var locationHeader = GetDetailAllLocationHeader(source);
 
-        if (string.IsNullOrEmpty(response))
+        var s3Response = GetS3Response(locationHeader);
+
+        var responseContent = s3Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+        return ParseResponse(responseContent);
+    }
+
+    private static JObject[] ParseResponse(string responseContent)
+    {
+        if (string.IsNullOrEmpty(responseContent))
             return [];
 
         var verenigingen = new List<JObject>();
-        var reader = new StringReader(response);
+        var reader = new StringReader(responseContent);
         while (reader.Peek() != -1)
         {
             var line = reader.ReadLine();
@@ -30,5 +38,22 @@ public static class PublicApiEndpoints
         }
 
         return verenigingen.ToArray();
+    }
+
+    private static HttpResponseMessage GetS3Response(Uri? locationHeader)
+    {
+        using var handler = new HttpClientHandler();
+        handler.AllowAutoRedirect = true;
+        handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
+
+        using var s3HttpClient = new HttpClient(handler);
+        return s3HttpClient.GetAsync(locationHeader).GetAwaiter().GetResult();
+    }
+
+    private static Uri? GetDetailAllLocationHeader(IAlbaHost source)
+    {
+        var client = source.Server.CreateClient();
+        var response = client.GetAsync($"/v1/verenigingen/detail/all").GetAwaiter().GetResult();
+        return response.Headers.Location;
     }
 }
