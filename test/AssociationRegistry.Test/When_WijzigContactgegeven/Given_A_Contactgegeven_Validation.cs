@@ -37,9 +37,9 @@ public class Given_A_Contactgegeven_Validation
 
     [Fact]
     public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42()
-        => ValidateRequest(lengthOfBeschrijving: 43, expectValidationError: true);
+        => ValidateRequest(lengthOfBeschrijving: 129, expectValidationError: true);
 
     [Fact]
     public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42()
-        => ValidateRequest(lengthOfBeschrijving: 42, expectValidationError: false);
+        => ValidateRequest(lengthOfBeschrijving: 128, expectValidationError: false);
 }

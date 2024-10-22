@@ -44,9 +44,9 @@ public class Given_A_Locatienaam_Validation
 
     [Fact]
     public void Then_It_Has_Validation_Error_When_Length_GreaterThan_42()
-        => ValidateRequest(lengthOfLocatienaam: 43, expectValidationError: true);
+        => ValidateRequest(lengthOfLocatienaam: 129, expectValidationError: true);
 
     [Fact]
     public void Then_It_Has_No_Validation_Error_When_Length_LowerThanOrEqual_42()
-        => ValidateRequest(lengthOfLocatienaam: 42, expectValidationError: false);
+        => ValidateRequest(lengthOfLocatienaam: 128, expectValidationError: false);
 }
