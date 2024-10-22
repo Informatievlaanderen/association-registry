@@ -8,22 +8,18 @@ using Schema.Constants;
 using Schema.Detail;
 using System.Text;
 
-public class DetailAllWriter : IDetailAllWriter
+public class DetailAllStreamWriter : IDetailAllStreamWriter
 {
-    private readonly IS3Wrapper _s3Wrapper;
     private readonly AppSettings _appSettings;
     private readonly JsonSerializerSettings _serializerSettings;
 
-    public DetailAllWriter(IS3Wrapper s3Wrapper, AppSettings appSettings)
+    public DetailAllStreamWriter(AppSettings appSettings)
     {
-        _s3Wrapper = s3Wrapper;
         _appSettings = appSettings;
         _serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
     }
 
-    public async Task WriteToS3Async(
-        IAsyncEnumerable<PubliekVerenigingDetailDocument> data,
-        CancellationToken cancellationToken)
+    public async Task<MemoryStream> WriteAsync(IAsyncEnumerable<PubliekVerenigingDetailDocument> data, CancellationToken cancellationToken)
     {
         await using var inputStream = new MemoryStream();
         await using var writer = new StreamWriter(inputStream, Encoding.UTF8);
@@ -56,8 +52,12 @@ public class DetailAllWriter : IDetailAllWriter
         }
 
         await writer.FlushAsync(cancellationToken);
+        inputStream.Position = 0;
 
-        await _s3Wrapper.PutAsync(inputStream, cancellationToken);
+        var ms = new MemoryStream();
+        await inputStream.CopyToAsync(ms, cancellationToken);
+
+        return ms;
     }
 
     private static bool IsTeVerwijderenVereniging(PubliekVerenigingDetailDocument vereniging)

@@ -84,27 +84,25 @@ public class DetailVerenigingenController : ApiController
     /// <summary>
     ///     Vraag het detail van alle vereniging op.
     /// </summary>
-    /// <response code="307">Het detail van alle vereniging</response>
+    /// <response code="302">Het detail van alle vereniging</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("detail/all")]
-    [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status307TemporaryRedirect)]
+    [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status302Found)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status307TemporaryRedirect, typeof(DetailAllVerenigingResponseExamples))]
+    [SwaggerResponseExample(StatusCodes.Status302Found, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> GetAll(
         [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
-        [FromServices] IDetailAllWriter detailAllWriter,
-        [FromServices] IS3Wrapper s3Wrapper,
+        [FromServices] IDetailAllStreamWriter streamWriter,
+        [FromServices] IDetailAllS3Client s3Client,
         CancellationToken cancellationToken)
     {
         var data = await query.ExecuteAsync(cancellationToken);
-        await detailAllWriter.WriteToS3Async(data, cancellationToken);
+        var stream = await streamWriter.WriteAsync(data, cancellationToken);
+        await s3Client.PutAsync(stream, cancellationToken);
 
-        var redirectUrl = await s3Wrapper.GetPreSignedUrlAsync(cancellationToken);
-
-        Response.Headers.Location = redirectUrl;
-        return StatusCode(StatusCodes.Status307TemporaryRedirect, redirectUrl);
+        return Redirect(await s3Client.GetPreSignedUrlAsync(cancellationToken));
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

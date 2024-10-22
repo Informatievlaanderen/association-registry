@@ -5,13 +5,13 @@ using Amazon.S3.Model;
 using Infrastructure.ConfigurationBindings;
 using System.Net.Mime;
 
-public class S3Wrapper : IS3Wrapper
+public class DetailAllS3Client : IDetailAllS3Client
 {
     private readonly IAmazonS3 _s3Client;
     private readonly string _bucketName;
     private readonly string _key;
 
-    public S3Wrapper(IAmazonS3 s3Client, AppSettings appSettings)
+    public DetailAllS3Client(IAmazonS3 s3Client, AppSettings appSettings)
     {
         _s3Client = s3Client;
         _bucketName = appSettings.Publiq.BucketName;
