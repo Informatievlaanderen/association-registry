@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using ApiSetup;
 using Xunit;
 
 public interface ITestContext<TRequest>: IAsyncLifetime

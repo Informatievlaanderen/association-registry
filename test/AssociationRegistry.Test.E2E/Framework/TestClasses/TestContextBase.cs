@@ -3,7 +3,7 @@
 using ApiSetup;
 using Microsoft.Extensions.DependencyInjection;
 using Public.Api.Infrastructure.ConfigurationBindings;
-using V2.Scenarios.Requests;
+using Scenarios.Requests;
 
 public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
 {
@@ -17,5 +17,5 @@ public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
     public RequestResult<TRequest> RequestResult { get; protected set; }
 
     public Hosts.Configuration.ConfigurationBindings.AppSettings AdminApiAppSettings => ApiSetup.AdminApiHost.Services.GetRequiredService<Hosts.Configuration.ConfigurationBindings.AppSettings>();
-    public AppSettings PublicApiAppSettings => ApiSetup.PublicApiHost.Services.GetRequiredService<Public.Api.Infrastructure.ConfigurationBindings.AppSettings>();
+    public AppSettings PublicApiAppSettings => ApiSetup.PublicApiHost.Services.GetRequiredService<AppSettings>();
 }
