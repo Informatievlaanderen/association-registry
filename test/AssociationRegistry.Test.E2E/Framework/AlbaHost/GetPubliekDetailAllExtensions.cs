@@ -6,11 +6,11 @@ using Public.Api.Verenigingen.Detail.ResponseModels;
 
 public static class GetPubliekDetailAllExtensions
 {
-    public static IEnumerable<DetailAllStreamWriter.TeVerwijderenVereniging> OnlyTeVerwijderen(this IEnumerable<JObject> source)
+    public static IEnumerable<DetailAllConverter.TeVerwijderenVereniging> OnlyTeVerwijderen(this IEnumerable<JObject> source)
     {
         return source
               .Where(IsTeVerwijderen)
-              .Select(x => x.ToObject<DetailAllStreamWriter.TeVerwijderenVereniging>()!);
+              .Select(x => x.ToObject<DetailAllConverter.TeVerwijderenVereniging>()!);
     }
 
     private static bool IsTeVerwijderen(JObject x)
