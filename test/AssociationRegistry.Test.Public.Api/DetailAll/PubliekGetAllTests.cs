@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Public.Api.Controller;
+namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Schema.Detail;
+using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

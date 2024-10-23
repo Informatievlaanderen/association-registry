@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Public.Api;
+﻿namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
 using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Schema.Detail;
+using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
-using Framework;
 using Moq;
 using Xunit;
 
