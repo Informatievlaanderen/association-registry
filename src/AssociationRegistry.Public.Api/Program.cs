@@ -249,6 +249,7 @@ public class Program
                .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
                .AddScoped<IDetailAllStreamWriter, DetailAllStreamWriter>()
                .AddScoped<IDetailAllS3Client, DetailAllS3Client>()
+               .AddScoped<IDetailAllConverter, DetailAllConverter>()
                .AddScoped<IAmazonS3>(sp => appSettings.Publiq.UseLocalstack
                                          ? new AmazonS3Client(new BasicAWSCredentials("dummy", "dummy"), new AmazonS3Config
                                          {

@@ -24,7 +24,7 @@ public class DetailAllConverterTests
     }
 
     [Fact]
-    public void Convert_TeVerwijderenVereniging()
+    public void Convert_Verwijderde_Vereniging()
     {
         var converter = new DetailAllConverter(new AppSettings());
         var doc = GetPubliekVerenigingDetailDocument();
@@ -47,7 +47,53 @@ public class DetailAllConverterTests
     }
 
     [Fact]
-    public void Convert_Vereniging()
+    public void Convert_UitgeschrevenUitPubliekeDatastroom_Vereniging()
+    {
+        var converter = new DetailAllConverter(new AppSettings());
+        var doc = GetPubliekVerenigingDetailDocument();
+        doc.IsUitgeschrevenUitPubliekeDatastroom = true;
+
+        var actual = converter.SerializeToJson(doc);
+        var expected = JsonConvert.SerializeObject(
+            new DetailAllConverter.TeVerwijderenVereniging
+            {
+                Vereniging = new DetailAllConverter.TeVerwijderenVereniging.TeVerwijderenVerenigingData
+                {
+                    VCode = doc.VCode,
+                    TeVerwijderen = true,
+                    DeletedAt = doc.DatumLaatsteAanpassing,
+                },
+            },
+            _serializerSettings);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Convert_Gestopte_Vereniging()
+    {
+        var converter = new DetailAllConverter(new AppSettings());
+        var doc = GetPubliekVerenigingDetailDocument();
+        doc.Status = VerenigingStatus.Gestopt;
+
+        var actual = converter.SerializeToJson(doc);
+        var expected = JsonConvert.SerializeObject(
+            new DetailAllConverter.TeVerwijderenVereniging
+            {
+                Vereniging = new DetailAllConverter.TeVerwijderenVereniging.TeVerwijderenVerenigingData
+                {
+                    VCode = doc.VCode,
+                    TeVerwijderen = true,
+                    DeletedAt = doc.DatumLaatsteAanpassing,
+                },
+            },
+            _serializerSettings);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
+    public void Convert_Actieve_Vereniging()
     {
         var appSettings = new AppSettings();
         var converter = new DetailAllConverter(appSettings);
