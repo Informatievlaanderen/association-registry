@@ -4,7 +4,6 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
-using Framework;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
@@ -60,9 +59,9 @@ public class DetailVerenigingenController : ApiController
     /// <response code="302">Het detail van alle vereniging</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
     [HttpGet("detail/all")]
-    [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status302Found)]
+    [ProducesResponseType(StatusCodes.Status302Found)]
+    [SwaggerResponseHeader(StatusCodes.Status302Found, name: "Location", type:"string", description:"De locatie van het te downloaden bestand.")]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status302Found, typeof(DetailAllVerenigingResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> GetAll(

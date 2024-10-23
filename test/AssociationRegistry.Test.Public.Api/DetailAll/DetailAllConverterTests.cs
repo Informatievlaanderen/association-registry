@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Public.Api;
+﻿namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
+using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using FluentAssertions;
-using Framework;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Newtonsoft.Json;
 using Xunit;
