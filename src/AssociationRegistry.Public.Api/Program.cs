@@ -246,7 +246,7 @@ public class Program
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
-               .AddScoped<IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>, PubliekDetailAllQuery>()
+               .AddScoped<IPubliekVerenigingenDetailAllQuery, PubliekDetailAllQuery>()
                .AddScoped<IDetailAllStreamWriter, DetailAllStreamWriter>()
                .AddScoped<IDetailAllS3Client, DetailAllS3Client>()
                .AddScoped<IDetailAllConverter, DetailAllConverter>()
