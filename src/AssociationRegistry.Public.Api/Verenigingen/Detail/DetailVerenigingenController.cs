@@ -54,33 +54,6 @@ public class DetailVerenigingenController : ApiController
         return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
     }
 
-    // /// <summary>
-    // ///     Vraag het detail van alle vereniging op.
-    // /// </summary>
-    // /// <response code="200">Het detail van alle vereniging</response>
-    // /// <response code="500">Er is een interne fout opgetreden.</response>
-    // [HttpGet("detail/all")]
-    // [ProducesResponseType(typeof(PubliekVerenigingDetailResponse[]), StatusCodes.Status200OK)]
-    // [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    // [SwaggerResponseExample(StatusCodes.Status200OK, typeof(DetailAllVerenigingResponseExamples))]
-    // [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    // [Produces(WellknownMediaTypes.JsonLd)]
-    // public async Task GetAll(
-    //     [FromServices] IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>> query,
-    //     [FromServices] IResponseWriter responseWriter,
-    //     CancellationToken cancellationToken)
-    // {
-    //     try
-    //     {
-    //         var data = await query.ExecuteAsync(cancellationToken);
-    //         await responseWriter.Write(Response, data, cancellationToken);
-    //     }
-    //     catch (TaskCanceledException)
-    //     {
-    //         // Nothing to do, user stopped the request
-    //     }
-    // }
-
     /// <summary>
     ///     Vraag het detail van alle vereniging op.
     /// </summary>
@@ -99,7 +72,7 @@ public class DetailVerenigingenController : ApiController
         CancellationToken cancellationToken)
     {
         var data = await query.ExecuteAsync(cancellationToken);
-        
+
         var stream = await streamWriter.WriteAsync(data, cancellationToken);
         await s3Client.PutAsync(stream, cancellationToken);
 

@@ -1,22 +1,15 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
-using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
-using Infrastructure.ConfigurationBindings;
-using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
-using Newtonsoft.Json;
-using Schema.Constants;
 using Schema.Detail;
 using System.Text;
 
 public class DetailAllStreamWriter : IDetailAllStreamWriter
 {
-    private readonly AppSettings _appSettings;
-    private readonly JsonSerializerSettings _serializerSettings;
+    private readonly IDetailAllConverter _converter;
 
-    public DetailAllStreamWriter(AppSettings appSettings)
+    public DetailAllStreamWriter(IDetailAllConverter converter)
     {
-        _appSettings = appSettings;
-        _serializerSettings = JsonSerializerSettingsProvider.CreateSerializerSettings().ConfigureDefaultForApi();
+        _converter = converter;
     }
 
     public async Task<MemoryStream> WriteAsync(IAsyncEnumerable<PubliekVerenigingDetailDocument> data, CancellationToken cancellationToken)
@@ -26,29 +19,9 @@ public class DetailAllStreamWriter : IDetailAllStreamWriter
 
         await foreach (var vereniging in data.WithCancellation(cancellationToken))
         {
-            if (IsTeVerwijderenVereniging(vereniging))
-            {
-                var teVerwijderenVereniging =
-                    JsonConvert.SerializeObject(
-                        new TeVerwijderenVereniging
-                        {
-                            Vereniging = new TeVerwijderenVereniging.TeVerwijderenVerenigingData
-                            {
-                                VCode = vereniging.VCode,
-                                TeVerwijderen = true,
-                                DeletedAt = vereniging.DatumLaatsteAanpassing,
-                            },
-                        },
-                        _serializerSettings);
+            var verenigingAsJson = _converter.SerializeToJson(vereniging);
 
-                await writer.WriteLineAsync(teVerwijderenVereniging);
-
-                continue;
-            }
-
-            var mappedVereniging = PubliekVerenigingDetailMapper.MapDetailAll(vereniging, _appSettings);
-            var json = JsonConvert.SerializeObject(mappedVereniging, _serializerSettings);
-            await writer.WriteLineAsync(json);
+            await writer.WriteLineAsync(verenigingAsJson);
         }
 
         await writer.FlushAsync(cancellationToken);
@@ -57,24 +30,7 @@ public class DetailAllStreamWriter : IDetailAllStreamWriter
         var ms = new MemoryStream();
         await inputStream.CopyToAsync(ms, cancellationToken);
 
+        ms.Seek(0, SeekOrigin.Begin);
         return ms;
-    }
-
-    private static bool IsTeVerwijderenVereniging(PubliekVerenigingDetailDocument vereniging)
-        => vereniging.Deleted ||
-           vereniging.Status == VerenigingStatus.Gestopt ||
-           vereniging.IsUitgeschrevenUitPubliekeDatastroom is not null &&
-           vereniging.IsUitgeschrevenUitPubliekeDatastroom.Value;
-
-    public class TeVerwijderenVereniging
-    {
-        public TeVerwijderenVerenigingData Vereniging { get; set; }
-
-        public class TeVerwijderenVerenigingData
-        {
-            public string VCode { get; set; }
-            public bool TeVerwijderen { get; set; }
-            public string DeletedAt { get; set; }
-        }
     }
 }
