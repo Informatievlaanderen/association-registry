@@ -1,3 +1,18 @@
+# [8.166.0](https://github.com/informatievlaanderen/association-registry/compare/v8.165.1...v8.166.0) (2024-10-23)
+
+
+### Bug Fixes
+
+* or-2249 broken build due to refactor ([82eed82](https://github.com/informatievlaanderen/association-registry/commit/82eed82eba8c404e1269707bea05921dbaacde07))
+* or-2249 document the swagger responses for publiek detail all ([fafe8c6](https://github.com/informatievlaanderen/association-registry/commit/fafe8c6aee46533ba2178e51b53ecc74bed6f32c))
+* or-2249 register query for public api ([922641e](https://github.com/informatievlaanderen/association-registry/commit/922641ef49fc0d9664e33abbbed461d900849121))
+
+
+### Features
+
+* or-2468 change limit beschrijving contactgegeven to 128 char ([50abbd3](https://github.com/informatievlaanderen/association-registry/commit/50abbd3a1ec4af210de7cf22d64b09a58d2c99dd))
+* or-2468 change limit locatie naam to 128 char ([6fc1213](https://github.com/informatievlaanderen/association-registry/commit/6fc1213fa0a65130b83c7c83005a4d2bd83b4c2c))
+
 ## [8.165.1](https://github.com/informatievlaanderen/association-registry/compare/v8.165.0...v8.165.1) (2024-10-21)
 
 
