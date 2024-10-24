@@ -27,22 +27,27 @@ public class SearchVerenigingenResponseMapper
         ISearchResponse<VerenigingZoekDocument> searchResponse,
         PaginationQueryParams paginationRequest,
         string originalQuery,
-        string[] hoofdactiviteiten)
+        string[] hoofdactiviteiten,
+        string[] werkingsgebieden)
         => new()
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
                                          .Select(x => Map(logger, x.Source, _appSettings))
                                          .ToArray(),
-            Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
+            Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten, werkingsgebieden),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
 
-    private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
+    private Facets MapFacets(
+        ISearchResponse<VerenigingZoekDocument> searchResponse,
+        string originalQuery,
+        string[] hoofdactiviteiten,
+        string[] werkingsgebieden)
         => new()
         {
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
-            Werkingsgebieden = [],//GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
+            Werkingsgebieden = GetWerkingsgebiedenFacets(_appSettings, searchResponse, originalQuery, werkingsgebieden),
         };
 
     private static Vereniging Map(
@@ -170,6 +175,107 @@ public class SearchVerenigingenResponseMapper
               .Select(bucket => CreateHoofdActiviteitFacetItem(appSettings, bucket, originalQuery, hoofdactiviteiten))
               .ToArray();
     }
+    private WerkingsgebiedFacetItem[] GetWerkingsgebiedenFacets(
+        AppSettings appSettings,
+        ISearchResponse<VerenigingZoekDocument> searchResponse,
+        string originalQuery,
+        string[] werkingsgebieden)
+    {
+        if (appSettings is null) throw new ArgumentException("Search response is null", nameof(appSettings));
+        if (searchResponse is null) throw new ArgumentException("Search response is null", nameof(searchResponse));
+
+        if (searchResponse.Aggregations is null)
+            throw new ArgumentException("Search response is null", nameof(searchResponse.Aggregations));
+
+        _logger.LogInformation($"Original query: {originalQuery}");
+        _logger.LogInformation(string.Join(", ", werkingsgebieden));
+
+        return ParseAggregationResponse(searchResponse);
+    }
+
+    private WerkingsgebiedFacetItem[] ParseAggregationResponse(ISearchResponse<VerenigingZoekDocument> searchResponse)
+    {
+        var buckets = searchResponse.Aggregations
+                                    .Filter(WellknownFacets.GlobalAggregateName)
+                                    .Filter(WellknownFacets.FilterAggregateName)
+                                    .Terms(WellknownFacets.Werkingsgebieden)
+                                    .Buckets;
+
+        var result = new List<WerkingsgebiedFacetItem>();
+
+        if (buckets != null)
+        {
+            foreach (var bucket in buckets)
+            {
+                var subfacet = new SubWerkingsgebiedFacetItem()
+                {
+                    Code = bucket.Key,
+                    Aantal = (int)bucket.DocCount,
+                    Query = BuildQueryForWerkingsgebied(bucket.Key)
+                };
+
+                var parentKey = GetParentWerkingsgebied(bucket.Key);
+
+                var existingParent = result.SingleOrDefault(p => p.Code == parentKey);
+
+                if (existingParent != null)
+                {
+                    var subFacetList = existingParent.SubFacets.ToList();
+                    subFacetList.Add(subfacet);
+                    existingParent.SubFacets = subFacetList.ToArray();
+                    existingParent.Aantal = subFacetList.Sum(sf => sf.Aantal);
+                }
+                else
+                {
+                    result.Add(new WerkingsgebiedFacetItem()
+                    {
+                        Code = parentKey,
+                        Aantal = subfacet.Aantal,
+                        Query = BuildQueryForWerkingsgebied(parentKey),
+                        SubFacets = new[] { subfacet }
+                    });
+                }
+            }
+        }
+
+        return result.ToArray();
+    }
+
+    private static string GetParentWerkingsgebied(string code)
+    {
+        return code.Length switch
+        {
+            2 => "Nuts-0",
+            3 => "Nuts-1",
+            4 => "Nuts-2",
+            5 => "Nuts-3",
+            10 => "Lau",
+        };
+    }
+
+    private string BuildQueryForWerkingsgebied(string code)
+    {
+        // Construct the query dynamically based on the code
+        return $"https://127.0.0.1:11003/v1/verenigingen/zoeken?q=werkingsgebieden.code:({code})&facets.werkingsgebied={code}";
+    }
+
+
+
+    private WerkingsgebiedFacetItem CreateWerkingsgebieden(AppSettings appSettings, KeyedBucket<string> bucket, string originalQuery, string[] werkingsgebieden)
+    {
+        var werkingsgebiedFacetItem = new WerkingsgebiedFacetItem()
+        {
+            Code = bucket.Key,
+            Aantal = bucket.DocCount ?? 0,
+            Query = AddWerkingsgebiedToQuery(
+                appSettings,
+                bucket.Key,
+                originalQuery,
+                werkingsgebieden),
+        };
+
+        return werkingsgebiedFacetItem;
+    }
 
     private static HoofdactiviteitVerenigingsloketFacetItem CreateHoofdActiviteitFacetItem(
         AppSettings appSettings,
@@ -201,12 +307,17 @@ public class SearchVerenigingenResponseMapper
         string werkingsgebiedCode,
         string originalQuery,
         string[] werkingsgebieden)
-        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.werkingsgebied={CalculateHoofdactiviteiten(werkingsgebieden, werkingsgebiedCode)}";
+        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.werkingsgebied={CalculateWerkingsgebieden(werkingsgebieden, werkingsgebiedCode)}";
 
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
         => string.Join(
             separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
+
+    private static string CalculateWerkingsgebieden(IEnumerable<string> originalWerkingsgebieden, string werkingsgebiedenCode)
+        => string.Join(
+            separator: ',',
+            originalWerkingsgebieden.Append(werkingsgebiedenCode).Select(x => x.ToUpperInvariant()).Distinct());
 
     private static Locatie Map(VerenigingZoekDocument.Locatie loc)
         => new()

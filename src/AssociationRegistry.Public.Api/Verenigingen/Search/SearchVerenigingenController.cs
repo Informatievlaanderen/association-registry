@@ -113,6 +113,7 @@ public class SearchVerenigingenController : ApiController
     ///     De hoofdactiviteiten dewelke wel moeten meegenomen met de query, maar
     ///     niet in de facets te zien is.
     /// </param>
+    /// <param name="werkingsgebieden"></param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <param name="validator"></param>
     /// <param name="cancellationToken"></param>
@@ -131,6 +132,7 @@ public class SearchVerenigingenController : ApiController
         [FromQuery] string? sort,
         [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
         string? hoofdactiviteitenVerenigingsloket,
+        string? werkingsgebieden,
         [FromQuery] PaginationQueryParams paginationQueryParams,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
@@ -140,6 +142,7 @@ public class SearchVerenigingenController : ApiController
 
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
+        var werkingsgebiedenArray = werkingsgebieden?.Split(separator: ',') ?? Array.Empty<string>();
 
         var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams, _typeMapping);
 
@@ -154,9 +157,10 @@ public class SearchVerenigingenController : ApiController
             throw searchResponse.OriginalException;
         }
 
-            var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray,
+                                                                  werkingsgebiedenArray);
 
-            return Ok(response);
+        return Ok(response);
     }
 
     private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
@@ -207,7 +211,8 @@ public class SearchVerenigingenController : ApiController
                                        QueryFilterAggregation(
                                            agg2,
                                            q,
-                                           HoofdactiviteitCountAggregation
+                                           HoofdactiviteitCountAggregation,
+                                           WerkingsgebiedenAggregation
                                        )
                                )
                        );
@@ -230,7 +235,9 @@ public class SearchVerenigingenController : ApiController
     private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(
         AggregationContainerDescriptor<T> aggregationContainerDescriptor,
         string query,
-        Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
+        Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations,
+        Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<VerenigingZoekDocument>>
+            werkingsgebiedenAggregation)
         where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
     {
         return aggregationContainerDescriptor.Filter(
@@ -250,7 +257,16 @@ public class SearchVerenigingenController : ApiController
                                                     BeRemoved)
                                    )
                     )
-                   .Aggregations(aggregations)
+                   .Aggregations(agg =>
+                    {
+                        // Add hoofdactiviteiten aggregation
+                        aggregations(agg);
+
+                        // Add werkingsgebieden aggregation
+                        werkingsgebiedenAggregation(agg);
+
+                        return agg;
+                    })
         );
     }
 
@@ -273,9 +289,39 @@ public class SearchVerenigingenController : ApiController
                                                         .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
                                                                    h => h.Code).Suffix("keyword")
                                                          )
-                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount)
+                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket
+                                                                                       .HoofdactiviteitenVerenigingsloketCount)
         );
     }
+
+    private static AggregationContainerDescriptor<VerenigingZoekDocument> WerkingsgebiedenAggregation(
+        AggregationContainerDescriptor<VerenigingZoekDocument> aggregationContainerDescriptor)
+    {
+        return aggregationContainerDescriptor.Terms(
+            WellknownFacets.Werkingsgebieden,
+            selector: valueCountAggregationDescriptor => valueCountAggregationDescriptor
+                                                        .Field(document => document.Werkingsgebieden.Select(
+                                                                   h => h.Code).Suffix("keyword")
+                                                         )
+                                                        .Size(size: AssociationRegistry.Vereniging.Werkingsgebied.All.Length)
+        );
+
+        // return aggregationContainerDescriptor
+        //    .Terms(WellknownFacets.Werkingsgebieden, parentAgg => parentAgg
+        //                                                         .Field(document => document.Werkingsgebieden
+        //                                                                                    .Select(h => GetParentWerkingsgebied(h.Code)).Suffix("keyword"))  // Field for parent werkingsgebied (Nuts-0 or Nuts-1)
+        //                                                         .Size(100)  // Adjust size based on expected number of distinct werkingsgebieden
+        //                                                         .Aggregations(subAggs => subAggs
+        //                                                                          .Terms("sub_werkingsgebieden", sub => sub
+        //                                                                                    .Field(document => document.Werkingsgebieden
+        //                                                                                        .Select(h => h.Code).Suffix("keyword"))  // Field for sub-werkingsgebied (e.g., "BE1", "BE2", etc.)
+        //                                                                                    .Size(100)  // Adjust size for sub-facets
+        //                                                                           )
+        //                                                          )
+        //     );
+    }
+
+
 
     private static string BuildHoofdActiviteiten(IReadOnlyCollection<string> hoofdactiviteiten)
     {
@@ -290,6 +336,27 @@ public class SearchVerenigingenController : ApiController
             builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteit}");
 
             if (index < hoofdactiviteiten.Count - 1)
+                builder.Append(" OR ");
+        }
+
+        builder.Append(value: ')');
+
+        return builder.ToString();
+    }
+
+    private static string BuildWerkingsgebieden(IReadOnlyCollection<string> werkingsgebieden)
+    {
+        if (werkingsgebieden.Count == 0)
+            return string.Empty;
+
+        var builder = new StringBuilder();
+        builder.Append(" AND (");
+
+        foreach (var (hoofdactiviteit, index) in werkingsgebieden.Select((item, index) => (item, index)))
+        {
+            builder.Append($"werkingsgebieden.code:{hoofdactiviteit}");
+
+            if (index < werkingsgebieden.Count - 1)
                 builder.Append(" OR ");
         }
 

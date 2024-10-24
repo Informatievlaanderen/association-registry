@@ -15,7 +15,7 @@ public class WerkingsgebiedFacetItem
     /// Het aantal gevonden verenigingen met dit werkingsgebied
     /// </summary>
     [DataMember(Name = "Aantal")]
-    public long Aantal { get; init; }
+    public long Aantal { get; set; }
 
     /// <summary>
     /// De query die kan uitgevoerd worden om te filteren op deze waarde
@@ -27,7 +27,7 @@ public class WerkingsgebiedFacetItem
     /// De subfacets
     /// </summary>
     [DataMember(Name = "Subfacets")]
-    public SubWerkingsgebiedFacetItem[] SubFacets { get; init; } = null!;
+    public SubWerkingsgebiedFacetItem[] SubFacets { get; set; } = null!;
 }
 
 [DataContract]
