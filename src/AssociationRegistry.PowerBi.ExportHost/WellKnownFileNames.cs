@@ -7,4 +7,5 @@ public class WellKnownFileNames
     public const string Locaties = "Locaties.csv";
     public const string Contactgegevens = "Contactgegevens.csv";
     public const string Historiek = "Historiek.csv";
+    public const string Werkingsgebieden = "Werkingsgebieden.csv";
 }

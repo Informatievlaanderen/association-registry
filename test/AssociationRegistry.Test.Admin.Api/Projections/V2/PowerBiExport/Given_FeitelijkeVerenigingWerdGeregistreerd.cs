@@ -63,6 +63,31 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<Feiteli
     }
 
     [Fact]
+    public async Task ARecordIsStored_With_Werkingsgebieden()
+    {
+        await using var documentSession = _context
+           .Session;
+
+        var powerBiExportDocument =
+            await documentSession
+                 .Query<PowerBiExportDocument>()
+                 .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
+
+        var expectedHoofdactiviteiten =
+            _scenario
+               .VerenigingWerdGeregistreerd
+               .Werkingsgebieden!
+               .Select(x => new Werkingsgebied()
+                {
+                    Naam = x.Naam,
+                    Code = x.Code,
+                })
+               .ToArray();
+
+        powerBiExportDocument.Werkingsgebieden.ShouldCompare(expectedHoofdactiviteiten);
+    }
+
+    [Fact]
     public async Task ARecordIsStored_With_Historiek()
     {
         await using var documentSession = _context

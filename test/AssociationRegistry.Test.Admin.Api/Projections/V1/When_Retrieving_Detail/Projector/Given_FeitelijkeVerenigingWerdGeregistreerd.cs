@@ -21,6 +21,7 @@ using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
 using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
+using Werkingsgebied = AssociationRegistry.Admin.Schema.Detail.Werkingsgebied;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -164,6 +165,17 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         {
                             Id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(h.Code),
                             Type = JsonLdType.Hoofdactiviteit.Type,
+                        },
+                        Code = h.Code,
+                        Naam = h.Naam,
+                    }).ToArray(),
+                Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data.Werkingsgebieden!.Select(
+                    h => new Werkingsgebied()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata
+                        {
+                            Id = JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
+                            Type = JsonLdType.Werkingsgebied.Type,
                         },
                         Code = h.Code,
                         Naam = h.Naam,
