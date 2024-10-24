@@ -18,7 +18,8 @@ public class V024_FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario : I
         Array.Empty<Registratiedata.Contactgegeven>(),
         Array.Empty<Registratiedata.Locatie>(),
         Array.Empty<Registratiedata.Vertegenwoordiger>(),
-        HoofdactiviteitVerenigingsloket.All().Select(s => new Registratiedata.HoofdactiviteitVerenigingsloket(s.Code, s.Naam)).ToArray());
+        HoofdactiviteitVerenigingsloket.All().Select(s => new Registratiedata.HoofdactiviteitVerenigingsloket(s.Code, s.Naam)).ToArray(),
+        Werkingsgebied.All.Select(s => new Registratiedata.Werkingsgebied(s.Code, s.Naam)).ToArray());
 
     public VCode VCode
         => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);

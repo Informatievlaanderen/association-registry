@@ -6,9 +6,11 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Newtonsoft.Json;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using Werkingsgebied = Vereniging.Werkingsgebied;
 
 [Collection(nameof(PublicApiCollection))]
 [Category("PublicApi")]
@@ -29,14 +31,28 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
+    public async Task? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets_For_Hoofdactiviteiten()
     {
         var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();
 
        var searchVerenigingenResponse = JsonConvert.DeserializeObject<SearchVerenigingenResponse>(content);
 
+       searchVerenigingenResponse!.Facets!.HoofdactiviteitenVerenigingsloket.Should().NotBeEmpty();
        searchVerenigingenResponse!.Facets!.HoofdactiviteitenVerenigingsloket.Length.Should()
                                  .Be(HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount);
+    }
+
+    [Fact]
+    public async Task? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets_For_Werkingsgebieden()
+    {
+        var response = await _publicApiClient.Search("*");
+        var content = await response.Content.ReadAsStringAsync();
+
+       var searchVerenigingenResponse = JsonConvert.DeserializeObject<SearchVerenigingenResponse>(content);
+
+       searchVerenigingenResponse!.Facets!.Werkingsgebieden.Should().NotBeNullOrEmpty();
+       searchVerenigingenResponse!.Facets!.Werkingsgebieden.Length.Should()
+                                 .Be(Werkingsgebied.All.Length);
     }
 }

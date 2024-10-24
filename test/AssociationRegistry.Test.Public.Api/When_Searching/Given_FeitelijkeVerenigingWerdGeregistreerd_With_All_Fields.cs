@@ -187,4 +187,21 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.hoofdactiviteitenVerenigingsloket=BLA";
         contentFromFacetsUrl.Should().Contain(expectedUrl);
     }
+
+    [Fact]
+    public async Task? When_Navigating_To_A_Werkingsgebieden_Facet_Then_it_is_retrieved()
+    {
+        var response = await _publicApiClient.Search("*dena*");
+        var content = await response.Content.ReadAsStringAsync();
+
+        var regex = new Regex(@"""facets"":\s*{\s*""werkingsgebieden"":(.|\s)*?""query"":"".*?(\/v1\/.+?)""");
+        var regexResult = regex.Match(content);
+        var urlFromFacets = regexResult.Groups[2].Value;
+
+        var responseFromFacetsUrl = await _publicApiClient.HttpClient.GetAsync(urlFromFacets);
+        var contentFromFacetsUrl = await responseFromFacetsUrl.Content.ReadAsStringAsync();
+
+        const string expectedUrl = "/v1/verenigingen/zoeken?q=*dena*&facets.werkingsgebieden=BE";
+        contentFromFacetsUrl.Should().Contain(expectedUrl);
+    }
 }

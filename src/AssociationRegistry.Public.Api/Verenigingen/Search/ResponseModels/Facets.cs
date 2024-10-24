@@ -10,4 +10,10 @@ public class Facets
     /// </summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public HoofdactiviteitVerenigingsloketFacetItem[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
+
+    /// <summary>
+    /// De werkingsgebieden van deze vereniging
+    /// </summary>
+    [DataMember(Name = "Werkingsgebieden")]
+    public HoofdactiviteitVerenigingsloketFacetItem[] Werkingsgebieden { get; set; } = null!;
 }

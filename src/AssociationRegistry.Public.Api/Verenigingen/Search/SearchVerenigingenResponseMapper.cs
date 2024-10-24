@@ -194,6 +194,14 @@ public class SearchVerenigingenResponseMapper
         string[] hoofdactiviteiten)
         => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.hoofdactiviteitenVerenigingsloket={CalculateHoofdactiviteiten(hoofdactiviteiten, hoofdactiviteitenVerenigingsloketCode)}";
 
+    // public for testing
+    public static string AddWerkingsgebiedToQuery(
+        AppSettings appSettings,
+        string werkingsgebiedCode,
+        string originalQuery,
+        string[] werkingsgebieden)
+        => $"{appSettings.BaseUrl}/v1/verenigingen/zoeken?q={originalQuery}&facets.werkingsgebied={CalculateHoofdactiviteiten(werkingsgebieden, werkingsgebiedCode)}";
+
     private static string CalculateHoofdactiviteiten(IEnumerable<string> originalHoofdactiviteiten, string hoofdActiviteitCode)
         => string.Join(
             separator: ',',

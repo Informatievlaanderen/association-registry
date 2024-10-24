@@ -6,4 +6,5 @@ public static class WellknownFacets
     public const string GlobalAggregateName = "global";
     public const string FilterAggregateName = "global";
     public const string Hoofdactiviteiten = "Hoofdactiviteit";
+    public const string Werkingsgebieden = "Werkingsgebied";
 }

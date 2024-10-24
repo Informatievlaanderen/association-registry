@@ -12,6 +12,7 @@ public class Given_The_Original_Query
 {
     private const string BaseUrl = "http://base";
     private const string EenHoofdActiviteitCode = "BWWC";
+    private const string EenWerkingsgebiedCode = "BE";
 
     [UnitTest]
     [Category("Mapping")]
@@ -25,6 +26,15 @@ public class Given_The_Original_Query
 
             newQuery.Should().Be($"{BaseUrl}/v1/verenigingen/zoeken?q=&facets.hoofdactiviteitenVerenigingsloket={EenHoofdActiviteitCode}");
         }
+
+        // [Fact]
+        // public void Then_it_adds_the_werkingsgebied_to_the_query()
+        // {
+        //     var newQuery = SearchVerenigingenResponseMapper.AddWerkingsgebiedToQuery(
+        //         new AppSettings { BaseUrl = BaseUrl }, EenWerkingsgebiedCode, originalQuery: "", Array.Empty<string>());
+        //
+        //     newQuery.Should().Be($"{BaseUrl}/v1/verenigingen/zoeken?q=&facets.werkingsgebied={EenWerkingsgebiedCode}");
+        // }
     }
 
     [UnitTest]
