@@ -42,6 +42,7 @@ public class SearchVerenigingenResponseMapper
         => new()
         {
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
+            Werkingsgebieden = [],//GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
         };
 
     private static Vereniging Map(

@@ -15,5 +15,5 @@ public class Facets
     /// De werkingsgebieden van deze vereniging
     /// </summary>
     [DataMember(Name = "Werkingsgebieden")]
-    public HoofdactiviteitVerenigingsloketFacetItem[] Werkingsgebieden { get; set; } = null!;
+    public WerkingsgebiedFacetItem[] Werkingsgebieden { get; set; } = null!;
 }
