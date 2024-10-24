@@ -137,7 +137,8 @@ public static class EventCustomizations
                     fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
                     fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
                     fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
-                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
+                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Werkingsgebied>().ToArray()
                 )).OmitAutoProperties());
     }
 

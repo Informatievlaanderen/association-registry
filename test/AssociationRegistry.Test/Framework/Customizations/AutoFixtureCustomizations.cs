@@ -31,6 +31,7 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeAdresId();
         fixture.CustomizeAdres();
         fixture.CustomizeWerkingsgebied();
+        fixture.CustomizeWerkingsgebieden();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -57,6 +58,17 @@ public static class AutoFixtureCustomizations
 
                     return werkingsgebieden[value % werkingsgebieden.Length];
                 }).OmitAutoProperties());
+    }
+
+    private static void CustomizeWerkingsgebieden(this IFixture fixture)
+    {
+        fixture.Customize<Werkingsgebieden>(
+            composerTransformation: composer => composer.FromFactory(
+                                                             factory: () => Werkingsgebieden.FromArray(
+                                                                 fixture.CreateMany<Werkingsgebied>()
+                                                                        .Distinct()
+                                                                        .ToArray()))
+                                                        .OmitAutoProperties());
     }
 
     public static Contactgegeven CreateContactgegevenVolgensType(this IFixture source, string type)

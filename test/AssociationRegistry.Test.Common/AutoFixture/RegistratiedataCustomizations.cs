@@ -11,6 +11,7 @@ public static class RegistratiedataCustomizations
         fixture.CustomizeAdresId();
         fixture.CustomizeLocatie();
         fixture.CustomizeHoofdactiviteitVerenigingsloket();
+        fixture.CustomizeWerkingsgebieden();
         fixture.CustomizeContactgegeven();
         fixture.CustomizeDoelgroep();
     }
@@ -42,6 +43,18 @@ public static class RegistratiedataCustomizations
                     var h = fixture.Create<HoofdactiviteitVerenigingsloket>();
 
                     return new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam);
+                }).OmitAutoProperties());
+    }
+
+    private static void CustomizeWerkingsgebieden(this IFixture fixture)
+    {
+        fixture.Customize<Registratiedata.Werkingsgebied>(
+            composer => composer.FromFactory(
+                () =>
+                {
+                    var h = fixture.Create<Werkingsgebied>();
+
+                    return new Registratiedata.Werkingsgebied(h.Code, h.Naam);
                 }).OmitAutoProperties());
     }
 

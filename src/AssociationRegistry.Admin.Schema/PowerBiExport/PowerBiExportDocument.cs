@@ -24,6 +24,9 @@ public record PowerBiExportDocument : IVCode
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
         Array.Empty<HoofdactiviteitVerenigingsloket>();
 
+    public Werkingsgebied[] Werkingsgebieden { get; set; } =
+        Array.Empty<Werkingsgebied>();
+
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;
     [Identity] public string VCode { get; init; } = null!;

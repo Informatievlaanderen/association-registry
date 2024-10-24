@@ -125,6 +125,15 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Code = arg.Code,
                         Naam = arg.Naam,
                     }).ToArray(),
+                Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data.Werkingsgebieden!.Select(
+                    arg => new PubliekVerenigingDetailDocument.Werkingsgebied()
+                    {
+                        JsonLdMetadata = new JsonLdMetadata(
+                            JsonLdType.Werkingsgebied.CreateWithIdValues(arg.Code),
+                            JsonLdType.Werkingsgebied.Type),
+                        Code = arg.Code,
+                        Naam = arg.Naam,
+                    }).ToArray(),
                 Sleutels = new[]
                 {
                     new PubliekVerenigingDetailDocument.Sleutel
