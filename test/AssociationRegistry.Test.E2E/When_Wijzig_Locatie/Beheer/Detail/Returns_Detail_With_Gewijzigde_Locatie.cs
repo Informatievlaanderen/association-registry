@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie.Beheer.Detail;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using JsonLdContext;
+using Framework.AlbaHost;
+using Vereniging;
+using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;

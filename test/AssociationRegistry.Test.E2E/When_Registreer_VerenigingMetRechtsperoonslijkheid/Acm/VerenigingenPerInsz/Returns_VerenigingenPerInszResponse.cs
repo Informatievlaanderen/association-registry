@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Acm.VerenigingenPerInsz;
 
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
-using AssociationRegistry.AcmBevraging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AcmBevraging;
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 

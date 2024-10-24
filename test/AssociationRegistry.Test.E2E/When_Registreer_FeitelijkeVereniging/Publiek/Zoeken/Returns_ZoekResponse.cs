@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using JsonLdContext;
+using Public.Api.Verenigingen.Search.ResponseModels;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.TestClasses;
+using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
