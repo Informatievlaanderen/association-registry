@@ -23,33 +23,6 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="V2\When_Registreer_VerenigingMetRechtspersoonlijkheid\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="When_Registreer_FeitelijkeVereniging\Acm\" />
-    <Folder Include="When_Registreer_FeitelijkeVereniging\Beheer\" />
-    <Folder Include="When_Registreer_FeitelijkeVereniging\Publiek\" />
-    <Folder Include="When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates\Beheer\" />
-    <Folder Include="When_Registreer_VerenigingMetRechtsperoonslijkheid\Acm\" />
-    <Folder Include="When_Stop_Vereniging\Publiek\" />
-    <Folder Include="When_Wijzig_Basisgegevens\Beheer\" />
-    <Folder Include="When_Wijzig_Basisgegevens\Publiek\" />
-    <Folder Include="When_Wijzig_Basisgegevens_Kbo\Beheer\" />
-    <Folder Include="When_Wijzig_Basisgegevens_Kbo\Publiek\" />
-    <Folder Include="When_Wijzig_Locatie\Beheer\" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
