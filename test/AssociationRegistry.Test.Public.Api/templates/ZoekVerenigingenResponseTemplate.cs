@@ -11,6 +11,8 @@ using Vereniging;
 public class ZoekVerenigingenResponseTemplate
 {
     private readonly List<dynamic> _facets = new();
+    private readonly List<dynamic> _werkgebiedenlevelfacets = new();
+    private readonly List<dynamic> _werkgebiedenfacets = new();
     private readonly List<object> _verenigingen = new();
     private object _pagination = new { };
     private string _query = string.Empty;
@@ -56,6 +58,8 @@ public class ZoekVerenigingenResponseTemplate
             verenigingen = _verenigingen,
             pagination = _pagination,
             facets = _facets,
+            werkgebiedenlevelfacets = _werkgebiedenlevelfacets,
+            werkgebiedenfacets = _werkgebiedenfacets,
             query = _query,
         });
     }
@@ -73,6 +77,28 @@ public class ZoekVerenigingenResponseTemplate
         {
             code = code,
             count = (maybeFacet?.count ?? 0) + 1,
+        });
+    }
+
+    private void UpdateFacetWerkingsgebiedFacet(string level, string code)
+    {
+        var maybeFacet = _werkgebiedenlevelfacets.SingleOrDefault(f => f.code == code);
+        var maybeWerkingsgebied = _werkgebiedenfacets.SingleOrDefault(f => f.code == code);
+
+        if (maybeFacet is not null) _werkgebiedenlevelfacets.Remove(maybeFacet);
+        if (maybeWerkingsgebied is not null) _werkgebiedenfacets.Remove(maybeFacet);
+
+        _werkgebiedenfacets.Add(new
+        {
+            code = code,
+            count = (maybeWerkingsgebied?.count ?? 0) + 1,
+        });
+
+        _werkgebiedenlevelfacets.Add(new
+        {
+            code = level,
+            count = (maybeFacet?.count ?? 0) + 1,
+            werkingsgebieden = _werkgebiedenfacets,
         });
     }
 
@@ -182,10 +208,23 @@ public class ZoekVerenigingenResponseTemplate
                 beschrijving = beschrijving,
             });
 
-            //TODO: facets
-            //_zoekVerenigingenResponseTemplate.UpdateFacet(code);
+            var level = GetWerkingsgebiedLevel(code);
+
+            _zoekVerenigingenResponseTemplate.UpdateFacetWerkingsgebiedFacet(level, code);
 
             return this;
+        }
+
+        private string GetWerkingsgebiedLevel(string code)
+        {
+            return code.Length switch
+            {
+                2 => "Nuts-0",
+                3 => "Nuts-1",
+                4 => "Nuts-2",
+                5 => "Nuts-3",
+                10 => "Lau",
+            };
         }
 
         public VerenigingTemplate WithKboNummer(string kboNummer, string vCode)

@@ -100,8 +100,26 @@
       {
         "code": "{{facet.code}}",
         "aantal": {{facet.count}},
-        "query":"https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.hoofdactiviteitenVerenigingsloket={{facet.code}}",
-      },
+      "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.hoofdactiviteitenVerenigingsloket={{facet.code}}"
+      }{{if !for.last}},{{end}}
+      {{end}}
+    ],
+    "werkingsgebieden": [
+      {{for werkgebiedenfacets in werkgebiedenfacets}}
+      {
+        "code": "{{werkgebiedenfacets.code}}",
+        "aantal": {{werkgebiedenfacets.count}},
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.werkingsgebieden={{werkgebiedenfacets.code}}",
+        "werkingsgebieden": [
+        {{for werkingsgebied in werkgebiedenfacets.werkingsgebieden}}
+        {
+          "code": "{{werkingsgebied.code}}",
+          "aantal": {{werkingsgebied.count}},
+        "query": "https://127.0.0.1:11003/v1/verenigingen/zoeken?q={{query}}&facets.werkingsgebieden={{werkingsgebied.code}}"
+        }{{if !for.last}},{{end}}
+        {{end}}
+      ]
+    }{{if !for.last}},{{end}}
       {{end}}
     ]
   },

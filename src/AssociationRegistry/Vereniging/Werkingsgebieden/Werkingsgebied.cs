@@ -33,4 +33,13 @@ public class Werkingsgebied
         new("BE255", "District Oostende"),
         new("BE25535002", "Bredene"),
     ];
+
+    public static Dictionary<string, Werkingsgebied[]> Levels = new()
+    {
+        { "Nuts-0", All.Where(s => s.Code == "BE").ToArray() },
+        { "Nuts-1", All.Where(w => w.Code.Length == 3).ToArray() },
+        { "Nuts-2", All.Where(w => w.Code.Length == 4).ToArray() },
+        { "Nuts-3", All.Where(w => w.Code.Length == 5).ToArray() },
+        { "Lau", All.Where(w => w.Code.Length == 10).ToArray() },
+    };
 }
