@@ -1,3 +1,10 @@
+# [8.167.0](https://github.com/informatievlaanderen/association-registry/compare/v8.166.0...v8.167.0) (2024-10-24)
+
+
+### Features
+
+* or-2451 add werkingsgebieden to powerbi export ([e704458](https://github.com/informatievlaanderen/association-registry/commit/e704458cb536debb5bdca96b1bf613e5c4d95643))
+
 # [8.166.0](https://github.com/informatievlaanderen/association-registry/compare/v8.165.1...v8.166.0) (2024-10-23)
 
 
