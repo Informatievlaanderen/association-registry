@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens;
 
 using Alba;
-using AssociationRegistry.Admin.Api.Infrastructure;
+using Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Vereniging;
+using Framework.ApiSetup;
+using Vereniging;
 using AutoFixture;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;

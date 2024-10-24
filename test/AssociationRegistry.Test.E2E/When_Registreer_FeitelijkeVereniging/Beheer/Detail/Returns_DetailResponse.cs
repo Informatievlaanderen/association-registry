@@ -2,16 +2,16 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Schema.Constants;
+using Formats;
+using JsonLdContext;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.TestClasses;
+using Vereniging;
+using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
