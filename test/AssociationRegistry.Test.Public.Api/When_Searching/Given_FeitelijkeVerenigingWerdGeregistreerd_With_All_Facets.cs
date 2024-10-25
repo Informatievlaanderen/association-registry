@@ -53,6 +53,6 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
 
        searchVerenigingenResponse!.Facets!.Werkingsgebieden.Should().NotBeNullOrEmpty();
        searchVerenigingenResponse!.Facets!.Werkingsgebieden.Length.Should()
-                                 .Be(Werkingsgebied.All.Length);
+                                 .Be(Werkingsgebied.Levels.Count);
     }
 }

@@ -259,10 +259,7 @@ public class SearchVerenigingenController : ApiController
                     )
                    .Aggregations(agg =>
                     {
-                        // Add hoofdactiviteiten aggregation
                         aggregations(agg);
-
-                        // Add werkingsgebieden aggregation
                         werkingsgebiedenAggregation(agg);
 
                         return agg;
@@ -305,20 +302,6 @@ public class SearchVerenigingenController : ApiController
                                                          )
                                                         .Size(size: AssociationRegistry.Vereniging.Werkingsgebied.All.Length)
         );
-
-        // return aggregationContainerDescriptor
-        //    .Terms(WellknownFacets.Werkingsgebieden, parentAgg => parentAgg
-        //                                                         .Field(document => document.Werkingsgebieden
-        //                                                                                    .Select(h => GetParentWerkingsgebied(h.Code)).Suffix("keyword"))  // Field for parent werkingsgebied (Nuts-0 or Nuts-1)
-        //                                                         .Size(100)  // Adjust size based on expected number of distinct werkingsgebieden
-        //                                                         .Aggregations(subAggs => subAggs
-        //                                                                          .Terms("sub_werkingsgebieden", sub => sub
-        //                                                                                    .Field(document => document.Werkingsgebieden
-        //                                                                                        .Select(h => h.Code).Suffix("keyword"))  // Field for sub-werkingsgebied (e.g., "BE1", "BE2", etc.)
-        //                                                                                    .Size(100)  // Adjust size for sub-facets
-        //                                                                           )
-        //                                                          )
-        //     );
     }
 
 

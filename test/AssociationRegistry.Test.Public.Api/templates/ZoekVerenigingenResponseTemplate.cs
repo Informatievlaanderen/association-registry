@@ -11,8 +11,8 @@ using Vereniging;
 public class ZoekVerenigingenResponseTemplate
 {
     private readonly List<dynamic> _facets = new();
-    private readonly List<dynamic> _werkgebiedenlevelfacets = new();
-    private readonly List<dynamic> _werkgebiedenfacets = new();
+    private readonly List<dynamic> _werkingsgebiedenfacets = new();
+    private readonly List<dynamic> _subwerkingsgebiedenfacets = new();
     private readonly List<object> _verenigingen = new();
     private object _pagination = new { };
     private string _query = string.Empty;
@@ -58,8 +58,7 @@ public class ZoekVerenigingenResponseTemplate
             verenigingen = _verenigingen,
             pagination = _pagination,
             facets = _facets,
-            werkgebiedenlevelfacets = _werkgebiedenlevelfacets,
-            werkgebiedenfacets = _werkgebiedenfacets,
+            werkingsgebiedenfacets = _werkingsgebiedenfacets,
             query = _query,
         });
     }
@@ -82,24 +81,42 @@ public class ZoekVerenigingenResponseTemplate
 
     private void UpdateFacetWerkingsgebiedFacet(string level, string code)
     {
-        var maybeFacet = _werkgebiedenlevelfacets.SingleOrDefault(f => f.code == code);
-        var maybeWerkingsgebied = _werkgebiedenfacets.SingleOrDefault(f => f.code == code);
+        var maybeParentFacet  = _werkingsgebiedenfacets.SingleOrDefault(f => f.code == level);
+        var maybeSubFacet = maybeParentFacet?.werkingsgebieden;
 
-        if (maybeFacet is not null) _werkgebiedenlevelfacets.Remove(maybeFacet);
-        if (maybeWerkingsgebied is not null) _werkgebiedenfacets.Remove(maybeFacet);
+        if (maybeParentFacet  is not null) _werkingsgebiedenfacets.Remove(maybeParentFacet );
 
-        _werkgebiedenfacets.Add(new
+
+        if (maybeParentFacet is not null)
         {
-            code = code,
-            count = (maybeWerkingsgebied?.count ?? 0) + 1,
-        });
+            _werkingsgebiedenfacets.Remove(maybeParentFacet);
 
-        _werkgebiedenlevelfacets.Add(new
+            _werkingsgebiedenfacets.Add(new
+            {
+                code = level,
+                count = _subwerkingsgebiedenfacets.Sum(f => f.count),
+                subwerkingsgebieden = _subwerkingsgebiedenfacets.Append(new
+                {
+                    code = code,
+                    count = (maybeSubFacet?.count ?? 0) + 1,
+                }),
+            });
+        }
+        else
         {
-            code = level,
-            count = (maybeFacet?.count ?? 0) + 1,
-            werkingsgebieden = _werkgebiedenfacets,
-        });
+            _werkingsgebiedenfacets.Add(new
+            {
+                code = level,
+                count = _subwerkingsgebiedenfacets.Sum(f => f.count),
+                werkingsgebieden = new []
+                {
+                    new  {
+                        code = code,
+                        count = (maybeSubFacet?.count ?? 0) + 1,
+                    },
+                },
+            });
+        }
     }
 
     public class VerenigingTemplate
