@@ -7,9 +7,9 @@ public static class GemeentenaamDecorator
     public static string DecorateGemeentenaam(
         string origineleGemeentenaam,
         PostalInformationResponse? postalInformationResponse,
-        string gemeentenaamUitAdresmatch)
+        string gemeentenaamUitGrar)
     {
-        if (postalInformationResponse is null) return gemeentenaamUitAdresmatch;
+        if (postalInformationResponse is null) return gemeentenaamUitGrar;
 
         var origineleGemeenteNaamClean = GemeenteNaamSuffixCleanerRegex.Instance.Clean(origineleGemeentenaam);
 

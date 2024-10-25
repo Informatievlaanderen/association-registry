@@ -19,7 +19,7 @@ public class With_Several_PostalNames
         var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem",
                                                                 postalInformationResponse: new PostalInformationResponse(
                                                                     Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
+                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitGrar: sut.Adres.Gemeente);
 
         result.Should().Be("Hekelgem (Affligem)");
     }
@@ -36,7 +36,7 @@ public class With_Several_PostalNames
         var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Nothingham",
                                                                 postalInformationResponse: new PostalInformationResponse(
                                                                     Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
+                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitGrar: sut.Adres.Gemeente);
 
         result.Should().Be("Affligem");
     }

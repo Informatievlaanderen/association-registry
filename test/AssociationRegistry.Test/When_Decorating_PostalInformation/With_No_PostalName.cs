@@ -18,7 +18,7 @@ public class With_No_PostalName
 
         var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
                                                                 postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Ternat", Array.Empty<string>()), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
+                                                                    Postcode: "1741", Gemeentenaam: "Ternat", Array.Empty<string>()), gemeentenaamUitGrar: sut.Adres.Gemeente);
 
         result.Should().Be("Ternat");
     }

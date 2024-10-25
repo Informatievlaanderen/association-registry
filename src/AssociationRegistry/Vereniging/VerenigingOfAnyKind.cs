@@ -15,22 +15,6 @@ using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 {
-    private static void MustNotBeInFuture(Datum datum, DateOnly today)
-        => Throw<StartdatumMagNietInToekomstZijn>.If(datum.IsInFutureOf(today));
-
-    private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
-        => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
-
-    private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
-        HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
-        => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
-
-    private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(Registratiedata.Vertegenwoordiger.With).ToArray();
-
-    private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
-        => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
-
     public Contactgegeven VoegContactgegevenToe(Contactgegeven contactgegeven)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
@@ -123,25 +107,35 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
             return;
 
-        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        foreach (var (locatieId, adresDetailResponse) in locatiesMetAdressen)
         {
             if (!State.Locaties.HasKey(locatieId))
                 continue;
 
-            var origineleGemeentenaam = State.Locaties[locatieId].Adres!.Gemeente;
+            var locatie = State.Locaties[locatieId];
 
-            var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
+            var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-            var adresDetailUitAdressenregister = AdresDetailUitAdressenregister
-                                                .FromResponse(adresDetail)
-                                                .DecorateWithPostalInformation(
-                                                     origineleGemeentenaam, postalInformation);
+            var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+                locatie.Adres.Gemeente,
+                postalInformation,
+                adresDetailResponse.Gemeente);
+
+            var decoratedLocatie = locatie with { Adres = locatie.Adres with { Gemeente = decoratedGemeentenaam } };
+            State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
+
+            var registratieData = new Registratiedata.AdresUitAdressenregister(
+                adresDetailResponse.Straatnaam,
+                adresDetailResponse.Huisnummer,
+                adresDetailResponse.Busnummer,
+                adresDetailResponse.Postcode,
+                decoratedGemeentenaam);
+
 
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
-                                                              adresDetail.AdresId,
-                                                              Registratiedata.AdresUitAdressenregister.With(
-                                                                  adresDetailUitAdressenregister)!,
+                                                              adresDetailResponse.AdresId,
+                                                              registratieData,
                                                               idempotenceKey));
         }
     }
@@ -151,14 +145,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
             return;
 
-        foreach (var (locatieId, adresDetail) in locatiesMetAdressen)
+        foreach (var (locatieId, adresDetailResponse) in locatiesMetAdressen)
         {
             if (!State.Locaties.HasKey(locatieId))
                 continue;
 
             var locatie = State.Locaties[locatieId];
 
-            if (adresDetail is null || !adresDetail.IsActief)
+            if (adresDetailResponse is null || !adresDetailResponse.IsActief)
             {
                 AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
                              VCode,
@@ -169,20 +163,29 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 continue;
             }
 
-            var origineleGemeentenaam = locatie.Adres!.Gemeente;
+            var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-            var postalInformation = await grarClient.GetPostalInformation(adresDetail.Postcode);
+            var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+                locatie.Adres.Gemeente,
+                postalInformation,
+                adresDetailResponse.Gemeente);
 
-            var adresUitAdressenregister = AdresDetailUitAdressenregister
-                                          .FromResponse(adresDetail)
-                                          .DecorateWithPostalInformation(origineleGemeentenaam, postalInformation);
+            var decoratedLocatie = locatie with { Adres = locatie.Adres with { Gemeente = decoratedGemeentenaam } };
+            State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
-            if (HeeftVerschillenBinnenAdres(locatie, adresUitAdressenregister.Adres))
+            var registratieData = new Registratiedata.AdresUitAdressenregister(
+                adresDetailResponse.Straatnaam,
+                adresDetailResponse.Huisnummer,
+                adresDetailResponse.Busnummer,
+                adresDetailResponse.Postcode,
+                decoratedGemeentenaam);
+
+            if (HeeftVerschillenBinnenAdres(locatie, registratieData))
             {
                 AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                                   locatieId,
-                                                                  adresDetail.AdresId,
-                                                                  Registratiedata.AdresUitAdressenregister.With(adresUitAdressenregister)!,
+                                                                  adresDetailResponse.AdresId,
+                                                                  registratieData!,
                                                                   idempotenceKey));
             }
         }
@@ -255,7 +258,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         IGrarClient grarClient,
         CancellationToken cancellationToken)
     {
-        var locatie = State.Locaties[locatieId]!;
+        var locatie = State.Locaties[locatieId];
+
         var adresDetailResponse = await grarClient.GetAddressById(locatie.AdresId.ToString(), cancellationToken);
 
         if (!adresDetailResponse.IsActief)
@@ -263,18 +267,24 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-        var decoratedAdres = AdresDetailUitAdressenregister
-                            .FromResponse(adresDetailResponse)
-                            .DecorateWithPostalInformation(
-                                 adresDetailResponse.Gemeente, postalInformation);
+        var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+            string.Empty,
+            postalInformation,
+            adresDetailResponse.Gemeente);
 
-        var decoratedLocatie = locatie.DecorateWithAdresDetail(decoratedAdres);
-
+        var decoratedLocatie = locatie.MetAdresUitGrar(adresDetailResponse, decoratedGemeentenaam);
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
+
+        var registratieData = new Registratiedata.AdresUitAdressenregister(
+            adresDetailResponse.Straatnaam,
+            adresDetailResponse.Huisnummer,
+            adresDetailResponse.Busnummer,
+            adresDetailResponse.Postcode,
+            decoratedGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                              adresDetailResponse.AdresId,
-                                                             Registratiedata.AdresUitAdressenregister.With(decoratedAdres)));
+                                                             registratieData));
     }
 
     private async Task<IEvent> GetAdresMatchEvent(

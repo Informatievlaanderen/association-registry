@@ -208,23 +208,31 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public async Task NeemAdresDetailOver(
-        int locatieId,
-        Registratiedata.AdresId adresId,
+        Registratiedata.Locatie teSynchroniserenLocatie,
         IGrarClient grarClient,
         CancellationToken cancellationToken)
     {
-        var adresDetailResponse = await grarClient.GetAddressById(adresId.ToString(), cancellationToken);
+        var adresDetailResponse = await grarClient.GetAddressById(teSynchroniserenLocatie.AdresId.ToString(), cancellationToken);
 
         if (!adresDetailResponse.IsActief)
             throw new AdressenregisterReturnedInactiefAdres();
 
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+        var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+            teSynchroniserenLocatie.Adres.Gemeente,
+            postalInformation,
+            adresDetailResponse.Gemeente);
+
+        var registratieData = new Registratiedata.AdresUitAdressenregister(
+            adresDetailResponse.Straatnaam,
+            adresDetailResponse.Huisnummer,
+            adresDetailResponse.Busnummer,
+            adresDetailResponse.Postcode,
+            decoratedGemeentenaam);
+
+        AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,
-                                                             Registratiedata.AdresUitAdressenregister.With(AdresDetailUitAdressenregister
-                                                                .FromResponse(adresDetailResponse)
-                                                                .DecorateWithPostalInformation(
-                                                                     adresDetailResponse.Gemeente, postalInformation))));
+                                                             registratieData));
     }
 }
