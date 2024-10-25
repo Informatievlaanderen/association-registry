@@ -16,9 +16,9 @@ public class With_One_PostalName
                                               Gemeente: "Halle", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Halle",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1501", Gemeentenaam: "Halle", new[] { "Buizingen" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Halle",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1501", Gemeentenaam: "Halle", new[] { "Buizingen" }));
 
         result.Adres.Gemeente.Should().Be("Buizingen (Halle)");
     }
@@ -32,9 +32,9 @@ public class With_One_PostalName
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "NothingHam",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Ternat", new[] { "Wambeek" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "NothingHam",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Ternat", new[] { "Wambeek" }));
 
         result.Adres.Gemeente.Should().Be("Wambeek (Ternat)");
     }
@@ -48,9 +48,9 @@ public class With_One_PostalName
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "NothingHam",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Ternat", new[] { "TERNAT" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "NothingHam",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Ternat", new[] { "TERNAT" }));
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }
@@ -67,9 +67,9 @@ public class With_One_PostalName
                                               Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam,
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam,
+                                                                         new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }
@@ -83,9 +83,9 @@ public class With_One_PostalName
                                               Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Hekelgem Affligem",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Hekelgem Affligem",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }

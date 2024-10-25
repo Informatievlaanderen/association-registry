@@ -64,7 +64,7 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              CancellationToken.None))
-                  .ReturnsAsync(new[]
+                  .ReturnsAsync(new AdresMatchResponseCollection(new[]
                    {
                        fixture.Create<AddressMatchResponse>() with
                        {
@@ -77,7 +77,7 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
                            Huisnummer = locatie.Adres.Huisnummer,
                            Postcode = locatie.Adres.Postcode,
                        },
-                   });
+                   }));
 
         return grarClient;
     }

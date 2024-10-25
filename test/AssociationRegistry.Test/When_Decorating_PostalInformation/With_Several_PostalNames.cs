@@ -16,10 +16,10 @@ public class With_Several_PostalNames
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Hekelgem",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Affligem",
-                                                           new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Hekelgem",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Affligem",
+                                                                             new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
 
         result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
     }
@@ -33,10 +33,10 @@ public class With_Several_PostalNames
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "Nothingham",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Affligem",
-                                                           new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Nothingham",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Affligem",
+                                                                             new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
 
         result.Adres.Gemeente.Should().Be("Affligem");
     }

@@ -68,14 +68,14 @@ public class Given_Duplicate_Locaties_With_Same_Name
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              CancellationToken.None))
-                  .ReturnsAsync(new[]
+                  .ReturnsAsync(new AdresMatchResponseCollection(new[]
                    {
                        fixture.Create<AddressMatchResponse>() with
                        {
                            Score = 100,
                            AdresId = adresId,
                        },
-                   });
+                   }));
 
         vereniging.Hydrate(
             new VerenigingState()
@@ -140,14 +140,14 @@ public class Given_Duplicate_Locaties_With_Different_Names
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(new[]
+                  .ReturnsAsync(new AdresMatchResponseCollection(new[]
                    {
                        fixture.Create<AddressMatchResponse>() with
                        {
                            Score = 100,
                            AdresId = adresId,
                        },
-                   });
+                   }));
 
         vereniging.Hydrate(
             new VerenigingState()

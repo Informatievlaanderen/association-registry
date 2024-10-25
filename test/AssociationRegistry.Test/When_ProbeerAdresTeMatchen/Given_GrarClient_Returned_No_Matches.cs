@@ -31,7 +31,7 @@ public class Given_GrarClient_Returned_No_Matches
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(new List<AddressMatchResponse>());
+                  .ReturnsAsync(new AdresMatchResponseCollection(new List<AddressMatchResponse>()));
 
         vereniging.Hydrate(
             new VerenigingState()

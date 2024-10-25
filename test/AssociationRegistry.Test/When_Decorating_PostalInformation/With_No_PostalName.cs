@@ -16,9 +16,9 @@ public class With_No_PostalName
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = sut.DecorateWithPostalInformation(origineleGemeentenaam: "NothingHam",
-                                                       new PostalInformationResponse(
-                                                           Postcode: "1741", Gemeentenaam: "Ternat", Array.Empty<string>()));
+        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "NothingHam",
+                                                                         postalInformationResponse: new PostalInformationResponse(
+                                                                             Postcode: "1741", Gemeentenaam: "Ternat", Array.Empty<string>()));
 
         result.Adres.Gemeente.Should().Be("Ternat");
     }
