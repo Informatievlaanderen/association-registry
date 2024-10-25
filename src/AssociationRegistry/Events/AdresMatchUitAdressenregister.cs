@@ -4,12 +4,12 @@ using Grar.Models;
 
 public static class GemeentenaamDecorator
 {
-    public static AdresMatchUitAdressenregister DecorateWithPostalInformation(
-        AdresMatchUitAdressenregister adresMatchUitAdressenregister,
+    public static string DecorateGemeentenaam(
         string origineleGemeentenaam,
-        PostalInformationResponse? postalInformationResponse)
+        PostalInformationResponse? postalInformationResponse,
+        string gemeentenaamUitAdresmatch)
     {
-        if (postalInformationResponse is null) return adresMatchUitAdressenregister;
+        if (postalInformationResponse is null) return gemeentenaamUitAdresmatch;
 
         var origineleGemeenteNaamClean = GemeenteNaamSuffixCleanerRegex.Instance.Clean(origineleGemeentenaam);
 
@@ -19,16 +19,12 @@ public static class GemeentenaamDecorator
                               StringComparison.CurrentCultureIgnoreCase))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return adresMatchUitAdressenregister with {
-                    Adres = adresMatchUitAdressenregister.Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
-                };
+                return postalInformationResponse.Gemeentenaam;
             }
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return adresMatchUitAdressenregister with {
-                    Adres = adresMatchUitAdressenregister.Adres with { Gemeente = $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})" },
-                };
+                return $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})";
             }
         }
 
@@ -43,24 +39,18 @@ public static class GemeentenaamDecorator
             if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return adresMatchUitAdressenregister with {
-                    Adres = adresMatchUitAdressenregister.Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
-                };
+                return postalInformationResponse.Gemeentenaam;
             }
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return adresMatchUitAdressenregister with {
-                    Adres = adresMatchUitAdressenregister.Adres with { Gemeente = $"{postNaam} ({postalInformationResponse.Gemeentenaam})" },
-                };
+                return $"{postNaam} ({postalInformationResponse.Gemeentenaam})";
             }
         }
         else
         {
             // Hoofdgemeente overnemen, postcode wint altijd
-            return adresMatchUitAdressenregister with {
-                Adres = adresMatchUitAdressenregister.Adres with { Gemeente = postalInformationResponse.Gemeentenaam },
-            };
+            return postalInformationResponse.Gemeentenaam;
         }
     }
 }
@@ -82,6 +72,13 @@ public record AdresMatchUitAdressenregister
 
     public Registratiedata.AdresId AdresId { get; init; }
     public Registratiedata.Adres Adres { get; init; }
+
+    public AdresMatchUitAdressenregister WithGemeentenaam(string gemeentenaam)
+    {
+        return this with {
+            Adres = Adres with { Gemeente = gemeentenaam },
+        };
+    }
 }
 
 public record NietUniekeAdresMatchUitAdressenregister

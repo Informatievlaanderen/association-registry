@@ -16,12 +16,12 @@ public class With_Several_PostalNames
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Hekelgem",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                             new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Affligem",
+                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
+        result.Should().Be("Hekelgem (Affligem)");
     }
 
     [Fact]
@@ -33,11 +33,11 @@ public class With_Several_PostalNames
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Nothingham",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                             new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Nothingham",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Affligem",
+                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Affligem");
+        result.Should().Be("Affligem");
     }
 }
