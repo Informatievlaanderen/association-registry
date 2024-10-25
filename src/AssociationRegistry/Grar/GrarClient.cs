@@ -95,7 +95,7 @@ public class GrarClient : IGrarClient
         }
     }
 
-    public async Task<IReadOnlyCollection<AddressMatchResponse>> GetAddressMatches(
+    public async Task<AdresMatchResponseCollection> GetAddressMatches(
         string straatnaam,
         string huisnummer,
         string busnummer,
@@ -121,21 +121,21 @@ public class GrarClient : IGrarClient
                                                         .ToList();
 
             if (addressMatchOsloCollection.Count == 0)
-                return Array.Empty<AddressMatchResponse>();
+                return new AdresMatchResponseCollection([]);
 
-            return addressMatchOsloCollection.Select(s => new AddressMatchResponse(
-                                                         Score: s.Score,
-                                                         AdresId: new Registratiedata.AdresId(
-                                                             Adresbron.AR.Code,
-                                                             s.Identificator.Id
-                                                         ),
-                                                         Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
-                                                         s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
-                                                         s.Huisnummer,
-                                                         s.Busnummer ?? string.Empty,
-                                                         s.Postinfo.ObjectId,
-                                                         s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
-                                                     )).ToArray();
+            return new AdresMatchResponseCollection(addressMatchOsloCollection.Select(s => new AddressMatchResponse(
+                                                                                          Score: s.Score,
+                                                                                          AdresId: new Registratiedata.AdresId(
+                                                                                              Adresbron.AR.Code,
+                                                                                              s.Identificator.Id
+                                                                                          ),
+                                                                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
+                                                                                          s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
+                                                                                          s.Huisnummer,
+                                                                                          s.Busnummer ?? string.Empty,
+                                                                                          s.Postinfo.ObjectId,
+                                                                                          s.Gemeente.Gemeentenaam.GeografischeNaam.Spelling
+                                                                                      )).ToArray());
         }
         catch (TaskCanceledException ex)
         {

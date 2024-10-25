@@ -58,14 +58,16 @@ public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Co
                              It.IsAny<string>(),
                              It.IsAny<string>(),
                              CancellationToken.None))
-                  .ReturnsAsync(new[]
-                   {
-                       fixture.Create<AddressMatchResponse>() with
+                  .ReturnsAsync(
+                       new AdresMatchResponseCollection(new[]
                        {
-                           Score = 100,
-                           AdresId = locatie.AdresId,
-                       },
-                   });
+                           fixture.Create<AddressMatchResponse>() with
+                           {
+                               Score = 100,
+                               AdresId = locatie.AdresId,
+                           },
+                       })
+                       );
 
         return grarClient;
     }
