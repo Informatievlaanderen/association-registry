@@ -306,28 +306,26 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             return new AdresWerdNietGevondenInAdressenregister(VCode, locatieId, locatie.Adres.Straatnaam, locatie.Adres.Huisnummer,
                                                                locatie.Adres.Busnummer, locatie.Adres.Postcode, locatie.Adres.Gemeente);
 
-        if (adresMatches.HasSingularResponse)
-        {
-            var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
-                locatie.Adres.Gemeente,
-                postalInformation,
-                adresMatches.SingularResponse.Gemeente);
+        if (!adresMatches.HasSingularResponse)
+            return new AdresNietUniekInAdressenregister(VCode, locatieId,
+                                                        adresMatches.Select(NietUniekeAdresMatchUitAdressenregister.FromResponse)
+                                                                    .ToArray());
 
-            var registratieData = new Registratiedata.AdresUitAdressenregister(
-                adresMatches.SingularResponse.Straatnaam,
-                adresMatches.SingularResponse.Huisnummer,
-                adresMatches.SingularResponse.Busnummer,
-                adresMatches.SingularResponse.Postcode,
-                decoratedGemeentenaam);
+        var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+            locatie.Adres.Gemeente,
+            postalInformation,
+            adresMatches.SingularResponse.Gemeente);
 
-            return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                               adresMatches.SingularResponse.AdresId!,
-                                                               registratieData);
-        }
+        var registratieData = new Registratiedata.AdresUitAdressenregister(
+            adresMatches.SingularResponse.Straatnaam,
+            adresMatches.SingularResponse.Huisnummer,
+            adresMatches.SingularResponse.Busnummer,
+            adresMatches.SingularResponse.Postcode,
+            decoratedGemeentenaam);
 
-        return new AdresNietUniekInAdressenregister(VCode, locatieId,
-                                                    adresMatches.Select(NietUniekeAdresMatchUitAdressenregister.FromResponse)
-                                                                .ToArray());
+        return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                           adresMatches.SingularResponse.AdresId!,
+                                                           registratieData);
     }
 
     private IEvent GetAdresMatchExceptionEvent(
