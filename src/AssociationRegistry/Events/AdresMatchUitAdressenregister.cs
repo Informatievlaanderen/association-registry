@@ -18,6 +18,21 @@ public record AdresMatchUitAdressenregister
                 "België"),
         };
 
+    public class GemeenteNaamSuffixCleanerRegex
+    {
+        private readonly Regex _regex;
+        private const string RemoveBracketsAndContent = "\\(.*?\\)";
+
+        public GemeenteNaamSuffixCleanerRegex()
+        {
+           _regex = new Regex(RemoveBracketsAndContent);
+        }
+
+        public string Clean(string gemeentenaam)
+            => _regex.Replace(gemeentenaam, "").Trim();
+    }
+
+    // hekelgem (affligem)
     public AdresMatchUitAdressenregister DecorateWithPostalInformation(string origineleGemeentenaam, PostalInformationResponse? postalInformationResponse)
     {
         if (postalInformationResponse is null) return this;
