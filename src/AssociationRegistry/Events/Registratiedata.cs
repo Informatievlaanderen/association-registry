@@ -91,19 +91,6 @@ public static class Registratiedata
         string Postcode,
         string Gemeente)
     {
-        public static AdresUitAdressenregister? With(AdresMatchUitAdressenregister? adres)
-        {
-            if (adres is null)
-                return null;
-
-            return new AdresUitAdressenregister(
-                adres.Adres.Straatnaam,
-                adres.Adres.Huisnummer,
-                adres.Adres.Busnummer,
-                adres.Adres.Postcode,
-                adres.Adres.Gemeente);
-        }
-
         public static AdresUitAdressenregister? With(AdresDetailUitAdressenregister? adres)
         {
             if (adres is null)

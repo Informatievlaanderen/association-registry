@@ -308,18 +308,21 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         if (adresMatches.HasSingularResponse)
         {
-            var adresMatchUitAdressenregister = AdresMatchUitAdressenregister
-               .FromResponse(adresMatches.SingularResponse);
+            var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+                locatie.Adres.Gemeente,
+                postalInformation,
+                adresMatches.SingularResponse.Gemeente);
 
-            var decorateWithPostalInformation = GemeentenaamDecorator.DecorateWithPostalInformation(adresMatchUitAdressenregister,
-                                                    locatie.Adres.Gemeente, postalInformation);
-
-            var registratieData = Registratiedata.AdresUitAdressenregister.With(decorateWithPostalInformation);
+            var registratieData = new Registratiedata.AdresUitAdressenregister(
+                adresMatches.SingularResponse.Straatnaam,
+                adresMatches.SingularResponse.Huisnummer,
+                adresMatches.SingularResponse.Busnummer,
+                adresMatches.SingularResponse.Postcode,
+                decoratedGemeentenaam);
 
             return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                                adresMatches.SingularResponse.AdresId!,
-                registratieData
-                                                               );
+                                                               registratieData);
         }
 
         return new AdresNietUniekInAdressenregister(VCode, locatieId,

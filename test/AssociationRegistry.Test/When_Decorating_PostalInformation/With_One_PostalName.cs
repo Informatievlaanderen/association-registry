@@ -16,11 +16,11 @@ public class With_One_PostalName
                                               Gemeente: "Halle", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Halle",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1501", Gemeentenaam: "Halle", new[] { "Buizingen" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Halle",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1501", Gemeentenaam: "Halle", new[] { "Buizingen" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Buizingen (Halle)");
+        result.Should().Be("Buizingen (Halle)");
     }
 
     [Fact]
@@ -32,11 +32,11 @@ public class With_One_PostalName
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "NothingHam",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Ternat", new[] { "Wambeek" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Ternat", new[] { "Wambeek" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Wambeek (Ternat)");
+        result.Should().Be("Wambeek (Ternat)");
     }
 
     [Fact]
@@ -48,11 +48,11 @@ public class With_One_PostalName
                                               Gemeente: "NothingHam", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "NothingHam",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Ternat", new[] { "TERNAT" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Ternat", new[] { "TERNAT" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Ternat");
+        result.Should().Be("Ternat");
     }
 
     [Theory]
@@ -67,11 +67,11 @@ public class With_One_PostalName
                                               Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam,
-                                                                         new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam,
+                                                                new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }), sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
+        result.Should().Be("Hekelgem (Affligem)");
     }
 
     [Fact]
@@ -83,10 +83,10 @@ public class With_One_PostalName
                                               Gemeente: "Hekelgem", Land: "België"),
         };
 
-        var result = GemeentenaamDecorator.DecorateWithPostalInformation(sut, origineleGemeentenaam: "Hekelgem Affligem",
-                                                                         postalInformationResponse: new PostalInformationResponse(
-                                                                             Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }));
+        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem Affligem",
+                                                                postalInformationResponse: new PostalInformationResponse(
+                                                                    Postcode: "1741", Gemeentenaam: "Affligem", new[] { "Hekelgem" }), gemeentenaamUitAdresmatch: sut.Adres.Gemeente);
 
-        result.Adres.Gemeente.Should().Be("Hekelgem (Affligem)");
+        result.Should().Be("Hekelgem (Affligem)");
     }
 }
