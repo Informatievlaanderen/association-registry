@@ -98,7 +98,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
     {
         if (teSynchroniserenLocatie.AdresId is not null)
         {
-            await vereniging.NeemAdresDetailOver(teSynchroniserenLocatie.LocatieId, teSynchroniserenLocatie.AdresId, _grarClient, cancellationToken);
+            await vereniging.NeemAdresDetailOver(teSynchroniserenLocatie, _grarClient, cancellationToken);
         }
         else if (teSynchroniserenLocatie.Adres is not null)
         {

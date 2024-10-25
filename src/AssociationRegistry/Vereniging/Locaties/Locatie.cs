@@ -3,6 +3,7 @@
 using Events;
 using Exceptions;
 using Framework;
+using Grar.Models;
 using Normalizers;
 
 public record Locatie
@@ -101,6 +102,19 @@ public record Locatie
                 busnummer: decoratedAdres.Adres.Busnummer,
                 postcode: decoratedAdres.Adres.Postcode,
                 gemeente: decoratedAdres.Adres.Gemeente,
+                Adres.België
+            ),
+        };
+
+    public Locatie MetAdresUitGrar(AddressDetailResponse decoratedAdres, string decoratedGemeentenaam)
+        => this with
+        {
+            Adres = Adres.Create(
+                straatnaam: decoratedAdres.Straatnaam,
+                huisnummer: decoratedAdres.Huisnummer,
+                busnummer: decoratedAdres.Busnummer,
+                postcode: decoratedAdres.Postcode,
+                gemeente: decoratedGemeentenaam,
                 Adres.België
             ),
         };
