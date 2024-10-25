@@ -292,7 +292,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                            .RedenLocatieWerdVerwijderd);
         }
 
-        var adresMatch = await grarClient.GetAddressMatches(
+        var adresMatches = await grarClient.GetAddressMatches(
             locatie.Adres.Straatnaam,
             locatie.Adres.Huisnummer,
             locatie.Adres.Busnummer,
@@ -302,33 +302,35 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
 
-        return adresMatch?.Count switch
+        switch (adresMatches.Count)
         {
-            0 => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                             locatie.Adres.Straatnaam,
-                                                             locatie.Adres.Huisnummer,
-                                                             locatie.Adres.Busnummer,
-                                                             locatie.Adres.Postcode,
-                                                             locatie.Adres.Gemeente),
-            1 => new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                             adresMatch.Single().AdresId,
-                                                             Registratiedata.AdresUitAdressenregister.With(AdresMatchUitAdressenregister
-                                                                    .FromResponse(adresMatch.Single())
-                                                                    .DecorateWithPostalInformation(
-                                                                         locatie.Adres.Gemeente, postalInformation))),
-            _ => adresMatch.Count(c => c.Score == 100).Equals(1)
-                ? new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                              adresMatch.Single(s => s.Score == 100).AdresId,
-                                                              Registratiedata.AdresUitAdressenregister.With(AdresMatchUitAdressenregister
-                                                                     .FromResponse(adresMatch.Single(s => s.Score == 100))
-                                                                     .DecorateWithPostalInformation(
-                                                                          locatie.Adres.Gemeente, postalInformation)))
-                : new AdresNietUniekInAdressenregister(VCode, locatieId,
-                                                       adresMatch.Select(
-                                                                      match => NietUniekeAdresMatchUitAdressenregister.FromResponse(
-                                                                          match))
-                                                                 .ToArray()),
-        };
+            case 0:
+                return new AdresWerdNietGevondenInAdressenregister(VCode, locatieId, locatie.Adres.Straatnaam, locatie.Adres.Huisnummer,
+                                                                   locatie.Adres.Busnummer, locatie.Adres.Postcode, locatie.Adres.Gemeente);
+
+            case 1:
+                return AdresMatchMetAbsoluteZekerheid(locatieId, locatie, adresMatches, postalInformation, adresMatches.Single());
+
+            default:
+                var single100PercentMatch = adresMatches.SingleOrDefault(c => c.Score == 100);
+
+                return single100PercentMatch is not null
+                    ? AdresMatchMetAbsoluteZekerheid(locatieId, locatie, adresMatches, postalInformation,
+                                                     single100PercentMatch)
+                    : new AdresNietUniekInAdressenregister(VCode, locatieId,
+                                                           adresMatches.Select(NietUniekeAdresMatchUitAdressenregister.FromResponse)
+                                                                     .ToArray());
+        }
+    }
+
+    private AdresWerdOvergenomenUitAdressenregister AdresMatchMetAbsoluteZekerheid(int locatieId, Locatie locatie, IReadOnlyCollection<AddressMatchResponse> adresMatch, PostalInformationResponse postalInformation, AddressMatchResponse addressMatchResponse)
+    {
+        return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
+                                                           addressMatchResponse.AdresId,
+                                                           Registratiedata.AdresUitAdressenregister.With(AdresMatchUitAdressenregister
+                                                                  .FromResponse(addressMatchResponse)
+                                                                  .DecorateWithPostalInformation(
+                                                                       locatie.Adres.Gemeente, postalInformation)));
     }
 
     private IEvent GetAdresMatchExceptionEvent(
