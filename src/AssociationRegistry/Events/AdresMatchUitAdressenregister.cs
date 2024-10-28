@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Events;
 
 using Grar.Models;
+using Grar.Models.PostalInfo;
 
 public static class GemeentenaamDecorator
 {
@@ -13,7 +14,7 @@ public static class GemeentenaamDecorator
 
         var origineleGemeenteNaamClean = GemeenteNaamSuffixCleanerRegex.Instance.Clean(origineleGemeentenaam);
 
-        if (postalInformationResponse.Postnamen.Length == 1)
+        if (postalInformationResponse.Postnamen.HasSinglePostnaam)
         {
             if (string.Equals(postalInformationResponse.Gemeentenaam, postalInformationResponse.Postnamen.Single(),
                               StringComparison.CurrentCultureIgnoreCase))
@@ -24,19 +25,18 @@ public static class GemeentenaamDecorator
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return $"{postalInformationResponse.Postnamen.Single()} ({postalInformationResponse.Gemeentenaam})";
+                return $"{postalInformationResponse.Postnamen.Single().Value} ({postalInformationResponse.Gemeentenaam})";
             }
         }
 
-        var postNaam =
-            postalInformationResponse.Postnamen.SingleOrDefault(
-                sod => sod.Equals(origineleGemeenteNaamClean, StringComparison.InvariantCultureIgnoreCase));
+        var postNaam = postalInformationResponse.Postnamen.FindSingleWithGemeentenaam(origineleGemeenteNaamClean);
+
         var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
 
         if (origineleGemeentenaamKomtVoorInPostalInformationResult)
         {
             // Gemeentenaam komt voor in de postnamen
-            if (postalInformationResponse.Gemeentenaam.Equals(postNaam, StringComparison.InvariantCultureIgnoreCase))
+            if (postalInformationResponse.Gemeentenaam.Equals(postNaam.Value, StringComparison.InvariantCultureIgnoreCase))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return postalInformationResponse.Gemeentenaam;
@@ -44,7 +44,7 @@ public static class GemeentenaamDecorator
             else
             {
                 // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return $"{postNaam} ({postalInformationResponse.Gemeentenaam})";
+                return $"{postNaam.Value} ({postalInformationResponse.Gemeentenaam})";
             }
         }
         else
@@ -75,7 +75,8 @@ public record AdresMatchUitAdressenregister
 
     public AdresMatchUitAdressenregister WithGemeentenaam(string gemeentenaam)
     {
-        return this with {
+        return this with
+        {
             Adres = Adres with { Gemeente = gemeentenaam },
         };
     }
@@ -89,7 +90,6 @@ public record NietUniekeAdresMatchUitAdressenregister
             Score = response.Score,
             AdresId = response.AdresId,
             Adresvoorstelling = response.Adresvoorstelling,
-
         };
 
     public Registratiedata.AdresId? AdresId { get; init; }

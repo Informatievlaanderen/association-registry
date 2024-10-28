@@ -3,6 +3,7 @@
 using Events;
 using FluentAssertions;
 using Grar.Models;
+using Grar.Models.PostalInfo;
 using Xunit;
 
 public class With_Several_PostalNames
@@ -19,7 +20,7 @@ public class With_Several_PostalNames
         var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem",
                                                                 postalInformationResponse: new PostalInformationResponse(
                                                                     Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitGrar: sut.Adres.Gemeente);
+                                                                    Postnamen.FromValues("AFFLIGEM", "Essene", "Hekelgem", "Teralfene")), gemeentenaamUitGrar: sut.Adres.Gemeente);
 
         result.Should().Be("Hekelgem (Affligem)");
     }
@@ -36,7 +37,7 @@ public class With_Several_PostalNames
         var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Nothingham",
                                                                 postalInformationResponse: new PostalInformationResponse(
                                                                     Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    new[] { "AFFLIGEM", "Essene", "Hekelgem", "Teralfene" }), gemeentenaamUitGrar: sut.Adres.Gemeente);
+                                                                    Postnamen.FromValues("AFFLIGEM", "Essene", "Hekelgem", "Teralfene")), gemeentenaamUitGrar: sut.Adres.Gemeente);
 
         result.Should().Be("Affligem");
     }

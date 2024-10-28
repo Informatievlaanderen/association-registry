@@ -11,6 +11,7 @@ using Framework;
 using Grar;
 using Grar.AddressMatch;
 using Grar.Models;
+using Grar.Models.PostalInfo;
 using Marten;
 using Moq;
 using Vereniging;
@@ -65,7 +66,7 @@ public class Given_A_Locatie_With_Adres_id
                    {
                        Gemeentenaam = adresDetailResponse.Gemeente,
                        Postcode = adresDetailResponse.Postcode,
-                       Postnamen = Array.Empty<string>(),
+                       Postnamen = Postnamen.Empty,
                    });
 
         await commandHandler.Handle(new CommandEnvelope<WijzigLocatieCommand>(command, fixture.Create<CommandMetadata>()));
