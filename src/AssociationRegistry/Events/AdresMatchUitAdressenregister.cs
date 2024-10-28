@@ -15,43 +15,23 @@ public static class GemeentenaamDecorator
 
         var origineleGemeenteNaamClean = GemeenteNaamSuffixCleanerRegex.Instance.Clean(origineleGemeentenaam);
 
-        if (postalInformationResponse.Postnamen.HasSinglePostnaam)
+        var postnaam = postalInformationResponse.Postnamen.FindSingle() ??
+                       postalInformationResponse.Postnamen.FindSingleWithGemeentenaam(origineleGemeenteNaamClean);
+
+        if (postnaam is not null)
         {
-            if (postalInformationResponse.Postnamen.Single().IsEquivalentTo(postalInformationResponse.Gemeentenaam))
+            if (postnaam.IsEquivalentTo(postalInformationResponse.Gemeentenaam))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return postalInformationResponse.Gemeentenaam;
             }
-            else
-            {
-                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return $"{postalInformationResponse.Postnamen.Single().Value} ({postalInformationResponse.Gemeentenaam})";
-            }
+
+            // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
+            return $"{postnaam.Value} ({postalInformationResponse.Gemeentenaam})";
         }
 
-        var postNaam = postalInformationResponse.Postnamen.FindSingleWithGemeentenaam(origineleGemeenteNaamClean);
-
-        var origineleGemeentenaamKomtVoorInPostalInformationResult = postNaam is not null;
-
-        if (origineleGemeentenaamKomtVoorInPostalInformationResult)
-        {
-            // Gemeentenaam komt voor in de postnamen
-            if (postNaam.IsEquivalentTo(postalInformationResponse.Gemeentenaam))
-            {
-                // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return postalInformationResponse.Gemeentenaam;
-            }
-            else
-            {
-                // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-                return $"{postNaam.Value} ({postalInformationResponse.Gemeentenaam})";
-            }
-        }
-        else
-        {
-            // Hoofdgemeente overnemen, postcode wint altijd
-            return postalInformationResponse.Gemeentenaam;
-        }
+        // Hoofdgemeente overnemen, postcode wint altijd
+        return postalInformationResponse.Gemeentenaam;
     }
 }
 
