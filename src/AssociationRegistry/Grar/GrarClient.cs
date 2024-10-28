@@ -4,6 +4,7 @@ using Events;
 using Exceptions;
 using Microsoft.Extensions.Logging;
 using Models;
+using Models.PostalInfo;
 using Newtonsoft.Json;
 using Resources;
 using System.Net;
@@ -172,7 +173,8 @@ public class GrarClient : IGrarClient
                     var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
 
                     var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
-                    var postnamen = result.Postnamen.Select(s => s.GeografischeNaam.Spelling).ToArray();
+                    var postnamen = Postnamen.FromPostalInfo(result.Postnamen);
+
 
                     var postalInformationResponse = new PostalInformationResponse(postcode,
                                                                                   gemeentenaam ?? postnamen[0],

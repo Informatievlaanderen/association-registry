@@ -8,6 +8,7 @@ using Events;
 using Grar;
 using Grar.HeradresseerLocaties;
 using Grar.Models;
+using Grar.Models.PostalInfo;
 using Moq;
 using Vereniging;
 using Xunit;
@@ -37,7 +38,7 @@ public class With_DecoratingWithPostalInformation
 
         var mockedPostalInformation = new PostalInformationResponse(mockedAdresDetail.Postcode,
                                                                     Gemeentenaam: "Affligem",
-                                                                    new[] { "Hekelgem" });
+                                                                    Postnamen.FromValues("Hekelgem"));
 
         var grarClientMock = new Mock<IGrarClient>();
 

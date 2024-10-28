@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Grar;
 
 using Models;
+using Models.PostalInfo;
 using Vereniging;
 
 public interface IGrarClient

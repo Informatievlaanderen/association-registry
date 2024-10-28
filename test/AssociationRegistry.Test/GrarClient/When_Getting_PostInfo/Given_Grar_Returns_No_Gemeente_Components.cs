@@ -3,6 +3,7 @@
 using AssociationRegistry.Grar;
 using FluentAssertions;
 using Grar.Models;
+using Grar.Models.PostalInfo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
@@ -25,7 +26,7 @@ public class Given_Grar_Returns_No_Gemeente_Components
 
         var result = await sut.GetPostalInformation("0612");
 
-        result.Should().BeEquivalentTo(new PostalInformationResponse("0612", "Sinterklaas", new [] { "Sinterklaas" }));
+        result.Should().BeEquivalentTo(new PostalInformationResponse("0612", "Sinterklaas", Postnamen.FromValues("Sinterklaas")));
     }
 
     private const string PostInfoResponseWithoutGemeenteComponents =
