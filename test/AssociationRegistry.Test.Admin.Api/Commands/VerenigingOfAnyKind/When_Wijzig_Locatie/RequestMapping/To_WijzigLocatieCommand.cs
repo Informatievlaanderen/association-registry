@@ -36,7 +36,7 @@ public class To_WijzigLocatieCommand
         command.TeWijzigenLocatie.Adres.Huisnummer.Should().Be(request.Locatie.Adres.Huisnummer);
         command.TeWijzigenLocatie.Adres.Busnummer.Should().Be(request.Locatie.Adres.Busnummer);
         command.TeWijzigenLocatie.Adres.Postcode.Should().Be(request.Locatie.Adres.Postcode);
-        command.TeWijzigenLocatie.Adres.Gemeente.Should().Be(request.Locatie.Adres.Gemeente);
+        command.TeWijzigenLocatie.Adres.Gemeente.Naam.Should().Be(request.Locatie.Adres.Gemeente);
         command.TeWijzigenLocatie.Adres.Land.Should().Be(request.Locatie.Adres.Land);
         command.TeWijzigenLocatie.AdresId.Should().BeNull();
     }

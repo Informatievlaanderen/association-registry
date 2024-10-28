@@ -34,7 +34,7 @@ public class To_VoegLocatieToeCommand
         command.Locatie.Adres!.Huisnummer.Should().Be(request.Locatie.Adres!.Huisnummer);
         command.Locatie.Adres!.Busnummer.Should().Be(request.Locatie.Adres!.Busnummer);
         command.Locatie.Adres!.Postcode.Should().Be(request.Locatie.Adres!.Postcode);
-        command.Locatie.Adres!.Gemeente.Should().Be(request.Locatie.Adres!.Gemeente);
+        command.Locatie.Adres!.Gemeente.Naam.Should().Be(request.Locatie.Adres!.Gemeente);
         command.Locatie.Adres!.Land.Should().Be(request.Locatie.Adres!.Land);
         command.Locatie.AdresId.Should().BeNull();
     }

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_Decorating_PostalInformation;
 
 using FluentAssertions;
+using Vereniging;
 using Xunit;
 
 public class GemeenteNaamSuffixCleanerTests
@@ -16,7 +17,7 @@ public class GemeenteNaamSuffixCleanerTests
     {
         var sut = GemeenteNaamSuffixCleanerRegex.Instance;
 
-        var actual = sut.Clean(input);
+        var actual = sut.Clean(Gemeentenaam.FromValue(input));
         actual.Should().Be("Hekelgem");
     }
 }

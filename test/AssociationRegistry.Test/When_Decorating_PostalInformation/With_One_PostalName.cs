@@ -4,6 +4,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Grar.Models.PostalInfo;
+using Vereniging;
 using Xunit;
 using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
@@ -38,16 +39,16 @@ public class With_One_PostalName
 
     private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string postnaam)
     {
-        var origineleGemeentenaam = _fixture.Create<string>();
+        var origineleGemeentenaam = _fixture.Create<Gemeentenaam>();
 
         var postalInformationResponse = new PostalInformationResponse(
             Postcode: _fixture.Create<string>(),
             Gemeentenaam: gemeentenaam,
             Postnamen.FromValues(postnaam));
 
-        var result = GemeentenaamDecorator.VerrijkGemeentenaam(origineleGemeentenaam: origineleGemeentenaam,
+        var result = GemeentenaamDecorator.VerrijkGemeentenaam(gemeentenaam: origineleGemeentenaam,
                                                                postalInformationResponse: postalInformationResponse,
-                                                               gemeentenaamUitGrar: origineleGemeentenaam);
+                                                               gemeentenaamUitGrar: origineleGemeentenaam.Naam);
 
         return result;
     }

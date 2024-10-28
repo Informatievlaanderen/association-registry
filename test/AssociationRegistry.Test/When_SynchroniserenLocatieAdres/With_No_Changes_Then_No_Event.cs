@@ -40,7 +40,7 @@ public class With_No_Changes_Then_No_Event
                 AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde),
                 Straatnaam = locatie.Adres.Straatnaam,
                 Busnummer = locatie.Adres.Busnummer,
-                Gemeente = locatie.Adres.Gemeente,
+                Gemeente = locatie.Adres.Gemeente.Naam,
                 Huisnummer = locatie.Adres.Huisnummer,
                 Adresvoorstelling = locatie.Adres.ToAdresString(),
                 Postcode = locatie.Adres.Postcode,

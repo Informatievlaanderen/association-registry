@@ -24,7 +24,7 @@ public class Given_An_Adres
                                         adres.Huisnummer,
                                         adres.Busnummer,
                                         adres.Postcode,
-                                        adres.Gemeente,
+                                        adres.Gemeente.Naam,
                                         adres.Land));
     }
 }

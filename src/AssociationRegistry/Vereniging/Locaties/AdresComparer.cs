@@ -20,7 +20,7 @@ public class AdresComparer
                _stringNormalizer.NormalizeString(adres.Postcode) == _stringNormalizer.NormalizeString(otherAdres.Postcode) &&
                _stringNormalizer.NormalizeString(adres.Huisnummer) == _stringNormalizer.NormalizeString(otherAdres.Huisnummer) &&
                _stringNormalizer.NormalizeString(adres.Busnummer) == _stringNormalizer.NormalizeString(otherAdres.Busnummer) &&
-               _stringNormalizer.NormalizeString(adres.Gemeente) == _stringNormalizer.NormalizeString(otherAdres.Gemeente) &&
+               _stringNormalizer.NormalizeString(adres.Gemeente.Naam) == _stringNormalizer.NormalizeString(otherAdres.Gemeente.Naam) &&
                _stringNormalizer.NormalizeString(adres.Land) == _stringNormalizer.NormalizeString(otherAdres.Land);
     }
 }

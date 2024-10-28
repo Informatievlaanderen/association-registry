@@ -167,14 +167,14 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             var verrijkteLocatie = locatie.VerrijkMet(verrijkteGemeentenaam);
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
-            var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
-
-            if (HeeftVerschillenBinnenAdres(locatie, registratieData))
+            if (locatie.Adres != verrijkteLocatie.Adres)
             {
                 AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                                   locatieId,
                                                                   adresDetailResponse.AdresId,
-                                                                  registratieData!,
+                                                                  Registratiedata
+                                                                     .AdresUitAdressenregister
+                                                                     .FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam)!,
                                                                   idempotenceKey));
             }
         }
@@ -257,7 +257,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-            string.Empty,
             postalInformation,
             adresDetailResponse.Gemeente);
 
@@ -291,14 +290,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             locatie.Adres.Huisnummer,
             locatie.Adres.Busnummer,
             locatie.Adres.Postcode,
-            locatie.Adres.Gemeente,
+            locatie.Adres.Gemeente.Naam,
             cancellationToken);
 
         var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
 
         if (adresMatches.HasNoResponse)
-            return new AdresWerdNietGevondenInAdressenregister(VCode, locatieId, locatie.Adres.Straatnaam, locatie.Adres.Huisnummer,
-                                                               locatie.Adres.Busnummer, locatie.Adres.Postcode, locatie.Adres.Gemeente);
+            return AdresWerdNietGevondenInAdressenregister.From(VCode, locatie);
 
         if (!adresMatches.HasSingularResponse)
             return new AdresNietUniekInAdressenregister(VCode, locatieId,
@@ -325,12 +323,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         IEvent @event = ex.StatusCode switch
         {
             //TODO: is this correct?
-            HttpStatusCode.NotFound => new AdresWerdNietGevondenInAdressenregister(VCode, locatieId,
-                                                                                   locatieVoorTeMatchenAdres.Adres.Straatnaam,
-                                                                                   locatieVoorTeMatchenAdres.Adres.Huisnummer,
-                                                                                   locatieVoorTeMatchenAdres.Adres.Busnummer,
-                                                                                   locatieVoorTeMatchenAdres.Adres.Postcode,
-                                                                                   locatieVoorTeMatchenAdres.Adres.Gemeente),
+            HttpStatusCode.NotFound => AdresWerdNietGevondenInAdressenregister.From(VCode, locatieVoorTeMatchenAdres),
             _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
                                                                       GetExceptionMessage(ex.StatusCode)),
         };
@@ -352,31 +345,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return locatie.Adres != adres ||
                locatie.AdresId != adresId;
     }
-
-    [Pure]
-    private static bool HeeftVerschillenBinnenAdres(Locatie locatie, Registratiedata.AdresUitAdressenregister adresUitAdressenregister)
-        => HeeftVerschillenBinnenAdres(locatie.Adres,
-                                       adresUitAdressenregister.Straatnaam,
-                                       adresUitAdressenregister.Huisnummer,
-                                       adresUitAdressenregister.Busnummer,
-                                       adresUitAdressenregister.Postcode,
-                                       adresUitAdressenregister.Gemeente);
-
-    [Pure]
-    private static bool HeeftVerschillenBinnenAdres(
-        Adres adres,
-        string straatnaam,
-        string huisnummer,
-        string busnummer,
-        string postcode,
-        string gemeente)
-        => (
-            straatnaam != adres.Straatnaam ||
-            huisnummer != adres.Huisnummer ||
-            busnummer != adres.Busnummer ||
-            postcode != adres.Postcode ||
-            gemeente != adres.Gemeente
-            );
 
     public void Hydrate(VerenigingState obj)
     {

@@ -41,8 +41,8 @@ public class Given_Both_Adressen_Are_Not_Null
     [Fact]
     public void Then_The_StringComparer_Is_Called_For_Gemeente()
     {
-        _mock.Verify(v => v.NormalizeString(_adres1!.Gemeente));
-        _mock.Verify(v => v.NormalizeString(_adres2!.Gemeente));
+        _mock.Verify(v => v.NormalizeString(_adres1!.Gemeente.Naam));
+        _mock.Verify(v => v.NormalizeString(_adres2!.Gemeente.Naam));
     }
 
     [Fact]
