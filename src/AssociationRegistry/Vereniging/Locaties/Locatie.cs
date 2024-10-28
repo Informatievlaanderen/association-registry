@@ -106,7 +106,7 @@ public record Locatie
             ),
         };
 
-    public Locatie MetAdresUitGrar(AddressDetailResponse decoratedAdres, string decoratedGemeentenaam)
+    public Locatie MetAdresUitGrar(AddressDetailResponse decoratedAdres, VerrijkteGemeentenaam verrijkteGemeentenaam)
         => this with
         {
             Adres = Adres.Create(
@@ -114,10 +114,13 @@ public record Locatie
                 huisnummer: decoratedAdres.Huisnummer,
                 busnummer: decoratedAdres.Busnummer,
                 postcode: decoratedAdres.Postcode,
-                gemeente: decoratedGemeentenaam,
+                gemeente: verrijkteGemeentenaam.Format(),
                 Adres.België
             ),
         };
+
+    public Locatie VerrijkMet(VerrijkteGemeentenaam gemeentenaam)
+        => this with { Adres = Adres! with { Gemeente = gemeentenaam.Format() } };
 }
 
 public record Locatienaam

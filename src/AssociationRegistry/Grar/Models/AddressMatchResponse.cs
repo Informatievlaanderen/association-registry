@@ -11,7 +11,7 @@ public record AddressMatchResponse(
     string Busnummer,
     string Postcode,
     string Gemeente
-);
+): IAddressResponse;
 
 public record AddressDetailResponse(
     Registratiedata.AdresId AdresId,
@@ -22,4 +22,15 @@ public record AddressDetailResponse(
     string Busnummer,
     string Postcode,
     string Gemeente
-);
+) : IAddressResponse;
+
+public interface IAddressResponse
+{
+    Registratiedata.AdresId? AdresId { get; }
+    string Adresvoorstelling { get; }
+    string Straatnaam { get; }
+    string Huisnummer { get; }
+    string Busnummer { get; }
+    string Postcode { get; }
+    string Gemeente { get; }
+}

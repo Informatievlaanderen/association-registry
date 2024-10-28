@@ -1,93 +1,54 @@
 ﻿namespace AssociationRegistry.Test.When_Decorating_PostalInformation;
 
+using AutoFixture;
 using Events;
 using FluentAssertions;
-using Grar.Models;
 using Grar.Models.PostalInfo;
 using Xunit;
+using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
 public class With_One_PostalName
 {
-    [Fact]
-    public void Then_Takes_The_PostalName_And_MunicipalityName_Halle()
+    private static readonly Fixture _fixture;
+
+    static With_One_PostalName()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1501",
-                                              Gemeente: "Halle", Land: "België"),
-        };
-
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Halle",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1501", Gemeentenaam: "Halle", Postnamen.FromValues("Buizingen")), sut.Adres.Gemeente);
-
-        result.Should().Be("Buizingen (Halle)");
+        _fixture = new Fixture();
     }
 
     [Fact]
-    public void Then_Takes_The_PostalName_And_MunicipalityName_NothingHam()
+    public void And_PostalName_Differs_From_MunicipalityName_Then_Gemeentenaam_Includes_Postnaam()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "NothingHam", Land: "België"),
-        };
+        var result = DecorateWithOnePostalName(
+            gemeentenaam: "Ternat",
+            postnaam: "Wambeek");
 
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Ternat", Postnamen.FromValues("Wambeek")), gemeentenaamUitGrar: sut.Adres.Gemeente);
-
-        result.Should().Be("Wambeek (Ternat)");
+        result.Should().BeEquivalentTo(VerrijkteGemeentenaam.MetPostnaam(Postnaam.FromValue("Wambeek"), "Ternat"));
     }
 
     [Fact]
-    public void And_MunicipalityName_Equals_PostalName_Then_Returns_MunicipalityName()
+    public void And_PostalName_Is_Equivalent_To_MunicipalityName_Then_Gemeentenaam_Is_Returned()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "NothingHam", Land: "België"),
-        };
+        var result = DecorateWithOnePostalName(
+            gemeentenaam: "Ternat",
+            postnaam: "TERNAT");
 
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Ternat", Postnamen.FromValues("TERNAT")), gemeentenaamUitGrar: sut.Adres.Gemeente);
-
-        result.Should().Be("Ternat");
+        result.Should().BeEquivalentTo(VerrijkteGemeentenaam.ZonderPostnaam("Ternat"));
     }
 
-    [Theory]
-    [InlineData("Hekelgem (Affligem)")]
-    [InlineData("Hekelgem (afg)")]
-    [InlineData("Hekelgem")]
-    public void And_Municipality_Already_Correctly_Formatted(string origineleGemeentenaam)
+    private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string postnaam)
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Fosselstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "Hekelgem", Land: "België"),
-        };
+        var origineleGemeentenaam = _fixture.Create<string>();
 
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam,
-                                                                new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Affligem", Postnamen.FromValues("Hekelgem")), sut.Adres.Gemeente);
+        var postalInformationResponse = new PostalInformationResponse(
+            Postcode: _fixture.Create<string>(),
+            Gemeentenaam: gemeentenaam,
+            Postnamen.FromValues(postnaam));
 
-        result.Should().Be("Hekelgem (Affligem)");
-    }
+        var result = GemeentenaamDecorator.VerrijkGemeentenaam(origineleGemeentenaam: origineleGemeentenaam,
+                                                               postalInformationResponse: postalInformationResponse,
+                                                               gemeentenaamUitGrar: origineleGemeentenaam);
 
-    [Fact]
-    public void And_Municipality_Already_Incorrectly_Formatted()
-    {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Fosselstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "Hekelgem", Land: "België"),
-        };
-
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem Affligem",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Affligem", Postnamen.FromValues("Hekelgem")), gemeentenaamUitGrar: sut.Adres.Gemeente);
-
-        result.Should().Be("Hekelgem (Affligem)");
+        return result;
     }
 }

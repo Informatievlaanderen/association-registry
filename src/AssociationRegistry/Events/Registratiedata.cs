@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Events;
 
+using Grar.Models;
+
 public static class Registratiedata
 {
     public record Contactgegeven(
@@ -91,6 +93,14 @@ public static class Registratiedata
         string Postcode,
         string Gemeente)
     {
+        public static AdresUitAdressenregister FromVerrijktAddressDetailResponse(IAddressResponse adres, VerrijkteGemeentenaam gemeentenaam)
+            => new(
+                adres.Straatnaam,
+                adres.Huisnummer,
+                adres.Busnummer,
+                adres.Postcode,
+                gemeentenaam.Format());
+
         public static AdresUitAdressenregister? With(AdresDetailUitAdressenregister? adres)
         {
             if (adres is null)
