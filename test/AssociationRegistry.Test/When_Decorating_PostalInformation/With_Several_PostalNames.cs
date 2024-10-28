@@ -31,7 +31,7 @@ public class With_Several_PostalNames
     [Fact]
     public void And_PostName_Exists_Then_Verrijk_Gemeentenaam_With_Postnaam()
     {
-        var locatieGemeentenaam = Gemeentenaam.FromValue("HEKELGEM");
+        var locatieGemeentenaam = Gemeentenaam.Hydrate("HEKELGEM");
 
         var gemeentenaam = "Affligem";
 

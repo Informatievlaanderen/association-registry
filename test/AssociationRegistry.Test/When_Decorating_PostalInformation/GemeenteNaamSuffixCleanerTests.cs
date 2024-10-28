@@ -17,7 +17,7 @@ public class GemeenteNaamSuffixCleanerTests
     {
         var sut = GemeenteNaamSuffixCleanerRegex.Instance;
 
-        var actual = sut.Clean(Gemeentenaam.FromValue(input));
+        var actual = sut.Clean(Gemeentenaam.Hydrate(input));
         actual.Should().Be("Hekelgem");
     }
 }

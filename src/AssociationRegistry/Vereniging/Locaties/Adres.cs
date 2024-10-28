@@ -10,13 +10,13 @@ public record Adres
 {
     public const string België = "België";
 
-    private Adres(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
+    private Adres(string straatnaam, string huisnummer, string busnummer, string postcode, Gemeentenaam gemeente, string land)
     {
         Straatnaam = straatnaam;
         Huisnummer = huisnummer;
         Busnummer = busnummer;
         Postcode = postcode;
-        Gemeente = Gemeentenaam.FromValue(gemeente);
+        Gemeente = gemeente;
         Land = land;
     }
 
@@ -28,7 +28,7 @@ public record Adres
         Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(gemeente));
         Throw<AdresIsIncompleet>.If(string.IsNullOrWhiteSpace(land));
 
-        return new Adres(straatnaam, huisnummer, busnummer ?? string.Empty, postcode, gemeente, land);
+        return new Adres(straatnaam, huisnummer, busnummer ?? string.Empty, postcode, Gemeentenaam.Hydrate(gemeente), land);
     }
 
     public string Straatnaam { get; init; }
@@ -39,7 +39,7 @@ public record Adres
     public string Land { get; init; }
 
     public static Adres Hydrate(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
-        => new(straatnaam, huisnummer, busnummer, postcode, gemeente, land);
+        => new(straatnaam, huisnummer, busnummer, postcode, Gemeentenaam.Hydrate(gemeente), land);
 
     public static Adres? TryCreateFromKbo(AdresVolgensKbo adresVolgensKbo)
     {
@@ -75,7 +75,7 @@ public record Adres
 
 public record Gemeentenaam(string Naam)
 {
-    public static Gemeentenaam FromValue(string gemeente)
+    public static Gemeentenaam Hydrate(string gemeente)
         => new(gemeente);
 
     public static Gemeentenaam FromVerrijkteGemeentenaam(VerrijkteGemeentenaam gemeentenaam)
