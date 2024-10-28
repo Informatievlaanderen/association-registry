@@ -82,7 +82,7 @@ public class With_All_Fields
                                                       l.Adres.Huisnummer,
                                                       l.Adres.Busnummer,
                                                       l.Adres.Postcode,
-                                                      l.Adres.Gemeente,
+                                                      l.Adres.Gemeente.Naam,
                                                       l.Adres.Land),
                             AdresId: null)
                 ).ToArray(),

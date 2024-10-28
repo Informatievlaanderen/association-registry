@@ -16,7 +16,7 @@ public record Adres
         Huisnummer = huisnummer;
         Busnummer = busnummer;
         Postcode = postcode;
-        Gemeente = gemeente;
+        Gemeente = Gemeentenaam.FromValue(gemeente);
         Land = land;
     }
 
@@ -35,7 +35,7 @@ public record Adres
     public string Huisnummer { get; init; }
     public string Busnummer { get; init; }
     public string Postcode { get; set; }
-    public string Gemeente { get; init; }
+    public Gemeentenaam Gemeente { get; init; }
     public string Land { get; init; }
 
     public static Adres Hydrate(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeente, string land)
@@ -71,4 +71,13 @@ public record Adres
                   adres.Postcode,
                   adres.Gemeente,
                   België);
+}
+
+public record Gemeentenaam(string Naam)
+{
+    public static Gemeentenaam FromValue(string gemeente)
+        => new(gemeente);
+
+    public static Gemeentenaam FromVerrijkteGemeentenaam(VerrijkteGemeentenaam gemeentenaam)
+        => new(gemeentenaam.Format());
 }

@@ -120,7 +120,12 @@ public record Locatie
         };
 
     public Locatie VerrijkMet(VerrijkteGemeentenaam gemeentenaam)
-        => this with { Adres = Adres! with { Gemeente = gemeentenaam.Format() } };
+        => this with { Adres = Adres! with { Gemeente = Gemeentenaam.FromVerrijkteGemeentenaam(gemeentenaam) } };
+
+    public bool IsVerschillendVan(Registratiedata.AdresUitAdressenregister registratieData)
+    {
+        throw new NotImplementedException();
+    }
 }
 
 public record Locatienaam

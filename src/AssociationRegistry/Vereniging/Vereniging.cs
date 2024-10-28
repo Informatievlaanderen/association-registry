@@ -212,7 +212,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         IGrarClient grarClient,
         CancellationToken cancellationToken)
     {
-        var adresDetailResponse = await grarClient.GetAddressById(teSynchroniserenLocatie.AdresId.ToString(), cancellationToken);
+        var adresDetailResponse = await grarClient.GetAddressById(teSynchroniserenLocatie.AdresId!.ToString(), cancellationToken);
 
         if (!adresDetailResponse.IsActief)
             throw new AdressenregisterReturnedInactiefAdres();
@@ -220,7 +220,6 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-            teSynchroniserenLocatie.Adres.Gemeente,
             postalInformation,
             adresDetailResponse.Gemeente);
 

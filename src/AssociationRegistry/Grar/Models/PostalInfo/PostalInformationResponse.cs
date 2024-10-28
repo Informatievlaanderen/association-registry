@@ -22,7 +22,7 @@ public class Postnamen: ReadOnlyCollection<Postnaam>
             sod => sod.Value.Equals(origineleGemeentenaamClean, StringComparison.InvariantCultureIgnoreCase));
     }
 
-    public Postnaam? FindSingle()
+    public Postnaam? FindSingleOrDefault()
         => HasSinglePostnaam ? this.SingleOrDefault() : null;
 
     public static Postnamen FromPostalInfo(List<Models.Postnaam> postnamen)

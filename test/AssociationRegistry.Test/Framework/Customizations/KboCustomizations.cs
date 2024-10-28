@@ -58,7 +58,7 @@ public static class KboCustomizations
                                      Huisnummer = adres.Huisnummer,
                                      Busnummer = adres.Busnummer,
                                      Postcode = adres.Postcode,
-                                     Gemeente = adres.Gemeente,
+                                     Gemeente = adres.Gemeente.Naam,
                                      Land = adres.Land,
                                  };
                              })

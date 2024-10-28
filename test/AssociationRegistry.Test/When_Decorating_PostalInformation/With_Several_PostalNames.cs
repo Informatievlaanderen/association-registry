@@ -4,6 +4,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Grar.Models.PostalInfo;
+using Vereniging;
 using Xunit;
 using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
@@ -22,7 +23,7 @@ public class With_Several_PostalNames
         var result = DecorateWithOnePostalName(
             gemeentenaam: "Affligem",
             postnamen: ["Essene", "Hekelgem", "Teralfene"],
-            locatieGemeentenaam: _fixture.Create<string>());
+            locatieGemeentenaam: _fixture.Create<Gemeentenaam>());
 
         result.Should().BeEquivalentTo(VerrijkteGemeentenaam.ZonderPostnaam("Affligem"));
     }
@@ -30,7 +31,7 @@ public class With_Several_PostalNames
     [Fact]
     public void And_PostName_Exists_Then_Verrijk_Gemeentenaam_With_Postnaam()
     {
-        var locatieGemeentenaam = "HEKELGEM";
+        var locatieGemeentenaam = Gemeentenaam.FromValue("HEKELGEM");
 
         var gemeentenaam = "Affligem";
 
@@ -42,14 +43,14 @@ public class With_Several_PostalNames
         result.Should().BeEquivalentTo(VerrijkteGemeentenaam.MetPostnaam(Postnaam.FromValue("Hekelgem"), gemeentenaam));
     }
 
-    private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, string locatieGemeentenaam)
+    private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, Gemeentenaam locatieGemeentenaam)
     {
         var postalInformationResponse = new PostalInformationResponse(
             Postcode: _fixture.Create<string>(),
             Gemeentenaam: gemeentenaam,
             Postnamen.FromValues(postnamen));
 
-        var result = GemeentenaamDecorator.VerrijkGemeentenaam(origineleGemeentenaam: locatieGemeentenaam,
+        var result = GemeentenaamDecorator.VerrijkGemeentenaam(gemeentenaam: locatieGemeentenaam,
                                                                postalInformationResponse: postalInformationResponse,
                                                                gemeentenaamUitGrar: _fixture.Create<string>());
 

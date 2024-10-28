@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry;
 
 using System.Text.RegularExpressions;
+using Vereniging;
 
 public class GemeenteNaamSuffixCleanerRegex
 {
@@ -14,6 +15,6 @@ public class GemeenteNaamSuffixCleanerRegex
 
     public static GemeenteNaamSuffixCleanerRegex Instance = new();
 
-    public string Clean(string gemeentenaam)
-        => _regex.Replace(gemeentenaam, "").Trim();
+    public string Clean(Gemeentenaam gemeentenaam)
+        => _regex.Replace(gemeentenaam.Naam, "").Trim();
 }

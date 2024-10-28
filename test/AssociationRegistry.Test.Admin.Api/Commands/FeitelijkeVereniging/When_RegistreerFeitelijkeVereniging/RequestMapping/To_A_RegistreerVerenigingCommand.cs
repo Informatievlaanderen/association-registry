@@ -91,7 +91,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
         locatie.Adres!.Huisnummer.Should().Be(requestLocatie.Adres!.Huisnummer);
         locatie.Adres!.Busnummer.Should().Be(requestLocatie.Adres!.Busnummer);
         locatie.Adres!.Postcode.Should().Be(requestLocatie.Adres!.Postcode);
-        locatie.Adres!.Gemeente.Should().Be(requestLocatie.Adres!.Gemeente);
+        locatie.Adres!.Gemeente.Naam.Should().Be(requestLocatie.Adres!.Gemeente);
         locatie.Adres!.Land.Should().Be(requestLocatie.Adres!.Land);
     }
 

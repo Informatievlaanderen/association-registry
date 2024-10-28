@@ -56,7 +56,7 @@ public static class Registratiedata
                 adres.Huisnummer,
                 adres.Busnummer,
                 adres.Postcode,
-                adres.Gemeente,
+                adres.Gemeente.Naam,
                 adres.Land);
         }
     }
