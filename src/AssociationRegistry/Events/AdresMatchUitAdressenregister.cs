@@ -6,12 +6,12 @@ using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
 public static class GemeentenaamDecorator
 {
-    public static string DecorateGemeentenaam(
+    public static VerrijkteGemeentenaam VerrijkGemeentenaam(
         string origineleGemeentenaam,
         PostalInformationResponse? postalInformationResponse,
         string gemeentenaamUitGrar)
     {
-        if (postalInformationResponse is null) return gemeentenaamUitGrar;
+        if (postalInformationResponse is null) return VerrijkteGemeentenaam.ZonderPostnaam(gemeentenaamUitGrar);
 
         var origineleGemeenteNaamClean = GemeenteNaamSuffixCleanerRegex.Instance.Clean(origineleGemeentenaam);
 
@@ -23,15 +23,43 @@ public static class GemeentenaamDecorator
             if (postnaam.IsEquivalentTo(postalInformationResponse.Gemeentenaam))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
-                return postalInformationResponse.Gemeentenaam;
+                return VerrijkteGemeentenaam.ZonderPostnaam(postalInformationResponse.Gemeentenaam);
             }
 
             // Gemeentenaam geen hoofdgemeente, maar wel binnen de postnaam (gebruik deelgemeente syntax)
-            return $"{postnaam.Value} ({postalInformationResponse.Gemeentenaam})";
+            return VerrijkteGemeentenaam.MetPostnaam(postnaam, postalInformationResponse.Gemeentenaam);
         }
 
         // Hoofdgemeente overnemen, postcode wint altijd
-        return postalInformationResponse.Gemeentenaam;
+        return VerrijkteGemeentenaam.ZonderPostnaam(postalInformationResponse.Gemeentenaam);
+    }
+}
+
+public record VerrijkteGemeentenaam
+{
+    public Postnaam? Postnaam { get; }
+    public string Gemeentenaam { get; }
+
+    private VerrijkteGemeentenaam(Postnaam? postnaam, string gemeentenaam)
+    {
+        Postnaam = postnaam;
+        Gemeentenaam = gemeentenaam;
+    }
+
+    public static VerrijkteGemeentenaam ZonderPostnaam(string gemeentenaam)
+        => new(null, gemeentenaam);
+
+    public static VerrijkteGemeentenaam MetPostnaam(Postnaam postnaam, string gemeentenaam)
+    {
+        return new(postnaam, gemeentenaam);
+    }
+
+    public string Format()
+    {
+        if(Postnaam is not null)
+            return $"{Postnaam.Value} ({Gemeentenaam})";
+
+        return Gemeentenaam;
     }
 }
 

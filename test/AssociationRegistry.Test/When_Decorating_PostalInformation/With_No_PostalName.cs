@@ -1,26 +1,44 @@
 ﻿namespace AssociationRegistry.Test.When_Decorating_PostalInformation;
 
+using AutoFixture;
 using Events;
 using FluentAssertions;
-using Grar.Models;
 using Grar.Models.PostalInfo;
 using Xunit;
 
 public class With_No_PostalName
 {
+    private static Fixture _fixture;
+
+    public With_No_PostalName()
+    {
+        _fixture = new Fixture();
+    }
+
     [Fact]
     public void Then_Takes_The_MunicipalityName()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "NothingHam", Land: "België"),
-        };
+        var gemeentenaamUitGrar = "Affligem";
 
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "NothingHam",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Ternat", Postnamen.Empty), gemeentenaamUitGrar: sut.Adres.Gemeente);
+        var result = DecorateWithOnePostalName(
+            gemeentenaam: gemeentenaamUitGrar,
+            postnamen: [],
+            locatieGemeentenaam: _fixture.Create<string>());
 
-        result.Should().Be("Ternat");
+        result.Should().BeEquivalentTo(VerrijkteGemeentenaam.ZonderPostnaam(gemeentenaamUitGrar));
+    }
+
+    private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, string locatieGemeentenaam)
+    {
+        var postalInformationResponse = new PostalInformationResponse(
+            Postcode: _fixture.Create<string>(),
+            Gemeentenaam: gemeentenaam,
+            Postnamen.FromValues(postnamen));
+
+        var result = GemeentenaamDecorator.VerrijkGemeentenaam(origineleGemeentenaam: locatieGemeentenaam,
+                                                               postalInformationResponse: postalInformationResponse,
+                                                               gemeentenaamUitGrar: _fixture.Create<string>());
+
+        return result;
     }
 }

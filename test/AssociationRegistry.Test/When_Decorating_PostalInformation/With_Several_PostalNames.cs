@@ -1,44 +1,58 @@
 ﻿namespace AssociationRegistry.Test.When_Decorating_PostalInformation;
 
+using AutoFixture;
 using Events;
 using FluentAssertions;
-using Grar.Models;
 using Grar.Models.PostalInfo;
 using Xunit;
+using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
 public class With_Several_PostalNames
 {
-    [Fact]
-    public void And_PostName_Exists_Then_Takes_The_PostalName()
+    private static Fixture _fixture;
+
+    public With_Several_PostalNames()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "NothingHam", Land: "België"),
-        };
-
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Hekelgem",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    Postnamen.FromValues("AFFLIGEM", "Essene", "Hekelgem", "Teralfene")), gemeentenaamUitGrar: sut.Adres.Gemeente);
-
-        result.Should().Be("Hekelgem (Affligem)");
+        _fixture = new Fixture();
     }
 
     [Fact]
-    public void And_PostName_Does_Not_Exists_Then_Takes_The_MunicipalityName()
+    public void And_Originele_Gemeentenaam_Is_Not_In_PostalInfo_Then_Take_Gemeente_From_PostalInfo()
     {
-        var sut = new AdresMatchUitAdressenregister
-        {
-            Adres = new Registratiedata.Adres(Straatnaam: "Prieelstraat", Huisnummer: "12", Busnummer: "bus 101", Postcode: "1740",
-                                              Gemeente: "NothingHam", Land: "België"),
-        };
+        var result = DecorateWithOnePostalName(
+            gemeentenaam: "Affligem",
+            postnamen: ["Essene", "Hekelgem", "Teralfene"],
+            locatieGemeentenaam: _fixture.Create<string>());
 
-        var result = GemeentenaamDecorator.DecorateGemeentenaam(origineleGemeentenaam: "Nothingham",
-                                                                postalInformationResponse: new PostalInformationResponse(
-                                                                    Postcode: "1741", Gemeentenaam: "Affligem",
-                                                                    Postnamen.FromValues("AFFLIGEM", "Essene", "Hekelgem", "Teralfene")), gemeentenaamUitGrar: sut.Adres.Gemeente);
+        result.Should().BeEquivalentTo(VerrijkteGemeentenaam.ZonderPostnaam("Affligem"));
+    }
 
-        result.Should().Be("Affligem");
+    [Fact]
+    public void And_PostName_Exists_Then_Verrijk_Gemeentenaam_With_Postnaam()
+    {
+        var locatieGemeentenaam = "HEKELGEM";
+
+        var gemeentenaam = "Affligem";
+
+        var result = DecorateWithOnePostalName(
+            gemeentenaam: gemeentenaam,
+            postnamen: ["AFFLIGEM", "Essene", "Hekelgem", "Teralfene"],
+            locatieGemeentenaam: locatieGemeentenaam);
+
+        result.Should().BeEquivalentTo(VerrijkteGemeentenaam.MetPostnaam(Postnaam.FromValue("Hekelgem"), gemeentenaam));
+    }
+
+    private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, string locatieGemeentenaam)
+    {
+        var postalInformationResponse = new PostalInformationResponse(
+            Postcode: _fixture.Create<string>(),
+            Gemeentenaam: gemeentenaam,
+            Postnamen.FromValues(postnamen));
+
+        var result = GemeentenaamDecorator.VerrijkGemeentenaam(origineleGemeentenaam: locatieGemeentenaam,
+                                                               postalInformationResponse: postalInformationResponse,
+                                                               gemeentenaamUitGrar: _fixture.Create<string>());
+
+        return result;
     }
 }

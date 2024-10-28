@@ -219,17 +219,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
 
-        var decoratedGemeentenaam = GemeentenaamDecorator.DecorateGemeentenaam(
+        var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             teSynchroniserenLocatie.Adres.Gemeente,
             postalInformation,
             adresDetailResponse.Gemeente);
 
-        var registratieData = new Registratiedata.AdresUitAdressenregister(
-            adresDetailResponse.Straatnaam,
-            adresDetailResponse.Huisnummer,
-            adresDetailResponse.Busnummer,
-            adresDetailResponse.Postcode,
-            decoratedGemeentenaam);
+        var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,
