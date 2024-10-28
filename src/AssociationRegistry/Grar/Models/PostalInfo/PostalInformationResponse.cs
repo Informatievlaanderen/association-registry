@@ -52,4 +52,8 @@ public record Postnaam
     {
         Value = this.Value;
     }
+
+    public bool IsEquivalentTo(string gemeentenaam)
+        => string.Equals(gemeentenaam, this.Value,
+                         StringComparison.CurrentCultureIgnoreCase);
 };

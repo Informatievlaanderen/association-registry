@@ -2,6 +2,7 @@
 
 using Grar.Models;
 using Grar.Models.PostalInfo;
+using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
 public static class GemeentenaamDecorator
 {
@@ -16,8 +17,7 @@ public static class GemeentenaamDecorator
 
         if (postalInformationResponse.Postnamen.HasSinglePostnaam)
         {
-            if (string.Equals(postalInformationResponse.Gemeentenaam, postalInformationResponse.Postnamen.Single(),
-                              StringComparison.CurrentCultureIgnoreCase))
+            if (postalInformationResponse.Postnamen.Single().IsEquivalentTo(postalInformationResponse.Gemeentenaam))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return postalInformationResponse.Gemeentenaam;
@@ -36,7 +36,7 @@ public static class GemeentenaamDecorator
         if (origineleGemeentenaamKomtVoorInPostalInformationResult)
         {
             // Gemeentenaam komt voor in de postnamen
-            if (postalInformationResponse.Gemeentenaam.Equals(postNaam.Value, StringComparison.InvariantCultureIgnoreCase))
+            if (postNaam.IsEquivalentTo(postalInformationResponse.Gemeentenaam))
             {
                 // Gemeentenaam reeds hoofdgemeente, correcte schrijfwijze en hoofdletters overnemen
                 return postalInformationResponse.Gemeentenaam;
