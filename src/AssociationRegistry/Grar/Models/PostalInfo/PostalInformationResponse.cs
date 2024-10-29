@@ -44,7 +44,12 @@ public record Postnaam
     public static Postnaam FromGrar(Models.Postnaam postnaam)
         => new(postnaam.GeografischeNaam.Spelling);
     public static Postnaam FromValue(string postnaam)
-        => new(postnaam);
+    {
+        if (string.IsNullOrEmpty(postnaam))
+            throw new ArgumentException(nameof(postnaam));
+
+        return new Postnaam(postnaam);
+    }
 
     public static implicit operator string(Postnaam postnaam)
         => postnaam.Value;

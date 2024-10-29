@@ -61,10 +61,20 @@ public record VerrijkteGemeentenaam
     }
 
     public static VerrijkteGemeentenaam ZonderPostnaam(string gemeentenaam)
-        => new(null, gemeentenaam);
+    {
+        if (string.IsNullOrEmpty(gemeentenaam))
+            throw new ArgumentException(nameof(gemeentenaam));
+
+        return new VerrijkteGemeentenaam(null, gemeentenaam);
+    }
 
     public static VerrijkteGemeentenaam MetPostnaam(Postnaam postnaam, string gemeentenaam)
     {
+        if (string.IsNullOrEmpty(postnaam))
+            throw new ArgumentException(nameof(postnaam));
+        if (string.IsNullOrEmpty(gemeentenaam))
+            throw new ArgumentException(nameof(gemeentenaam));
+
         return new(postnaam, gemeentenaam);
     }
 
@@ -74,33 +84,6 @@ public record VerrijkteGemeentenaam
             return $"{Postnaam.Value} ({Gemeentenaam})";
 
         return Gemeentenaam;
-    }
-}
-
-public record AdresMatchUitAdressenregister
-{
-    public static AdresMatchUitAdressenregister FromResponse(AddressMatchResponse response)
-        => new()
-        {
-            AdresId = response.AdresId,
-            Adres = new Registratiedata.Adres(
-                response.Straatnaam,
-                response.Huisnummer,
-                response.Busnummer,
-                response.Postcode,
-                response.Gemeente,
-                "België"),
-        };
-
-    public Registratiedata.AdresId AdresId { get; init; }
-    public Registratiedata.Adres Adres { get; init; }
-
-    public AdresMatchUitAdressenregister WithGemeentenaam(string gemeentenaam)
-    {
-        return this with
-        {
-            Adres = Adres with { Gemeente = gemeentenaam },
-        };
     }
 }
 
