@@ -10,8 +10,8 @@ public class VoegLidmaatschapToeRequestExamples : IExamplesProvider<VoegLidmaats
         {
             AndereVereniging = "V0001001",
             Beschrijving = "De beschrijving van het lidmaatschap.",
-            DatumVan = new DateOnly(2024, 10, 12),
-            DatumTot = new DateOnly(2024, 10, 10),
+            Van = new DateOnly(2024, 10, 12),
+            Tot = new DateOnly(2024, 10, 10),
             Identificatie = "0012",
         };
 }

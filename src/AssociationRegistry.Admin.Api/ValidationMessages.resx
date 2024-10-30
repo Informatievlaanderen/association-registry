@@ -44,4 +44,7 @@
   <data name="Status404NotFound" xml:space="preserve">
     <value>De gevraagde vereniging werd niet gevonden.</value>
   </data>
+  <data name="DatumTotMoetLaterZijnDanDatumVan" xml:space="preserve">
+    <value>Een einddatum in een periode moet altijd later zijn dan de startdatum.</value>
+  </data>
 </root>

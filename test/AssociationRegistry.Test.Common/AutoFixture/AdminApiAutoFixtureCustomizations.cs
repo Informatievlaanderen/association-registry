@@ -252,8 +252,8 @@ public static class AdminApiAutoFixtureCustomizations
                 () => new VoegLidmaatschapToeRequest
                 {
                     AndereVereniging = fixture.Create<VCode>(),
-                    DatumVan = date,
-                    DatumTot = date.AddDays(new Random().Next(1, 99)),
+                    Van = date,
+                    Tot = date.AddDays(new Random().Next(1, 99)),
                     Identificatie = fixture.Create<string>(),
                     Beschrijving = fixture.Create<string>(),
                 }).OmitAutoProperties());

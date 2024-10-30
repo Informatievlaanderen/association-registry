@@ -26,8 +26,8 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         var request = new VoegLidmaatschapToeRequest
         {
             AndereVereniging = _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
-            DatumVan = date,
-            DatumTot = date.AddDays(new Random().Next(1, 99)),
+            Van = date,
+            Tot = date.AddDays(new Random().Next(1, 99)),
             Identificatie = fixture.Create<string>(),
             Beschrijving = fixture.Create<string>(),
         };
