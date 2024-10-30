@@ -22,6 +22,9 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
+
+// TODO Remove visibility marker before actual deployment
+[ApiExplorerSettings(IgnoreApi = true)]
 public class WijzigLidmaatschapController : ApiController
 {
     private readonly IMessageBus _messageBus;
