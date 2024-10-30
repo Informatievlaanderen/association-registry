@@ -1,20 +1,15 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VerwijderLidmaatschap;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
-using Examples;
-using FluentValidation;
+using Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
+using Infrastructure.Middleware;
+using Infrastructure.Swagger.Annotations;
+using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
-using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
-using WijzigLidmaatschap.RequestModels;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -46,18 +41,16 @@ public class VerwijderLidmaatschapController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging.</param>
-    /// <param name="request">Het te verwijderen lidmaatschap.</param>
-    /// <param name="validator">De validator voor het wijzigen van het lidmaatschap.</param>
+    /// <param name="lidmaatschapId">De unieke identificator van het te verwijderen lidmaatschap.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
     /// <response code="202">Het lidmaatschap werd verwijderd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpDelete("{vCode}/lidmaatschappen")]
+    [HttpDelete("{vCode}/lidmaatschappen/{lidmaatschapId:int}")]
     [ConsumesJson]
     [ProducesJson]
-    [SwaggerRequestExample(typeof(VerwijderLidmaatschapRequest), typeof(VerwijderLidmaatschapRequestExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
@@ -72,15 +65,12 @@ public class VerwijderLidmaatschapController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> VerwijderLidmaatschap(
         [FromRoute] string vCode,
-        [FromBody] WijzigLidmaatschapRequest request,
-        [FromServices] IValidator<WijzigLidmaatschapRequest> validator,
+        [FromRoute] int lidmaatschapId,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
-        await validator.NullValidateAndThrowAsync(request);
-
         // var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        // var envelope = new CommandEnvelope<VerwijderLidmaatschapCommand>(request.ToCommand(vCode), metaData);
+        // var envelope = new CommandEnvelope<VerwijderLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
         // var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
         //
         // return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
