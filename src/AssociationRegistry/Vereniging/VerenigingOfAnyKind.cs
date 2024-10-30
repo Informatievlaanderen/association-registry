@@ -124,7 +124,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             var verrijkteLocatie = locatie.VerrijkMet(verrijkteGemeentenaam);
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
-            var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+            var registratieData =
+                Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
 
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
@@ -174,7 +175,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                                                                   adresDetailResponse.AdresId,
                                                                   Registratiedata
                                                                      .AdresUitAdressenregister
-                                                                     .FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam)!,
+                                                                     .FromVerrijktAddressDetailResponse(
+                                                                          adresDetailResponse, verrijkteGemeentenaam)!,
                                                                   idempotenceKey));
             }
         }
@@ -263,7 +265,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var decoratedLocatie = locatie.MetAdresUitGrar(adresDetailResponse, verrijkteGemeentenaam);
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
-        var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+        var registratieData =
+            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                              adresDetailResponse.AdresId,
@@ -308,7 +311,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             postalInformation,
             adresMatches.SingularResponse.Gemeente);
 
-        var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresMatches.SingularResponse, verrijkteGemeentenaam);
+        var registratieData =
+            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(
+                adresMatches.SingularResponse, verrijkteGemeentenaam);
 
         return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
                                                            adresMatches.SingularResponse.AdresId!,

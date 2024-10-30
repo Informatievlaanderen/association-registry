@@ -90,6 +90,10 @@ public class VerenigingDetail
     [DataMember(Name = "Relaties")]
     public Relatie[] Relaties { get; init; } = null!;
 
+    /// <summary>De lidmaatschappen van deze vereniging</summary>
+    [DataMember(Name = "Lidmaatschappen")]
+    public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
+
     /// <summary>De bron die deze vereniging beheert.
     ///      <br />
     ///     Mogelijke waarden:<br />

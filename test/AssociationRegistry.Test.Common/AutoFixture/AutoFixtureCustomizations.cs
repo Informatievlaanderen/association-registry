@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Schema.PowerBiExport;
+using Events;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;
@@ -36,6 +37,9 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeGebeurtenis();
         fixture.CustomizeMagdaResponses();
         fixture.CustomizeWerkingsgebied();
+        fixture.CustomizeLidmaatschap();
+        fixture.CustomizeLidmaatschapWerdToegevoegd();
+        fixture.CustomizeGeldigheidsperiode();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
         EventCustomizations.CustomizeEvents(fixture);
@@ -300,6 +304,51 @@ public static class AutoFixtureCustomizations
         );
     }
 
+    private static void CustomizeLidmaatschap(this IFixture fixture)
+    {
+        fixture.Customize<Lidmaatschap>(
+            composer =>
+                composer.FromFactory(
+                             () => Lidmaatschap.Create(
+                                 fixture.Create<VCode>(),
+                                 fixture.Create<Geldigheidsperiode>(),
+                                 fixture.Create<string>(),
+                                 fixture.Create<string>()
+                             ))
+                        .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
+    {
+        fixture.Customize<LidmaatschapWerdToegevoegd>(
+            composer =>
+                composer.FromFactory(
+                             () => new LidmaatschapWerdToegevoegd(Registratiedata.Lidmaatschap.With(Lidmaatschap.Create(
+                                 fixture.Create<VCode>(),
+                                 fixture.Create<Geldigheidsperiode>(),
+                                 fixture.Create<string>(),
+                                 fixture.Create<string>()
+                             ))))
+                        .OmitAutoProperties()
+        );
+    }
+
+    private static void CustomizeGeldigheidsperiode(this IFixture fixture)
+    {
+        var date = fixture.Create<DateOnly>();
+
+        fixture.Customize<Geldigheidsperiode>(
+            composer =>
+                composer.FromFactory(
+                             () => new Geldigheidsperiode(
+                                 new GeldigVan(date),
+                                 new GeldigTot(date.AddDays(new Random().Next(1, 99)))
+                             ))
+                        .OmitAutoProperties()
+        );
+    }
+
     private static void CustomizeAdresId(this IFixture fixture)
     {
         fixture.Customize<AdresId>(
@@ -354,5 +403,4 @@ public static class AutoFixtureCustomizations
                         .OmitAutoProperties()
         );
     }
-
 }

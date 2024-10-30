@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
@@ -39,6 +40,8 @@ public static class AdminApiAutoFixtureCustomizations
 
         fixture.CustomizeWijzigVertegenwoordigerRequest();
         fixture.CustomizeWijzigLocatieRequest();
+
+        fixture.CustomizeVoegLidmaatschapToeRequest();
 
         fixture.CustomizeTestEvent(typeof(TestEvent<>));
 
@@ -238,5 +241,21 @@ public static class AdminApiAutoFixtureCustomizations
                                                                  KboNummer = fixture.Create<KboNummer>(),
                                                              })
                                                         .OmitAutoProperties());
+    }
+
+    private static void CustomizeVoegLidmaatschapToeRequest(this IFixture fixture)
+    {
+        var date = fixture.Create<DateOnly>();
+
+        fixture.Customize<VoegLidmaatschapToeRequest>(
+            composer => composer.FromFactory(
+                () => new VoegLidmaatschapToeRequest
+                {
+                    AndereVereniging = fixture.Create<VCode>(),
+                    DatumVan = date,
+                    DatumTot = date.AddDays(new Random().Next(1, 99)),
+                    Identificatie = fixture.Create<string>(),
+                    Beschrijving = fixture.Create<string>(),
+                }).OmitAutoProperties());
     }
 }

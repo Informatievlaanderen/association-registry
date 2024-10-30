@@ -28,6 +28,8 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public Werkingsgebied[] Werkingsgebieden { get; set; } =
         Array.Empty<Werkingsgebied>();
 
+    public Lidmaatschap[] Lidmaatschappen { get; set; } = Array.Empty<Lidmaatschap>();
+
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
