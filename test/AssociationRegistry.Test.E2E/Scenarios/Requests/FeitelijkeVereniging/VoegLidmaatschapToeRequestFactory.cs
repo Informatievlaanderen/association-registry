@@ -5,15 +5,16 @@ using Alba;
 using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
+using Givens.FeitelijkeVereniging;
 using Marten.Events;
 using System.Net;
 using Vereniging;
 
 public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaatschapToeRequest>
 {
-    private readonly IFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly MultipleWerdGeregistreerdScenario _scenario;
 
-    public VoegLidmaatschapToeRequestFactory(IFeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    public VoegLidmaatschapToeRequestFactory(MultipleWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
@@ -25,7 +26,7 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         var date = fixture.Create<DateOnly>();
         var request = new VoegLidmaatschapToeRequest
         {
-            AndereVereniging = _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+            AndereVereniging = _scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             Van = date,
             Tot = date.AddDays(new Random().Next(1, 99)),
             Identificatie = fixture.Create<string>(),

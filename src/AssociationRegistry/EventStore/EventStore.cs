@@ -116,19 +116,6 @@ public class EventStore : IEventStore
         session.CorrelationId = metadata.CorrelationId.ToString();
     }
 
-    private static bool IsEventFromDigitaalVlaanderen(Type eventType)
-        => new[]
-        {
-            typeof(ContactgegevenWerdOvergenomenUitKBO),
-            typeof(MaatschappelijkeZetelWerdOvergenomenUitKbo),
-            typeof(ContactgegevenKonNietOvergenomenWordenUitKBO),
-            typeof(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo),
-            typeof(AdresWerdOvergenomenUitAdressenregister),
-            typeof(AdresKonNietOvergenomenWordenUitAdressenregister),
-            typeof(AdresWerdNietGevondenInAdressenregister),
-            typeof(AdresNietUniekInAdressenregister),
-        }.Contains(eventType);
-
     public async Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new()
     {
         await using var session = _documentStore.LightweightSession();

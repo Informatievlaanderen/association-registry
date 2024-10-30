@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.When_Loading_A_Vereniging;
+﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Test.Framework;
+using AssociationRegistry.Test.Framework.Customizations;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Events;
-using EventStore;
 using FluentAssertions;
-using Framework;
-using Framework.Customizations;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

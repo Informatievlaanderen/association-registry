@@ -11,7 +11,7 @@ using Vereniging;
 public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequest>
 {
     public VCode VCode => RequestResult.VCode;
-    public FeitelijkeVerenigingWerdGeregistreerdScenario Scenario { get; }
+    public MultipleWerdGeregistreerdScenario Scenario { get; }
 
     public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup)
     {
