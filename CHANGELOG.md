@@ -1,3 +1,19 @@
+# [8.169.0](https://github.com/informatievlaanderen/association-registry/compare/v8.168.0...v8.169.0) (2024-10-30)
+
+
+### Bug Fixes
+
+* or-2515 temporary hide endpoint for wijzig lidmaatschap ([7355329](https://github.com/informatievlaanderen/association-registry/commit/73553296173628c5430fac74da00efcbd1f77c69))
+* or-2516 use HttpDelete for verwijder lidmaatschap ([e8a3598](https://github.com/informatievlaanderen/association-registry/commit/e8a35986dfc2d1728b4f7f055b68555c61c6ccc3))
+
+
+### Features
+
+* or-2514 add validator for voeg lidmaatschap toe request ([2b5f01c](https://github.com/informatievlaanderen/association-registry/commit/2b5f01c3480483afa020ae9a73d094b09474ff7c))
+* or-2515 wijzig lidmaatschap request validation ([01b0ee4](https://github.com/informatievlaanderen/association-registry/commit/01b0ee40857d8eafde28e364fabbf0a3536c1824))
+* or-2516 request model and validation for verwijder lidmaatschap ([6827925](https://github.com/informatievlaanderen/association-registry/commit/68279250d6563af1d9c0ae913be387fff4dcc9da))
+* or-2519 dont allow to add lidmaatschap to verwijderde andere vereniging ([948cdf3](https://github.com/informatievlaanderen/association-registry/commit/948cdf3356a14d3a3d0969c8c951a6f94abe6448))
+
 # [8.168.0](https://github.com/informatievlaanderen/association-registry/compare/v8.167.1...v8.168.0) (2024-10-30)
 
 
