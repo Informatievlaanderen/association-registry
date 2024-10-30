@@ -8,7 +8,6 @@ public class WijzigLidmaatschapRequestExamples : IExamplesProvider<WijzigLidmaat
     public WijzigLidmaatschapRequest GetExamples()
         => new()
         {
-            LidmaatschapId = 1,
             Beschrijving = "De beschrijving van het lidmaatschap.",
             Van = new DateOnly(2024, 10, 12),
             Tot = new DateOnly(2024, 10, 10),
