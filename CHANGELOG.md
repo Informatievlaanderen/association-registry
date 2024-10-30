@@ -1,3 +1,16 @@
+# [8.168.0](https://github.com/informatievlaanderen/association-registry/compare/v8.167.1...v8.168.0) (2024-10-30)
+
+
+### Bug Fixes
+
+* or-2514 make datamember descriptions more uniform ([ef41c4b](https://github.com/informatievlaanderen/association-registry/commit/ef41c4b769483ed14e40e0902cb1d2af459e6c70))
+
+
+### Features
+
+* or-2246 format dates consistently ([ef971ed](https://github.com/informatievlaanderen/association-registry/commit/ef971ed9ca000bae1550f2d24af8d7abd8ef13a5))
+* or-2514 implement voeg lidmaatschap toe ([4866126](https://github.com/informatievlaanderen/association-registry/commit/48661263944cedbd2726e626f8004046089691d7))
+
 ## [8.167.1](https://github.com/informatievlaanderen/association-registry/compare/v8.167.0...v8.167.1) (2024-10-29)
 
 # [8.167.0](https://github.com/informatievlaanderen/association-registry/compare/v8.166.0...v8.167.0) (2024-10-24)
