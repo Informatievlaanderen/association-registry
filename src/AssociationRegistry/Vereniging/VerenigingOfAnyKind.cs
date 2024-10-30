@@ -104,6 +104,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public Lidmaatschap VoegLidmaatschapToe(Lidmaatschap toeTeVoegenLidmaatschap)
     {
+        Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == toeTeVoegenLidmaatschap.AndereVereniging);
+
         var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
 
         AddEvent(LidmaatschapWerdToegevoegd.With(toegevoegdLidmaatschap));
