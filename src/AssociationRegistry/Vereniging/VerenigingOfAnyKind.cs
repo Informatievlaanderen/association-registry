@@ -102,6 +102,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(LocatieWerdVerwijderd.With(State.VCode, locatie));
     }
 
+    public Lidmaatschap VoegLidmaatschapToe(Lidmaatschap toeTeVoegenLidmaatschap)
+    {
+        var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
+
+        AddEvent(LidmaatschapWerdToegevoegd.With(toegevoegdLidmaatschap));
+
+        return toegevoegdLidmaatschap;
+    }
+
     public async Task HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IGrarClient grarClient)
     {
         if (State.HandledIdempotenceKeys.Contains(idempotenceKey))
