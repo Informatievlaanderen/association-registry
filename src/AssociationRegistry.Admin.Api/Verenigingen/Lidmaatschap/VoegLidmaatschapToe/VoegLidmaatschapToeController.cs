@@ -71,7 +71,7 @@ public class VoegLidmaatschapToeController : ApiController
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
-    public async Task<IActionResult> Post(
+    public async Task<IActionResult> VoegLidmaatschapToe(
         [FromRoute] string vCode,
         [FromBody] VoegLidmaatschapToeRequest request,
         [FromServices] IValidator<VoegLidmaatschapToeRequest> validator,
