@@ -21,6 +21,11 @@ public static class DateFormatter
 
     public static string FormatAsBelgianDate(this Instant instant)
         => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
+
+    public static string FormatAsBelgianDate(this DateOnly? dateOnly)
+        => dateOnly?.ToString(WellknownFormats.DateOnly, WellknownFormats.België)
+        ?? string.Empty;
+
     public static string FormatAsBelgianTime(this Instant instant)
         => instant.ToString(WellknownFormats.TimeOnly, WellknownFormats.België);
 

@@ -77,6 +77,7 @@ public class Returns_DetailResponse :
             Locaties = MapLocaties(Request.Locaties, TestContext.VCode),
             Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),
             Relaties = MapRelaties([], TestContext.VCode),
+            Lidmaatschappen = [],
             Sleutels = MapSleutels(Request, TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 

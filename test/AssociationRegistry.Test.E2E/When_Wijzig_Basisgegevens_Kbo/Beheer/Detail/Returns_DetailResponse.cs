@@ -74,6 +74,7 @@ public class Returns_DetailResponse :
             Locaties = [],
             Vertegenwoordigers = [],
             Relaties = [],
+            Lidmaatschappen = [],
             Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 

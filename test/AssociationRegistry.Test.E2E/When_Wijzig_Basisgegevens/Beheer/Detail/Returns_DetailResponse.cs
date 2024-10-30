@@ -80,6 +80,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
             Vertegenwoordigers =
                 BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
             Relaties = BeheerDetailResponseMapper.MapRelaties([], TestContext.VCode),
+            Lidmaatschappen = [],
             Sleutels = BeheerDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

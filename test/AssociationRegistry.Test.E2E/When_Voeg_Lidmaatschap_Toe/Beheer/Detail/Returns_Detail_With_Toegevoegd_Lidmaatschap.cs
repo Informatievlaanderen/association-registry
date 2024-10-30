@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.ProjectionHost.Infrastructure.Extensions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
@@ -28,8 +29,8 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             LidmaatschapId = 1,
             AndereVereniging = _context.Request.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.DatumVan.ToString(),
-            Tot = _context.Request.DatumTot.ToString(),
+            Van = _context.Request.DatumVan.ToBelgianDate(),
+            Tot = _context.Request.DatumTot.ToBelgianDate(),
             Identificatie = _context.Request.Identificatie,
             Naam = _context.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
