@@ -9,6 +9,7 @@ using AdresVerwijzing = ResponseModels.AdresVerwijzing;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using GestructureerdeIdentificator = ResponseModels.GestructureerdeIdentificator;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
@@ -70,6 +71,7 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
+            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, vereniging.Naam)).ToArray(),
             Bron = vereniging.Bron,
         };
     }
@@ -79,6 +81,18 @@ public class BeheerVerenigingDetailMapper
         {
             Relatietype = relatie.Relatietype,
             AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
+        };
+
+    private static Lidmaatschap Map(Schema.Detail.Lidmaatschap lidmaatschap, string naam)
+        => new()
+        {
+            AndereVereniging = lidmaatschap.AndereVereniging,
+            Beschrijving = lidmaatschap.Beschrijving,
+            Identificatie = lidmaatschap.Identificatie,
+            Naam = naam,
+            Van = lidmaatschap.Van?.ToString() ?? string.Empty,
+            Tot = lidmaatschap.Tot?.ToString() ?? string.Empty,
+            LidmaatschapId = lidmaatschap.LidmaatschapId,
         };
 
     private static GerelateerdeVereniging Map(

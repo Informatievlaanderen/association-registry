@@ -164,6 +164,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return toegevoegdeVertegenwoordiger;
     }
 
+    public Lidmaatschap VoegLidmaatschapToe(Lidmaatschap toeTeVoegenLidmaatschap)
+    {
+        var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
+
+        AddEvent(LidmaatschapWerdToegevoegd.With(toegevoegdLidmaatschap));
+
+        return toegevoegdLidmaatschap;
+    }
+
     public void WijzigVertegenwoordiger(
         int vertegenwoordigerId,
         string? rol,

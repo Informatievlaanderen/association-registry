@@ -1,0 +1,17 @@
+namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.Examples;
+
+using RequestModels;
+using Swashbuckle.AspNetCore.Filters;
+
+public class VoegLidmaatschapToeRequestExamples : IExamplesProvider<VoegLidmaatschapToeRequest>
+{
+    public VoegLidmaatschapToeRequest GetExamples()
+        => new()
+        {
+            AndereVereniging = "V0001001",
+            Beschrijving = "De beschrijving van het lidmaatschap.",
+            DatumVan = new DateOnly(2024, 10, 12),
+            DatumTot = new DateOnly(2024, 10, 10),
+            Identificatie = "0012",
+        };
+}

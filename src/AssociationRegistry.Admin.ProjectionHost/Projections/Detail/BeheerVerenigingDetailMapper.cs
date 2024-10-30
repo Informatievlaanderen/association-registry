@@ -11,24 +11,22 @@ using AdresId = Schema.Detail.AdresId;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = Schema.Detail.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailMapper
 {
-    // public static Locatie MapLocatie(Registratiedata.Locatie loc, string vCode)
-    //     => new()
-    //     {
-    //         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, loc.LocatieId.ToString()),
-    //         LocatieId = loc.LocatieId,
-    //         IsPrimair = loc.IsPrimair,
-    //         Naam = loc.Naam,
-    //         Locatietype = loc.Locatietype,
-    //         Adres = MapAdres(loc.Adres, vCode, loc.LocatieId),
-    //         Adresvoorstelling = loc.Adres.ToAdresString(),
-    //         AdresId = MapAdresId(loc.AdresId),
-    //     };
+    public static Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lid, string vCode)
+        => new(CreateJsonLdMetadata(JsonLdType.Locatie, vCode, lid.LidmaatschapId.ToString()),
+               lid.LidmaatschapId,
+               lid.AndereVereniging,
+               lid.DatumVan,
+               lid.DatumTot,
+               lid.Identificatie,
+               lid.Beschrijving
+        );
 
     public static Locatie MapLocatie(Registratiedata.Locatie loc, string bron, string vCode)
         => new()

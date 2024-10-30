@@ -13,10 +13,7 @@ using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
-using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
-using Werkingsgebied = Schema.Detail.Werkingsgebied;
 using IEvent = Marten.Events.IEvent;
-using Locatie = Schema.Detail.Locatie;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 
 public class BeheerVerenigingDetailProjector
@@ -686,6 +683,16 @@ public class BeheerVerenigingDetailProjector
         document.Locaties = document.Locaties
                                     .Where(l => l.LocatieId != locatieDuplicaatWerdVerwijderdNaAdresMatch.Data.VerwijderdeLocatieId)
                                     .OrderBy(l => l.LocatieId)
+                                    .ToArray();
+    }
+
+    public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    {
+
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                    .Append(BeheerVerenigingDetailMapper.MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
+                                                                                    document.VCode))
+                                    .OrderBy(l => l.LidmaatschapId)
                                     .ToArray();
     }
 }

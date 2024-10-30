@@ -31,6 +31,7 @@ public record VerenigingState : IHasVersion
     public Contactgegevens Contactgegevens { get; private init; } = Contactgegevens.Empty;
     public Vertegenwoordigers Vertegenwoordigers { get; private init; } = Vertegenwoordigers.Empty;
     public Locaties Locaties { get; init; } = Locaties.Empty;
+    public Lidmaatschappen Lidmaatschappen { get; init; } = Lidmaatschappen.Empty;
 
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
@@ -306,6 +307,14 @@ public record VerenigingState : IHasVersion
             Locaties = Locaties.Hydrate(
                 Locaties
                    .AppendFromEventData(@event.Locatie)
+            ),
+        };
+    public VerenigingState Apply(LidmaatschapWerdToegevoegd @event)
+        => this with
+        {
+            Lidmaatschappen = Lidmaatschappen.Hydrate(
+                Lidmaatschappen
+                   .AppendFromEventData(@event.Lidmaatschap)
             ),
         };
 
