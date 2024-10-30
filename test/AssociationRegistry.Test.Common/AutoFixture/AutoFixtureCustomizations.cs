@@ -38,7 +38,6 @@ public static class AutoFixtureCustomizations
         fixture.CustomizeMagdaResponses();
         fixture.CustomizeWerkingsgebied();
         fixture.CustomizeLidmaatschap();
-        fixture.CustomizeLidmaatschapWerdToegevoegd();
         fixture.CustomizeGeldigheidsperiode();
 
         RegistratiedataCustomizations.CustomizeRegistratiedata(fixture);
@@ -315,21 +314,6 @@ public static class AutoFixtureCustomizations
                                  fixture.Create<string>(),
                                  fixture.Create<string>()
                              ))
-                        .OmitAutoProperties()
-        );
-    }
-
-    private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
-    {
-        fixture.Customize<LidmaatschapWerdToegevoegd>(
-            composer =>
-                composer.FromFactory(
-                             () => new LidmaatschapWerdToegevoegd(Registratiedata.Lidmaatschap.With(Lidmaatschap.Create(
-                                 fixture.Create<VCode>(),
-                                 fixture.Create<Geldigheidsperiode>(),
-                                 fixture.Create<string>(),
-                                 fixture.Create<string>()
-                             ))))
                         .OmitAutoProperties()
         );
     }

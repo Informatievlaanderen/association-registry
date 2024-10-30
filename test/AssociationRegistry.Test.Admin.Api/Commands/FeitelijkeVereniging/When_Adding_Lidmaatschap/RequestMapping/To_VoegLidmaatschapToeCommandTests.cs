@@ -23,8 +23,8 @@ public class To_VoegLidmaatschapToeCommandTests
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
-        command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.DatumVan));
-        command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.DatumTot));
+        command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.Van));
+        command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.Tot));
         command.Lidmaatschap.Identificatie.Should().Be(request.Identificatie);
         command.Lidmaatschap.Beschrijving.Should().Be(request.Beschrijving);
     }

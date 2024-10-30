@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
 
-using AssociationRegistry.Acties.VoegLidmaatschapToe;
-using AssociationRegistry.Vereniging;
+using Acties.VoegLidmaatschapToe;
 using System.Runtime.Serialization;
+using Vereniging;
 
 [DataContract]
 public class VoegLidmaatschapToeRequest
@@ -17,22 +17,22 @@ public class VoegLidmaatschapToeRequest
     /// De datum waarop de relatie actief wordt
     /// </summary>
     [DataMember]
-    public DateOnly? DatumVan { get; set; }
+    public DateOnly? Van { get; set; }
 
     /// <summary>
     /// De datum waarop de relatie niet meer actief wordt
     /// </summary>
     [DataMember]
-    public DateOnly? DatumTot { get; set; }
+    public DateOnly? Tot { get; set; }
 
     /// <summary>
-    /// De externe identificatie voor de relatie
+    /// De externe identificatie voor het lidmaatschap
     /// </summary>
     [DataMember]
     public string Identificatie { get; set; }
 
     /// <summary>
-    /// De externe beschrijving van de relatie
+    /// De externe beschrijving van het lidmaatschap
     /// </summary>
     [DataMember]
     public string Beschrijving { get; set; }
@@ -40,7 +40,7 @@ public class VoegLidmaatschapToeRequest
     public VoegLidmaatschapToeCommand ToCommand(string vCode) => new(
         VCode: VCode.Create(vCode),
         Lidmaatschap.Create(VCode.Create(AndereVereniging),
-                            new Geldigheidsperiode(new GeldigVan(DatumVan), new GeldigTot(DatumTot)),
+                            new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
                             Identificatie,
                             Beschrijving
         )

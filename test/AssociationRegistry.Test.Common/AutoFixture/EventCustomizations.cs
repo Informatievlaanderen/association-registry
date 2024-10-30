@@ -19,6 +19,25 @@ public static class EventCustomizations
         fixture.CustomizeVertegenwoordigerWerdOvergenomenUitKBO();
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
         fixture.CustomizeRechtsvormWerdGewijzigdInKBO();
+        fixture.CustomizeLidmaatschapWerdToegevoegd();
+    }
+
+    private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
+    {
+        fixture.Customize<LidmaatschapWerdToegevoegd>(
+            composer =>
+                composer.FromFactory(
+                             () => new LidmaatschapWerdToegevoegd(
+                                 Registratiedata.Lidmaatschap.With(
+                                     Lidmaatschap.Hydrate(
+                                         fixture.Create<int>(),
+                                         fixture.Create<VCode>(),
+                                         fixture.Create<Geldigheidsperiode>(),
+                                         fixture.Create<string>(),
+                                         fixture.Create<string>()
+                                     ))))
+                        .OmitAutoProperties()
+        );
     }
 
     private static void CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)

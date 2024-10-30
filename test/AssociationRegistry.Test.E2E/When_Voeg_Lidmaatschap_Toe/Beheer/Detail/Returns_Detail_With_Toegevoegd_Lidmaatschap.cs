@@ -29,8 +29,8 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             LidmaatschapId = 1,
             AndereVereniging = _context.Request.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.DatumVan.ToBelgianDate(),
-            Tot = _context.Request.DatumTot.ToBelgianDate(),
+            Van = _context.Request.Van.ToBelgianDate(),
+            Tot = _context.Request.Tot.ToBelgianDate(),
             Identificatie = _context.Request.Identificatie,
             Naam = _context.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
