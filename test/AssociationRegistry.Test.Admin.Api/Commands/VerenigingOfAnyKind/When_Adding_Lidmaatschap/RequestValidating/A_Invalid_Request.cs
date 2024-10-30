@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Lidmaatschap.RequestValidating;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Lidmaatschap.RequestValidating;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentValidation.TestHelper;

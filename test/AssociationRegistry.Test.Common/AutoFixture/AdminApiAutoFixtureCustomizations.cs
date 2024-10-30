@@ -3,7 +3,8 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
@@ -42,6 +43,7 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeWijzigLocatieRequest();
 
         fixture.CustomizeVoegLidmaatschapToeRequest();
+        fixture.CustomizeWijzigLidmaatschapRequest();
 
         fixture.CustomizeTestEvent(typeof(TestEvent<>));
 
@@ -258,4 +260,21 @@ public static class AdminApiAutoFixtureCustomizations
                     Beschrijving = fixture.Create<string>(),
                 }).OmitAutoProperties());
     }
+
+    private static void CustomizeWijzigLidmaatschapRequest(this IFixture fixture)
+    {
+        var date = fixture.Create<DateOnly>();
+
+        fixture.Customize<WijzigLidmaatschapRequest>(
+            composer => composer.FromFactory(
+                () => new WijzigLidmaatschapRequest
+                {
+                    LidmaatschapId = fixture.Create<int>(),
+                    Van = date,
+                    Tot = date.AddDays(new Random().Next(1, 99)),
+                    Identificatie = fixture.Create<string>(),
+                    Beschrijving = fixture.Create<string>(),
+                }).OmitAutoProperties());
+    }
+
 }
