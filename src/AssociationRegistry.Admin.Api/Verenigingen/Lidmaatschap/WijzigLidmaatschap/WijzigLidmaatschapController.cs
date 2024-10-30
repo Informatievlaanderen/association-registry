@@ -45,6 +45,7 @@ public class WijzigLidmaatschapController : ApiController
     /// al is doorgestroomd naar deze endpoints.
     /// </remarks>
     /// <param name="vCode">De VCode van de vereniging.</param>
+    /// <param name="lidmaatschapId">De unieke identificator van het lidmaatschap.</param>
     /// <param name="request">Het te wijzigen lidmaatschap.</param>
     /// <param name="validator">De validator voor het wijzigen van het lidmaatschap.</param>
     /// <param name="metadataProvider"></param>
@@ -53,7 +54,7 @@ public class WijzigLidmaatschapController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPatch("{vCode}/lidmaatschappen")]
+    [HttpPatch("{vCode}/lidmaatschappen/{lidmaatschapId:int}")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(WijzigLidmaatschapRequest), typeof(WijzigLidmaatschapRequestExamples))]
@@ -73,6 +74,7 @@ public class WijzigLidmaatschapController : ApiController
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     public async Task<IActionResult> WijzigLidmaatschap(
         [FromRoute] string vCode,
+        [FromRoute] int lidmaatschapId,
         [FromBody] WijzigLidmaatschapRequest request,
         [FromServices] IValidator<WijzigLidmaatschapRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
@@ -80,8 +82,8 @@ public class WijzigLidmaatschapController : ApiController
     {
         await validator.NullValidateAndThrowAsync(request);
 
-        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        // var envelope = new CommandEnvelope<WijzigLidmaatschapCommand>(request.ToCommand(vCode), metaData);
+        // var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
+        // var envelope = new CommandEnvelope<WijzigLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
         // var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
 
         // return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);

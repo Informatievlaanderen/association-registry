@@ -269,7 +269,6 @@ public static class AdminApiAutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => new WijzigLidmaatschapRequest
                 {
-                    LidmaatschapId = fixture.Create<int>(),
                     Van = date,
                     Tot = date.AddDays(new Random().Next(1, 99)),
                     Identificatie = fixture.Create<string>(),

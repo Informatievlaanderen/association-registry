@@ -7,10 +7,6 @@ public class WijzigLidmaatschapRequestValidator : AbstractValidator<WijzigLidmaa
 {
     public WijzigLidmaatschapRequestValidator()
     {
-        RuleFor(r => r.LidmaatschapId)
-           .GreaterThan(0)
-           .WithMessage(ValidationMessages.VeldIsVerplicht);
-
         RuleFor(r => r.Tot)
            .GreaterThanOrEqualTo(x => x.Van)
            .When(x => x.Van.HasValue)

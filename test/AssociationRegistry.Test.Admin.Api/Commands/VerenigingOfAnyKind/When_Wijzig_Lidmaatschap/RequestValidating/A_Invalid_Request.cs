@@ -25,18 +25,6 @@ public class A_Invalid_Request : ValidatorTest
     }
 
     [Fact]
-    public void Has_validation_errors_for_lidmaatschapId_when_zero()
-    {
-        var request = _fixture.Create<WijzigLidmaatschapRequest>();
-        request.LidmaatschapId = 0;
-
-        var result = _validator.TestValidate(request);
-
-        result.ShouldHaveValidationErrorFor(x => x.LidmaatschapId)
-              .WithErrorMessage(ValidationMessages.VeldIsVerplicht);
-    }
-
-    [Fact]
     public void Has_validation_errors_when_tot_after_van()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();

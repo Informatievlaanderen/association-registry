@@ -6,12 +6,6 @@ using System.Runtime.Serialization;
 public class WijzigLidmaatschapRequest
 {
     /// <summary>
-    /// De unieke identificator van het lidmaatschap
-    /// </summary>
-    [DataMember]
-    public int LidmaatschapId { get; set; }
-
-    /// <summary>
     /// De datum waarop de relatie actief wordt
     /// </summary>
     [DataMember]
