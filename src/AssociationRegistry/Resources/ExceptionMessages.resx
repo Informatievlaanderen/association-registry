@@ -184,6 +184,12 @@
   <data name="VerenigingKanGeenLidWordenVanVerwijderdeVereniging">
     <value>Een vereniging kan geen lid worden van een verwijderde vereniging.</value>
   </data>
+  <data name="LidmaatschapIsOverlappend">
+    <value>Een lidmaatschap mag niet overlappen voor eenzelfde vereniging.</value>
+  </data>
+  <data name="LidmaatschapMagNietVerwijzenNaarEigenVereniging">
+    <value>Een lidmaatschap mag niet verwijzen naar de vereniging waarbij hij wordt toegevoegd.</value>
+  </data>
   <data name="VerenigingWerdVerwijderd">
     <value>Deze vereniging werd verwijderd.</value>
   </data>

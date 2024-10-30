@@ -49,9 +49,22 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
 
     public Lidmaatschap VoegToe(Lidmaatschap toeTeVoegenLidmaatschap)
     {
-        //ThrowIfCannotAppendOrUpdate(toeTeVoegenLidmaatschap);
+        ThrowIfCannotAppendOrUpdate(toeTeVoegenLidmaatschap);
 
         return toeTeVoegenLidmaatschap with { LidmaatschapId = NextId };
+    }
+
+    private void ThrowIfCannotAppendOrUpdate(Lidmaatschap lidmaatschap)
+    {
+        MustNotOverlapForSameAndereVereniging(lidmaatschap);
+    }
+
+    private void MustNotOverlapForSameAndereVereniging(Lidmaatschap lidmaatschap)
+    {
+        Throw<LidmaatschapIsOverlappend>.If(
+            Items
+               .Where(x => lidmaatschap.AndereVereniging == x.AndereVereniging)
+               .Any(x => lidmaatschap.Geldigheidsperiode.OverlapsWith(x.Geldigheidsperiode)));
     }
 
     public new Lidmaatschap this[int lidmaatschapId]
