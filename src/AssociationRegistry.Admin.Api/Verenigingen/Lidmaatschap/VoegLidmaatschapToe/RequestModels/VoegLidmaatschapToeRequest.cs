@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 
 using Acties.VoegLidmaatschapToe;
 using System.Runtime.Serialization;

@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Lidmaatschap.RequestMapping;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Lidmaatschap.RequestMapping;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

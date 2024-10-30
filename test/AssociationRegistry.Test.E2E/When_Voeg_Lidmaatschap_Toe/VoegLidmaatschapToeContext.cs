@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe;
 
-using Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;

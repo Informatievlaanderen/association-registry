@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Lidmaatschap.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Lidmaatschap.CommandHandling;
 
 using Acties.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;

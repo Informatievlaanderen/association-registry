@@ -1,14 +1,14 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 
 using FluentValidation;
 using Infrastructure.Validation;
 
-public class VoegLidmaatschapToeRequestValidator : AbstractValidator<VoegLidmaatschapToeRequest>
+public class WijzigLidmaatschapRequestValidator : AbstractValidator<WijzigLidmaatschapRequest>
 {
-    public VoegLidmaatschapToeRequestValidator()
+    public WijzigLidmaatschapRequestValidator()
     {
-        RuleFor(r => r.AndereVereniging)
-           .Must(andereVereniging => !string.IsNullOrEmpty(andereVereniging))
+        RuleFor(r => r.LidmaatschapId)
+           .GreaterThan(0)
            .WithMessage(ValidationMessages.VeldIsVerplicht);
 
         RuleFor(r => r.Tot)

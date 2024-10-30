@@ -1,14 +1,14 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 
-public class VoegLidmaatschapToeRequestExamples : IExamplesProvider<VoegLidmaatschapToeRequest>
+public class WijzigLidmaatschapRequestExamples : IExamplesProvider<WijzigLidmaatschapRequest>
 {
-    public VoegLidmaatschapToeRequest GetExamples()
+    public WijzigLidmaatschapRequest GetExamples()
         => new()
         {
-            AndereVereniging = "V0001001",
+            LidmaatschapId = 1,
             Beschrijving = "De beschrijving van het lidmaatschap.",
             Van = new DateOnly(2024, 10, 12),
             Tot = new DateOnly(2024, 10, 10),
