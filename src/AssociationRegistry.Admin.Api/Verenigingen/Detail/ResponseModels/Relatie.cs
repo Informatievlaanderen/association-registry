@@ -20,5 +20,6 @@ public class Relatie
     /// <summary>
     /// Het id van de relatie
     /// </summary>
+    [DataMember(Name = "RelatieId")]
     public int RelatieId { get; set; }
 }
