@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.When_saving_a_vereniging;
+﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_saving_a_vereniging;
 
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Framework;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.AutoFixture;
-using Framework;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

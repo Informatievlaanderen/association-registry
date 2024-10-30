@@ -62,6 +62,13 @@ public class VerenigingsRepository : IVerenigingsRepository
         return verenigingMetRechtspersoonlijkheid;
     }
 
+    public async Task<bool> IsVerwijderd(VCode vCode)
+    {
+        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
+
+        return verenigingState.IsVerwijderd;
+    }
+
     private void ThrowIfVerwijderd(VerenigingState verenigingState)
     {
         if (verenigingState.IsVerwijderd)

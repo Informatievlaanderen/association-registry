@@ -1,0 +1,50 @@
+namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
+
+using Events;
+using EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using Vereniging;
+using AutoFixture;
+using Requests.FeitelijkeVereniging;
+
+public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
+{
+    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
+    public FeitelijkeVerenigingWerdGeregistreerd AndereFeitelijkeVerenigingWerdGeregistreerd { get; set; }
+    private CommandMetadata Metadata;
+
+    public MultipleWerdGeregistreerdScenario()
+    {
+    }
+
+    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+
+        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+        {
+            VCode = await service.GetNext(),
+        };
+        AndereFeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+        {
+            VCode = await service.GetNext(),
+        };
+
+        Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
+
+        return new Dictionary<string, IEvent[]>()
+        {
+            {FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd] },
+            {AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [AndereFeitelijkeVerenigingWerdGeregistreerd] },
+        };
+    }
+
+    public IEvent[] GivenEvents()
+        => [FeitelijkeVerenigingWerdGeregistreerd];
+
+    public StreamActionResult Result { get; set; } = null!;
+
+    public CommandMetadata GetCommandMetadata()
+        => Metadata;
+}

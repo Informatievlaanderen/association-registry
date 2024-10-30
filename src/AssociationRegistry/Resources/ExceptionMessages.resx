@@ -181,6 +181,9 @@
   <data name="VerenigingKanNietVerwijderdWorden">
     <value>Deze vereniging kan niet verwijderd worden.</value>
   </data>
+  <data name="VerenigingKanGeenLidWordenVanVerwijderdeVereniging">
+    <value>Een vereniging kan geen lid worden van een verwijderde vereniging.</value>
+  </data>
   <data name="VerenigingWerdVerwijderd">
     <value>Deze vereniging werd verwijderd.</value>
   </data>
