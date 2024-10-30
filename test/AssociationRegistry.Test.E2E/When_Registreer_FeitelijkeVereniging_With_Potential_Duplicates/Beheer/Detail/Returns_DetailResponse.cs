@@ -78,6 +78,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Vertegenwoordigers = MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),
             Relaties = MapRelaties([], TestContext.VCode),
             Sleutels = MapSleutels(Request, TestContext.VCode),
+            Lidmaatschappen = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)

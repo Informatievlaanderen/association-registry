@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
+using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
@@ -90,8 +91,8 @@ public class BeheerVerenigingDetailMapper
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
             Naam = naam,
-            Van = lidmaatschap.Van?.ToString() ?? string.Empty,
-            Tot = lidmaatschap.Tot?.ToString() ?? string.Empty,
+            Van = lidmaatschap.Van.FormatAsBelgianDate(),
+            Tot = lidmaatschap.Tot.FormatAsBelgianDate(),
             LidmaatschapId = lidmaatschap.LidmaatschapId,
         };
 
