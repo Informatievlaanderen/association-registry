@@ -8,11 +8,11 @@ using When_Voeg_Lidmaatschap_Toe;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_Without_Lidmaatschap : IClassFixture<VoegLidmaatschapToeContext>, IAsyncLifetime
+public class Returns_Detail_Without_Lidmaatschap : IClassFixture<VerwijderLidmaatschapContext>, IAsyncLifetime
 {
-    private readonly VoegLidmaatschapToeContext _context;
+    private readonly VerwijderLidmaatschapContext _context;
 
-    public Returns_Detail_Without_Lidmaatschap(VoegLidmaatschapToeContext context)
+    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext context)
     {
         _context = context;
     }

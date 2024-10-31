@@ -308,7 +308,8 @@ public static class AutoFixtureCustomizations
         fixture.Customize<Lidmaatschap>(
             composer =>
                 composer.FromFactory(
-                             () => Lidmaatschap.Create(
+                             () => Lidmaatschap.Hydrate(
+                                 fixture.Create<LidmaatschapId>(),
                                  fixture.Create<VCode>(),
                                  fixture.Create<Geldigheidsperiode>(),
                                  fixture.Create<string>(),

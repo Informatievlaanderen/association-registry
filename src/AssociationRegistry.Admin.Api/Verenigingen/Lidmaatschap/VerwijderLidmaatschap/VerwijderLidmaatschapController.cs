@@ -1,15 +1,19 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VerwijderLidmaatschap;
 
+using Acties.VerwijderLidmaatschap;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
+using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
+using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -69,12 +73,15 @@ public class VerwijderLidmaatschapController : ApiController
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
-        // var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        // var envelope = new CommandEnvelope<VerwijderLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
-        // var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
-        //
-        // return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
+        var envelope = new CommandEnvelope<VerwijderLidmaatschapCommand>(
+            new VerwijderLidmaatschapCommand(VCode.Create(vCode), new LidmaatschapId(lidmaatschapId)),
+            metaData);
+        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        return new EmptyResult();
+        Response.AddSequenceHeader(commandResult.Sequence);
+        Response.AddETagHeader(commandResult.Version);
+
+        return Accepted();
     }
 }

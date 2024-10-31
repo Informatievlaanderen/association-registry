@@ -2,4 +2,4 @@
 
 using Vereniging;
 
-public record VerwijderLidmaatschapCommand(VCode VCode, int LidmaatschapId);
+public record VerwijderLidmaatschapCommand(VCode VCode, LidmaatschapId LidmaatschapId);

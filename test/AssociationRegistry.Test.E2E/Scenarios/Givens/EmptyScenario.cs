@@ -22,8 +22,8 @@ public class EmptyScenario : Framework.TestClasses.IScenario
     public RegistreerFeitelijkeVerenigingRequest Request { get; private set; }
     public string VCode { get; private set; }
 
-    public Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService requiredService)
-        => Task.FromResult(new Dictionary<string, IEvent[]>());
+    public Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService requiredService)
+        => Task.FromResult(Array.Empty<KeyValuePair<string, IEvent[]>>());
 
     public async Task WhenCommand(FullBlownApiSetup setup)
     {

@@ -1,28 +1,27 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Acties.VoegLidmaatschapToe;
+
 public record Lidmaatschap
 {
-    public int LidmaatschapId { get; init; }
+    public LidmaatschapId LidmaatschapId { get; init; }
     public VCode AndereVereniging { get; init; }
     public Geldigheidsperiode Geldigheidsperiode { get; init; }
     public string Identificatie { get; init; }
     public string Beschrijving { get; init; }
 
-    private Lidmaatschap(VCode andereVereniging, Geldigheidsperiode geldigheidsperiode, string identificatie, string beschrijving)
-    {
-        AndereVereniging = andereVereniging;
-        Geldigheidsperiode = geldigheidsperiode;
-        Identificatie = identificatie;
-        Beschrijving = beschrijving;
-    }
-
-    public static Lidmaatschap Create(
+    private Lidmaatschap(
+        LidmaatschapId lidmaatschapId,
         VCode andereVereniging,
         Geldigheidsperiode geldigheidsperiode,
         string identificatie,
         string beschrijving)
     {
-        return new Lidmaatschap(andereVereniging, geldigheidsperiode, identificatie, beschrijving);
+        LidmaatschapId = lidmaatschapId;
+        AndereVereniging = andereVereniging;
+        Geldigheidsperiode = geldigheidsperiode;
+        Identificatie = identificatie;
+        Beschrijving = beschrijving;
     }
 
     public static Lidmaatschap Hydrate(
@@ -31,10 +30,7 @@ public record Lidmaatschap
         Geldigheidsperiode geldigheidsperiode,
         string identificatie,
         string beschrijving)
-        => new(andereVereniging, geldigheidsperiode, identificatie, beschrijving)
-        {
-            LidmaatschapId = lidmaatschapId
-        };
+        => new(new LidmaatschapId(lidmaatschapId), andereVereniging, geldigheidsperiode, identificatie, beschrijving);
 
     public virtual bool Equals(Lidmaatschap? other)
     {
@@ -58,4 +54,13 @@ public record Lidmaatschap
 
     public override int GetHashCode()
         => HashCode.Combine(LidmaatschapId, AndereVereniging, Geldigheidsperiode, Identificatie, Beschrijving);
+
+    public static Lidmaatschap Create(
+        LidmaatschapId lidmaatschapId,
+        VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
+        => new(lidmaatschapId,
+               lidmaatschap.AndereVereniging,
+               lidmaatschap.Geldigheidsperiode,
+               lidmaatschap.Identificatie,
+               lidmaatschap.Beschrijving);
 }

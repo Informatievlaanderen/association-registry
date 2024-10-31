@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
+using Acties.VoegLidmaatschapToe;
 using Emails;
 using Events;
 using Exceptions;
@@ -102,11 +103,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(LocatieWerdVerwijderd.With(State.VCode, locatie));
     }
 
-    public Lidmaatschap VoegLidmaatschapToe(Lidmaatschap toeTeVoegenLidmaatschap)
+    public Lidmaatschap VoegLidmaatschapToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
     {
-        Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == toeTeVoegenLidmaatschap.AndereVereniging);
+        Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == lidmaatschap.AndereVereniging);
 
-        var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
+        var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(lidmaatschap);
 
         AddEvent(LidmaatschapWerdToegevoegd.With(VCode, toegevoegdLidmaatschap));
 
@@ -369,7 +370,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public long Version => State.Version;
 
-    public void VerwijderLidmaatschap(int lidmaatschapId)
+    public void VerwijderLidmaatschap(LidmaatschapId lidmaatschapId)
     {
         var locatie = State.Lidmaatschappen.Verwijder(lidmaatschapId);
         AddEvent(LidmaatschapWerdVerwijderd.With(State.VCode, locatie));

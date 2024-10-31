@@ -20,7 +20,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
         _isUitgeschreven = isUitgeschreven;
     }
 
-    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
+    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = await service.GetNext();
@@ -100,10 +100,9 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
 
                 Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        return new Dictionary<string, IEvent[]>()
-        {
-            {VCode, [FeitelijkeVerenigingWerdGeregistreerd] },
-        };
+        return [
+           new(VCode, [FeitelijkeVerenigingWerdGeregistreerd]),
+        ];
     }
 
     public StreamActionResult Result { get; set; } = null!;

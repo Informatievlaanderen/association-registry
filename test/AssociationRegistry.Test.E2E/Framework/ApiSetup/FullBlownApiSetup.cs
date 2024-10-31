@@ -126,7 +126,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
             session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
         }
 
-        if (givenEvents.Count == 0)
+        if (givenEvents.Length == 0)
             return;
 
         await session.SaveChangesAsync();

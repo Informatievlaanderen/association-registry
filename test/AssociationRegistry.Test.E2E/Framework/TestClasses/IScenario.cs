@@ -5,5 +5,5 @@ using Vereniging;
 
 public interface IScenario
 {
-    Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service);
+    Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service);
 }

@@ -11,35 +11,28 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
 {
     private readonly MultipleWerdGeregistreerdScenario _baseScenario;
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
-    private CommandMetadata Metadata;
 
     public LidmaatschapWerdToegevoegdScenario(MultipleWerdGeregistreerdScenario baseScenario)
     {
         _baseScenario = baseScenario;
     }
 
-    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
+    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-
         var givenEvents = await _baseScenario.GivenEvents(service);
 
-        var lidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
+        LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
             VCode: _baseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
                 AndereVereniging = _baseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             });
 
-        return givenEvents
-              .Append(new KeyValuePair<string, IEvent[]>(_baseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
-                                                         [lidmaatschapWerdToegevoegd]))
-              .ToDictionary();
+        return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))
+                          .ToArray();
     }
 
     public StreamActionResult Result { get; set; } = null!;
-
-    public CommandMetadata GetCommandMetadata()
-        => Metadata;
 }

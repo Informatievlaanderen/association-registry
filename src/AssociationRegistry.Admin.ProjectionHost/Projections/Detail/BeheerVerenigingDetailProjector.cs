@@ -50,7 +50,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                         .MapHoofdactiviteitVerenigingsloket)
+                                                                                             .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                     .Werkingsgebieden?
@@ -208,9 +208,8 @@ public class BeheerVerenigingDetailProjector
         BeheerVerenigingDetailDocument document)
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
-           .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
+                                                                   .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
     }
-
 
     public static void Apply(
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
@@ -688,11 +687,19 @@ public class BeheerVerenigingDetailProjector
 
     public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, BeheerVerenigingDetailDocument document)
     {
-
         document.Lidmaatschappen = document.Lidmaatschappen
-                                    .Append(BeheerVerenigingDetailMapper.MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
-                                                                                    document.VCode))
-                                    .OrderBy(l => l.LidmaatschapId)
-                                    .ToArray();
+                                           .Append(BeheerVerenigingDetailMapper.MapLidmaatschap(
+                                                       lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
+                                                       document.VCode))
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+    }
+
+    public static void Apply(IEvent<LidmaatschapWerdVerwijderd> lidmaatschapWerdToegevoegd, BeheerVerenigingDetailDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .Where(l => l.LidmaatschapId != lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId)
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
     }
 }

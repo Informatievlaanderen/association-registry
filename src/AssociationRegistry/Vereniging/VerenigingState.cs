@@ -309,6 +309,7 @@ public record VerenigingState : IHasVersion
                    .AppendFromEventData(@event.Locatie)
             ),
         };
+
     public VerenigingState Apply(LidmaatschapWerdToegevoegd @event)
         => this with
         {
