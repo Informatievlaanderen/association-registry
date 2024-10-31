@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
 using Acties.VoegLidmaatschapToe;
+using Acties.WijzigLidmaatschap;
 using Emails;
 using Events;
 using Exceptions;
@@ -112,6 +113,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(LidmaatschapWerdToegevoegd.With(VCode, toegevoegdLidmaatschap));
 
         return toegevoegdLidmaatschap;
+    }
+
+    public void VerwijderLidmaatschap(LidmaatschapId lidmaatschapId)
+    {
+        var locatie = State.Lidmaatschappen.Verwijder(lidmaatschapId);
+        AddEvent(LidmaatschapWerdVerwijderd.With(State.VCode, locatie));
+    }
+
+    public void WijzigLidmaatschap(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap lidmaatschap)
+    {
+        var toegevoegdLidmaatschap = State.Lidmaatschappen.Wijzig(lidmaatschap);
+
+        if (toegevoegdLidmaatschap is null)
+            return;
+
+        AddEvent(LidmaatschapWerdGewijzigd.With(VCode, toegevoegdLidmaatschap));
     }
 
     public async Task HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IGrarClient grarClient)
@@ -369,10 +386,4 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public long Version => State.Version;
-
-    public void VerwijderLidmaatschap(LidmaatschapId lidmaatschapId)
-    {
-        var locatie = State.Lidmaatschappen.Verwijder(lidmaatschapId);
-        AddEvent(LidmaatschapWerdVerwijderd.With(State.VCode, locatie));
-    }
 }

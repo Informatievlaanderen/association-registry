@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Acties.VoegLidmaatschapToe;
+using Acties.WijzigLidmaatschap;
 
 public record Lidmaatschap
 {
@@ -63,4 +64,20 @@ public record Lidmaatschap
                lidmaatschap.Geldigheidsperiode,
                lidmaatschap.Identificatie,
                lidmaatschap.Beschrijving);
+
+    public Lidmaatschap Wijzig(
+        LidmaatschapId lidmaatschapId,
+        VCode andereVereniging,
+        Geldigheidsperiode geldigheidsperiode,
+        string identificatie,
+        string beschrijving)
+        => new(lidmaatschapId, andereVereniging, geldigheidsperiode, identificatie, beschrijving);
+
+    public Lidmaatschap Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap, VCode andereVereniging)
+        => new(
+            teWijzigenLidmaatschap.LidmaatschapId,
+            andereVereniging,
+            teWijzigenLidmaatschap.Geldigheidsperiode,
+            teWijzigenLidmaatschap.Identificatie,
+            teWijzigenLidmaatschap.Beschrijving);
 }

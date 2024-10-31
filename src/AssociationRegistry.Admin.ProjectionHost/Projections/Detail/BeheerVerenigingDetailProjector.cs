@@ -50,7 +50,7 @@ public class BeheerVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                                      .HoofdactiviteitenVerenigingsloket
                                                                                      .Select(BeheerVerenigingDetailMapper
-                                                                                             .MapHoofdactiviteitVerenigingsloket)
+                                                                                         .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
             Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data
                                                                     .Werkingsgebieden?
@@ -691,6 +691,19 @@ public class BeheerVerenigingDetailProjector
                                            .Append(BeheerVerenigingDetailMapper.MapLidmaatschap(
                                                        lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
                                                        document.VCode))
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+    }
+
+    public static void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, BeheerVerenigingDetailDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .UpdateSingleZonderBron(
+                                                identityFunc: l
+                                                    => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId,
+                                                update: l => BeheerVerenigingDetailMapper.MapLidmaatschap(
+                                                    lidmaatschapWerdGewijzigd.Data.Lidmaatschap,
+                                                    document.VCode))
                                            .OrderBy(l => l.LidmaatschapId)
                                            .ToArray();
     }

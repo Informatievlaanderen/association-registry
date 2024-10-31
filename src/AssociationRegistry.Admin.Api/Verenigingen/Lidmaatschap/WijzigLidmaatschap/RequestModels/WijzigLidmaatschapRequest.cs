@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 
+using Acties.VoegLidmaatschapToe;
+using Acties.WijzigLidmaatschap;
 using System.Runtime.Serialization;
+using Vereniging;
 
 [DataContract]
 public class WijzigLidmaatschapRequest
@@ -28,4 +31,13 @@ public class WijzigLidmaatschapRequest
     /// </summary>
     [DataMember]
     public string Beschrijving { get; set; }
+
+    public WijzigLidmaatschapCommand ToCommand(string vCode, int lidmaatschapId) => new(
+        VCode.Create(vCode),
+        new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
+            new LidmaatschapId(lidmaatschapId),
+            new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
+            Identificatie,
+            Beschrijving
+        ));
 }

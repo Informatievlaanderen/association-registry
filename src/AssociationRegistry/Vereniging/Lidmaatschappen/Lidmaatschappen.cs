@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Acties.VoegLidmaatschapToe;
+using Acties.WijzigLidmaatschap;
 using Exceptions;
 using Framework;
 using System.Collections.ObjectModel;
@@ -11,7 +12,6 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
 
     public static Lidmaatschappen Empty
         => new(Array.Empty<Lidmaatschap>(), LidmaatschapId.InitialId);
-
 
     private Lidmaatschappen(IEnumerable<Lidmaatschap> lidmaatschappen, LidmaatschapId nextId)
         : base(lidmaatschappen.ToArray())
@@ -41,7 +41,28 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
             lidmaatschap);
 
         ThrowIfCannotAppendOrUpdate(toeTeVoegenLidmaatschap);
+
         return toeTeVoegenLidmaatschap;
+    }
+
+    public Lidmaatschap? Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
+    {
+        var lidmaatschap = Get(teWijzigenLidmaatschap.LidmaatschapId);
+        var gewijzigdeLidmaatschap = lidmaatschap.Wijzig(teWijzigenLidmaatschap, lidmaatschap.AndereVereniging);
+
+        if (lidmaatschap.Equals(gewijzigdeLidmaatschap))
+            return null;
+
+        ThrowIfCannotAppendOrUpdate(gewijzigdeLidmaatschap);
+
+        return gewijzigdeLidmaatschap;
+    }
+
+    public Lidmaatschap Get(LidmaatschapId lidmaatschapId)
+    {
+        MustContain(lidmaatschapId);
+
+        return this[lidmaatschapId];
     }
 
     public Lidmaatschap Verwijder(LidmaatschapId lidmaatschapId)
@@ -65,6 +86,7 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
     {
         Throw<LidmaatschapIsOverlappend>.If(
             Items
+               .Without(lidmaatschap)
                .Where(x => lidmaatschap.AndereVereniging == x.AndereVereniging)
                .Any(x => lidmaatschap.Geldigheidsperiode.OverlapsWith(x.Geldigheidsperiode)));
     }
