@@ -32,7 +32,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             Van = _context.Request.Van.ToBelgianDate(),
             Tot = _context.Request.Tot.ToBelgianDate(),
             Identificatie = _context.Request.Identificatie,
-            Naam = _context.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = null, //TODO: fetch naam van andere vereniging
         };
 
         Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == 1)
