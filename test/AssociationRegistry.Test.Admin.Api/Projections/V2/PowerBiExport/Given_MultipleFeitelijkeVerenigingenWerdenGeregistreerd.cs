@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Schema.PowerBiExport;
 using FluentAssertions;
-using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Projections.PowerBiExport;
 using ScenarioClassFixtures;
@@ -13,7 +12,6 @@ public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFix
 {
     private readonly MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario _setup;
     private readonly PowerBiExportContext _context;
-    private ComparisonConfig _compareVCodeOnly;
 
     public Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(
         PowerBiExportContext context,

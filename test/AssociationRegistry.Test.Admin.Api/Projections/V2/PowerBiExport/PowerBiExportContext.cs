@@ -39,7 +39,7 @@ public class PowerBiExportContext : IAsyncLifetime
         OaktonEnvironment.AutoStartHost = true;
 
         var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.json").Build();
+                           .AddJsonFile("appsettings.powerbi.json").Build();
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, _dbName));
 
