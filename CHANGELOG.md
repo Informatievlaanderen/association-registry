@@ -1,3 +1,17 @@
+# [8.170.0](https://github.com/informatievlaanderen/association-registry/compare/v8.169.0...v8.170.0) (2024-10-31)
+
+
+### Bug Fixes
+
+* or-2515 use route parameter for lidmaatschap id instead inside request model ([80e8f7f](https://github.com/informatievlaanderen/association-registry/commit/80e8f7fc5df43b055c8c8a1f4f2a2a5c225bdcb0))
+* or-2516 use route parameter for lidmaatschap id on HttpDelete instead of inside request model ([465c4d8](https://github.com/informatievlaanderen/association-registry/commit/465c4d882376b91d73b662d506253f0a4f632adf))
+
+
+### Features
+
+* or-2521 move adding lidmaatschap to vereniging of any kind ([6cfa651](https://github.com/informatievlaanderen/association-registry/commit/6cfa651311fa1de3c6b91503d2342aaf0c5f18e9))
+* or-2521 prevent lidmaatschap referring to self ([0009605](https://github.com/informatievlaanderen/association-registry/commit/00096050601df6d8a1a22d19c37af9de438898e3))
+
 # [8.169.0](https://github.com/informatievlaanderen/association-registry/compare/v8.168.0...v8.169.0) (2024-10-30)
 
 
