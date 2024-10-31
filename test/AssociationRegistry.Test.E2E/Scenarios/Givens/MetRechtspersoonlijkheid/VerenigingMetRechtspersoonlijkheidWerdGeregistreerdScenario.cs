@@ -21,7 +21,7 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
         _isUitgeschreven = isUitgeschreven;
     }
 
-    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
+    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = await service.GetNext();
@@ -37,10 +37,9 @@ public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVere
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        return new Dictionary<string, IEvent[]>()
-        {
-            { VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd] },
-        };
+        return [
+            new(VCode, [VerenigingMetRechtspersoonlijkheidWerdGeregistreerd])
+        ];
     }
 
     public IEvent[] GivenEvents()

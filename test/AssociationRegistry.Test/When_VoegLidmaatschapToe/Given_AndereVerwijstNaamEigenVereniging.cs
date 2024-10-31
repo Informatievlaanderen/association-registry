@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_VoegLidmaatschapToe;
 
+using Acties.VoegLidmaatschapToe;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
@@ -20,10 +21,14 @@ public class Given_AndereVerwijstNaamEigenVereniging
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         sut.Hydrate(new VerenigingState().Apply(feitelijkeVerenigingWerdGeregistreerd));
 
-        var exception = Assert.Throws<LidmaatschapMagNietVerwijzenNaarEigenVereniging>(() => sut.VoegLidmaatschapToe(fixture.Create<Lidmaatschap>() with
-        {
-            AndereVereniging = VCode.Create(feitelijkeVerenigingWerdGeregistreerd.VCode),
-        }));
+        var toeTeVoegenLidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>()
+            with
+            {
+                AndereVereniging = VCode.Create(feitelijkeVerenigingWerdGeregistreerd.VCode),
+            };
+
+        var exception = Assert.Throws<LidmaatschapMagNietVerwijzenNaarEigenVereniging>(
+            () => sut.VoegLidmaatschapToe(toeTeVoegenLidmaatschap));
 
         exception.Message.Should().Be(ExceptionMessages.LidmaatschapMagNietVerwijzenNaarEigenVereniging);
     }

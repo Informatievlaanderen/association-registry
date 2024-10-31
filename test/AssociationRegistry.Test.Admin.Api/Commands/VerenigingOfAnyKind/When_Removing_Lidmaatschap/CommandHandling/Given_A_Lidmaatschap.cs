@@ -28,7 +28,7 @@ public class Given_A_Lidmaatschap
 
 
         var command = new VerwijderLidmaatschapCommand(scenario.VCode,
-                                                       scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId);
+                                                       new LidmaatschapId(scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId));
 
         await commandHandler.Handle(new CommandEnvelope<VerwijderLidmaatschapCommand>(command, fixture.Create<CommandMetadata>()));
 

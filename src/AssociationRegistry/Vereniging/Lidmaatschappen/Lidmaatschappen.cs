@@ -1,20 +1,19 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using Acties.VoegLidmaatschapToe;
 using Exceptions;
 using Framework;
 using System.Collections.ObjectModel;
 
 public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
 {
-
-    private const int InitialId = 1;
-    public int NextId { get; }
+    public LidmaatschapId NextId { get; }
 
     public static Lidmaatschappen Empty
-        => new(Array.Empty<Lidmaatschap>(), InitialId);
+        => new(Array.Empty<Lidmaatschap>(), LidmaatschapId.InitialId);
 
 
-    private Lidmaatschappen(IEnumerable<Lidmaatschap> lidmaatschappen, int nextId)
+    private Lidmaatschappen(IEnumerable<Lidmaatschap> lidmaatschappen, LidmaatschapId nextId)
         : base(lidmaatschappen.ToArray())
     {
         NextId = nextId;
@@ -25,43 +24,34 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
         lidmaatschappen = lidmaatschappen.ToArray();
 
         if (!lidmaatschappen.Any())
-            return new Lidmaatschappen(Empty, Math.Max(InitialId, NextId));
+            return new Lidmaatschappen(Empty, LidmaatschapId.Max(LidmaatschapId.InitialId, NextId));
 
-        return new Lidmaatschappen(lidmaatschappen, Math.Max(lidmaatschappen.Max(x => x.LidmaatschapId) + 1, NextId));
+        return new Lidmaatschappen(lidmaatschappen, CalculateNextId(lidmaatschappen));
     }
 
-    public Lidmaatschap[] VoegToe(params Lidmaatschap[] toeTeVoegenLidmaatschappen)
+    private LidmaatschapId CalculateNextId(IEnumerable<Lidmaatschap> lidmaatschappen)
     {
-        var lidmaatschappen = this;
-        var toegevoegdeLidmaatschappen = Array.Empty<Lidmaatschap>();
-
-        foreach (var toeTeVoegenLidmaatschap in toeTeVoegenLidmaatschappen)
-        {
-            var lidmaatschapMetId = lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
-
-            lidmaatschappen = new Lidmaatschappen(lidmaatschappen.Append(lidmaatschapMetId), lidmaatschappen.NextId + 1);
-
-            toegevoegdeLidmaatschappen = toegevoegdeLidmaatschappen.Append(lidmaatschapMetId).ToArray();
-        }
-
-        return toegevoegdeLidmaatschappen;
+        return new LidmaatschapId(Math.Max(lidmaatschappen.Max(x => x.LidmaatschapId), NextId)).Next;
     }
 
-    public Lidmaatschap VoegToe(Lidmaatschap toeTeVoegenLidmaatschap)
+    public Lidmaatschap VoegToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
     {
+        var toeTeVoegenLidmaatschap = Lidmaatschap.Create(
+            new LidmaatschapId(NextId),
+            lidmaatschap);
+
         ThrowIfCannotAppendOrUpdate(toeTeVoegenLidmaatschap);
-
-        return toeTeVoegenLidmaatschap with { LidmaatschapId = NextId };
+        return toeTeVoegenLidmaatschap;
     }
 
-    public Lidmaatschap Verwijder(int lidmaatschapId)
+    public Lidmaatschap Verwijder(LidmaatschapId lidmaatschapId)
     {
         MustContain(lidmaatschapId);
 
         return this[lidmaatschapId];
     }
 
-    private void MustContain(int lidmaatschapId)
+    private void MustContain(LidmaatschapId lidmaatschapId)
     {
         Throw<LidmaatschapIsNietGekend>.If(!HasKey(lidmaatschapId), lidmaatschapId.ToString());
     }

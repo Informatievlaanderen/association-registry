@@ -25,10 +25,10 @@ public class Given_A_Lidmaatschap
 
         var commandHandler = new VoegLidmaatschapToeCommandHandler(verenigingRepositoryMock);
 
-        var lidmaatschap = fixture.Create<Lidmaatschap>();
-
-        var command = new VoegLidmaatschapToeCommand(scenario.VCode,
-                                                     lidmaatschap);
+        var command = fixture.Create<VoegLidmaatschapToeCommand>() with
+        {
+            VCode = scenario.VCode,
+        };
 
         await commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>()));
 
@@ -37,10 +37,10 @@ public class Given_A_Lidmaatschap
                 scenario.VCode,
                 new Registratiedata.Lidmaatschap(
                 1,
-                lidmaatschap.AndereVereniging,
-                lidmaatschap.Geldigheidsperiode.Van.DateOnly,
-                lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
-                lidmaatschap.Identificatie,
-                lidmaatschap.Beschrijving)));
+                command.Lidmaatschap.AndereVereniging,
+                command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
+                command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
+                command.Lidmaatschap.Identificatie,
+                command.Lidmaatschap.Beschrijving)));
     }
 }

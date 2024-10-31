@@ -18,7 +18,7 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
     {
     }
 
-    public async Task<Dictionary<string, IEvent[]>> GivenEvents(IVCodeService service)
+    public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -33,11 +33,11 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        return new Dictionary<string, IEvent[]>()
-        {
-            {FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd] },
-            {AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [AndereFeitelijkeVerenigingWerdGeregistreerd] },
-        };
+        return
+        [
+            new(FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd]),
+            new(AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [AndereFeitelijkeVerenigingWerdGeregistreerd]),
+        ];
     }
 
     public StreamActionResult Result { get; set; } = null!;

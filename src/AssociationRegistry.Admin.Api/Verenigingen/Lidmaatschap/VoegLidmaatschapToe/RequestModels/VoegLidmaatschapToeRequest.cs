@@ -38,11 +38,11 @@ public class VoegLidmaatschapToeRequest
     public string Beschrijving { get; set; }
 
     public VoegLidmaatschapToeCommand ToCommand(string vCode) => new(
-        VCode: VCode.Create(vCode),
-        Lidmaatschap.Create(VCode.Create(AndereVereniging),
-                            new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
-                            Identificatie,
-                            Beschrijving
-        )
-    );
+        VCode.Create(vCode),
+        new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
+        VCode.Create(AndereVereniging),
+        new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
+        Identificatie,
+        Beschrijving
+    ));
 }

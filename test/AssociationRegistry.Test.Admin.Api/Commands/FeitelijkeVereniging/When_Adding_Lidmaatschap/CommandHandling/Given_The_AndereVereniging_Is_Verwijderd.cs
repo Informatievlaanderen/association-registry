@@ -23,16 +23,15 @@ public class Given_The_AndereVereniging_Is_Verwijderd
         var repositoryMock = new Mock<IVerenigingsRepository>();
 
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var lidmaatschap = fixture.Create<Lidmaatschap>();
-
+        var command = fixture.Create<VoegLidmaatschapToeCommand>() with
+        {
+            VCode = scenario.VCode,
+        };
         repositoryMock
-           .Setup(x => x.IsVerwijderd(lidmaatschap.AndereVereniging))
+           .Setup(x => x.IsVerwijderd(command.Lidmaatschap.AndereVereniging))
            .ReturnsAsync(true);
 
         var commandHandler = new VoegLidmaatschapToeCommandHandler(repositoryMock.Object);
-
-        var command = new VoegLidmaatschapToeCommand(scenario.VCode,
-                                                     lidmaatschap);
 
         await Assert.ThrowsAsync<VerenigingKanGeenLidWordenVanVerwijderdeVereniging>(
             async () => await commandHandler.Handle(
