@@ -38,7 +38,7 @@ public class ProjectionContext : IAsyncLifetime
         OaktonEnvironment.AutoStartHost = true;
 
         var configuration = new ConfigurationBuilder()
-                           .AddJsonFile("appsettings.json").Build();
+                           .AddJsonFile("appsettings.projections.json").Build();
 
         ProjectionHost = await AlbaHost.For<ProjectionHostProgram>(ConfigureForTesting(configuration, _dbName));
 
