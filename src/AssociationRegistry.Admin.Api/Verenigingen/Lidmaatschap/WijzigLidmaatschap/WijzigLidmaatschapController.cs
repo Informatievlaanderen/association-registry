@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap;
 
+using Acties.WijzigLidmaatschap;
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using FluentValidation;
+using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.Extensions;
@@ -14,6 +16,7 @@ using Infrastructure.Swagger.Examples;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -82,12 +85,13 @@ public class WijzigLidmaatschapController : ApiController
     {
         await validator.NullValidateAndThrowAsync(request);
 
-        // var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        // var envelope = new CommandEnvelope<WijzigLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
-        // var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
+        var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
+        var envelope = new CommandEnvelope<WijzigLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
+        var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
-        // return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
+        Response.AddSequenceHeader(commandResult.Sequence);
+        Response.AddETagHeader(commandResult.Version);
 
-        return new EmptyResult();
+        return Accepted();
     }
 }

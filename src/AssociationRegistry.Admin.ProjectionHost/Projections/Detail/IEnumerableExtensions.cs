@@ -16,6 +16,17 @@ public static class IEnumerableExtensions
               .Append(updatedObject);
     }
 
+    public static IEnumerable<T> UpdateSingleZonderBron<T>(this IEnumerable<T> collection, Func<T, bool> identityFunc, Func<T, T> update)
+    {
+        var array = collection as T[] ?? collection.ToArray();
+        var objectToUpdate = array.Single(identityFunc);
+        var updatedObject = update(objectToUpdate);
+
+        return array
+              .Where(t1 => !identityFunc(t1))
+              .Append(updatedObject);
+    }
+
     public static IEnumerable<T> UpdateSingleOrNothing<T>(this IEnumerable<T> collection, Func<T, bool> identityFunc, Func<T, T> update)
         where T : IHasBron
     {

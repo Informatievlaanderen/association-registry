@@ -10,6 +10,7 @@ using AutoFixture;
 public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenario
 {
     private readonly MultipleWerdGeregistreerdScenario _baseScenario;
+    public string NaamVereniging { get; set; }
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
 
     public LidmaatschapWerdToegevoegdScenario(MultipleWerdGeregistreerdScenario baseScenario)
@@ -22,6 +23,7 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
         var fixture = new Fixture().CustomizeAdminApi();
 
         var givenEvents = await _baseScenario.GivenEvents(service);
+        NaamVereniging = _baseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam; // TODO:
 
         LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
             VCode: _baseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
