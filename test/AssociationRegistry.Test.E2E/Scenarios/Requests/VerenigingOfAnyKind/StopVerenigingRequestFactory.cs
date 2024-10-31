@@ -1,14 +1,14 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
+namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VerenigingOfAnyKind;
 
-using Alba;
 using Admin.Api.Verenigingen.Stop.RequestModels;
+using Alba;
 using Events;
-using Framework.ApiSetup;
-using Vereniging;
 using FeitelijkeVereniging;
+using Framework.ApiSetup;
 using Marten;
 using Marten.Events;
 using System.Net;
+using Vereniging;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
 {

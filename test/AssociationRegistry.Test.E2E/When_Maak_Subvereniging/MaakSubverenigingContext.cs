@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe;
+namespace AssociationRegistry.Test.E2E.When_Maak_Subvereniging;
 
-using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Subvereniging.MaakSubvereniging.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;
@@ -9,12 +9,12 @@ using Scenarios.Requests.FeitelijkeVereniging;
 using Scenarios.Requests.VerenigingOfAnyKind;
 using Vereniging;
 
-public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequest>
+public class MaakSubverenigingContext: TestContextBase<MaakSubverenigingRequest>
 {
     public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 
-    public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup)
+    public MaakSubverenigingContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
@@ -23,7 +23,7 @@ public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequ
     public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new VoegLidmaatschapToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new MaakSubverenigingRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 }

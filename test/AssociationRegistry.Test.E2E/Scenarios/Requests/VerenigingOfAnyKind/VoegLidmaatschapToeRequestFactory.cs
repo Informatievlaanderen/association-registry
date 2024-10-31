@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
+namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VerenigingOfAnyKind;
 
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Alba;

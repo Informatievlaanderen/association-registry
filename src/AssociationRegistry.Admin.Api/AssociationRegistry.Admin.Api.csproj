@@ -50,6 +50,7 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
     <Content Include="paket.template" CopyToOutputDirectory="Always" />
     <Content Include="init.sh" CopyToOutputDirectory="Always" />
+    <Content Remove="Verenigingen\Subvereniging\OntkoppelSubvereniging\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -81,6 +82,11 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>ValidationMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Remove="Verenigingen\Subvereniging\OntkoppelSubvereniging\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Verenigingen\Subvereniging\OntkoppelSubvereniging\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

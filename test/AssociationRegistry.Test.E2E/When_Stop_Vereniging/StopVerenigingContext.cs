@@ -3,10 +3,10 @@ namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging;
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Vereniging;
 using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
-using Scenarios.Requests;
+using Scenarios.Requests.VerenigingOfAnyKind;
+using Vereniging;
 
 public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {
