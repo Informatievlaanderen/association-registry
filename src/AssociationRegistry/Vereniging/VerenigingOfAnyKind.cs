@@ -108,7 +108,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(toeTeVoegenLidmaatschap);
 
-        AddEvent(LidmaatschapWerdToegevoegd.With(toegevoegdLidmaatschap));
+        AddEvent(LidmaatschapWerdToegevoegd.With(VCode, toegevoegdLidmaatschap));
 
         return toegevoegdLidmaatschap;
     }
@@ -368,4 +368,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public long Version => State.Version;
+
+    public void VerwijderLidmaatschap(int lidmaatschapId)
+    {
+        var locatie = State.Lidmaatschappen.Verwijder(lidmaatschapId);
+        AddEvent(LidmaatschapWerdVerwijderd.With(State.VCode, locatie));
+    }
 }

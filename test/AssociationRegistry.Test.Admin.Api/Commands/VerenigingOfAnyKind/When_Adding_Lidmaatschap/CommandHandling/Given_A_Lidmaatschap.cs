@@ -34,6 +34,7 @@ public class Given_A_Lidmaatschap
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new LidmaatschapWerdToegevoegd(
+                scenario.VCode,
                 new Registratiedata.Lidmaatschap(
                 1,
                 lidmaatschap.AndereVereniging,

@@ -54,6 +54,18 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
         return toeTeVoegenLidmaatschap with { LidmaatschapId = NextId };
     }
 
+    public Lidmaatschap Verwijder(int lidmaatschapId)
+    {
+        MustContain(lidmaatschapId);
+
+        return this[lidmaatschapId];
+    }
+
+    private void MustContain(int lidmaatschapId)
+    {
+        Throw<LidmaatschapIsNietGekend>.If(!HasKey(lidmaatschapId), lidmaatschapId.ToString());
+    }
+
     private void ThrowIfCannotAppendOrUpdate(Lidmaatschap lidmaatschap)
     {
         MustNotOverlapForSameAndereVereniging(lidmaatschap);
@@ -69,7 +81,6 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
 
     public new Lidmaatschap this[int lidmaatschapId]
         => this.Single(l => l.LidmaatschapId == lidmaatschapId);
-
 
     public bool HasKey(int lidmaatschapId)
         => this.Any(lidmaatschap => lidmaatschap.LidmaatschapId == lidmaatschapId);

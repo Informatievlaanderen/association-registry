@@ -28,6 +28,7 @@ public static class EventCustomizations
             composer =>
                 composer.FromFactory(
                              () => new LidmaatschapWerdToegevoegd(
+                                 fixture.Create<VCode>(),
                                  Registratiedata.Lidmaatschap.With(
                                      Lidmaatschap.Hydrate(
                                          fixture.Create<int>(),
