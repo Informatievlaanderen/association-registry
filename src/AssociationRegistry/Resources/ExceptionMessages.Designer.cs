@@ -440,6 +440,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lidmaatschap met lidmaatschapId &apos;{0}&apos; is niet gekend.
+        /// </summary>
+        public static string LidmaatschapIsNietGekend {
+            get {
+                return ResourceManager.GetString("LidmaatschapIsNietGekend", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een lidmaatschap mag niet overlappen voor eenzelfde vereniging..
         /// </summary>
         public static string LidmaatschapIsOverlappend {

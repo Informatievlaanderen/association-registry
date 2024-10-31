@@ -190,6 +190,9 @@
   <data name="LidmaatschapMagNietVerwijzenNaarEigenVereniging">
     <value>Een lidmaatschap mag niet verwijzen naar de vereniging waarbij hij wordt toegevoegd.</value>
   </data>
+  <data name="LidmaatschapIsNietGekend">
+    <value>Lidmaatschap met lidmaatschapId '{0}' is niet gekend</value>
+  </data>
   <data name="VerenigingWerdVerwijderd">
     <value>Deze vereniging werd verwijderd.</value>
   </data>

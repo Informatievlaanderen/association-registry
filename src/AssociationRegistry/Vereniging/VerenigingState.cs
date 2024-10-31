@@ -318,6 +318,15 @@ public record VerenigingState : IHasVersion
             ),
         };
 
+    public VerenigingState Apply(LidmaatschapWerdVerwijderd @event)
+        => this with
+        {
+            Lidmaatschappen = Lidmaatschappen.Hydrate(
+                Lidmaatschappen
+                   .Without(@event.Lidmaatschap.LidmaatschapId)
+            ),
+        };
+
     public VerenigingState Apply(LocatieWerdGewijzigd @event)
         => this with
         {

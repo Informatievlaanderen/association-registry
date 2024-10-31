@@ -40,9 +40,6 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
         };
     }
 
-    public IEvent[] GivenEvents()
-        => [FeitelijkeVerenigingWerdGeregistreerd];
-
     public StreamActionResult Result { get; set; } = null!;
 
     public CommandMetadata GetCommandMetadata()

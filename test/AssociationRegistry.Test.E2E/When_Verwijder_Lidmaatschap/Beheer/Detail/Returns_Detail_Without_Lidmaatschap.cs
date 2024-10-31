@@ -1,0 +1,40 @@
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Detail;
+
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using FluentAssertions;
+using Framework.AlbaHost;
+using KellermanSoftware.CompareNetObjects;
+using When_Voeg_Lidmaatschap_Toe;
+using Xunit;
+
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail_Without_Lidmaatschap : IClassFixture<VoegLidmaatschapToeContext>, IAsyncLifetime
+{
+    private readonly VoegLidmaatschapToeContext _context;
+
+    public Returns_Detail_Without_Lidmaatschap(VoegLidmaatschapToeContext context)
+    {
+        _context = context;
+    }
+
+    [Fact]
+    public void JsonContentMatches()
+    {
+        var comparisonConfig = new ComparisonConfig();
+        comparisonConfig.MaxDifferences = 10;
+        comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+
+        Response.Vereniging.Lidmaatschappen.Should().BeEmpty();
+    }
+
+    public DetailVerenigingResponse Response { get; set; }
+
+    public async Task InitializeAsync()
+    {
+        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
+    }
+
+    public async Task DisposeAsync()
+    {
+    }
+}
