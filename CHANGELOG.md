@@ -1,3 +1,11 @@
+# [8.171.0](https://github.com/informatievlaanderen/association-registry/compare/v8.170.0...v8.171.0) (2024-10-31)
+
+
+### Features
+
+* or-2516 finish implement deleting a lidmaatschap ([eca5c9a](https://github.com/informatievlaanderen/association-registry/commit/eca5c9ac653a7bf49c8456b75fe8c9cd0bfddc08))
+* or-2516 implement deleting a lidmaatschap ([a25954b](https://github.com/informatievlaanderen/association-registry/commit/a25954b40765f8aaad424018c375d5f921b5b906))
+
 # [8.170.0](https://github.com/informatievlaanderen/association-registry/compare/v8.169.0...v8.170.0) (2024-10-31)
 
 
