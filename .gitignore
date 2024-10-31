@@ -3,6 +3,7 @@ appsettings.*.json
 !appsettings.e2e.*.json
 !appsettings.e2e.json
 !appsettings.powerbi.json
+!appsettings.projections.json
 *.Importer-*.config
 wwwroot/
 
