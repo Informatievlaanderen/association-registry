@@ -72,7 +72,7 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
-            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, vereniging.Naam)).ToArray(),
+            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap)).ToArray(),
             Bron = vereniging.Bron,
         };
     }
@@ -84,13 +84,13 @@ public class BeheerVerenigingDetailMapper
             AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
         };
 
-    private static Lidmaatschap Map(Schema.Detail.Lidmaatschap lidmaatschap, string naam)
+    private static Lidmaatschap Map(Schema.Detail.Lidmaatschap lidmaatschap)
         => new()
         {
             AndereVereniging = lidmaatschap.AndereVereniging,
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
-            Naam = naam,
+            Naam = string.Empty,
             Van = lidmaatschap.Van.FormatAsBelgianDate(),
             Tot = lidmaatschap.Tot.FormatAsBelgianDate(),
             LidmaatschapId = lidmaatschap.LidmaatschapId,

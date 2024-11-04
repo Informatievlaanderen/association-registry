@@ -48,7 +48,7 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
     public Lidmaatschap? Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
     {
         var lidmaatschap = Get(teWijzigenLidmaatschap.LidmaatschapId);
-        var gewijzigdeLidmaatschap = lidmaatschap.Wijzig(teWijzigenLidmaatschap, lidmaatschap.AndereVereniging);
+        var gewijzigdeLidmaatschap = lidmaatschap.Wijzig(teWijzigenLidmaatschap);
 
         if (lidmaatschap.Equals(gewijzigdeLidmaatschap))
             return null;
