@@ -42,7 +42,7 @@ public class VoegLidmaatschapToeRequest
         new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
         VCode.Create(AndereVereniging),
         new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
-        Identificatie,
-        Beschrijving
+        LidmaatschapIdentificatie.Create(Identificatie),
+        LidmaatschapBeschrijving.Create(Beschrijving)
     ));
 }

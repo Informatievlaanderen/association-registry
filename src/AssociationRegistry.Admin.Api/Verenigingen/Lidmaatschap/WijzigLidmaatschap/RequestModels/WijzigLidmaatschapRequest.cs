@@ -24,20 +24,20 @@ public class WijzigLidmaatschapRequest
     /// De externe identificatie voor het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Identificatie { get; set; }
+    public string Identificatie { get; set; } = string.Empty;
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; }
+    public string Beschrijving { get; set; } = string.Empty;
 
     public WijzigLidmaatschapCommand ToCommand(string vCode, int lidmaatschapId) => new(
         VCode.Create(vCode),
         new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
             new LidmaatschapId(lidmaatschapId),
             new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
-            Identificatie,
-            Beschrijving
+            LidmaatschapIdentificatie.Create(Identificatie),
+            LidmaatschapBeschrijving.Create(Beschrijving)
         ));
 }

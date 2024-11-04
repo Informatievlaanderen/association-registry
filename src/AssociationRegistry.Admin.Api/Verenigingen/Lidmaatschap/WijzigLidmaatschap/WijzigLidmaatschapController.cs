@@ -57,7 +57,7 @@ public class WijzigLidmaatschapController : ApiController
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPatch("{vCode}/lidmaatschappen/{lidmaatschapId:int}")]
+    [HttpPut("{vCode}/lidmaatschappen/{lidmaatschapId:int}")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(WijzigLidmaatschapRequest), typeof(WijzigLidmaatschapRequestExamples))]
