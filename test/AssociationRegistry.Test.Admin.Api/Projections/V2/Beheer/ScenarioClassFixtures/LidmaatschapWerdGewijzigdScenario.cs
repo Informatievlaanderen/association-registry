@@ -7,20 +7,21 @@ using Events;
 public class LidmaatschapWerdGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     public LidmaatschapWerdGewijzigd LidmaatschapWerdGewijzigd { get; }
+    public LidmaatschapWerdToegevoegdScenario LidmaatschapWerdToegevoegdScenario { get; }
 
     public LidmaatschapWerdGewijzigdScenario(ProjectionContext context): base(context)
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var scenario = new LidmaatschapWerdToegevoegdScenario(context);
-        scenario.Given().GetAwaiter().GetResult();
+        var LidmaatschapWerdToegevoegdScenario = new LidmaatschapWerdToegevoegdScenario(context);
+        LidmaatschapWerdToegevoegdScenario.Given().GetAwaiter().GetResult();
 
         LidmaatschapWerdGewijzigd = new LidmaatschapWerdGewijzigd(
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
-                LidmaatschapId = scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+                LidmaatschapId = LidmaatschapWerdToegevoegdScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
             },
-            VCode: scenario.VerenigingWerdGeregistreerd.VCode);
+            VCode: LidmaatschapWerdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
     public override async Task Given()

@@ -49,7 +49,9 @@ public class Given_LidmaatschapWerdToegevoegd : IClassFixture<LidmaatschapWerdTo
                      new Lidmaatschap(
                          null,
                          _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                         _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
+                         new AndereVereniging(
+                             _scenario.AndereVerenigingWerdGeregistreerd.VCode,
+                             _scenario.AndereVerenigingWerdGeregistreerd.Naam),
                          _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.DatumVan,
                          _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.DatumTot,
                          _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.Identificatie,

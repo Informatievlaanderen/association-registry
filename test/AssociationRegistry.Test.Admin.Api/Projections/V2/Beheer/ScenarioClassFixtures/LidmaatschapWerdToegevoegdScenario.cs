@@ -7,29 +7,36 @@ using Events;
 public class LidmaatschapWerdToegevoegdScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd AndereVerenigingWerdGeregistreerd { get; }
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
 
     public LidmaatschapWerdToegevoegdScenario(ProjectionContext context): base(context)
     {
         var fixture = new Fixture().CustomizeDomain();
         VerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        AndereVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
-        LidmaatschapWerdToegevoegd = fixture.Create<LidmaatschapWerdToegevoegd>();
+        LidmaatschapWerdToegevoegd = fixture.Create<LidmaatschapWerdToegevoegd>() with
+        {
+            Lidmaatschap = fixture.Create<Registratiedata.Lidmaatschap>() with
+            {
+                AndereVereniging = AndereVerenigingWerdGeregistreerd.VCode,
+            },
+        };
     }
 
     public override async Task Given()
     {
         await using var session = await Context.DocumentSession();
 
+        session.Events.Append(AndereVerenigingWerdGeregistreerd.VCode,
+                              AndereVerenigingWerdGeregistreerd);
+
         session.Events.Append(VerenigingWerdGeregistreerd.VCode,
-                              VerenigingWerdGeregistreerd);
+                              VerenigingWerdGeregistreerd,
+                              LidmaatschapWerdToegevoegd);
+
         await session.SaveChangesAsync();
-        await using var session2 = await Context.DocumentSession();
-
-        session2.Events.Append(VerenigingWerdGeregistreerd.VCode,
-                               LidmaatschapWerdToegevoegd);
-
-        await session2.SaveChangesAsync();
 
         await Context.WaitForNonStaleProjectionDataAsync();
     }

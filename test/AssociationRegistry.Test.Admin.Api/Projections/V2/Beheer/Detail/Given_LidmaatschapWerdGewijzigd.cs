@@ -50,7 +50,9 @@ public class Given_LidmaatschapWerdGewijzigd : IClassFixture<LidmaatschapWerdGew
                      new Lidmaatschap(
                          null,
                          _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.LidmaatschapId,
-                         _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.AndereVereniging,
+                         new AndereVereniging(
+                             _scenario.LidmaatschapWerdToegevoegdScenario.AndereVerenigingWerdGeregistreerd.VCode,
+                             _scenario.LidmaatschapWerdToegevoegdScenario.AndereVerenigingWerdGeregistreerd.Naam),
                          _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumVan,
                          _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumTot,
                          _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.Identificatie,

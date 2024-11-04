@@ -3,8 +3,10 @@
 public record Lidmaatschap(
     JsonLdMetadata JsonLdMetadata,
     int LidmaatschapId,
-    string AndereVereniging,
+    AndereVereniging AndereVereniging,
     DateOnly? Van,
     DateOnly? Tot,
     string Identificatie,
     string Beschrijving);
+
+public record AndereVereniging(string VCode, string Naam);

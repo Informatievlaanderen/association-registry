@@ -165,7 +165,7 @@ public static class Registratiedata
             => new(werkingsgebied.Code, werkingsgebied.Naam);
     }
 
-    public record Lidmaatschap(int LidmaatschapId, string AndereVereniging, DateOnly? DatumVan, DateOnly? DatumTot, string Identificatie, string Beschrijving)
+    public record Lidmaatschap(int LidmaatschapId, AndereVereniging AndereVereniging, DateOnly? DatumVan, DateOnly? DatumTot, string Identificatie, string Beschrijving)
     {
         public static Lidmaatschap With(Vereniging.Lidmaatschap lidmaatschap)
             => new (
@@ -176,4 +176,6 @@ public static class Registratiedata
                 lidmaatschap.Identificatie,
                 lidmaatschap.Beschrijving);
     }
+
+    public record AndereVereniging(string VCode, string Naam);
 }
