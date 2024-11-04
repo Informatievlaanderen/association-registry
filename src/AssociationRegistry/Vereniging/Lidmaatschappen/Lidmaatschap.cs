@@ -65,19 +65,11 @@ public record Lidmaatschap
                lidmaatschap.Identificatie,
                lidmaatschap.Beschrijving);
 
-    public Lidmaatschap Wijzig(
-        LidmaatschapId lidmaatschapId,
-        VCode andereVereniging,
-        Geldigheidsperiode geldigheidsperiode,
-        string identificatie,
-        string beschrijving)
-        => new(lidmaatschapId, andereVereniging, geldigheidsperiode, identificatie, beschrijving);
-
-    public Lidmaatschap Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap, VCode andereVereniging)
-        => new(
-            teWijzigenLidmaatschap.LidmaatschapId,
-            andereVereniging,
-            teWijzigenLidmaatschap.Geldigheidsperiode,
-            teWijzigenLidmaatschap.Identificatie,
-            teWijzigenLidmaatschap.Beschrijving);
+    public Lidmaatschap Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
+        => this with
+        {
+            Geldigheidsperiode = teWijzigenLidmaatschap.Geldigheidsperiode,
+            Identificatie = teWijzigenLidmaatschap.Identificatie,
+            Beschrijving = teWijzigenLidmaatschap.Beschrijving,
+        };
 }
