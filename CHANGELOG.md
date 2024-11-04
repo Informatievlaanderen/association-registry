@@ -1,3 +1,16 @@
+# [8.172.0](https://github.com/informatievlaanderen/association-registry/compare/v8.171.0...v8.172.0) (2024-11-04)
+
+
+### Bug Fixes
+
+* or-2515 set andereVereniging naam to string.empty for now ([003c1e2](https://github.com/informatievlaanderen/association-registry/commit/003c1e2eb3f0e296ccace213a857bb7f84b787fc))
+
+
+### Features
+
+* or-2515 implement wijzig lidmaatschap ([9a06985](https://github.com/informatievlaanderen/association-registry/commit/9a06985d10d6ace882ce6cf54047d0fb65aa81ad))
+* or-2515 use PUT semantics for changing lidmaatschappen ([cb61d1c](https://github.com/informatievlaanderen/association-registry/commit/cb61d1ce910ebd0df76cfa4ded189598f81d7e1c))
+
 # [8.171.0](https://github.com/informatievlaanderen/association-registry/compare/v8.170.0...v8.171.0) (2024-10-31)
 
 
