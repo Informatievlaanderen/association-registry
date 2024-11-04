@@ -2,6 +2,7 @@
 
 using Common;
 using FluentValidation;
+using Framework.Validation;
 using Infrastructure.Validation;
 using RequestModels;
 using Vereniging;
@@ -13,7 +14,7 @@ public class WijzigLocatieRequestValidator : AbstractValidator<WijzigLocatieRequ
     {
         RuleFor(request => request.Locatie)
            .NotNull()
-           .WithMessage("'Locatie' is verplicht.");
+           .WithVeldIsVerplichtMessage(nameof(WijzigLocatieRequest.Locatie));
 
         RuleFor(request => request.Locatie)
            .SetValidator(new TeWijzigenLocatieValidator());

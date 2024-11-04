@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 
 using FluentValidation;
+using Framework.Validation;
 using Infrastructure.Validation;
 
 public class VoegLidmaatschapToeRequestValidator : AbstractValidator<VoegLidmaatschapToeRequest>
@@ -9,7 +10,7 @@ public class VoegLidmaatschapToeRequestValidator : AbstractValidator<VoegLidmaat
     {
         RuleFor(r => r.AndereVereniging)
            .Must(andereVereniging => !string.IsNullOrEmpty(andereVereniging))
-           .WithMessage(ValidationMessages.VeldIsVerplicht);
+           .WithVeldIsVerplichtMessage(nameof(VoegLidmaatschapToeRequest.AndereVereniging));
 
         RuleFor(r => r.Tot)
            .GreaterThanOrEqualTo(x => x.Van)

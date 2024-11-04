@@ -2,6 +2,7 @@
 
 using Common;
 using FluentValidation;
+using Framework.Validation;
 using Infrastructure.Validation;
 using RequestModels;
 
@@ -11,7 +12,7 @@ public class VoegVertegenwoordigerToeValidator : AbstractValidator<VoegVertegenw
     public VoegVertegenwoordigerToeValidator()
     {
         RuleFor(request => request.Vertegenwoordiger).NotNull()
-                                                     .WithMessage("'Vertegenwoordiger' is verplicht.");
+                                                     .WithVeldIsVerplichtMessage(nameof(VoegVertegenwoordigerToeRequest.Vertegenwoordiger));
 
         When(
             predicate: request => request.Vertegenwoordiger is not null,
