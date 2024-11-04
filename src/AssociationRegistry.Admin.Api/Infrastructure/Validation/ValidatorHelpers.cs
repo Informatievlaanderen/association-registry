@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 
 using FluentValidation;
 using FluentValidation.Internal;
+using Framework.Validation;
 using Resources;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;
@@ -12,7 +13,7 @@ public static class ValidatorHelpers
     {
         validator.RuleFor(expression)
                  .NotNull()
-                 .WithMessage($"'{expression.GetMember().Name}' is verplicht.");
+                 .WithVeldIsVerplichtMessage(expression.GetMember().Name);
 
         validator.RuleFor(expression)
                  .NotEmpty()

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 
 using FluentValidation;
+using Framework.Validation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
@@ -9,8 +10,7 @@ public class WijzigVertegenwoordigerValidator : AbstractValidator<WijzigVertegen
     public WijzigVertegenwoordigerValidator()
     {
         RuleFor(request => request.Vertegenwoordiger).NotNull()
-                                                     .WithMessage("'Vertegenwoordiger' is verplicht.");
-
+                                                     .WithVeldIsVerplichtMessage(nameof(WijzigVertegenwoordigerRequest.Vertegenwoordiger));
         When(
             predicate: request => request.Vertegenwoordiger is not null,
             action: () => RuleFor(request => request.Vertegenwoordiger)
