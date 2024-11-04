@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
 using FluentValidation;
+using Framework.Validation;
 using Infrastructure.Validation;
 using RequestsModels;
 using Vereniging;
@@ -10,8 +11,9 @@ public class VoegContactgegevenToeValidator : AbstractValidator<VoegContactgegev
 {
     public VoegContactgegevenToeValidator()
     {
-        RuleFor(request => request.Contactgegeven).NotNull()
-                                                  .WithMessage("'Contactgegeven' is verplicht.");
+        RuleFor(request => request.Contactgegeven)
+           .NotNull()
+           .WithVeldIsVerplichtMessage(nameof(VoegContactgegevenToeRequest.Contactgegeven));
 
         When(
             predicate: request => request.Contactgegeven is not null,
