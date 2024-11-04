@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 
 using FluentValidation;
-using Framework.Validation;
 using Infrastructure.Validation;
 using RequestsModels;
 using Vereniging;
