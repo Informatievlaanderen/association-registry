@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapTo
 using AutoFixture;
 using Common.AutoFixture;
 using FluentValidation.TestHelper;
+using Framework;
 using Microsoft.AspNetCore.Http;
 using Resources;
 using Xunit;
@@ -19,7 +20,7 @@ public class A_Invalid_Request : ValidatorTest
 
     public A_Invalid_Request()
     {
-        _fixture = new Fixture().CustomizeAdminApi();
+        _fixture = AdminApiAutoFixtureCustomizations.CustomizeAdminApi(new Fixture());
         _validator = new VoegLidmaatschapToeRequestValidator();
     }
 
@@ -32,7 +33,7 @@ public class A_Invalid_Request : ValidatorTest
         var result = _validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(x => x.AndereVereniging)
-              .WithErrorMessage(ValidationMessages.VeldIsVerplicht);
+              .WithVeldIsVerplichtErrorMessage(nameof(VoegLidmaatschapToeRequest.AndereVereniging));
     }
 
     [Fact]
@@ -44,7 +45,7 @@ public class A_Invalid_Request : ValidatorTest
         var result = _validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(x => x.AndereVereniging)
-              .WithErrorMessage(ValidationMessages.VeldIsVerplicht);
+              .WithVeldIsVerplichtErrorMessage(nameof(VoegLidmaatschapToeRequest.AndereVereniging));
     }
 
     [Fact]
