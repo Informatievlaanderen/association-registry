@@ -6,9 +6,9 @@ using System.Runtime.Serialization;
 public class Lidmaatschap
 {
     /// <summary>
-    /// Het id van het lidmaatschap
+    /// De unieke identificatie code van dit lidmaatschap binnen de vereniging
     /// </summary>
-    [DataMember(Name = "Lidmaatschap")]
+    [DataMember(Name = "LidmaatschapId")]
     public int LidmaatschapId { get; set; }
 
     /// <summary>
