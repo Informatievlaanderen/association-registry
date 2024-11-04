@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 
 using FluentValidation;
-using Framework.Validation;
+using Infrastructure.Validation;
 using RequestModels;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract

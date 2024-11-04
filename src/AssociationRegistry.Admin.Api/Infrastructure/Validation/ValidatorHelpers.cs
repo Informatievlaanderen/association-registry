@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 
 using FluentValidation;
 using FluentValidation.Internal;
-using Framework.Validation;
 using Resources;
 using System.Linq.Expressions;
 using System.Text.RegularExpressions;

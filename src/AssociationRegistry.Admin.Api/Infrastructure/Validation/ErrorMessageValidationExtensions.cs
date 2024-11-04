@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Framework.Validation;
+﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 
 using FluentValidation;
 

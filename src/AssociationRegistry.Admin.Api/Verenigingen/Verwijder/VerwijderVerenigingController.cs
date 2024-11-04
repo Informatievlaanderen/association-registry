@@ -9,6 +9,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
+using Infrastructure.Validation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;

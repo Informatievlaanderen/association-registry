@@ -13,6 +13,7 @@ using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
+using Infrastructure.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

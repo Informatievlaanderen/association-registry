@@ -13,6 +13,7 @@ using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
+using Infrastructure.Validation;
 using Microsoft.AspNetCore.Mvc;
 using RequetsModels;
 using ResultNet;
