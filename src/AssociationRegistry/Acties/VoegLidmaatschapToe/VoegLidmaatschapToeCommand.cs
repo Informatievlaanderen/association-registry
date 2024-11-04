@@ -9,7 +9,7 @@ public record VoegLidmaatschapToeCommand(
     public record ToeTeVoegenLidmaatschap(
         VCode AndereVereniging,
         Geldigheidsperiode Geldigheidsperiode,
-        string Identificatie,
-        string Beschrijving);
+        LidmaatschapIdentificatie Identificatie,
+        LidmaatschapBeschrijving Beschrijving);
 }
 

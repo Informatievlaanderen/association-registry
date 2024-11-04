@@ -37,7 +37,7 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Patch
+            s.Put
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{vCode}/lidmaatschappen/{lidmaatschapLidmaatschapId}");
 

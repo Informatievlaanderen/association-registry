@@ -9,7 +9,7 @@ public record WijzigLidmaatschapCommand(
     public record TeWijzigenLidmaatschap(
         LidmaatschapId LidmaatschapId,
         Geldigheidsperiode Geldigheidsperiode,
-        string Identificatie,
-        string Beschrijving);
+        LidmaatschapIdentificatie Identificatie,
+        LidmaatschapBeschrijving Beschrijving);
 }
 

@@ -8,15 +8,15 @@ public record Lidmaatschap
     public LidmaatschapId LidmaatschapId { get; init; }
     public VCode AndereVereniging { get; init; }
     public Geldigheidsperiode Geldigheidsperiode { get; init; }
-    public string Identificatie { get; init; }
-    public string Beschrijving { get; init; }
+    public LidmaatschapIdentificatie Identificatie { get; init; }
+    public LidmaatschapBeschrijving Beschrijving { get; init; }
 
     private Lidmaatschap(
         LidmaatschapId lidmaatschapId,
         VCode andereVereniging,
         Geldigheidsperiode geldigheidsperiode,
-        string identificatie,
-        string beschrijving)
+        LidmaatschapIdentificatie identificatie,
+        LidmaatschapBeschrijving beschrijving)
     {
         LidmaatschapId = lidmaatschapId;
         AndereVereniging = andereVereniging;
@@ -31,7 +31,9 @@ public record Lidmaatschap
         Geldigheidsperiode geldigheidsperiode,
         string identificatie,
         string beschrijving)
-        => new(new LidmaatschapId(lidmaatschapId), andereVereniging, geldigheidsperiode, identificatie, beschrijving);
+        => new(new LidmaatschapId(lidmaatschapId), andereVereniging, geldigheidsperiode,
+               LidmaatschapIdentificatie.Hydrate(identificatie),
+               LidmaatschapBeschrijving.Hydrate(beschrijving));
 
     public virtual bool Equals(Lidmaatschap? other)
     {

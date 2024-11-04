@@ -29,6 +29,9 @@ public class Throw<TException> where TException : Exception
     public static void IfNullOrWhiteSpace(string? value, string? message = null)
         => If(string.IsNullOrWhiteSpace(value), message);
 
+    public static void IfNull(object? value, string? message = null)
+        => If(value is null, message);
+
     private static void ThrowException(string? message)
     {
         throw (string.IsNullOrWhiteSpace(message)
