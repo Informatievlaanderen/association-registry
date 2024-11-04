@@ -29,13 +29,13 @@ public class VoegLidmaatschapToeRequest
     /// De externe identificatie voor het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Identificatie { get; set; }
+    public string Identificatie { get; set; } = string.Empty;
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; }
+    public string Beschrijving { get; set; } = string.Empty;
 
     public VoegLidmaatschapToeCommand ToCommand(string vCode) => new(
         VCode.Create(vCode),
