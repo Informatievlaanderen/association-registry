@@ -7,6 +7,7 @@ using Common.AutoFixture;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
+using Primitives;
 using System.Net;
 using Vereniging;
 
@@ -27,17 +28,18 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
         var fixture = new Fixture().CustomizeAdminApi();
 
         var date = fixture.Create<DateOnly>();
+
         var request = new WijzigLidmaatschapRequest()
         {
-            Van = date,
-            Tot = date.AddDays(new Random().Next(1, 99)),
+            Van = NullOrEmpty<DateOnly>.Create(date),
+            Tot = NullOrEmpty<DateOnly>.Create(date.AddDays(new Random().Next(1, 99))),
             Identificatie = fixture.Create<string>(),
             Beschrijving = fixture.Create<string>(),
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Put
+            s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{vCode}/lidmaatschappen/{lidmaatschapLidmaatschapId}");
 

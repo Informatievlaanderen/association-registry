@@ -70,8 +70,10 @@ public record Lidmaatschap
     public Lidmaatschap Wijzig(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap teWijzigenLidmaatschap)
         => this with
         {
-            Geldigheidsperiode = teWijzigenLidmaatschap.Geldigheidsperiode,
-            Identificatie = teWijzigenLidmaatschap.Identificatie,
-            Beschrijving = teWijzigenLidmaatschap.Beschrijving,
+            Geldigheidsperiode = new Geldigheidsperiode(
+                teWijzigenLidmaatschap.GeldigVan is null ? Geldigheidsperiode.Van : new GeldigVan(teWijzigenLidmaatschap.GeldigVan),
+                teWijzigenLidmaatschap.GeldigTot is null ? Geldigheidsperiode.Tot : new GeldigTot(teWijzigenLidmaatschap.GeldigTot)),
+            Identificatie =  teWijzigenLidmaatschap.Identificatie ?? Identificatie,
+            Beschrijving = teWijzigenLidmaatschap.Beschrijving ?? Beschrijving,
         };
 }

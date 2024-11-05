@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 
-using Acties.VoegLidmaatschapToe;
 using Acties.WijzigLidmaatschap;
+using Primitives;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -12,32 +12,33 @@ public class WijzigLidmaatschapRequest
     /// De datum waarop de relatie actief wordt
     /// </summary>
     [DataMember]
-    public DateOnly? Van { get; set; }
+    public NullOrEmpty<DateOnly> Van { get; set; }
 
     /// <summary>
     /// De datum waarop de relatie niet meer actief wordt
     /// </summary>
     [DataMember]
-    public DateOnly? Tot { get; set; }
+    public NullOrEmpty<DateOnly> Tot { get; set; }
 
     /// <summary>
     /// De externe identificatie voor het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Identificatie { get; set; } = string.Empty;
+    public string? Identificatie { get; set; }
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; } = string.Empty;
+    public string? Beschrijving { get; set; }
 
     public WijzigLidmaatschapCommand ToCommand(string vCode, int lidmaatschapId) => new(
         VCode.Create(vCode),
         new WijzigLidmaatschapCommand.TeWijzigenLidmaatschap(
             new LidmaatschapId(lidmaatschapId),
-            new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
-            LidmaatschapIdentificatie.Create(Identificatie),
-            LidmaatschapBeschrijving.Create(Beschrijving)
+            GeldigVan.FromNullOrEmpty(Van),
+            GeldigTot.FromNullOrEmpty(Tot),
+            Identificatie is null ? null : LidmaatschapIdentificatie.Create(Identificatie),
+            Beschrijving is null ? null : LidmaatschapBeschrijving.Create(Beschrijving)
         ));
 }

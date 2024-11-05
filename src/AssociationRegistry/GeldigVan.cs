@@ -1,9 +1,11 @@
 namespace AssociationRegistry;
 
+using Primitives;
 using System;
 
-public struct GeldigVan: IEquatable<GeldigVan>, IComparable<GeldigVan>
+public struct GeldigVan : IEquatable<GeldigVan>, IComparable<GeldigVan>
 {
+    public static GeldigVan Infinite => new(null);
     public DateOnly? DateOnly { get; }
 
     public bool IsInfinite
@@ -15,11 +17,22 @@ public struct GeldigVan: IEquatable<GeldigVan>, IComparable<GeldigVan>
     public GeldigVan(int year, int month, int day)
         => DateOnly = new DateOnly(year, month, day);
 
+    public static GeldigVan? FromNullOrEmpty(NullOrEmpty<DateOnly> dateTime)
+    {
+        if (dateTime.IsEmpty)
+            return new(null);
+
+        if (dateTime.IsNull)
+            return null;
+
+        return new(dateTime.Value);
+    }
+
     public static implicit operator DateOnly?(GeldigVan geldigVan)
         => geldigVan.DateOnly;
 
     public override string ToString()
-        => DateOnly.HasValue? DateOnly.Value.ToString("yyyy-MM-dd") : "~";
+        => DateOnly.HasValue ? DateOnly.Value.ToString("yyyy-MM-dd") : "~";
 
     public bool IsInFutureOf(DateOnly date, bool inclusive = false)
         => inclusive
@@ -64,7 +77,7 @@ public struct GeldigVan: IEquatable<GeldigVan>, IComparable<GeldigVan>
     }
 
     public override bool Equals(object? obj)
-        => obj is GeldigVan && Equals((GeldigVan) obj);
+        => obj is GeldigVan && Equals((GeldigVan)obj);
 
     public bool Equals(GeldigVan other)
         => DateOnly == other.DateOnly;

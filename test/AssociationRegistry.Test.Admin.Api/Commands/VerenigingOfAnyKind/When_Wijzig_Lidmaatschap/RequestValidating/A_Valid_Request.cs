@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap
 using AutoFixture;
 using Common.AutoFixture;
 using FluentValidation.TestHelper;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
@@ -33,7 +34,7 @@ public class A_Valid_Request : ValidatorTest
     public void Has_no_validation_errors_when_van_null()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();
-        request.Van = null;
+        request.Van = NullOrEmpty<DateOnly>.Null;
 
         var result = _validator.TestValidate(request);
         result.ShouldNotHaveAnyValidationErrors();
@@ -43,7 +44,7 @@ public class A_Valid_Request : ValidatorTest
     public void Has_no_validation_errors_when_tot_null()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();
-        request.Tot = null;
+        request.Tot = NullOrEmpty<DateOnly>.Null;
 
         var result = _validator.TestValidate(request);
         result.ShouldNotHaveAnyValidationErrors();

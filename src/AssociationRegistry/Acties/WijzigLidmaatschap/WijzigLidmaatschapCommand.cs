@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.WijzigLidmaatschap;
 
+using Primitives;
 using Vereniging;
 
 public record WijzigLidmaatschapCommand(
@@ -8,8 +9,9 @@ public record WijzigLidmaatschapCommand(
 {
     public record TeWijzigenLidmaatschap(
         LidmaatschapId LidmaatschapId,
-        Geldigheidsperiode Geldigheidsperiode,
-        LidmaatschapIdentificatie Identificatie,
-        LidmaatschapBeschrijving Beschrijving);
+        GeldigVan? GeldigVan,
+        GeldigTot? GeldigTot,
+        LidmaatschapIdentificatie? Identificatie,
+        LidmaatschapBeschrijving? Beschrijving);
 }
 

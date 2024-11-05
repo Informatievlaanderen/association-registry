@@ -17,6 +17,17 @@ public readonly struct NullOrEmpty<T>
         _type = type;
     }
 
+    public NullOrEmpty<TDestination> ToNullOrEmpty<TDestination>(Func<T, TDestination> transformer)
+    {
+        return _type switch
+        {
+            NullOrEmptyType.IsNull => NullOrEmpty<TDestination>.Null,
+            NullOrEmptyType.IsEmpty => NullOrEmpty<TDestination>.Empty,
+            NullOrEmptyType.HasValue => NullOrEmpty<TDestination>.Create(transformer(Value)),
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
     public bool IsEmpty
         => _type == NullOrEmptyType.IsEmpty;
 

@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Http;
+using Primitives;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
@@ -28,11 +29,11 @@ public class A_Invalid_Request : ValidatorTest
     public void Has_validation_errors_when_tot_after_van()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();
-        request.Van = DateOnly.FromDateTime(DateTime.Now);
-        request.Tot = DateOnly.FromDateTime(DateTime.Now.AddDays(-1));
+        request.Van = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Now));
+        request.Tot = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Now.AddDays(-1)));
 
         var result = _validator.TestValidate(request);
-        result.ShouldHaveValidationErrorFor(x => x.Tot)
+        result.ShouldHaveValidationErrorFor(x => x.Tot.Value)
               .WithErrorMessage(ValidationMessages.DatumTotMoetLaterZijnDanDatumVan);
     }
 
@@ -40,8 +41,8 @@ public class A_Invalid_Request : ValidatorTest
     public void Has_no_validation_errors_when_tot_not_after_van()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();
-        request.Van = DateOnly.FromDateTime(DateTime.Now);
-        request.Tot = DateOnly.FromDateTime(DateTime.Now.AddDays(1));
+        request.Van = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Now));
+        request.Tot = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Now.AddDays(1)));
 
         var result = _validator.TestValidate(request);
         result.ShouldNotHaveAnyValidationErrors();

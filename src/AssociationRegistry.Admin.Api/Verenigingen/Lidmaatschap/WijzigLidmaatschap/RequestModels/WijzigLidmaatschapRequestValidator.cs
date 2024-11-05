@@ -7,9 +7,9 @@ public class WijzigLidmaatschapRequestValidator : AbstractValidator<WijzigLidmaa
 {
     public WijzigLidmaatschapRequestValidator()
     {
-        RuleFor(r => r.Tot)
-           .GreaterThanOrEqualTo(x => x.Van)
-           .When(x => x.Van.HasValue)
+        RuleFor(r => r.Tot.Value)
+           .GreaterThanOrEqualTo(x => x.Van.Value)
+           .When(x => x.Van.HasValue && x.Tot.HasValue)
            .WithMessage(ValidationMessages.DatumTotMoetLaterZijnDanDatumVan);
 
         RuleFor(r => r.Identificatie).MustNotContainHtml();

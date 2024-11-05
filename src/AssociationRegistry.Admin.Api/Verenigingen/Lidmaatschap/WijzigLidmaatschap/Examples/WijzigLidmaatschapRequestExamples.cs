@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.Examples;
 
+using Primitives;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 
@@ -9,8 +10,8 @@ public class WijzigLidmaatschapRequestExamples : IExamplesProvider<WijzigLidmaat
         => new()
         {
             Beschrijving = "De beschrijving van het lidmaatschap.",
-            Van = new DateOnly(2024, 10, 12),
-            Tot = new DateOnly(2024, 10, 10),
+            Van = NullOrEmpty<DateOnly>.Create(new DateOnly(2024, 10, 12)),
+            Tot = NullOrEmpty<DateOnly>.Create(new DateOnly(2024, 10, 10)),
             Identificatie = "0012",
         };
 }

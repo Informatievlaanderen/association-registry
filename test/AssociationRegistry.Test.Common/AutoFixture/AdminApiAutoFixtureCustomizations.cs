@@ -111,9 +111,11 @@ public static class AdminApiAutoFixtureCustomizations
 
                     request.KorteBeschrijving = fixture.Create<string>();
                     request.KorteNaam = fixture.Create<string>();
+
                     request.Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
                                                       .Distinct()
                                                       .Select(x => x.Code).ToArray();
+
                     return request;
                 }).OmitAutoProperties());
     }
@@ -271,8 +273,8 @@ public static class AdminApiAutoFixtureCustomizations
             composer => composer.FromFactory(
                 () => new WijzigLidmaatschapRequest
                 {
-                    Van = date,
-                    Tot = date.AddDays(new Random().Next(1, 99)),
+                    Van = NullOrEmpty<DateOnly>.Create(date),
+                    Tot = NullOrEmpty<DateOnly>.Create(date.AddDays(new Random().Next(1, 99))),
                     Identificatie = fixture.Create<string>(),
                     Beschrijving = fixture.Create<string>(),
                 }).OmitAutoProperties());
@@ -292,5 +294,4 @@ public static class AdminApiAutoFixtureCustomizations
                     fixture.Create<string>(), fixture.Create<string>()
                 )).OmitAutoProperties());
     }
-
 }
