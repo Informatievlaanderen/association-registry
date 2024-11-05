@@ -33,7 +33,7 @@ public class A_Invalid_Request : ValidatorTest
         request.Tot = NullOrEmpty<DateOnly>.Create(DateOnly.FromDateTime(DateTime.Now.AddDays(-1)));
 
         var result = _validator.TestValidate(request);
-        result.ShouldHaveValidationErrorFor(x => x.Tot.Value)
+        result.ShouldHaveValidationErrorFor(x => x.Tot)
               .WithErrorMessage(ValidationMessages.DatumTotMoetLaterZijnDanDatumVan);
     }
 
