@@ -1,3 +1,11 @@
+## [8.172.1](https://github.com/informatievlaanderen/association-registry/compare/v8.172.0...v8.172.1) (2024-11-05)
+
+
+### Bug Fixes
+
+* or-2515 set validation error on correct property name ([55cd49e](https://github.com/informatievlaanderen/association-registry/commit/55cd49ea94178cd8d93efc8496dae94ab658292e))
+* or-2515 use patch instead of put for wijzig lidmaatschap ([49ee881](https://github.com/informatievlaanderen/association-registry/commit/49ee8811034c4b1dcb0231162a274f67ef594bbe))
+
 # [8.172.0](https://github.com/informatievlaanderen/association-registry/compare/v8.171.0...v8.172.0) (2024-11-04)
 
 
