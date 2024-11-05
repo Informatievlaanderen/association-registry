@@ -1,13 +1,27 @@
 namespace AssociationRegistry;
 
+using Primitives;
 using System;
 
 public struct GeldigTot: IEquatable<GeldigTot>, IComparable<GeldigTot>
 {
+    public static GeldigTot Infinite => new(null);
+
     public DateOnly? DateOnly { get; }
 
     public bool IsInfinite
         => !DateOnly.HasValue;
+
+    public static GeldigTot? FromNullOrEmpty(NullOrEmpty<DateOnly> dateTime)
+    {
+        if (dateTime.IsEmpty)
+            return new(null);
+
+        if (dateTime.IsNull)
+            return null;
+
+        return new(dateTime.Value);
+    }
 
     public GeldigTot(DateOnly? dateTime)
         => DateOnly = dateTime;

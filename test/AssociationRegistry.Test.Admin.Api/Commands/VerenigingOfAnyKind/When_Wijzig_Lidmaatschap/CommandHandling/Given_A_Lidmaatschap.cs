@@ -43,8 +43,8 @@ public class Given_A_Lidmaatschap
                 new Registratiedata.Lidmaatschap(
                     command.Lidmaatschap.LidmaatschapId,
                     scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
-                    command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
-                    command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
+                    command.Lidmaatschap.GeldigVan,
+                    command.Lidmaatschap.GeldigTot,
                     command.Lidmaatschap.Identificatie,
                     command.Lidmaatschap.Beschrijving)));
     }

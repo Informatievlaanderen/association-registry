@@ -28,8 +28,8 @@ public class Returns_Detail_Without_Lidmaatschap : IClassFixture<WijzigLidmaatsc
             LidmaatschapId = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
             AndereVereniging = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.Van.ToBelgianDate(),
-            Tot = _context.Request.Tot.ToBelgianDate(),
+            Van = _context.Request.Van.Value.ToBelgianDate(),
+            Tot = _context.Request.Tot.Value.ToBelgianDate(),
             Identificatie = _context.Request.Identificatie,
             Naam = string.Empty, //TODO: fetch naam van andere vereniging
         };
