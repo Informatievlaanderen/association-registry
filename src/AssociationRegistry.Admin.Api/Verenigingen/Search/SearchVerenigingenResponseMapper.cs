@@ -58,6 +58,10 @@ public class SearchVerenigingenResponseMapper
                 Locaties = verenigingZoekDocument.Locaties
                                                  .Select(Map)
                                                  .ToArray(),
+                Lidmaatschappen = verenigingZoekDocument
+                                 .Lidmaatschappen
+                                 .Select(Map)
+                                 .ToArray(),
                 Sleutels = verenigingZoekDocument.Sleutels
                                                  .Select(Map)
                                                  .ToArray(),
@@ -71,6 +75,18 @@ public class SearchVerenigingenResponseMapper
             throw;
         }
     }
+
+    private static Lidmaatschap Map(VerenigingZoekDocument.Lidmaatschap l)
+        => new()
+        {
+            id = l.JsonLdMetadata.Id,
+            type = l.JsonLdMetadata.Type,
+            AndereVereniging = l.AndereVereniging,
+            Van = l.DatumVan,
+            Tot = l.DatumTot,
+            Beschrijving = l.Beschrijving,
+            Identificatie = l.Identificatie,
+        };
 
     private static DoelgroepResponse Map(Doelgroep doelgroep)
         => new()

@@ -62,6 +62,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
             Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, _testContext.VCode),
             Sleutels = MapSleutels(Request, _testContext.VCode),
+            Lidmaatschappen = [],
             Links = new VerenigingLinks()
             {
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),

@@ -34,6 +34,19 @@
         },
         {{end}}
       ],
+    "lidmaatschappen": [
+        {{for lidmaatschap in vereniging.lidmaatschappen}}
+        {
+          "@id": "{{lidmaatschap.jsonldid}}",
+          "@type": "{{lidmaatschap.jsonldtype}}",
+          "andereVereniging": "{{lidmaatschap.anderevereniging}}",
+          "datumVan": "{{lidmaatschap.datumvan}}",
+          "datumTot": "{{lidmaatschap.datumTot}}",
+          "identificatie": "{{lidmaatschap.identificatie}}",
+          "beschrijving": "{{lidmaatschap.beschrijving}}",
+        },
+        {{end}}
+      ],
       "startdatum": {{if vereniging.startdatum}}"{{vereniging.startdatum}}",{{else}}null,{{end}}
       "einddatum": {{if vereniging.einddatum}}"{{vereniging.einddatum}}",{{else}}null,{{end}}
       "doelgroep": {

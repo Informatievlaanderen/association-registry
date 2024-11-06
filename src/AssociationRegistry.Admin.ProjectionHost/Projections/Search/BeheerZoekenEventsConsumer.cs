@@ -54,6 +54,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                 case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
+                case nameof(LidmaatschapWerdToegevoegd):
                     try
                     {
                         await _zoekProjectionHandler.Handle(eventEnvelope);

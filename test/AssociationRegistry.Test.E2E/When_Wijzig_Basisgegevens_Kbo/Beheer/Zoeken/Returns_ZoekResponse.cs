@@ -58,10 +58,11 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapRequestHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerZoekResponseMapper.MapRequestWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
+            Lidmaatschappen = [],
             Links = new VerenigingLinks()
             {
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),

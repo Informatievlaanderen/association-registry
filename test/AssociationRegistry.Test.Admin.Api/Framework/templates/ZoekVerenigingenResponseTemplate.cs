@@ -64,6 +64,7 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
             _vereniging.hoofdactiviteiten = new List<object>();
             _vereniging.werkingsgebieden = new List<object>();
             _vereniging.sleutels = new List<object>();
+            _vereniging.lidmaatschappen = new List<object>();
 
             WithStatus(VerenigingStatus.Actief);
             WithKorteNaam(string.Empty);

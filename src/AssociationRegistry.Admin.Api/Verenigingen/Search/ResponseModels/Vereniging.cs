@@ -73,4 +73,8 @@ public class Vereniging
     /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]
     public VerenigingLinks Links { get; init; } = null!;
+
+    /// <summary>De lidmaatschappen van de vereniging</summary>
+    [DataMember(Name = "Lidmaatschappen")]
+    public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
 }
