@@ -7,6 +7,11 @@ public class WijzigLidmaatschapRequestValidator : AbstractValidator<WijzigLidmaa
 {
     public WijzigLidmaatschapRequestValidator()
     {
+        RuleFor(request => request)
+           .Must(HaveAtLeastOneValue)
+           .OverridePropertyName("request")
+           .WithMessage("Een request mag niet leeg zijn.");
+
         RuleFor(r => r.Tot.Value)
            .GreaterThanOrEqualTo(x => x.Van.Value)
            .When(x => x.Van.HasValue && x.Tot.HasValue)
@@ -16,4 +21,10 @@ public class WijzigLidmaatschapRequestValidator : AbstractValidator<WijzigLidmaa
         RuleFor(r => r.Identificatie).MustNotContainHtml();
         RuleFor(r => r.Beschrijving).MustNotContainHtml();
     }
+
+    private static bool HaveAtLeastOneValue(WijzigLidmaatschapRequest request)
+        => request.Beschrijving is not null ||
+           request.Identificatie is not null ||
+           !request.Van.IsNull ||
+           !request.Tot.IsNull;
 }
