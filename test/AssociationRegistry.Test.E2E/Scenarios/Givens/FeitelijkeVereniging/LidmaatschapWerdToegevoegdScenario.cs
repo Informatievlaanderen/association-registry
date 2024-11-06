@@ -9,27 +9,27 @@ using AutoFixture;
 
 public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenario
 {
-    private readonly MultipleWerdGeregistreerdScenario _baseScenario;
+    public readonly MultipleWerdGeregistreerdScenario BaseScenario;
     public string NaamVereniging { get; set; }
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; set; }
 
     public LidmaatschapWerdToegevoegdScenario(MultipleWerdGeregistreerdScenario baseScenario)
     {
-        _baseScenario = baseScenario;
+        BaseScenario = baseScenario;
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var givenEvents = await _baseScenario.GivenEvents(service);
-        NaamVereniging = _baseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
+        var givenEvents = await BaseScenario.GivenEvents(service);
+        NaamVereniging = BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.Naam;
 
         LidmaatschapWerdToegevoegd = new LidmaatschapWerdToegevoegd(
-            VCode: _baseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
+            VCode: BaseScenario.FeitelijkeVerenigingWerdGeregistreerd.VCode,
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
-                AndereVereniging = _baseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             });
 
         return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))

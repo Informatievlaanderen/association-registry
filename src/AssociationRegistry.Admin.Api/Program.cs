@@ -37,6 +37,8 @@ using Infrastructure.HttpClients;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Middleware;
+using Infrastructure.ResponseWriter;
+using Infrastructure.Sequence;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -60,6 +62,7 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using Oakton;
 using OpenTelemetry.Extensions;
+using Queries;
 using Serilog;
 using Serilog.Debugging;
 using System.Globalization;
@@ -70,6 +73,7 @@ using System.Reflection;
 using System.Text;
 using VCodeGeneration;
 using Vereniging;
+using Verenigingen.Detail;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
@@ -597,11 +601,18 @@ public class Program
                     });
 
         builder.Services.AddAdminApiSwagger(appSettings);
-        builder.Services.AddSingleton<ProblemDetailsHelper>();
+        builder.Services.AddSingleton<ProblemDetailsHelper>()
+               .AddSingleton<IResponseWriter, ResponseWriter>();
 
         builder.Services.AddSingleton<IEventPostConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<IEventPreConflictResolutionStrategy, AddressMatchConflictResolutionStrategy>();
         builder.Services.AddSingleton<EventConflictResolver>();
+
+        builder.Services.AddSingleton<ISequenceGuarder, SequenceGuarder>();
+
+        builder.Services
+               .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
+               .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
     }
 
     private static void ConfigureHostedServices(WebApplicationBuilder builder)

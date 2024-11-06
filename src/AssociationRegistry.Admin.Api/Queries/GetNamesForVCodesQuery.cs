@@ -4,7 +4,8 @@ using Framework;
 using Marten;
 using Schema.Detail;
 
-public class GetNamesForVCodesQuery : IQuery<Dictionary<string, string>, GetNamesForVCodesFilter>
+public interface IGetNamesForVCodesQuery : IQuery<Dictionary<string, string>, GetNamesForVCodesFilter>;
+public class GetNamesForVCodesQuery : IGetNamesForVCodesQuery
 {
     private readonly IDocumentSession _session;
 
@@ -25,7 +26,7 @@ public class GetNamesForVCodesQuery : IQuery<Dictionary<string, string>, GetName
     }
 }
 
-public class GetNamesForVCodesFilter
+public record GetNamesForVCodesFilter
 {
     public string[] VCodes { get; }
 

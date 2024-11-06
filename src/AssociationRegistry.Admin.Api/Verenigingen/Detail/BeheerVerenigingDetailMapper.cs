@@ -22,17 +22,19 @@ using Werkingsgebied = ResponseModels.Werkingsgebied;
 public class BeheerVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
+    private readonly INamenVoorLidmaatschapMapper _namenVoorLidmaatschapMapper;
 
-    public BeheerVerenigingDetailMapper(AppSettings appSettings)
+    public BeheerVerenigingDetailMapper(AppSettings appSettings, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper)
     {
         _appSettings = appSettings;
+        _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
     }
 
     public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
         => new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
-            Vereniging = Map(vereniging, _appSettings.BaseUrl),
+            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl),
             Metadata = MapMetadata(vereniging),
         };
 
@@ -42,7 +44,10 @@ public class BeheerVerenigingDetailMapper
             DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
         };
 
-    private static VerenigingDetail Map(BeheerVerenigingDetailDocument vereniging, string baseUrl)
+    private static VerenigingDetail Map(
+        BeheerVerenigingDetailDocument vereniging,
+        INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper,
+        string baseUrl)
     {
         return new VerenigingDetail
         {
@@ -72,7 +77,7 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
-            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap)).ToArray(),
+            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, namenVoorLidmaatschapMapper)).ToArray(),
             Bron = vereniging.Bron,
         };
     }
@@ -84,13 +89,16 @@ public class BeheerVerenigingDetailMapper
             AndereVereniging = Map(relatie.AndereVereniging, baseUrl),
         };
 
-    private static Lidmaatschap Map(Schema.Detail.Lidmaatschap lidmaatschap)
+    private static Lidmaatschap Map(
+        Schema.Detail.Lidmaatschap lidmaatschap,
+        INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper
+    )
         => new()
         {
             AndereVereniging = lidmaatschap.AndereVereniging,
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
-            Naam = string.Empty,
+            Naam = namenVoorLidmaatschapMapper.MapNaamVoorLidmaatschap(lidmaatschap.AndereVereniging),
             Van = lidmaatschap.Van.FormatAsBelgianDate(),
             Tot = lidmaatschap.Tot.FormatAsBelgianDate(),
             LidmaatschapId = lidmaatschap.LidmaatschapId,
@@ -247,4 +255,22 @@ public class BeheerVerenigingDetailMapper
                 Land = adres.Land,
             }
             : null;
+}
+
+public interface INamenVoorLidmaatschapMapper
+{
+    string MapNaamVoorLidmaatschap(string vCode);
+}
+
+public class VerplichteNamenVoorLidmaatschapMapper : INamenVoorLidmaatschapMapper
+{
+    private readonly Dictionary<string, string> _namenVoorLidmaatschap;
+
+    public VerplichteNamenVoorLidmaatschapMapper(Dictionary<string, string> namenVoorLidmaatschap)
+    {
+        _namenVoorLidmaatschap = namenVoorLidmaatschap;
+    }
+
+    public string MapNaamVoorLidmaatschap(string vCode)
+        => _namenVoorLidmaatschap[vCode];
 }
