@@ -1,3 +1,13 @@
+## [8.172.2](https://github.com/informatievlaanderen/association-registry/compare/v8.172.1...v8.172.2) (2024-11-06)
+
+
+### Bug Fixes
+
+* or-2514 correct validation error message for voeg lidmaatschap toe ([4b0b16c](https://github.com/informatievlaanderen/association-registry/commit/4b0b16ce7217b4416144fb2b8992718c129ca4a9))
+* or-2514 make Identificatie & Beschrijving default empty string ([07c07ee](https://github.com/informatievlaanderen/association-registry/commit/07c07eef3ec600570fe60bcd1913bee3fce01292))
+* or-2514 make identificatie and beschrijving nullable on VoegLidmaatschapToeRequest ([7109782](https://github.com/informatievlaanderen/association-registry/commit/71097825a051b5ffbbe8a14af3f67bf27c10a437))
+* or-2514 rename lidmaatschap id ([aa52486](https://github.com/informatievlaanderen/association-registry/commit/aa524861c2ad6abfd04ac0a375266474f29c56a3))
+
 ## [8.172.1](https://github.com/informatievlaanderen/association-registry/compare/v8.172.0...v8.172.1) (2024-11-05)
 
 
