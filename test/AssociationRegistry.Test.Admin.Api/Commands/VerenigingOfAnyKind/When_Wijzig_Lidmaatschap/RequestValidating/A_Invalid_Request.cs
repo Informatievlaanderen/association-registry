@@ -26,6 +26,16 @@ public class A_Invalid_Request : ValidatorTest
     }
 
     [Fact]
+    public void Has_validation_errors_when_no_changes()
+    {
+        var request = new WijzigLidmaatschapRequest();
+
+        var result = _validator.TestValidate(request);
+        result.ShouldHaveValidationErrorFor("request")
+              .WithErrorMessage("Een request mag niet leeg zijn.");
+    }
+
+    [Fact]
     public void Has_validation_errors_when_tot_after_van()
     {
         var request = _fixture.Create<WijzigLidmaatschapRequest>();
