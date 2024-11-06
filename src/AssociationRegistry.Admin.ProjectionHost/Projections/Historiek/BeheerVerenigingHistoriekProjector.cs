@@ -584,6 +584,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            lidmaatschapWerdToegevoegd,
+            lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
+            document,
+            "Lidmaatschap werd toegevoegd."
+        );
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
         {
