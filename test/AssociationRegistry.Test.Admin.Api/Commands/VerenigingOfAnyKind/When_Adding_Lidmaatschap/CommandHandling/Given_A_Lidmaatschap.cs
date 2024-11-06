@@ -38,6 +38,7 @@ public class Given_A_Lidmaatschap
                 new Registratiedata.Lidmaatschap(
                 1,
                 command.Lidmaatschap.AndereVereniging,
+                command.Lidmaatschap.AndereVerenigingNaam,
                 command.Lidmaatschap.Geldigheidsperiode.Van.DateOnly,
                 command.Lidmaatschap.Geldigheidsperiode.Tot.DateOnly,
                 command.Lidmaatschap.Identificatie,

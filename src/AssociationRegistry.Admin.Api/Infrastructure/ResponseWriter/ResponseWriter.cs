@@ -18,4 +18,7 @@ public class ResponseWriter : IResponseWriter
 
     public void AddETagHeader(HttpResponse response, long? version)
         => response.AddETagHeader(version);
+
+    public void AddSequenceHeader(HttpResponse response, long? sequence)
+        => response.AddSequenceHeader(sequence);
 }
