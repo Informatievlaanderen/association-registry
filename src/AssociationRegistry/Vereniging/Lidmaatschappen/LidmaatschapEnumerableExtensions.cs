@@ -15,6 +15,7 @@ public static class LidmaatschapEnumerableExtensions
             Lidmaatschap.Hydrate(
                 eventData.LidmaatschapId,
                 VCode.Create(eventData.AndereVereniging),
+                eventData.AndereVerenigingNaam,
                 new Geldigheidsperiode(new GeldigVan(eventData.DatumVan), new GeldigTot(eventData.DatumTot)),
                eventData.Identificatie,
                 eventData.Beschrijving)

@@ -10,4 +10,5 @@ public interface IResponseWriter
         string? message = null);
 
     void AddETagHeader(HttpResponse response, long? version);
+    void AddSequenceHeader(HttpResponse response, long? sequence);
 }

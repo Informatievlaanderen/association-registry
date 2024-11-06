@@ -7,6 +7,7 @@ public record Lidmaatschap
 {
     public LidmaatschapId LidmaatschapId { get; init; }
     public VCode AndereVereniging { get; init; }
+    public string AndereVerenigingNaam { get; init; }
     public Geldigheidsperiode Geldigheidsperiode { get; init; }
     public LidmaatschapIdentificatie Identificatie { get; init; }
     public LidmaatschapBeschrijving Beschrijving { get; init; }
@@ -14,12 +15,14 @@ public record Lidmaatschap
     private Lidmaatschap(
         LidmaatschapId lidmaatschapId,
         VCode andereVereniging,
+        string andereVerenigingNaam,
         Geldigheidsperiode geldigheidsperiode,
         LidmaatschapIdentificatie identificatie,
         LidmaatschapBeschrijving beschrijving)
     {
         LidmaatschapId = lidmaatschapId;
         AndereVereniging = andereVereniging;
+        AndereVerenigingNaam = andereVerenigingNaam;
         Geldigheidsperiode = geldigheidsperiode;
         Identificatie = identificatie;
         Beschrijving = beschrijving;
@@ -28,10 +31,13 @@ public record Lidmaatschap
     public static Lidmaatschap Hydrate(
         int lidmaatschapId,
         VCode andereVereniging,
+        string andereVerenigingNaam,
         Geldigheidsperiode geldigheidsperiode,
         string identificatie,
         string beschrijving)
-        => new(new LidmaatschapId(lidmaatschapId), andereVereniging, geldigheidsperiode,
+        => new(new LidmaatschapId(lidmaatschapId), andereVereniging,
+               andereVerenigingNaam,
+               geldigheidsperiode,
                LidmaatschapIdentificatie.Hydrate(identificatie),
                LidmaatschapBeschrijving.Hydrate(beschrijving));
 
@@ -63,6 +69,7 @@ public record Lidmaatschap
         VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
         => new(lidmaatschapId,
                lidmaatschap.AndereVereniging,
+               lidmaatschap.AndereVerenigingNaam,
                lidmaatschap.Geldigheidsperiode,
                lidmaatschap.Identificatie,
                lidmaatschap.Beschrijving);

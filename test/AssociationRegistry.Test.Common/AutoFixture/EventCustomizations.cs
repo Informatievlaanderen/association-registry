@@ -33,6 +33,7 @@ public static class EventCustomizations
                                      Lidmaatschap.Hydrate(
                                          fixture.Create<int>(),
                                          fixture.Create<VCode>(),
+                                         fixture.Create<string>(),
                                          fixture.Create<Geldigheidsperiode>(),
                                          fixture.Create<string>(),
                                          fixture.Create<string>()

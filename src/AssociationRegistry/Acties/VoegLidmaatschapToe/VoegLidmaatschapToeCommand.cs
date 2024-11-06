@@ -8,6 +8,7 @@ public record VoegLidmaatschapToeCommand(
 {
     public record ToeTeVoegenLidmaatschap(
         VCode AndereVereniging,
+        string AndereVerenigingNaam,
         Geldigheidsperiode Geldigheidsperiode,
         LidmaatschapIdentificatie Identificatie,
         LidmaatschapBeschrijving Beschrijving);

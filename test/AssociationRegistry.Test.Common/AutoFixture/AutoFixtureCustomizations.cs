@@ -311,6 +311,7 @@ public static class AutoFixtureCustomizations
                              () => Lidmaatschap.Hydrate(
                                  fixture.Create<LidmaatschapId>(),
                                  fixture.Create<VCode>(),
+                                 fixture.Create<string>(),
                                  fixture.Create<Geldigheidsperiode>(),
                                  fixture.Create<string>(),
                                  fixture.Create<string>()

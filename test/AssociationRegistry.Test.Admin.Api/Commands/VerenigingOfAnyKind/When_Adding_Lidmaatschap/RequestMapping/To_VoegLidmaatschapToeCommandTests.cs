@@ -19,10 +19,12 @@ public class To_VoegLidmaatschapToeCommandTests
 
         var request = fixture.Create<VoegLidmaatschapToeRequest>();
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode);
+        var andereVerenigingNaam = fixture.Create<string>();
+        var command = request.ToCommand(vCode, andereVerenigingNaam);
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.Lidmaatschap.AndereVerenigingNaam.Should().Be(andereVerenigingNaam);
         command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.Van));
         command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.Tot));
         command.Lidmaatschap.Identificatie.Should().Be(LidmaatschapIdentificatie.Hydrate(request.Identificatie));
@@ -40,10 +42,12 @@ public class To_VoegLidmaatschapToeCommandTests
         request.Identificatie = null;
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode);
+        var andereVerenigingNaam = fixture.Create<string>();
+        var command = request.ToCommand(vCode, andereVerenigingNaam);
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.Lidmaatschap.AndereVerenigingNaam.Should().Be(andereVerenigingNaam);
         command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(GeldigVan.Infinite);
         command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.Tot));
         command.Lidmaatschap.Identificatie.Should().Be(LidmaatschapIdentificatie.Hydrate(string.Empty));
@@ -61,10 +65,12 @@ public class To_VoegLidmaatschapToeCommandTests
         request.Identificatie = null;
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode);
+        var andereVerenigingNaam = fixture.Create<string>();
+        var command = request.ToCommand(vCode, andereVerenigingNaam);
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.Lidmaatschap.AndereVerenigingNaam.Should().Be(andereVerenigingNaam);
         command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.Van));
         command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(GeldigTot.Infinite);
         command.Lidmaatschap.Identificatie.Should().Be(LidmaatschapIdentificatie.Hydrate(string.Empty));
@@ -80,10 +86,12 @@ public class To_VoegLidmaatschapToeCommandTests
         request.Identificatie = null;
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode);
+        var andereVerenigingNaam = fixture.Create<string>();
+        var command = request.ToCommand(vCode, andereVerenigingNaam);
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.Lidmaatschap.AndereVerenigingNaam.Should().Be(andereVerenigingNaam);
         command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.Van));
         command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.Tot));
         command.Lidmaatschap.Identificatie.Should().Be(LidmaatschapIdentificatie.Hydrate(string.Empty));
@@ -99,10 +107,12 @@ public class To_VoegLidmaatschapToeCommandTests
         request.Beschrijving = null;
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode);
+        var andereVerenigingNaam = fixture.Create<string>();
+        var command = request.ToCommand(vCode, andereVerenigingNaam);
 
         command.VCode.Should().Be(vCode);
         command.Lidmaatschap.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.Lidmaatschap.AndereVerenigingNaam.Should().Be(andereVerenigingNaam);
         command.Lidmaatschap.Geldigheidsperiode.Van.Should().Be(new GeldigVan(request.Van));
         command.Lidmaatschap.Geldigheidsperiode.Tot.Should().Be(new GeldigTot(request.Tot));
         command.Lidmaatschap.Identificatie.Should().Be(LidmaatschapIdentificatie.Hydrate(request.Identificatie));

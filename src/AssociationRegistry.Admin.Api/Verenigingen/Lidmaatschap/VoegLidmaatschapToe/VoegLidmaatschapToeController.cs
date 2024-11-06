@@ -11,10 +11,12 @@ using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using Infrastructure.Extensions;
 using Infrastructure.Middleware;
+using Infrastructure.ResponseWriter;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Infrastructure.Validation;
 using Microsoft.AspNetCore.Mvc;
+using Queries;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
@@ -49,7 +51,10 @@ public class VoegLidmaatschapToeController : ApiController
     /// <param name="request">Het toe te voegen lidmaatschap.</param>
     /// <param name="validator">De validator voor het toevoegen van een lidmaatschap.</param>
     /// <param name="metadataProvider"></param>
+    /// <param name="detailQuery"></param>
+    /// <param name="responseWriter"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <param name="cancellationToken"></param>
     /// <response code="202">Het lidmaatschap werd toegevoegd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
@@ -77,14 +82,21 @@ public class VoegLidmaatschapToeController : ApiController
         [FromBody] VoegLidmaatschapToeRequest request,
         [FromServices] IValidator<VoegLidmaatschapToeRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
-        [FromHeader(Name = "If-Match")] string? ifMatch = null)
+        [FromServices] IBeheerVerenigingDetailQuery detailQuery,
+        [FromServices] IResponseWriter responseWriter,
+        [FromHeader(Name = "If-Match")] string? ifMatch = null,
+        CancellationToken cancellationToken = default)
     {
-        await validator.NullValidateAndThrowAsync(request);
+        await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
+
+        var naam =
+            (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))
+            ?.Naam ?? string.Empty;
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
-        var envelope = new CommandEnvelope<VoegLidmaatschapToeCommand>(request.ToCommand(vCode), metaData);
-        var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope);
+        var envelope = new CommandEnvelope<VoegLidmaatschapToeCommand>(request.ToCommand(vCode, naam), metaData);
+        var commandResult = await _messageBus.InvokeAsync<EntityCommandResult>(envelope, cancellationToken);
 
-        return this.AcceptedEntityCommand(_appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
+        return this.AcceptedEntityCommand(responseWriter, _appSettings, WellKnownHeaderEntityNames.Lidmaatschappen, commandResult);
     }
 }

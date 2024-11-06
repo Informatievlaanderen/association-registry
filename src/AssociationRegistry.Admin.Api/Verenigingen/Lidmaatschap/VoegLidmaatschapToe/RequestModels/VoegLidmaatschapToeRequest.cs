@@ -37,10 +37,11 @@ public class VoegLidmaatschapToeRequest
     [DataMember]
     public string? Beschrijving { get; set; } = string.Empty;
 
-    public VoegLidmaatschapToeCommand ToCommand(string vCode) => new(
+    public VoegLidmaatschapToeCommand ToCommand(string vCode, string andereVerenigingNaam) => new(
         VCode.Create(vCode),
         new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
         VCode.Create(AndereVereniging),
+        andereVerenigingNaam,
         new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
         LidmaatschapIdentificatie.Create(Identificatie ?? string.Empty),
         LidmaatschapBeschrijving.Create(Beschrijving ?? string.Empty)

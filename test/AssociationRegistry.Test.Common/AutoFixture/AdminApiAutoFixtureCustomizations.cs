@@ -289,6 +289,7 @@ public static class AdminApiAutoFixtureCustomizations
                 factory: () => new Registratiedata.Lidmaatschap(
                     fixture.Create<int>(),
                     fixture.Create<VCode>(),
+                    fixture.Create<string>(),
                     date,
                     date.AddDays(value: new Random().Next(minValue: 1, maxValue: 99)),
                     fixture.Create<string>(), fixture.Create<string>()
