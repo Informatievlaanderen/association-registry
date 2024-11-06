@@ -6,6 +6,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,7 +19,11 @@ public class Given_A_Null_Adres
         var fixture = new Fixture().CustomizeAdminApi();
         var beheerVerenigingDetailDocument = fixture.Create<BeheerVerenigingDetailDocument>();
         beheerVerenigingDetailDocument.Locaties.First().Adres = null;
-        var beheerVerenigingDetailResponse = new BeheerVerenigingDetailMapper(new AppSettings()).Map(beheerVerenigingDetailDocument);
+
+        var beheerVerenigingDetailResponse = new BeheerVerenigingDetailMapper(new AppSettings(),
+                                                                              Mock.Of<INamenVoorLidmaatschapMapper>())
+           .Map(beheerVerenigingDetailDocument);
+
         beheerVerenigingDetailResponse.Vereniging.Locaties.First().Adres.Should().BeNull();
     }
 }

@@ -31,7 +31,7 @@ public class Returns_Detail_Without_Lidmaatschap : IClassFixture<WijzigLidmaatsc
             Van = _context.Request.Van.Value.ToBelgianDate(),
             Tot = _context.Request.Tot.Value.ToBelgianDate(),
             Identificatie = _context.Request.Identificatie,
-            Naam = string.Empty, //TODO: fetch naam van andere vereniging
+            Naam = _context.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
         Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId)
