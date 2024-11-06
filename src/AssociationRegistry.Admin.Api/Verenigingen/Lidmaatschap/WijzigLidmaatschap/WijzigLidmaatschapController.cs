@@ -90,6 +90,9 @@ public class WijzigLidmaatschapController : ApiController
         var envelope = new CommandEnvelope<WijzigLidmaatschapCommand>(request.ToCommand(vCode, lidmaatschapId), metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope);
 
+        if (!commandResult.HasChanges())
+            return Ok();
+
         Response.AddSequenceHeader(commandResult.Sequence);
         Response.AddETagHeader(commandResult.Version);
 

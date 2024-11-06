@@ -49,7 +49,13 @@ public record Lidmaatschap
         if (AndereVereniging != other.AndereVereniging)
             return false;
 
-        if (Geldigheidsperiode != other.Geldigheidsperiode)
+        if (AndereVerenigingNaam != other.AndereVerenigingNaam)
+            return false;
+
+        if (!Geldigheidsperiode.Van.Equals(other.Geldigheidsperiode.Van))
+            return false;
+
+        if (!Geldigheidsperiode.Tot.Equals(other.Geldigheidsperiode.Tot))
             return false;
 
         if (Identificatie != other.Identificatie)
