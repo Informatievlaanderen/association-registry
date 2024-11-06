@@ -1,3 +1,11 @@
+# [8.173.0](https://github.com/informatievlaanderen/association-registry/compare/v8.172.2...v8.173.0) (2024-11-06)
+
+
+### Features
+
+* or-2514 add AndereVerenigingNaam to VoegLidmaatschapToe event ([c92cf37](https://github.com/informatievlaanderen/association-registry/commit/c92cf37d3499569401fb3127148b042faecc4b61))
+* or-2514 return vereniging namen for lidmaatschap detail ([6a1806d](https://github.com/informatievlaanderen/association-registry/commit/6a1806d25db305515557a313b882d444fdb3bee7))
+
 ## [8.172.2](https://github.com/informatievlaanderen/association-registry/compare/v8.172.1...v8.172.2) (2024-11-06)
 
 
