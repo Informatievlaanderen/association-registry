@@ -450,4 +450,23 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? LidmaatschapWerdVerwijderd(LidmaatschapWerdToegevoegd lidmaatschap)
+        => new()
+        {
+            Beschrijving = "Lidmaatschap werd verwijderd.",
+            Gebeurtenis = nameof(Events.LidmaatschapWerdVerwijderd),
+            Data = new
+            {
+                LidmaatschapId = lidmaatschap.Lidmaatschap.LidmaatschapId,
+                AndereVereniging = lidmaatschap.Lidmaatschap.AndereVereniging,
+                AndereVerenigingNaam = lidmaatschap.Lidmaatschap.AndereVerenigingNaam,
+                DatumVan = lidmaatschap.Lidmaatschap.DatumVan,
+                DatumTot = lidmaatschap.Lidmaatschap.DatumTot,
+                Identificatie = lidmaatschap.Lidmaatschap.Identificatie,
+                Beschrijving = lidmaatschap.Lidmaatschap.Beschrijving
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

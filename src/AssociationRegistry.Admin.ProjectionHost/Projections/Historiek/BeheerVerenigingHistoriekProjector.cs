@@ -604,6 +604,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<LidmaatschapWerdVerwijderd> lidmaatschapWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            lidmaatschapWerdVerwijderd,
+            lidmaatschapWerdVerwijderd.Data.Lidmaatschap,
+            document,
+            "Lidmaatschap werd verwijderd."
+        );
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
         {
