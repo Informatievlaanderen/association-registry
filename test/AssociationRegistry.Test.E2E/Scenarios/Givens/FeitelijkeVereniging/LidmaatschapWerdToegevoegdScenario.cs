@@ -30,6 +30,7 @@ public class LidmaatschapWerdToegevoegdScenario : Framework.TestClasses.IScenari
             Lidmaatschap: fixture.Create<Registratiedata.Lidmaatschap>() with
             {
                 AndereVereniging = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                AndereVerenigingNaam = BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
             });
 
         return givenEvents.Append(new KeyValuePair<string, IEvent[]>(LidmaatschapWerdToegevoegd.VCode, [LidmaatschapWerdToegevoegd]))

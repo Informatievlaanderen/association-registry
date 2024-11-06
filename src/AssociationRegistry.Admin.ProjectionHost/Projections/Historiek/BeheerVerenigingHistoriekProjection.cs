@@ -186,6 +186,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdToegevoegd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<LidmaatschapWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
         IDocumentOperations ops)
