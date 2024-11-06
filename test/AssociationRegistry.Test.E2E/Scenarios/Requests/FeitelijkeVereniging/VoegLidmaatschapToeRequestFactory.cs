@@ -29,7 +29,7 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
             AndereVereniging = _scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
             Van = date,
             Tot = date.AddDays(new Random().Next(1, 99)),
-            Identificatie = fixture.Create<string>(),
+           // Identificatie = fixture.Create<string>(),
             Beschrijving = fixture.Create<string>(),
         };
 
