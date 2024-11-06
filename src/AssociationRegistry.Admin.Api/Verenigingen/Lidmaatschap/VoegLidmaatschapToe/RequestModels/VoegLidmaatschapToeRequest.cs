@@ -29,20 +29,20 @@ public class VoegLidmaatschapToeRequest
     /// De externe identificatie voor het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Identificatie { get; set; } = string.Empty;
+    public string? Identificatie { get; set; } = string.Empty;
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
     /// </summary>
     [DataMember]
-    public string Beschrijving { get; set; } = string.Empty;
+    public string? Beschrijving { get; set; } = string.Empty;
 
     public VoegLidmaatschapToeCommand ToCommand(string vCode) => new(
         VCode.Create(vCode),
         new VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap(
         VCode.Create(AndereVereniging),
         new Geldigheidsperiode(new GeldigVan(Van), new GeldigTot(Tot)),
-        LidmaatschapIdentificatie.Create(Identificatie),
-        LidmaatschapBeschrijving.Create(Beschrijving)
+        LidmaatschapIdentificatie.Create(Identificatie ?? string.Empty),
+        LidmaatschapBeschrijving.Create(Beschrijving ?? string.Empty)
     ));
 }
