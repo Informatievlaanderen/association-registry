@@ -15,6 +15,7 @@ public interface IElasticRepository
     Task UpdateStartdatum<TDocument>(string id, DateOnly? startdatum) where TDocument : class;
     Task<VerenigingZoekDocument.Locatie> GetLocatie(string id, int locatieId);
     Task AppendLocatie<TDocument>(string id, ILocatie locatie) where TDocument : class;
+    Task AppendLidmaatschap<TDocument>(string id, ILidmaatschap lidmaatschap) where TDocument : class;
     Task RemoveLocatie<TDocument>(string id, int locatieId) where TDocument : class;
     Task UpdateLocatie<TDocument>(string id, ILocatie locatie) where TDocument : class;
     Task UpdateAdres<TDocument>(string id, int locatieId, string adresVoorstelling, string postcode, string gemeente) where TDocument : class;

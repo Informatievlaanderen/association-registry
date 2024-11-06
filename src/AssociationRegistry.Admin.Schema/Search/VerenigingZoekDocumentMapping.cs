@@ -68,6 +68,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Sleutels)
                                                    .IncludeInRoot()
                                                    .Properties(SleutelMapping.Get))
+                         .Nested<VerenigingZoekDocument.Lidmaatschap>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Lidmaatschappen)
+                                                   .IncludeInRoot()
+                                                   .Properties(LidmaatschapMapping.Get))
         );
 
     private static class LocationMapping
@@ -215,6 +220,35 @@ public static class VerenigingZoekDocumentMapping
                                         .Name(document => document.JsonLdMetadata)
                                         .IncludeInRoot()
                                         .Properties(GestructureerdeIdentificatorMapping.Get));
+    }
+
+    private static class LidmaatschapMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Lidmaatschap> map)
+            => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.AndereVereniging)
+                                          .WithKeyword(BeheerZoekenNormalizer))
+              .Date(
+                   propertyDescriptor => propertyDescriptor
+                      .Name(document => document.DatumVan))
+              .Date(
+                   propertyDescriptor => propertyDescriptor
+                      .Name(document => document.DatumTot))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Identificatie)
+                                          .WithKeyword(BeheerZoekenNormalizer))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Beschrijving)
+                                          .WithKeyword(BeheerZoekenNormalizer));
     }
 
     private static class GestructureerdeIdentificatorMapping

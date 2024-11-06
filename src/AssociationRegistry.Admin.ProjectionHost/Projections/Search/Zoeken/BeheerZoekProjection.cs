@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Constants;
 using Events;
+using Infrastructure.Extensions;
 using JsonLdContext;
 using Schema;
 using Schema.Constants;
@@ -67,6 +68,7 @@ public class BeheerZoekProjectionHandler
                                                        Naam = werkingsgebied.Naam,
                                                    })
                                           .ToArray() ?? [],
+                Lidmaatschappen = [],
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel
@@ -112,6 +114,7 @@ public class BeheerZoekProjectionHandler
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
+                Lidmaatschappen = [],
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel
@@ -275,6 +278,13 @@ public class BeheerZoekProjectionHandler
             Map(message.Data.Locatie, message.VCode));
     }
 
+    public async Task Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message)
+    {
+        await _elasticRepository.AppendLidmaatschap<VerenigingZoekDocument>(
+            message.VCode,
+            Map(message.Data.Lidmaatschap, message.VCode));
+    }
+
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
@@ -301,6 +311,19 @@ public class BeheerZoekProjectionHandler
             IsPrimair = locatie.IsPrimair,
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
+        };
+
+    private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Lidmaatschap, vCode, lidmaatschap.LidmaatschapId.ToString()),
+
+            LidmaatschapId = lidmaatschap.LidmaatschapId,
+            AndereVereniging = lidmaatschap.AndereVereniging,
+            DatumVan = lidmaatschap.DatumVan.ToBelgianDate(),
+            DatumTot = lidmaatschap.DatumTot.ToBelgianDate(),
+            Beschrijving = lidmaatschap.Beschrijving,
+            Identificatie = lidmaatschap.Identificatie,
         };
 
     private static VerenigingZoekDocument.Locatie Map(

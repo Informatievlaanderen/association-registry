@@ -18,6 +18,8 @@ public class VerenigingZoekDocument
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = null!;
     public Werkingsgebied[] Werkingsgebieden { get; init; } = null!;
     public Sleutel[] Sleutels { get; set; } = null!;
+    public Lidmaatschap[] Lidmaatschappen { get; set; } = null!;
+
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public bool IsVerwijderd { get; set; }
 
@@ -37,6 +39,17 @@ public class VerenigingZoekDocument
             public JsonLdMetadata JsonLdMetadata { get; set; }
             public string Naam { get; set; }
         }
+    }
+
+    public class Lidmaatschap : ILidmaatschap
+    {
+        public JsonLdMetadata JsonLdMetadata { get; set; }
+        public int LidmaatschapId { get; init; }
+        public string AndereVereniging { get; init; }
+        public string DatumVan { get; init; }
+        public string DatumTot { get; init; }
+        public string Beschrijving { get; init; } = null!;
+        public string Identificatie { get; init; } = null!;
     }
 
     public class HoofdactiviteitVerenigingsloket

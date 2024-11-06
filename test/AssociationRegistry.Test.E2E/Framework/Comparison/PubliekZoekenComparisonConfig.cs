@@ -14,6 +14,7 @@ public class PubliekZoekenComparisonConfig : End2EndComparisonConfig
         {
             { typeof(Sleutel), [nameof(Sleutel.id)] },
             { typeof(Werkingsgebied), [nameof(Werkingsgebied.Code)] },
+            { typeof(Locatie), [nameof(Locatie.id)]},
         };
 
         // Ignore specific properties

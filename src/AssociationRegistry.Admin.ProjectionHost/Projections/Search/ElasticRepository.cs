@@ -89,6 +89,20 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task AppendLidmaatschap<T>(string id, ILidmaatschap lidmaatschap) where T : class
+    {
+        var response = await _elasticClient.UpdateAsync<T>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("ctx._source.lidmaatschappen.add(params.item)")
+                    .Params(objects => objects.Add(key: "item", lidmaatschap))));
+
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
     public async Task UpdateLocatie<T>(string id, ILocatie locatie) where T : class
     {
         var response = await _elasticClient.UpdateAsync<T>(

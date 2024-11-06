@@ -12,6 +12,7 @@ public class JsonLdType
     public static readonly JsonLdType VerenigingMetRechtspersoonlijkheid = new(JsonLdContext.GuidNamespace.Vereniging, type: "regorg:RegisteredOrganization");
     public static readonly JsonLdType Hoofdactiviteit = new(JsonLdContext.GuidNamespace.Hoofdactiviteit, type: "skos:Concept", prefix:"act");
     public static readonly JsonLdType Werkingsgebied = new(JsonLdContext.GuidNamespace.Werkingsgebied, type: "skos:Concept", prefix:"wg");
+    public static readonly JsonLdType Lidmaatschap = new(JsonLdContext.GuidNamespace.Lidmaatschap, type: "skos:Concept", prefix:"lid");
 
     public static readonly JsonLdType Vertegenwoordiger =
         new(JsonLdContext.GuidNamespace.Vertegenwoordiger, type: "person:Person", prefix: "person");
@@ -23,6 +24,7 @@ public class JsonLdType
         new(JsonLdContext.GuidNamespace.Contactgegeven, type: "schema:ContactPoint", prefix: "cont");
 
     public static readonly JsonLdType Locatie = new(JsonLdContext.GuidNamespace.Locatie, type: "org:Site", prefix: "loc");
+
     public static readonly JsonLdType LocatieType = new(JsonLdContext.GuidNamespace.LocatieType, type: "skos:Concept", prefix: "con");
     public static readonly JsonLdType Adres = new(JsonLdContext.GuidNamespace.Adres, type: "locn:Address", prefix: "adressen");
 
