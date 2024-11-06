@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
@@ -424,6 +425,25 @@ public static class HistoriekGebeurtenisMapper
                 AndereVerenigingNaam = andereVerenigingNaam,
                 DatumVan = request.Van,
                 DatumTot = request.Tot,
+                Identificatie = request.Identificatie,
+                Beschrijving = request.Beschrijving
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse LidmaatschapWerdGewijzigd(WijzigLidmaatschapRequest request, int lidmaatschapId, string andereVereniging, string andereVerenigingNaam)
+    => new()
+        {
+            Beschrijving = "Lidmaatschap werd gewijzigd.",
+            Gebeurtenis = nameof(Events.LidmaatschapWerdGewijzigd),
+            Data = new
+            {
+                LidmaatschapId = lidmaatschapId,
+                AndereVereniging = andereVereniging,
+                AndereVerenigingNaam = andereVerenigingNaam,
+                DatumVan = request.Van.Value,
+                DatumTot = request.Tot.Value,
                 Identificatie = request.Identificatie,
                 Beschrijving = request.Beschrijving
             },
