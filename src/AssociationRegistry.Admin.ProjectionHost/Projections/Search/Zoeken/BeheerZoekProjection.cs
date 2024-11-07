@@ -285,6 +285,13 @@ public class BeheerZoekProjectionHandler
             Map(message.Data.Lidmaatschap, message.VCode));
     }
 
+    public async Task Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message)
+    {
+        await _elasticRepository.UpdateLidmaatschap<VerenigingZoekDocument>(
+            message.VCode,
+            Map(message.Data.Lidmaatschap, message.VCode));
+    }
+
     public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
     {
         await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
