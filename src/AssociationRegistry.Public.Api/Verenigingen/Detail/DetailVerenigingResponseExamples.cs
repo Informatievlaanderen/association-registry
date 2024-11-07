@@ -135,7 +135,19 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     },
                 },
                 Relaties = Array.Empty<Relatie>(),
-                Lidmaatschappen = Array.Empty<Lidmaatschap>(),
+                Lidmaatschappen =
+                [
+                    new Lidmaatschap
+                    {
+                        LidmaatschapId = 1,
+                        Beschrijving = "Een lidmaatschap",
+                        Naam = "De andere vereniging",
+                        Van = "2002-11-15",
+                        Tot = "2002-11-16",
+                        Identificatie = "Een identificatie",
+                        AndereVereniging = "V0001111",
+                    },
+                ],
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
         };
