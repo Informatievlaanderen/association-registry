@@ -324,10 +324,10 @@ public static class VerenigingZoekDocumentMapping
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.AndereVereniging)
                                           .WithKeyword(PubliekZoekenNormalizer))
-              .Date(
+              .Text(
                    propertyDescriptor => propertyDescriptor
                       .Name(document => document.DatumVan))
-              .Date(
+              .Text(
                    propertyDescriptor => propertyDescriptor
                       .Name(document => document.DatumTot))
               .Text(
