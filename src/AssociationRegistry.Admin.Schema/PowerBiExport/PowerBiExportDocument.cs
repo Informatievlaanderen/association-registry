@@ -20,12 +20,9 @@ public record PowerBiExportDocument : IVCode
     public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
     public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
     public int AantalVertegenwoordigers { get; set; }
-
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
-        Array.Empty<HoofdactiviteitVerenigingsloket>();
-
-    public Werkingsgebied[] Werkingsgebieden { get; set; } =
-        Array.Empty<Werkingsgebied>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = [];
+    public Werkingsgebied[] Werkingsgebieden { get; set; } = [];
+    public Lidmaatschap[] Lidmaatschappen { get; set; } = [];
 
     public bool IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Bron { get; set; } = null!;

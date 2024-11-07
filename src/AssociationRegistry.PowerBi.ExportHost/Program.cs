@@ -67,6 +67,7 @@ public static class Program
                 new Exporter(WellKnownFileNames.Werkingsgebieden, powerBiExportOptions.BucketName, new WerkingsgebiedenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
                 new Exporter(WellKnownFileNames.Locaties, powerBiExportOptions.BucketName, new LocatiesRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
                 new Exporter(WellKnownFileNames.Historiek, powerBiExportOptions.BucketName, new HistoriekRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
+                new Exporter(WellKnownFileNames.Lidmaatschappen, powerBiExportOptions.BucketName, new LidmaatschappenRecordWriter(), sp.GetRequiredService<IAmazonS3>(), sp.GetRequiredService<ILogger<Exporter>>()),
             });
 
         services.AddHostedService<PowerBiExportService>();
