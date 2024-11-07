@@ -1,3 +1,16 @@
+# [8.174.0](https://github.com/informatievlaanderen/association-registry/compare/v8.173.1...v8.174.0) (2024-11-07)
+
+
+### Features
+
+* or-2517 add historiek for VerwijderLidmaatschap ([4bcb8a5](https://github.com/informatievlaanderen/association-registry/commit/4bcb8a5654f4a0e37f1ecc82f46acec3947fa463))
+* or-2517 add historiek for VoegLidmaatschapToe ([5a2a37b](https://github.com/informatievlaanderen/association-registry/commit/5a2a37b9cca2cf41e11b0d8f315a9c807f5390a3))
+* or-2517 add historiek voor WijzigLidmaatschap ([3c05c50](https://github.com/informatievlaanderen/association-registry/commit/3c05c505da267c24a83cc55c08cfb4178a8e4b2f))
+* or-2517 add lidmaatschappen to swagger examples beheer zoek ([91360fe](https://github.com/informatievlaanderen/association-registry/commit/91360fe688c85fb5929a6ee7356621284ec15097))
+* or-2517 add VoegLidmaatschapToe to beheer zoeken ([25c01ce](https://github.com/informatievlaanderen/association-registry/commit/25c01ce0b3e5a8f8aab472c0b96bea1aea09fca9))
+* or-2517 implement lidmaatschap werd toegevoegd in public detail ([fe3b448](https://github.com/informatievlaanderen/association-registry/commit/fe3b44888bbd1b26e12f774ddae09d2efcbf854c))
+* or-2517 lidmaatschap wijzigen & verwijderen in publiek detail ([bb37162](https://github.com/informatievlaanderen/association-registry/commit/bb3716227cbe70de0f3fc0a180c0f8589fb7dfa6))
+
 ## [8.173.1](https://github.com/informatievlaanderen/association-registry/compare/v8.173.0...v8.173.1) (2024-11-07)
 
 
