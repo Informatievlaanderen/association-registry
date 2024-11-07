@@ -1,17 +1,18 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
-using Framework.AlbaHost;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_Without_Lidmaatschap : IClassFixture<WijzigLidmaatschapContext>, IAsyncLifetime
+public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschapContext>, IAsyncLifetime
 {
     private readonly WijzigLidmaatschapContext _context;
 
-    public Returns_Detail_Without_Lidmaatschap(WijzigLidmaatschapContext context)
+    public Returns_Detail_With_Lidmaatschap(WijzigLidmaatschapContext context)
     {
         _context = context;
     }
@@ -38,11 +39,11 @@ public class Returns_Detail_Without_Lidmaatschap : IClassFixture<WijzigLidmaatsc
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 
-    public DetailVerenigingResponse Response { get; set; }
+    public PubliekVerenigingDetailResponse Response { get; set; }
 
     public async Task InitializeAsync()
     {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
+        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
     }
 
     public async Task DisposeAsync()
