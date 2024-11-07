@@ -54,6 +54,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
             Relaties = [],
+            Lidmaatschappen = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(Request, _testContext.VCode),
             Links = new VerenigingLinks()
             {

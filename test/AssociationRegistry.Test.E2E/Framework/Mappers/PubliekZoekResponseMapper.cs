@@ -1,11 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
 using JsonLdContext;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = Public.Api.Verenigingen.Search.ResponseModels.Lidmaatschap;
 using Locatie = Public.Api.Verenigingen.Search.ResponseModels.Locatie;
 using Werkingsgebied = Public.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
@@ -68,7 +71,7 @@ public class PubliekZoekResponseMapper
         return locaties.Select((x, i) => new Locatie
         {
             id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
+                vCode, x.LocatieId.ToString()),
             type = JsonLdType.Locatie.Type,
             Locatietype = x.Locatietype,
             Naam = x.Naam,
@@ -109,4 +112,71 @@ public class PubliekZoekResponseMapper
             };
         }).ToArray();
     }
+
+    public static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
+    {
+        return hoofdactiviteitenVerenigingsloket.Select(x =>
+        {
+            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x.Code);
+
+            return new HoofdactiviteitVerenigingsloket
+            {
+                Code = hoofdactiviteitVerenigingsloket.Code,
+                Naam = hoofdactiviteitVerenigingsloket.Naam,
+                id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
+                type = JsonLdType.Hoofdactiviteit.Type,
+            };
+        }).ToArray();
+    }
+
+    public static Werkingsgebied[] MapWerkingsgebieden(Registratiedata.Werkingsgebied[]? werkingsgebieden)
+    {
+        return werkingsgebieden!.Select(x =>
+        {
+            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x.Code);
+
+            return new Werkingsgebied
+            {
+                Code = werkingsgebied.Code,
+                Naam = werkingsgebied.Naam,
+                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                type = JsonLdType.Werkingsgebied.Type,
+            };
+        }).ToArray();
+    }
+
+    public static Sleutel[] MapSleutels(VCode vCode)
+        =>
+        [
+            new Sleutel
+            {
+                Bron = Sleutelbron.VR.Waarde,
+                id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                type = JsonLdType.Sleutel.Type,
+                Waarde = vCode,
+                CodeerSysteem = CodeerSysteem.VR,
+                GestructureerdeIdentificator = new GestructureerdeIdentificator
+                {
+                    id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
+                    type = JsonLdType.GestructureerdeSleutel.Type,
+                    Nummer = vCode,
+                },
+            },
+        ];
+
+    public static Lidmaatschap[] MapLidmaatschappen(VoegLidmaatschapToeRequest request, string vCode)
+        =>
+        [
+            new Lidmaatschap()
+            {
+                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                //     vCode, "1"),
+                // type = JsonLdType.Lidmaatschap.Type,
+                AndereVereniging = vCode,
+                Beschrijving = request.Beschrijving,
+                Identificatie = request.Identificatie,
+                Van = request.Van!.Value.ToBelgianDate(),
+                Tot = request.Tot!.Value.ToBelgianDate(),
+            },
+        ];
 }

@@ -71,6 +71,21 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task AppendLidmaatschap(string id, VerenigingZoekDocument.Lidmaatschap lidmaatschap)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("if(! ctx._source.lidmaatschappen.contains(params.lidmaatschap)){" +
+                            "ctx._source.lidmaatschappen.add(params.lidmaatschap)" +
+                            "}")
+                    .Params(objects => objects.Add(key: "lidmaatschap", lidmaatschap))));
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
     public async Task UpdateLocatie(string id, VerenigingZoekDocument.Locatie locatie)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(

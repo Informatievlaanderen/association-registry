@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Publiek.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.ProjectionHost.Infrastructure.Extensions;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
