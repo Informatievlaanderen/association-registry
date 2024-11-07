@@ -278,6 +278,20 @@ public class BeheerZoekProjectionHandler
             Map(message.Data.Locatie, message.VCode));
     }
 
+    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+    {
+        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            Map(message.Data.Locatie, message.VCode));
+    }
+
+    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
+    {
+        await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
+            message.VCode,
+            message.Data.Locatie.LocatieId);
+    }
+
     public async Task Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message)
     {
         await _elasticRepository.AppendLidmaatschap<VerenigingZoekDocument>(
@@ -292,18 +306,11 @@ public class BeheerZoekProjectionHandler
             Map(message.Data.Lidmaatschap, message.VCode));
     }
 
-    public async Task Handle(EventEnvelope<LocatieWerdGewijzigd> message)
+    public async Task Handle(EventEnvelope<LidmaatschapWerdVerwijderd> message)
     {
-        await _elasticRepository.UpdateLocatie<VerenigingZoekDocument>(
+        await _elasticRepository.RemoveLidmaatschap<VerenigingZoekDocument>(
             message.VCode,
-            Map(message.Data.Locatie, message.VCode));
-    }
-
-    public async Task Handle(EventEnvelope<LocatieWerdVerwijderd> message)
-    {
-        await _elasticRepository.RemoveLocatie<VerenigingZoekDocument>(
-            message.VCode,
-            message.Data.Locatie.LocatieId);
+            message.Data.Lidmaatschap.LidmaatschapId);
     }
 
     private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie, string vCode)
