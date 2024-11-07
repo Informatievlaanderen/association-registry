@@ -190,6 +190,12 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdToegevoegd> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
+    public async Task Project(IEvent<LidmaatschapWerdGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
     private static async Task Update<T>(
         IEvent<T> @event,
         IDocumentOperations ops,

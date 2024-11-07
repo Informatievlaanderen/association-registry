@@ -711,12 +711,12 @@ public static class PubliekVerenigingDetailProjector
     public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
         document.Lidmaatschappen = document.Lidmaatschappen
-                                           .Append(MapLidmaatschap(document.VCode, lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
+                                           .Append(MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
                                            .OrderBy(l => l.LidmaatschapId)
                                            .ToArray();
     }
 
-    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(string vCode, Registratiedata.Lidmaatschap lidmaatschap)
+    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap)
         => new(null,
                lidmaatschap.LidmaatschapId,
                lidmaatschap.AndereVereniging,
@@ -724,4 +724,21 @@ public static class PubliekVerenigingDetailProjector
                lidmaatschap.DatumTot,
                lidmaatschap.Identificatie,
                lidmaatschap.Beschrijving);
+
+    public static void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, PubliekVerenigingDetailDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .Where(l => l.LidmaatschapId != lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId)
+                                           .Append(MapLidmaatschap(lidmaatschapWerdGewijzigd.Data.Lidmaatschap))
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+    }
+
+    public static void Apply(IEvent<LidmaatschapWerdVerwijderd> lidmaatschapWerdVerwijderd, PubliekVerenigingDetailDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .Where(l => l.LidmaatschapId != lidmaatschapWerdVerwijderd.Data.Lidmaatschap.LidmaatschapId)
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+    }
 }
