@@ -1,3 +1,22 @@
+# [8.175.0](https://github.com/informatievlaanderen/association-registry/compare/v8.174.0...v8.175.0) (2024-11-07)
+
+
+### Bug Fixes
+
+* or-2517 add lidmaatschappen to swagger examples publiek zoeken ([c5a80d8](https://github.com/informatievlaanderen/association-registry/commit/c5a80d8caee2ead33894abe2bdb3231f5c8633b2))
+
+
+### Features
+
+* implement VerwijderLidmaatschap beheer zoeken ([695ce28](https://github.com/informatievlaanderen/association-registry/commit/695ce28cf40977cb53244c7abfe045dc5c934135))
+* or-1913 add example for lidmaatschappen in public detail ([5107d99](https://github.com/informatievlaanderen/association-registry/commit/5107d996456d3a4978ba091603f950cbdf368614))
+* or-2517 add beheer zoeken for WijzigLidmaatschap ([404f19a](https://github.com/informatievlaanderen/association-registry/commit/404f19abf89e42891ffea7a181c77b410d50dfb6))
+* or-2517 implement LidmaatschapWerdToegevoegd on publiek zoeken ([352c987](https://github.com/informatievlaanderen/association-registry/commit/352c98735292792c63a88d9075e8f0235aad14a3))
+* or-2517 implement VerwijderLidmaatschap for publiek zoeken ([5927259](https://github.com/informatievlaanderen/association-registry/commit/592725981f824f441576d9c3ad7586ac074421dc))
+* or-2517 implement WijzigLidmaatschap for publiek zoeken ([34d7524](https://github.com/informatievlaanderen/association-registry/commit/34d7524ac407c7ed463f2d14f466e3c82cf6d58c))
+* or-2518 implement powerbi lidmaatschappen ([ee62a54](https://github.com/informatievlaanderen/association-registry/commit/ee62a54eeb32602c2efadff494f6f5fb3e988d00))
+* or-2540 add example for lidmaatschappen in admin detail ([1efcbe3](https://github.com/informatievlaanderen/association-registry/commit/1efcbe38cd5230c3d851692d87e74b1cc510b7e9))
+
 # [8.174.0](https://github.com/informatievlaanderen/association-registry/compare/v8.173.1...v8.174.0) (2024-11-07)
 
 
