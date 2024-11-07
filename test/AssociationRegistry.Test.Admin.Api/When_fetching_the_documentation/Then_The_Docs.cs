@@ -12,7 +12,7 @@ using Xunit.Categories;
 [IntegrationTest]
 public class Then_The_Docs
 {
-    public Then_The_Docs(AdminApiFixture fixture)
+    public Then_The_Docs(EventsInDbScenariosFixture fixture)
     {
         Response = fixture.AdminApiClient.GetDocs().GetAwaiter().GetResult();
         Docs = JsonConvert.DeserializeObject<Docs>(Response.Content.ReadAsStringAsync().GetAwaiter().GetResult());
