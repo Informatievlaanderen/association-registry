@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
@@ -165,6 +166,22 @@ public class PubliekZoekResponseMapper
         ];
 
     public static Lidmaatschap[] MapLidmaatschappen(VoegLidmaatschapToeRequest request, string vCode)
+        =>
+        [
+            new Lidmaatschap()
+            {
+                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                //     vCode, "1"),
+                // type = JsonLdType.Lidmaatschap.Type,
+                AndereVereniging = vCode,
+                Beschrijving = request.Beschrijving,
+                Identificatie = request.Identificatie,
+                Van = request.Van!.Value.ToBelgianDate(),
+                Tot = request.Tot!.Value.ToBelgianDate(),
+            },
+        ];
+
+    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode)
         =>
         [
             new Lidmaatschap()
