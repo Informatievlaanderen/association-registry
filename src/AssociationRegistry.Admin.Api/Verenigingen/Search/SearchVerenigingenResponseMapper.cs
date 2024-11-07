@@ -79,8 +79,8 @@ public class SearchVerenigingenResponseMapper
     private static Lidmaatschap Map(VerenigingZoekDocument.Lidmaatschap l)
         => new()
         {
-            id = l.JsonLdMetadata.Id,
-            type = l.JsonLdMetadata.Type,
+            // id = l.JsonLdMetadata.Id,
+            // type = l.JsonLdMetadata.Type,
             AndereVereniging = l.AndereVereniging,
             Van = l.DatumVan,
             Tot = l.DatumTot,
