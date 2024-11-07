@@ -698,7 +698,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, BeheerVerenigingDetailDocument document)
     {
         document.Lidmaatschappen = document.Lidmaatschappen
-                                           .UpdateSingleZonderBron(
+                                           .UpdateSingle(
                                                 identityFunc: l
                                                     => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId,
                                                 update: l => BeheerVerenigingDetailMapper.MapLidmaatschap(

@@ -8,4 +8,5 @@ public class WellKnownFileNames
     public const string Contactgegevens = "Contactgegevens.csv";
     public const string Historiek = "Historiek.csv";
     public const string Werkingsgebieden = "Werkingsgebieden.csv";
+    public const string Lidmaatschappen = "Lidmaatschappen.csv";
 }

@@ -4,6 +4,7 @@ using Detail;
 using Events;
 using Formats;
 using Framework;
+using Infrastructure.Extensions;
 using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
@@ -16,6 +17,7 @@ using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVerenigingsloket;
 using IEvent = Marten.Events.IEvent;
+using Lidmaatschap = Schema.PowerBiExport.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
@@ -805,15 +807,70 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         PowerBiExportDocument document)
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
-                                                                                    .Select(x => new Werkingsgebied()
-                                                                                     {
-                                                                                         Code = x.Code,
-                                                                                         Naam = x.Naam,
-                                                                                     }).ToArray();
+                                                                   .Select(x => new Werkingsgebied()
+                                                                    {
+                                                                        Code = x.Code,
+                                                                        Naam = x.Naam,
+                                                                    }).ToArray();
 
         document.DatumLaatsteAanpassing = werkingsgebiedenWerdenGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                          .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenGewijzigd);
+    }
+
+    public void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PowerBiExportDocument document)
+    {
+        document.Lidmaatschappen = Enumerable
+                                  .Append(document.Lidmaatschappen, new Lidmaatschap(
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId,
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.AndereVereniging,
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumVan.ToBelgianDate(),
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumTot.ToBelgianDate(),
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Identificatie,
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Beschrijving
+                                          ))
+                                  .OrderBy(l => l.LidmaatschapId)
+                                  .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            lidmaatschapWerdToegevoegd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, lidmaatschapWerdToegevoegd);
+    }
+
+    public void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, PowerBiExportDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .UpdateSingle(
+                                                identityFunc: l
+                                                    => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId,
+                                                update: l => l with
+                                                {
+                                                    Van = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumVan.ToBelgianDate(),
+                                                    Tot = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumTot.ToBelgianDate(),
+                                                    Identificatie = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Identificatie,
+                                                    Beschrijving = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Beschrijving
+                                                })
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            lidmaatschapWerdGewijzigd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, lidmaatschapWerdGewijzigd);
+    }
+
+    public void Apply(IEvent<LidmaatschapWerdVerwijderd> lidmaatschapWerdVerwijderd, PowerBiExportDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .Where(l => l.LidmaatschapId != lidmaatschapWerdVerwijderd.Data.Lidmaatschap.LidmaatschapId)
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            lidmaatschapWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, lidmaatschapWerdVerwijderd);
     }
 }
