@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formats;
+using Infrastructure.Extensions;
 using JsonLdContext;
 using Schema.Constants;
 using Schema.Detail;
@@ -62,6 +63,7 @@ public class PubliekZoekProjectionHandler
                                                                         Naam = werkingsgebied.Naam,
                                                                     })
                                                            .ToArray() ?? [],
+                Lidmaatschappen = [],
                 Sleutels =
                     new[]
                     {
@@ -108,6 +110,7 @@ public class PubliekZoekProjectionHandler
                 Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
                 HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
                 Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
+                Lidmaatschappen = [],
                 Sleutels = new[]
                 {
                     new VerenigingZoekDocument.Sleutel
@@ -430,6 +433,26 @@ public class PubliekZoekProjectionHandler
             message.VCode,
             message.Data.VerwijderdeLocatieId);
     }
+
+    public async Task Handle(EventEnvelope<LidmaatschapWerdToegevoegd> message)
+    {
+        await _elasticRepository.AppendLidmaatschap(
+            message.VCode,
+            Map(message.Data.Lidmaatschap, message.VCode));
+    }
+
+    private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Lidmaatschap, vCode, lidmaatschap.LidmaatschapId.ToString()),
+
+            LidmaatschapId = lidmaatschap.LidmaatschapId,
+            AndereVereniging = lidmaatschap.AndereVereniging,
+            DatumVan = lidmaatschap.DatumVan.ToBelgianDate(),
+            DatumTot = lidmaatschap.DatumTot.ToBelgianDate(),
+            Beschrijving = lidmaatschap.Beschrijving,
+            Identificatie = lidmaatschap.Identificatie,
+        };
 
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()

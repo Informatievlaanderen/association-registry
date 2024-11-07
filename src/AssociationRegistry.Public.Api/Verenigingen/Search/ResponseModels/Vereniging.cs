@@ -51,6 +51,10 @@ public class Vereniging
     [DataMember(Name = "Locaties")]
     public Locatie[] Locaties { get; init; } = null!;
 
+    /// <summary>De lidmaatschappen van de vereniging</summary>
+    [DataMember(Name = "Lidmaatschappen")]
+    public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
+
     /// <summary>De sleutels van deze vereniging</summary>
     [DataMember(Name = "Sleutels")]
     public Sleutel[] Sleutels { get; init; } = null!;

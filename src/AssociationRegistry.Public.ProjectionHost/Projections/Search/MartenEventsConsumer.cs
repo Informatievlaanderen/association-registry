@@ -52,6 +52,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                 case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
+                case nameof(LidmaatschapWerdToegevoegd):
                     try
                     {
                         await _handler.Handle(eventEnvelope);

@@ -74,6 +74,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Werkingsgebieden)
                                                    .IncludeInRoot()
                                                    .Properties(WerkingsgebiedMapping.Get))
+                         .Nested<VerenigingZoekDocument.Lidmaatschap>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Lidmaatschappen)
+                                                   .IncludeInRoot()
+                                                   .Properties(LidmaatschapMapping.Get))
                          .Nested<VerenigingZoekDocument.Sleutel>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Sleutels)
@@ -304,5 +309,34 @@ public static class VerenigingZoekDocumentMapping
                    propertiesDescriptor => propertiesDescriptor
                                           .Name(document => document.Nummer)
                                           .Fields(x => x.Keyword(y => y.Name("keyword"))));
+    }
+
+    private static class LidmaatschapMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Lidmaatschap> map)
+            => map
+              .Nested<JsonLdMetadata>(
+                   propertyDescriptor => propertyDescriptor
+                                        .Name(document => document.JsonLdMetadata)
+                                        .IncludeInRoot()
+                                        .Properties(JsonLdMetadataMapping.Get))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.AndereVereniging)
+                                          .WithKeyword(PubliekZoekenNormalizer))
+              .Date(
+                   propertyDescriptor => propertyDescriptor
+                      .Name(document => document.DatumVan))
+              .Date(
+                   propertyDescriptor => propertyDescriptor
+                      .Name(document => document.DatumTot))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Identificatie)
+                                          .WithKeyword(PubliekZoekenNormalizer))
+              .Text(
+                   propertiesDescriptor => propertiesDescriptor
+                                          .Name(document => document.Beschrijving)
+                                          .WithKeyword(PubliekZoekenNormalizer));
     }
 }

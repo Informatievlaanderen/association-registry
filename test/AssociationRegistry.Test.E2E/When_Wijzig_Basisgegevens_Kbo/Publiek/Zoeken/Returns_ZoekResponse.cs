@@ -55,6 +55,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
+            Lidmaatschappen = [],
             Relaties = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             Links = new VerenigingLinks()

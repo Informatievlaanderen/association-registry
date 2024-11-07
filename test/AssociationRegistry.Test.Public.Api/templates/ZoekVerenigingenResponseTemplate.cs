@@ -90,6 +90,7 @@ public class ZoekVerenigingenResponseTemplate
             _vereniging.werkingsgebieden = new List<object>();
             _vereniging.relaties = new List<object>();
             _vereniging.sleutels = new List<object>();
+            _vereniging.lidmaatschappen = new List<object>();
 
             WithKorteNaam(string.Empty);
         }

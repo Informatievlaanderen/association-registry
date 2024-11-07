@@ -57,6 +57,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
             Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, _testContext.VCode),
             Relaties = [],
+            Lidmaatschappen = [],
             Sleutels = MapSleutels(Request, _testContext.VCode),
             Links = new VerenigingLinks()
             {
