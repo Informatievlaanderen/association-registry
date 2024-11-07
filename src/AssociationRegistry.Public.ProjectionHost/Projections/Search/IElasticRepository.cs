@@ -21,4 +21,5 @@ public interface IElasticRepository
     Task UpdateAdres(string messageVCode, int dataLocatieId, string toAdresString, string adresPostcode, string adresGemeente);
     Task AppendLidmaatschap(string id, VerenigingZoekDocument.Lidmaatschap lidmaatschap);
     Task UpdateLidmaatschap(string id, VerenigingZoekDocument.Lidmaatschap lidmaatschap);
+    Task RemoveLidmaatschap(string id, int lidmaatschapId);
 }

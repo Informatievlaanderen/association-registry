@@ -448,6 +448,14 @@ public class PubliekZoekProjectionHandler
             Map(message.Data.Lidmaatschap, message.VCode));
     }
 
+    public async Task Handle(EventEnvelope<LidmaatschapWerdVerwijderd> message)
+    {
+        await _elasticRepository.RemoveLidmaatschap(
+            message.VCode,
+            message.Data.Lidmaatschap.LidmaatschapId);
+    }
+
+
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()
         {

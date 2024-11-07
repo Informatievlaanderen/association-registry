@@ -110,6 +110,19 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task RemoveLidmaatschap(string id, int lidmaatschapId)
+    {
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("ctx._source.lidmaatschappen.removeIf(l -> l.lidmaatschapId == params.lidmaatschapId)")
+                    .Params(objects => objects.Add(key: "lidmaatschapId", lidmaatschapId))));
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
     public async Task UpdateLocatie(string id, VerenigingZoekDocument.Locatie locatie)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
