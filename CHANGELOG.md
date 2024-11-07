@@ -1,3 +1,11 @@
+## [8.173.1](https://github.com/informatievlaanderen/association-registry/compare/v8.173.0...v8.173.1) (2024-11-07)
+
+
+### Bug Fixes
+
+* or-2515 add validation error for wijzig lidmaatschap request when null ([07c1ff0](https://github.com/informatievlaanderen/association-registry/commit/07c1ff09e6957b6f5b4e180cdd1c6dfb8b6785e4))
+* or-2515 return 200 when no changes on wijzig lidmaatschap ([bee0391](https://github.com/informatievlaanderen/association-registry/commit/bee039170a37155d28960572fc177b3bf3932339))
+
 # [8.173.0](https://github.com/informatievlaanderen/association-registry/compare/v8.172.2...v8.173.0) (2024-11-06)
 
 
