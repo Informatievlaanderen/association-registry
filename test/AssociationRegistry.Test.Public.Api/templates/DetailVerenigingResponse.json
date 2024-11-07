@@ -136,7 +136,8 @@
         }
       },
 {{end}}
-    ]
+    ],
+"lidmaatschappen": []
   },
   "metadata": {
     "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"

@@ -322,15 +322,15 @@ public static class PubliekVerenigingDetailProjector
         PubliekVerenigingDetailDocument document)
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
-           .Select(
-                h => new PubliekVerenigingDetailDocument.Werkingsgebied
-                {
-                    JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
-                        JsonLdType.Werkingsgebied.Type),
-                    Code = h.Code,
-                    Naam = h.Naam,
-                }).ToArray();
+                                                                   .Select(
+                                                                        h => new PubliekVerenigingDetailDocument.Werkingsgebied
+                                                                        {
+                                                                            JsonLdMetadata = new JsonLdMetadata(
+                                                                                JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
+                                                                                JsonLdType.Werkingsgebied.Type),
+                                                                            Code = h.Code,
+                                                                            Naam = h.Naam,
+                                                                        }).ToArray();
     }
 
     public static void Apply(
@@ -707,4 +707,21 @@ public static class PubliekVerenigingDetailProjector
                                     .OrderBy(l => l.LocatieId)
                                     .ToArray();
     }
+
+    public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PubliekVerenigingDetailDocument document)
+    {
+        document.Lidmaatschappen = document.Lidmaatschappen
+                                           .Append(MapLidmaatschap(document.VCode, lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
+                                           .OrderBy(l => l.LidmaatschapId)
+                                           .ToArray();
+    }
+
+    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(string vCode, Registratiedata.Lidmaatschap lidmaatschap)
+        => new(null,
+               lidmaatschap.LidmaatschapId,
+               lidmaatschap.AndereVereniging,
+               lidmaatschap.DatumVan,
+               lidmaatschap.DatumTot,
+               lidmaatschap.Identificatie,
+               lidmaatschap.Beschrijving);
 }

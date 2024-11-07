@@ -8,6 +8,7 @@ using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
+using Queries;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;
@@ -41,7 +42,9 @@ public class DetailVerenigingenController : ApiController
     [Produces(WellknownMediaTypes.JsonLd)]
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore store,
-        [FromRoute] string vCode)
+        [FromServices] IGetNamesForVCodesQuery getNamesForVCodesQuery,
+        [FromRoute] string vCode,
+        CancellationToken cancellationToken)
     {
         await using var session = store.LightweightSession();
 
@@ -50,7 +53,13 @@ public class DetailVerenigingenController : ApiController
         if (vereniging is null)
             return NotFound();
 
-        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings));
+        var andereVerenigingen = vereniging.Lidmaatschappen.Select(x => x.AndereVereniging).ToArray();
+
+        var namesForLidmaatschappen =
+            await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
+
+
+        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
     }
 
     /// <summary>

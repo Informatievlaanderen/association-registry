@@ -73,4 +73,8 @@ public class Vereniging
     /// <summary>De relaties van deze vereniging</summary>
     [DataMember(Name = "Relaties")]
     public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
+
+    /// <summary>De lidmaatschappen van deze vereniging</summary>
+    [DataMember(Name = "Lidmaatschappen")]
+    public Lidmaatschap[] Lidmaatschappen { get; init; } = Array.Empty<Lidmaatschap>();
 }
