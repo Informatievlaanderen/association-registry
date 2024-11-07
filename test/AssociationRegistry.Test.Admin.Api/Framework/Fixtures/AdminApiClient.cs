@@ -316,4 +316,8 @@ public class AdminApiClient : IDisposable
 
     public async Task<HttpResponseMessage> GetJsonLdContext(string contextName)
         => await HttpClient.GetAsync($"/v1/contexten/beheer/{contextName}");
+
+    public async Task<HttpResponseMessage> GetDocs()
+        => await HttpClient.GetAsync("/docs/v1/docs.json?culture=en-GB");
+
 }

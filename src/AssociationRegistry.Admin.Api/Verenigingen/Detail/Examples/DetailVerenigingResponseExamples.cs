@@ -2,6 +2,7 @@
 
 using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
+using NodaTime;
 using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
@@ -11,6 +12,7 @@ using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -172,6 +174,19 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
+                    Lidmaatschappen =
+                    [
+                        new Lidmaatschap
+                        {
+                            LidmaatschapId = 1,
+                            Beschrijving = "Een lidmaatschap",
+                            Naam = "De andere vereniging",
+                            Van = "2002-11-15",
+                            Tot = "2002-11-16",
+                            Identificatie = "Een identificatie",
+                            AndereVereniging = "V0001111",
+                        },
+                    ],
                     Bron = Bron.Initiator.Waarde,
                 },
                 Metadata = new Metadata
