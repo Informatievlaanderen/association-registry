@@ -1,3 +1,10 @@
+## [8.175.1](https://github.com/informatievlaanderen/association-registry/compare/v8.175.0...v8.175.1) (2024-11-07)
+
+
+### Bug Fixes
+
+* or-1913 use text mapping for lidmaatschap data ([2c6c794](https://github.com/informatievlaanderen/association-registry/commit/2c6c79467bba867cc28149e8025ab704963a547b))
+
 # [8.175.0](https://github.com/informatievlaanderen/association-registry/compare/v8.174.0...v8.175.0) (2024-11-07)
 
 
