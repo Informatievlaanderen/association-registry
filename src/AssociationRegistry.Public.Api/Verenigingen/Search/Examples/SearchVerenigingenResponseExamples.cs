@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Public.Api.Verenigingen.Search.Examples;
 
+using Constants;
 using Infrastructure.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
@@ -7,6 +8,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -74,6 +76,17 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                             Naam = "",
                             Postcode = "1770",
                             Gemeente = "Liedekerke",
+                        },
+                    },
+                    Lidmaatschappen = new []
+                    {
+                        new Lidmaatschap()
+                        {
+                            AndereVereniging = "V0001002",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Gewoon een lid",
+                            Identificatie = "L1234",
                         },
                     },
                     Sleutels =
@@ -146,6 +159,25 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     Links = new VerenigingLinks
                     {
                         Detail = new Uri($"{_appSettings.BaseUrl}/verenigingen/V0036651"),
+                    },
+                    Lidmaatschappen = new []
+                    {
+                        new Lidmaatschap()
+                        {
+                            AndereVereniging = "V0001002",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Gewoon een lid",
+                            Identificatie = "L1234",
+                        },
+                        new Lidmaatschap()
+                        {
+                            AndereVereniging = "V0001003",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddMonths(-5)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Tijdelijk lidmaatschap",
+                            Identificatie = "L4321",
+                        },
                     },
                     Sleutels = new[]
                     {
