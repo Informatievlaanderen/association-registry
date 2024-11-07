@@ -5,13 +5,13 @@ using System.Runtime.Serialization;
 [DataContract]
 public class Lidmaatschap
 {
-    /// <summary>De json-ld id</summary>
-    [DataMember(Name = "@id")]
-    public string id { get; init; }
-
-    /// <summary>Het json-ld type</summary>
-    [DataMember(Name = "@type")]
-    public string type { get; set; }
+    // /// <summary>De json-ld id</summary>
+    // [DataMember(Name = "@id")]
+    // public string id { get; init; }
+    //
+    // /// <summary>Het json-ld type</summary>
+    // [DataMember(Name = "@type")]
+    // public string type { get; set; }
 
     /// <summary>
     /// De vCode van de andere vereniging
@@ -20,13 +20,13 @@ public class Lidmaatschap
     public string AndereVereniging { get; set; }
 
     /// <summary>
-    /// De datum waarop de relatie actief wordt
+    /// De datum waarop het lidmaatschap actief is
     /// </summary>
     [DataMember]
     public string? Van { get; set; }
 
     /// <summary>
-    /// De datum waarop de relatie niet meer actief wordt
+    /// De datum waarop het lidmaatschap niet meer actief is
     /// </summary>
     [DataMember]
     public string? Tot { get; set; }

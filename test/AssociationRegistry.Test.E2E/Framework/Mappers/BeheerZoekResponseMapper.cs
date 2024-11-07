@@ -184,9 +184,9 @@ public class BeheerZoekResponseMapper
         [
             new Lidmaatschap()
             {
-                id = JsonLdType.Lidmaatschap.CreateWithIdValues(
-                    vCode, "1"),
-                type = JsonLdType.Lidmaatschap.Type,
+                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                //     vCode, "1"),
+                // type = JsonLdType.Lidmaatschap.Type,
                 AndereVereniging = request.AndereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
