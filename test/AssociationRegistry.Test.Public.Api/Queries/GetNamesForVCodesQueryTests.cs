@@ -1,19 +1,15 @@
-namespace AssociationRegistry.Test.Admin.Api.Queries;
+namespace AssociationRegistry.Test.Public.Api.Queries;
 
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Marten;
-using Public.Api.Queries;
-using Public.Schema.Detail;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using GetNamesForVCodesFilter = AssociationRegistry.Admin.Api.Queries.GetNamesForVCodesFilter;
-using GetNamesForVCodesQuery = AssociationRegistry.Admin.Api.Queries.GetNamesForVCodesQuery;
 
 public class GetNamesForVCodesQueryFixture : IAsyncLifetime
 {
@@ -56,7 +52,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
         var fixture = new Fixture().CustomizeDomain();
         var andereVCode = fixture.Create<VCode>();
 
-        var vereniging = fixture.Create<BeheerVerenigingDetailDocument>();
+        var vereniging = fixture.Create<PubliekVerenigingDetailDocument>();
         _session.Store(vereniging);
         await _session.SaveChangesAsync();
 
@@ -72,7 +68,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<BeheerVerenigingDetailDocument>()
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
                                   .ToList();
 
         _session.StoreObjects(verenigingen);
@@ -93,7 +89,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<BeheerVerenigingDetailDocument>()
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
                                   .ToList();
 
         _session.StoreObjects(verenigingen);
@@ -116,7 +112,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var verenigingen = fixture.CreateMany<BeheerVerenigingDetailDocument>()
+        var verenigingen = fixture.CreateMany<PubliekVerenigingDetailDocument>()
                                   .ToList();
 
         _session.StoreObjects(verenigingen);

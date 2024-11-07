@@ -34,6 +34,8 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
     public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
+    public Lidmaatschap[] Lidmaatschappen { get; set; } = Array.Empty<Lidmaatschap>();
+
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     [Identity] public string VCode { get; set; } = null!;
 
@@ -118,6 +120,16 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public string Naam { get; set; } = null!;
         }
     }
+
+    public record Lidmaatschap(
+        JsonLdMetadata JsonLdMetadata,
+        int LidmaatschapId,
+        string AndereVereniging,
+        DateOnly? Van,
+        DateOnly? Tot,
+        string Identificatie,
+        string Beschrijving);
+
 
     public class AdresId
     {

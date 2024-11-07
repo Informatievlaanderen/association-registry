@@ -10,6 +10,7 @@ using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -134,6 +135,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                     },
                 },
                 Relaties = Array.Empty<Relatie>(),
+                Lidmaatschappen = Array.Empty<Lidmaatschap>(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
         };
@@ -250,6 +252,7 @@ public class DetailAllVerenigingResponseExamples : IExamplesProvider<PubliekVere
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
+                    Lidmaatschappen = Array.Empty<Lidmaatschap>(),
                 },
                 Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
             },
@@ -352,6 +355,7 @@ public class DetailAllVerenigingResponseExamples : IExamplesProvider<PubliekVere
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
+                    Lidmaatschappen = Array.Empty<Lidmaatschap>(),
                 },
                 Metadata = new Metadata { DatumLaatsteAanpassing = "2024-09-09" },
             },

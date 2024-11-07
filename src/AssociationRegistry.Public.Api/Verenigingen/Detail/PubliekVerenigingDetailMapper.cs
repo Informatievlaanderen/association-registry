@@ -1,12 +1,16 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
+using Formats;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
 
 public static class PubliekVerenigingDetailMapper
 {
-    public static PubliekVerenigingDetailResponse Map(PubliekVerenigingDetailDocument document, AppSettings appSettings)
+    public static PubliekVerenigingDetailResponse Map(
+        PubliekVerenigingDetailDocument document,
+        AppSettings appSettings,
+        INamenVoorLidmaatschapMapper lidmaatschapMapper)
         => new()
         {
             Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
@@ -34,6 +38,7 @@ public static class PubliekVerenigingDetailMapper
                 Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
+                Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, lidmaatschapMapper)).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
@@ -66,8 +71,21 @@ public static class PubliekVerenigingDetailMapper
                 //Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
+                Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, new EmptyStringNamenVoorLidmaatschapMapper())).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
+        };
+
+    private static Lidmaatschap Map(PubliekVerenigingDetailDocument.Lidmaatschap l, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper)
+        => new()
+        {
+            Beschrijving = l.Beschrijving,
+            Naam = namenVoorLidmaatschapMapper.MapNaamVoorLidmaatschap(l.AndereVereniging),
+            AndereVereniging = l.AndereVereniging,
+            Identificatie = l.Identificatie,
+            Van = l.Van.FormatAsBelgianDate(),
+            Tot = l.Tot.FormatAsBelgianDate(),
+            LidmaatschapId = l.LidmaatschapId,
         };
 
     private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
@@ -188,3 +206,33 @@ public static class PubliekVerenigingDetailMapper
             }
             : null;
 }
+
+public interface INamenVoorLidmaatschapMapper
+{
+    string MapNaamVoorLidmaatschap(string vCode);
+}
+
+public class VerplichteNamenVoorLidmaatschapMapper : INamenVoorLidmaatschapMapper
+{
+    private readonly Dictionary<string, string> _namenVoorLidmaatschap;
+
+    public VerplichteNamenVoorLidmaatschapMapper(Dictionary<string, string> namenVoorLidmaatschap)
+    {
+        _namenVoorLidmaatschap = namenVoorLidmaatschap;
+    }
+
+    public string MapNaamVoorLidmaatschap(string vCode)
+        => _namenVoorLidmaatschap[vCode];
+}
+
+public class EmptyStringNamenVoorLidmaatschapMapper : INamenVoorLidmaatschapMapper
+{
+
+    public EmptyStringNamenVoorLidmaatschapMapper()
+    {
+    }
+
+    public string MapNaamVoorLidmaatschap(string vCode)
+        => string.Empty;
+}
+

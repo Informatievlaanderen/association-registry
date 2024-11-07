@@ -247,6 +247,7 @@ public class Program
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddSingleton<SearchVerenigingenResponseMapper>()
                .AddScoped<IPubliekVerenigingenDetailAllQuery, PubliekDetailAllQuery>()
+               .AddScoped<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
                .AddScoped<IDetailAllStreamWriter, DetailAllStreamWriter>()
                .AddScoped<IDetailAllS3Client, DetailAllS3Client>()
                .AddScoped<IDetailAllConverter, DetailAllConverter>()
