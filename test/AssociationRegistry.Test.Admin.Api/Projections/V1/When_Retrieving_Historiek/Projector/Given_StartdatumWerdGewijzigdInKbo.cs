@@ -30,6 +30,6 @@ public class Given_StartdatumWerdGewijzigdInKbo
                 nameof(StartdatumWerdGewijzigdInKbo),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
-                startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));
+                startdatumWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }

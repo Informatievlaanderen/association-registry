@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,7 +30,7 @@ public class Given_ContactgegevenWerdOvergenomenUitKbo
                 nameof(ContactgegevenWerdOvergenomenUitKBO),
                 contactgegevenWerdOvergenomen.Data,
                 contactgegevenWerdOvergenomen.Initiator,
-                contactgegevenWerdOvergenomen.Tijdstip.ToZuluTime()));
+                contactgegevenWerdOvergenomen.Tijdstip.FormatAsZuluTime()));
     }
 }
 
@@ -52,6 +53,6 @@ public class Given_ContactgegevenWerdGewijzigdUitKbo
                 nameof(ContactgegevenWerdGewijzigdInKbo),
                 contactgegevenWerdgewijzigdUitKbo.Data,
                 contactgegevenWerdgewijzigdUitKbo.Initiator,
-                contactgegevenWerdgewijzigdUitKbo.Tijdstip.ToZuluTime()));
+                contactgegevenWerdgewijzigdUitKbo.Tijdstip.FormatAsZuluTime()));
     }
 }

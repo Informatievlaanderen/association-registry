@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -67,7 +68,7 @@ public class Given_VerenigingWerdGestopt
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
 {{
       ""beschrijving"": ""De vereniging werd gestopt met einddatum '2023-10-06'."",
@@ -76,7 +77,7 @@ public class Given_VerenigingWerdGestopt
         ""einddatum"": ""2023-10-06""
       }},
       ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
     }},
     {{
       ""beschrijving"": ""De einddatum van de vereniging werd gewijzigd naar '2023-10-07'."",
@@ -85,7 +86,7 @@ public class Given_VerenigingWerdGestopt
         ""einddatum"": ""2023-10-07""
       }},
       ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
     }}
                 ]
             }}

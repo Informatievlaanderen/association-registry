@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -66,39 +67,39 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd_With_Inv
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO’ kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GsmKonNietOvergenomenWordenUitKbo.TypeVolgensKbo}' kon niet overgenomen worden uit KBO."",
                         ""gebeurtenis"":""ContactgegevenKonNietOvergenomenWordenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GsmKonNietOvergenomenWordenUitKbo)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }}
                 ]
             }}

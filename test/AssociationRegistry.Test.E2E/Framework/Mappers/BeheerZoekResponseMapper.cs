@@ -6,6 +6,7 @@ using Admin.Api.Verenigingen.Search.ResponseModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
+using Formats;
 using JsonLdContext;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
@@ -191,8 +192,8 @@ public class BeheerZoekResponseMapper
                 AndereVereniging = request.AndereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
-                Van = request.Van!.Value.ToBelgianDate(),
-                Tot = request.Tot!.Value.ToBelgianDate(),
+                Van = request.Van!.Value.FormatAsBelgianDate(),
+                Tot = request.Tot!.Value.FormatAsBelgianDate(),
             },
         ];
 
@@ -207,8 +208,8 @@ public class BeheerZoekResponseMapper
                 AndereVereniging = vCode,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
-                Van = request.Van!.Value.ToBelgianDate(),
-                Tot = request.Tot!.Value.ToBelgianDate(),
+                Van = request.Van!.Value.FormatAsBelgianDate(),
+                Tot = request.Tot!.Value.FormatAsBelgianDate(),
             },
         ];
 }

@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,6 +30,6 @@ public class Given_KorteBeschrijvingWerdGewijzigd
                 nameof(KorteBeschrijvingWerdGewijzigd),
                 korteBeschrijvingWerdGewijzigd.Data,
                 korteBeschrijvingWerdGewijzigd.Initiator,
-                korteBeschrijvingWerdGewijzigd.Tijdstip.ToZuluTime()));
+                korteBeschrijvingWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }

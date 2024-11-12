@@ -22,6 +22,9 @@ public static class DateFormatter
     public static string FormatAsBelgianDate(this Instant instant)
         => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
 
+    public static string FormatAsBelgianDate(this DateOnly dateOnly)
+        => dateOnly.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
+
     public static string FormatAsBelgianDate(this DateOnly? dateOnly)
         => dateOnly?.ToString(WellknownFormats.DateOnly, WellknownFormats.België)
         ?? string.Empty;
@@ -33,4 +36,7 @@ public static class DateFormatter
         => instant.ToString(WellknownFormats.DateOnly, WellknownFormats.België);
     public static string FormatAsBelgianTime(this DateTimeOffset instant)
         => instant.ToString(WellknownFormats.TimeOnly, WellknownFormats.België);
+
+    public static string FormatAsZuluTime(this Instant instant)
+        => instant.ToDateTimeUtc().ToString("yyyy-MM-ddTHH:mm:ssZ");
 }

@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,6 +30,6 @@ public class Given_MaatschappelijkeZetelVolgensKBOWerdGewijzigd
                 nameof(MaatschappelijkeZetelVolgensKBOWerdGewijzigd),
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Data,
                 maatschappelijkeZetelVolgensKboWerdGewijzigd.Initiator,
-                maatschappelijkeZetelVolgensKboWerdGewijzigd.Tijdstip.ToZuluTime()));
+                maatschappelijkeZetelVolgensKboWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }

@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -66,14 +67,14 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
                     {{
                         ""beschrijving"": ""Roepnaam werd gewijzigd naar '{_scenario.RoepnaamWerdGewijzigd.Roepnaam}'."",
                         ""gebeurtenis"":""RoepnaamWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.RoepnaamWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }}
                 ]
             }}

@@ -417,7 +417,7 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
 
     public DetailVerenigingResponseTemplate WithDatumLaatsteAanpassing(Instant instant)
     {
-        _datumLaatsteAanpassing = Formatters.ToBelgianDate(instant);
+        _datumLaatsteAanpassing = instant.FormatAsBelgianDate();
 
         return this;
     }

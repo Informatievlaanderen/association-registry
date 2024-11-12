@@ -423,8 +423,8 @@ public static class HistoriekGebeurtenisMapper
                 LidmaatschapId = 1,
                 AndereVereniging = request.AndereVereniging,
                 AndereVerenigingNaam = andereVerenigingNaam,
-                DatumVan = request.Van,
-                DatumTot = request.Tot,
+                Van = request.Van,
+                Tot = request.Tot,
                 Identificatie = request.Identificatie,
                 Beschrijving = request.Beschrijving
             },
@@ -441,9 +441,8 @@ public static class HistoriekGebeurtenisMapper
             {
                 LidmaatschapId = lidmaatschapId,
                 AndereVereniging = andereVereniging,
-                AndereVerenigingNaam = andereVerenigingNaam,
-                DatumVan = request.Van.Value,
-                DatumTot = request.Tot.Value,
+                Van = request.Van.Value,
+                Tot = request.Tot.Value,
                 Identificatie = request.Identificatie,
                 Beschrijving = request.Beschrijving
             },
@@ -461,8 +460,8 @@ public static class HistoriekGebeurtenisMapper
                 LidmaatschapId = lidmaatschap.Lidmaatschap.LidmaatschapId,
                 AndereVereniging = lidmaatschap.Lidmaatschap.AndereVereniging,
                 AndereVerenigingNaam = lidmaatschap.Lidmaatschap.AndereVerenigingNaam,
-                DatumVan = lidmaatschap.Lidmaatschap.DatumVan,
-                DatumTot = lidmaatschap.Lidmaatschap.DatumTot,
+                Van = lidmaatschap.Lidmaatschap.DatumVan,
+                Tot = lidmaatschap.Lidmaatschap.DatumTot,
                 Identificatie = lidmaatschap.Lidmaatschap.Identificatie,
                 Beschrijving = lidmaatschap.Lidmaatschap.Beschrijving
             },

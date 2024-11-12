@@ -4,6 +4,7 @@ using Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Formats;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
@@ -29,8 +30,8 @@ public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschap
             LidmaatschapId = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
             AndereVereniging = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.Van.Value.ToBelgianDate(),
-            Tot = _context.Request.Tot.Value.ToBelgianDate(),
+            Van = _context.Request.Van.Value.FormatAsBelgianDate(),
+            Tot = _context.Request.Tot.Value.FormatAsBelgianDate(),
             Identificatie = _context.Request.Identificatie,
             Naam = _context.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };

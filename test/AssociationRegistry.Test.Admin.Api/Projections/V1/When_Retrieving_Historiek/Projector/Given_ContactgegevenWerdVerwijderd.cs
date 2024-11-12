@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,7 +30,7 @@ public class Given_ContactgegevenWerdVerwijderd
                 nameof(ContactgegevenWerdVerwijderd),
                 contactgegevenWerdVerwijderd.Data,
                 contactgegevenWerdVerwijderd.Initiator,
-                contactgegevenWerdVerwijderd.Tijdstip.ToZuluTime()));
+                contactgegevenWerdVerwijderd.Tijdstip.FormatAsZuluTime()));
     }
 }
 
@@ -52,6 +53,6 @@ public class Given_ContactgegevenWerdVerwijderdUitKbo
                 nameof(ContactgegevenWerdVerwijderdUitKBO),
                 contactgegevenWerdVerwijderd.Data,
                 contactgegevenWerdVerwijderd.Initiator,
-                contactgegevenWerdVerwijderd.Tijdstip.ToZuluTime()));
+                contactgegevenWerdVerwijderd.Tijdstip.FormatAsZuluTime()));
     }
 }

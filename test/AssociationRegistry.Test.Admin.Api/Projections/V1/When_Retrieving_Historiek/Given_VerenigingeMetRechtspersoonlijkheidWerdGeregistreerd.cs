@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -67,51 +68,51 @@ public class Given_VerenigingeMetRechtspersoonlijkheidWerdGeregistreerd
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.EmailWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.WebsiteWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.WebsiteWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.TelefoonWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.TelefoonWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Contactgegeven ‘{_scenario.GSMWerdOvergenomenUitKBO.TypeVolgensKbo}' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""ContactgegevenWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.GSMWerdOvergenomenUitKBO)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""Vertegenwoordiger 'Jhon Doo' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""VertegenwoordigerWerdOvergenomenUitKBO"",
                         ""data"":{JsonConvert.SerializeObject(VertegenwoordigerData.Create(_scenario.VertegenwoordigerWerdOvergenomenUitKBO))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},{{
                         ""beschrijving"": ""{_scenario.EmailWerdOvergenomenUitKBO.TypeVolgensKbo} '{_scenario.EmailWerdOvergenomenUitKBO.Waarde}' werd gewijzigd."",
                         ""gebeurtenis"": ""ContactgegevenUitKBOWerdGewijzigd"",
                         ""data"": {JsonConvert.SerializeObject(_scenario.EmailWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                       }}
                 ]
             }}

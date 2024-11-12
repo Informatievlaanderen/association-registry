@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,7 +30,7 @@ public class Given_ContactgegevenWerdGewijzigd
                 nameof(ContactgegevenWerdGewijzigd),
                 contactgegevenWerdGewijzigd.Data,
                 contactgegevenWerdGewijzigd.Initiator,
-                contactgegevenWerdGewijzigd.Tijdstip.ToZuluTime()));
+                contactgegevenWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }
 
@@ -52,6 +53,6 @@ public class Given_ContactgegevenWerdInBeheerGenomenDoorKbo
                 nameof(ContactgegevenWerdInBeheerGenomenDoorKbo),
                 contactgegevenWerdInBeheerGenomenDoorKbo.Data,
                 contactgegevenWerdInBeheerGenomenDoorKbo.Initiator,
-                contactgegevenWerdInBeheerGenomenDoorKbo.Tijdstip.ToZuluTime()));
+                contactgegevenWerdInBeheerGenomenDoorKbo.Tijdstip.FormatAsZuluTime()));
     }
 }

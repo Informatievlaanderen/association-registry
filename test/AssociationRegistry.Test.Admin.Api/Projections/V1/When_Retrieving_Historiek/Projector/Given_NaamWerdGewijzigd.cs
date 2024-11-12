@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -29,6 +30,6 @@ public class Given_NaamWerdGewijzigd
                 nameof(NaamWerdGewijzigd),
                 korteNaamWerdGewijzigd.Data,
                 korteNaamWerdGewijzigd.Initiator,
-                korteNaamWerdGewijzigd.Tijdstip.ToZuluTime()));
+                korteNaamWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }
