@@ -6,9 +6,9 @@ using Schema.Search;
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
 
-public interface IBeheerVerenigingZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, BeheerVerenigingZoekFilter>;
+public interface IBeheerVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, BeheerVerenigingenZoekFilter>;
 
-public class BeheerVerenigingZoekQuery : IBeheerVerenigingZoekQuery
+public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
 {
     private readonly IElasticClient _client;
     private readonly TypeMapping _typeMapping;
@@ -16,7 +16,7 @@ public class BeheerVerenigingZoekQuery : IBeheerVerenigingZoekQuery
     private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
         x => x.Descending(v => v.VCode);
 
-    public BeheerVerenigingZoekQuery(IElasticClient client, TypeMapping typeMapping)
+    public BeheerVerenigingenZoekQuery(IElasticClient client, TypeMapping typeMapping)
     {
         _client = client;
         _typeMapping = typeMapping;
@@ -40,7 +40,7 @@ public class BeheerVerenigingZoekQuery : IBeheerVerenigingZoekQuery
                        .Value(true));
     }
 
-    public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(BeheerVerenigingZoekFilter filter, CancellationToken cancellationToken)
+    public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(BeheerVerenigingenZoekFilter filter, CancellationToken cancellationToken)
         => await _client.SearchAsync<VerenigingZoekDocument>(
             s => s
                 .From(filter.PaginationQueryParams.Offset)
@@ -57,13 +57,13 @@ public class BeheerVerenigingZoekQuery : IBeheerVerenigingZoekQuery
         );
 }
 
-public record BeheerVerenigingZoekFilter
+public record BeheerVerenigingenZoekFilter
 {
     public string Query { get; }
     public string? Sort { get; }
     public PaginationQueryParams PaginationQueryParams { get; }
 
-    public BeheerVerenigingZoekFilter(string query, string? sort, PaginationQueryParams paginationQueryParams)
+    public BeheerVerenigingenZoekFilter(string query, string? sort, PaginationQueryParams paginationQueryParams)
     {
         Query = query;
         Sort = sort;

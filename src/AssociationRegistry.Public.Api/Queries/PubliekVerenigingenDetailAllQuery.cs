@@ -1,15 +1,18 @@
 namespace AssociationRegistry.Public.Api.Queries;
 
+using Framework;
 using Infrastructure.Extensions;
 using Marten;
 using Schema.Detail;
 using Verenigingen.Detail;
 
-public class PubliekDetailAllQuery : IPubliekVerenigingenDetailAllQuery
+public interface IPubliekVerenigingenDetailAllQuery : IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>;
+
+public class PubliekVerenigingenDetailAllQuery : IPubliekVerenigingenDetailAllQuery
 {
     private readonly IDocumentSession _session;
 
-    public PubliekDetailAllQuery(IDocumentSession session)
+    public PubliekVerenigingenDetailAllQuery(IDocumentSession session)
     {
         _session = session;
     }

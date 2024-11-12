@@ -13,13 +13,13 @@ using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 
-public class PubliekDetailAllQueryFixture : IAsyncLifetime
+public class PubliekVerenigingenDetailAllQueryFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
     public async Task InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.Create(nameof(PubliekDetailAllQueryTests));
+        Store = await TestDocumentStoreFactory.Create(nameof(PubliekVerenigingenDetailAllQueryTests));
     }
 
     public async Task DisposeAsync()
@@ -29,11 +29,11 @@ public class PubliekDetailAllQueryFixture : IAsyncLifetime
 }
 
 [IntegrationTest]
-public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFixture>, IDisposable, IAsyncDisposable
+public class PubliekVerenigingenDetailAllQueryTests : IClassFixture<PubliekVerenigingenDetailAllQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;
 
-    public PubliekDetailAllQueryTests(PubliekDetailAllQueryFixture setupFixture)
+    public PubliekVerenigingenDetailAllQueryTests(PubliekVerenigingenDetailAllQueryFixture setupFixture)
     {
         _session = setupFixture.Store.LightweightSession();
     }
@@ -46,7 +46,7 @@ public class PubliekDetailAllQueryTests : IClassFixture<PubliekDetailAllQueryFix
             vereniging.Deleted = true;
         });
 
-        var query = new PubliekDetailAllQuery(_session);
+        var query = new PubliekVerenigingenDetailAllQuery(_session);
 
         var actual = await ConvertToListAsync(await query.ExecuteAsync(CancellationToken.None));
 

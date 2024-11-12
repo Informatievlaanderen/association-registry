@@ -110,7 +110,7 @@ public class SearchVerenigingenController : ApiController
         [FromQuery] string? q,
         [FromQuery] string? sort,
         [FromQuery] PaginationQueryParams paginationQueryParams,
-        [FromServices] IBeheerVerenigingZoekQuery query,
+        [FromServices] IBeheerVerenigingenZoekQuery query,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
         CancellationToken cancellationToken)
@@ -118,7 +118,7 @@ public class SearchVerenigingenController : ApiController
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
-        var searchResponse = await query.ExecuteAsync(new BeheerVerenigingZoekFilter(q, sort, paginationQueryParams), cancellationToken);
+        var searchResponse = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter(q, sort, paginationQueryParams), cancellationToken);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
