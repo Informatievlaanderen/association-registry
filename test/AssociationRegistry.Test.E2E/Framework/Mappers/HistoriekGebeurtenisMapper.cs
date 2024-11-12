@@ -422,7 +422,6 @@ public static class HistoriekGebeurtenisMapper
             {
                 LidmaatschapId = 1,
                 AndereVereniging = request.AndereVereniging,
-                AndereVerenigingNaam = andereVerenigingNaam,
                 Van = request.Van,
                 Tot = request.Tot,
                 Identificatie = request.Identificatie,
@@ -459,7 +458,6 @@ public static class HistoriekGebeurtenisMapper
             {
                 LidmaatschapId = lidmaatschap.Lidmaatschap.LidmaatschapId,
                 AndereVereniging = lidmaatschap.Lidmaatschap.AndereVereniging,
-                AndereVerenigingNaam = lidmaatschap.Lidmaatschap.AndereVerenigingNaam,
                 Van = lidmaatschap.Lidmaatschap.DatumVan,
                 Tot = lidmaatschap.Lidmaatschap.DatumTot,
                 Identificatie = lidmaatschap.Lidmaatschap.Identificatie,
