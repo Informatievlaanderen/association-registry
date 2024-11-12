@@ -12,6 +12,7 @@ using Schema.Detail;
 using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
+using DateFormatter = Formats.DateFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
@@ -30,7 +31,7 @@ public class BeheerVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
                                                                   feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
@@ -88,8 +89,7 @@ public class BeheerVerenigingDetailProjector
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                                                                        .ToBelgianDate(),
+            DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = [],
@@ -465,7 +465,7 @@ public class BeheerVerenigingDetailProjector
 
     public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
     {
-        document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(e.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
         document.Metadata = new Metadata(e.Sequence, e.Version);
     }
 

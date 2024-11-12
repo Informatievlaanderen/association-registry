@@ -2,6 +2,7 @@
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
+using Formats;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
@@ -29,8 +30,8 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             LidmaatschapId = 1,
             AndereVereniging = _context.Request.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.Van.ToBelgianDate(),
-            Tot = _context.Request.Tot.ToBelgianDate(),
+            Van = _context.Request.Van.FormatAsBelgianDate(),
+            Tot = _context.Request.Tot.FormatAsBelgianDate(),
             Identificatie = _context.Request.Identificatie,
             Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };

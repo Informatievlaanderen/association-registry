@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Schema.PowerBiExport;
 using Events;
 using FluentAssertions;
+using Formats;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Projections.PowerBiExport;
@@ -41,8 +42,8 @@ public class Given_LidmaatschapWerdGewijzigd : IClassFixture<LidmaatschapWerdGew
             new(
                 _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.LidmaatschapId,
                 _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.AndereVereniging,
-                _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumVan.ToBelgianDate(),
-                _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumTot.ToBelgianDate(),
+                _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
                 _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.Identificatie,
                 _scenario.LidmaatschapWerdGewijzigd.Lidmaatschap.Beschrijving
             ),

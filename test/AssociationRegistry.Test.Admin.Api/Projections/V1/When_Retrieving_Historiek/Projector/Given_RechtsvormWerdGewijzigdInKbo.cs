@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -30,6 +31,6 @@ public class Given_RechtsvormWerdGewijzigdInKbo
                 nameof(RechtsvormWerdGewijzigdInKBO),
                 rechtsvormWerdGewijzigdInKbo.Data,
                 rechtsvormWerdGewijzigdInKbo.Initiator,
-                rechtsvormWerdGewijzigdInKbo.Tijdstip.ToZuluTime()));
+                rechtsvormWerdGewijzigdInKbo.Tijdstip.FormatAsZuluTime()));
     }
 }

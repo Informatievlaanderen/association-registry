@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Search.ResponseModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
 using Admin.Schema.Constants;
 using Events;
+using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -55,7 +56,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatsc
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
-            Startdatum = FeitelijkeVerenigingWerdGeregistreerd.Startdatum.ToBelgianDate(),
+            Startdatum = FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapScenarioHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),

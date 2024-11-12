@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,6 +32,6 @@ public class Given_StartdatumWerdGewijzigdInKbo_With_Null
                 nameof(StartdatumWerdGewijzigdInKbo),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
-                startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));
+                startdatumWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }

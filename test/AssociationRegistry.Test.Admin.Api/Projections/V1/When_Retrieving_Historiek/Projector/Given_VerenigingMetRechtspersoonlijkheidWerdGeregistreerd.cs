@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -37,7 +38,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
                     _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data,
                     _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Initiator,
-                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.ToZuluTime()),
+                    _verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Tijdstip.FormatAsZuluTime()),
             }
         );
     }

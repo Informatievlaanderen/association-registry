@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -66,21 +67,21 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
                         ""gebeurtenis"":""VerenigingMetRechtspersoonlijkheidWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""De locatie met type ‘Maatschappelijke zetel volgens KBO' werd overgenomen uit KBO."",
                         ""gebeurtenis"":""MaatschappelijkeZetelWerdOvergenomenUitKbo"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelWerdOvergenomenUitKbo.Locatie)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},
 {{
                         ""beschrijving"": ""Maatschappelijke zetel volgens KBO werd gewijzigd."",
                         ""gebeurtenis"":""MaatschappelijkeZetelVolgensKBOWerdGewijzigd"",
                         ""data"":{JsonConvert.SerializeObject(_scenario.MaatschappelijkeZetelVolgensKBOWerdGewijzigd)},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }}
                 ]
             }}

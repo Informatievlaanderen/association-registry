@@ -30,6 +30,6 @@ public class Given_StartdatumWerdGewijzigd
                 nameof(StartdatumWerdGewijzigd),
                 startdatumWerdGewijzigd.Data,
                 startdatumWerdGewijzigd.Initiator,
-                startdatumWerdGewijzigd.Tijdstip.ToZuluTime()));
+                startdatumWerdGewijzigd.Tijdstip.FormatAsZuluTime()));
     }
 }

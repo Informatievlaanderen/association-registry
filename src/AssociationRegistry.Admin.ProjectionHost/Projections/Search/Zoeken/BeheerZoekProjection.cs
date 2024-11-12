@@ -9,6 +9,7 @@ using Schema.Constants;
 using Schema.Search;
 using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
+using DateFormatter = Formats.DateFormatter;
 using Doelgroep = Schema.Search.Doelgroep;
 
 public class BeheerZoekProjectionHandler
@@ -334,8 +335,8 @@ public class BeheerZoekProjectionHandler
 
             LidmaatschapId = lidmaatschap.LidmaatschapId,
             AndereVereniging = lidmaatschap.AndereVereniging,
-            DatumVan = lidmaatschap.DatumVan.ToBelgianDate(),
-            DatumTot = lidmaatschap.DatumTot.ToBelgianDate(),
+            DatumVan = DateFormatter.FormatAsBelgianDate(lidmaatschap.DatumVan),
+            DatumTot = DateFormatter.FormatAsBelgianDate(lidmaatschap.DatumTot),
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
         };

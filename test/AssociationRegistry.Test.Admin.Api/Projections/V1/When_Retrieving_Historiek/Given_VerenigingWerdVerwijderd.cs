@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using System.Net;
 using System.Text.RegularExpressions;
 using Xunit;
@@ -66,7 +67,7 @@ public class Given_VerenigingWerdVerwijderd
             ""reden"": ""{_scenario.VerenigingWerdVerwijderd.Reden}""
           }},
           ""initiator"":""{_metadata.Initiator}"",
-                            ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                            ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
         }}
                     ]
                 }}

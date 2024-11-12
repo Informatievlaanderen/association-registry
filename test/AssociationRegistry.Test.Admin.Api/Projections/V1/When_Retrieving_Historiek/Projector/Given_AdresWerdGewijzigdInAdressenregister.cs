@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -28,7 +29,6 @@ public class Given_AdresWerdGewijzigdInAdressenregister
                                                                          nameof(AdresWerdGewijzigdInAdressenregister),
                                                                          adresWerdGewijzigdInAdressenregister.Data,
                                                                          adresWerdGewijzigdInAdressenregister.Initiator,
-                                                                         adresWerdGewijzigdInAdressenregister.Tijdstip
-                                                                            .ToZuluTime()));
+                                                                         adresWerdGewijzigdInAdressenregister.Tijdstip.FormatAsZuluTime()));
     }
 }

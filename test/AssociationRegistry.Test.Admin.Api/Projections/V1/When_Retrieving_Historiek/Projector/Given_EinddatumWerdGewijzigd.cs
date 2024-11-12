@@ -10,6 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
+using DateFormatter = Formats.DateFormatter;
 
 [UnitTest]
 public class Given_EinddatumWerdGewijzigd
@@ -30,6 +31,6 @@ public class Given_EinddatumWerdGewijzigd
                 nameof(EinddatumWerdGewijzigd),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
+                DateFormatter.FormatAsZuluTime(verenigingWerdGestopt.Tijdstip)));
     }
 }

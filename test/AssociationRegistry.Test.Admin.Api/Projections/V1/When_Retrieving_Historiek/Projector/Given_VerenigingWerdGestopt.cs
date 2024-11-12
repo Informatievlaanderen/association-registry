@@ -10,6 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
+using DateFormatter = Formats.DateFormatter;
 
 [UnitTest]
 public class Given_VerenigingWerdGestopt
@@ -30,7 +31,7 @@ public class Given_VerenigingWerdGestopt
                 nameof(VerenigingWerdGestopt),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
+                DateFormatter.FormatAsZuluTime(verenigingWerdGestopt.Tijdstip)));
     }
 }
 
@@ -53,6 +54,6 @@ public class Given_VerenigingWerdGestoptInKBO
                 nameof(VerenigingWerdGestoptInKBO),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                verenigingWerdGestopt.Tijdstip.ToZuluTime()));
+                DateFormatter.FormatAsZuluTime(verenigingWerdGestopt.Tijdstip)));
     }
 }

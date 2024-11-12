@@ -5,6 +5,7 @@ using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
+using Formats;
 using JsonLdContext;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
@@ -176,8 +177,8 @@ public class PubliekZoekResponseMapper
                 AndereVereniging = vCode,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
-                Van = request.Van!.Value.ToBelgianDate(),
-                Tot = request.Tot!.Value.ToBelgianDate(),
+                Van = request.Van!.Value.FormatAsBelgianDate(),
+                Tot = request.Tot!.Value.FormatAsBelgianDate(),
             },
         ];
 
@@ -192,8 +193,8 @@ public class PubliekZoekResponseMapper
                 AndereVereniging = vCode,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
-                Van = request.Van!.Value.ToBelgianDate(),
-                Tot = request.Tot!.Value.ToBelgianDate(),
+                Van = request.Van!.Value.FormatAsBelgianDate(),
+                Tot = request.Tot!.Value.FormatAsBelgianDate(),
             },
         ];
 }

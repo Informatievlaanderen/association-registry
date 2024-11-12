@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -35,17 +36,17 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                     _inschrijvingZonderSync.KboNummer,
                     _inschrijvingZonderSync.VCode,
                     Beschrijving: "Registreer inschrijving geslaagd",
-                    _inschrijvingZonderSync.GetCommandMetadata().Tijdstip.ToZuluTime()),
+                    _inschrijvingZonderSync.GetCommandMetadata().Tijdstip.FormatAsZuluTime()),
                 new KboSyncHistoriekGebeurtenis(
                     _inschrijvingMetSync.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
                     _inschrijvingMetSync.VCode,
                     Beschrijving: "Registreer inschrijving geslaagd",
-                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.ToZuluTime()),
+                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.FormatAsZuluTime()),
                 new KboSyncHistoriekGebeurtenis(
                     _inschrijvingMetSync.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer,
                     _inschrijvingMetSync.VCode,
                     Beschrijving: "Vereniging succesvol up to date gebracht met data uit de KBO",
-                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.ToZuluTime())
+                    _inschrijvingMetSync.GetCommandMetadata().Tijdstip.FormatAsZuluTime())
             )
            .Build();
 

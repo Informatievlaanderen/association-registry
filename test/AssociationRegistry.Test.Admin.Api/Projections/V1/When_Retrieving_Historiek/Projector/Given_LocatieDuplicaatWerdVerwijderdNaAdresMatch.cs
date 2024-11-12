@@ -7,6 +7,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
 
@@ -33,6 +34,6 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
                 nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch),
                 locatieDuplicaatWerdVerwijderd.Data,
                 locatieDuplicaatWerdVerwijderd.Initiator,
-                locatieDuplicaatWerdVerwijderd.Tijdstip.ToZuluTime()));
+                locatieDuplicaatWerdVerwijderd.Tijdstip.FormatAsZuluTime()));
     }
 }

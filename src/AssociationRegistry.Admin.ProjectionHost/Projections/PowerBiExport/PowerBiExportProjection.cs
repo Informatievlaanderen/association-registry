@@ -825,8 +825,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                   .Append(document.Lidmaatschappen, new Lidmaatschap(
                                               lidmaatschapWerdToegevoegd.Data.Lidmaatschap.LidmaatschapId,
                                               lidmaatschapWerdToegevoegd.Data.Lidmaatschap.AndereVereniging,
-                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumVan.ToBelgianDate(),
-                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumTot.ToBelgianDate(),
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                                              lidmaatschapWerdToegevoegd.Data.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
                                               lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Identificatie,
                                               lidmaatschapWerdToegevoegd.Data.Lidmaatschap.Beschrijving
                                           ))
@@ -847,8 +847,8 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                     => l.LidmaatschapId == lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId,
                                                 update: l => l with
                                                 {
-                                                    Van = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumVan.ToBelgianDate(),
-                                                    Tot = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumTot.ToBelgianDate(),
+                                                    Van = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumVan.FormatAsBelgianDate(),
+                                                    Tot = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.DatumTot.FormatAsBelgianDate(),
                                                     Identificatie = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Identificatie,
                                                     Beschrijving = lidmaatschapWerdGewijzigd.Data.Lidmaatschap.Beschrijving
                                                 })

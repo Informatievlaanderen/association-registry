@@ -9,6 +9,7 @@ using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
 using Vereniging;
+using DateFormatter = Formats.DateFormatter;
 using IEvent = Marten.Events.IEvent;
 
 public class BeheerVerenigingHistoriekProjector
@@ -266,7 +267,7 @@ public class BeheerVerenigingHistoriekProjector
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToZuluTime();
+        var tijdstip = DateFormatter.FormatAsZuluTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -281,7 +282,7 @@ public class BeheerVerenigingHistoriekProjector
     private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToZuluTime();
+        var tijdstip = DateFormatter.FormatAsZuluTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -588,7 +589,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             lidmaatschapWerdToegevoegd,
-            lidmaatschapWerdToegevoegd.Data.Lidmaatschap,
+            LidmaatschapData.Create(lidmaatschapWerdToegevoegd.Data.Lidmaatschap),
             document,
             "Lidmaatschap werd toegevoegd."
         );
@@ -598,7 +599,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             lidmaatschapWerdGewijzigd,
-            lidmaatschapWerdGewijzigd.Data.Lidmaatschap,
+            LidmaatschapData.Create(lidmaatschapWerdGewijzigd.Data.Lidmaatschap),
             document,
             "Lidmaatschap werd gewijzigd."
         );
@@ -608,7 +609,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             lidmaatschapWerdVerwijderd,
-            lidmaatschapWerdVerwijderd.Data.Lidmaatschap,
+            LidmaatschapData.Create(lidmaatschapWerdVerwijderd.Data.Lidmaatschap),
             document,
             "Lidmaatschap werd verwijderd."
         );

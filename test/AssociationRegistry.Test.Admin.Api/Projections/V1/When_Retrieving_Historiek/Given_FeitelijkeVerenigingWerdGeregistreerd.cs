@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
@@ -67,7 +68,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
-                        ""tijdstip"":""{_metadata.Tijdstip.ToZuluTime()}""
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }}
                 ]
             }}
