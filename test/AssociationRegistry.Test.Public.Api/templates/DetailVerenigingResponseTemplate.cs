@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.templates;
 
-using AssociationRegistry.Public.Api.Constants;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Schema.Constants;
 using Common.Extensions;
 using Events;
+using Formats;
 using JsonLdContext;
 using NodaTime;
 using Scriban;
 using System.Dynamic;
 using Vereniging;
-using AdresFormatter = Formats.AdresFormatter;
+using WellknownFormats = AssociationRegistry.Public.Api.Constants.WellknownFormats;
 
 public class DetailVerenigingResponseTemplate
 {
@@ -354,7 +354,7 @@ public class DetailVerenigingResponseTemplate
 
     public DetailVerenigingResponseTemplate WithDatumLaatsteAanpassing(Instant instant)
     {
-        _datumLaatsteAanpassing = instant.ToBelgianDate();
+        _datumLaatsteAanpassing = instant.FormatAsBelgianDate();
 
         return this;
     }

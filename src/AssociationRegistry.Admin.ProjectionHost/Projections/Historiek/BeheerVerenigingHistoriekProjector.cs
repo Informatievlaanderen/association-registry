@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 
-using Constants;
 using Events;
+using Formats;
 using Framework;
 using Infrastructure.Extensions;
 using Marten.Events;
@@ -9,8 +9,8 @@ using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
 using Vereniging;
-using DateFormatter = Formats.DateFormatter;
 using IEvent = Marten.Events.IEvent;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingHistoriekProjector
 {
@@ -267,7 +267,7 @@ public class BeheerVerenigingHistoriekProjector
     private static void AddHistoriekEntry(IEvent @event, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = DateFormatter.FormatAsZuluTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsZuluTime();
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(
@@ -282,7 +282,7 @@ public class BeheerVerenigingHistoriekProjector
     private static void AddHistoriekEntry(IEvent @event, object data, BeheerVerenigingHistoriekDocument document, string beschrijving)
     {
         var initiator = @event.GetHeaderString(MetadataHeaderNames.Initiator);
-        var tijdstip = DateFormatter.FormatAsZuluTime(@event.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
+        var tijdstip = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsZuluTime();
 
         document.Gebeurtenissen = document.Gebeurtenissen.Append(
             new BeheerVerenigingHistoriekGebeurtenis(

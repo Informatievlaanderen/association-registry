@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 
 using Events;
+using Formats;
 using Framework;
 using Infrastructure.Extensions;
 using JsonLdContext;
@@ -32,7 +33,7 @@ public static class PubliekVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
             Doelgroep =
                 MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate(),
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
@@ -110,7 +111,7 @@ public static class PubliekVerenigingDetailProjector
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                                                                                        .ToBelgianDate(),
+                                                                                        .FormatAsBelgianDate(),
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
@@ -446,7 +447,7 @@ public static class PubliekVerenigingDetailProjector
 
     public static void UpdateMetadata(IEvent @event, PubliekVerenigingDetailDocument document)
     {
-        document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ToBelgianDate();
+        document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate();
     }
 
     public static void Apply(IEvent<NaamWerdGewijzigdInKbo> naamWerdGewijzigdInKbo, PubliekVerenigingDetailDocument document)

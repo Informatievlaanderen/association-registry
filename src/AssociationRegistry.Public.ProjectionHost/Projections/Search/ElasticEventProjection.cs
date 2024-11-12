@@ -463,8 +463,8 @@ public class PubliekZoekProjectionHandler
 
             LidmaatschapId = lidmaatschap.LidmaatschapId,
             AndereVereniging = lidmaatschap.AndereVereniging,
-            DatumVan = lidmaatschap.DatumVan.ToBelgianDate(),
-            DatumTot = lidmaatschap.DatumTot.ToBelgianDate(),
+            DatumVan = lidmaatschap.DatumVan.FormatAsBelgianDate(),
+            DatumTot = lidmaatschap.DatumTot.FormatAsBelgianDate(),
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
         };

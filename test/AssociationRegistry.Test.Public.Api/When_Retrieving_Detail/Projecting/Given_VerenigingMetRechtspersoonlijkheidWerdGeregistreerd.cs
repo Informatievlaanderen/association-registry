@@ -8,6 +8,7 @@ using AssociationRegistry.Public.Schema.Detail;
 using AutoFixture;
 using Events;
 using FluentAssertions;
+using Formats;
 using Framework;
 using JsonLdContext;
 using Vereniging;
@@ -55,7 +56,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                 },
                 Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
                 DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
-                   .ToBelgianDate(),
+                   .FormatAsBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
                 Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
