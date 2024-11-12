@@ -58,7 +58,8 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                            HoofdactiviteitCountAggregation
                                        )
                                )
-                       );
+                       )
+                      .TrackTotalHits();
             }, cancellationToken);
 
     private async Task<ISearchResponse<VerenigingZoekDocument>> Search(
