@@ -31,7 +31,7 @@ public class Lidmaatschappen : ReadOnlyCollection<Lidmaatschap>
 
     private LidmaatschapId CalculateNextId(IEnumerable<Lidmaatschap> lidmaatschappen)
     {
-        return new LidmaatschapId(Math.Max(lidmaatschappen.Max(x => x.LidmaatschapId), NextId)).Next;
+        return new LidmaatschapId(Math.Max(lidmaatschappen.Max(x => x.LidmaatschapId).Next, NextId));
     }
 
     public Lidmaatschap VoegToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
