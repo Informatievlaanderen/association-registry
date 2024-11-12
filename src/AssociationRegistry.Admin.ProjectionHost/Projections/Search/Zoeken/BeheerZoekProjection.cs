@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
-using Constants;
 using Events;
+using Formats;
 using Infrastructure.Extensions;
 using JsonLdContext;
 using Schema;
@@ -9,8 +9,8 @@ using Schema.Constants;
 using Schema.Search;
 using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
-using DateFormatter = Formats.DateFormatter;
 using Doelgroep = Schema.Search.Doelgroep;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerZoekProjectionHandler
 {
@@ -167,6 +167,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
+
             new VerenigingZoekDocument
             {
                 KorteNaam = message.Data.KorteNaam,
@@ -322,7 +323,7 @@ public class BeheerZoekProjectionHandler
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
-            Adresvoorstelling = AdresFormatter.ToAdresString(locatie.Adres),
+            Adresvoorstelling = locatie.Adres.ToAdresString(),
             IsPrimair = locatie.IsPrimair,
             Postcode = locatie.Adres?.Postcode ?? string.Empty,
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
@@ -335,8 +336,8 @@ public class BeheerZoekProjectionHandler
 
             LidmaatschapId = lidmaatschap.LidmaatschapId,
             AndereVereniging = lidmaatschap.AndereVereniging,
-            DatumVan = DateFormatter.FormatAsBelgianDate(lidmaatschap.DatumVan),
-            DatumTot = DateFormatter.FormatAsBelgianDate(lidmaatschap.DatumTot),
+            DatumVan = lidmaatschap.DatumVan.FormatAsBelgianDate(),
+            DatumTot = lidmaatschap.DatumTot.FormatAsBelgianDate(),
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
         };
@@ -351,7 +352,7 @@ public class BeheerZoekProjectionHandler
             LocatieId = locatie.LocatieId,
             Locatietype = locatie.Locatietype,
             Naam = locatie.Naam,
-            Adresvoorstelling = AdresFormatter.ToAdresString(adresUitAdressenregister),
+            Adresvoorstelling = adresUitAdressenregister.ToAdresString(),
             IsPrimair = locatie.IsPrimair,
             Postcode = adresUitAdressenregister.Postcode ?? string.Empty,
             Gemeente = adresUitAdressenregister.Gemeente ?? string.Empty,
@@ -467,7 +468,7 @@ public class BeheerZoekProjectionHandler
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
             message.Data.LocatieId,
-            AdresFormatter.ToAdresString(message.Data.Adres),
+            message.Data.Adres.ToAdresString(),
             message.Data.Adres.Postcode,
             message.Data.Adres.Gemeente);
     }
@@ -477,7 +478,7 @@ public class BeheerZoekProjectionHandler
         await _elasticRepository.UpdateAdres<VerenigingZoekDocument>(
             message.VCode,
             message.Data.LocatieId,
-            AdresFormatter.ToAdresString(message.Data.Adres),
+            message.Data.Adres.ToAdresString(),
             message.Data.Adres.Postcode,
             message.Data.Adres.Gemeente);
     }

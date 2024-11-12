@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 
-using Constants;
 using Events;
+using Formats;
 using Framework;
 using Infrastructure.Extensions;
 using JsonLdContext;
@@ -12,10 +12,10 @@ using Schema.Detail;
 using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
-using DateFormatter = Formats.DateFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
+using WellknownFormats = Constants.WellknownFormats;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -31,7 +31,8 @@ public class BeheerVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
             Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
                                                                   feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-            DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                          .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
@@ -89,7 +90,7 @@ public class BeheerVerenigingDetailProjector
                 Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
             },
             Rechtsvorm = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm,
-            DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)),
+            DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = [],
@@ -325,7 +326,7 @@ public class BeheerVerenigingDetailProjector
                                              Naam = locatieWerdGewijzigd.Data.Locatie.Naam,
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  locatieWerdGewijzigd.Data.Locatie.Adres, document.VCode, l.LocatieId),
-                                             Adresvoorstelling = AdresFormatter.ToAdresString(locatieWerdGewijzigd.Data.Locatie.Adres),
+                                             Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  locatieWerdGewijzigd.Data.Locatie.AdresId),
                                              VerwijstNaar =
@@ -465,7 +466,7 @@ public class BeheerVerenigingDetailProjector
 
     public static void UpdateMetadata(IEvent e, BeheerVerenigingDetailDocument document)
     {
-        document.DatumLaatsteAanpassing = DateFormatter.FormatAsBelgianDate(e.GetHeaderInstant(MetadataHeaderNames.Tijdstip));
+        document.DatumLaatsteAanpassing = e.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate();
         document.Metadata = new Metadata(e.Sequence, e.Version);
     }
 
@@ -533,7 +534,7 @@ public class BeheerVerenigingDetailProjector
                                              Adres = BeheerVerenigingDetailMapper.MapAdres(
                                                  maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres, document.VCode, l.LocatieId),
                                              Adresvoorstelling =
-                                             AdresFormatter.ToAdresString(maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres),
+                                             maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId),
                                              VerwijstNaar =
@@ -567,7 +568,7 @@ public class BeheerVerenigingDetailProjector
                                                  adresWerdOvergenomenUitAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
                                              Adresvoorstelling =
-                                             AdresFormatter.ToAdresString(adresWerdOvergenomenUitAdressenregister.Data.Adres),
+                                             adresWerdOvergenomenUitAdressenregister.Data.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  adresWerdOvergenomenUitAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(
@@ -590,7 +591,7 @@ public class BeheerVerenigingDetailProjector
                                                  adresWerdGewijzigdInAdressenregister.Data.Adres, document.VCode,
                                                  l.LocatieId),
                                              Adresvoorstelling =
-                                             AdresFormatter.ToAdresString(adresWerdGewijzigdInAdressenregister.Data.Adres),
+                                             adresWerdGewijzigdInAdressenregister.Data.Adres.ToAdresString(),
                                              AdresId = BeheerVerenigingDetailMapper.MapAdresId(
                                                  adresWerdGewijzigdInAdressenregister.Data.AdresId),
                                              VerwijstNaar = BeheerVerenigingDetailMapper.MapAdresVerwijzing(

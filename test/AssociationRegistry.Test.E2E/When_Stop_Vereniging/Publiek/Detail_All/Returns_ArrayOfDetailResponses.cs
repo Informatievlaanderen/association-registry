@@ -7,6 +7,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using FluentAssertions;
+using Formats;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
 using Xunit;
@@ -31,7 +32,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext,
                         {
                             VCode = TestContext.VCode,
                             TeVerwijderen = true,
-                            DeletedAt = DateTime.UtcNow.Date.ToInstant().ToBelgianDate(),
+                            DeletedAt = DateTime.UtcNow.Date.ToInstant().FormatAsBelgianDate(),
                         },
                     });
 }

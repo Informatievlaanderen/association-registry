@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek.Projector;
 
-using AssociationRegistry.Admin.ProjectionHost.Constants;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
@@ -8,9 +7,10 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
+using Formats;
 using Xunit;
 using Xunit.Categories;
-using DateFormatter = Formats.DateFormatter;
+using WellknownFormats = AssociationRegistry.Admin.ProjectionHost.Constants.WellknownFormats;
 
 [UnitTest]
 public class Given_VerenigingWerdGestopt
@@ -31,7 +31,7 @@ public class Given_VerenigingWerdGestopt
                 nameof(VerenigingWerdGestopt),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                DateFormatter.FormatAsZuluTime(verenigingWerdGestopt.Tijdstip)));
+                verenigingWerdGestopt.Tijdstip.FormatAsZuluTime()));
     }
 }
 
@@ -54,6 +54,6 @@ public class Given_VerenigingWerdGestoptInKBO
                 nameof(VerenigingWerdGestoptInKBO),
                 verenigingWerdGestopt.Data,
                 verenigingWerdGestopt.Initiator,
-                DateFormatter.FormatAsZuluTime(verenigingWerdGestopt.Tijdstip)));
+                verenigingWerdGestopt.Tijdstip.FormatAsZuluTime()));
     }
 }
