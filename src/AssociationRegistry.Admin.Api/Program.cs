@@ -73,7 +73,6 @@ using System.Reflection;
 using System.Text;
 using VCodeGeneration;
 using Vereniging;
-using Verenigingen.Detail;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
@@ -612,6 +611,7 @@ public class Program
 
         builder.Services
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
+               .AddTransient<IBeheerVerenigingZoekQuery, BeheerVerenigingZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
     }
 

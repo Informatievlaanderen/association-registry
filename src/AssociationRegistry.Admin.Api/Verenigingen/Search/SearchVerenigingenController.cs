@@ -10,6 +10,7 @@ using Infrastructure;
 using Infrastructure.Swagger.Annotations;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
+using Queries;
 using RequestModels;
 using ResponseModels;
 using Schema.Search;
@@ -24,19 +25,11 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [SwaggerGroup.Opvragen]
 public class SearchVerenigingenController : ApiController
 {
-    private readonly IElasticClient _elasticClient;
     private readonly SearchVerenigingenResponseMapper _responseMapper;
-    private readonly TypeMapping _typeMapping;
 
-
-    public SearchVerenigingenController(
-        IElasticClient elasticClient,
-        SearchVerenigingenResponseMapper responseMapper,
-        TypeMapping typeMapping)
+    public SearchVerenigingenController(SearchVerenigingenResponseMapper responseMapper)
     {
-        _elasticClient = elasticClient;
         _responseMapper = responseMapper;
-        _typeMapping = typeMapping;
     }
 
     /// <summary>
@@ -98,7 +91,9 @@ public class SearchVerenigingenController : ApiController
     /// <param name="q">De querystring</param>
     /// <param name="sort">De velden om op te sorteren</param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
+    /// <param name="query"></param>
     /// <param name="validator"></param>
+    /// <param name="logger"></param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -115,6 +110,7 @@ public class SearchVerenigingenController : ApiController
         [FromQuery] string? q,
         [FromQuery] string? sort,
         [FromQuery] PaginationQueryParams paginationQueryParams,
+        [FromServices] IBeheerVerenigingZoekQuery query,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
         CancellationToken cancellationToken)
@@ -122,7 +118,7 @@ public class SearchVerenigingenController : ApiController
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
-        var searchResponse = await VerenigingZoekDocumentQuery.Search(_elasticClient, q, sort, paginationQueryParams, _typeMapping);
+        var searchResponse = await query.ExecuteAsync(new BeheerVerenigingZoekFilter(q, sort, paginationQueryParams), cancellationToken);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
