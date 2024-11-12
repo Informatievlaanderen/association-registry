@@ -24,15 +24,13 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [SwaggerGroup.Opvragen]
 public class SearchVerenigingenController : ApiController
 {
-    private readonly ElasticClient _elasticClient;
+    private readonly IElasticClient _elasticClient;
     private readonly SearchVerenigingenResponseMapper _responseMapper;
     private readonly TypeMapping _typeMapping;
 
-    private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
-        x => x.Descending(v => v.VCode);
 
     public SearchVerenigingenController(
-        ElasticClient elasticClient,
+        IElasticClient elasticClient,
         SearchVerenigingenResponseMapper responseMapper,
         TypeMapping typeMapping)
     {
@@ -124,7 +122,7 @@ public class SearchVerenigingenController : ApiController
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
         q ??= "*";
 
-        var searchResponse = await Search(_elasticClient, q, sort, paginationQueryParams, _typeMapping);
+        var searchResponse = await VerenigingZoekDocumentQuery.Search(_elasticClient, q, sort, paginationQueryParams, _typeMapping);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
@@ -152,42 +150,5 @@ public class SearchVerenigingenController : ApiController
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
 
         throw new ZoekOpdrachtWasIncorrect();
-    }
-
-    private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
-        IElasticClient client,
-        string q,
-        string? sort,
-        PaginationQueryParams paginationQueryParams,
-        TypeMapping typemapping)
-        => await client.SearchAsync<VerenigingZoekDocument>(
-            s => s
-                .From(paginationQueryParams.Offset)
-                .Size(paginationQueryParams.Limit)
-                .ParseSort(sort, DefaultSort, typemapping)
-                .Query(query => query
-                          .Bool(boolQueryDescriptor =>
-                                    boolQueryDescriptor.Must(MatchWithQuery(q))
-                                                       .MustNot(BeVerwijderd)
-                           )
-                 )
-        );
-
-    private static Func<QueryContainerDescriptor<VerenigingZoekDocument>, QueryContainer> MatchWithQuery(string q)
-    {
-        return queryContainerDescriptor =>
-            queryContainerDescriptor.QueryString(
-                queryStringQueryDescriptor
-                    => queryStringQueryDescriptor.Query(q)
-            );
-    }
-
-    private static QueryContainer BeVerwijderd(QueryContainerDescriptor<VerenigingZoekDocument> shouldDescriptor)
-    {
-        return shouldDescriptor
-           .Term(termDescriptor
-                     => termDescriptor
-                       .Field(document => document.IsVerwijderd)
-                       .Value(true));
     }
 }
