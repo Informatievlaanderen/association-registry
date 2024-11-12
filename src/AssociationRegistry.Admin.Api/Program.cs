@@ -611,7 +611,7 @@ public class Program
 
         builder.Services
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
-               .AddTransient<IBeheerVerenigingZoekQuery, BeheerVerenigingZoekQuery>()
+               .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
     }
 

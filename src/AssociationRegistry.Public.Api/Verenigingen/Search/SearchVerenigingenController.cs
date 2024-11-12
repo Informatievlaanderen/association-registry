@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using Detail;
 using Examples;
 using Exceptions;
 using FluentValidation;
@@ -11,6 +12,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Nest;
+using Queries;
 using RequestModels;
 using ResponseModels;
 using Schema;
@@ -32,21 +34,11 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
-    private readonly ElasticClient _elasticClient;
     private readonly SearchVerenigingenResponseMapper _responseMapper;
-    private readonly TypeMapping _typeMapping;
 
-    private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
-        x => x.Descending(v => v.VCode);
-
-    public SearchVerenigingenController(
-        ElasticClient elasticClient,
-        SearchVerenigingenResponseMapper responseMapper,
-        TypeMapping typeMapping)
+    public SearchVerenigingenController(SearchVerenigingenResponseMapper responseMapper)
     {
-        _elasticClient = elasticClient;
         _responseMapper = responseMapper;
-        _typeMapping = typeMapping;
     }
 
     /// <summary>
@@ -132,6 +124,7 @@ public class SearchVerenigingenController : ApiController
         [FromQuery(Name = "facets.hoofdactiviteitenVerenigingsloket")]
         string? hoofdactiviteitenVerenigingsloket,
         [FromQuery] PaginationQueryParams paginationQueryParams,
+        [FromServices] IPubliekVerenigingenZoekQuery query,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
         CancellationToken cancellationToken)
@@ -141,7 +134,9 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
-        var searchResponse = await Search(_elasticClient, q, sort, hoofdActiviteitenArray, paginationQueryParams, _typeMapping);
+        var searchResponse =
+            await query.ExecuteAsync(new PubliekVerenigingenZoekFilter(q, sort, hoofdActiviteitenArray, paginationQueryParams),
+                                     cancellationToken);
 
         if (searchResponse.ApiCall.HttpStatusCode == 400)
             return MapBadRequest(logger, searchResponse);
@@ -154,9 +149,9 @@ public class SearchVerenigingenController : ApiController
             throw searchResponse.OriginalException;
         }
 
-            var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
-            return Ok(response);
+        return Ok(response);
     }
 
     private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
@@ -170,149 +165,5 @@ public class SearchVerenigingenController : ApiController
             throw new ZoekOpdrachtBevatOnbekendeSorteerVelden(match.Groups[1].Value);
 
         throw new ZoekOpdrachtWasIncorrect();
-    }
-
-    private static async Task<ISearchResponse<VerenigingZoekDocument>> Search(
-        IElasticClient client,
-        string q,
-        string? sort,
-        string[] hoofdactiviteiten,
-        PaginationQueryParams paginationQueryParams,
-        TypeMapping typemapping)
-        => await client.SearchAsync<VerenigingZoekDocument>(
-            s =>
-            {
-                return s
-                      .From(paginationQueryParams.Offset)
-                      .Size(paginationQueryParams.Limit)
-                      .ParseSort(sort, DefaultSort, typemapping)
-                      .Query(query => query
-                                .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                            .Must(queryContainerDescriptor
-                                                                      => MatchQueryString(
-                                                                          queryContainerDescriptor,
-                                                                          $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
-                                                                  BeActief
-                                                             )
-                                                            .MustNot(
-                                                                 BeUitgeschrevenUitPubliekeDatastroom,
-                                                                 BeRemoved)
-                                 )
-                       )
-                      .Aggregations(
-                           agg =>
-                               GlobalAggregation(
-                                   agg,
-                                   aggregations: agg2 =>
-                                       QueryFilterAggregation(
-                                           agg2,
-                                           q,
-                                           HoofdactiviteitCountAggregation
-                                       )
-                               )
-                       );
-            });
-
-    private static IAggregationContainer GlobalAggregation<T>(
-        AggregationContainerDescriptor<T> agg,
-        Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<T>> aggregations) where T : class
-    {
-        agg.Global(
-            WellknownFacets.GlobalAggregateName,
-            selector: d => d.Aggregations(
-                aggregations
-            )
-        );
-
-        return agg;
-    }
-
-    private static AggregationContainerDescriptor<T> QueryFilterAggregation<T>(
-        AggregationContainerDescriptor<T> aggregationContainerDescriptor,
-        string query,
-        Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
-    {
-        return aggregationContainerDescriptor.Filter(
-            WellknownFacets.FilterAggregateName,
-            selector: aggregationDescriptor =>
-                aggregationDescriptor
-                   .Filter(containerDescriptor =>
-                               containerDescriptor
-                                  .Bool(queryDescriptor =>
-                                            queryDescriptor
-                                               .Must(m =>
-                                                         MatchQueryString(m, query),
-                                                     BeActief
-                                                )
-                                               .MustNot(
-                                                    BeUitgeschrevenUitPubliekeDatastroom,
-                                                    BeRemoved)
-                                   )
-                    )
-                   .Aggregations(aggregations)
-        );
-    }
-
-    private static QueryContainer MatchQueryString<T>(QueryContainerDescriptor<T> m, string query)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
-    {
-        return m.QueryString(
-            qs =>
-                qs.Query(query)
-                  .Analyzer(VerenigingZoekDocumentMapping.PubliekZoekenAnalyzer)
-        );
-    }
-
-    private static AggregationContainerDescriptor<VerenigingZoekDocument> HoofdactiviteitCountAggregation(
-        AggregationContainerDescriptor<VerenigingZoekDocument> aggregationContainerDescriptor)
-    {
-        return aggregationContainerDescriptor.Terms(
-            WellknownFacets.HoofdactiviteitenCountAggregateName,
-            selector: valueCountAggregationDescriptor => valueCountAggregationDescriptor
-                                                        .Field(document => document.HoofdactiviteitenVerenigingsloket.Select(
-                                                                   h => h.Code).Suffix("keyword")
-                                                         )
-                                                        .Size(size: AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.HoofdactiviteitenVerenigingsloketCount)
-        );
-    }
-
-    private static string BuildHoofdActiviteiten(IReadOnlyCollection<string> hoofdactiviteiten)
-    {
-        if (hoofdactiviteiten.Count == 0)
-            return string.Empty;
-
-        var builder = new StringBuilder();
-        builder.Append(" AND (");
-
-        foreach (var (hoofdactiviteit, index) in hoofdactiviteiten.Select((item, index) => (item, index)))
-        {
-            builder.Append($"hoofdactiviteitenVerenigingsloket.code:{hoofdactiviteit}");
-
-            if (index < hoofdactiviteiten.Count - 1)
-                builder.Append(" OR ");
-        }
-
-        builder.Append(value: ')');
-
-        return builder.ToString();
-    }
-
-    private static QueryContainer BeUitgeschrevenUitPubliekeDatastroom<T>(QueryContainerDescriptor<T> q)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom
-    {
-        return q.Term(field: arg => arg.IsUitgeschrevenUitPubliekeDatastroom, value: true);
-    }
-
-    private static QueryContainer BeActief<T>(QueryContainerDescriptor<T> q)
-        where T : class, IHasStatus
-    {
-        return q.Term(field: arg => arg.Status, VerenigingStatus.Actief);
-    }
-
-    private static QueryContainer BeRemoved<T>(QueryContainerDescriptor<T> q)
-        where T : class, IDeletable
-    {
-        return q.Term(field: arg => arg.IsVerwijderd, value: true);
     }
 }

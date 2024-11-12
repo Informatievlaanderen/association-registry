@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.ElasticSearch;
+namespace AssociationRegistry.Test.Public.Api.Queries;
 
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Search;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
-using AssociationRegistry.Admin.Schema.Search;
+using Admin.Api.Queries;
+using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
+using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
-using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Vereniging;
@@ -15,16 +15,16 @@ using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
 
-[Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
+[Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
 [IntegrationTest]
-public class Given_MoreDocumentsThanContextLimit
+public class PubliekVerenigingenZoekQueryTests
 {
     private readonly ITestOutputHelper _helper;
     private readonly IElasticClient _elasticClient;
     private readonly TypeMapping _typeMapping;
 
-    public Given_MoreDocumentsThanContextLimit(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
+    public PubliekVerenigingenZoekQueryTests(GivenEventsFixture fixture, ITestOutputHelper helper)
     {
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
@@ -32,9 +32,9 @@ public class Given_MoreDocumentsThanContextLimit
     }
 
     [Fact]
-    public async Task? Total_Count_Is_Actual_Number_And_Not_Context_Limit()
+    public async Task? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
-        var fixture = new Fixture().CustomizeAdminApi();
+        var fixture = new Fixture().CustomizePublicApi();
         var totalCount = 0;
         var desiredCount = 10000;
         var batchCount = 500;
@@ -50,9 +50,9 @@ public class Given_MoreDocumentsThanContextLimit
             totalCount += batchCount;
         } while (totalCount < desiredCount);
 
-        var query = new BeheerVerenigingZoekQuery(_elasticClient, _typeMapping);
+        var query = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
-        var actual = await query.ExecuteAsync(new BeheerVerenigingZoekFilter("*", "vCode", new PaginationQueryParams()),
+        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter("*", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);
 
         actual.Total.Should().BeGreaterThan(desiredCount);
