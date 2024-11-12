@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
 
-using AssociationRegistry.Public.Api;
+using AssociationRegistry.Admin.Api;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework.Fixtures;
@@ -25,6 +25,7 @@ public class Given_SwaggerExampleProviders
         "Vereniging.Locaties.Adres.Busnummer",
         "Vereniging.Locaties.AdresId",
         "Vereniging.Einddatum",
+        "Verenigingen.Einddatum"
     };
 
     public Given_SwaggerExampleProviders(EventsInDbScenariosFixture fixture)

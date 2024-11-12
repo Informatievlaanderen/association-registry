@@ -12,7 +12,7 @@ using Xunit;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("AdminApi")]
+[Category("PublicApi")]
 [IntegrationTest]
 public class Given_SwaggerExampleProviders
 {
