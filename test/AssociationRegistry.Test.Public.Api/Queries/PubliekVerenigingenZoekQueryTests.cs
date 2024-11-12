@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.Queries;
 using Admin.Api.Queries;
 using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Fixtures.GivenEvents;
@@ -44,11 +45,16 @@ public class PubliekVerenigingenZoekQueryTests
             var docs = new List<VerenigingZoekDocument>();
 
             for (var i = 0; i < batchCount; i++)
-                docs.Add(new() { VCode = fixture.Create<VCode>() });
+                docs.Add(new() { VCode = fixture.Create<VCode>(), Status = VerenigingStatus.Actief});
 
-            await _elasticClient.BulkAsync(b => b.IndexMany(docs));
+            var result = await _elasticClient.BulkAsync(b => b.IndexMany(docs));
+            if(!result.IsValid)
+                _helper.WriteLine(result.DebugInformation);
+
             totalCount += batchCount;
         } while (totalCount < desiredCount);
+
+        await _elasticClient.Indices.RefreshAsync();
 
         var query = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
