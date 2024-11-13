@@ -83,10 +83,6 @@ jobs:
         run: |
           ./.sonar/scanner/dotnet-sonarscanner begin /k:"Informatievlaanderen_association-registry" /o:"informatievlaanderen" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.dotcover.reportsPaths=dotCover.Output.html
 
-      - name: Paket install
-        shell: bash
-        run: dotnet paket install
-
       - name: Paket restore
         shell: bash
         run: dotnet paket restore

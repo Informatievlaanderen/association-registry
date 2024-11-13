@@ -130,10 +130,6 @@ jobs:
         run: |
           dotnet tool restore
 
-      - name: Paket install
-        shell: bash
-        run: dotnet paket install
-
       - name: Paket restore
         shell: bash
         run: dotnet paket restore
