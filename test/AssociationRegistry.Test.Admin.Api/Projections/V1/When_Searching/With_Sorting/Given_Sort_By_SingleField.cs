@@ -34,6 +34,8 @@ public class Given_Sort_By_SingleField
 
         var jToken = JToken.Parse(content);
 
+        _outputHelper.WriteLine(content);
+
         var names = jToken.SelectTokens($"$.verenigingen[*].{field}")
                           .Select(x => x.Value<string>())
                           .ToList();
