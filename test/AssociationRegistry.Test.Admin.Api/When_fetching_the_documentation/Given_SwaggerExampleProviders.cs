@@ -25,7 +25,7 @@ public class Given_SwaggerExampleProviders
         "Vereniging.Locaties.Adres.Busnummer",
         "Vereniging.Locaties.AdresId",
         "Vereniging.Einddatum",
-        "Verenigingen.Einddatum"
+        "Verenigingen.Einddatum",
     };
 
     public Given_SwaggerExampleProviders(EventsInDbScenariosFixture fixture)
