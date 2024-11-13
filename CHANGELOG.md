@@ -1,3 +1,15 @@
+## [8.175.2](https://github.com/informatievlaanderen/association-registry/compare/v8.175.1...v8.175.2) (2024-11-13)
+
+
+### Bug Fixes
+
+* or-2071 remove paket install from workflows ([bcf9768](https://github.com/informatievlaanderen/association-registry/commit/bcf97683fd561e93e94cb74cd81252a5dcd7f5d2))
+* or-2071 show actual total count even when larger result set than ([7c69768](https://github.com/informatievlaanderen/association-registry/commit/7c69768d5387ded664da2387f7695bf5422d0b53))
+* or-2517 change response historiek for lidmaatschappen ([5759ce8](https://github.com/informatievlaanderen/association-registry/commit/5759ce882b8f46fbec9b6cdf28a0c15c1d8d5050))
+* or-2517 incorrect usings inside swagger documentation tests ([66af4df](https://github.com/informatievlaanderen/association-registry/commit/66af4df40dfc61e98fb0d759b13ca289ebbf3e09))
+* or-2517 prevent lidmaatschapid to skip numbers because of update events ([7dde17c](https://github.com/informatievlaanderen/association-registry/commit/7dde17cf9d183c18c1e2f64aa4811aab07d86c74))
+* **publicapi:** or-2071 show actual total count even when larger result set than context limit ([4a9eb5a](https://github.com/informatievlaanderen/association-registry/commit/4a9eb5a7495139ee49b132e35b6ccc7d06366a56))
+
 ## [8.175.1](https://github.com/informatievlaanderen/association-registry/compare/v8.175.0...v8.175.1) (2024-11-07)
 
 
