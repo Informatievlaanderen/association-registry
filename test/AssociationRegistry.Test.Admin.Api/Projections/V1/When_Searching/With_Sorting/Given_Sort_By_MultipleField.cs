@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Nest;
 using Newtonsoft.Json.Linq;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,11 +16,13 @@ public class Given_Sort_By_MultipleFields
 {
     private readonly ITestOutputHelper _outputHelper;
     private readonly AdminApiClient _adminApiClient;
+    private IElasticClient _elasticClient;
 
     public Given_Sort_By_MultipleFields(EventsInDbScenariosFixture fixture, ITestOutputHelper helper)
     {
         _outputHelper = helper;
         _adminApiClient = fixture.AdminApiClient;
+        _elasticClient = fixture.ElasticClient;
     }
 
     [Theory]
@@ -28,6 +31,8 @@ public class Given_Sort_By_MultipleFields
     [InlineData("verenigingstype.code", "vCode")]
     public async Task? Then_it_sorts_ascending_then_descending(string ascendingField, string descendingField)
     {
+        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
+
         var response = await _adminApiClient.Search(q: "*", $"{ascendingField},-{descendingField}");
 
         var content = await response.Content.ReadAsStringAsync();
@@ -56,6 +61,8 @@ public class Given_Sort_By_MultipleFields
     [InlineData("verenigingstype.code", "vCode")]
     public async Task? Then_it_sorts_descending_then_ascending(string descendingField, string ascendingField)
     {
+        await _elasticClient.Indices.RefreshAsync();
+
         var response = await _adminApiClient.Search(q: "*", $"-{descendingField},{ascendingField}");
         var content = await response.Content.ReadAsStringAsync();
 

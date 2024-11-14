@@ -29,7 +29,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
-        var query = "Feestcommittee Oudenaarde";
+        var query = "Feestcommittee Tralalala";
         var response = await _adminApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
