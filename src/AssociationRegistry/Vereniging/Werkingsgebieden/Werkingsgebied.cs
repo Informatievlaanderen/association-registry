@@ -4,6 +4,11 @@ using Exceptions;
 
 public class Werkingsgebied
 {
+    static Werkingsgebied()
+    {
+        All = NutsLauReader.Read().Select(x => new Werkingsgebied($"{x.Nuts}{x.Lau}", x.Gemeente)).ToArray();
+    }
+
     private Werkingsgebied(string code, string naam)
     {
         Code = code;
@@ -20,17 +25,5 @@ public class Werkingsgebied
         return value ?? throw new WerkingsgebiedCodeIsNietGekend(code);
     }
 
-    public static Werkingsgebied[] All =
-    [
-        new("BE", "België"),
-        new("BE1", "Brussels Gewest"),
-        new("BE2", "Vlaams Gewest"),
-        new("BE21", "Provincie Antwerpen"),
-        new("BE22", "Provincie Limburg"),
-        new("BE25", "Provincie West-Vlaanderen"),
-        new("BE212", "Arrondissement Machelen"),
-        new("BE213", "Distriuct Turnhout"),
-        new("BE255", "District Oostende"),
-        new("BE25535002", "Bredene"),
-    ];
+    public static Werkingsgebied[] All { get; private set; }
 }
