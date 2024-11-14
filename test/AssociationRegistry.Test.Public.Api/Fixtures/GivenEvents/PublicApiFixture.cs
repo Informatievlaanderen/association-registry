@@ -137,9 +137,8 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
             async () =>
             {
                 await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+                await ElasticClient.Indices.RefreshAsync(Indices.All);
             });
-
-        await ElasticClient.Indices.RefreshAsync(Indices.All);
     }
 
     private static void ConfigureElasticClient(IElasticClient client, string verenigingenIndexName)
