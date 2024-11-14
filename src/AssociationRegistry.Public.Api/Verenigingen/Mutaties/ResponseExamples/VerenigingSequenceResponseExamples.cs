@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Mutaties;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.Mutaties.ResponseExamples;
 
 using Swashbuckle.AspNetCore.Filters;
 

@@ -80,6 +80,7 @@
     <EmbeddedResource Include="Contexten\publiek\detail-all-vereniging-context.json" />
     <EmbeddedResource Include="Contexten\publiek\detail-vereniging-context.json" />
     <EmbeddedResource Include="Contexten\publiek\zoek-verenigingen-context.json" />
+    <EmbeddedResource Include="Resources\nuts-lau-codes.csv" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
