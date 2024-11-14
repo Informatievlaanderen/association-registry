@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseExamples;
 
-using Infrastructure.ConfigurationBindings;
-using JsonLdContext;
-using ResponseModels;
-using Schema.Constants;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Public.Schema.Constants;
+using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;

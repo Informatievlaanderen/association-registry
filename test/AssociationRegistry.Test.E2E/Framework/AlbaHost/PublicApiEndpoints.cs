@@ -4,6 +4,7 @@ using Alba;
 using Newtonsoft.Json.Linq;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using Public.Api.Verenigingen.Werkingsgebieden.ResponseModels;
 
 public static class PublicApiEndpoints
 {
@@ -12,6 +13,9 @@ public static class PublicApiEndpoints
 
     public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
         => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+
+    public static WerkingsgebiedenResponse GetWerkingsgebieden(this IAlbaHost source)
+        => source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden").GetAwaiter().GetResult()!;
 
     public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {

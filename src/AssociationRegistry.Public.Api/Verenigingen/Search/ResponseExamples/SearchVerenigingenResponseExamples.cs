@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Public.Api.Verenigingen.Search.Examples;
+namespace AssociationRegistry.Public.Api.Verenigingen.Search.ResponseExamples;
 
-using Constants;
-using Infrastructure.ConfigurationBindings;
-using JsonLdContext;
-using ResponseModels;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Constants;
+using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
+using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using Vereniging;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;

@@ -9,6 +9,7 @@ using Infrastructure.Extensions;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
+using ResponseExamples;
 using ResponseModels;
 using Schema.Detail;
 using Swashbuckle.AspNetCore.Filters;

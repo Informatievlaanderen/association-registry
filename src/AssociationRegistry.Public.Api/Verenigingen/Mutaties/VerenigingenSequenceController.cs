@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
 using Marten;
 using Microsoft.AspNetCore.Mvc;
+using ResponseExamples;
 using Schema.Sequence;
 using Swashbuckle.AspNetCore.Filters;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
