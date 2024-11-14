@@ -110,9 +110,7 @@ public record VerenigingState : IHasVersion
                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
                       .ToArray()),
             Werkingsgebieden = Werkingsgebieden.Hydrate(
-                @event.Werkingsgebieden?.Select(
-                           h => Werkingsgebied.Create(h.Code))
-                      .ToArray() ?? []),
+                @event.Werkingsgebieden?.Select(wg => Werkingsgebied.Hydrate(wg.Code, wg.Naam)).ToArray() ?? []),
         };
 
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)

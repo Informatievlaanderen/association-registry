@@ -29,7 +29,6 @@ public class NutsLauReader
     }
 }
 
-
 public record NutsLauLine
 {
     [Index(0)] public string Nuts { get; init; } = string.Empty;
