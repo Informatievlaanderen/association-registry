@@ -46,7 +46,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
-        var response = await _adminApiClient.Search("dena");
+        var response = await _adminApiClient.Search("stcommittee");
         var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
@@ -55,7 +55,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
-        var query = "*dena*";
+        var query = "*stcommitte*";
         var response = await _adminApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 
@@ -72,7 +72,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async Task? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
-        var query = "oudenaarde";
+        var query = "Feestcommittee";
         var response = await _adminApiClient.Search(query);
         var content = await response.Content.ReadAsStringAsync();
 

@@ -27,9 +27,9 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode,
-            Naam: "Feestcommittee Oudenaarde",
+            Naam: fixture.Create<string>(),
             KorteNaam: "FOud",
-            KorteBeschrijving: "Het feestcommittee van Oudenaarde",
+            KorteBeschrijving: fixture.Create<string>(),
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
             new Registratiedata.Doelgroep(Minimumleeftijd: 18, Maximumleeftijd: 90),
             IsUitgeschrevenUitPubliekeDatastroom: _isUitgeschreven,
