@@ -10,8 +10,8 @@ using Xunit.Categories;
 public class Given_A_Known_Code
 {
     [Theory]
+    [InlineData("BE2")]
     [InlineData("BE25")]
-    [InlineData("BE255")]
     [InlineData("BE25535002")]
     public void Then_identical_codes_with_correct_casing_return_a_werkingsgebied(string code)
     {
@@ -23,7 +23,6 @@ public class Given_A_Known_Code
     }
 
     [Theory]
-    [InlineData("be")]
     [InlineData("be2")]
     [InlineData("be25")]
     public void Then_identical_codes_with_incorrect_casing_return_a_werkingsgebied(string code)

@@ -34,7 +34,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
                 Maximumleeftijd = 149,
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            Werkingsgebieden = ["BE"],
+            Werkingsgebieden = ["BE2"],
             Roepnaam = "Roep!",
         };
 
