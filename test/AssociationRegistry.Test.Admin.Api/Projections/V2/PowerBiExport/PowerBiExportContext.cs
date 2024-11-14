@@ -64,16 +64,14 @@ public class PowerBiExportContext : IAsyncLifetime
             b.UseEnvironment("Development");
             b.UseContentRoot(Directory.GetCurrentDirectory());
             b.UseConfiguration(configuration);
+
             b.ConfigureServices((context, services) =>
               {
                   context.HostingEnvironment.EnvironmentName = "Development";
                   services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
               })
              .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema)
-             .UseSetting(key: $"GrarOptions:Sqs:AddressMatchQueueName", value: schema.ToLowerInvariant())
-             .UseSetting(key: $"ElasticClientOptions:Indices:Verenigingen", value: _dbName)
-             .UseSetting(key: "PostgreSQLOptions:Database", _dbName);
+             .UseSetting(key: $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", value: schema);
         };
     }
 
