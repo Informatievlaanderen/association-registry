@@ -147,11 +147,12 @@ public static class AutoFixtureCustomizations
 
     // public static int VCodeNumber
 
+    private static int vCode = 10000;
     private static void CustomizeVCode(this IFixture fixture)
     {
         fixture.Customize<VCode>(
             customization => customization.FromFactory(
-                generator => VCode.Create(generator.Next(minValue: 10000, maxValue: 100000))));
+                generator => VCode.Create(++vCode)));
     }
 
     private static IPostprocessComposer<T> FromFactory<T>(this IFactoryComposer<T> composer, Func<Random, T> factory)
