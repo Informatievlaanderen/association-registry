@@ -1,3 +1,4 @@
+import os
 import requests
 import csv
 import logging
@@ -5,9 +6,14 @@ import logging
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def fetch_postal_data(filename="postal_data.csv"):
+def fetch_postal_data(filename="../../src/AssociationRegistry.Public.Api/Resources/nuts-lau-codes.csv"):
     base_url = "https://api.basisregisters.staging-vlaanderen.be/v2/postinfo"
-    is_header_written = False  # Track if CSV header has been written
+
+    # Ensure the directory exists
+    os.makedirs(os.path.dirname(filename), exist_ok=True)
+
+    # Clear the file at the start of the script to overwrite it
+    open(filename, "w").close()
 
     # Loop through all pages
     url = base_url
@@ -26,8 +32,7 @@ def fetch_postal_data(filename="postal_data.csv"):
                 postal_info_page.append(postal_data)
 
         # Save the current page to CSV
-        save_to_csv(postal_info_page, filename, write_header=not is_header_written)
-        is_header_written = True  # Header has been written after the first page
+        save_to_csv(postal_info_page, filename, write_header=(page == 1))
 
         # Get the next page URL, if available
         url = response_data.get("volgende")
@@ -63,7 +68,7 @@ def save_to_csv(postal_data, filename, write_header=False):
     """Save a batch of postal data to a CSV file."""
     logging.info(f"Saving data to {filename}")
     fieldnames = ["postal_code", "nuts3_objectid"]
-    mode = "a" if write_header else "a"  # Always append after the first header write
+    mode = "w" if write_header else "a"  # Overwrite for the first write, append for subsequent writes
 
     with open(filename, mode=mode, newline="") as file:
         writer = csv.DictWriter(file, fieldnames=fieldnames)

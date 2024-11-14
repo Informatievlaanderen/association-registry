@@ -6,10 +6,7 @@ public class Werkingsgebied
 {
     static Werkingsgebied()
     {
-        All = NutsLauReader
-             .Read()
-             .Select(x => new Werkingsgebied($"{x.Nuts}{x.Lau}", x.Gemeente))
-             .Union(new[]
+        All = new[]
               {
                   new Werkingsgebied("BE1", "Brussels Hoofdstedelijk Gewest"),
                   new Werkingsgebied("BE2", "Vlaams Gewest"),
@@ -18,7 +15,10 @@ public class Werkingsgebied
                   new Werkingsgebied("BE23", "Provincie Oost-Vlaanderen"),
                   new Werkingsgebied("BE24", "Provincie Vlaams-Brabant"),
                   new Werkingsgebied("BE25", "Provincie West-Vlaanderen"),
-              })
+              }
+             .Union(NutsLauReader
+                   .Read()
+                   .Select(x => new Werkingsgebied($"{x.Nuts}{x.Lau}", x.Gemeente)))
              .ToArray();
     }
 

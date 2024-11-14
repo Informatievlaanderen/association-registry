@@ -1,8 +1,7 @@
-﻿namespace AssociationRegistry.Test.NutsLauLoader;
+﻿namespace AssociationRegistry.Test.Werkingsgebied.NutsLauLoader;
 
-using CsvHelper.Configuration.Attributes;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
-using Vereniging;
 using Xunit;
 
 public class NutsLauLoaderTests
