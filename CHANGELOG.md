@@ -1,3 +1,10 @@
+# [8.176.0](https://github.com/informatievlaanderen/association-registry/compare/v8.175.2...v8.176.0) (2024-11-14)
+
+
+### Features
+
+* or-2553 add script to fetch nuts lau codes for postal codes ([a90c238](https://github.com/informatievlaanderen/association-registry/commit/a90c238a9b462cbb4ace78a7b39853f5eda4643c))
+
 ## [8.175.2](https://github.com/informatievlaanderen/association-registry/compare/v8.175.1...v8.175.2) (2024-11-13)
 
 
