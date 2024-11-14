@@ -44,6 +44,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Remove="Resources\nuts-lau-codes.csv" />
+    <EmbeddedResource Include="Resources\nuts-lau-codes.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
