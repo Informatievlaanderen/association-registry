@@ -19,7 +19,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
 
         FeitelijkeVerenigingWerdGeregistreerd = new FeitelijkeVerenigingWerdGeregistreerd(
             VCode: VCode,
-            Naam: "Feestcommittee Oudenaarde",
+            Naam: "Feestcommittee Tralalala",
             KorteNaam: "FOud",
             KorteBeschrijving: "Het feestcommittee van Oudenaarde",
             Startdatum: DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
