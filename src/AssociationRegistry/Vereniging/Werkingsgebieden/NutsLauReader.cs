@@ -11,7 +11,7 @@ public class NutsLauReader
 {
     public static IReadOnlyCollection<NutsLauLine> Read()
     {
-        var resourceName = "AssociationRegistry.Resources.nuts-lau-codes.csv";
+        var resourceName = "AssociationRegistry.Vereniging.Werkingsgebieden.Werkingsgebieden.csv";
         var assembly = typeof(Vereniging).Assembly;
         var stream =  assembly.GetResource(resourceName);
 

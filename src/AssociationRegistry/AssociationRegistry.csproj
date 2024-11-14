@@ -48,6 +48,10 @@
     <EmbeddedResource Include="Resources\nuts-lau-codes.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
+    <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv" />
+    <EmbeddedResource Include="Vereniging\Werkingsgebieden\Werkingsgebieden.csv">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
