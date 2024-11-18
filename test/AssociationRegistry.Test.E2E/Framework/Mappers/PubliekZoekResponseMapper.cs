@@ -181,14 +181,14 @@ public class PubliekZoekResponseMapper
             },
         ];
 
-    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode)
+    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, int lidmaatschapId)
         =>
         [
             new Lidmaatschap()
             {
-                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
-                //     vCode, "1"),
-                // type = JsonLdType.Lidmaatschap.Type,
+                id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                    vCode, lidmaatschapId.ToString()),
+                type = JsonLdType.Lidmaatschap.Type,
                 AndereVereniging = vCode,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
