@@ -45,5 +45,28 @@
   "postcode": "locn:postCode",
   "gemeente": "address:gemeentenaam",
   "sleutels": "adms:identifier",
-  "nummer": "generiek:lokaleIdentificator"
+  "nummer": "generiek:lokaleIdentificator",
+  "lidmaatschappen": {
+    "@id": "org:memberOf",
+    "@container": "@set",
+    "@context": {
+      "@version": 1.1,
+      "@protected": true,
+      "andereVereniging": {
+        "@id": "org:organization",
+        "@type": "@id"
+      },
+      "naam": "skos:prefLabel",
+      "identificatie": "dc:title",
+      "beschrijving": "dc:description",
+      "van": {
+        "@id": "dc:startDate",
+        "@type": "xsd:date"
+      },
+      "tot": {
+        "@id": "dc:endDate",
+        "@type": "xsd:date"
+      }
+    }
+  }
 }
