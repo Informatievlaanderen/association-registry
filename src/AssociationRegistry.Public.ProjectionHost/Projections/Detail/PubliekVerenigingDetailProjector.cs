@@ -4,6 +4,7 @@ using Events;
 using Formats;
 using Framework;
 using Infrastructure.Extensions;
+using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
 using Schema.Constants;
@@ -228,23 +229,21 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Contactgegevens = document.Contactgegevens
-                                           .Append(
-                                                new PubliekVerenigingDetailDocument.Contactgegeven
-                                                {
-                                                    JsonLdMetadata = new JsonLdMetadata(
-                                                        JsonLdType.Contactgegeven.CreateWithIdValues(
-                                                            contactgegevenWerdToegevoegd.StreamKey!,
-                                                            contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
-                                                        JsonLdType.Contactgegeven.Type),
-                                                    ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
-                                                    Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
-                                                    Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
-                                                    Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
-                                                    IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
-                                                })
-                                           .OrderBy(c => c.ContactgegevenId)
-                                           .ToArray();
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Contactgegeven
+                                              {
+                                                  JsonLdMetadata = new JsonLdMetadata(
+                                                      JsonLdType.Contactgegeven.CreateWithIdValues(
+                                                          contactgegevenWerdToegevoegd.StreamKey!,
+                                                          contactgegevenWerdToegevoegd.Data.ContactgegevenId.ToString()),
+                                                      JsonLdType.Contactgegeven.Type),
+                                                  ContactgegevenId = contactgegevenWerdToegevoegd.Data.ContactgegevenId,
+                                                  Contactgegeventype = contactgegevenWerdToegevoegd.Data.Contactgegeventype,
+                                                  Waarde = contactgegevenWerdToegevoegd.Data.Waarde,
+                                                  Beschrijving = contactgegevenWerdToegevoegd.Data.Beschrijving,
+                                                  IsPrimair = contactgegevenWerdToegevoegd.Data.IsPrimair,
+                                              })
+                                             .OrderBy(c => c.ContactgegevenId)
+                                             .ToArray();
     }
 
     public static void Apply(IEvent<ContactgegevenWerdGewijzigd> contactgegevenWerdGewijzigd, PubliekVerenigingDetailDocument document)
@@ -279,10 +278,9 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<LocatieWerdToegevoegd> locatieWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Locaties = document.Locaties
-                                    .Append(MapLocatie(document.VCode, locatieWerdToegevoegd.Data.Locatie))
-                                    .OrderBy(l => l.LocatieId)
-                                    .ToArray();
+        document.Locaties = Enumerable.Append(document.Locaties, MapLocatie(document.VCode, locatieWerdToegevoegd.Data.Locatie))
+                                      .OrderBy(l => l.LocatieId)
+                                      .ToArray();
     }
 
     public static void Apply(IEvent<LocatieWerdGewijzigd> locatieWerdGewijzigd, PubliekVerenigingDetailDocument document)
@@ -352,10 +350,9 @@ public static class PubliekVerenigingDetailProjector
         IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
         PubliekVerenigingDetailDocument document)
     {
-        document.Locaties = document.Locaties
-                                    .Append(MapLocatie(document.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
-                                    .OrderBy(l => l.LocatieId)
-                                    .ToArray();
+        document.Locaties = Enumerable.Append(document.Locaties, MapLocatie(document.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
+                                      .OrderBy(l => l.LocatieId)
+                                      .ToArray();
     }
 
     public static void Apply(
@@ -400,22 +397,20 @@ public static class PubliekVerenigingDetailProjector
         IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKBO,
         PubliekVerenigingDetailDocument document)
     {
-        document.Contactgegevens = document.Contactgegevens
-                                           .Append(
-                                                new PubliekVerenigingDetailDocument.Contactgegeven
-                                                {
-                                                    JsonLdMetadata = new JsonLdMetadata(
-                                                        JsonLdType.Contactgegeven.CreateWithIdValues(
-                                                            contactgegevenWerdOvergenomenUitKBO.StreamKey!,
-                                                            contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId.ToString()),
-                                                        JsonLdType.Contactgegeven.Type),
-                                                    ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
-                                                    Contactgegeventype = contactgegevenWerdOvergenomenUitKBO.Data.Contactgegeventype,
-                                                    Beschrijving = string.Empty,
-                                                    Waarde = contactgegevenWerdOvergenomenUitKBO.Data.Waarde,
-                                                })
-                                           .OrderBy(c => c.ContactgegevenId)
-                                           .ToArray();
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Contactgegeven
+                                              {
+                                                  JsonLdMetadata = new JsonLdMetadata(
+                                                      JsonLdType.Contactgegeven.CreateWithIdValues(
+                                                          contactgegevenWerdOvergenomenUitKBO.StreamKey!,
+                                                          contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId.ToString()),
+                                                      JsonLdType.Contactgegeven.Type),
+                                                  ContactgegevenId = contactgegevenWerdOvergenomenUitKBO.Data.ContactgegevenId,
+                                                  Contactgegeventype = contactgegevenWerdOvergenomenUitKBO.Data.Contactgegeventype,
+                                                  Beschrijving = string.Empty,
+                                                  Waarde = contactgegevenWerdOvergenomenUitKBO.Data.Waarde,
+                                              })
+                                             .OrderBy(c => c.ContactgegevenId)
+                                             .ToArray();
     }
 
     public static void Apply(
@@ -711,20 +706,21 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Lidmaatschappen = document.Lidmaatschappen
-                                           .Append(MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
-                                           .OrderBy(l => l.LidmaatschapId)
-                                           .ToArray();
+        document.Lidmaatschappen = Enumerable.Append(document.Lidmaatschappen, MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
+                                             .OrderBy(l => l.LidmaatschapId)
+                                             .ToArray();
     }
 
     private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap)
-        => new(null,
-               lidmaatschap.LidmaatschapId,
-               lidmaatschap.AndereVereniging,
-               lidmaatschap.DatumVan,
-               lidmaatschap.DatumTot,
-               lidmaatschap.Identificatie,
-               lidmaatschap.Beschrijving);
+        => new( new JsonLdMetadata(
+                    JsonLdType.Lidmaatschap.CreateWithIdValues(lidmaatschap.AndereVereniging, lidmaatschap.LidmaatschapId.ToString()),
+                    JsonLdType.Lidmaatschap.Type),
+                lidmaatschap.LidmaatschapId,
+                lidmaatschap.AndereVereniging,
+                lidmaatschap.DatumVan,
+                lidmaatschap.DatumTot,
+                lidmaatschap.Identificatie,
+                lidmaatschap.Beschrijving);
 
     public static void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, PubliekVerenigingDetailDocument document)
     {
