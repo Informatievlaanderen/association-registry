@@ -1,3 +1,18 @@
+# [8.177.0](https://github.com/informatievlaanderen/association-registry/compare/v8.176.0...v8.177.0) (2024-11-18)
+
+
+### Bug Fixes
+
+* or-2553 add static list of NUTS0, NUTS1, NUTS2 codes ([c96e911](https://github.com/informatievlaanderen/association-registry/commit/c96e91168c6d87224d639906da5e857cef7cb9c1))
+
+
+### Features
+
+* or-2453 add endpoint for supported werkingsgebieden ([283e275](https://github.com/informatievlaanderen/association-registry/commit/283e2751ba9ed74157b6cfae0a6e51467067a166))
+* or-2553 add nuts lau reader for werkingsgebieden ([9bff510](https://github.com/informatievlaanderen/association-registry/commit/9bff510931115aa7acf41c278868ddf4c9b84a7d))
+* or-2553 change order of possible werkingsgebieden ([8bb45a6](https://github.com/informatievlaanderen/association-registry/commit/8bb45a6fed076a410f93d9c1613af98e3e1add42))
+* or-2560 add lidmaatschappen to json-ld context ([e26656f](https://github.com/informatievlaanderen/association-registry/commit/e26656f8f572c7050dd1b49b4b5fe7e432ad7d14))
+
 # [8.176.0](https://github.com/informatievlaanderen/association-registry/compare/v8.175.2...v8.176.0) (2024-11-14)
 
 
