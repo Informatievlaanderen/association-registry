@@ -21,7 +21,6 @@
   "hoofdactiviteitenVerenigingsloket": "regorg:orgActivity",
   "werkingsgebieden": "dc:spatial",
   "wg": "http://data.vlaanderen.be/id/concept/werkingsgebied/",
-  "regorg": "http://www.w3.org/ns/regorg#",
   "cont": "http://data.lblod.info/id/contact-punten/",
   "org": "http://www.w3.org/ns/org#",
   "adressen": "http://data.lblod.info/id/adressen/",
@@ -63,5 +62,29 @@
   },
   "nummer": "generiek:lokaleIdentificator",
   "voornaam": "foaf:givenName",
-  "achternaam": "foaf:familyName"
+  "achternaam": "foaf:familyName",
+  "lidmaatschappen": {
+    "@id": "org:memberOf",
+    "@container": "@set",
+    "@context": {
+      "@version": 1.1,
+      "@protected": true,
+      "lidmaatschapId": "dc:identifier",
+      "andereVereniging": {
+        "@id": "org:organization",
+        "@type": "@id"
+      },
+      "naam": "skos:prefLabel",
+      "identificatie": "dc:title",
+      "beschrijving": "dc:description",
+      "van": {
+        "@id": "dc:startDate",
+        "@type": "xsd:date"
+      },
+      "tot": {
+        "@id": "dc:endDate",
+        "@type": "xsd:date"
+      }
+    }
+  }
 }
