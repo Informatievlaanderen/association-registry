@@ -21,6 +21,8 @@
   "hoofdactiviteitenVerenigingsloket": "regorg:orgActivity",
   "werkingsgebieden": "dc:spatial",
   "wg": "http://data.vlaanderen.be/id/concept/werkingsgebied/",
+  "lidmaatschappen": "org:memberof",
+  "lidmaatschap": "org:Memberschip",
   "regorg": "http://www.w3.org/ns/regorg#",
   "cont": "http://data.lblod.info/id/contact-punten/",
   "org": "http://www.w3.org/ns/org#",

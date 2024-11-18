@@ -139,7 +139,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 [
                     new Lidmaatschap
                     {
-                        LidmaatschapId = 1,
+                        id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001111"),
+                        type = JsonLdType.Lidmaatschap.Type,
                         Beschrijving = "Een lidmaatschap",
                         Naam = "De andere vereniging",
                         Van = "2002-11-15",

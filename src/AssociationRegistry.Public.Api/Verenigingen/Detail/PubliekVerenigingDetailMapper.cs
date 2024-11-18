@@ -79,13 +79,15 @@ public static class PubliekVerenigingDetailMapper
     private static Lidmaatschap Map(PubliekVerenigingDetailDocument.Lidmaatschap l, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper)
         => new()
         {
+            id = l.JsonLdMetadata.Id,
+            type = l.JsonLdMetadata.Type,
             Beschrijving = l.Beschrijving,
             Naam = namenVoorLidmaatschapMapper.MapNaamVoorLidmaatschap(l.AndereVereniging),
             AndereVereniging = l.AndereVereniging,
             Identificatie = l.Identificatie,
             Van = l.Van.FormatAsBelgianDate(),
             Tot = l.Tot.FormatAsBelgianDate(),
-            LidmaatschapId = l.LidmaatschapId,
+            //LidmaatschapId = l.LidmaatschapId,
         };
 
     private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)

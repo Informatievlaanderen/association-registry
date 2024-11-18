@@ -2,6 +2,7 @@
 
 using Formats;
 using Framework.AlbaHost;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.ProjectionHost.Infrastructure.Extensions;
@@ -27,7 +28,9 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
 
         var expected = new Lidmaatschap
         {
-            LidmaatschapId = 1,
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Request.AndereVereniging),
+            type = JsonLdType.Lidmaatschap.Type,
+            //LidmaatschapId = 1,
             AndereVereniging = _context.Request.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
             Van = _context.Request.Van.FormatAsBelgianDate(),
@@ -36,7 +39,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
-        Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == 1)
+        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Request.AndereVereniging))
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 

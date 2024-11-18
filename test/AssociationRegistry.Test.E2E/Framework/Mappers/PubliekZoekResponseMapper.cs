@@ -3,7 +3,6 @@
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -171,9 +170,9 @@ public class PubliekZoekResponseMapper
         [
             new Lidmaatschap()
             {
-                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
-                //     vCode, "1"),
-                // type = JsonLdType.Lidmaatschap.Type,
+                id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                    vCode, "1"),
+                type = JsonLdType.Lidmaatschap.Type,
                 AndereVereniging = vCode,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
