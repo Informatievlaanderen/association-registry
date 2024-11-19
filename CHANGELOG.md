@@ -1,3 +1,10 @@
+## [8.178.1](https://github.com/informatievlaanderen/association-registry/compare/v8.178.0...v8.178.1) (2024-11-19)
+
+
+### Bug Fixes
+
+* or-2453 remove json-ld properties on werkingsgebied response models ([3991d56](https://github.com/informatievlaanderen/association-registry/commit/3991d5604a3ab87d9115fd0300e013bffe4ddbe4))
+
 # [8.178.0](https://github.com/informatievlaanderen/association-registry/compare/v8.177.0...v8.178.0) (2024-11-19)
 
 
