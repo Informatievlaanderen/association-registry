@@ -36,7 +36,7 @@ public record VerenigingState : IHasVersion
     public HoofdactiviteitenVerenigingsloket HoofdactiviteitenVerenigingsloket { get; private init; } =
         HoofdactiviteitenVerenigingsloket.Empty;
 
-    public Werkingsgebieden Werkingsgebieden { get; private init; } = Werkingsgebieden.Empty;
+    public Werkingsgebieden Werkingsgebieden { get; private init; } = Werkingsgebieden.NietBepaald;
     public bool IsGestopt => Einddatum is not null;
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
