@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.ProjectionHost.Infrastructure.Extensions;
 using Formats;
 using Framework.AlbaHost;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
@@ -26,6 +27,8 @@ public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschap
 
         var expected = new Lidmaatschap
         {
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
+            type = JsonLdType.Lidmaatschap.Type,
             LidmaatschapId = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
             AndereVereniging = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,

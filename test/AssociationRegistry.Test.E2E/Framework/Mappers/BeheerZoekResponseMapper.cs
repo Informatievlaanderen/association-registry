@@ -186,9 +186,9 @@ public class BeheerZoekResponseMapper
         [
             new Lidmaatschap()
             {
-                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
-                //     vCode, "1"),
-                // type = JsonLdType.Lidmaatschap.Type,
+                id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                    vCode, "1"),
+                type = JsonLdType.Lidmaatschap.Type,
                 AndereVereniging = request.AndereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
@@ -197,15 +197,15 @@ public class BeheerZoekResponseMapper
             },
         ];
 
-    public static Lidmaatschap[] MapRequestLidmaatschappen(WijzigLidmaatschapRequest request, string vCode)
+    public static Lidmaatschap[] MapRequestLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, string andereVereniging, int lidmaatschapId)
         =>
         [
             new Lidmaatschap()
             {
-                // id = JsonLdType.Lidmaatschap.CreateWithIdValues(
-                //     vCode, "1"),
-                // type = JsonLdType.Lidmaatschap.Type,
-                AndereVereniging = vCode,
+                id = JsonLdType.Lidmaatschap.CreateWithIdValues(
+                    vCode, lidmaatschapId.ToString()),
+                type = JsonLdType.Lidmaatschap.Type,
+                AndereVereniging = andereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
                 Van = request.Van!.Value.FormatAsBelgianDate(),

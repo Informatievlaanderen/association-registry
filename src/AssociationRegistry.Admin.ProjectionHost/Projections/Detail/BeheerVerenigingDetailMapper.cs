@@ -19,7 +19,7 @@ using Werkingsgebied = Schema.Detail.Werkingsgebied;
 public class BeheerVerenigingDetailMapper
 {
     public static Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lid, string vCode)
-        => new(CreateJsonLdMetadata(JsonLdType.Locatie, vCode, lid.LidmaatschapId.ToString()),
+        => new(CreateJsonLdMetadata(JsonLdType.Lidmaatschap, vCode, lid.LidmaatschapId.ToString()),
                lid.LidmaatschapId,
                lid.AndereVereniging,
                lid.DatumVan,

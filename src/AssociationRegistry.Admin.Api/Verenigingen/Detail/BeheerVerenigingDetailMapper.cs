@@ -95,6 +95,8 @@ public class BeheerVerenigingDetailMapper
     )
         => new()
         {
+            id = lidmaatschap.JsonLdMetadata.Id,
+            type = lidmaatschap.JsonLdMetadata.Type,
             AndereVereniging = lidmaatschap.AndereVereniging,
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,

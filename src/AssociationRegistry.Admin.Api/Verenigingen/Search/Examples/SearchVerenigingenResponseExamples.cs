@@ -87,6 +87,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Lidmaatschap()
                         {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
                             AndereVereniging = "V0001002",
                             Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
                             Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
@@ -176,6 +178,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                     {
                         new Lidmaatschap()
                         {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
                             AndereVereniging = "V0001002",
                             Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
                             Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
@@ -184,6 +188,8 @@ public class SearchVerenigingenResponseExamples : IExamplesProvider<SearchVereni
                         },
                         new Lidmaatschap()
                         {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "2"),
+                            type = JsonLdType.Lidmaatschap.Type,
                             AndereVereniging = "V0001003",
                             Van = DateOnly.FromDateTime(DateTime.Today.AddMonths(-5)).ToString(WellknownFormats.DateOnly),
                             Tot = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)).ToString(WellknownFormats.DateOnly),

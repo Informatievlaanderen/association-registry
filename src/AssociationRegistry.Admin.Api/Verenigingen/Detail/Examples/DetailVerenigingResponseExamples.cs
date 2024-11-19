@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
+using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using JsonLdContext;
 using NodaTime;
@@ -178,6 +179,8 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                     [
                         new Lidmaatschap
                         {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
                             LidmaatschapId = 1,
                             Beschrijving = "Een lidmaatschap",
                             Naam = "De andere vereniging",
@@ -348,6 +351,33 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
+                    Lidmaatschappen = new []
+                    {
+                        new Lidmaatschap()
+                        {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
+                            LidmaatschapId = 1,
+                            AndereVereniging = "V0001002",
+                            Naam = "De andere vereniging",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Gewoon een lid",
+                            Identificatie = "L1234",
+                        },
+                        new Lidmaatschap()
+                        {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "2"),
+                            type = JsonLdType.Lidmaatschap.Type,
+                            LidmaatschapId = 2,
+                            Naam = "Samen sterk",
+                            AndereVereniging = "V0001003",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddMonths(-5)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Tijdelijk lidmaatschap",
+                            Identificatie = "L4321",
+                        },
+                    },
                     Bron = Bron.KBO.Waarde,
                 },
                 Metadata = new Metadata
