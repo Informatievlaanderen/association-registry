@@ -706,14 +706,14 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Lidmaatschappen = Enumerable.Append(document.Lidmaatschappen, MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap))
+        document.Lidmaatschappen = Enumerable.Append(document.Lidmaatschappen, MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap, document.VCode))
                                              .OrderBy(l => l.LidmaatschapId)
                                              .ToArray();
     }
 
-    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap)
+    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new( new JsonLdMetadata(
-                    JsonLdType.Lidmaatschap.CreateWithIdValues(lidmaatschap.AndereVereniging, lidmaatschap.LidmaatschapId.ToString()),
+                    JsonLdType.Lidmaatschap.CreateWithIdValues(vCode, lidmaatschap.LidmaatschapId.ToString()),
                     JsonLdType.Lidmaatschap.Type),
                 lidmaatschap.LidmaatschapId,
                 lidmaatschap.AndereVereniging,
@@ -726,7 +726,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Lidmaatschappen = document.Lidmaatschappen
                                            .Where(l => l.LidmaatschapId != lidmaatschapWerdGewijzigd.Data.Lidmaatschap.LidmaatschapId)
-                                           .Append(MapLidmaatschap(lidmaatschapWerdGewijzigd.Data.Lidmaatschap))
+                                           .Append(MapLidmaatschap(lidmaatschapWerdGewijzigd.Data.Lidmaatschap, document.VCode))
                                            .OrderBy(l => l.LidmaatschapId)
                                            .ToArray();
     }

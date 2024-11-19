@@ -28,7 +28,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
 
         var expected = new Lidmaatschap
         {
-            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Request.AndereVereniging, "1"),
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, "1"),
             type = JsonLdType.Lidmaatschap.Type,
             //LidmaatschapId = 1,
             AndereVereniging = _context.Request.AndereVereniging,
@@ -39,7 +39,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLid
             Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
-        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Request.AndereVereniging, "1"))
+        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, "1"))
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 
