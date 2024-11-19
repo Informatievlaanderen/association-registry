@@ -11,7 +11,7 @@ using Xunit.Categories;
 public class Has_Duplicates : ValidatorTest
 {
     [Theory]
-    [InlineData("BE2", "BE2")]
+    [InlineData("BE21", "BE21")]
     [InlineData("BE25", "BE25")]
     public void Has_a_validation_error_for_werkingsgebieden(string code1, string code2)
     {
