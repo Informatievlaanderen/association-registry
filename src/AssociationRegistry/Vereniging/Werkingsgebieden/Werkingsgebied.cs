@@ -8,8 +8,7 @@ public class Werkingsgebied
     {
         All = new[]
               {
-                  new Werkingsgebied("BE1", "Brussels Hoofdstedelijk Gewest"),
-                  new Werkingsgebied("BE2", "Vlaams Gewest"),
+                  new Werkingsgebied("NVT", "Niet van toepassing"),
                   new Werkingsgebied("BE21", "Provincie Antwerpen"),
                   new Werkingsgebied("BE22", "Provincie Limburg"),
                   new Werkingsgebied("BE23", "Provincie Oost-Vlaanderen"),
@@ -41,5 +40,5 @@ public class Werkingsgebied
     public static Werkingsgebied Hydrate(string code, string naam)
         => new Werkingsgebied(code, naam);
 
-    public static Werkingsgebied[] All { get; private set; }
+    public static Werkingsgebied[] All { get; }
 }

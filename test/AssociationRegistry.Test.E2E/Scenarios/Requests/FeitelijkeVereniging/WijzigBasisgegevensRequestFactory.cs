@@ -40,7 +40,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
                 Maximumleeftijd = 149,
             },
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            Werkingsgebieden = ["BE2"],
+            Werkingsgebieden = ["BE21"],
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

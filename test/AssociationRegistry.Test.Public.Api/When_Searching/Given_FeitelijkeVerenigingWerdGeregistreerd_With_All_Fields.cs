@@ -116,8 +116,8 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     }
 
     [Theory]
-    [InlineData("BE")]
-    [InlineData("BE2")]
+    [InlineData("NVT")]
+    [InlineData("BE25")]
     [InlineData("BE255")]
     public async Task? Then_one_vereniging_is_not_retrieved_by_a_another_werkingsgebied(string werkingsgebiedCode)
     {
