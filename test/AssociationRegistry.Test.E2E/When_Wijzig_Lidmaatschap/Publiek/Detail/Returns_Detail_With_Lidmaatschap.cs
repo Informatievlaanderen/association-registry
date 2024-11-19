@@ -28,9 +28,8 @@ public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschap
 
         var expected = new Lidmaatschap
         {
-            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
             type = JsonLdType.Lidmaatschap.Type,
-            //LidmaatschapId = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
             AndereVereniging = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
             Beschrijving = _context.Request.Beschrijving,
             Van = _context.Request.Van.Value.FormatAsBelgianDate(),
@@ -39,9 +38,7 @@ public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschap
             Naam = _context.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
-        // Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId)
-        //         .ShouldCompare(expected, compareConfig: comparisonConfig);
-        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()))
+        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()))
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 

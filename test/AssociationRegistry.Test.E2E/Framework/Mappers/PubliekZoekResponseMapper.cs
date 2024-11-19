@@ -173,7 +173,7 @@ public class PubliekZoekResponseMapper
                 id = JsonLdType.Lidmaatschap.CreateWithIdValues(
                     vCode, "1"),
                 type = JsonLdType.Lidmaatschap.Type,
-                AndereVereniging = vCode,
+                AndereVereniging = request.AndereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
                 Van = request.Van!.Value.FormatAsBelgianDate(),
@@ -181,7 +181,7 @@ public class PubliekZoekResponseMapper
             },
         ];
 
-    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, int lidmaatschapId)
+    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, string andereVereniging, int lidmaatschapId)
         =>
         [
             new Lidmaatschap()
@@ -189,7 +189,7 @@ public class PubliekZoekResponseMapper
                 id = JsonLdType.Lidmaatschap.CreateWithIdValues(
                     vCode, lidmaatschapId.ToString()),
                 type = JsonLdType.Lidmaatschap.Type,
-                AndereVereniging = vCode,
+                AndereVereniging = andereVereniging,
                 Beschrijving = request.Beschrijving,
                 Identificatie = request.Identificatie,
                 Van = request.Van!.Value.FormatAsBelgianDate(),

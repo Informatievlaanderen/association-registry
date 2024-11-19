@@ -459,7 +459,7 @@ public class PubliekZoekProjectionHandler
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()
         {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Lidmaatschap, lidmaatschap.AndereVereniging, lidmaatschap.LidmaatschapId.ToString()),
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Lidmaatschap, vCode, lidmaatschap.LidmaatschapId.ToString()),
 
             LidmaatschapId = lidmaatschap.LidmaatschapId,
             AndereVereniging = lidmaatschap.AndereVereniging,
