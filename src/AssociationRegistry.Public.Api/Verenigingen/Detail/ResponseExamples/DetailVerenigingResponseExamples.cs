@@ -5,6 +5,7 @@ using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Vereniging;
+using Formats;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
@@ -139,7 +140,7 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                 [
                     new Lidmaatschap
                     {
-                        id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001111"),
+                        id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
                         type = JsonLdType.Lidmaatschap.Type,
                         Beschrijving = "Een lidmaatschap",
                         Naam = "De andere vereniging",
@@ -265,7 +266,20 @@ public class DetailAllVerenigingResponseExamples : IExamplesProvider<PubliekVere
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
-                    Lidmaatschappen = Array.Empty<Lidmaatschap>(),
+                    Lidmaatschappen = new []
+                    {
+                        new Lidmaatschap()
+                        {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
+                            AndereVereniging = "V0001002",
+                            Naam = "De andere vereniging",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Gewoon een lid",
+                            Identificatie = "L1234",
+                        },
+                    },
                 },
                 Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
             },
@@ -368,7 +382,31 @@ public class DetailAllVerenigingResponseExamples : IExamplesProvider<PubliekVere
                         },
                     },
                     Relaties = Array.Empty<Relatie>(),
-                    Lidmaatschappen = Array.Empty<Lidmaatschap>(),
+                    Lidmaatschappen = new []
+                    {
+                        new Lidmaatschap()
+                        {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
+                            type = JsonLdType.Lidmaatschap.Type,
+                            AndereVereniging = "V0001002",
+                            Naam = "De andere vereniging",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddYears(-1)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Gewoon een lid",
+                            Identificatie = "L1234",
+                        },
+                        new Lidmaatschap()
+                        {
+                            id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "2"),
+                            type = JsonLdType.Lidmaatschap.Type,
+                            AndereVereniging = "V0001003",
+                            Naam = "Samen sterk",
+                            Van = DateOnly.FromDateTime(DateTime.Today.AddMonths(-5)).ToString(WellknownFormats.DateOnly),
+                            Tot = DateOnly.FromDateTime(DateTime.Today.AddDays(-5)).ToString(WellknownFormats.DateOnly),
+                            Beschrijving = "Tijdelijk lidmaatschap",
+                            Identificatie = "L4321",
+                        },
+                    },
                 },
                 Metadata = new Metadata { DatumLaatsteAanpassing = "2024-09-09" },
             },
