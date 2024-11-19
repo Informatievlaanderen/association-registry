@@ -1,3 +1,17 @@
+# [8.178.0](https://github.com/informatievlaanderen/association-registry/compare/v8.177.0...v8.178.0) (2024-11-19)
+
+
+### Bug Fixes
+
+* or-2560 use vcode instead of anderevereniging to create json ld id for lidmaatschap ([2971c2d](https://github.com/informatievlaanderen/association-registry/commit/2971c2dc7ed201a377d29f2ba6ee5881327f82a5))
+
+
+### Features
+
+* or-2560 add json ld mapping for lidmaatschap publiek detail ([848b0aa](https://github.com/informatievlaanderen/association-registry/commit/848b0aa00af3b32159666353b1032d754f15ade8))
+* or-2560 add json ld to lidmaatschap beheer detail & zoek ([ab022aa](https://github.com/informatievlaanderen/association-registry/commit/ab022aa620fcb2316048f681dd64aa1406f10406))
+* or-2560 add lidmaatschap json ld for publiek zoeken ([f174d6c](https://github.com/informatievlaanderen/association-registry/commit/f174d6c27bc19a071a2c8995885c57834d29e623))
+
 # [8.177.0](https://github.com/informatievlaanderen/association-registry/compare/v8.176.0...v8.177.0) (2024-11-18)
 
 
