@@ -13,19 +13,23 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Werkingsgebieden_Empty
+public class With_NietBepaald_Werkingsgebieden
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
+    private readonly NietBepaaldWerkingsgebiedenScenario _scenario;
+    private readonly Werkingsgebied[] _werkingsgebieden;
 
-    public With_Werkingsgebieden_Empty()
+    public With_NietBepaald_Werkingsgebieden()
     {
-        _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        _scenario = new NietBepaaldWerkingsgebiedenScenario();
+
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
+        _werkingsgebieden = fixture.CreateMany<Werkingsgebied>().Distinct().ToArray();
 
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Werkingsgebieden: Werkingsgebieden.NietBepaald);
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Werkingsgebieden: _werkingsgebieden);
+
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -41,15 +45,12 @@ public class With_Werkingsgebieden_Empty
         _verenigingRepositoryMock.ShouldHaveLoaded<Vereniging>(_scenario.VCode);
     }
 
-    [Fact]
-    public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Not_Saved()
-    {
-        _verenigingRepositoryMock.ShouldNotHaveSaved<WerkingsgebiedenWerdenGewijzigd>();
-    }
-
+    // TODO: fix state of registreer fv
     [Fact]
     public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(new WerkingsgebiedenWerdenNietBepaald());
+        _verenigingRepositoryMock.ShouldHaveSaved(
+            WerkingsgebiedenWerdenBepaald.With(_werkingsgebieden)
+        );
     }
 }

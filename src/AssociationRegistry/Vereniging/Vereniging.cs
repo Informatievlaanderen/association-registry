@@ -152,10 +152,16 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             return;
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
+        {
             AddEvent(new WerkingsgebiedenWerdenNietBepaald());
+            return;
+        }
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
+        {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing());
+            return;
+        }
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
 
