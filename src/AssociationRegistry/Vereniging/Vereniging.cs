@@ -151,8 +151,18 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (Werkingsgebieden.Equals(werkingsgebieden, State.Werkingsgebieden))
             return;
 
+        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
+            AddEvent(new WerkingsgebiedenWerdenNietBepaald());
+
+        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
+            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing());
+
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
-        AddEvent(WerkingsgebiedenWerdenGewijzigd.With(werkingsgebiedenData.ToArray()));
+
+        AddEvent(State.Werkingsgebieden == Werkingsgebieden.NietBepaald ||
+                 State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
+                     ? WerkingsgebiedenWerdenBepaald.With(werkingsgebiedenData.ToArray())
+                     : WerkingsgebiedenWerdenGewijzigd.With(werkingsgebiedenData.ToArray()));
     }
 
     public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
@@ -223,7 +233,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             postalInformation,
             adresDetailResponse.Gemeente);
 
-        var registratieData = Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+        var registratieData =
+            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,
