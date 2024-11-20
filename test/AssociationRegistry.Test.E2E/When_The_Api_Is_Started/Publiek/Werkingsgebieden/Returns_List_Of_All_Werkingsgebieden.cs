@@ -20,6 +20,6 @@ public class Returns_List_Of_All_Werkingsgebieden
     {
         var result = _apiSetup.PublicApiHost.GetWerkingsgebieden();
         result.Werkingsgebieden.Should().NotBeEmpty();
-        result.Werkingsgebieden.Length.Should().Be(AssociationRegistry.Vereniging.Werkingsgebied.All.Length);
+        result.Werkingsgebieden.Length.Should().Be(AssociationRegistry.Vereniging.Werkingsgebied.AllWithNVT.Length);
     }
 }

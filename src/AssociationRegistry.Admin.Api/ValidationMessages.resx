@@ -47,4 +47,10 @@
   <data name="DatumTotMoetLaterZijnDanDatumVan" xml:space="preserve">
     <value>Een einddatum in een periode moet altijd later zijn dan de startdatum.</value>
   </data>
+  <data name="WerkingsgebiedKanNietGecombineerdWordenMetNVT">
+    <value>Het opgegeven werkingsgebied NVT kan niet gecombineerd worden met andere codes.</value>
+  </data>
+  <data name="WerkingsgebiedMagSlechtsEenmaalVoorkomen">
+    <value>Elke waarde in de werkingsgebieden mag slechts eenmaal voorkomen.</value>
+  </data>
 </root>

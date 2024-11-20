@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestValidating.
     A_WerkingsgebiedenLijst;
 
+using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using FluentValidation.TestHelper;
 using Test.Framework;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
@@ -19,7 +21,7 @@ public class Is_NVT : ValidatorTest
 
         var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest
         {
-            Werkingsgebieden = ["NVT"],
+            Werkingsgebieden = [Werkingsgebied.NietVanToepassing.Code],
         });
 
         result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden);
@@ -32,12 +34,14 @@ public class Is_NVT : ValidatorTest
 
         var result = validator.TestValidate(new WijzigBasisgegevensRequest
         {
-            Werkingsgebieden = ["NVT", "BE25"],
+            Werkingsgebieden =
+            [
+                Werkingsgebied.NietVanToepassing.Code,
+                "BE25",
+            ],
         });
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden)
-              .WithErrorMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.");
-
-        ;
+              .WithErrorMessage(ValidationMessages.WerkingsgebiedKanNietGecombineerdWordenMetNVT);
     }
 }

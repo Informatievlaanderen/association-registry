@@ -40,23 +40,23 @@ public class RegistreerFeitelijkeVerenigingRequest
 
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember]
-    public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = Array.Empty<ToeTeVoegenContactgegeven>();
+    public ToeTeVoegenContactgegeven[] Contactgegevens { get; set; } = [];
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember]
-    public ToeTeVoegenLocatie[] Locaties { get; set; } = Array.Empty<ToeTeVoegenLocatie>();
+    public ToeTeVoegenLocatie[] Locaties { get; set; } = [];
 
     /// <summary>De vertegenwoordigers van deze vereniging</summary>
     [DataMember]
-    public ToeTeVoegenVertegenwoordiger[] Vertegenwoordigers { get; set; } = Array.Empty<ToeTeVoegenVertegenwoordiger>();
+    public ToeTeVoegenVertegenwoordiger[] Vertegenwoordigers { get; set; } = [];
 
     /// <summary>De codes van de hoofdactivititeiten volgens het verenigingsloket</summary>
     [DataMember]
-    public string[] HoofdactiviteitenVerenigingsloket { get; set; } = Array.Empty<string>();
+    public string[] HoofdactiviteitenVerenigingsloket { get; set; } = [];
 
     /// <summary>De codes van de werkingsgebieden</summary>
     [DataMember]
-    public string[] Werkingsgebieden { get; set; } = Array.Empty<string>();
+    public string[]? Werkingsgebieden { get; set; } = [];
 
     public RegistreerFeitelijkeVerenigingCommand ToCommand()
         => new(
@@ -70,5 +70,5 @@ public class RegistreerFeitelijkeVerenigingRequest
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden.Select(Werkingsgebied.Create).ToArray());
+            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray() ?? AssociationRegistry.Vereniging.Werkingsgebieden.NietBepaald);
 }

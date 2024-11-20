@@ -16,6 +16,6 @@ public class WerkingsgebiedenTests
     public void Werkingsgebieden_NietVanToepassing_Is_Not_Empty()
     {
         Werkingsgebieden.NietVanToepassing.Should().NotBeEmpty();
-        Werkingsgebieden.NietVanToepassing.Should().Contain(Werkingsgebied.Create("NVT"));
+        Werkingsgebieden.NietVanToepassing.Should().Contain(Werkingsgebied.NietVanToepassing);
     }
 }

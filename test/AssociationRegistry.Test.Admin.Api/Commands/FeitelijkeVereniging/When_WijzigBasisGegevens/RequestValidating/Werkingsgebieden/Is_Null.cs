@@ -11,7 +11,7 @@ using Xunit.Categories;
 public class Is_Null : ValidatorTest
 {
     [Fact]
-    public void Has_no_validation_error_for_hoofdactiviteitenLijst()
+    public void Has_no_validation_error_for_werkingsgebiedenLijst()
     {
         var validator = new WijzigBasisgegevensRequestValidator();
 

@@ -4,6 +4,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.Feiteli
 using Common;
 using FluentValidation;
 using Infrastructure.Validation;
+using Vereniging;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -22,7 +23,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
 
         RuleFor(request => request.KorteBeschrijving).MustNotContainHtml();
         RuleForEach(request => request.HoofdactiviteitenVerenigingsloket).MustNotContainHtml();
-        RuleForEach(request => request.Werkingsgebieden).MustNotContainHtml();
 
         RuleFor(request => request.Naam)
            .Must(naam => naam?.Trim() is null or not "")
@@ -34,14 +34,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
 
         RuleFor(request => request.Werkingsgebieden)
-           .Must(NotHaveDuplicates!)
-           .WithMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.")
-           .When(r => r.Werkingsgebieden is not null);
-
-        RuleFor(request => request.Werkingsgebieden)
-           .Must(NotHaveMoreThanOne)
-           .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
-           .When(r => r.Werkingsgebieden is not null && r.Werkingsgebieden.Contains("NVT"));
+           .SetValidator(new WerkingsgebiedenValidator());
 
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
@@ -60,6 +53,4 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            request.Doelgroep is not null ||
            request.HoofdactiviteitenVerenigingsloket is not null ||
            request.Werkingsgebieden is not null;
-
-    private static bool NotHaveMoreThanOne(string[] values) => values.Length <= 1;
 }

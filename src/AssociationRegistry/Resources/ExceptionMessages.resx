@@ -62,6 +62,9 @@
   <data name="DuplicateWerkingsgebied">
     <value>Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.</value>
   </data>
+  <data name="WerkingsgebiedKanNietGecombineerdWordenMetNVT">
+    <value>Het opgegeven werkingsgebied NVT kan niet gecombineerd worden met andere codes.</value>
+  </data>
   <data name="InvalidInszChars">
     <value>Foutieve tekens in INSZ.</value>
   </data>

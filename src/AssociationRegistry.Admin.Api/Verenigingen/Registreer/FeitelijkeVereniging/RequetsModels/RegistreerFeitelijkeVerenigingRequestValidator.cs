@@ -39,13 +39,7 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
            .WithMessage("Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen.");
 
         RuleFor(request => request.Werkingsgebieden)
-           .Must(NotHaveDuplicates)
-           .WithMessage("Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.");
-
-        RuleFor(request => request.Werkingsgebieden)
-           .Must(NotHaveMoreThanOne)
-           .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
-           .When(r => r.Werkingsgebieden is not null && r.Werkingsgebieden.Contains("NVT"));
+           .SetValidator(new WerkingsgebiedenValidator());
 
         RuleFor(request => request.Startdatum)
            .Must(BeTodayOrBefore)
@@ -71,6 +65,4 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
 
     private static bool NotHaveDuplicates(string[] values)
         => values.Length == values.DistinctBy(v => v.ToLower()).Count();
-
-    private static bool NotHaveMoreThanOne(string[] values) => values.Length <= 1;
 }

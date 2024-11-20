@@ -728,6 +728,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Het opgegeven werkingsgebied NVT kan niet gecombineerd worden met andere codes..
+        /// </summary>
+        public static string WerkingsgebiedKanNietGecombineerdWordenMetNVT {
+            get {
+                return ResourceManager.GetString("WerkingsgebiedKanNietGecombineerdWordenMetNVT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}.
         /// </summary>
         public static string ZoekOpdrachtBevatOnbekendeSorteerVelden {

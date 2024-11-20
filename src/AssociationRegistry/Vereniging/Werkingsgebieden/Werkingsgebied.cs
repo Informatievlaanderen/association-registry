@@ -2,7 +2,7 @@
 
 using Exceptions;
 
-public class Werkingsgebied
+public record Werkingsgebied
 {
     static Werkingsgebied()
     {
@@ -21,7 +21,7 @@ public class Werkingsgebied
 
         AllWithNVT = new[]
                      {
-                         new Werkingsgebied("NVT", "Niet van toepassing"),
+                         NietVanToepassing,
                      }
                     .Union(All)
                     .ToArray();
@@ -32,6 +32,8 @@ public class Werkingsgebied
         Code = code;
         Naam = naam;
     }
+
+    public static Werkingsgebied NietVanToepassing => new("NVT", "Niet van toepassing");
 
     public string Naam { get; }
     public string Code { get; }
