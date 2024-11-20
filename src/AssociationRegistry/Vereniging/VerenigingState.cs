@@ -228,7 +228,7 @@ public record VerenigingState : IHasVersion
         {
             Werkingsgebieden = Werkingsgebieden.Hydrate(
                 @event.Werkingsgebieden.Select(
-                           h => Werkingsgebied.Create(h.Code))
+                           h => Werkingsgebied.Hydrate(h.Code, h.Naam))
                       .ToArray()),
         };
 
