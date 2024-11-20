@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Werkingsgebieden.ResponseModels;
+﻿namespace AssociationRegistry.Public.Api.Werkingsgebieden.ResponseModels;
 
 public class WerkingsgebiedenResponse
 {

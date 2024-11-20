@@ -4,7 +4,7 @@ using Alba;
 using Newtonsoft.Json.Linq;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
-using Public.Api.Verenigingen.Werkingsgebieden.ResponseModels;
+using Public.Api.Werkingsgebieden.ResponseModels;
 
 public static class PublicApiEndpoints
 {

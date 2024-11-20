@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Werkingsgebieden.ResponseModels;
+﻿namespace AssociationRegistry.Public.Api.Werkingsgebieden.ResponseModels;
 
-using Detail.ResponseModels;
 using System.Runtime.Serialization;
 
 [DataContract]
