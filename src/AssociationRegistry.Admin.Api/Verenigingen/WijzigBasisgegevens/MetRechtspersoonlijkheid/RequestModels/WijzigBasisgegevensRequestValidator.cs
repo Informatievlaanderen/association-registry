@@ -34,7 +34,7 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .When(r => r.Werkingsgebieden is not null)
            .Must(NotHaveMoreThanOne)
            .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
-           .When(r => r.Werkingsgebieden.Contains("NVT"));
+           .When(r => r.Werkingsgebieden is not null && r.Werkingsgebieden.Contains("NVT"));
 
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
