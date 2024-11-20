@@ -12,27 +12,24 @@ public class WerkingsgebiedenResponseExamples : IExamplesProvider<Werkingsgebied
         [
             new()
             {
-                Werkingsgebieden = [],
-            },
-            new()
-            {
-                Werkingsgebieden = Werkingsgebieden.NietVanToepassing
-                                                   .Select(wg => new Werkingsgebied
-                                                        {
-                                                            Code = wg.Code,
-                                                            Naam = wg.Naam,
-                                                        }
-                                                    ).ToArray(),
-            },
-            new()
-            {
-                Werkingsgebieden = AssociationRegistry.Vereniging.Werkingsgebied.All.Take(5)
-                                                      .Select(wg => new Werkingsgebied
-                                                       {
-                                                           Code = wg.Code,
-                                                           Naam = wg.Naam,
-                                                       })
-                                                      .ToArray(),
+                Werkingsgebieden =
+                    AssociationRegistry.Vereniging.Werkingsgebied.AllWithNVT
+                                                              .Take(3)
+                                                              .Select(wg => new Werkingsgebied
+                                                               {
+                                                                   Code = wg.Code,
+                                                                   Naam = wg.Naam,
+                                                               })
+                                                              .ToArray()
+                                    .Union(AssociationRegistry.Vereniging.Werkingsgebied.All
+                                                              .Skip(7)
+                                                              .Take(3)
+                                                              .Select(wg => new Werkingsgebied
+                                                               {
+                                                                   Code = wg.Code,
+                                                                   Naam = wg.Naam,
+                                                               }))
+                                    .ToArray(),
             },
         ];
 }
