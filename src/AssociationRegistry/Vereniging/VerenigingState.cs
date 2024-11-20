@@ -232,6 +232,21 @@ public record VerenigingState : IHasVersion
                       .ToArray()),
         };
 
+    public VerenigingState Apply(WerkingsgebiedenWerdenBepaald @event)
+        => this with
+        {
+            Werkingsgebieden = Werkingsgebieden.Hydrate(
+                @event.Werkingsgebieden.Select(
+                           h => Werkingsgebied.Hydrate(h.Code, h.Naam))
+                      .ToArray()),
+        };
+
+    public VerenigingState Apply(WerkingsgebiedenWerdenNietBepaald _)
+        => this with { Werkingsgebieden = Werkingsgebieden.NietBepaald };
+
+    public VerenigingState Apply(WerkingsgebiedenWerdenNietVanToepassing _)
+        => this with { Werkingsgebieden = Werkingsgebieden.NietVanToepassing };
+
     public VerenigingState Apply(VertegenwoordigerWerdToegevoegd @event)
         => this with
         {
