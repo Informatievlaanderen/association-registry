@@ -13,19 +13,20 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Werkingsgebieden_Null
+public class With_Werkingsgebieden_Empty
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public With_Werkingsgebieden_Null()
+    public With_Werkingsgebieden_Empty()
     {
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var fixture = new Fixture().CustomizeAdminApi();
-        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Werkingsgebieden: null);
+
+        var command = new WijzigBasisgegevensCommand(_scenario.VCode, Werkingsgebieden: Werkingsgebieden.NietBepaald);
         var commandMetadata = fixture.Create<CommandMetadata>();
         var commandHandler = new WijzigBasisgegevensCommandHandler();
 
@@ -42,8 +43,10 @@ public class With_Werkingsgebieden_Null
     }
 
     [Fact]
-    public void Then_No_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
+    public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldNotHaveSaved<WerkingsgebiedenWerdenGewijzigd>();
+        _verenigingRepositoryMock.ShouldHaveSaved(
+            WerkingsgebiedenWerdenGewijzigd.With(Werkingsgebieden.NietBepaald)
+        );
     }
 }

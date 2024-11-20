@@ -36,7 +36,10 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
         RuleFor(request => request.Werkingsgebieden)
            .Must(NotHaveDuplicates!)
            .WithMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.")
-           .When(r => r.Werkingsgebieden is not null);
+           .When(r => r.Werkingsgebieden is not null)
+           .Must(NotHaveMoreThanOne)
+           .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
+           .When(r => r.Werkingsgebieden.Contains("NVT"));
 
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
@@ -55,4 +58,6 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            request.Doelgroep is not null ||
            request.HoofdactiviteitenVerenigingsloket is not null ||
            request.Werkingsgebieden is not null;
+
+    private static bool NotHaveMoreThanOne(string[] values) => values.Length <= 1;
 }
