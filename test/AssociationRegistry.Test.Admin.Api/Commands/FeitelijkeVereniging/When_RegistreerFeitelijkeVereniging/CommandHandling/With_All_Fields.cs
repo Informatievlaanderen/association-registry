@@ -104,7 +104,14 @@ public class With_All_Fields
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h =>
                         new Registratiedata.HoofdactiviteitVerenigingsloket(h.Code, h.Naam)
-                ).ToArray(),
+                ).ToArray()));
+    }
+
+    [Fact]
+    public void Then_it_saves_the_event_WerkingsgebiedenWerdenBepaald()
+    {
+        _verenigingRepositoryMock.ShouldHaveSaved(
+            new WerkingsgebiedenWerdenBepaald(
                 _command.Werkingsgebieden.Select(
                     h =>
                         new Registratiedata.Werkingsgebied(h.Code, h.Naam)
