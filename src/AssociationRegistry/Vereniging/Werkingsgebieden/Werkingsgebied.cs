@@ -8,6 +8,7 @@ public record Werkingsgebied
     {
         All = new[]
               {
+                  new Werkingsgebied("BE10", "Brussels Hoofdstedelijk Gewest"),
                   new Werkingsgebied("BE21", "Provincie Antwerpen"),
                   new Werkingsgebied("BE22", "Provincie Limburg"),
                   new Werkingsgebied("BE23", "Provincie Oost-Vlaanderen"),
