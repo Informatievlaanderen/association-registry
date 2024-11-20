@@ -6,9 +6,7 @@ using Exceptions;
 using Framework;
 using Grar;
 using Grar.Exceptions;
-using Grar.Models;
 using SocialMedias;
-using System.Net;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
@@ -50,10 +48,31 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
                 ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst)),
-                ToWerkingsgebiedenLijst(Werkingsgebieden.FromArray(werkingsgebieden))
+                Registratiedata.Werkingsgebied.NietBepaald
             ));
 
+        vereniging.RegistreerWerkingsgebieden(werkingsgebieden);
+
         return vereniging;
+    }
+
+    private void RegistreerWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    {
+        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
+        {
+            AddEvent(new WerkingsgebiedenWerdenNietBepaald());
+            return;
+        }
+
+        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
+        {
+            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing());
+            return;
+        }
+
+        var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
+
+        AddEvent(WerkingsgebiedenWerdenBepaald.With(werkingsgebiedenData.ToArray()));
     }
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)

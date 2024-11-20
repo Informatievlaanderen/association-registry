@@ -79,12 +79,7 @@ public class With_NietVanToepassing_Werkingsgebieden
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
                 Array.Empty<Registratiedata.Werkingsgebied>()
-            ));
-    }
-
-    [Fact]
-    public void Then_it_saves_the_event_WerkingsgebiedenWerdenBepaald()
-    {
-        _verenigingRepositoryMock.ShouldHaveSaved(new WerkingsgebiedenWerdenNietVanToepassing());
+            ),
+            new WerkingsgebiedenWerdenNietVanToepassing());
     }
 }
