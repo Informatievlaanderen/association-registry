@@ -1,3 +1,23 @@
+# [8.179.0](https://github.com/informatievlaanderen/association-registry/compare/v8.178.1...v8.179.0) (2024-11-20)
+
+
+### Bug Fixes
+
+* or-2558 conditionally check werkingsgebieden inside validators only when not null ([14a9b3d](https://github.com/informatievlaanderen/association-registry/commit/14a9b3ddb9070b219b478cea85e7bbce893d06ca))
+* or-2558 move files for public parameter api and provide multiple examples for werkingsgebieden ([ea03d68](https://github.com/informatievlaanderen/association-registry/commit/ea03d68f79cd3505f5897ac23220e5642fb97f23))
+* or-2558 move files for public parameter api and provide multiple examples for werkingsgebieden ([cf8a344](https://github.com/informatievlaanderen/association-registry/commit/cf8a3446d82d6456a223973e74f1869980f41011))
+* or-2558 support loading verenigingen with obsolete werkingsgebieden in events ([5b49e70](https://github.com/informatievlaanderen/association-registry/commit/5b49e70a0d0e01cd50226c73ccd61567c2dcc6b7))
+* or-2558 use when clause in RegistreerFeitelijkeVerenigingRequestValidator to simplify validator ([14906d7](https://github.com/informatievlaanderen/association-registry/commit/14906d7d69334ccd3d714c735d728973b8a1b1d1))
+* or-2558 validation for NVT werkingsgebied code in domain and request validator ([65db196](https://github.com/informatievlaanderen/association-registry/commit/65db1962499adf123c52653a7f19940951be2995))
+
+
+### Features
+
+* or-2558 add werkingsgebied Brussels Hoofdstedelijk Gewest ([9f076e1](https://github.com/informatievlaanderen/association-registry/commit/9f076e1cdb24a60fc09d915db985ee7c418d7206))
+* or-2558 allow NVT for werkingsgebieden ([a8e1a63](https://github.com/informatievlaanderen/association-registry/commit/a8e1a63380131aaaa288c8275e384e45b0344d4c))
+* or-2558 remove NUTS1 codes and introduce NVT code ([ce90da3](https://github.com/informatievlaanderen/association-registry/commit/ce90da366b3b06f5381ea0706d834c5f10113bfc))
+* or-2558 update WijzigBasisgegevensRequestValidator to include rules for NVT werkingsgebied ([9cc3ac3](https://github.com/informatievlaanderen/association-registry/commit/9cc3ac3ff0c6f3ee40009083cb2a1e55dfd7af7e))
+
 ## [8.178.1](https://github.com/informatievlaanderen/association-registry/compare/v8.178.0...v8.178.1) (2024-11-19)
 
 
