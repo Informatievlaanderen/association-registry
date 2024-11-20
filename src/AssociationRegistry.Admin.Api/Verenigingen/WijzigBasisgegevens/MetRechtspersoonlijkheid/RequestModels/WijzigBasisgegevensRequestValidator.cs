@@ -4,6 +4,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRech
 using Common;
 using FluentValidation;
 using Infrastructure.Validation;
+using Vereniging;
 
 public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasisgegevensRequest>
 {
@@ -26,15 +27,8 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            .WithMessage("Elke waarde in de hoofdactiviteiten mag slechts 1 maal voorkomen.")
            .When(r => r.HoofdactiviteitenVerenigingsloket is not null);
 
-        RuleForEach(request => request.Werkingsgebieden).MustNotContainHtml();
-
         RuleFor(request => request.Werkingsgebieden)
-           .Must(NotHaveDuplicates!)
-           .WithMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.")
-           .When(r => r.Werkingsgebieden is not null)
-           .Must(NotHaveMoreThanOne)
-           .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
-           .When(r => r.Werkingsgebieden is not null && r.Werkingsgebieden.Contains("NVT"));
+           .SetValidator(new WerkingsgebiedenValidator());
 
         RuleFor(request => request.Doelgroep)
            .SetValidator(new DoelgroepRequestValidator()!)
@@ -52,6 +46,4 @@ public class WijzigBasisgegevensRequestValidator : AbstractValidator<WijzigBasis
            request.Roepnaam is not null ||
            request.Doelgroep is not null ||
            request.Werkingsgebieden is not null;
-
-    private static bool NotHaveMoreThanOne(string[] values) => values.Length <= 1;
 }

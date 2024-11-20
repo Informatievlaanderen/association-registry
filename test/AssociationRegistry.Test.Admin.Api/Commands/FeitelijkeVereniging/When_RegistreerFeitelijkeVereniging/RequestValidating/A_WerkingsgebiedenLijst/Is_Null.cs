@@ -9,17 +9,14 @@ using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
 [UnitTest]
-public class Is_Empty : ValidatorTest
+public class Is_Null : ValidatorTest
 {
     [Fact]
-    public void Has_no_validation_errors()
+    public void Has_no_validation_error()
     {
         var validator = new RegistreerFeitelijkeVerenigingRequestValidator(new ClockStub(DateOnly.MaxValue));
 
-        var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest
-        {
-            Werkingsgebieden = [],
-        });
+        var result = validator.TestValidate(new RegistreerFeitelijkeVerenigingRequest());
 
         result.ShouldNotHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden);
     }

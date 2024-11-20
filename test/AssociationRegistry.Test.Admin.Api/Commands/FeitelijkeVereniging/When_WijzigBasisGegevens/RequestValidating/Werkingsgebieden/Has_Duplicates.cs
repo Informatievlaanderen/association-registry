@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.RequestValidating.
     Werkingsgebieden;
 
+using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
@@ -26,6 +27,6 @@ public class Has_Duplicates : ValidatorTest
         var result = validator.TestValidate(request);
 
         result.ShouldHaveValidationErrorFor(vereniging => vereniging.Werkingsgebieden)
-              .WithErrorMessage("Elke waarde in de werkingsgebieden mag slechts 1 maal voorkomen.");
+              .WithErrorMessage(ValidationMessages.WerkingsgebiedMagSlechtsEenmaalVoorkomen);
     }
 }

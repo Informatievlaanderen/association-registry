@@ -10,11 +10,9 @@ public class Werkingsgebieden : ReadOnlyCollection<Werkingsgebied>
     {
     }
 
-    public static Werkingsgebieden NietBepaald
-        => new(Array.Empty<Werkingsgebied>());
+    public static Werkingsgebieden NietBepaald = new(Array.Empty<Werkingsgebied>());
 
-    public static Werkingsgebieden NietVanToepassing
-        = new([Werkingsgebied.Create("NVT")]);
+    public static Werkingsgebieden NietVanToepassing = new([Werkingsgebied.NietVanToepassing]);
 
     public static Werkingsgebieden FromArray(Werkingsgebied[] werkingsgebieden)
     {
@@ -31,7 +29,7 @@ public class Werkingsgebieden : ReadOnlyCollection<Werkingsgebied>
     }
 
     private static bool HasMoreThanOnlyNietVanToepassing(Werkingsgebied[] werkingsgebieden)
-        => werkingsgebieden.Any(x => string.Equals(x.Code, "NVT", StringComparison.InvariantCultureIgnoreCase)) && werkingsgebieden.Length > 1;
+        => werkingsgebieden.Any(werkingsgebied => werkingsgebied == Werkingsgebied.NietVanToepassing) && werkingsgebieden.Length > 1;
 
     public static Werkingsgebieden Hydrate(Werkingsgebied[] werkingsgebieden)
         => new(werkingsgebieden);
