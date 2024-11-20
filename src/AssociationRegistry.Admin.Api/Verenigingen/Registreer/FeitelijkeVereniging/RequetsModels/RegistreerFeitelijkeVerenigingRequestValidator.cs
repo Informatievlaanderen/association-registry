@@ -40,10 +40,12 @@ public class RegistreerFeitelijkeVerenigingRequestValidator : AbstractValidator<
 
         RuleFor(request => request.Werkingsgebieden)
            .Must(NotHaveDuplicates)
-           .WithMessage("Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.")
+           .WithMessage("Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen.");
+
+        RuleFor(request => request.Werkingsgebieden)
            .Must(NotHaveMoreThanOne)
            .WithMessage("De waarde NVT in de werkingsgebiedenLijst mag niet met andere waarden gecombineerd worden.")
-           .When(r => r.Werkingsgebieden.Contains("NVT"));
+           .When(r => r.Werkingsgebieden is not null && r.Werkingsgebieden.Contains("NVT"));
 
         RuleFor(request => request.Startdatum)
            .Must(BeTodayOrBefore)

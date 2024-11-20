@@ -2,13 +2,13 @@
     Werkingsgebieden;
 
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
+using Framework;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class IsNull : ValidatorTest
+public class Is_Null : ValidatorTest
 {
     [Fact]
     public void Has_no_validation_error_for_hoofdactiviteitenLijst()
