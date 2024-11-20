@@ -4,7 +4,6 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
-using Infrastructure.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using ResponseExamples;
 using ResponseModels;
@@ -18,13 +17,6 @@ using Werkingsgebied = ResponseModels.Werkingsgebied;
 [ApiExplorerSettings(GroupName = "Parameters")]
 public class WerkingsgebiedenController : ApiController
 {
-    private readonly AppSettings _appsettings;
-
-    public WerkingsgebiedenController(AppSettings appsettings)
-    {
-        _appsettings = appsettings;
-    }
-
     /// <summary>
     ///     Vraag alle mogelijke waarden op voor de werkingsgebieden.
     /// </summary>
