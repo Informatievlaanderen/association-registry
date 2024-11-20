@@ -1,3 +1,10 @@
+## [8.179.1](https://github.com/informatievlaanderen/association-registry/compare/v8.179.0...v8.179.1) (2024-11-20)
+
+
+### Bug Fixes
+
+* or-2453 change response WerkingsgebiedenResponseExamples public api ([bded4f7](https://github.com/informatievlaanderen/association-registry/commit/bded4f7b76ec7846a18b10c7de7408ba81e71004))
+
 # [8.179.0](https://github.com/informatievlaanderen/association-registry/compare/v8.178.1...v8.179.0) (2024-11-20)
 
 
