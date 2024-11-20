@@ -24,5 +24,15 @@ public class WerkingsgebiedenResponseExamples : IExamplesProvider<Werkingsgebied
                                                         }
                                                     ).ToArray(),
             },
+            new()
+            {
+                Werkingsgebieden = AssociationRegistry.Vereniging.Werkingsgebied.All.Take(5)
+                                                      .Select(wg => new Werkingsgebied
+                                                       {
+                                                           Code = wg.Code,
+                                                           Naam = wg.Naam,
+                                                       })
+                                                      .ToArray(),
+            },
         ];
 }
