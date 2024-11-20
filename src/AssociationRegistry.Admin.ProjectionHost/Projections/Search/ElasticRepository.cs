@@ -81,7 +81,9 @@ public class ElasticRepository : IElasticRepository
             id,
             selector: u => u.Script(
                 s => s
-                    .Source("ctx._source.locaties.add(params.item)")
+                    .Source("if(! ctx._source.locaties.contains(params.item)){" +
+                            "ctx._source.locaties.add(params.item)" +
+                            "}")
                     .Params(objects => objects.Add(key: "item", locatie))));
 
         if (!response.IsValid)
