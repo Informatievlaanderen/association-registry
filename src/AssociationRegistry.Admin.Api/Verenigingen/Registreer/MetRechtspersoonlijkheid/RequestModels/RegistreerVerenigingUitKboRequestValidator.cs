@@ -1,9 +1,8 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 
+using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
-using Infrastructure.Validation;
-using RequestModels;
 
 public class RegistreerVerenigingUitKboRequestValidator : AbstractValidator<RegistreerVerenigingUitKboRequest>
 {
