@@ -79,12 +79,7 @@ public class With_NietBepaald_Werkingsgebieden
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
                 Array.Empty<Registratiedata.Werkingsgebied>()
-            ));
-    }
-
-    [Fact]
-    public void Then_it_saves_the_event_WerkingsgebiedenWerdenBepaald()
-    {
-        _verenigingRepositoryMock.ShouldHaveSaved(new WerkingsgebiedenWerdenNietBepaald());
+            ),
+            new WerkingsgebiedenWerdenNietBepaald());
     }
 }
