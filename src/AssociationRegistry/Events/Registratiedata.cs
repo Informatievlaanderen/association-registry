@@ -163,6 +163,11 @@ public static class Registratiedata
     {
         public static Werkingsgebied With(Vereniging.Werkingsgebied werkingsgebied)
             => new(werkingsgebied.Code, werkingsgebied.Naam);
+
+        // TODO:
+        public static Werkingsgebied[] NietVanToepassing => [new("NVT", "Niet van toepassing")];
+
+        public static Werkingsgebied[] NietBepaald = Array.Empty<Werkingsgebied>();
     }
 
     public record Lidmaatschap(

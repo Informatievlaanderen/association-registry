@@ -43,10 +43,14 @@ public class With_Werkingsgebieden_NVT
     }
 
     [Fact]
+    public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Not_Saved()
+    {
+        _verenigingRepositoryMock.ShouldNotHaveSaved<WerkingsgebiedenWerdenGewijzigd>();
+    }
+
+    [Fact]
     public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(
-            WerkingsgebiedenWerdenGewijzigd.With(Werkingsgebieden.NietVanToepassing)
-        );
+        _verenigingRepositoryMock.ShouldHaveSaved(new WerkingsgebiedenWerdenNietVanToepassing());
     }
 }
