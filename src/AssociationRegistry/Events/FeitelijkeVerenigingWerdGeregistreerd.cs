@@ -15,8 +15,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
-    Registratiedata.Werkingsgebied[]? Werkingsgebieden = null) : IEvent
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
 {
     [IgnoreDataMember]
     public Bron Bron

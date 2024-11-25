@@ -4,6 +4,7 @@ using Acties.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

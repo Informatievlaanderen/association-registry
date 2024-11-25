@@ -7,8 +7,10 @@ using Vereniging;
 
 public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
 {
+    private const string _vCode = "V0001001";
+
     public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
-        VCode: "V0001001",
+        VCode: _vCode,
         Naam: "Feestcommittee Oudenaarde",
         KorteNaam: "FOud",
         KorteBeschrijving: "Het feestcommittee van Oudenaarde",
@@ -82,21 +84,24 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         HoofdactiviteitenVerenigingsloket:
         [
             new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
-        ],
-        Werkingsgebieden:
+        ]);
+
+    public readonly WerkingsgebiedenWerdenBepaald WerkingsgebiedenWerdenBepaald = new(
+        _vCode,
         [
             new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
             new("BE25535002", "Bredene"),
         ]);
 
     public VCode VCode
-        => VCode.Create(FeitelijkeVerenigingWerdGeregistreerd.VCode);
+        => VCode.Create(_vCode);
 
     public IEvent[] GetEvents()
     {
         return
         [
             FeitelijkeVerenigingWerdGeregistreerd,
+            WerkingsgebiedenWerdenBepaald,
         ];
     }
 

@@ -62,8 +62,7 @@ public static class HistoriekGebeurtenisMapper
                                               : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)))
                                  .ToArray(),
                 Vertegenwoordigers: null,
-                HoofdactiviteitenVerenigingsloket: null,
-                Werkingsgebieden: MapWerkingsgebieden(request.Werkingsgebieden)),
+                HoofdactiviteitenVerenigingsloket: null),
             Initiator = AuthenticationSetup.Initiator,
         };
     }
@@ -116,8 +115,7 @@ public static class HistoriekGebeurtenisMapper
                                                                                 x.AdresId.Broncode, x.AdresId.Bronwaarde)))
                                                                .ToArray(),
                 Vertegenwoordigers: null,
-                HoofdactiviteitenVerenigingsloket: null,
-                Werkingsgebieden: feitelijkeVerenigingWerdGeregistreerd.Werkingsgebieden),
+                HoofdactiviteitenVerenigingsloket: null),
             Initiator = AuthenticationSetup.Initiator,
         };
     }
@@ -245,10 +243,38 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
-    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenGewijzigd(
-        string[] werkingsgebieden)
+    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenNietBepaald(string vCode)
     {
-        var @event = new WerkingsgebiedenWerdenGewijzigd(werkingsgebieden
+        var @event = new WerkingsgebiedenWerdenNietBepaald(vCode);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = "Werkingsgebieden werden niet bepaald.",
+            Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenNietBepaald),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenBepaald(string vCode, string[] werkingsgebieden)
+    {
+        var @event = new WerkingsgebiedenWerdenBepaald(vCode, werkingsgebieden
+                                                               .Select(Werkingsgebied.Create)
+                                                               .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+                                                               .ToArray());
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = "Werkingsgebieden werden bepaald.",
+            Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenBepaald),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenGewijzigd(string vCode, string[] werkingsgebieden)
+    {
+        var @event = new WerkingsgebiedenWerdenGewijzigd(vCode, werkingsgebieden
                                                         .Select(Werkingsgebied.Create)
                                                         .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                                                         .ToArray());
@@ -257,6 +283,19 @@ public static class HistoriekGebeurtenisMapper
         {
             Beschrijving = "Werkingsgebieden werden gewijzigd.",
             Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenGewijzigd),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
+    public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenNietVanToepassing(string vCode)
+    {
+        var @event = new WerkingsgebiedenWerdenNietVanToepassing(vCode);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = "Werkingsgebieden werden niet van toepassing.",
+            Gebeurtenis = nameof(Events.WerkingsgebiedenWerdenNietVanToepassing),
             Data = @event,
             Initiator = AuthenticationSetup.Initiator,
         };

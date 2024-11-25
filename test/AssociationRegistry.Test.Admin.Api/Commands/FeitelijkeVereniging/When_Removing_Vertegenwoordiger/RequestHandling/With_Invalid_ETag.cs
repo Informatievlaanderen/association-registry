@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Microsoft.AspNetCore.Http;

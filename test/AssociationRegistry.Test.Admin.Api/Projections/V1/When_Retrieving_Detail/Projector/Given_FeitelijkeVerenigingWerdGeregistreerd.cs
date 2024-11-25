@@ -4,14 +4,14 @@ using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.Admin.Api.Framework;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
 using AutoFixture;
+using Common.AutoFixture;
+using Events;
 using FluentAssertions;
+using Formats;
+using JsonLdContext;
+using Vereniging;
+using Vereniging.Bronnen;
 using Xunit;
 using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Schema.Detail.Adres;
@@ -21,7 +21,6 @@ using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
 using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
-using Werkingsgebied = AssociationRegistry.Admin.Schema.Detail.Werkingsgebied;
 
 [UnitTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd
@@ -169,17 +168,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Code = h.Code,
                         Naam = h.Naam,
                     }).ToArray(),
-                Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data.Werkingsgebieden!.Select(
-                    h => new Werkingsgebied()
-                    {
-                        JsonLdMetadata = new JsonLdMetadata
-                        {
-                            Id = JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
-                            Type = JsonLdType.Werkingsgebied.Type,
-                        },
-                        Code = h.Code,
-                        Naam = h.Naam,
-                    }).ToArray(),
+                Werkingsgebieden = [],
                 Sleutels = new Sleutel[]
                 {
                     new()

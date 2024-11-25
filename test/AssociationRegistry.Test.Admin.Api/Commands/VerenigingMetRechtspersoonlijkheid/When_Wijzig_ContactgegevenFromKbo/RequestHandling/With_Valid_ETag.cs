@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRe
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

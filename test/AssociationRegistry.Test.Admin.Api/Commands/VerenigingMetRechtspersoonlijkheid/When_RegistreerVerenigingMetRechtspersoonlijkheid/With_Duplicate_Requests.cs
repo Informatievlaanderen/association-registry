@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoon
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.Fixtures;

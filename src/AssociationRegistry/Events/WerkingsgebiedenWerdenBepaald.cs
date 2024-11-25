@@ -3,12 +3,15 @@
 using Framework;
 using Vereniging;
 
-public record WerkingsgebiedenWerdenBepaald(
-    Registratiedata.Werkingsgebied[] Werkingsgebieden) : IEvent
+public record WerkingsgebiedenWerdenBepaald(string VCode, Registratiedata.Werkingsgebied[] Werkingsgebieden) : IEvent
 {
     public static WerkingsgebiedenWerdenBepaald With(
+        VCode vCode,
         IEnumerable<Werkingsgebied> werkingsgebieden)
-        => new(werkingsgebieden
+        => new(vCode, werkingsgebieden
               .Select(Registratiedata.Werkingsgebied.With)
               .ToArray());
 }
+
+
+

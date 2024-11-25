@@ -329,11 +329,6 @@ public class DetailVerenigingResponseTemplate : ResponseTemplate
             WithHoofdactiviteit(h.Code, h.Naam);
         }
 
-        foreach (var w in e.Werkingsgebieden ?? [])
-        {
-            WithWerkingsgebied(w.Code, w.Naam);
-        }
-
         foreach (var c in e.Contactgegevens)
         {
             WithContactgegeven(c.ContactgegevenId, Bron.Initiator, c.Contactgegeventype, c.Waarde, e.VCode, c.Beschrijving, c.IsPrimair);

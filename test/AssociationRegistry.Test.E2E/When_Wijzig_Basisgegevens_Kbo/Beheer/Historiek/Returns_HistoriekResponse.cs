@@ -69,7 +69,7 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensKboTestContext, 
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkingsgebiedenWerdenGewijzigd));
 
         werkingsgebiedenWerdenGewijzigd.ShouldCompare(
-            HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(TestContext.Request.Werkingsgebieden),
+            HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(TestContext.VCode, TestContext.Request.Werkingsgebieden),
             compareConfig: HistoriekComparisonConfig.Instance);
 
         var roepnaamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(RoepnaamWerdGewijzigd));

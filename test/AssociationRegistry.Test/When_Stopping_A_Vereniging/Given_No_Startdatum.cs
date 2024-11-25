@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.When_Stopping_A_Vereniging;
 
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;

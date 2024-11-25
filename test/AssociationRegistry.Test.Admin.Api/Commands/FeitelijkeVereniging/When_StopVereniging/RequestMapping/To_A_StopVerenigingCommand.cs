@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Vereniging;

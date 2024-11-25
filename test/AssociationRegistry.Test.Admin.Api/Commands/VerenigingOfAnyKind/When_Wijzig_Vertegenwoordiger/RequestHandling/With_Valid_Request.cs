@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVe
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

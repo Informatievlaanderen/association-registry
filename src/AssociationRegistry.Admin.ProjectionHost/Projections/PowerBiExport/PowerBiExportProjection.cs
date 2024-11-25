@@ -4,7 +4,6 @@ using Detail;
 using Events;
 using Formats;
 using Framework;
-using Infrastructure.Extensions;
 using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
@@ -60,14 +59,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                                           Naam = x.Naam,
                                                                                       })
                                                                                      .ToArray(),
-            Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data
-                                                                    .Werkingsgebieden?
-                                                                    .Select(x => new Werkingsgebied()
-                                                                     {
-                                                                         Code = x.Code,
-                                                                         Naam = x.Naam,
-                                                                     })
-                                                                    .ToArray() ?? [],
+            Werkingsgebieden = [],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
             DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .ConvertAndFormatToBelgianDate(),
@@ -803,6 +795,35 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     }
 
     public void Apply(
+        IEvent<WerkingsgebiedenWerdenNietBepaald> werkingsgebiedenWerdenNietBepaald,
+        PowerBiExportDocument document)
+    {
+        document.Werkingsgebieden = [];
+
+        document.DatumLaatsteAanpassing = werkingsgebiedenWerdenNietBepaald.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                           .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, werkingsgebiedenWerdenNietBepaald);
+    }
+
+    public void Apply(
+        IEvent<WerkingsgebiedenWerdenBepaald> werkingsgebiedenWerdenBepaald,
+        PowerBiExportDocument document)
+    {
+        document.Werkingsgebieden = werkingsgebiedenWerdenBepaald.Data.Werkingsgebieden
+                                                                 .Select(x => new Werkingsgebied()
+                                                                  {
+                                                                      Code = x.Code,
+                                                                      Naam = x.Naam,
+                                                                  }).ToArray();
+
+        document.DatumLaatsteAanpassing = werkingsgebiedenWerdenBepaald.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                       .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, werkingsgebiedenWerdenBepaald);
+    }
+
+    public void Apply(
         IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
         PowerBiExportDocument document)
     {
@@ -817,6 +838,25 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                          .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, werkingsgebiedenWerdenGewijzigd);
+    }
+
+    public void Apply(
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdenNietVanToepassing,
+        PowerBiExportDocument document)
+    {
+        document.Werkingsgebieden =
+        [
+            new Werkingsgebied
+            {
+                Code = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Code,
+                Naam = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
+            }
+        ];
+
+        document.DatumLaatsteAanpassing = werkingsgebiedenWerdenNietVanToepassing.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                                 .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, werkingsgebiedenWerdenNietVanToepassing);
     }
 
     public void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PowerBiExportDocument document)

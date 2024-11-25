@@ -127,6 +127,22 @@ public class BeheerVerenigingHistoriekProjector
             beschrijving: "Hoofdactiviteiten verenigingsloket werden gewijzigd.");
 
     public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietBepaald> werkingsgebiedenWerdenNietBepaald,
+        BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            werkingsgebiedenWerdenNietBepaald,
+            document,
+            beschrijving: "Werkingsgebieden werden niet bepaald.");
+
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenBepaald> werkingsgebiedenWerdenBepaald,
+        BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            werkingsgebiedenWerdenBepaald,
+            document,
+            beschrijving: "Werkingsgebieden werden bepaald.");
+
+    public static void Apply(
         IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
         BeheerVerenigingHistoriekDocument document)
         => AddHistoriekEntry(
@@ -134,6 +150,13 @@ public class BeheerVerenigingHistoriekProjector
             document,
             beschrijving: "Werkingsgebieden werden gewijzigd.");
 
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdenNietVanToepassing,
+        BeheerVerenigingHistoriekDocument document)
+        => AddHistoriekEntry(
+            werkingsgebiedenWerdenNietVanToepassing,
+            document,
+            beschrijving: "Werkingsgebieden werden niet van toepassing.");
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, BeheerVerenigingHistoriekDocument document)
     {
@@ -623,7 +646,9 @@ public class BeheerVerenigingHistoriekProjector
             Metadata = new Metadata(Sequence: 0, Version: 0),
         };
 
-    public static void Apply(IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderd, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(
+        IEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch> locatieDuplicaatWerdVerwijderd,
+        BeheerVerenigingHistoriekDocument document)
     {
         var naam = string.IsNullOrEmpty(locatieDuplicaatWerdVerwijderd.Data.LocatieNaam)
             ? string.Empty

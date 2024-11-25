@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_SyncCompleted;
 
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework.Customizations;

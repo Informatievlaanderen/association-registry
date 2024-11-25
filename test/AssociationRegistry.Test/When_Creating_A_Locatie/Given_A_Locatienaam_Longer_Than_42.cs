@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.When_Creating_A_Locatie;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.Customizations;

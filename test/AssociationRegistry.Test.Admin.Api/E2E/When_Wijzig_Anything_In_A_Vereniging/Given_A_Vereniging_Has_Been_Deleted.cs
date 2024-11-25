@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.V
 using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using EventStore;
 using FluentAssertions;

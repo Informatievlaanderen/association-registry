@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Formats;

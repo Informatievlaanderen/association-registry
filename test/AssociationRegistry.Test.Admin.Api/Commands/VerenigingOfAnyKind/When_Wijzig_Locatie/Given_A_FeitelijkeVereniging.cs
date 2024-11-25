@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_W
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;

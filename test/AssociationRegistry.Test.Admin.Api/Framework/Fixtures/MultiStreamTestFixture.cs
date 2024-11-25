@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
+using Common.AutoFixture;
 using Helpers;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;

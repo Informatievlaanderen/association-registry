@@ -33,7 +33,10 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(KorteBeschrijvingWerdGewijzigd):
                 case nameof(DoelgroepWerdGewijzigd):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
+                case nameof(WerkingsgebiedenWerdenNietBepaald):
+                case nameof(WerkingsgebiedenWerdenBepaald):
                 case nameof(WerkingsgebiedenWerdenGewijzigd):
+                case nameof(WerkingsgebiedenWerdenNietVanToepassing):
                 case nameof(VerenigingWerdUitgeschrevenUitPubliekeDatastroom):
                 case nameof(VerenigingWerdIngeschrevenInPubliekeDatastroom):
                 case nameof(LocatieWerdToegevoegd):

@@ -4,6 +4,7 @@ using Acties.VerwijderLocatie;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

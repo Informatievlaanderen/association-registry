@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Framework.Fixtures;

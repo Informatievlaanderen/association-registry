@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using Framework.Customizations;
 using KellermanSoftware.CompareNetObjects;

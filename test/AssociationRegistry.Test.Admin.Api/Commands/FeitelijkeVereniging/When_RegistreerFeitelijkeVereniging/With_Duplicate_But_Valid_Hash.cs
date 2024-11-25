@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
@@ -73,8 +74,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                         AdresId: null),
                 },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                Array.Empty<Registratiedata.Werkingsgebied>()
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
             ),
             config: options => options.Excluding(e => e.VCode));
     }

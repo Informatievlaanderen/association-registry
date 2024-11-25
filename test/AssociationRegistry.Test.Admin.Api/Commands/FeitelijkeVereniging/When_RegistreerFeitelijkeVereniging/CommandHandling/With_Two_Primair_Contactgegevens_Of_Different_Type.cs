@@ -3,6 +3,7 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using Framework;
@@ -21,13 +22,15 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingCommand _command;
     private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
-    private readonly Fixture _fixture;
+    private readonly IFixture _fixture;
     private readonly VerenigingRepositoryMock _repositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
 
     public With_Two_Primair_Contactgegevens_Of_Different_Type()
     {
-        _fixture = new Fixture().CustomizeAdminApi();
+        _fixture = new Fixture().CustomizeAdminApi()
+                                .WithoutWerkingsgebieden();
+
         _repositoryMock = new VerenigingRepositoryMock();
 
         _command = _fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
@@ -107,10 +110,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
                         h.Code,
-                        h.Naam)).ToArray(),
-                _command.Werkingsgebieden.Select(
-                    h =>
-                        new Registratiedata.Werkingsgebied(h.Code, h.Naam)
-                ).ToArray()));
+                        h.Naam)).ToArray()
+            ));
     }
 }

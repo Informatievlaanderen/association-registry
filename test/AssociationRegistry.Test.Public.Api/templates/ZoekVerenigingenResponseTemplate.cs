@@ -183,9 +183,6 @@ public class ZoekVerenigingenResponseTemplate
                 beschrijving = beschrijving,
             });
 
-            //TODO: facets
-            //_zoekVerenigingenResponseTemplate.UpdateFacet(code);
-
             return this;
         }
 
@@ -262,11 +259,6 @@ public class ZoekVerenigingenResponseTemplate
             foreach (var h in e.HoofdactiviteitenVerenigingsloket)
             {
                 template.WithHoofdactiviteit(h.Code, h.Naam);
-            }
-
-            foreach (var h in e.Werkingsgebieden ?? [])
-            {
-                template.WithWerkingsgebied(h.Code, h.Naam);
             }
 
             foreach (var l in e.Locaties)

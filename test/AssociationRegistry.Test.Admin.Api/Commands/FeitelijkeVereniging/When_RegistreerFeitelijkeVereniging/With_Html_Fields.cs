@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
+using Common.AutoFixture;
 using FluentAssertions;
 using Formats;
 using Framework;

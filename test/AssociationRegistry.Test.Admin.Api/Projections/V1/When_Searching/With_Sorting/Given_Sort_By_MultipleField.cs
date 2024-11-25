@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_Sorting;
 
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Framework;
 using Nest;
 using Newtonsoft.Json.Linq;
 using Xunit;

@@ -50,19 +50,7 @@ public class PubliekZoekProjectionHandler
                                                                         Naam = hoofdactiviteitVerenigingsloket.Naam,
                                                                     })
                                                            .ToArray(),
-                Werkingsgebieden = message.Data.Werkingsgebieden?
-                                                           .Select(
-                                                                werkingsgebied =>
-                                                                    new VerenigingZoekDocument.Werkingsgebied()
-                                                                    {
-                                                                        JsonLdMetadata =
-                                                                            CreateJsonLdMetadata(
-                                                                                JsonLdType.Werkingsgebied,
-                                                                                werkingsgebied.Code),
-                                                                        Code = werkingsgebied.Code,
-                                                                        Naam = werkingsgebied.Naam,
-                                                                    })
-                                                           .ToArray() ?? [],
+                Werkingsgebieden = [],
                 Lidmaatschappen = [],
                 Sleutels =
                     new[]
@@ -217,6 +205,39 @@ public class PubliekZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietBepaald> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden = [],
+            });
+    }
+
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenBepaald> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden = message.Data.Werkingsgebieden
+                                          .Select(
+                                               werkingsgebied =>
+                                                   new VerenigingZoekDocument.Werkingsgebied()
+                                                   {
+                                                       JsonLdMetadata =
+                                                           CreateJsonLdMetadata(
+                                                               JsonLdType.Werkingsgebied,
+                                                               werkingsgebied.Code),
+
+                                                       Code = werkingsgebied.Code,
+                                                       Naam = werkingsgebied.Naam,
+                                                   })
+                                          .ToArray(),
+            });
+    }
+
     public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenGewijzigd> message)
     {
         await _elasticRepository.UpdateAsync(
@@ -224,19 +245,41 @@ public class PubliekZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 Werkingsgebieden = message.Data.Werkingsgebieden
-                                                           .Select(
-                                                                werkingsgebied =>
-                                                                    new VerenigingZoekDocument.Werkingsgebied()
-                                                                    {
-                                                                        JsonLdMetadata =
-                                                                            CreateJsonLdMetadata(
-                                                                                JsonLdType.Werkingsgebied,
-                                                                                werkingsgebied.Code),
+                                          .Select(
+                                               werkingsgebied =>
+                                                   new VerenigingZoekDocument.Werkingsgebied()
+                                                   {
+                                                       JsonLdMetadata =
+                                                           CreateJsonLdMetadata(
+                                                               JsonLdType.Werkingsgebied,
+                                                               werkingsgebied.Code),
 
-                                                                        Code = werkingsgebied.Code,
-                                                                        Naam = werkingsgebied.Naam,
-                                                                    })
-                                                           .ToArray(),
+                                                       Code = werkingsgebied.Code,
+                                                       Naam = werkingsgebied.Naam,
+                                                   })
+                                          .ToArray(),
+            });
+    }
+
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietVanToepassing> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden =
+                [
+                    new VerenigingZoekDocument.Werkingsgebied()
+                    {
+                        JsonLdMetadata =
+                            CreateJsonLdMetadata(
+                                JsonLdType.Werkingsgebied,
+                                Werkingsgebied.NietVanToepassing.Code),
+
+                        Code = Werkingsgebied.NietVanToepassing.Code,
+                        Naam = Werkingsgebied.NietVanToepassing.Naam,
+                    },
+                ],
             });
     }
 
@@ -454,7 +497,6 @@ public class PubliekZoekProjectionHandler
             message.VCode,
             message.Data.Lidmaatschap.LidmaatschapId);
     }
-
 
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()

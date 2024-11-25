@@ -3,6 +3,7 @@
 using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
@@ -48,7 +49,7 @@ public class With_Werkingsgebieden
     public void Then_A_WerkingsgebiedenWerdenGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            WerkingsgebiedenWerdenGewijzigd.With(_werkingsgebieden)
+            WerkingsgebiedenWerdenGewijzigd.With(_scenario.VCode, _werkingsgebieden)
         );
     }
 }

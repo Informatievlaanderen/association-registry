@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Vereniging;

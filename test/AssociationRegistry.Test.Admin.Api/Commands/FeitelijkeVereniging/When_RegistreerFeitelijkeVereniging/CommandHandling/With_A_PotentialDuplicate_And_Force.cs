@@ -3,12 +3,12 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using DuplicateVerenigingDetection;
 using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
 using Grar;
 using Marten;
@@ -31,7 +31,8 @@ public class With_A_PotentialDuplicate_And_Force
     public With_A_PotentialDuplicate_And_Force()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario();
-        var fixture = new Fixture().CustomizeAdminApi();
+        var fixture = new Fixture().CustomizeAdminApi()
+                                   .WithoutWerkingsgebieden();
 
         var locatie = fixture.Create<Locatie>() with
         {
@@ -46,6 +47,9 @@ public class With_A_PotentialDuplicate_And_Force
             Locaties = new[] { locatie },
             SkipDuplicateDetection = true,
         };
+
+        var notDistinct = _command.HoofdactiviteitenVerenigingsloket.Length !=
+                          _command.HoofdactiviteitenVerenigingsloket.DistinctBy(x => x.Code).Count();
 
         var duplicateChecker = new Mock<IDuplicateVerenigingDetectionService>();
         var potentialDuplicates = new[] { fixture.Create<DuplicaatVereniging>() };
@@ -112,10 +116,6 @@ public class With_A_PotentialDuplicate_And_Force
                     }).ToArray(),
                 _command.HoofdactiviteitenVerenigingsloket.Select(
                     h => new Registratiedata.HoofdactiviteitVerenigingsloket(
-                        h.Code,
-                        h.Naam)).ToArray(),
-                 _command.Werkingsgebieden.Select(
-                    h => new Registratiedata.Werkingsgebied(
                         h.Code,
                         h.Naam)).ToArray()
             ));

@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Framework.Customizations;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

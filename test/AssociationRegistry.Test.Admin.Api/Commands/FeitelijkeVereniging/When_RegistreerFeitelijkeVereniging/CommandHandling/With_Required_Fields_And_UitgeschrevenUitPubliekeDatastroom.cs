@@ -3,6 +3,7 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using Framework;
@@ -79,7 +80,6 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                Array.Empty<Registratiedata.Werkingsgebied>()));
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()));
     }
 }

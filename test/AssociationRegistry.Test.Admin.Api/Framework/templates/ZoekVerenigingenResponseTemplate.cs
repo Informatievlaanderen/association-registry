@@ -252,11 +252,6 @@ public class ZoekVerenigingenResponseTemplate : ResponseTemplate
                 template.WithHoofdactiviteit(h.Code, h.Naam);
             }
 
-            foreach (var w in e.Werkingsgebieden ?? [])
-            {
-                template.WithWerkingsgebied(w.Code, w.Naam);
-            }
-
             foreach (var l in e.Locaties)
             {
                 template.WithLocatie(l.Locatietype, l.Naam, l.Adres.ToAdresString(), l.Adres?.Postcode, l.Adres?.Gemeente, e.VCode,

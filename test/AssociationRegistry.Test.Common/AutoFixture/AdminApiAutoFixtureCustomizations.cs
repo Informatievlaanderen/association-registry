@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using Acties.RegistreerFeitelijkeVereniging;
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
@@ -54,6 +55,14 @@ public static class AdminApiAutoFixtureCustomizations
         return fixture;
     }
 
+    public static IFixture WithoutWerkingsgebieden(this IFixture fixture)
+    {
+        fixture.CustomizeRegistreerFeitelijkeVerenigingRequest(withoutWerkingsgebieden: true);
+        fixture.CustomizeRegistreerFeitelijkeVerenigingCommand(withoutWerkingsgebieden: true);
+
+        return fixture;
+    }
+
     private static void CustomizeWijzigBasisgegevensRequest(this IFixture fixture)
     {
         fixture.Customize<WijzigBasisgegevensRequest>(
@@ -74,20 +83,30 @@ public static class AdminApiAutoFixtureCustomizations
                                                        .Distinct()
                                                        .Select(h => h.Code)
                                                        .ToArray(),
+                    Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
+                                              .Distinct()
+                                              .Select(x => x.Code)
+                                              .ToArray(),
                 }).OmitAutoProperties());
 
         fixture
            .Customize<Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
                 composer => composer.With(
-                    propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
-                    valueFactory: () => fixture
-                                       .CreateMany<HoofdactiviteitVerenigingsloket>()
-                                       .Distinct()
-                                       .Select(h => h.Code)
-                                       .ToArray()));
+                                         propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
+                                         valueFactory: () => fixture
+                                                            .CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                            .Distinct()
+                                                            .Select(h => h.Code)
+                                                            .ToArray())
+                                    .With(
+                                         propertyPicker: e => e.Werkingsgebieden,
+                                         valueFactory: () => fixture.CreateMany<Werkingsgebied>()
+                                                                    .Distinct()
+                                                                    .Select(x => x.Code)
+                                                                    .ToArray()));
     }
 
-    private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture)
+    private static void CustomizeRegistreerFeitelijkeVerenigingRequest(this IFixture fixture, bool withoutWerkingsgebieden = false)
     {
         fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
@@ -114,9 +133,11 @@ public static class AdminApiAutoFixtureCustomizations
                     request.KorteBeschrijving = fixture.Create<string>();
                     request.KorteNaam = fixture.Create<string>();
 
-                    request.Werkingsgebieden = fixture.CreateMany<Werkingsgebied>()
-                                                      .Distinct()
-                                                      .Select(x => x.Code).ToArray();
+                    request.Werkingsgebieden = withoutWerkingsgebieden
+                        ? []
+                        : fixture.CreateMany<Werkingsgebied>()
+                                 .Distinct()
+                                 .Select(x => x.Code).ToArray();
 
                     return request;
                 }).OmitAutoProperties());

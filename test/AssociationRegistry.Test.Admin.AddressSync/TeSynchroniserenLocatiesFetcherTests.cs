@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.AddressSync;
 using AssociationRegistry.Admin.AddressSync;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework.Customizations;

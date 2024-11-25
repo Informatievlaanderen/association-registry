@@ -16,6 +16,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Constants.WellknownFormats;
+using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
 public class BeheerVerenigingDetailProjector
 {
@@ -54,11 +55,7 @@ public class BeheerVerenigingDetailProjector
                                                                                      .Select(BeheerVerenigingDetailMapper
                                                                                          .MapHoofdactiviteitVerenigingsloket)
                                                                                      .ToArray(),
-            Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd.Data
-                                                                    .Werkingsgebieden?
-                                                                    .Select(BeheerVerenigingDetailMapper
-                                                                               .MapWerkingsgebied)
-                                                                    .ToArray() ?? [],
+            Werkingsgebieden = [],
 
             Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
             Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -205,12 +202,41 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietBepaald> werkingsgebiedenWerdNietBepaald,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = [];
+    }
+
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenBepaald> werkingsgebiedenWerdenBepaald,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = werkingsgebiedenWerdenBepaald.Data.Werkingsgebieden
+                                                                   .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
+    }
+
+    public static void Apply(
         IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
         BeheerVerenigingDetailDocument document)
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
                                                                    .Select(BeheerVerenigingDetailMapper.MapWerkingsgebied).ToArray();
     }
+
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdNietVanToepasssing,
+        BeheerVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = [
+            new Werkingsgebied
+            {
+                Code = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Code,
+                Naam = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
+            }
+        ];
+    }
+
 
     public static void Apply(
         IEvent<VertegenwoordigerWerdToegevoegd> vertegenwoordigerWerdToegevoegd,
