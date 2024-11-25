@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.W
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

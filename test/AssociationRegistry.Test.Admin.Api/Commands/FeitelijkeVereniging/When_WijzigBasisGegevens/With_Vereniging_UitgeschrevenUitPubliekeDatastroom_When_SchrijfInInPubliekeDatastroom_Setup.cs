@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;

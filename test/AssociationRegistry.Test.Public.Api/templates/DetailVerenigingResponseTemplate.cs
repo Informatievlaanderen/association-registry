@@ -311,11 +311,6 @@ public class DetailVerenigingResponseTemplate
             template.WithHoofdactiviteit(h.Code, h.Naam);
         }
 
-        foreach (var w in e.Werkingsgebieden ?? [])
-        {
-            template.WithWerkingsgebied(w.Code, w.Naam);
-        }
-
         foreach (var c in e.Contactgegevens)
         {
             template.WithContactgegeven(e.VCode, c.ContactgegevenId.ToString(), c.Contactgegeventype, c.Waarde, c.Beschrijving,

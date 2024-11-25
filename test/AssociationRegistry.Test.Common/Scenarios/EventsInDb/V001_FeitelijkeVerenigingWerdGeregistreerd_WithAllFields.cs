@@ -88,10 +88,6 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerd_WithAllFields : IEventsI
             HoofdactiviteitenVerenigingsloket:
             [
                 new(Code: "BLA", Naam: "Buitengewoon Leuke Afkortingen"),
-            ],
-            Werkingsgebieden:
-            [
-                new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
             ]);
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

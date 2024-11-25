@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_A
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using FluentAssertions;

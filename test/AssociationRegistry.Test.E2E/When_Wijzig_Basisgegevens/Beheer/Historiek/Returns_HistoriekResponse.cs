@@ -74,8 +74,8 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensTestContext, Wij
         doelgroepWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.DoelgroepWerdGewijzigd(TestContext.Request.Doelgroep),
                                              compareConfig: HistoriekComparisonConfig.Instance);
 
-        var werkingsgebiedenWerdenGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkingsgebiedenWerdenGewijzigd));
-        werkingsgebiedenWerdenGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(TestContext.Request.Werkingsgebieden),
+        var werkingsgebiedenWerdenBepaald = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkingsgebiedenWerdenBepaald));
+        werkingsgebiedenWerdenBepaald.ShouldCompare(HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenBepaald(TestContext.VCode, TestContext.Request.Werkingsgebieden),
                                              compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

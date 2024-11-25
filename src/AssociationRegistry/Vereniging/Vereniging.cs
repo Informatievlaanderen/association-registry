@@ -47,8 +47,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
                 ToVertegenwoordigersLijst(toegevoegdeVertegenwoordigers),
-                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst)),
-                Registratiedata.Werkingsgebied.NietBepaald
+                ToHoofdactiviteitenLijst(HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloketLijst))
             ));
 
         vereniging.RegistreerWerkingsgebieden(werkingsgebieden);
@@ -56,23 +55,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         return vereniging;
     }
 
-    private void RegistreerWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
+    private void RegistreerWerkingsgebieden(Werkingsgebied[] teRegistrerenWerkingsgebieden)
     {
-        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
+        var werkingsgebieden = Werkingsgebieden.FromArray(teRegistrerenWerkingsgebieden);
+
+        if (werkingsgebieden.IsNietBepaald)
+            return;
+
+        if (werkingsgebieden.IsNietVanToepassing)
         {
-            AddEvent(new WerkingsgebiedenWerdenNietBepaald());
+            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
             return;
         }
 
-        if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
-        {
-            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing());
-            return;
-        }
-
-        var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
-
-        AddEvent(WerkingsgebiedenWerdenBepaald.With(werkingsgebiedenData.ToArray()));
+        AddEvent(WerkingsgebiedenWerdenBepaald.With(VCode, werkingsgebieden.ToArray()));
     }
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
@@ -172,13 +168,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
         {
-            AddEvent(new WerkingsgebiedenWerdenNietBepaald());
+            AddEvent(new WerkingsgebiedenWerdenNietBepaald(VCode));
             return;
         }
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
         {
-            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing());
+            AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
             return;
         }
 
@@ -186,8 +182,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(State.Werkingsgebieden == Werkingsgebieden.NietBepaald ||
                  State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
-                     ? WerkingsgebiedenWerdenBepaald.With(werkingsgebiedenData.ToArray())
-                     : WerkingsgebiedenWerdenGewijzigd.With(werkingsgebiedenData.ToArray()));
+                     ? WerkingsgebiedenWerdenBepaald.With(VCode, werkingsgebiedenData.ToArray())
+                     : WerkingsgebiedenWerdenGewijzigd.With(VCode, werkingsgebiedenData.ToArray()));
     }
 
     public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)

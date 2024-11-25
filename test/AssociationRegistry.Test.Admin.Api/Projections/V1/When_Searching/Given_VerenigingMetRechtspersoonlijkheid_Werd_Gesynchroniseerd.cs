@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching;
 
 using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Formats;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Framework.templates;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging;
+using Common.Extensions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

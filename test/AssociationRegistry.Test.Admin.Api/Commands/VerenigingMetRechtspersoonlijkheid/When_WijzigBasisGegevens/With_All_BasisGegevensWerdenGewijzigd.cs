@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
@@ -97,13 +98,15 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
             HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!
                                                                           .Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
+
         var werkingsgebiedenWerdenGewijzigd = events
            .Single(@event => @event.Data.GetType() == typeof(WerkingsgebiedenWerdenGewijzigd));
 
         werkingsgebiedenWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            WerkingsgebiedenWerdenGewijzigd.With(_request.Werkingsgebieden!
-                                                                          .Select(Werkingsgebied.Create).ToArray()));
-
+            WerkingsgebiedenWerdenGewijzigd.With(
+                VCode.Create(_vCode),
+                _request.Werkingsgebieden!.Select(Werkingsgebied.Create).ToArray())
+        );
     }
 
     [Fact]

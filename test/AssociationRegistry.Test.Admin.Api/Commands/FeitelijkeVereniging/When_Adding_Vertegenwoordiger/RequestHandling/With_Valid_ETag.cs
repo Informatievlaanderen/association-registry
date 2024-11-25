@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVe
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

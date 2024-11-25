@@ -13,8 +13,7 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     VertegenwoordigerData[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket,
-    Registratiedata.Werkingsgebied[]? Werkingsgebieden)
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
     public static FeitelijkeVerenigingWerdGeregistreerdData Create(FeitelijkeVerenigingWerdGeregistreerd e)
         => new(
@@ -28,7 +27,6 @@ public record FeitelijkeVerenigingWerdGeregistreerdData(
             e.Contactgegevens,
             e.Locaties,
             e.Vertegenwoordigers.Select(VertegenwoordigerData.Create).ToArray(),
-            e.HoofdactiviteitenVerenigingsloket,
-            e.Werkingsgebieden
+            e.HoofdactiviteitenVerenigingsloket
         );
 }

@@ -4,6 +4,7 @@
 using Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using Framework;

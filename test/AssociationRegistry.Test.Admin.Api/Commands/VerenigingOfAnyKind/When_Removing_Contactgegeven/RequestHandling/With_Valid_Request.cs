@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

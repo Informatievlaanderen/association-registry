@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

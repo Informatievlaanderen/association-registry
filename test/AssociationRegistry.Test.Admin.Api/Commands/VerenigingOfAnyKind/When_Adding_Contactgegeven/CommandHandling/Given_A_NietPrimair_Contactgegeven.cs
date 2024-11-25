@@ -3,6 +3,7 @@
 using Acties.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;

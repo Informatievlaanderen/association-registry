@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

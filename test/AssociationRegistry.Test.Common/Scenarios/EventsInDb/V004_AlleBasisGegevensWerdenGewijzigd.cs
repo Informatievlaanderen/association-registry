@@ -50,7 +50,10 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
         DoelgroepWerdGewijzigd = new DoelgroepWerdGewijzigd(new Registratiedata.Doelgroep(Minimumleeftijd: 12, Maximumleeftijd: 18));
         VerenigingWerdUitgeschrevenUitPubliekeDatastroom = new VerenigingWerdUitgeschrevenUitPubliekeDatastroom();
         VerenigingWerdIngeschrevenInPubliekeDatastroom = new VerenigingWerdIngeschrevenInPubliekeDatastroom();
-        WerkingsgebiedenWerdenGewijzigd = new WerkingsgebiedenWerdenGewijzigd(fixture.CreateMany<Registratiedata.Werkingsgebied>().ToArray());
+
+        WerkingsgebiedenWerdenGewijzigd =
+            new WerkingsgebiedenWerdenGewijzigd(VCode, fixture.CreateMany<Registratiedata.Werkingsgebied>().ToArray());
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
     }
 

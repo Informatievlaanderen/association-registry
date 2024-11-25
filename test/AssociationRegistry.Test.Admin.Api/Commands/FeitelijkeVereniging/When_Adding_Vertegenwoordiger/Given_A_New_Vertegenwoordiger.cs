@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;

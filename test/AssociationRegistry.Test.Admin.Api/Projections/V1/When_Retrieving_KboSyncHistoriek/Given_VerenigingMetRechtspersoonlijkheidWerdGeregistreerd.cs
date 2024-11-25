@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_KboSyncHistoriek;
 
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Common.Extensions;
 using FluentAssertions;
 using Formats;
 using Xunit;

@@ -2,13 +2,11 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Events;
 using Formats;
-using Infrastructure.Extensions;
 using JsonLdContext;
 using Schema;
 using Schema.Constants;
 using Schema.Search;
 using Vereniging;
-using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Search.Doelgroep;
 using WellknownFormats = Constants.WellknownFormats;
 
@@ -56,22 +54,10 @@ public class BeheerZoekProjectionHandler
                                                                     })
                                                            .ToArray(),
 
-                Werkingsgebieden = message.Data.Werkingsgebieden?
-                                          .Select(
-                                               werkingsgebied =>
-                                                   new VerenigingZoekDocument.Werkingsgebied
-                                                   {
-                                                       JsonLdMetadata =
-                                                           CreateJsonLdMetadata(
-                                                               JsonLdType.Werkingsgebied,
-                                                               werkingsgebied.Code),
-                                                       Code = werkingsgebied.Code,
-                                                       Naam = werkingsgebied.Naam,
-                                                   })
-                                          .ToArray() ?? [],
+                Werkingsgebieden = [],
                 Lidmaatschappen = [],
-                Sleutels = new[]
-                {
+                Sleutels =
+                [
                     new VerenigingZoekDocument.Sleutel
                     {
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
@@ -84,7 +70,7 @@ public class BeheerZoekProjectionHandler
                             Nummer = message.Data.VCode,
                         },
                     },
-                },
+                ],
             }
         );
 
@@ -103,7 +89,7 @@ public class BeheerZoekProjectionHandler
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
                 Status = VerenigingStatus.Actief,
-                Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
+                Locaties = [],
                 Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
                 Einddatum = null,
                 Doelgroep = new Doelgroep
@@ -113,11 +99,11 @@ public class BeheerZoekProjectionHandler
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
                 IsUitgeschrevenUitPubliekeDatastroom = false,
-                HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
-                Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
+                HoofdactiviteitenVerenigingsloket = [],
+                Werkingsgebieden = [],
                 Lidmaatschappen = [],
-                Sleutels = new[]
-                {
+                Sleutels =
+                [
                     new VerenigingZoekDocument.Sleutel
                     {
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
@@ -142,7 +128,7 @@ public class BeheerZoekProjectionHandler
                             Nummer = message.Data.KboNummer,
                         },
                     },
-                },
+                ],
             }
         );
 
@@ -167,7 +153,6 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-
             new VerenigingZoekDocument
             {
                 KorteNaam = message.Data.KorteNaam,
@@ -231,6 +216,38 @@ public class BeheerZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietBepaald> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden = [],
+            });
+    }
+
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenBepaald> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden = message.Data.Werkingsgebieden
+                                          .Select(
+                                               werkingsgebied =>
+                                                   new VerenigingZoekDocument.Werkingsgebied
+                                                   {
+                                                       JsonLdMetadata =
+                                                           CreateJsonLdMetadata(
+                                                               JsonLdType.Werkingsgebied,
+                                                               werkingsgebied.Code),
+                                                       Code = werkingsgebied.Code,
+                                                       Naam = werkingsgebied.Naam,
+                                                   })
+                                          .ToArray(),
+            });
+    }
+
     public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenGewijzigd> message)
     {
         await _elasticRepository.UpdateAsync(
@@ -250,6 +267,27 @@ public class BeheerZoekProjectionHandler
                                                        Naam = werkingsgebied.Naam,
                                                    })
                                           .ToArray(),
+            });
+    }
+
+    public async Task Handle(EventEnvelope<WerkingsgebiedenWerdenNietVanToepassing> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Werkingsgebieden =
+                [
+                    new VerenigingZoekDocument.Werkingsgebied
+                    {
+                        JsonLdMetadata =
+                            CreateJsonLdMetadata(
+                                JsonLdType.Werkingsgebied,
+                                Werkingsgebied.NietVanToepassing.Code),
+                        Code = Werkingsgebied.NietVanToepassing.Code,
+                        Naam = Werkingsgebied.NietVanToepassing.Naam,
+                    },
+                ],
             });
     }
 

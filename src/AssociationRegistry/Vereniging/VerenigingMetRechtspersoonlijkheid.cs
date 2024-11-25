@@ -107,7 +107,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             return;
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
-        AddEvent(WerkingsgebiedenWerdenGewijzigd.With(werkingsgebiedenData.ToArray()));
+        AddEvent(WerkingsgebiedenWerdenGewijzigd.With(VCode, werkingsgebiedenData.ToArray()));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)

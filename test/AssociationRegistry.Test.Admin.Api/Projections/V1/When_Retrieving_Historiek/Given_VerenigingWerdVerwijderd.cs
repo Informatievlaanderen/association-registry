@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Hist
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Common.Extensions;
 using FluentAssertions;
 using Formats;
 using System.Net;

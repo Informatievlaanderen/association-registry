@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.When_VoegContactgegevenToe;
 
 using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using Framework.Customizations;
 using Vereniging;

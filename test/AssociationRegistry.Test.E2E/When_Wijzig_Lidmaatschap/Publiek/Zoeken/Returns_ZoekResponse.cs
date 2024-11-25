@@ -54,7 +54,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschap
             },
             Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(FeitelijkeVerenigingWerdGeregistreerd.Werkingsgebieden),
+            Werkingsgebieden = [],
             Locaties = PubliekZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.Request, _testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
             Relaties = [],

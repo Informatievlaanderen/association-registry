@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.When_Creating_A_VertegenwoordigersLijst;
 
 using AutoFixture;
+using Common.AutoFixture;
 using Framework.Customizations;
 using Vereniging;
 using Vereniging.Exceptions;

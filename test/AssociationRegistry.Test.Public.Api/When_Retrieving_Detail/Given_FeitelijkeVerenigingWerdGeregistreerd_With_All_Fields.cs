@@ -49,6 +49,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
                           .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
                           .WithDatumLaatsteAanpassing(_scenario.GetCommandMetadata().Tijdstip);
 
+        foreach (var werkingsgebied in _scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden)
+        {
+            goldenMaster.WithWerkingsgebied(werkingsgebied.Code, werkingsgebied.Naam);
+        }
+
         content.Should().BeEquivalentJson(goldenMaster);
     }
 }

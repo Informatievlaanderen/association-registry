@@ -3,8 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Deta
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Events;
-using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

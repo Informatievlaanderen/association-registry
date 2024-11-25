@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using AutoFixture;
+using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
 using Vereniging;

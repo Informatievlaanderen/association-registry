@@ -3,6 +3,7 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using Framework;
@@ -97,8 +98,7 @@ public class With_Locatie_With_AdresId
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Registratiedata.Locatie.With(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-                Array.Empty<Registratiedata.Werkingsgebied>()),
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
             new AdresWerdOvergenomenUitAdressenregister(vCodeService.GetLast(), LocatieId: 1, adresDetailResponse.AdresId,
                                                         adresDetailResponse.ToAdresUitAdressenregister())
         );

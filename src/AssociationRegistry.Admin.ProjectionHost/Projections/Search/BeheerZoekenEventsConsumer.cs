@@ -28,7 +28,10 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(DoelgroepWerdGewijzigd):
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
+                case nameof(WerkingsgebiedenWerdenNietBepaald):
+                case nameof(WerkingsgebiedenWerdenBepaald):
                 case nameof(WerkingsgebiedenWerdenGewijzigd):
+                case nameof(WerkingsgebiedenWerdenNietVanToepassing):
                 case nameof(KorteNaamWerdGewijzigd):
                 case nameof(LocatieWerdGewijzigd):
                 case nameof(LocatieWerdToegevoegd):

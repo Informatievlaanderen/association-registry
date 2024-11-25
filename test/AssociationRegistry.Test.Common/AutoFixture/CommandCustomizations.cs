@@ -13,7 +13,7 @@ public static class CommandCustomizations
         fixture.CustomizeTewijzigenLidmaatschap();
     }
 
-    private static void CustomizeRegistreerFeitelijkeVerenigingCommand(this IFixture fixture)
+    public static void CustomizeRegistreerFeitelijkeVerenigingCommand(this IFixture fixture, bool withoutWerkingsgebieden = false)
     {
         fixture.Customize<RegistreerFeitelijkeVerenigingCommand>(
             composerTransformation: composer => composer.FromFactory(
@@ -27,8 +27,10 @@ public static class CommandCustomizations
                                                                  fixture.CreateMany<Contactgegeven>().ToArray(),
                                                                  fixture.CreateMany<Locatie>().ToArray(),
                                                                  fixture.CreateMany<Vertegenwoordiger>().ToArray(),
-                                                                 fixture.CreateMany<HoofdactiviteitVerenigingsloket>().Distinct().ToArray(),
-                                                                 fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
+                                                                 fixture.CreateMany<HoofdactiviteitVerenigingsloket>().DistinctBy(x => x.Code).ToArray(),
+                                                                 withoutWerkingsgebieden
+                                                                     ? []
+                                                                     : fixture.CreateMany<Werkingsgebied>().Distinct().ToArray(),
                                                                  SkipDuplicateDetection: true)
                                                          )
                                                         .OmitAutoProperties());

@@ -13,6 +13,8 @@ public class Werkingsgebieden : ReadOnlyCollection<Werkingsgebied>
     public static Werkingsgebieden NietBepaald = new(Array.Empty<Werkingsgebied>());
 
     public static Werkingsgebieden NietVanToepassing = new([Werkingsgebied.NietVanToepassing]);
+    public bool IsNietBepaald => Equals(NietBepaald);
+    public bool IsNietVanToepassing => Equals(NietVanToepassing);
 
     public static Werkingsgebieden FromArray(Werkingsgebied[] werkingsgebieden)
     {
@@ -42,4 +44,58 @@ public class Werkingsgebieden : ReadOnlyCollection<Werkingsgebied>
         Werkingsgebied[] werkingsgebieden2)
         => werkingsgebieden1.Length == werkingsgebieden2.Length &&
            werkingsgebieden1.All(werkingsgebieden2.Contains);
+
+    protected bool Equals(Werkingsgebieden other)
+    {
+        if (other is null)
+            return false;
+
+        if (Count != other.Count)
+            return false;
+
+        // Compare all elements.
+        return this.SequenceEqual(other);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        if (obj is null)
+            return false;
+
+        if (ReferenceEquals(this, obj))
+            return true;
+
+        if (obj.GetType() != GetType())
+            return false;
+
+        return Equals((Werkingsgebieden)obj);
+    }
+
+    public override int GetHashCode()
+    {
+        unchecked
+        {
+            int hash = 19;
+            foreach (var item in this)
+            {
+                hash = hash * 31 + (item?.GetHashCode() ?? 0);
+            }
+            return hash;
+        }
+    }
+
+    public static bool operator ==(Werkingsgebieden? left, Werkingsgebieden? right)
+    {
+        if (ReferenceEquals(left, right))
+            return true;
+
+        if (left is null || right is null)
+            return false;
+
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(Werkingsgebieden? left, Werkingsgebieden? right)
+        => !(left == right);
+
 }

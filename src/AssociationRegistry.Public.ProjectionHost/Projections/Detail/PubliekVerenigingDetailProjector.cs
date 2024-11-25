@@ -3,8 +3,6 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Detail;
 using Events;
 using Formats;
 using Framework;
-using Infrastructure.Extensions;
-using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
 using Schema.Constants;
@@ -34,7 +32,8 @@ public static class PubliekVerenigingDetailProjector
             Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
             Doelgroep =
                 MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                          .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
@@ -56,11 +55,7 @@ public static class PubliekVerenigingDetailProjector
             HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
 
-            Werkingsgebieden = feitelijkeVerenigingWerdGeregistreerd
-                              .Data
-                              .Werkingsgebieden?
-                              .Select(MapWerkingsgebied)
-                              .ToArray() ?? [],
+            Werkingsgebieden = [],
 
             Sleutels =
             [
@@ -317,6 +312,29 @@ public static class PubliekVerenigingDetailProjector
     }
 
     public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietBepaald> werkingsgebiedenWerdenNietBepaald,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = [];
+    }
+
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenBepaald> werkingsgebiedenWerdenBepaald,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden = werkingsgebiedenWerdenBepaald.Data.Werkingsgebieden
+                                                                 .Select(
+                                                                      h => new PubliekVerenigingDetailDocument.Werkingsgebied
+                                                                      {
+                                                                          JsonLdMetadata = new JsonLdMetadata(
+                                                                              JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
+                                                                              JsonLdType.Werkingsgebied.Type),
+                                                                          Code = h.Code,
+                                                                          Naam = h.Naam,
+                                                                      }).ToArray();
+    }
+
+    public static void Apply(
         IEvent<WerkingsgebiedenWerdenGewijzigd> werkingsgebiedenWerdenGewijzigd,
         PubliekVerenigingDetailDocument document)
     {
@@ -330,6 +348,23 @@ public static class PubliekVerenigingDetailProjector
                                                                             Code = h.Code,
                                                                             Naam = h.Naam,
                                                                         }).ToArray();
+    }
+
+    public static void Apply(
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdenNietVanToepassing,
+        PubliekVerenigingDetailDocument document)
+    {
+        document.Werkingsgebieden =
+        [
+            new PubliekVerenigingDetailDocument.Werkingsgebied
+            {
+                JsonLdMetadata = new JsonLdMetadata(
+                    JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
+                    JsonLdType.Werkingsgebied.Type),
+                Code = Werkingsgebied.NietVanToepassing.Code,
+                Naam = Werkingsgebied.NietVanToepassing.Naam,
+            }
+        ];
     }
 
     public static void Apply(
@@ -350,7 +385,8 @@ public static class PubliekVerenigingDetailProjector
         IEvent<MaatschappelijkeZetelWerdOvergenomenUitKbo> maatschappelijkeZetelWerdOvergenomenUitKbo,
         PubliekVerenigingDetailDocument document)
     {
-        document.Locaties = Enumerable.Append(document.Locaties, MapLocatie(document.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
+        document.Locaties = Enumerable.Append(document.Locaties,
+                                              MapLocatie(document.VCode, maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie))
                                       .OrderBy(l => l.LocatieId)
                                       .ToArray();
     }
@@ -706,21 +742,22 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<LidmaatschapWerdToegevoegd> lidmaatschapWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Lidmaatschappen = Enumerable.Append(document.Lidmaatschappen, MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap, document.VCode))
+        document.Lidmaatschappen = Enumerable.Append(document.Lidmaatschappen,
+                                                     MapLidmaatschap(lidmaatschapWerdToegevoegd.Data.Lidmaatschap, document.VCode))
                                              .OrderBy(l => l.LidmaatschapId)
                                              .ToArray();
     }
 
     private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
-        => new( new JsonLdMetadata(
-                    JsonLdType.Lidmaatschap.CreateWithIdValues(vCode, lidmaatschap.LidmaatschapId.ToString()),
-                    JsonLdType.Lidmaatschap.Type),
-                lidmaatschap.LidmaatschapId,
-                lidmaatschap.AndereVereniging,
-                lidmaatschap.DatumVan,
-                lidmaatschap.DatumTot,
-                lidmaatschap.Identificatie,
-                lidmaatschap.Beschrijving);
+        => new(new JsonLdMetadata(
+                   JsonLdType.Lidmaatschap.CreateWithIdValues(vCode, lidmaatschap.LidmaatschapId.ToString()),
+                   JsonLdType.Lidmaatschap.Type),
+               lidmaatschap.LidmaatschapId,
+               lidmaatschap.AndereVereniging,
+               lidmaatschap.DatumVan,
+               lidmaatschap.DatumTot,
+               lidmaatschap.Identificatie,
+               lidmaatschap.Beschrijving);
 
     public static void Apply(IEvent<LidmaatschapWerdGewijzigd> lidmaatschapWerdGewijzigd, PubliekVerenigingDetailDocument document)
     {

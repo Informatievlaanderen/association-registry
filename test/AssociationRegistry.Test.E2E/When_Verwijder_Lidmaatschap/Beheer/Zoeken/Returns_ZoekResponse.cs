@@ -60,7 +60,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatsc
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapScenarioHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerZoekResponseMapper.MapScenarioWerkingsgebieden(FeitelijkeVerenigingWerdGeregistreerd.Werkingsgebieden),
+            Werkingsgebieden = [],
             Locaties = BeheerZoekResponseMapper.MapScenarioLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = [],

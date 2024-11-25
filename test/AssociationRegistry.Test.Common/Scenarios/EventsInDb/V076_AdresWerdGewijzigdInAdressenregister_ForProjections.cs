@@ -31,7 +31,6 @@ public class V076_AdresWerdGewijzigdInAdressenregister : IEventsInDbScenario
                 Locatie,
             }.ToArray(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-            Werkingsgebieden = Array.Empty<Registratiedata.Werkingsgebied>(),
             Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),

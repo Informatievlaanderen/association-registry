@@ -44,9 +44,15 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
         => new ZoekVerenigingenResponseTemplate()
           .FromQuery(query)
           .WithVereniging(
-               v => v
-                  .FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd)
-           );
+               v =>
+               {
+                   var vereniging = v.FromEvent(_scenario.FeitelijkeVerenigingWerdGeregistreerd);
+
+                   foreach (var werkingsgebied in _scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden)
+                       vereniging.WithWerkingsgebied(werkingsgebied.Code, werkingsgebied.Naam);
+
+                   return vereniging;
+               });
 
     [Fact]
     public async Task? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()

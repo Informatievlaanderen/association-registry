@@ -51,9 +51,16 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(
-        IEvent<WerkingsgebiedenWerdenGewijzigd> @event,
-        IDocumentOperations ops)
+    public async Task Project(IEvent<WerkingsgebiedenWerdenNietBepaald> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<WerkingsgebiedenWerdenBepaald> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<WerkingsgebiedenWerdenGewijzigd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<WerkingsgebiedenWerdenNietVanToepassing> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(IEvent<ContactgegevenWerdToegevoegd> @event, IDocumentOperations ops)

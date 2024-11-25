@@ -105,7 +105,22 @@ public class PubliekVerenigingDetailProjection : EventProjection
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     public async Task Project(
+        IEvent<WerkingsgebiedenWerdenNietBepaald> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
+        IEvent<WerkingsgebiedenWerdenBepaald> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
         IEvent<WerkingsgebiedenWerdenGewijzigd> @event,
+        IDocumentOperations ops)
+        => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
+
+    public async Task Project(
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> @event,
         IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 

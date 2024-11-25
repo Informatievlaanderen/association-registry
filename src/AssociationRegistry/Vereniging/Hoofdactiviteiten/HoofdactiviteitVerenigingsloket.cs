@@ -3,7 +3,7 @@ namespace AssociationRegistry.Vereniging;
 using Exceptions;
 using System.Collections.Immutable;
 
-public class HoofdactiviteitVerenigingsloket
+public record HoofdactiviteitVerenigingsloket
 {
     private static readonly List<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket = new()
     {

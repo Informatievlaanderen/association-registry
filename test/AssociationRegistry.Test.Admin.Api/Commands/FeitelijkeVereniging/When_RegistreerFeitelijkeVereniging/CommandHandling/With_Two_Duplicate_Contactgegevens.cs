@@ -3,6 +3,7 @@
 using Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Framework;
