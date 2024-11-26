@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
 
-using Admin.Schema.Detail;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Test.Projections.Framework;
+using AssociationRegistry.Test.Projections.ScenarioClassFixtures;
 using FluentAssertions;
-using Framework;
 using Marten;
-using ScenarioClassFixtures;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

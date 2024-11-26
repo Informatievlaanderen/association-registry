@@ -1,21 +1,21 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
 
-using Admin.Schema.Detail;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Test.Projections.Framework;
+using AssociationRegistry.Test.Projections.ScenarioClassFixtures;
 using FluentAssertions;
-using Framework;
 using Marten;
-using ScenarioClassFixtures;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
+public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenGewijzigdScenario _scenario;
+    private readonly WerkingsgebiedenWerdenBepaaldScenario _scenario;
 
-    public Given_WerkingsgebiedenWerdenGewijzigd(
+    public Given_WerkingsgebiedenWerdenBepaald(
         ProjectionContext context,
-        WerkingsgebiedenWerdenGewijzigdScenario scenario)
+        WerkingsgebiedenWerdenBepaaldScenario scenario)
     {
         _context = context;
         _scenario = scenario;
@@ -28,10 +28,10 @@ public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<Werkingsgebie
             await _context
                  .Session
                  .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenGewijzigd.VCode)
+                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
                  .SingleAsync();
 
-        document.Metadata.Version.Should().Be(3);
+        document.Metadata.Version.Should().Be(2);
     }
 
     [Fact]
@@ -41,13 +41,13 @@ public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<Werkingsgebie
             await _context
                  .Session
                  .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenGewijzigd.VCode)
+                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
                  .SingleAsync();
 
         document.Werkingsgebieden
                 .Should()
                 .BeEquivalentTo(_scenario
-                               .WerkingsgebiedenWerdenGewijzigd
+                               .WerkingsgebiedenWerdenBepaald
                                .Werkingsgebieden
                                .Select(wg => new Werkingsgebied
                                 {
@@ -55,7 +55,5 @@ public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<Werkingsgebie
                                     Naam = wg.Naam,
                                 }),
                                 config: options => options.Excluding(x => x.JsonLdMetadata));
-
-        ;
     }
 }
