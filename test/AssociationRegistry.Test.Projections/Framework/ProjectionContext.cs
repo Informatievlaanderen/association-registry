@@ -17,12 +17,8 @@ using Npgsql;
 using Oakton;
 using Xunit;
 using AdminProjectionHostProgram = Admin.ProjectionHost.Program;
+using IEvent = AssociationRegistry.Framework.IEvent;
 using PublicProjectionHostProgram = Public.ProjectionHost.Program;
-
-[CollectionDefinition(nameof(ProjectionContext))]
-public class LocatieZonderAdresMatchCollection : ICollectionFixture<ProjectionContext>
-{
-}
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
 {
@@ -53,11 +49,13 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         AdminProjectionHost =
             await AlbaHost.For<AdminProjectionHostProgram>(
                 ConfigureForTesting(new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build(), _dbName));
+
         AdminElasticClient = AdminProjectionHost.Services.GetRequiredService<IElasticClient>();
 
         PublicProjectionHost =
             await AlbaHost.For<PublicProjectionHostProgram>(
                 ConfigureForTesting(new ConfigurationBuilder().AddJsonFile("appsettings.v2.publiek.json").Build(), _dbName));
+
         PublicElasticClient = PublicProjectionHost.Services.GetRequiredService<IElasticClient>();
 
         await AdminProjectionHost.DocumentStore().Advanced.ResetAllData();
@@ -70,6 +68,17 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await PublicProjectionHost.ResumeAllDaemonsAsync();
 
         Session = AdminProjectionHost.DocumentStore().LightweightSession();
+    }
+
+    public async Task SaveAsync(string vCode, params IEvent[] events)
+    {
+        await using var session = await DocumentSession();
+        session.Events.Append(vCode, events);
+        await session.SaveChangesAsync();
+
+        WaitForNonStaleProjectionData();
+        await AdminElasticClient.Indices.RefreshAsync();
+        await PublicElasticClient.Indices.RefreshAsync();
     }
 
     public async Task WaitForDataRefreshAsync()
