@@ -5,42 +5,25 @@ using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
 using JsonLdContext;
-using ScenarioClassFixtures;
 using Vereniging;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerdenNietVanToepassingFixture fixture)
+    : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingFixture>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
-
-    public Given_WerkingsgebiedenWerdenNietVanToepassing(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
-    {
-        _context = context;
-        _scenario = scenario;
-    }
-
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var getResponse =
-            await _context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(_scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode);
-
-        getResponse.Source.Werkingsgebieden
-                   .Should().BeEquivalentTo([
-                                                new VerenigingZoekDocument.Werkingsgebied
-                                                {
-                                                    JsonLdMetadata = new JsonLdMetadata(
-                                                        JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
-                                                        JsonLdType.Werkingsgebied.Type),
-                                                    Code = Werkingsgebied.NietVanToepassing.Code,
-                                                    Naam = Werkingsgebied.NietVanToepassing.Naam,
-                                                },
-                                            ]);
-    }
+    public void Document_Is_Updated()
+        => fixture.Result
+                  .Werkingsgebieden
+                  .Should().BeEquivalentTo([
+                       new VerenigingZoekDocument.Werkingsgebied
+                       {
+                           JsonLdMetadata = new JsonLdMetadata(
+                               JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
+                               JsonLdType.Werkingsgebied.Type),
+                           Code = Werkingsgebied.NietVanToepassing.Code,
+                           Naam = Werkingsgebied.NietVanToepassing.Naam,
+                       },
+                   ]);
 }

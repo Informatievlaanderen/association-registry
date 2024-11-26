@@ -17,7 +17,6 @@ using Npgsql;
 using Oakton;
 using Xunit;
 using AdminProjectionHostProgram = Admin.ProjectionHost.Program;
-using IEvent = AssociationRegistry.Framework.IEvent;
 using PublicProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
@@ -70,10 +69,15 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         Session = AdminProjectionHost.DocumentStore().LightweightSession();
     }
 
-    public async Task SaveAsync(string vCode, params IEvent[] events)
+    public async Task SaveAsync(EventsPerVCode[] events)
     {
         await using var session = await DocumentSession();
-        session.Events.Append(vCode, events);
+
+        foreach (var eventsPerVCode in events)
+        {
+            session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
+        }
+
         await session.SaveChangesAsync();
 
         WaitForNonStaleProjectionData();

@@ -14,8 +14,8 @@ public class WerkingsgebiedenWerdenBepaaldScenario : ScenarioBase
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
         WerkingsgebiedenWerdenBepaald = new WerkingsgebiedenWerdenBepaald(VerenigingWerdGeregistreerd.VCode, [
-            new(Code: "BE25535002", Naam: "Bredene"),
-            new(Code: "BE25535005", Naam: "Gistel"),
+            new Registratiedata.Werkingsgebied(Code: "BE25535002", Naam: "Bredene"),
+            new Registratiedata.Werkingsgebied(Code: "BE25535005", Naam: "Gistel"),
         ]);
     }
 

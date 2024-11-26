@@ -15,7 +15,6 @@ public class LidmaatschapWerdToegevoegdScenario : ScenarioBase
         LidmaatschapWerdToegevoegd = AutoFixture.Create<LidmaatschapWerdToegevoegd>();
     }
 
-
     public override EventsPerVCode[] Events =>
     [
         new(VerenigingWerdGeregistreerd.VCode, VerenigingWerdGeregistreerd, LidmaatschapWerdToegevoegd),
