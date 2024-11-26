@@ -1,8 +1,10 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
 
+using Admin.Schema;
 using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using ScenarioClassFixtures;
 using Vereniging;
 using Xunit;
@@ -33,10 +35,12 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<Werki
                    .Should().BeEquivalentTo([
                                                 new VerenigingZoekDocument.Werkingsgebied
                                                 {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
+                                                        JsonLdType.Werkingsgebied.Type),
                                                     Code = Werkingsgebied.NietVanToepassing.Code,
                                                     Naam = Werkingsgebied.NietVanToepassing.Naam,
                                                 },
-                                            ],
-                                            config: options => options.Excluding(x => x.JsonLdMetadata));
+                                            ]);
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Marten;
 using Public.Schema.Detail;
 using ScenarioClassFixtures;
@@ -37,11 +37,13 @@ public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<Werkingsgebiede
                 .BeEquivalentTo(_scenario
                                .WerkingsgebiedenWerdenBepaald
                                .Werkingsgebieden
-                               .Select(wg => new Werkingsgebied
+                               .Select(wg => new PubliekVerenigingDetailDocument.Werkingsgebied
                                 {
+                                    JsonLdMetadata = new JsonLdMetadata(
+                                        JsonLdType.Werkingsgebied.CreateWithIdValues(wg.Code),
+                                        JsonLdType.Werkingsgebied.Type),
                                     Code = wg.Code,
                                     Naam = wg.Naam,
-                                }),
-                                config: options => options.Excluding(x => x.JsonLdMetadata));
+                                }));
     }
 }

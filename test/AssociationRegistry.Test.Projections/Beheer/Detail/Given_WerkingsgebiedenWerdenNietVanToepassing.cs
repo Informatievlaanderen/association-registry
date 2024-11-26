@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
+using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
@@ -50,10 +52,13 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<Werki
                      [
                          new Werkingsgebied
                          {
+                             JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                 JsonLdType.Werkingsgebied,
+                                 Vereniging.Werkingsgebied.NietVanToepassing.Code),
                              Code = Vereniging.Werkingsgebied.NietVanToepassing.Code,
                              Naam = Vereniging.Werkingsgebied.NietVanToepassing.Naam,
                          },
-                     ],
-                     config: options => options.Excluding(x => x.JsonLdMetadata));
+                     ]
+                 );
     }
 }

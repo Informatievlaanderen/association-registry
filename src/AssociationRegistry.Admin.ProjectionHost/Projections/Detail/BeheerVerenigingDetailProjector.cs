@@ -225,15 +225,19 @@ public class BeheerVerenigingDetailProjector
     }
 
     public static void Apply(
-        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdNietVanToepasssing,
+        IEvent<WerkingsgebiedenWerdenNietVanToepassing> werkingsgebiedenWerdenNietVanToepasssing,
         BeheerVerenigingDetailDocument document)
     {
         document.Werkingsgebieden = [
             new Werkingsgebied
             {
+                JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                    JsonLdType.Werkingsgebied,
+                    AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Code),
+
                 Code = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Code,
                 Naam = AssociationRegistry.Vereniging.Werkingsgebied.NietVanToepassing.Naam,
-            }
+            },
         ];
     }
 

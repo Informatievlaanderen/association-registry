@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Marten;
 using Public.Schema.Detail;
 using ScenarioClassFixtures;
@@ -35,13 +35,16 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<Werki
         document.Werkingsgebieden
                 .Should()
                 .BeEquivalentTo(
-                     [
-                         new Werkingsgebied
-                         {
-                             Code = Vereniging.Werkingsgebied.NietVanToepassing.Code,
-                             Naam = Vereniging.Werkingsgebied.NietVanToepassing.Naam,
-                         },
-                     ],
-                     config: options => options.Excluding(x => x.JsonLdMetadata));
+                 [
+                     new PubliekVerenigingDetailDocument.Werkingsgebied
+                     {
+                         JsonLdMetadata = new JsonLdMetadata(
+                             JsonLdType.Werkingsgebied.CreateWithIdValues(Vereniging.Werkingsgebied.NietVanToepassing.Code),
+                             JsonLdType.Werkingsgebied.Type),
+
+                         Code = Vereniging.Werkingsgebied.NietVanToepassing.Code,
+                         Naam = Vereniging.Werkingsgebied.NietVanToepassing.Naam,
+                     },
+                 ]);
     }
 }
