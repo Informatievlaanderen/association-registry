@@ -1,3 +1,13 @@
+# [8.180.0](https://github.com/informatievlaanderen/association-registry/compare/v8.179.2...v8.180.0) (2024-11-26)
+
+
+### Features
+
+* or-2558 add new events for werkingsgebieden bepaald, niet bepaald, niet van toepassing ([9f8cf75](https://github.com/informatievlaanderen/association-registry/commit/9f8cf7506eb3679c039096fc8e91065b823886e1))
+* or-2558 add new werkingsgebieden events inside vereniging state ([b3a7aa8](https://github.com/informatievlaanderen/association-registry/commit/b3a7aa8a7dcbe0ed6bb15b87ba5ce86637663aa9))
+* or-2558 implement registreer fv werkingsgebieden with new events ([7b8d95b](https://github.com/informatievlaanderen/association-registry/commit/7b8d95b712ebff0f79222ab83d53a9802904380f))
+* or-2558 introduce new events for werkingsgebieden ([7f8026e](https://github.com/informatievlaanderen/association-registry/commit/7f8026e31325162dae309e88a9f250b21754ee04))
+
 ## [8.179.2](https://github.com/informatievlaanderen/association-registry/compare/v8.179.1...v8.179.2) (2024-11-26)
 
 
