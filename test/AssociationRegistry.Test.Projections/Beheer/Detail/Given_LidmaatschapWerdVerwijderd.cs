@@ -4,7 +4,7 @@ using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
 using Marten;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

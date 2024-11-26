@@ -5,7 +5,7 @@ using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
 using JsonLdContext;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

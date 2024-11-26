@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 using Public.Schema.Search;
 using FluentAssertions;
 using Framework;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

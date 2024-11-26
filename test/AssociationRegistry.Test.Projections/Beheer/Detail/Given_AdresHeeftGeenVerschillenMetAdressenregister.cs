@@ -1,36 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
-using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
-using Marten;
-using ScenarioClassFixtures;
+using Framework.Fixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>
+public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>>
 {
-    private readonly ProjectionContext _context;
-    private readonly AdresHeeftGeenVerschillenMetAdressenregisterScenario _scenario;
+    private readonly DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> _fixture;
 
     public Given_AdresHeeftGeenVerschillenMetAdressenregister(
-        ProjectionContext context,
-        AdresHeeftGeenVerschillenMetAdressenregisterScenario scenario)
+        DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)
     {
-        _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(2);
-    }
+    public Task Metadata_Is_Updated()
+        => Task.FromResult(_fixture.Document.Metadata.Version.Should().Be(2));
 }

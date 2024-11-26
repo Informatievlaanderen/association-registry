@@ -5,7 +5,7 @@ using FluentAssertions;
 using Framework;
 using JsonLdContext;
 using Public.Schema.Detail;
-using ScenarioClassFixtures;
+using Scenarios;
 using Vereniging;
 using Xunit;
 

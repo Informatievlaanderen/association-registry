@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
 using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

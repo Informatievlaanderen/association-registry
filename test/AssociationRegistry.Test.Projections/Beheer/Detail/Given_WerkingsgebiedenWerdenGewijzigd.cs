@@ -6,7 +6,7 @@ using FluentAssertions;
 using Framework;
 using JsonLdContext;
 using Marten;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

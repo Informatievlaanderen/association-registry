@@ -5,7 +5,7 @@ using Framework;
 using JsonLdContext;
 using Marten;
 using Public.Schema.Detail;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]

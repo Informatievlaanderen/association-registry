@@ -79,6 +79,17 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await PublicElasticClient.Indices.RefreshAsync();
     }
 
+    public async Task SaveEvents(IEnumerable<EventsPerVCode> eventsPerVCode)
+    {
+        foreach (var events in eventsPerVCode)
+        {
+            Session.Events.Append(events.VCode, events.Events);
+        }
+
+        await Session.SaveChangesAsync();
+        await WaitForDataRefreshAsync();
+    }
+
     public async Task DisposeAsync()
     {
     }

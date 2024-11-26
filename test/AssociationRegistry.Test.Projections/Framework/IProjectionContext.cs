@@ -3,4 +3,6 @@
 public interface IProjectionContext
 {
     Task WaitForDataRefreshAsync();
+
+    Task SaveEvents(IEnumerable<EventsPerVCode> events);
 }
