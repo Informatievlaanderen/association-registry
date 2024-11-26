@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 using Public.Schema.Search;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
+using Public.Schema.Detail;
 using ScenarioClassFixtures;
 using Xunit;
 
@@ -32,9 +34,11 @@ public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<Werkingsgebie
                    .Should().BeEquivalentTo(_scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden.Select(
                                                 s => new VerenigingZoekDocument.Werkingsgebied
                                                 {
+                                                    JsonLdMetadata = new JsonLdMetadata(
+                                                        JsonLdType.Werkingsgebied.CreateWithIdValues(s.Code),
+                                                        JsonLdType.Werkingsgebied.Type),
                                                     Code = s.Code,
                                                     Naam = s.Naam,
-                                                }),
-                                            config: options => options.Excluding(x => x.JsonLdMetadata));
+                                                }));
     }
 }

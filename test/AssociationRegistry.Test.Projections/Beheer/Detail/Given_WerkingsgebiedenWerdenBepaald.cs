@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
+using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using JsonLdContext;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
@@ -51,9 +53,11 @@ public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<Werkingsgebiede
                                .Werkingsgebieden
                                .Select(wg => new Werkingsgebied
                                 {
+                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                        JsonLdType.Werkingsgebied,
+                                        wg.Code),
                                     Code = wg.Code,
                                     Naam = wg.Naam,
-                                }),
-                                config: options => options.Excluding(x => x.JsonLdMetadata));
+                                }));
     }
 }
