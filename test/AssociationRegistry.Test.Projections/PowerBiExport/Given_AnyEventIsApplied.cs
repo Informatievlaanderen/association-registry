@@ -2,18 +2,19 @@
 
 using Admin.Schema.PowerBiExport;
 using FluentAssertions;
+using Framework;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
 {
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
     private readonly ApplyAllEventsScenario _scenario;
 
     public Given_AnyEventIsApplied(
-        PowerBiExportContext context,
+        ProjectionContext context,
         ApplyAllEventsScenario scenario)
     {
         _context = context;

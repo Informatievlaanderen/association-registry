@@ -3,18 +3,19 @@
 using Admin.Schema.PowerBiExport;
 using Events;
 using FluentAssertions;
+using Framework;
 using Marten;
 using Xunit;
 using LidmaatschapWerdVerwijderdScenario = ScenarioClassFixtures.LidmaatschapWerdVerwijderdScenario;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdVerwijderd : IClassFixture<LidmaatschapWerdVerwijderdScenario>
 {
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
     private readonly LidmaatschapWerdVerwijderdScenario _scenario;
 
     public Given_LidmaatschapWerdVerwijderd(
-        PowerBiExportContext context,
+        ProjectionContext context,
         LidmaatschapWerdVerwijderdScenario scenario)
     {
         _context = context;

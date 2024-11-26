@@ -45,7 +45,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        DropDatabase();
+        //DropDatabase();
         EnsureDbExists(GetConfiguration());
 
         OaktonEnvironment.AutoStartHost = true;

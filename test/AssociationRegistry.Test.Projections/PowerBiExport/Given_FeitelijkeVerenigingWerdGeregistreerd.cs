@@ -2,19 +2,20 @@
 
 using Admin.Schema.PowerBiExport;
 using FluentAssertions;
+using Framework;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
 {
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
 
     public Given_FeitelijkeVerenigingWerdGeregistreerd(
-        PowerBiExportContext context,
+        ProjectionContext context,
         FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
     {
         _context = context;
