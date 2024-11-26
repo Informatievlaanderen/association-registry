@@ -1,3 +1,11 @@
+## [8.179.2](https://github.com/informatievlaanderen/association-registry/compare/v8.179.1...v8.179.2) (2024-11-26)
+
+
+### Bug Fixes
+
+* or-2558 check if locatie is already present when appending ([fe8e4d3](https://github.com/informatievlaanderen/association-registry/commit/fe8e4d3810dd8229eb880f047f47602d8f5456db))
+* or-2558 show less werkingsgebieden for patch kbo requestexample ([dce44bc](https://github.com/informatievlaanderen/association-registry/commit/dce44bcc3831ee79d7ca9ab408889c4e2b7bc636))
+
 ## [8.179.1](https://github.com/informatievlaanderen/association-registry/compare/v8.179.0...v8.179.1) (2024-11-20)
 
 
