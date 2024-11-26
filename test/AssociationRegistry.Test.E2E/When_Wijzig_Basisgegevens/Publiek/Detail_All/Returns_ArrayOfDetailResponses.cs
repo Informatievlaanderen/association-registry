@@ -73,6 +73,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
             Status = VerenigingStatus.Actief,
             Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.RegistratieData.Contactgegevens, TestContext.VCode),
             HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, TestContext.VCode),
             Relaties = PubliekDetailResponseMapper.MapRelaties([], TestContext.VCode),
             Sleutels = PubliekDetailResponseMapper.MapSleutels(Request, TestContext.VCode),

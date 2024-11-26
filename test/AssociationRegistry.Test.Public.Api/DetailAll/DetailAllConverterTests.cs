@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Detail;
+using AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Public.Api.Framework;
@@ -101,7 +102,7 @@ public class DetailAllConverterTests
         document.Deleted = false;
 
         var actual = converter.SerializeToJson(document);
-        var expected = JsonConvert.SerializeObject(PubliekVerenigingDetailMapper.MapDetailAll(document, appSettings), _serializerSettings);
+        var expected = JsonConvert.SerializeObject(PubliekVerenigingDetailAllMapper.Map(document, appSettings), _serializerSettings);
 
         actual.Should().BeEquivalentTo(expected);
     }

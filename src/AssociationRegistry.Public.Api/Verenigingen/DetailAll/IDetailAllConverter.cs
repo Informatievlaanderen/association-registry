@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 
 using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Formatters.Json;
 using Infrastructure.ConfigurationBindings;
@@ -26,7 +26,6 @@ public class DetailAllConverter : IDetailAllConverter
     public string SerializeToJson(PubliekVerenigingDetailDocument vereniging)
     {
         if (IsTeVerwijderenVereniging(vereniging))
-        {
             return
                 JsonConvert.SerializeObject(
                     new TeVerwijderenVereniging
@@ -39,9 +38,9 @@ public class DetailAllConverter : IDetailAllConverter
                         },
                     },
                     _serializerSettings);
-        }
 
-        var mappedVereniging = PubliekVerenigingDetailMapper.MapDetailAll(vereniging, _appSettings);
+        var mappedVereniging = PubliekVerenigingDetailAllMapper.Map(vereniging, _appSettings);
+
         return JsonConvert.SerializeObject(mappedVereniging, _serializerSettings);
     }
 

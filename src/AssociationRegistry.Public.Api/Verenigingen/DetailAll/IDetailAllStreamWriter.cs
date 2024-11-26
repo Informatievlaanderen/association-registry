@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 
 using Schema.Detail;
 

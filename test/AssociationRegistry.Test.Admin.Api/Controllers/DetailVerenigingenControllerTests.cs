@@ -34,7 +34,7 @@ public class DetailVerenigingenControllerTests
             .Setup(query => query.ExecuteAsync(It.IsAny<GetNamesForVCodesFilter>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(namenVoorLidmaatschappen);
 
-        var sut = new DetailVerenigingenController(new AppSettings());
+        var sut = new DetailAllVerenigingenController(new AppSettings());
 
         await sut.Detail(
             Mock.Of<ISequenceGuarder>(),

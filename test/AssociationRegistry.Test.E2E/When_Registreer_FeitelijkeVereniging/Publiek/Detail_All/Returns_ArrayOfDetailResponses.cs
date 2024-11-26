@@ -23,6 +23,7 @@ using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
 using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
@@ -75,6 +76,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVe
             Status = VerenigingStatus.Actief,
             Contactgegevens = MapLocaties(Request.Contactgegevens, TestContext.VCode),
             HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, TestContext.VCode),
             Relaties = MapRelaties([], TestContext.VCode),
             Sleutels = MapSleutels(Request, TestContext.VCode),
@@ -148,6 +150,23 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVe
                 Naam = hoofdactiviteitVerenigingsloket.Naam,
                 id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
                 type = JsonLdType.Hoofdactiviteit.Type,
+            };
+        }).ToArray();
+    }
+
+    private static Werkingsgebied[] MapWerkingsgebieden(
+        string[] werkingsgebieden)
+    {
+        return werkingsgebieden.Select(x =>
+        {
+            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+
+            return new Werkingsgebied()
+            {
+                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
+                type = JsonLdType.Werkingsgebied.Type,
+                Code = werkingsgebied.Code,
+                Naam = werkingsgebied.Naam,
             };
         }).ToArray();
     }

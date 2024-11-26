@@ -73,6 +73,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
             HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),

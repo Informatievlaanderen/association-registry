@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 
 using Schema.Detail;
 using System.Text;
@@ -30,7 +30,8 @@ public class DetailAllStreamWriter : IDetailAllStreamWriter
         var ms = new MemoryStream();
         await inputStream.CopyToAsync(ms, cancellationToken);
 
-        ms.Seek(0, SeekOrigin.Begin);
+        ms.Seek(offset: 0, SeekOrigin.Begin);
+
         return ms;
     }
 }
