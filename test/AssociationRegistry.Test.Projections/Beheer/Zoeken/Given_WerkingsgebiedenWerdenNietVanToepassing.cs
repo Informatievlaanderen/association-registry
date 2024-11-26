@@ -4,34 +4,27 @@ using Admin.Schema;
 using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using JsonLdContext;
 using Scenarios;
 using Vereniging;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<BeheerZoekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
+    private readonly BeheerZoekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenNietVanToepassing(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
+        BeheerZoekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> fixture)
     {
-        _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Document_Is_Updated()
+    public void Document_Is_Updated()
     {
-        var getResponse =
-            await _context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(_scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode);
-
-        getResponse.Source.Werkingsgebieden
+        _fixture.Document.Werkingsgebieden
                    .Should().BeEquivalentTo([
                                                 new VerenigingZoekDocument.Werkingsgebied
                                                 {

@@ -4,34 +4,27 @@ using Admin.Schema;
 using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using JsonLdContext;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<BeheerZoekClassFixture<WerkingsgebiedenWerdenBepaaldScenario>>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenBepaaldScenario _scenario;
+    private readonly BeheerZoekClassFixture<WerkingsgebiedenWerdenBepaaldScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenBepaald(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenBepaaldScenario scenario)
+        BeheerZoekClassFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
     {
-        _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Document_Is_Updated()
+    public void Document_Is_Updated()
     {
-        var getResponse =
-            await _context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(_scenario.WerkingsgebiedenWerdenBepaald.VCode);
-
-        getResponse.Source.Werkingsgebieden
-                   .Should().BeEquivalentTo(_scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
+        _fixture.Document.Werkingsgebieden
+                   .Should().BeEquivalentTo(_fixture.Scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
                                                 s => new VerenigingZoekDocument.Werkingsgebied
                                                 {
                                                     JsonLdMetadata = new JsonLdMetadata(

@@ -1,34 +1,29 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
 
-using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietBepaald : IClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenNietBepaald : IClassFixture<BeheerZoekClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietBepaaldScenario _scenario;
+    private readonly BeheerZoekClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenNietBepaald(
         ProjectionContext context,
-        WerkingsgebiedenWerdenNietBepaaldScenario scenario)
+        BeheerZoekClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Document_Is_Updated()
+    public void Document_Is_Updated()
     {
-        var getResponse =
-            await _context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(_scenario.WerkingsgebiedenWerdenNietBepaald.VCode);
-
-        getResponse.Source.Werkingsgebieden
+        _fixture.Document.Werkingsgebieden
                    .Should().BeEmpty();
     }
 }

@@ -7,17 +7,17 @@ using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>>
+public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<BeheerDetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>>
 {
-    private readonly DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> _fixture;
+    private readonly BeheerDetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> _fixture;
 
     public Given_AdresHeeftGeenVerschillenMetAdressenregister(
-        DetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)
+        BeheerDetailClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)
     {
         _fixture = fixture;
     }
 
     [Fact]
-    public Task Metadata_Is_Updated()
-        => Task.FromResult(_fixture.Document.Metadata.Version.Should().Be(2));
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(2);
 }

@@ -4,52 +4,36 @@ using Admin.Schema.Historiek;
 using Events;
 using FluentAssertions;
 using Framework;
-using Marten;
+using Framework.Fixtures;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<HistoriekClassFixture<WerkingsgebiedenWerdenBepaaldScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenBepaaldScenario _scenario;
+    private readonly HistoriekClassFixture<WerkingsgebiedenWerdenBepaaldScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenBepaald(
         ProjectionContext context,
-        WerkingsgebiedenWerdenBepaaldScenario scenario)
+        HistoriekClassFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(2);
-    }
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(2);
 
     [Fact]
-    public async Task Document_Is_Updated()
+    public void Document_Is_Updated()
     {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
-                 .SingleAsync();
-
-        document.Gebeurtenissen.Last()
+        _fixture.Document.Gebeurtenissen.Last()
                 .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
                                              Beschrijving: "Werkingsgebieden werden bepaald.",
                                              nameof(WerkingsgebiedenWerdenBepaald),
-                                             _scenario.WerkingsgebiedenWerdenBepaald,
+                                             _fixture.Scenario.WerkingsgebiedenWerdenBepaald,
                                              _context.MetadataInitiator,
                                              _context.MetadataTijdstip));
     }

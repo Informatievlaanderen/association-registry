@@ -4,53 +4,35 @@ using Admin.Schema.Historiek;
 using Events;
 using FluentAssertions;
 using Framework;
-using Marten;
+using Framework.Fixtures;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
+public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<HistoriekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenGewijzigdScenario _scenario;
+    private readonly HistoriekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenGewijzigd(
         ProjectionContext context,
-        WerkingsgebiedenWerdenGewijzigdScenario scenario)
+        HistoriekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenGewijzigd.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(3);
-    }
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenGewijzigd.VCode)
-                 .SingleAsync();
-
-        document.Gebeurtenissen.Last()
-                .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                             Beschrijving: "Werkingsgebieden werden gewijzigd.",
-                                             nameof(WerkingsgebiedenWerdenGewijzigd),
-                                             _scenario.WerkingsgebiedenWerdenGewijzigd,
-                                             _context.MetadataInitiator,
-                                             _context.MetadataTijdstip));
-    }
+    public void Document_Is_Updated()
+        => _fixture.Document.Gebeurtenissen.Last()
+                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
+                                                Beschrijving: "Werkingsgebieden werden gewijzigd.",
+                                                nameof(WerkingsgebiedenWerdenGewijzigd),
+                                                _fixture.Scenario.WerkingsgebiedenWerdenGewijzigd,
+                                                _context.MetadataInitiator,
+                                                _context.MetadataTijdstip));
 }

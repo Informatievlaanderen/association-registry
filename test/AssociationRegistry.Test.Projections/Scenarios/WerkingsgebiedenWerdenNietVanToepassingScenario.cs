@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenarios;
 
-using Admin.Schema.Detail;
 using Events;
-using Framework;
 
 public class WerkingsgebiedenWerdenNietVanToepassingScenario : IScenario
 {

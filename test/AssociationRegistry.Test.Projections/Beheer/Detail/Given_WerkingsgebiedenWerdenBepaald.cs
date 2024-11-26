@@ -4,60 +4,39 @@ using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using JsonLdContext;
-using Marten;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenBepaald : IClassFixture<BeheerDetailClassFixture<WerkingsgebiedenWerdenBepaaldScenario>>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenBepaaldScenario _scenario;
+    private readonly BeheerDetailClassFixture<WerkingsgebiedenWerdenBepaaldScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenBepaald(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenBepaaldScenario scenario)
+        BeheerDetailClassFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
     {
-        _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(2);
-    }
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(2);
 
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenBepaald.VCode)
-                 .SingleAsync();
-
-        document.Werkingsgebieden
-                .Should()
-                .BeEquivalentTo(_scenario
-                               .WerkingsgebiedenWerdenBepaald
-                               .Werkingsgebieden
-                               .Select(wg => new Werkingsgebied
-                                {
-                                    JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
-                                        JsonLdType.Werkingsgebied,
-                                        wg.Code),
-                                    Code = wg.Code,
-                                    Naam = wg.Naam,
-                                }));
-    }
+    public void Document_Is_Updated()
+        => _fixture.Document.Werkingsgebieden
+                   .Should()
+                   .BeEquivalentTo(_fixture
+                                  .Scenario.WerkingsgebiedenWerdenBepaald
+                                  .Werkingsgebieden
+                                  .Select(wg => new Werkingsgebied
+                                   {
+                                       JsonLdMetadata = BeheerVerenigingDetailMapper.CreateJsonLdMetadata(
+                                           JsonLdType.Werkingsgebied,
+                                           wg.Code),
+                                       Code = wg.Code,
+                                       Naam = wg.Naam,
+                                   }));
 }

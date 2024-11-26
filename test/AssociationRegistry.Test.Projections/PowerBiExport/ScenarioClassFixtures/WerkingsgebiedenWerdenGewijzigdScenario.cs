@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtur
 using AutoFixture;
 using Events;
 using Framework;
-using Framework.Fixtures;
 
 public class WerkingsgebiedenWerdenGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
 {

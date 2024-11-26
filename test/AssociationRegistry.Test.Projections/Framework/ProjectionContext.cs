@@ -69,7 +69,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await AdminProjectionHost.ResumeAllDaemonsAsync();
         await PublicProjectionHost.ResumeAllDaemonsAsync();
 
-        Session = AdminProjectionHost.DocumentStore().LightweightSession();
+        Session = await DocumentSession();
     }
 
     public async Task WaitForDataRefreshAsync()

@@ -4,34 +4,30 @@ using Admin.Schema;
 using Admin.Schema.Search;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using JsonLdContext;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
+public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<BeheerZoekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenGewijzigdScenario _scenario;
+    private readonly BeheerZoekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenGewijzigd(
         ProjectionContext context,
-        WerkingsgebiedenWerdenGewijzigdScenario scenario)
+        BeheerZoekClassFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Document_Is_Updated()
+    public void Document_Is_Updated()
     {
-        var getResponse =
-            await _context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(_scenario.WerkingsgebiedenWerdenGewijzigd.VCode);
-
-        getResponse.Source.Werkingsgebieden
-                   .Should().BeEquivalentTo(_scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden.Select(
+        _fixture.Document.Werkingsgebieden
+                   .Should().BeEquivalentTo(_fixture.Scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden.Select(
                                                 s => new VerenigingZoekDocument.Werkingsgebied
                                                 {
                                                     JsonLdMetadata = new JsonLdMetadata(

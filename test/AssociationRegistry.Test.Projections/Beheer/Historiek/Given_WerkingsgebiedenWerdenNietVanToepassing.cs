@@ -4,53 +4,35 @@ using Admin.Schema.Historiek;
 using Events;
 using FluentAssertions;
 using Framework;
-using Marten;
+using Framework.Fixtures;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<HistoriekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
+    private readonly HistoriekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenNietVanToepassing(
         ProjectionContext context,
-        WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
+        HistoriekClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(3);
-    }
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode)
-                 .SingleAsync();
-
-        document.Gebeurtenissen.Last()
-                .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                             Beschrijving: "Werkingsgebieden werden niet van toepassing.",
-                                             nameof(WerkingsgebiedenWerdenNietVanToepassing),
-                                             _scenario.WerkingsgebiedenWerdenNietVanToepassing,
-                                             _context.MetadataInitiator,
-                                             _context.MetadataTijdstip));
-    }
+    public void Document_Is_Updated()
+        => _fixture.Document.Gebeurtenissen.Last()
+                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
+                                                Beschrijving: "Werkingsgebieden werden niet van toepassing.",
+                                                nameof(WerkingsgebiedenWerdenNietVanToepassing),
+                                                _fixture.Scenario.WerkingsgebiedenWerdenNietVanToepassing,
+                                                _context.MetadataInitiator,
+                                                _context.MetadataTijdstip));
 }

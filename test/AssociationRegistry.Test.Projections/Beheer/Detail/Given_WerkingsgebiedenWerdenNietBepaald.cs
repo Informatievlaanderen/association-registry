@@ -1,51 +1,29 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
-using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
-using Marten;
+using Framework.Fixtures;
 using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietBepaald : IClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenNietBepaald : IClassFixture<BeheerDetailClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietBepaaldScenario _scenario;
+    private readonly BeheerDetailClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario> _fixture;
 
     public Given_WerkingsgebiedenWerdenNietBepaald(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenNietBepaaldScenario scenario)
+        BeheerDetailClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
     {
-        _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietBepaald.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(3);
-    }
+    public void Metadata_Is_Updated()
+        => _fixture.Document.Metadata.Version.Should().Be(3);
 
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietBepaald.VCode)
-                 .SingleAsync();
-
-        document.Werkingsgebieden
-                .Should()
-                .BeEmpty();
-    }
+    public void Document_Is_Updated()
+        => _fixture.Document.Werkingsgebieden
+                   .Should()
+                   .BeEmpty();
 }

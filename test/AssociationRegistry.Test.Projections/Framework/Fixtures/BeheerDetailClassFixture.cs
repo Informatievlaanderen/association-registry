@@ -3,10 +3,10 @@
 using Admin.Schema.Detail;
 using Marten;
 
-public class DetailClassFixture<TScenario> : ProjectionScenarioFixture<ProjectionContext, TScenario, BeheerVerenigingDetailDocument>
+public class BeheerDetailClassFixture<TScenario> : ProjectionScenarioFixture<ProjectionContext, TScenario, BeheerVerenigingDetailDocument>
     where TScenario : IScenario, new()
 {
-    public DetailClassFixture(ProjectionContext context) : base(context, new TScenario())
+    public BeheerDetailClassFixture(ProjectionContext context) : base(context, new TScenario())
     {
     }
 

@@ -10,23 +10,9 @@
   <ItemGroup>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Remove="Beheer\LocatieZonderAdresMatch\**" />
-    <Content Remove="PowerBiExport\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Beheer\LocatieZonderAdresMatch\**" />
-    <Compile Remove="PowerBiExport\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Remove="Beheer\LocatieZonderAdresMatch\**" />
-    <EmbeddedResource Remove="PowerBiExport\**" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Beheer\LocatieZonderAdresMatch\**" />
-    <None Remove="PowerBiExport\**" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
