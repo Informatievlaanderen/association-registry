@@ -302,6 +302,21 @@ jobs:
       run-docker-otelcollector: true
     secrets: inherit
 
+  run-projections-tests:
+    name: Run projections tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.Projections
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-localstack: false
+      run-docker-otelcollector: false
+    secrets: inherit
+
   pack-association-registry:
     name: Pack Association Registry Domain
     uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
