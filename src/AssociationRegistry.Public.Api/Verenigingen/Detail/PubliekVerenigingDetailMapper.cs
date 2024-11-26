@@ -68,7 +68,7 @@ public static class PubliekVerenigingDetailMapper
                 Contactgegevens = document.Contactgegevens.Select(Map).ToArray(),
                 Locaties = document.Locaties.Select(Map).ToArray(),
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
-                //Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
+                Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
                 Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, new EmptyStringNamenVoorLidmaatschapMapper())).ToArray(),
