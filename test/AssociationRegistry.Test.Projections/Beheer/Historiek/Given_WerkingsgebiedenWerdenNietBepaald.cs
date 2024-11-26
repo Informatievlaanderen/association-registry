@@ -4,53 +4,28 @@ using Admin.Schema.Historiek;
 using Events;
 using FluentAssertions;
 using Framework;
-using Marten;
-using ScenarioClassFixtures;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietBepaald : IClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
+public class Given_WerkingsgebiedenWerdenNietBepaald(WerkingsgebiedenWerdenNietBepaaldFixture fixture)
+    : IClassFixture<WerkingsgebiedenWerdenNietBepaaldFixture>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietBepaaldScenario _scenario;
-
-    public Given_WerkingsgebiedenWerdenNietBepaald(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenNietBepaaldScenario scenario)
-    {
-        _context = context;
-        _scenario = scenario;
-    }
+    [Fact]
+    public void Metadata_Is_Updated()
+        => fixture.Result
+                  .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public async Task Metadata_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietBepaald.VCode)
-                 .SingleAsync();
-
-        document.Metadata.Version.Should().Be(3);
-    }
-
-    [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<BeheerVerenigingHistoriekDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietBepaald.VCode)
-                 .SingleAsync();
-
-        document.Gebeurtenissen.Last()
-                .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                             Beschrijving: "Werkingsgebieden werden niet bepaald.",
-                                             nameof(WerkingsgebiedenWerdenNietBepaald),
-                                             _scenario.WerkingsgebiedenWerdenNietBepaald,
-                                             _context.MetadataInitiator,
-                                             _context.MetadataTijdstip));
-    }
+    public void Document_Is_Updated()
+        => fixture.Result
+                  .Gebeurtenissen.Last()
+                  .Should()
+                  .BeEquivalentTo(
+                       new BeheerVerenigingHistoriekGebeurtenis(
+                           Beschrijving: "Werkingsgebieden werden niet bepaald.",
+                           nameof(WerkingsgebiedenWerdenNietBepaald),
+                           fixture.Scenario.WerkingsgebiedenWerdenNietBepaald,
+                           fixture.Context.MetadataInitiator,
+                           fixture.Context.MetadataTijdstip)
+                   );
 }

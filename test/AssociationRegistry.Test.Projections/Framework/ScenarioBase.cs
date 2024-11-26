@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
-using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Common.AutoFixture;
 
 public abstract class ScenarioBase : IScenario
 {
