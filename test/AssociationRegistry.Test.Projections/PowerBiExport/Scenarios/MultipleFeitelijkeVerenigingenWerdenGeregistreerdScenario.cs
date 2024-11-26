@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtures;
+namespace AssociationRegistry.Test.Projections.PowerBiExport.Scenarios;
 
 using AutoFixture;
 using Events;

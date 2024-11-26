@@ -6,7 +6,7 @@ using FluentAssertions;
 using Framework;
 using Marten;
 using Xunit;
-using LidmaatschapWerdVerwijderdScenario = ScenarioClassFixtures.LidmaatschapWerdVerwijderdScenario;
+using LidmaatschapWerdVerwijderdScenario = Scenarios.LidmaatschapWerdVerwijderdScenario;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdVerwijderd : IClassFixture<LidmaatschapWerdVerwijderdScenario>

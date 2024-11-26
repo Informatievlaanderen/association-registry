@@ -1,18 +1,17 @@
-namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtures;
+namespace AssociationRegistry.Test.Projections.PowerBiExport.Scenarios;
 
 using AutoFixture;
 using Events;
 using Framework;
 
-public class LidmaatschapWerdGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class LidmaatschapWerdToegevoegdScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     public string VCodeDochter { get; private set; }
     public string VCodeMoeder { get; private set; }
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; private set; }
-    public LidmaatschapWerdGewijzigd LidmaatschapWerdGewijzigd { get; private set; }
     public FeitelijkeVerenigingWerdGeregistreerd[] VerenigingenwerdenGeregistreerd { get; }
 
-    public LidmaatschapWerdGewijzigdScenario(ProjectionContext context) : base(context)
+    public LidmaatschapWerdToegevoegdScenario(ProjectionContext context) : base(context)
     {
         VerenigingenwerdenGeregistreerd = AutoFixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>()
                                                      .ToArray();
@@ -39,17 +38,7 @@ public class LidmaatschapWerdGewijzigdScenario : ProjectionScenarioFixture<Proje
             },
         };
 
-        LidmaatschapWerdGewijzigd = AutoFixture.Create<LidmaatschapWerdGewijzigd>() with
-        {
-            VCode = VCodeDochter,
-            Lidmaatschap = AutoFixture.Create<Registratiedata.Lidmaatschap>() with
-            {
-                LidmaatschapId = LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                AndereVereniging = VCodeMoeder,
-            },
-        };
-
-        session.Events.Append(VCodeDochter, LidmaatschapWerdToegevoegd, LidmaatschapWerdGewijzigd);
+        session.Events.Append(VCodeDochter, LidmaatschapWerdToegevoegd);
 
         await session.SaveChangesAsync();
     }

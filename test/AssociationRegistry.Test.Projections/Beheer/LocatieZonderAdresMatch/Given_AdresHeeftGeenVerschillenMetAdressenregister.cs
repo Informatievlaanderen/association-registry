@@ -3,22 +3,23 @@
 using Admin.Schema.Detail;
 using FluentAssertions;
 using Framework;
+using Framework.Fixtures;
 using Marten;
-using ScenarioClassFixtures;
+using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>
+public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<LocatieZonderAdresMatchClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>>
 {
     private readonly ProjectionContext _context;
-    private readonly AdresHeeftGeenVerschillenMetAdressenregisterScenario _scenario;
+    private readonly LocatieZonderAdresMatchClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> _fixture;
 
     public Given_AdresHeeftGeenVerschillenMetAdressenregister(
         ProjectionContext context,
-        AdresHeeftGeenVerschillenMetAdressenregisterScenario scenario)
+        LocatieZonderAdresMatchClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)
     {
         _context = context;
-        _scenario = scenario;
+        _fixture = fixture;
     }
 
     [Fact]
@@ -28,8 +29,8 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<
             await _context
                  .Session
                  .Query<LocatieZonderAdresMatchDocument>()
-                 .Where(w => w.VCode == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.VCode
-                          && w.LocatieId == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.LocatieId)
+                 .Where(w => w.VCode == _fixture.Scenario.AdresHeeftGeenVerschillenMetAdressenregister.VCode
+                          && w.LocatieId == _fixture.Scenario.AdresHeeftGeenVerschillenMetAdressenregister.LocatieId)
                  .SingleOrDefaultAsync();
 
         locatieZonderAdresMatchDocument.Should().BeNull();

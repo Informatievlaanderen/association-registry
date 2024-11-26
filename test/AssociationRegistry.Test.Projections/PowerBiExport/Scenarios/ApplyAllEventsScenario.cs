@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.PowerBiExport.Scenarios;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -6,7 +6,7 @@ using Common.AutoFixture;
 using Events;
 using Framework;
 
-public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>
+public class ApplyAllEventsScenario : IScenario
 {
     private readonly Fixture _fixture;
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; private set; }
