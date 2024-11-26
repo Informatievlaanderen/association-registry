@@ -1,3 +1,10 @@
+## [8.181.1](https://github.com/informatievlaanderen/association-registry/compare/v8.181.0...v8.181.1) (2024-11-26)
+
+
+### Bug Fixes
+
+* or-2558 add JsonLdMetadata to beheer detail ([e015f1f](https://github.com/informatievlaanderen/association-registry/commit/e015f1ff956b7a31d15a8bbf6f2e2e8c1e8f4eca))
+
 # [8.181.0](https://github.com/informatievlaanderen/association-registry/compare/v8.180.0...v8.181.0) (2024-11-26)
 
 
