@@ -2,27 +2,20 @@
 
 using Events;
 using Framework;
-using Framework.Fixtures;
 
-public class WerkingsgebiedenWerdenNietVanToepassingScenario : ProjectionScenarioFixture<ProjectionContext>
+public class WerkingsgebiedenWerdenNietVanToepassingScenario : ScenarioBase
 {
+    private readonly WerkingsgebiedenWerdenBepaaldScenario _werdBepaaldScenario = new();
     public WerkingsgebiedenWerdenNietVanToepassing WerkingsgebiedenWerdenNietVanToepassing { get; }
 
-    public WerkingsgebiedenWerdenNietVanToepassingScenario(ProjectionContext context) : base(context)
+    public WerkingsgebiedenWerdenNietVanToepassingScenario()
     {
-        var scenario = new WerkingsgebiedenWerdenBepaaldScenario(context);
-        scenario.Given().GetAwaiter().GetResult();
-
-        WerkingsgebiedenWerdenNietVanToepassing = new WerkingsgebiedenWerdenNietVanToepassing(scenario.WerkingsgebiedenWerdenBepaald.VCode);
+        WerkingsgebiedenWerdenNietVanToepassing =
+            new WerkingsgebiedenWerdenNietVanToepassing(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
-
-        session.Events.Append(WerkingsgebiedenWerdenNietVanToepassing.VCode,
-                              WerkingsgebiedenWerdenNietVanToepassing);
-
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
+    [
+        new EventsPerVCode(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, WerkingsgebiedenWerdenNietVanToepassing),
+    ]).ToArray();
 }

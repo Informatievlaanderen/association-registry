@@ -2,29 +2,23 @@
 
 using Events;
 using Framework;
-using Framework.Fixtures;
 
-public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 {
+    private readonly LidmaatschapWerdToegevoegdScenario _werdToegevoegdScenario;
     public LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd { get; }
 
-    public LidmaatschapWerdVerwijderdScenario(ProjectionContext context) : base(context)
+    public LidmaatschapWerdVerwijderdScenario()
     {
-        var scenario = new LidmaatschapWerdToegevoegdScenario(context);
-        scenario.Given().GetAwaiter().GetResult();
+        _werdToegevoegdScenario = new LidmaatschapWerdToegevoegdScenario();
 
         LidmaatschapWerdVerwijderd = new LidmaatschapWerdVerwijderd(
-            Lidmaatschap: scenario.LidmaatschapWerdToegevoegd.Lidmaatschap,
-            VCode: scenario.VerenigingWerdGeregistreerd.VCode);
+            Lidmaatschap: _werdToegevoegdScenario.LidmaatschapWerdToegevoegd.Lidmaatschap,
+            VCode: _werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
-
-        session.Events.Append(LidmaatschapWerdVerwijderd.VCode,
-                              LidmaatschapWerdVerwijderd);
-
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events => _werdToegevoegdScenario.Events.Union(
+    [
+        new(_werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode, LidmaatschapWerdVerwijderd),
+    ]).ToArray();
 }

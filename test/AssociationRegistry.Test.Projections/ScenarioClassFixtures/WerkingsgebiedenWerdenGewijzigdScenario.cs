@@ -2,30 +2,23 @@
 
 using Events;
 using Framework;
-using Framework.Fixtures;
 
-public class WerkingsgebiedenWerdenGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class WerkingsgebiedenWerdenGewijzigdScenario : ScenarioBase
 {
+    private readonly WerkingsgebiedenWerdenBepaaldScenario _werdBepaaldScenario = new();
     public WerkingsgebiedenWerdenGewijzigd WerkingsgebiedenWerdenGewijzigd { get; }
 
-    public WerkingsgebiedenWerdenGewijzigdScenario(ProjectionContext context) : base(context)
+    public WerkingsgebiedenWerdenGewijzigdScenario()
     {
-        var scenario = new WerkingsgebiedenWerdenBepaaldScenario(context);
-        scenario.Given().GetAwaiter().GetResult();
-
-        WerkingsgebiedenWerdenGewijzigd = new WerkingsgebiedenWerdenGewijzigd(scenario.WerkingsgebiedenWerdenBepaald.VCode, new[]
-        {
+        WerkingsgebiedenWerdenGewijzigd = new WerkingsgebiedenWerdenGewijzigd(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, [
             new Registratiedata.Werkingsgebied(Code: "BE25535011", Naam: "Middelkerke"),
-            new Registratiedata.Werkingsgebied(Code: "BE25535013", Naam: "Oostende"),
-            new Registratiedata.Werkingsgebied(Code: "BE25535014", Naam: "Oudenburg"),
-        });
+            new(Code: "BE25535013", Naam: "Oostende"),
+            new(Code: "BE25535014", Naam: "Oudenburg"),
+        ]);
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
-
-        session.Events.Append(WerkingsgebiedenWerdenGewijzigd.VCode, WerkingsgebiedenWerdenGewijzigd);
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
+    [
+        new EventsPerVCode(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, WerkingsgebiedenWerdenGewijzigd),
+    ]).ToArray();
 }
