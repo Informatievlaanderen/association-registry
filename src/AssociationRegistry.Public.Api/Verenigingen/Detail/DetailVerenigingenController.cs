@@ -59,35 +59,8 @@ public class DetailVerenigingenController : ApiController
         var namesForLidmaatschappen =
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
-
-        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
-    }
-
-    /// <summary>
-    ///     Vraag het detail van alle vereniging op.
-    /// </summary>
-    /// <response code="302">Het detail van alle vereniging</response>
-    /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpGet("detail/all")]
-    [ProducesResponseType(StatusCodes.Status302Found)]
-    [SwaggerResponseHeader(StatusCodes.Status302Found, name: "Location", type:"string", description:"De locatie van het te downloaden bestand.")]
-    [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status500InternalServerError)]
-    [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
-    [Produces(WellknownMediaTypes.JsonLd)]
-    public async Task<IActionResult> GetAll(
-        [FromServices] IPubliekVerenigingenDetailAllQuery query,
-        [FromServices] IDetailAllStreamWriter streamWriter,
-        [FromServices] IDetailAllS3Client s3Client,
-        CancellationToken cancellationToken)
-    {
-        var data = await query.ExecuteAsync(cancellationToken);
-
-        var stream = await streamWriter.WriteAsync(data, cancellationToken);
-        await s3Client.PutAsync(stream, cancellationToken);
-
-        var preSignedUrl = await s3Client.GetPreSignedUrlAsync(cancellationToken);
-
-        return Redirect(preSignedUrl);
+        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings,
+                                                    new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

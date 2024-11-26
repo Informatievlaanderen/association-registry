@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.DetailAll;
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Detail;
+using AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;
@@ -22,7 +23,7 @@ public class PubliekGetAllTests
     public PubliekGetAllTests()
     {
         _fixture = new Fixture().CustomizePublicApi();
-        var sut = new DetailVerenigingenController(new AppSettings());
+        var sut = new DetailAllVerenigingenController();
         _redirectUrl = "https://localhost:4566";
         _stream = new MemoryStream();
 

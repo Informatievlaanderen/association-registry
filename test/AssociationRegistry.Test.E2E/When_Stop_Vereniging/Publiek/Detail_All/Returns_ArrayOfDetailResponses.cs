@@ -10,6 +10,7 @@ using FluentAssertions;
 using Formats;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
+using Public.Api.Verenigingen.DetailAll;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]

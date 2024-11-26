@@ -46,6 +46,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Verenigingen.Detail;
+using Verenigingen.DetailAll;
 using Verenigingen.Search;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 

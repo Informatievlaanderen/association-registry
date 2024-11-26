@@ -21,11 +21,11 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.Opvragen]
-public class DetailVerenigingenController : ApiController
+public class DetailAllVerenigingenController : ApiController
 {
     private readonly AppSettings _appSettings;
 
-    public DetailVerenigingenController(AppSettings appSettings)
+    public DetailAllVerenigingenController(AppSettings appSettings)
     {
         _appSettings = appSettings;
     }
