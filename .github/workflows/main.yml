@@ -314,7 +314,7 @@ jobs:
       run-docker-db: true
       run-docker-elasticsearch: true
       run-docker-localstack: false
-      run-docker-otelcollector: false
+      run-docker-otelcollector: true
     secrets: inherit
 
   pack-association-registry:
