@@ -12,8 +12,8 @@ public class WerkingsgebiedenWerdenGewijzigdScenario : ScenarioBase
     {
         WerkingsgebiedenWerdenGewijzigd = new WerkingsgebiedenWerdenGewijzigd(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, [
             new Registratiedata.Werkingsgebied(Code: "BE25535011", Naam: "Middelkerke"),
-            new(Code: "BE25535013", Naam: "Oostende"),
-            new(Code: "BE25535014", Naam: "Oudenburg"),
+            new Registratiedata.Werkingsgebied(Code: "BE25535013", Naam: "Oostende"),
+            new Registratiedata.Werkingsgebied(Code: "BE25535014", Naam: "Oudenburg"),
         ]);
     }
 

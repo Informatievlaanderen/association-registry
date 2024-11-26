@@ -10,19 +10,21 @@ using Xunit;
 public class Given_WerkingsgebiedenWerdenGewijzigd(WerkingsgebiedenWerdenGewijzigdFixture fixture)
     : IClassFixture<WerkingsgebiedenWerdenGewijzigdFixture>
 {
+    [Fact]
     public void Document_Is_Updated()
         => fixture.Result
                   .Werkingsgebieden
                   .Should()
-                  .BeEquivalentTo(fixture.Scenario
-                                         .WerkingsgebiedenWerdenGewijzigd
-                                         .Werkingsgebieden
-                                         .Select(wg => new PubliekVerenigingDetailDocument.Werkingsgebied
-                                          {
-                                              JsonLdMetadata = new JsonLdMetadata(
-                                                  JsonLdType.Werkingsgebied.CreateWithIdValues(wg.Code),
-                                                  JsonLdType.Werkingsgebied.Type),
-                                              Code = wg.Code,
-                                              Naam = wg.Naam,
-                                          }));
+                  .BeEquivalentTo(
+                       fixture.Scenario
+                              .WerkingsgebiedenWerdenGewijzigd
+                              .Werkingsgebieden
+                              .Select(wg => new PubliekVerenigingDetailDocument.Werkingsgebied
+                               {
+                                   JsonLdMetadata = new JsonLdMetadata(
+                                       JsonLdType.Werkingsgebied.CreateWithIdValues(wg.Code),
+                                       JsonLdType.Werkingsgebied.Type),
+                                   Code = wg.Code,
+                                   Naam = wg.Naam,
+                               }));
 }

@@ -5,7 +5,7 @@ using Framework;
 
 public class WerkingsgebiedenWerdenNietBepaaldScenario : ScenarioBase
 {
-    private WerkingsgebiedenWerdenBepaaldScenario _werdBepaaldScenario = new();
+    private readonly WerkingsgebiedenWerdenBepaaldScenario _werdBepaaldScenario = new();
     public WerkingsgebiedenWerdenNietBepaald WerkingsgebiedenWerdenNietBepaald { get; }
 
     public WerkingsgebiedenWerdenNietBepaaldScenario()

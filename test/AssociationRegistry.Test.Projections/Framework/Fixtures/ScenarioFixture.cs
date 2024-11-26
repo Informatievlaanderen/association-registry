@@ -9,14 +9,15 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext> : IAsyncLife
     public TContext Context { get; }
     public TScenario Scenario { get; } = new();
     public TResult Result { get; private set; }
-    protected ScenarioFixture(TContext context) => Context = context;
+
+    protected ScenarioFixture(TContext context)
+    {
+        Context = context;
+    }
 
     public async Task InitializeAsync()
     {
-        foreach (var eventsPerVCode in Scenario.Events)
-        {
-            await Context.SaveAsync(eventsPerVCode.VCode, eventsPerVCode.Events);
-        }
+        await Context.SaveAsync(Scenario.Events);
 
         Result = await GetResultAsync(Scenario);
     }

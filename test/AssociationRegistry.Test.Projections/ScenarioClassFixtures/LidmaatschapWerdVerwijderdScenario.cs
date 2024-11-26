@@ -19,6 +19,6 @@ public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 
     public override EventsPerVCode[] Events => _werdToegevoegdScenario.Events.Union(
     [
-        new(_werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode, LidmaatschapWerdVerwijderd),
+        new EventsPerVCode(_werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode, LidmaatschapWerdVerwijderd),
     ]).ToArray();
 }
