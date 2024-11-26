@@ -2,27 +2,19 @@
 
 using Events;
 using Framework;
-using Framework.Fixtures;
 
-public class WerkingsgebiedenWerdenNietBepaaldScenario : ProjectionScenarioFixture<ProjectionContext>
+public class WerkingsgebiedenWerdenNietBepaaldScenario : ScenarioBase
 {
+    private WerkingsgebiedenWerdenBepaaldScenario _werdBepaaldScenario = new();
     public WerkingsgebiedenWerdenNietBepaald WerkingsgebiedenWerdenNietBepaald { get; }
 
-    public WerkingsgebiedenWerdenNietBepaaldScenario(ProjectionContext context) : base(context)
+    public WerkingsgebiedenWerdenNietBepaaldScenario()
     {
-        var scenario = new WerkingsgebiedenWerdenBepaaldScenario(context);
-        scenario.Given().GetAwaiter().GetResult();
-
-        WerkingsgebiedenWerdenNietBepaald = new WerkingsgebiedenWerdenNietBepaald(scenario.WerkingsgebiedenWerdenBepaald.VCode);
+        WerkingsgebiedenWerdenNietBepaald = new WerkingsgebiedenWerdenNietBepaald(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
-
-        session.Events.Append(WerkingsgebiedenWerdenNietBepaald.VCode,
-                              WerkingsgebiedenWerdenNietBepaald);
-
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
+    [
+        new EventsPerVCode(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, WerkingsgebiedenWerdenNietBepaald),
+    ]).ToArray();
 }

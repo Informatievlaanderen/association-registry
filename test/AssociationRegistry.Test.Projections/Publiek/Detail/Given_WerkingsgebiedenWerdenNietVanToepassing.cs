@@ -3,48 +3,30 @@
 using FluentAssertions;
 using Framework;
 using JsonLdContext;
-using Marten;
 using Public.Schema.Detail;
 using ScenarioClassFixtures;
+using Vereniging;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerdenNietVanToepassingFixture fixture)
+    : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingFixture>
 {
-    private readonly ProjectionContext _context;
-    private readonly WerkingsgebiedenWerdenNietVanToepassingScenario _scenario;
-
-    public Given_WerkingsgebiedenWerdenNietVanToepassing(
-        ProjectionContext context,
-        WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
-    {
-        _context = context;
-        _scenario = scenario;
-    }
-
     [Fact]
-    public async Task Document_Is_Updated()
-    {
-        var document =
-            await _context
-                 .Session
-                 .Query<PubliekVerenigingDetailDocument>()
-                 .Where(w => w.VCode == _scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode)
-                 .SingleAsync();
+    public void Document_Is_Updated()
+        => fixture.Result
+                  .Werkingsgebieden
+                  .Should()
+                  .BeEquivalentTo(
+                   [
+                       new PubliekVerenigingDetailDocument.Werkingsgebied
+                       {
+                           JsonLdMetadata = new JsonLdMetadata(
+                               JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
+                               JsonLdType.Werkingsgebied.Type),
 
-        document.Werkingsgebieden
-                .Should()
-                .BeEquivalentTo(
-                 [
-                     new PubliekVerenigingDetailDocument.Werkingsgebied
-                     {
-                         JsonLdMetadata = new JsonLdMetadata(
-                             JsonLdType.Werkingsgebied.CreateWithIdValues(Vereniging.Werkingsgebied.NietVanToepassing.Code),
-                             JsonLdType.Werkingsgebied.Type),
-
-                         Code = Vereniging.Werkingsgebied.NietVanToepassing.Code,
-                         Naam = Vereniging.Werkingsgebied.NietVanToepassing.Naam,
-                     },
-                 ]);
-    }
+                           Code = Werkingsgebied.NietVanToepassing.Code,
+                           Naam = Werkingsgebied.NietVanToepassing.Naam,
+                       },
+                   ]);
 }
