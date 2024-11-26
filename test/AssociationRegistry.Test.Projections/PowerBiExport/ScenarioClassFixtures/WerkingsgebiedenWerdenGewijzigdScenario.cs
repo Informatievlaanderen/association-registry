@@ -2,14 +2,15 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtur
 
 using AutoFixture;
 using Events;
+using Framework;
 using Framework.Fixtures;
 
-public class WerkingsgebiedenWerdenGewijzigdScenario : ProjectionScenarioFixture<PowerBiExportContext>
+public class WerkingsgebiedenWerdenGewijzigdScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
     public WerkingsgebiedenWerdenGewijzigd WerkingsgebiedenWerdenGewijzigd { get; set; }
 
-    public WerkingsgebiedenWerdenGewijzigdScenario(PowerBiExportContext context) : base(context)
+    public WerkingsgebiedenWerdenGewijzigdScenario(ProjectionContext context) : base(context)
     {
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 

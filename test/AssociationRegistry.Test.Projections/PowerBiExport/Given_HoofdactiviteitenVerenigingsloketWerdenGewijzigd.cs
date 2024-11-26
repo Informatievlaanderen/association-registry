@@ -2,19 +2,20 @@
 
 using Admin.Schema.PowerBiExport;
 using FluentAssertions;
+using Framework;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixture<HoofdactiviteitenWerdenGewijzigdScenario>
 {
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
     private readonly HoofdactiviteitenWerdenGewijzigdScenario _scenario;
 
     public Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-        PowerBiExportContext context,
+        ProjectionContext context,
         HoofdactiviteitenWerdenGewijzigdScenario scenario)
     {
         _context = context;

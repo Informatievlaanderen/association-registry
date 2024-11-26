@@ -2,9 +2,10 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtur
 
 using AutoFixture;
 using Events;
+using Framework;
 using Framework.Fixtures;
 
-public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<PowerBiExportContext>
+public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     public string VCodeDochter { get; private set; }
     public string VCodeMoeder { get; private set; }
@@ -12,7 +13,7 @@ public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<Powe
     public LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd { get; private set; }
     public FeitelijkeVerenigingWerdGeregistreerd[] VerenigingenwerdenGeregistreerd { get; }
 
-    public LidmaatschapWerdVerwijderdScenario(PowerBiExportContext context) : base(context)
+    public LidmaatschapWerdVerwijderdScenario(ProjectionContext context) : base(context)
     {
         VerenigingenwerdenGeregistreerd = AutoFixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>()
                                                      .ToArray();

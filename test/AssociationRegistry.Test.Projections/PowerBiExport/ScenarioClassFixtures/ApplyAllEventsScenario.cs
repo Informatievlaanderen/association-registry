@@ -4,9 +4,10 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
+using Framework;
 using Framework.Fixtures;
 
-public class ApplyAllEventsScenario : ProjectionScenarioFixture<PowerBiExportContext>
+public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>
 {
     private readonly Fixture _fixture;
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; private set; }
@@ -23,7 +24,7 @@ public class ApplyAllEventsScenario : ProjectionScenarioFixture<PowerBiExportCon
         };
     }
 
-    public ApplyAllEventsScenario(PowerBiExportContext context) : base(context)
+    public ApplyAllEventsScenario(ProjectionContext context) : base(context)
     {
         _fixture = new Fixture().CustomizeDomain();
         FeitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();

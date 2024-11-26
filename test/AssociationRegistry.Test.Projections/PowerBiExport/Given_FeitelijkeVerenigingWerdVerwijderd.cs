@@ -3,18 +3,19 @@
 using Admin.ProjectionHost.Projections.PowerBiExport;
 using Admin.Schema.PowerBiExport;
 using FluentAssertions;
+using Framework;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>
 {
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
     private readonly FeitelijkeVerenigingWerdVerwijderdScenario _scenario;
 
     public Given_FeitelijkeVerenigingWerdVerwijderd(
-        PowerBiExportContext context,
+        ProjectionContext context,
         FeitelijkeVerenigingWerdVerwijderdScenario scenario)
     {
         _context = context;

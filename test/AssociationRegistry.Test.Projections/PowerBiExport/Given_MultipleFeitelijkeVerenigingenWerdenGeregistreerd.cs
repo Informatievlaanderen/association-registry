@@ -2,21 +2,22 @@
 
 using Admin.Schema.PowerBiExport;
 using FluentAssertions;
+using Framework;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
 using Xunit;
 
-[Collection(nameof(PowerBiExportContext))]
+[Collection(nameof(ProjectionContext))]
 public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFixture<
     MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario>
 {
     private readonly MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario _setup;
-    private readonly PowerBiExportContext _context;
+    private readonly ProjectionContext _context;
     private ComparisonConfig _compareVCodeOnly;
 
     public Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(
-        PowerBiExportContext context,
+        ProjectionContext context,
         MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario setup)
     {
         _context = context;
