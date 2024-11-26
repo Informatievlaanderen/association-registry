@@ -1,3 +1,17 @@
+# [8.181.0](https://github.com/informatievlaanderen/association-registry/compare/v8.180.0...v8.181.0) (2024-11-26)
+
+
+### Bug Fixes
+
+* or-2578 rename detail vereniging controller ([6685a1f](https://github.com/informatievlaanderen/association-registry/commit/6685a1fd767bc862958877aad5847362a5448ad1))
+* or-2578 revert context adaptation ([5e76bd3](https://github.com/informatievlaanderen/association-registry/commit/5e76bd3cd38b741b73a4219d1f4d28c809a3eb25))
+
+
+### Features
+
+* or-2577 add werkingsgebieden in detail get all response ([a9b8f98](https://github.com/informatievlaanderen/association-registry/commit/a9b8f98f291f12369f7c1dd243ba9b4623b6c7a1))
+* or-2578 remove Naam from lidmaatschappen inside DetailAll response models ([7a7e775](https://github.com/informatievlaanderen/association-registry/commit/7a7e7757ef076bc119c9263a637e4b90446f751b))
+
 # [8.180.0](https://github.com/informatievlaanderen/association-registry/compare/v8.179.2...v8.180.0) (2024-11-26)
 
 
