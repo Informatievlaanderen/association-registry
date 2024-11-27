@@ -1,11 +1,12 @@
-namespace AssociationRegistry.Test.Projections.Beheer.Historiek;
+namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Werkingsgebieden;
 
 using Admin.Schema.Historiek;
 using Events;
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd(WerkingsgebiedenWerdenGewijzigdFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenGewijzigdFixture>
+public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerHistoriekScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
+    : BeheerHistoriekScenarioClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
