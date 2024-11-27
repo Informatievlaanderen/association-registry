@@ -9,7 +9,7 @@ public class BeheerDetailScenarioFixture<TScenario>(ProjectionContext context)
     where TScenario : IScenario, new()
 {
     protected override async Task<BeheerVerenigingDetailDocument> GetResultAsync(TScenario scenario)
-        => await Context.Session
+        => await Context.Beheer.Session
                         .Query<BeheerVerenigingDetailDocument>()
                         .SingleAsync(x => x.VCode == scenario.VCode);
 }
