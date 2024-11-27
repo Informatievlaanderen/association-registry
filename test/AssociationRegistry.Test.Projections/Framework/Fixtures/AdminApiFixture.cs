@@ -24,7 +24,6 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
-using Xunit;
 using ProjectionHostProgram = Admin.ProjectionHost.Program;
 
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime

@@ -3,11 +3,9 @@
 using Admin.Schema.Detail;
 using AutoFixture;
 using Events;
-using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
 using Vereniging;
-using Xunit;
 
 [Collection(nameof(MultiStreamTestCollection))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<GivenFeitelijkeVerenigingWerdGeregistreerdFixture>

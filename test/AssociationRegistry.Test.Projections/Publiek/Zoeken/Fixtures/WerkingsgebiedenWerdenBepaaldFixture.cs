@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 
-using Framework;
 using Framework.Fixtures;
 using Public.Schema.Search;
 using ScenarioClassFixtures;

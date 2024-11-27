@@ -15,7 +15,6 @@ using NodaTime;
 using NodaTime.Text;
 using Npgsql;
 using Oakton;
-using Xunit;
 using AdminProjectionHostProgram = Admin.ProjectionHost.Program;
 using PublicProjectionHostProgram = Public.ProjectionHost.Program;
 

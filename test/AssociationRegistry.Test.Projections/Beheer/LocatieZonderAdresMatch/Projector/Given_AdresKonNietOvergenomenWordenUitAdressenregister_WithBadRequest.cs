@@ -4,11 +4,9 @@ using Admin.Schema.Detail;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
-using FluentAssertions;
 using Framework.Fixtures;
 using Grar;
 using Marten;
-using Xunit;
 
 [Collection(nameof(MultiStreamTestCollection))]
 public class Given_AdresKonNietOvergenomenWordenUitAdressenregister_WithBadRequest : IClassFixture<

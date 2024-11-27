@@ -2,9 +2,6 @@ namespace AssociationRegistry.Test.Projections.Beheer.Historiek;
 
 using Admin.Schema.Historiek;
 using Events;
-using FluentAssertions;
-using Framework;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenBepaald(WerkingsgebiedenWerdenBepaaldFixture fixture)

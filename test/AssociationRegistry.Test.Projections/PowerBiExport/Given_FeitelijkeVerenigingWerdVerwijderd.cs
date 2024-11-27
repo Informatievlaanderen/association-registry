@@ -2,11 +2,8 @@
 
 using Admin.ProjectionHost.Projections.PowerBiExport;
 using Admin.Schema.PowerBiExport;
-using FluentAssertions;
-using Framework;
 using Marten;
 using ScenarioClassFixtures;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>

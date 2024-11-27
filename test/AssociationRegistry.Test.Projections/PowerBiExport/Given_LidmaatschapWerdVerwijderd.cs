@@ -2,10 +2,7 @@
 
 using Admin.Schema.PowerBiExport;
 using Events;
-using FluentAssertions;
-using Framework;
 using Marten;
-using Xunit;
 using LidmaatschapWerdVerwijderdScenario = ScenarioClassFixtures.LidmaatschapWerdVerwijderdScenario;
 
 [Collection(nameof(ProjectionContext))]

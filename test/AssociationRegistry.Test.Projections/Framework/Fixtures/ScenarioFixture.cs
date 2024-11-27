@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
-using Xunit;
-
 public abstract class ScenarioFixture<TScenario, TResult, TContext> : IAsyncLifetime
     where TScenario : IScenario, new()
     where TContext : IProjectionContext

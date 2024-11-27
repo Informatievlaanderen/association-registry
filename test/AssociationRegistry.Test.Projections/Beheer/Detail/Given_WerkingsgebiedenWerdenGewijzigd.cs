@@ -2,10 +2,7 @@
 
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
-using FluentAssertions;
-using Framework;
 using JsonLdContext;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd(WerkingsgebiedenWerdenGewijzigdFixture fixture)
