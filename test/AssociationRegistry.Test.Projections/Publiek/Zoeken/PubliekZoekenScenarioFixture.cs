@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 
 using Framework.Fixtures;
-using Marten;
 using Public.Schema.Search;
 
 public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)

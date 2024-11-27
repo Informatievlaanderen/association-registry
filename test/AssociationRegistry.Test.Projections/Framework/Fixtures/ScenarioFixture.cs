@@ -12,6 +12,7 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext con
     {
         await Context.SaveAsync(Scenario.Events);
         await Context.RefreshDataAsync();
+
         Result = await GetResultAsync(Scenario);
     }
 
