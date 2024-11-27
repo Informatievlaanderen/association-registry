@@ -1,13 +1,15 @@
-namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
+namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Werkingsgebieden;
 
 using Admin.Schema;
 using Admin.Schema.Search;
 using JsonLdContext;
+using Scenario;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerdenNietVanToepassingFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingFixture>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing(
+    BeheerZoekenScenarioFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> fixture)
+    : BeheerZoekenScenarioClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
 {
     [Fact]
     public void Document_Is_Updated()
@@ -24,5 +26,3 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerde
                        },
                    ]);
 }
-
-
