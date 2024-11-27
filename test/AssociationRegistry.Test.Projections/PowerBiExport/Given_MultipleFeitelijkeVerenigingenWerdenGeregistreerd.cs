@@ -23,12 +23,12 @@ public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFix
     [Fact]
     public async Task ARecordIsStoredForEachVCode()
     {
-        await using var session = _context.Session;
+        await using var documentSession = _context.Beheer.Session;
 
         foreach (var feitelijkeVerenigingWerdGeregistreerd in _setup.VerenigingenwerdenGeregistreerd)
         {
             var powerBiExportDocument =
-                await session.Query<PowerBiExportDocument>()
+                await documentSession.Query<PowerBiExportDocument>()
                              .SingleAsync(x => x.VCode == feitelijkeVerenigingWerdGeregistreerd.VCode);
 
             powerBiExportDocument.Should().NotBeNull();

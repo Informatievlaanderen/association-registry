@@ -9,7 +9,7 @@ public class PubliekDetailScenarioFixture<TScenario>(ProjectionContext context)
     where TScenario : IScenario, new()
 {
     protected override async Task<PubliekVerenigingDetailDocument> GetResultAsync(TScenario scenario)
-        => await Context.Session
+        => await Context.Publiek.Session
                         .Query<PubliekVerenigingDetailDocument>()
                         .SingleAsync(x => x.VCode == scenario.VCode);
 }

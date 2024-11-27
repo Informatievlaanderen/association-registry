@@ -10,9 +10,8 @@ public class BeheerZoekenScenarioFixture<TScenario>(ProjectionContext context)
     protected override async Task<VerenigingZoekDocument> GetResultAsync(TScenario scenario)
     {
         var getResponse =
-            await Context
-                 .AdminElasticClient
-                 .GetAsync<VerenigingZoekDocument>(scenario.VCode);
+            await Context.Beheer.ElasticClient
+                         .GetAsync<VerenigingZoekDocument>(scenario.VCode);
 
         return getResponse.Source;
     }

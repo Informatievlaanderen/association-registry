@@ -23,7 +23,7 @@ public abstract class ProjectionScenarioFixture<TProjectionContext> : IDisposabl
     public async Task InitializeAsync()
     {
         await Given();
-        await Context.WaitForDataRefreshAsync();
+        await Context.RefreshDataAsync();
     }
 
     public async Task DisposeAsync()

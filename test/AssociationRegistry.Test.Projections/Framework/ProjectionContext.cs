@@ -4,11 +4,8 @@ using Alba;
 using AssociationRegistry.Framework;
 using Hosts.Configuration;
 using Marten;
-using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
@@ -18,79 +15,59 @@ using PublicProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
 {
+    private const string RootDatabase = @"postgres";
+    private IConfigurationRoot Configuration { get; }
+
     public ProjectionContext()
     {
+        OaktonEnvironment.AutoStartHost = true;
+        Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
+
+        MetadataInitiator = "metadata.Initiator";
         MetadataTijdstip = InstantPattern.General.Format(new Instant());
     }
 
-    private const string RootDatabase = @"postgres";
-    public string MetadataInitiator => "metadata.Initiator";
+    public ProjectionHostContext Beheer { get; private set; }
+    public ProjectionHostContext Publiek { get; private set; }
+    public string MetadataInitiator { get; }
+
     public string MetadataTijdstip { get; }
-    public string? AuthCookie { get; private set; }
-    public IAlbaHost AdminProjectionHost { get; private set; }
-    public IElasticClient AdminElasticClient { get; private set; }
-    public IAlbaHost PublicProjectionHost { get; private set; }
-    public IElasticClient PublicElasticClient { get; private set; }
-    public IDocumentSession Session { get; private set; }
 
     public async Task InitializeAsync()
     {
-        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
+        // DropDatabase(Configuration);
+        EnsureDbExists(Configuration);
 
-        //DropDatabase();
-        EnsureDbExists(configuration);
+        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureForTesting(Configuration));
+        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureForTesting(Configuration));
 
-        OaktonEnvironment.AutoStartHost = true;
+        Beheer = new(beheerProjectionHost);
+        Publiek = new(publiekProjectionHost);
 
-        AdminProjectionHost =
-            await AlbaHost.For<AdminProjectionHostProgram>(
-                ConfigureForTesting(configuration));
+        await InitializeHostAsync(beheerProjectionHost);
+        await InitializeHostAsync(publiekProjectionHost);
+    }
 
-        AdminElasticClient = AdminProjectionHost.Services.GetRequiredService<IElasticClient>();
-
-        PublicProjectionHost =
-            await AlbaHost.For<PublicProjectionHostProgram>(
-                ConfigureForTesting(configuration));
-
-        PublicElasticClient = PublicProjectionHost.Services.GetRequiredService<IElasticClient>();
-
-        await AdminProjectionHost.DocumentStore().Advanced.ResetAllData();
-        await PublicProjectionHost.DocumentStore().Advanced.ResetAllData();
-
-        await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await PublicProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
-        await AdminProjectionHost.ResumeAllDaemonsAsync();
-        await PublicProjectionHost.ResumeAllDaemonsAsync();
-
-        Session = AdminProjectionHost.DocumentStore().LightweightSession();
+    private async Task InitializeHostAsync(IAlbaHost host)
+    {
+        await host.DocumentStore().Advanced.ResetAllData();
+        await host.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+        await host.ResumeAllDaemonsAsync();
     }
 
     public async Task SaveAsync(EventsPerVCode[] events)
     {
-        await using var session = await DocumentSession();
-
-        foreach (var eventsPerVCode in events)
-        {
-            session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
-        }
+        await using var session = Beheer.Host.DocumentStore().LightweightSession();
+        foreach (var eventsPerVCode in events) session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
 
         await session.SaveChangesAsync();
-
-        WaitForNonStaleProjectionData();
-        await AdminElasticClient.Indices.RefreshAsync();
-        await PublicElasticClient.Indices.RefreshAsync();
+        await RefreshDataAsync();
     }
 
-    public async Task WaitForDataRefreshAsync()
+    public async Task RefreshDataAsync()
     {
-        WaitForNonStaleProjectionData();
-        await AdminElasticClient.Indices.RefreshAsync();
-        await PublicElasticClient.Indices.RefreshAsync();
-    }
-
-    public async Task DisposeAsync()
-    {
+        await Beheer.RefreshDataAsync();
+        await Publiek.RefreshDataAsync();
     }
 
     private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration)
@@ -103,21 +80,13 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         };
     }
 
-    private void WaitForNonStaleProjectionData()
-    {
-        Task.WaitAll(
-            AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60)),
-            PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60))
-        );
-    }
-
     public async Task<IDocumentSession> DocumentSession()
     {
         IDocumentSession? session = null;
 
         try
         {
-            session = AdminProjectionHost.DocumentStore().LightweightSession();
+            session = Beheer.Host.DocumentStore().LightweightSession();
 
             session.SetHeader(MetadataHeaderNames.Initiator, MetadataInitiator);
             session.SetHeader(MetadataHeaderNames.Tijdstip, MetadataTijdstip);
@@ -182,4 +151,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
            $"database={database};" +
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
+
+    public async Task DisposeAsync()
+    {
+    }
 }
