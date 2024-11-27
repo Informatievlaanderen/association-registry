@@ -23,7 +23,7 @@ public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFix
     [Fact]
     public async Task ARecordIsStoredForEachVCode()
     {
-        await using var documentSession = _context.Beheer.Session;
+        await using var documentSession = _context.Session;
 
         foreach (var feitelijkeVerenigingWerdGeregistreerd in _setup.VerenigingenwerdenGeregistreerd)
         {

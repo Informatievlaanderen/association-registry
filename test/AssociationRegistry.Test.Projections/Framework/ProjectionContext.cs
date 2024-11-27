@@ -29,9 +29,10 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public ProjectionHostContext Beheer { get; private set; }
     public ProjectionHostContext Publiek { get; private set; }
-    public string MetadataInitiator { get; }
 
-    public string MetadataTijdstip { get; }
+    public IDocumentSession Session;
+    public string MetadataInitiator { get; init; }
+    public string MetadataTijdstip { get; init; }
 
     public async Task InitializeAsync()
     {
@@ -41,11 +42,12 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureForTesting(Configuration));
         var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureForTesting(Configuration));
 
-        Beheer = new(beheerProjectionHost);
-        Publiek = new(publiekProjectionHost);
-
         await InitializeHostAsync(beheerProjectionHost);
         await InitializeHostAsync(publiekProjectionHost);
+
+        Beheer = new(beheerProjectionHost);
+        Publiek = new(publiekProjectionHost);
+        Session = await DocumentSession();
     }
 
     private async Task InitializeHostAsync(IAlbaHost host)
@@ -57,7 +59,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task SaveAsync(EventsPerVCode[] events)
     {
-        await using var session = Beheer.Host.DocumentStore().LightweightSession();
+        await using var session = await DocumentSession();
         foreach (var eventsPerVCode in events) session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
 
         await session.SaveChangesAsync();

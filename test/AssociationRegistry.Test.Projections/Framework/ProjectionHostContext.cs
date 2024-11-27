@@ -5,6 +5,7 @@ using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using System.Data;
 
 public record ProjectionHostContext
 {
@@ -16,11 +17,9 @@ public record ProjectionHostContext
 
     public IAlbaHost Host { get; }
     public IElasticClient ElasticClient { get; }
-    public IDocumentSession Session => Host.DocumentStore().LightweightSession();
 
     public async Task RefreshDataAsync()
     {
-
         await Host.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await ElasticClient.Indices.RefreshAsync();
     }

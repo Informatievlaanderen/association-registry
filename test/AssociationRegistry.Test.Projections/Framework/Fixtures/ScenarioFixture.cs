@@ -11,10 +11,10 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext con
     public async Task InitializeAsync()
     {
         await Context.SaveAsync(Scenario.Events);
-
+        await Context.RefreshDataAsync();
         Result = await GetResultAsync(Scenario);
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
     protected abstract Task<TResult> GetResultAsync(TScenario scenario);
+    public Task DisposeAsync() => Task.CompletedTask;
 }

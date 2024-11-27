@@ -10,13 +10,13 @@ public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context
     where TScenario : IScenario, new()
 {
     protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(TScenario scenario)
-        => await Context.Beheer.Session
+        => await Context.Session
                         .Query<BeheerVerenigingHistoriekDocument>()
                         .SingleAsync(x => x.VCode == scenario.VCode);
 }
 
 public class BeheerHistoriekScenarioClassFixture<TScenario>
-    : IClassFixture<BeheerDetailScenarioFixture<TScenario>>
+    : IClassFixture<BeheerHistoriekScenarioFixture<TScenario>>
     where TScenario : IScenario, new()
 {
 }
