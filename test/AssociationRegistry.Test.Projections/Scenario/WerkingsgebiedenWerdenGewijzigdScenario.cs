@@ -20,6 +20,6 @@ public class WerkingsgebiedenWerdenGewijzigdScenario : ScenarioBase
 
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new (VCode, WerkingsgebiedenWerdenGewijzigd),
+        new EventsPerVCode(VCode, WerkingsgebiedenWerdenGewijzigd),
     ]).ToArray();
 }

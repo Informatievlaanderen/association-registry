@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Werkingsgebieden;
 using Admin.Schema;
 using Admin.Schema.Search;
 using JsonLdContext;
-using Scenario;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerZoekenScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)

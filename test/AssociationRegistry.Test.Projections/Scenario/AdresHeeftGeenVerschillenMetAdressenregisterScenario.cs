@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Scenario;
 
-using AssociationRegistry.Events;
 using AutoFixture;
+using Events;
 
 public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ScenarioBase
 {

@@ -17,6 +17,6 @@ public class WerkingsgebiedenWerdenNietVanToepassingScenario : ScenarioBase
 
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new(VCode, WerkingsgebiedenWerdenNietVanToepassing),
+        new EventsPerVCode(VCode, WerkingsgebiedenWerdenNietVanToepassing),
     ]).ToArray();
 }

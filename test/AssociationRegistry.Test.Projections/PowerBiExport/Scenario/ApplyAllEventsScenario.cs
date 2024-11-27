@@ -17,11 +17,13 @@ public class ApplyAllEventsScenario : ScenarioBase
 
     public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
 
-    public override EventsPerVCode[] Events => [
+    public override EventsPerVCode[] Events =>
+    [
         new(FeitelijkeVerenigingWerdGeregistreerd.VCode, FeitelijkeVerenigingWerdGeregistreerd),
         new(FeitelijkeVerenigingWerdGeregistreerd.VCode, GetEvents(FeitelijkeVerenigingWerdGeregistreerd.VCode)),
         new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
-        new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)),
+        new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)),
     ];
 
     private IEvent[] GetEvents(string vCode) =>

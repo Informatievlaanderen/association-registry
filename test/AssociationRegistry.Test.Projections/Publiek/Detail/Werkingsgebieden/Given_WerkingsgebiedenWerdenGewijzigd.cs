@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Werkingsgebieden;
 
 using JsonLdContext;
 using Public.Schema.Detail;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenGewijzigd(WerkingsgebiedenWerdenGewijzigdFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenGewijzigdFixture>
+public class Given_WerkingsgebiedenWerdenGewijzigd(PubliekDetailScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
+    : PubliekDetailScenarioClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
 {
     [Fact]
     public void Document_Is_Updated()
