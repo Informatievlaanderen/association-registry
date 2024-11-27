@@ -16,6 +16,7 @@
   </ItemGroup>
   <ItemGroup>
     <Using Include="AssociationRegistry.Test.Projections.Framework" />
+    <Using Include="AssociationRegistry.Test.Projections.Scenario" />
     <Using Include="FluentAssertions"  />
     <Using Include="Xunit" />
   </ItemGroup>

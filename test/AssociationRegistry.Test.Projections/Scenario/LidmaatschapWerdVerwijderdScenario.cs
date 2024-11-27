@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario;
 
-using AssociationRegistry.Events;
+using Events;
 
 public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 {
@@ -20,6 +20,6 @@ public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 
     public override EventsPerVCode[] Events => _werdToegevoegdScenario.Events.Union(
     [
-        new (VCode, LidmaatschapWerdVerwijderd),
+        new EventsPerVCode(VCode, LidmaatschapWerdVerwijderd),
     ]).ToArray();
 }

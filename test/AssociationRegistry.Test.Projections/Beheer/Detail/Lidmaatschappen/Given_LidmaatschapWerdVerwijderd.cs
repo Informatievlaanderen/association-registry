@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Lidmaatschappen;
 
-using Scenario;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdVerwijderd(BeheerDetailScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
     : BeheerDetailScenarioClassFixture<LidmaatschapWerdVerwijderdScenario>

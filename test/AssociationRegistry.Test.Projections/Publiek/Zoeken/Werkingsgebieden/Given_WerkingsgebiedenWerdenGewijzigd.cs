@@ -1,18 +1,18 @@
-namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
+namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Werkingsgebieden;
 
 using JsonLdContext;
 using Public.Schema.Detail;
 using Public.Schema.Search;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald(WerkingsgebiedenWerdenBepaaldFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenBepaaldFixture>
+public class Given_WerkingsgebiedenWerdenGewijzigd(PubliekZoekenScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)
+    : PubliekZoekenScenarioClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>
 {
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
                   .Werkingsgebieden
-                  .Should().BeEquivalentTo(fixture.Scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
+                  .Should().BeEquivalentTo(fixture.Scenario.WerkingsgebiedenWerdenGewijzigd.Werkingsgebieden.Select(
                                                s => new VerenigingZoekDocument.Werkingsgebied
                                                {
                                                    JsonLdMetadata = new JsonLdMetadata(
