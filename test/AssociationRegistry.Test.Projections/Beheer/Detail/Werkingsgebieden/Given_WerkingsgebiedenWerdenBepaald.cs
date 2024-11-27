@@ -1,12 +1,13 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
 
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using JsonLdContext;
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenBepaald(WerkingsgebiedenWerdenBepaaldFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenBepaaldFixture>
+public class Given_WerkingsgebiedenWerdenBepaald(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
+    : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenBepaaldScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()

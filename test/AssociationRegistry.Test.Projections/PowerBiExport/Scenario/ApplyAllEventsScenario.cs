@@ -1,48 +1,34 @@
-﻿namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
-using Common.AutoFixture;
 using Events;
-using Framework.Fixtures;
 
-public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>
+public class ApplyAllEventsScenario : ScenarioBase
 {
-    private readonly Fixture _fixture;
-    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; private set; }
-    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; private set; }
+    public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; }
 
-    public IReadOnlyCollection<IEvent> GetEvents(string vCode)
+    public ApplyAllEventsScenario()
     {
-        return new IEvent[]
-        {
-            _fixture.Create<NaamWerdGewijzigd>() with { VCode = vCode },
-            _fixture.Create<LocatieWerdToegevoegd>(),
-            _fixture.Create<LocatieWerdToegevoegd>(),
-            _fixture.Create<VerenigingWerdGestopt>(),
-        };
+        FeitelijkeVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
     }
 
-    public ApplyAllEventsScenario(ProjectionContext context) : base(context)
-    {
-        _fixture = new Fixture().CustomizeDomain();
-        FeitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = _fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>();
-    }
+    public override string VCode => FeitelijkeVerenigingWerdGeregistreerd.VCode;
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
+    public override EventsPerVCode[] Events => [
+        new(FeitelijkeVerenigingWerdGeregistreerd.VCode, FeitelijkeVerenigingWerdGeregistreerd),
+        new(FeitelijkeVerenigingWerdGeregistreerd.VCode, GetEvents(FeitelijkeVerenigingWerdGeregistreerd.VCode)),
+        new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, VerenigingMetRechtspersoonlijkheidWerdGeregistreerd),
+        new(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode, GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode)),
+    ];
 
-        session.Events.Append(FeitelijkeVerenigingWerdGeregistreerd.VCode, FeitelijkeVerenigingWerdGeregistreerd);
-        session.Events.Append(FeitelijkeVerenigingWerdGeregistreerd.VCode, GetEvents(FeitelijkeVerenigingWerdGeregistreerd.VCode));
-
-        session.Events.Append(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-                              VerenigingMetRechtspersoonlijkheidWerdGeregistreerd);
-
-        session.Events.Append(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-                              GetEvents(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode));
-
-        await session.SaveChangesAsync();
-    }
+    private IEvent[] GetEvents(string vCode) =>
+    [
+        AutoFixture.Create<NaamWerdGewijzigd>() with { VCode = vCode },
+        AutoFixture.Create<LocatieWerdToegevoegd>(),
+        AutoFixture.Create<LocatieWerdToegevoegd>(),
+        AutoFixture.Create<VerenigingWerdGestopt>(),
+    ];
 }

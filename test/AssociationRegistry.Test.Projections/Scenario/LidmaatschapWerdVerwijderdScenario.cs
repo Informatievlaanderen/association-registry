@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.Scenario;
 
-using Events;
+using AssociationRegistry.Events;
 
 public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 {
@@ -16,8 +16,10 @@ public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
             VCode: _werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
+    public override string VCode => _werdToegevoegdScenario.VCode;
+
     public override EventsPerVCode[] Events => _werdToegevoegdScenario.Events.Union(
     [
-        new EventsPerVCode(_werdToegevoegdScenario.VerenigingWerdGeregistreerd.VCode, LidmaatschapWerdVerwijderd),
+        new (VCode, LidmaatschapWerdVerwijderd),
     ]).ToArray();
 }

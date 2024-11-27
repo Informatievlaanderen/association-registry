@@ -1,17 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
-public abstract class ScenarioFixture<TScenario, TResult, TContext> : IAsyncLifetime
+public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext context) : IAsyncLifetime
     where TScenario : IScenario, new()
     where TContext : IProjectionContext
 {
-    public TContext Context { get; }
+    public TContext Context { get; } = context;
     public TScenario Scenario { get; } = new();
     public TResult Result { get; private set; }
-
-    protected ScenarioFixture(TContext context)
-    {
-        Context = context;
-    }
 
     public async Task InitializeAsync()
     {
@@ -21,5 +16,6 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext> : IAsyncLife
     }
 
     public Task DisposeAsync() => Task.CompletedTask;
-    public abstract Task<TResult> GetResultAsync(TScenario scenario);
+
+    protected abstract Task<TResult> GetResultAsync(TScenario scenario);
 }

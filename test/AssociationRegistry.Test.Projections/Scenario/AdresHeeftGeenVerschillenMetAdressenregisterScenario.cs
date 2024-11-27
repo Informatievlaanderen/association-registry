@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
+namespace AssociationRegistry.Test.Projections.Scenario;
 
+using AssociationRegistry.Events;
 using AutoFixture;
-using Events;
 
 public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ScenarioBase
 {
@@ -14,8 +14,10 @@ public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ScenarioBase
         AdresHeeftGeenVerschillenMetAdressenregister = AutoFixture.Create<AdresHeeftGeenVerschillenMetAdressenregister>();
     }
 
+    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+
     public override EventsPerVCode[] Events =>
     [
-        new(VerenigingWerdGeregistreerd.VCode, VerenigingWerdGeregistreerd, AdresHeeftGeenVerschillenMetAdressenregister),
+        new(VCode, VerenigingWerdGeregistreerd, AdresHeeftGeenVerschillenMetAdressenregister),
     ];
 }

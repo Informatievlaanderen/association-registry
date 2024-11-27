@@ -1,7 +1,10 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Lidmaatschappen;
+
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdVerwijderd(LidmaatschapWerdVerwijderdFixture fixture) : IClassFixture<LidmaatschapWerdVerwijderdFixture>
+public class Given_LidmaatschapWerdVerwijderd(BeheerDetailScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
+    : BeheerDetailScenarioClassFixture<LidmaatschapWerdVerwijderdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()

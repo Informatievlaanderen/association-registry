@@ -3,14 +3,14 @@
 using Admin.Schema.Historiek;
 using Framework.Fixtures;
 using Marten;
-using ScenarioClassFixtures;
+using Scenario;
 
 public class WerkingsgebiedenWerdenNietVanToepassingFixture(ProjectionContext context) : ScenarioFixture<
     WerkingsgebiedenWerdenNietVanToepassingScenario,
     BeheerVerenigingHistoriekDocument,
     ProjectionContext>(context)
 {
-    public override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
+    protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
         => await Context.Session
                         .Query<BeheerVerenigingHistoriekDocument>()
                         .SingleAsync(w => w.VCode == scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode);
