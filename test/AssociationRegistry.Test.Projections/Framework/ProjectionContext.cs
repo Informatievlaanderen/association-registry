@@ -6,6 +6,7 @@ using Hosts.Configuration;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using NodaTime.Text;
 using Npgsql;
@@ -30,25 +31,43 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     public ProjectionHostContext Beheer { get; private set; }
     public ProjectionHostContext Publiek { get; private set; }
 
-    public IDocumentSession Session;
-    public string MetadataInitiator { get; init; }
-    public string MetadataTijdstip { get; init; }
+    public IDocumentSession Session
+    {
+        get
+        {
+            var session = Beheer.Host.Services.GetRequiredService<IDocumentSession>();
+            session.SetHeader(MetadataHeaderNames.Initiator, MetadataInitiator);
+            session.SetHeader(MetadataHeaderNames.Tijdstip, MetadataTijdstip);
+            session.CorrelationId = Guid.NewGuid().ToString();
+
+            return session;
+        }
+    }
+
+    public string MetadataInitiator { get; }
+    public string MetadataTijdstip { get; }
 
     public async Task InitializeAsync()
     {
-        // DropDatabase(Configuration);
+        DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
-        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureForTesting(Configuration));
-        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureForTesting(Configuration));
+        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureAlbaHost(Configuration));
+        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureAlbaHost(Configuration));
 
         await InitializeHostAsync(beheerProjectionHost);
         await InitializeHostAsync(publiekProjectionHost);
 
-        Beheer = new(beheerProjectionHost);
-        Publiek = new(publiekProjectionHost);
-        Session = await DocumentSession();
+        Beheer = new ProjectionHostContext(beheerProjectionHost);
+        Publiek = new ProjectionHostContext(publiekProjectionHost);
     }
+
+    private Action<IWebHostBuilder> ConfigureAlbaHost(IConfigurationRoot configuration)
+        => b =>
+        {
+            b.UseEnvironment("Development");
+            b.UseContentRoot(Directory.GetCurrentDirectory());
+        };
 
     private async Task InitializeHostAsync(IAlbaHost host)
     {
@@ -59,27 +78,21 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task SaveAsync(EventsPerVCode[] events)
     {
-        await using var session = await DocumentSession();
-        foreach (var eventsPerVCode in events) session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
+        foreach (var eventsPerVCode in events)
+        {
+            Session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
+            await Session.SaveChangesAsync();
+        }
 
-        await session.SaveChangesAsync();
         await RefreshDataAsync();
     }
 
     public async Task RefreshDataAsync()
     {
-        await Beheer.RefreshDataAsync();
-        await Publiek.RefreshDataAsync();
-    }
+        Task.WaitAll(Beheer.RefreshDataAsync(), Publiek.RefreshDataAsync());
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration)
-    {
-        return b =>
-        {
-            b.UseEnvironment("Development");
-            b.UseContentRoot(Directory.GetCurrentDirectory());
-            b.UseConfiguration(configuration);
-        };
+        // TODO : Find more elegant solution of the time gapping from Marten
+        await Task.Delay(750);
     }
 
     public async Task<IDocumentSession> DocumentSession()
@@ -154,7 +167,5 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
-    public async Task DisposeAsync()
-    {
-    }
+    public Task DisposeAsync() => Task.CompletedTask;
 }

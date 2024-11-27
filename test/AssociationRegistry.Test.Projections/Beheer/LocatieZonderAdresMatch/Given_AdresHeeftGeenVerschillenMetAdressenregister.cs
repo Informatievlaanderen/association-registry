@@ -23,10 +23,10 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister : IClassFixture<
     {
         var locatieZonderAdresMatchDocument =
             await _context.Session
-                 .Query<LocatieZonderAdresMatchDocument>()
-                 .Where(w => w.VCode == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.VCode
-                          && w.LocatieId == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.LocatieId)
-                 .SingleOrDefaultAsync();
+                          .Query<LocatieZonderAdresMatchDocument>()
+                          .Where(w => w.VCode == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.VCode
+                                   && w.LocatieId == _scenario.AdresHeeftGeenVerschillenMetAdressenregister.LocatieId)
+                          .SingleOrDefaultAsync();
 
         locatieZonderAdresMatchDocument.Should().BeNull();
     }
