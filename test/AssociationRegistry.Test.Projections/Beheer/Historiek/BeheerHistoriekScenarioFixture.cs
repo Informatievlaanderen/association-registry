@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek;
 
 using Admin.Schema.Historiek;
-using Detail;
 using Framework.Fixtures;
 using Marten;
 

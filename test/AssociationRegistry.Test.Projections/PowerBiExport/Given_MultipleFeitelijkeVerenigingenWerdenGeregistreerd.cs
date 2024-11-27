@@ -29,7 +29,7 @@ public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFix
         {
             var powerBiExportDocument =
                 await documentSession.Query<PowerBiExportDocument>()
-                             .SingleAsync(x => x.VCode == feitelijkeVerenigingWerdGeregistreerd.VCode);
+                                     .SingleAsync(x => x.VCode == feitelijkeVerenigingWerdGeregistreerd.VCode);
 
             powerBiExportDocument.Should().NotBeNull();
         }

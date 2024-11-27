@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
 using Alba;
-using Marten;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using System.Data;
 
 public record ProjectionHostContext
 {
