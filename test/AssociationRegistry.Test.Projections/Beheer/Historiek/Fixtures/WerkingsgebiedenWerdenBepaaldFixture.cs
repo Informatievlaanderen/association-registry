@@ -2,6 +2,7 @@
 
 using Admin.Schema.Historiek;
 using Framework.Fixtures;
+using Marten;
 using ScenarioClassFixtures;
 
 public class WerkingsgebiedenWerdenBepaaldFixture(ProjectionContext context) : ScenarioFixture<
@@ -10,12 +11,7 @@ public class WerkingsgebiedenWerdenBepaaldFixture(ProjectionContext context) : S
     ProjectionContext>(context)
 {
     public override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(WerkingsgebiedenWerdenBepaaldScenario scenario)
-    {
-        var getResponse =
-            await Context
-                 .AdminElasticClient
-                 .GetAsync<BeheerVerenigingHistoriekDocument>(scenario.WerkingsgebiedenWerdenBepaald.VCode);
-
-        return getResponse.Source;
-    }
+        => await Context.Session
+                        .Query<BeheerVerenigingHistoriekDocument>()
+                        .SingleAsync(w => w.VCode == scenario.WerkingsgebiedenWerdenBepaald.VCode);
 }

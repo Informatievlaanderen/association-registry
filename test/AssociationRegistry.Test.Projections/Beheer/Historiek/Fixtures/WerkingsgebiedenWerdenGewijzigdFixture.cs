@@ -2,6 +2,7 @@
 
 using Admin.Schema.Historiek;
 using Framework.Fixtures;
+using Marten;
 using ScenarioClassFixtures;
 
 public class WerkingsgebiedenWerdenGewijzigdFixture(ProjectionContext context) : ScenarioFixture<
@@ -10,12 +11,7 @@ public class WerkingsgebiedenWerdenGewijzigdFixture(ProjectionContext context) :
     ProjectionContext>(context)
 {
     public override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(WerkingsgebiedenWerdenGewijzigdScenario scenario)
-    {
-        var getResponse =
-            await Context
-                 .AdminElasticClient
-                 .GetAsync<BeheerVerenigingHistoriekDocument>(scenario.WerkingsgebiedenWerdenGewijzigd.VCode);
-
-        return getResponse.Source;
-    }
+        => await Context.Session
+                        .Query<BeheerVerenigingHistoriekDocument>()
+                        .SingleAsync(w => w.VCode == scenario.WerkingsgebiedenWerdenGewijzigd.VCode);
 }
