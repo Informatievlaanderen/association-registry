@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
 
-using Scenario;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietBepaald(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
     : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>

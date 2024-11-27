@@ -3,7 +3,6 @@
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using JsonLdContext;
-using Scenario;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietVanToepassing(

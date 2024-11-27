@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Adressen;
 
-using Scenario;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister(
     BeheerDetailScenarioFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)

@@ -1,9 +1,10 @@
-﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Lidmaatschappen;
 
 using Public.Schema.Detail;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdGewijzigd(LidmaatschapWerdGewijzigdFixture fixture) : IClassFixture<LidmaatschapWerdGewijzigdFixture>
+public class Given_LidmaatschapWerdGewijzigd(PubliekDetailScenarioFixture<LidmaatschapWerdGewijzigdScenario> fixture)
+    : PubliekDetailScenarioClassFixture<LidmaatschapWerdGewijzigdScenario>
 {
     [Fact]
     public void Document_Is_Updated()

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Lidmaatschappen;
 
 using Admin.Schema.Detail;
-using Scenario;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdGewijzigd(BeheerDetailScenarioFixture<LidmaatschapWerdGewijzigdScenario> fixture)
