@@ -2,6 +2,7 @@
 
 using Admin.Schema.Historiek;
 using Framework.Fixtures;
+using Marten;
 using ScenarioClassFixtures;
 
 public class WerkingsgebiedenWerdenNietVanToepassingFixture(ProjectionContext context) : ScenarioFixture<
@@ -10,12 +11,7 @@ public class WerkingsgebiedenWerdenNietVanToepassingFixture(ProjectionContext co
     ProjectionContext>(context)
 {
     public override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
-    {
-        var getResponse =
-            await Context
-                 .AdminElasticClient
-                 .GetAsync<BeheerVerenigingHistoriekDocument>(scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode);
-
-        return getResponse.Source;
-    }
+        => await Context.Session
+                        .Query<BeheerVerenigingHistoriekDocument>()
+                        .SingleAsync(w => w.VCode == scenario.WerkingsgebiedenWerdenNietVanToepassing.VCode);
 }
