@@ -1,8 +1,10 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
+
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietBepaald(WerkingsgebiedenWerdenNietBepaaldFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenNietBepaaldFixture>
+public class Given_WerkingsgebiedenWerdenNietBepaald(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenNietBepaaldScenario> fixture)
+    : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenNietBepaaldScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()

@@ -1,23 +1,21 @@
-namespace AssociationRegistry.Test.Projections.PowerBiExport.ScenarioClassFixtures;
+namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using AutoFixture;
 using Events;
-using Framework.Fixtures;
 
-public class FeitelijkeVerenigingWerdGeregistreerdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class FeitelijkeVerenigingWerdGeregistreerdScenario : ScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
 
-    public FeitelijkeVerenigingWerdGeregistreerdScenario(ProjectionContext context) : base(context)
+    public FeitelijkeVerenigingWerdGeregistreerdScenario()
     {
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.DocumentSession();
+    public override string VCode => VerenigingWerdGeregistreerd.VCode;
 
-        session.Events.Append(VerenigingWerdGeregistreerd.VCode, VerenigingWerdGeregistreerd);
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events =>
+    [
+        new(VerenigingWerdGeregistreerd.VCode, VerenigingWerdGeregistreerd),
+    ];
 }

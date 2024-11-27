@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.Scenario;
 
+using AssociationRegistry.Events;
 using AutoFixture;
-using Events;
 
 public class WerkingsgebiedenWerdenBepaaldScenario : ScenarioBase
 {
@@ -18,8 +18,10 @@ public class WerkingsgebiedenWerdenBepaaldScenario : ScenarioBase
         ]);
     }
 
+    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+
     public override EventsPerVCode[] Events =>
     [
-        new(VerenigingWerdGeregistreerd.VCode, VerenigingWerdGeregistreerd, WerkingsgebiedenWerdenBepaald),
+        new(VCode, VerenigingWerdGeregistreerd, WerkingsgebiedenWerdenBepaald),
     ];
 }

@@ -1,36 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using Admin.Schema.PowerBiExport;
-using Marten;
-using ScenarioClassFixtures;
+using Events;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
+public class Given_AnyEventIsApplied(ApplyAllEventsFixture fixture) : IClassFixture<ApplyAllEventsFixture>
 {
-    private readonly ProjectionContext _context;
-    private readonly ApplyAllEventsScenario _scenario;
-
-    public Given_AnyEventIsApplied(
-        ProjectionContext context,
-        ApplyAllEventsScenario scenario)
-    {
-        _context = context;
-        _scenario = scenario;
-    }
-
     [Fact]
-    public async Task AGebeurtenisIsAddedForEachEvent()
+    public void AGebeurtenisIsAddedForEachEvent()
     {
-        await using var documentSession = _context
-           .Session;
+        fixture.Result.Historiek.Should().NotBeEmpty();
 
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .Where(doc => doc.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode)
-                 .SingleAsync();
+        fixture.Result.Historiek[0].EventType
+               .Should()
+               .Be(fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.GetType().Name);
 
-        powerBiExportDocument.Historiek.Should().NotBeEmpty();
-        powerBiExportDocument.Historiek[0].EventType.Should().Be(_scenario.FeitelijkeVerenigingWerdGeregistreerd.GetType().Name);
+        fixture.Result.Historiek[1].EventType.Should().Be(nameof(NaamWerdGewijzigd));
+        fixture.Result.Historiek[2].EventType.Should().Be(nameof(LocatieWerdToegevoegd));
+        fixture.Result.Historiek[3].EventType.Should().Be(nameof(LocatieWerdToegevoegd));
+        fixture.Result.Historiek[4].EventType.Should().Be(nameof(VerenigingWerdGestopt));
     }
 }

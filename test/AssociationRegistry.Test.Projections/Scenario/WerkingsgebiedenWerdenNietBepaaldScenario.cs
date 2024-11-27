@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.Scenario;
 
 using Events;
 
@@ -12,8 +12,10 @@ public class WerkingsgebiedenWerdenNietBepaaldScenario : ScenarioBase
         WerkingsgebiedenWerdenNietBepaald = new WerkingsgebiedenWerdenNietBepaald(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
+    public override string VCode => _werdBepaaldScenario.VCode;
+
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new EventsPerVCode(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, WerkingsgebiedenWerdenNietBepaald),
+        new (VCode, WerkingsgebiedenWerdenNietBepaald),
     ]).ToArray();
 }

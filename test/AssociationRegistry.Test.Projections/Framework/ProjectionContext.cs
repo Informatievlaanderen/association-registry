@@ -2,9 +2,7 @@
 
 using Alba;
 using AssociationRegistry.Framework;
-using Common.Configuration;
 using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
@@ -20,8 +18,6 @@ using PublicProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
 {
-    private readonly string? _dbName = "projectiontests";
-
     public ProjectionContext()
     {
         MetadataTijdstip = InstantPattern.General.Format(new Instant());
@@ -39,20 +35,22 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
+        var configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
+
         //DropDatabase();
-        EnsureDbExists(GetConfiguration());
+        EnsureDbExists(configuration);
 
         OaktonEnvironment.AutoStartHost = true;
 
         AdminProjectionHost =
             await AlbaHost.For<AdminProjectionHostProgram>(
-                ConfigureForTesting(new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build(), _dbName));
+                ConfigureForTesting(configuration));
 
         AdminElasticClient = AdminProjectionHost.Services.GetRequiredService<IElasticClient>();
 
         PublicProjectionHost =
             await AlbaHost.For<PublicProjectionHostProgram>(
-                ConfigureForTesting(new ConfigurationBuilder().AddJsonFile("appsettings.v2.publiek.json").Build(), _dbName));
+                ConfigureForTesting(configuration));
 
         PublicElasticClient = PublicProjectionHost.Services.GetRequiredService<IElasticClient>();
 
@@ -95,24 +93,13 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     {
     }
 
-    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration, string schema)
+    private Action<IWebHostBuilder> ConfigureForTesting(IConfigurationRoot configuration)
     {
         return b =>
         {
             b.UseEnvironment("Development");
             b.UseContentRoot(Directory.GetCurrentDirectory());
             b.UseConfiguration(configuration);
-
-            b.ConfigureServices((context, services) =>
-              {
-                  context.HostingEnvironment.EnvironmentName = "Development";
-                  services.Configure<PostgreSqlOptionsSection>(s => { s.Schema = schema; });
-              })
-             .UseSetting(key: "ASPNETCORE_ENVIRONMENT", value: "Development")
-             .UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Schema)}", schema)
-             .UseSetting(key: "GrarOptions:Sqs:AddressMatchQueueName", schema.ToLowerInvariant())
-             .UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _dbName)
-             .UseSetting(key: "PostgreSQLOptions:Database", _dbName);
         };
     }
 
@@ -146,25 +133,16 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         }
     }
 
-    private IConfigurationRoot GetConfiguration()
+    private void DropDatabase(IConfigurationRoot configuration)
     {
-        var tempConfiguration = ConfigurationHelper.GetConfiguration();
-        tempConfiguration["PostgreSQLOptions:database"] = _dbName;
-        tempConfiguration["ElasticClientOptions:Indices:Verenigingen"] = _dbName;
-
-        return tempConfiguration;
-    }
-
-    private void DropDatabase()
-    {
-        using var connection = new NpgsqlConnection(GetConnectionString(GetConfiguration(), RootDatabase));
+        using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
         using var cmd = connection.CreateCommand();
 
         try
         {
             connection.Open();
             // Ensure connections to DB are killed - there seems to be a lingering idle session after AssertDatabaseMatchesConfiguration(), even after store disposal
-            cmd.CommandText += $"DROP DATABASE IF EXISTS {GetConfiguration()["PostgreSQLOptions:database"]} WITH (FORCE);";
+            cmd.CommandText += $"DROP DATABASE IF EXISTS {configuration["PostgreSQLOptions:database"]} WITH (FORCE);";
             cmd.ExecuteNonQuery();
         }
         finally
