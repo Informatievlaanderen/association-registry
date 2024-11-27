@@ -10,9 +10,19 @@
   <ItemGroup>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
+    <Content Remove="PowerBiExport\**" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="PowerBiExport\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Remove="PowerBiExport\**" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="PowerBiExport\**" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

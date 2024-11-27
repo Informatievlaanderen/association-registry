@@ -7,7 +7,7 @@ using Scenarios;
 using Xunit;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdVerwijderd : IClassFixture<BeheerDetailClassFixture<LidmaatschapWerdVerwijderdScenario>>
+public class Given_LidmaatschapWerdVerwijderd : BeheerDetailClassFixture2<LidmaatschapWerdVerwijderdScenario>
 {
     private readonly BeheerDetailClassFixture<LidmaatschapWerdVerwijderdScenario> _fixture;
 

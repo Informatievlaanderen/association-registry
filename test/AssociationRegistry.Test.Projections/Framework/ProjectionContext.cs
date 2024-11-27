@@ -74,7 +74,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task WaitForDataRefreshAsync()
     {
-        WaitForNonStaleProjectionData();
+        await WaitForNonStaleProjectionData();
         await AdminElasticClient.Indices.RefreshAsync();
         await PublicElasticClient.Indices.RefreshAsync();
     }
@@ -88,6 +88,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
         await Session.SaveChangesAsync();
         await WaitForDataRefreshAsync();
+        await AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
     }
 
     public async Task DisposeAsync()
@@ -115,12 +116,12 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         };
     }
 
-    private void WaitForNonStaleProjectionData()
+    private async Task WaitForNonStaleProjectionData()
     {
-        Task.WaitAll(
-            AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60)),
-            PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60))
-        );
+
+        await AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+
     }
 
     public async Task<IDocumentSession> DocumentSession()
