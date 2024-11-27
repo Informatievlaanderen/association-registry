@@ -23,7 +23,7 @@ public class Given_LidmaatschapWerdGewijzigd : IClassFixture<LidmaatschapWerdGew
     [Fact]
     public async Task ARecordIsStored_With_Lidmaatschap()
     {
-        await using var documentSession = _context.Beheer.Session;
+        await using var documentSession = _context.Session;
 
         var powerBiExportDocument =
             await documentSession
@@ -49,7 +49,7 @@ public class Given_LidmaatschapWerdGewijzigd : IClassFixture<LidmaatschapWerdGew
     [Fact]
     public async Task ARecordIsStored_With_Historiek()
     {
-        await using var documentSession = _context.Beheer.Session;
+        await using var documentSession = _context.Session;
 
         var powerBiExportDocument =
             await documentSession
