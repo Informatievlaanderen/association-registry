@@ -8,7 +8,7 @@ public class ApplyAllEventsFixture(ProjectionContext context)
     : ScenarioFixture<ApplyAllEventsScenario, PowerBiExportDocument, ProjectionContext>(context)
 {
     protected override async Task<PowerBiExportDocument> GetResultAsync(ApplyAllEventsScenario scenario)
-        => await Context.Session
+        => await Context.Beheer.Session
                         .Query<PowerBiExportDocument>()
                         .SingleAsync(w => w.VCode == scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 }

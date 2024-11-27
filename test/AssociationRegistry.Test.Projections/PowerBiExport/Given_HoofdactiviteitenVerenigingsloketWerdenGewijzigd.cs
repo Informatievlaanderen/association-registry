@@ -21,8 +21,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
     [Fact]
     public async Task ARecordIsStored_With_Hoofdactiviteiten()
     {
-        await using var documentSession = _context
-           .Session;
+        await using var documentSession = _context.Beheer.Session;
 
         var powerBiExportDocument =
             await documentSession
@@ -47,8 +46,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd : IClassFixt
     [Fact]
     public async Task ARecordIsStored_With_Historiek()
     {
-        await using var documentSession = _context
-           .Session;
+        await using var documentSession = _context.Beheer.Session;
 
         var powerBiExportDocument =
             await documentSession

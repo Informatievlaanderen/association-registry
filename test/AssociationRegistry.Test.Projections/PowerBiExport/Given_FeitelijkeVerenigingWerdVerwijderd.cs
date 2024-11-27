@@ -21,8 +21,7 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<Feitelijke
     [Fact]
     public async Task ARecordIsStored_For_Vereniging1_With_StatusVerwijderd()
     {
-        await using var documentSession = _context
-           .Session;
+        await using var documentSession = _context.Beheer.Session;
 
         var vereniging1 =
             await documentSession
@@ -37,8 +36,7 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<Feitelijke
     [Fact]
     public async Task ARecordIsStored_For_Vereniging2()
     {
-        await using var documentSession = _context
-           .Session;
+        await using var documentSession = _context.Beheer.Session;
 
         var vereniging2 =
             await documentSession
