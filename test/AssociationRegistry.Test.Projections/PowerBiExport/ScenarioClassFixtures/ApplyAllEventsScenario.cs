@@ -4,7 +4,6 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
-using Framework;
 using Framework.Fixtures;
 
 public class ApplyAllEventsScenario : ProjectionScenarioFixture<ProjectionContext>

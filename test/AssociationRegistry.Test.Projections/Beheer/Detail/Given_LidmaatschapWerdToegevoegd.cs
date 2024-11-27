@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
 using Admin.Schema.Detail;
-using FluentAssertions;
-using Framework;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd(LidmaatschapWerdToegevoegdFixture fixture) : IClassFixture<LidmaatschapWerdToegevoegdFixture>

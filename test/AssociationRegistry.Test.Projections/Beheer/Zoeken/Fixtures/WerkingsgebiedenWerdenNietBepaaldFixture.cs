@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
 
 using Admin.Schema.Search;
-using Framework;
 using Framework.Fixtures;
 using ScenarioClassFixtures;
 

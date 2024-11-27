@@ -1,9 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using FluentAssertions;
-using Framework;
-using Xunit;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdVerwijderd(LidmaatschapWerdVerwijderdFixture fixture) : IClassFixture<LidmaatschapWerdVerwijderdFixture>
 {

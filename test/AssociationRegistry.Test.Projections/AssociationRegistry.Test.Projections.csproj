@@ -14,5 +14,10 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Using Include="AssociationRegistry.Test.Projections.Framework" />
+    <Using Include="FluentAssertions"  />
+    <Using Include="Xunit" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

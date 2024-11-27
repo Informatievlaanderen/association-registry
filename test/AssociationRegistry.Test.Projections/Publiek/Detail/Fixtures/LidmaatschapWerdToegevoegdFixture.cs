@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using Framework;
 using Framework.Fixtures;
 using Marten;
 using Public.Schema.Detail;

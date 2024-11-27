@@ -1,11 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.Schema.PowerBiExport;
-using FluentAssertions;
-using Framework;
 using Marten;
 using ScenarioClassFixtures;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_AnyEventIsApplied : IClassFixture<ApplyAllEventsScenario>
