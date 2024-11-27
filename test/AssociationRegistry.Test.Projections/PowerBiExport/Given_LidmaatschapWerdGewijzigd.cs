@@ -2,13 +2,10 @@
 
 using Admin.Schema.PowerBiExport;
 using Events;
-using FluentAssertions;
 using Formats;
-using Framework;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdGewijzigd : IClassFixture<LidmaatschapWerdGewijzigdScenario>

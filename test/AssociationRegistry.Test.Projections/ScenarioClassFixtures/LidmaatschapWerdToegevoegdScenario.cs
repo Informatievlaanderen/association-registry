@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
 
 using AutoFixture;
 using Events;
-using Framework;
 
 public class LidmaatschapWerdToegevoegdScenario : ScenarioBase
 {
@@ -12,7 +11,11 @@ public class LidmaatschapWerdToegevoegdScenario : ScenarioBase
     public LidmaatschapWerdToegevoegdScenario()
     {
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        LidmaatschapWerdToegevoegd = AutoFixture.Create<LidmaatschapWerdToegevoegd>();
+
+        LidmaatschapWerdToegevoegd = AutoFixture.Create<LidmaatschapWerdToegevoegd>() with
+        {
+            VCode = VerenigingWerdGeregistreerd.VCode,
+        };
     }
 
     public override EventsPerVCode[] Events =>

@@ -1,11 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using FluentAssertions;
-using Framework;
 using JsonLdContext;
 using Public.Schema.Detail;
 using Vereniging;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerdenNietVanToepassingFixture fixture)

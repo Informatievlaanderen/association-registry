@@ -2,7 +2,6 @@
 
 using AutoFixture;
 using Events;
-using Framework;
 
 public class WerkingsgebiedenWerdenBepaaldScenario : ScenarioBase
 {

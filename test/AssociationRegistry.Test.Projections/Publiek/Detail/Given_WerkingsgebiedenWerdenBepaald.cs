@@ -1,10 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using FluentAssertions;
-using Framework;
 using JsonLdContext;
 using Public.Schema.Detail;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenBepaald(WerkingsgebiedenWerdenBepaaldFixture fixture)

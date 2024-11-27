@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
 
-using Admin.Schema.Detail;
-using FluentAssertions;
-using Framework;
-using Xunit;
+using Public.Schema.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd(LidmaatschapWerdToegevoegdFixture fixture) : IClassFixture<LidmaatschapWerdToegevoegdFixture>
@@ -14,7 +11,7 @@ public class Given_LidmaatschapWerdToegevoegd(LidmaatschapWerdToegevoegdFixture 
                   .Lidmaatschappen[0]
                   .Should()
                   .BeEquivalentTo(
-                       new Lidmaatschap(
+                       new PubliekVerenigingDetailDocument.Lidmaatschap(
                            JsonLdMetadata: null,
                            fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
                            fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,

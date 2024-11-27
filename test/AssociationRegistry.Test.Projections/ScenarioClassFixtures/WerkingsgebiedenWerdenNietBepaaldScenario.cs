@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
 
 using Events;
-using Framework;
 
 public class WerkingsgebiedenWerdenNietBepaaldScenario : ScenarioBase
 {

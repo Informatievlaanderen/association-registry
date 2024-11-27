@@ -1,9 +1,5 @@
 namespace AssociationRegistry.Test.Projections.Beheer.Zoeken;
 
-using FluentAssertions;
-using Framework;
-using Xunit;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietBepaald(WerkingsgebiedenWerdenNietBepaaldFixture fixture)
     : IClassFixture<WerkingsgebiedenWerdenNietBepaaldFixture>

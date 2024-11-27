@@ -1,12 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.Schema.PowerBiExport;
-using FluentAssertions;
-using Framework;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using ScenarioClassFixtures;
-using Xunit;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>

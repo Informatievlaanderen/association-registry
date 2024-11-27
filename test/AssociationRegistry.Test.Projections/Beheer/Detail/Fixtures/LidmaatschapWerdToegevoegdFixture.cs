@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
 using Admin.Schema.Detail;
-using Framework;
 using Framework.Fixtures;
 using Marten;
 using ScenarioClassFixtures;

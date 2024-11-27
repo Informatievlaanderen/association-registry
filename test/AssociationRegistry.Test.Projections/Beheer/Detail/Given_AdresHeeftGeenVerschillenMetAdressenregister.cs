@@ -1,9 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
 
-using FluentAssertions;
-using Framework;
-using Xunit;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister(AdresHeeftGeenVerschillenMetAdressenregisterFixture fixture)
     : IClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterFixture>
