@@ -2,75 +2,38 @@
 
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
-using ScenarioClassFixtures;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
+public class Given_FeitelijkeVerenigingWerdGeregistreerd(FeitelijkeVerenigingWerdGeregistreerdFixture fixture)
+    : IClassFixture<FeitelijkeVerenigingWerdGeregistreerdFixture>
 {
-    private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
-    private readonly ProjectionContext _context;
-
-    public Given_FeitelijkeVerenigingWerdGeregistreerd(
-        ProjectionContext context,
-        FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    [Fact]
+    public void ARecordIsStored_With_VCodeAndNaam()
     {
-        _context = context;
-        _scenario = scenario;
+        fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingWerdGeregistreerd.VCode);
+        fixture.Result.Naam.Should().Be(fixture.Scenario.VerenigingWerdGeregistreerd.Naam);
     }
 
     [Fact]
-    public async Task ARecordIsStored_With_VCodeAndNaam()
-    {
-        await using var documentSession = _context
-           .Session;
-
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
-
-        powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
-        powerBiExportDocument.Naam.Should().Be(_scenario.VerenigingWerdGeregistreerd.Naam);
-    }
-
-    [Fact]
-    public async Task ARecordIsStored_With_Hoofdactiviteiten()
-    {
-        await using var documentSession = _context
-           .Session;
-
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .SingleAsync(x => x.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
-
-        var expectedHoofdactiviteiten =
-            _scenario
-               .VerenigingWerdGeregistreerd
-               .HoofdactiviteitenVerenigingsloket
-               .Select(x => new HoofdactiviteitVerenigingsloket
-                {
-                    Naam = x.Naam,
-                    Code = x.Code,
-                })
-               .ToArray();
-
-        powerBiExportDocument.HoofdactiviteitenVerenigingsloket.ShouldCompare(expectedHoofdactiviteiten);
-    }
+    public void ARecordIsStored_With_Hoofdactiviteiten()
+        => fixture.Result
+                  .HoofdactiviteitenVerenigingsloket
+                  .ShouldCompare(
+                       fixture.Scenario
+                              .VerenigingWerdGeregistreerd
+                              .HoofdactiviteitenVerenigingsloket
+                              .Select(x => new HoofdactiviteitVerenigingsloket
+                               {
+                                   Naam = x.Naam,
+                                   Code = x.Code,
+                               })
+                              .ToArray()
+                   );
 
     [Fact]
-    public async Task ARecordIsStored_With_Historiek()
+    public void ARecordIsStored_With_Historiek()
     {
-        await using var documentSession = _context
-           .Session;
-
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .SingleAsync(w => w.VCode == _scenario.VerenigingWerdGeregistreerd.VCode);
-
-        powerBiExportDocument.VCode.Should().Be(_scenario.VerenigingWerdGeregistreerd.VCode);
-        powerBiExportDocument.Historiek.Should().NotBeEmpty();
+        fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingWerdGeregistreerd.VCode);
+        fixture.Result.Historiek.Should().NotBeEmpty();
     }
 }

@@ -3,7 +3,6 @@
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
-using ScenarioClassFixtures;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd : IClassFixture<WerkingsgebiedenWerdenGewijzigdScenario>

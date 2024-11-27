@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Projections.ScenarioClassFixtures;
+﻿namespace AssociationRegistry.Test.Projections.Scenario;
 
 using Events;
 
@@ -13,8 +13,10 @@ public class WerkingsgebiedenWerdenNietVanToepassingScenario : ScenarioBase
             new WerkingsgebiedenWerdenNietVanToepassing(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode);
     }
 
+    public override string VCode => _werdBepaaldScenario.VCode;
+
     public override EventsPerVCode[] Events => _werdBepaaldScenario.Events.Union(
     [
-        new EventsPerVCode(_werdBepaaldScenario.VerenigingWerdGeregistreerd.VCode, WerkingsgebiedenWerdenNietVanToepassing),
+        new(VCode, WerkingsgebiedenWerdenNietVanToepassing),
     ]).ToArray();
 }

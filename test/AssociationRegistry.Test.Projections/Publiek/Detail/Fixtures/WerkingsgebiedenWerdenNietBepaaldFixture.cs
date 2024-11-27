@@ -3,14 +3,14 @@
 using Framework.Fixtures;
 using Marten;
 using Public.Schema.Detail;
-using ScenarioClassFixtures;
+using Scenario;
 
 public class WerkingsgebiedenWerdenNietBepaaldFixture(ProjectionContext context) : ScenarioFixture<
     WerkingsgebiedenWerdenNietBepaaldScenario,
     PubliekVerenigingDetailDocument,
     ProjectionContext>(context)
 {
-    public override async Task<PubliekVerenigingDetailDocument> GetResultAsync(WerkingsgebiedenWerdenNietBepaaldScenario scenario)
+    protected override async Task<PubliekVerenigingDetailDocument> GetResultAsync(WerkingsgebiedenWerdenNietBepaaldScenario scenario)
         => await Context.Session
                         .Query<PubliekVerenigingDetailDocument>()
                         .SingleAsync(w => w.VCode == scenario.WerkingsgebiedenWerdenNietBepaald.VCode);

@@ -1,9 +1,11 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Lidmaatschappen;
 
 using Admin.Schema.Detail;
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdToegevoegd(LidmaatschapWerdToegevoegdFixture fixture) : IClassFixture<LidmaatschapWerdToegevoegdFixture>
+public class Given_LidmaatschapWerdToegevoegd(BeheerDetailScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)
+    : BeheerDetailScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()

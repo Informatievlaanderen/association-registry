@@ -2,14 +2,14 @@
 
 using Admin.Schema.Search;
 using Framework.Fixtures;
-using ScenarioClassFixtures;
+using Scenario;
 
 public class WerkingsgebiedenWerdenBepaaldFixture(ProjectionContext context) : ScenarioFixture<
     WerkingsgebiedenWerdenBepaaldScenario,
     VerenigingZoekDocument,
     ProjectionContext>(context)
 {
-    public override async Task<VerenigingZoekDocument> GetResultAsync(WerkingsgebiedenWerdenBepaaldScenario scenario)
+    protected override async Task<VerenigingZoekDocument> GetResultAsync(WerkingsgebiedenWerdenBepaaldScenario scenario)
     {
         var getResponse =
             await Context

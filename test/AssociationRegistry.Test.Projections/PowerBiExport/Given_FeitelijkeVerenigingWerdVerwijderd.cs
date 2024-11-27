@@ -3,7 +3,6 @@
 using Admin.ProjectionHost.Projections.PowerBiExport;
 using Admin.Schema.PowerBiExport;
 using Marten;
-using ScenarioClassFixtures;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>

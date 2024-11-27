@@ -2,14 +2,14 @@
 
 using Framework.Fixtures;
 using Public.Schema.Search;
-using ScenarioClassFixtures;
+using Scenario;
 
 public class WerkingsgebiedenWerdenNietVanToepassingFixture(ProjectionContext context) : ScenarioFixture<
     WerkingsgebiedenWerdenNietVanToepassingScenario,
     VerenigingZoekDocument,
     ProjectionContext>(context)
 {
-    public override async Task<VerenigingZoekDocument> GetResultAsync(WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
+    protected override async Task<VerenigingZoekDocument> GetResultAsync(WerkingsgebiedenWerdenNietVanToepassingScenario scenario)
     {
         var getResponse =
             await Context

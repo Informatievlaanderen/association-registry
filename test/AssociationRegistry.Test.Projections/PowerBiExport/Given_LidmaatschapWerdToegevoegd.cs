@@ -5,7 +5,6 @@ using Events;
 using Formats;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
-using ScenarioClassFixtures;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd : IClassFixture<LidmaatschapWerdToegevoegdScenario>

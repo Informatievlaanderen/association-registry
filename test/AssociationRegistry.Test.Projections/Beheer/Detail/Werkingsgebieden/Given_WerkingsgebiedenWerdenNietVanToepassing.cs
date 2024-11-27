@@ -1,12 +1,14 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Werkingsgebieden;
 
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using JsonLdContext;
+using Scenario;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_WerkingsgebiedenWerdenNietVanToepassing(WerkingsgebiedenWerdenNietVanToepassingFixture fixture)
-    : IClassFixture<WerkingsgebiedenWerdenNietVanToepassingFixture>
+public class Given_WerkingsgebiedenWerdenNietVanToepassing(
+    BeheerDetailScenarioFixture<WerkingsgebiedenWerdenNietVanToepassingScenario> fixture)
+    : BeheerDetailScenarioClassFixture<WerkingsgebiedenWerdenNietVanToepassingScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
