@@ -36,6 +36,7 @@ public class TeHeradresserenLocatiesMessageHandler
 
         foreach (var (locatieId, adresId) in locatiesMetAdres)
         {
+            // if adresid is not null
             var adres = await _client.GetAddressById(adresId, cancellationToken);
             locatiesWithAddresses.Add(new LocatieWithAdres(locatieId, adres));
         }

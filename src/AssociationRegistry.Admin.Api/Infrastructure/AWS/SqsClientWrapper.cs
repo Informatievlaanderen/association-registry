@@ -7,7 +7,13 @@ using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using System.Text.Json;
 
-public class SqsClientWrapper
+public interface ISqsClientWrapper
+{
+    Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message);
+    Task QueueKboNummerToSynchronise(string kboNummer);
+}
+
+public class SqsClientWrapper : ISqsClientWrapper
 {
     private readonly IAmazonSQS _sqsClient;
     private readonly string _kboSyncQueueUrl;
