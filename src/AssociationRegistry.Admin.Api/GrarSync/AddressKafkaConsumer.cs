@@ -84,11 +84,11 @@ public class AddressKafkaConsumer : BackgroundService
                 switch (message)
                 {
                     case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(addressWasRetiredBecauseOfMunicipalityMerger);
+                        await _adresMergerHandler.Handle(addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId);
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(addressWasRejectedBecauseOfMunicipalityMerger);
+                        await _adresMergerHandler.Handle(addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId);
                         break;
 
                     case StreetNameWasReaddressed streetNameWasReaddressed:

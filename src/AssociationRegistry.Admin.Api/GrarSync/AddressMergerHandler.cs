@@ -5,8 +5,7 @@ using Infrastructure.AWS;
 
 public interface IAdresMergerHandler
 {
-    Task Handle(AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredMessage);
-    Task Handle(AddressWasRejectedBecauseOfMunicipalityMerger addressWasRetiredMessage);
+    Task Handle(int adresId);
 }
 
 public class AdresMergerHandler : IAdresMergerHandler
@@ -20,13 +19,7 @@ public class AdresMergerHandler : IAdresMergerHandler
         _teHeradresserenLocatiesFinder = teHeradresserenLocatiesFinder;
     }
 
-    public async Task Handle(AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredMessage)
-        => await SendTeHeradresserenMessage(addressWasRetiredMessage.AddressPersistentLocalId);
-
-    public async Task Handle(AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedMessage)
-        => await SendTeHeradresserenMessage(addressWasRejectedMessage.AddressPersistentLocalId);
-
-    private async Task SendTeHeradresserenMessage(int adresId)
+    public async Task Handle(int adresId)
     {
         var messages = await _teHeradresserenLocatiesFinder.Find(adresId);
 
