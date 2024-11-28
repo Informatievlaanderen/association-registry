@@ -15,6 +15,7 @@ public class AddressKafkaConsumer : BackgroundService
 {
     private readonly AddressKafkaConfiguration _configuration;
     private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
+    private readonly IAdresMergerHandler _adresMergerHandler;
     private readonly SqsClientWrapper _sqsClientWrapper;
     private readonly IDocumentStore _store;
     private readonly INotifier _notifier;
@@ -23,6 +24,7 @@ public class AddressKafkaConsumer : BackgroundService
     public AddressKafkaConsumer(
         AddressKafkaConfiguration configuration,
         TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
+        IAdresMergerHandler adresMergerHandler,
         SqsClientWrapper sqsClientWrapper,
         IDocumentStore store,
         INotifier notifier,
@@ -30,6 +32,7 @@ public class AddressKafkaConsumer : BackgroundService
     {
         _configuration = configuration;
         _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
+        _adresMergerHandler = adresMergerHandler;
         _sqsClientWrapper = sqsClientWrapper;
         _store = store;
         _notifier = notifier;
@@ -80,11 +83,13 @@ public class AddressKafkaConsumer : BackgroundService
 
                 switch (message)
                 {
-                    // case AddressWasRetiredBecauseOfMunicipalityMerger
-                        // AdresMergerHandler.Send(message)
+                    case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
+                        await _adresMergerHandler.Handle(addressWasRetiredBecauseOfMunicipalityMerger);
+                        break;
 
-                    // case AddressWasRejectedBecauseOfMunicipalityMerger
-                        // AdresMergerHandler.Send(message)
+                    case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
+                        await _adresMergerHandler.Handle(addressWasRejectedBecauseOfMunicipalityMerger);
+                        break;
 
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
