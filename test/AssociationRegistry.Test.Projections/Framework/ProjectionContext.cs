@@ -52,8 +52,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
-        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureAlbaHost(Configuration));
-        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureAlbaHost(Configuration));
+        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureAlbaHost("appsettings.v2.beheer.json"));
+        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureAlbaHost("appsettings.v2.publiek.json"));
 
         await InitializeHostAsync(beheerProjectionHost);
         await InitializeHostAsync(publiekProjectionHost);
@@ -62,11 +62,12 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         Publiek = new ProjectionHostContext(publiekProjectionHost);
     }
 
-    private Action<IWebHostBuilder> ConfigureAlbaHost(IConfigurationRoot configuration)
+    private Action<IWebHostBuilder> ConfigureAlbaHost(string configuration)
         => b =>
         {
             b.UseEnvironment("Development");
             b.UseContentRoot(Directory.GetCurrentDirectory());
+            b.UseConfiguration(new ConfigurationBuilder().AddJsonFile(configuration).Build());
         };
 
     private async Task InitializeHostAsync(IAlbaHost host)
