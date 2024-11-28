@@ -69,6 +69,7 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
+    <Folder Include="Grar\AddressMerger\" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
