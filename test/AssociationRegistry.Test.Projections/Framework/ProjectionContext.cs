@@ -88,14 +88,9 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     }
 
     public async Task RefreshDataAsync()
-    {
-        Task.WaitAll(Beheer.RefreshDataAsync(), Publiek.RefreshDataAsync());
+        => Task.WaitAll(Beheer.RefreshDataAsync(), Publiek.RefreshDataAsync());
 
-        // TODO : Find more elegant solution of the time gapping from Marten
-        await Task.Delay(750);
-    }
-
-    public async Task<IDocumentSession> DocumentSession()
+    public async Task<IDocumentSession> GetDocumentSession()
     {
         IDocumentSession? session = null;
 

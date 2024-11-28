@@ -21,7 +21,7 @@ public class FeitelijkeVerenigingWerdVerwijderdScenario : ProjectionScenarioFixt
 
     public override async Task Given()
     {
-        await using var session = await Context.DocumentSession();
+        await using var session = await Context.GetDocumentSession();
 
         session.Events.Append(FeitelijkeVerenigingWerdGeregistreerd1.VCode,
                               FeitelijkeVerenigingWerdGeregistreerd1);
