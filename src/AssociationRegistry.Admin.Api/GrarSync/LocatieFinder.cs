@@ -18,4 +18,7 @@ public class LocatieFinder : ILocatieFinder
 
         return session.Query<LocatieLookupDocument>().Where(x => adresIds.Contains(x.AdresId));
     }
+
+    public async Task<LocatiesVolgensVCode[]> FindLocaties(params int[] adresIds)
+        => throw new NotImplementedException();
 }
