@@ -171,7 +171,7 @@ NUGET
       Autofac.Extensions.DependencyInjection (>= 9.0)
       Be.Vlaanderen.Basisregisters.EventHandling (5.0)
     Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic (4.0)
-    Be.Vlaanderen.Basisregisters.GrAr.Contracts (21.7)
+    Be.Vlaanderen.Basisregisters.GrAr.Contracts (21.15)
     Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader (3.0)
     Be.Vlaanderen.Basisregisters.ProblemDetails (9.0)
       System.Reflection.Metadata (>= 8.0)

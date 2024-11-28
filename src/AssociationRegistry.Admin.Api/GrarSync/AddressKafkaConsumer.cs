@@ -80,6 +80,12 @@ public class AddressKafkaConsumer : BackgroundService
 
                 switch (message)
                 {
+                    // case AddressWasRetiredBecauseOfMunicipalityMerger
+                        // AdresMergerHandler.Send(message)
+
+                    // case AddressWasRejectedBecauseOfMunicipalityMerger
+                        // AdresMergerHandler.Send(message)
+
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
