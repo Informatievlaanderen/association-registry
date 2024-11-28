@@ -395,6 +395,7 @@ public class Program
                .AddTransient<ILocatieFinder, LocatieFinder>()
                .AddTransient<TeHeradresserenLocatiesMapper>()
                .AddTransient<ITeHeradresserenLocatiesFinder, TeHeradresserenLocatiesFinder>()
+               .AddTransient<IAdresMergerHandler, AdresMergerHandler>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()
