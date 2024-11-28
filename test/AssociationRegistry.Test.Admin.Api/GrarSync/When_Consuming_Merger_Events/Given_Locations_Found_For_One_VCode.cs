@@ -9,11 +9,10 @@ using Grar.HeradresseerLocaties;
 using Moq;
 using Xunit;
 
-public class Given_No_Locations_Found
+public class Given_Locations_Found_For_One_VCode
 {
-
     [Fact]
-    public async Task Then_It_Does_Not_Queue_Anything()
+    public async Task Then_It_Sends_One_Queue_Message()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var message = fixture.Create<AddressWasRetiredBecauseOfMunicipalityMerger>();
@@ -22,12 +21,12 @@ public class Given_No_Locations_Found
         var teHeradresserenLocatiesFinder = new Mock<ITeHeradresserenLocatiesFinder>();
 
         teHeradresserenLocatiesFinder.Setup(s => s.Find(message.AddressPersistentLocalId))
-                                     .ReturnsAsync([]);
+                     .ReturnsAsync([fixture.Create<TeHeradresserenLocatiesMessage>()]);
 
         var sut = new AdresMergerHandler(sqsClientWrapperMock.Object, teHeradresserenLocatiesFinder.Object);
 
         await sut.Handle(message);
 
-        sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(It.IsAny<TeHeradresserenLocatiesMessage>()), Times.Never());
+        sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(It.IsAny<TeHeradresserenLocatiesMessage>()), Times.Once());
     }
 }
