@@ -38,6 +38,12 @@ public class Given_Multiple_Locations_For_AdresId
             },
             fixture.Create<LocatieLookupDocument>() with
             {
+                VCode = vCode2,
+                AdresId = adresId,
+                LocatieId = 1
+            },
+            fixture.Create<LocatieLookupDocument>() with
+            {
                 VCode = vCode1,
                 AdresId = adresId,
                 LocatieId = 3
@@ -46,7 +52,7 @@ public class Given_Multiple_Locations_For_AdresId
             {
                 VCode = vCode2,
                 AdresId = adresId,
-                LocatieId = 1
+                LocatieId = 2
             },
         };
 
@@ -67,7 +73,7 @@ public class Given_Multiple_Locations_For_AdresId
                                       ""),
                                   new TeHeradresserenLocatiesMessage(
                                       vCode2,
-                                      new LocatieIdWithAdresId[] { new(1, adresId) }.ToList(),
+                                      new LocatieIdWithAdresId[] { new(1, adresId), new(2, adresId) }.ToList(),
                                       ""),
                               ],
                               config: options => options.Excluding(x => x.idempotencyKey));
