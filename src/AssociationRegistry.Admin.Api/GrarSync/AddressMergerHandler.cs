@@ -28,6 +28,6 @@ public class AdresMergerHandler
 
 public interface ITeHeradresserenLocatiesFinder
 {
-    Task<TeHeradresserenLocatiesMessage[]> Find(int messageAddressPersistentLocalId);
+    Task<TeHeradresserenLocatiesMessage[]> Find(int addressPersistentLocalId);
 }
 

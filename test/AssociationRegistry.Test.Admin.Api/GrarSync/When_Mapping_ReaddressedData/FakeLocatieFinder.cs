@@ -14,6 +14,9 @@ public class FakeLocatieFinder : ILocatieFinder
 
     public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
         => _locatieLookupDocuments.Where(x => adresIds.Contains(x.AdresId));
+
+    public async Task<LocatiesVolgensVCode[]> FindLocaties(params int[] adresIds)
+        => throw new NotImplementedException();
 }
 
 public record LocatieLookupMetExpectedAdres(LocatieLookupDocument Document, string ExpectedAdresId);
