@@ -18,13 +18,13 @@ public class WerkingsgebiedenWerdenGewijzigdScenario : ProjectionScenarioFixture
 
     public override async Task Given()
     {
-        await using var session = await Context.DocumentSession();
+        await using var session = await Context.GetDocumentSession();
 
         session.Events.Append(VerenigingWerdGeregistreerd.VCode,
                               VerenigingWerdGeregistreerd);
 
         await session.SaveChangesAsync();
-        await using var session2 = await Context.DocumentSession();
+        await using var session2 = await Context.GetDocumentSession();
 
         session2.Events.Append(VerenigingWerdGeregistreerd.VCode,
                                WerkingsgebiedenWerdenGewijzigd);

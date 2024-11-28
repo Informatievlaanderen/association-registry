@@ -16,7 +16,7 @@ public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : Project
 
     public override async Task Given()
     {
-        await using var session = await Context.DocumentSession();
+        await using var session = await Context.GetDocumentSession();
 
         foreach (var feitelijkeVerenigingWerdGeregistreerd in VerenigingenwerdenGeregistreerd)
         {
