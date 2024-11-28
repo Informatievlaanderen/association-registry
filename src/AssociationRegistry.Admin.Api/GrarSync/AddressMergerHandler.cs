@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using Grar.HeradresseerLocaties;
 using Infrastructure.AWS;
 
 public class AdresMergerHandler
@@ -25,9 +24,3 @@ public class AdresMergerHandler
         }
     }
 }
-
-public interface ITeHeradresserenLocatiesFinder
-{
-    Task<TeHeradresserenLocatiesMessage[]> Find(int addressPersistentLocalId);
-}
-
