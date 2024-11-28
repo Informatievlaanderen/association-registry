@@ -9,10 +9,10 @@ using Grar.HeradresseerLocaties;
 using Moq;
 using Xunit;
 
-public class Given_Locations_Found_For_One_VCode
+public class Given_Locations_Found_For_Multiple_VCodes
 {
     [Fact]
-    public async Task Then_It_Sends_One_Message_On_The_Queue()
+    public async Task Then_It_Sends_Multiple_Messages_On_The_Queue()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var message = fixture.Create<AddressWasRetiredBecauseOfMunicipalityMerger>();
@@ -20,13 +20,17 @@ public class Given_Locations_Found_For_One_VCode
         var sqsClientWrapperMock = new Mock<ISqsClientWrapper>();
         var teHeradresserenLocatiesFinder = new Mock<ITeHeradresserenLocatiesFinder>();
 
+        var teHeradresserenLocatiesMessages = fixture.CreateMany<TeHeradresserenLocatiesMessage>();
+
         teHeradresserenLocatiesFinder.Setup(s => s.Find(message.AddressPersistentLocalId))
-                     .ReturnsAsync([fixture.Create<TeHeradresserenLocatiesMessage>()]);
+                                     .ReturnsAsync(teHeradresserenLocatiesMessages.ToArray);
 
         var sut = new AdresMergerHandler(sqsClientWrapperMock.Object, teHeradresserenLocatiesFinder.Object);
 
         await sut.Handle(message);
 
-        sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(It.IsAny<TeHeradresserenLocatiesMessage>()), Times.Once());
+        sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(
+                                        It.IsAny<TeHeradresserenLocatiesMessage>()),
+                                    Times.Exactly(teHeradresserenLocatiesMessages.Count()));
     }
 }
