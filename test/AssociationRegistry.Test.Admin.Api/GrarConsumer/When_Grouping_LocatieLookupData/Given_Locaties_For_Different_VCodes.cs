@@ -40,7 +40,7 @@ public class Given_Locaties_For_Different_VCodes
         ]);
     }
 
-    public class LocatieLookupTestData : List<LocatieLookupData>
+    public class LocatieLookupTestData : List<LocatieMetVCode>
     {
         public string VCode1 => "1";
         public string VCode2 => "2";
@@ -51,10 +51,10 @@ public class Given_Locaties_For_Different_VCodes
                            .ToArray());
         }
 
-        public TeHeradresserenLocatie[] MapLocatieData(Func<LocatieLookupData, TeHeradresserenLocatie> map)
+        public TeHeradresserenLocatie[] MapLocatieData(Func<LocatieMetVCode, TeHeradresserenLocatie> map)
             => this.Select(map).ToArray();
 
-        private LocatieLookupTestData(IEnumerable<LocatieLookupData> data) : base(data)
+        private LocatieLookupTestData(IEnumerable<LocatieMetVCode> data) : base(data)
         {
         }
 
@@ -62,22 +62,19 @@ public class Given_Locaties_For_Different_VCodes
         {
             AddRange(
             [
-                fixture.Create<LocatieLookupData>() with
+                fixture.Create<LocatieMetVCode>() with
                 {
                     VCode = VCode1,
-                    AdresId = sourceAdresId,
                     LocatieId = 1
                 },
-                fixture.Create<LocatieLookupData>() with
+                fixture.Create<LocatieMetVCode>() with
                 {
                     VCode = VCode2,
-                    AdresId = sourceAdresId,
                     LocatieId = 1
                 },
-                fixture.Create<LocatieLookupData>() with
+                fixture.Create<LocatieMetVCode>() with
                 {
                     VCode = VCode1,
-                    AdresId = sourceAdresId,
                     LocatieId = 2
                 }
             ]);

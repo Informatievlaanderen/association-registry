@@ -5,11 +5,11 @@ using AssociationRegistry.Admin.Schema.Detail;
 
 public class StubLocatieFinder : ILocatieFinder
 {
-    private readonly Dictionary<string, LocatieLookupData[]> _locatieLookupData;
+    private readonly Dictionary<string, LocatieMetVCode[]> _locatieLookupData;
 
-    public StubLocatieFinder(int sourceAdresId, LocatieLookupData[]? stubData)
+    public StubLocatieFinder(int sourceAdresId, LocatieMetVCode[]? stubData)
     {
-        _locatieLookupData = new Dictionary<string, LocatieLookupData[]>()
+        _locatieLookupData = new Dictionary<string, LocatieMetVCode[]>()
         {
             { sourceAdresId.ToString(), stubData },
         };
@@ -18,6 +18,6 @@ public class StubLocatieFinder : ILocatieFinder
     public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(params string[] adresIds)
         => throw new NotImplementedException();
 
-    public async Task<LocatieLookupData[]> FindLocaties(params int[] adresIds)
+    public async Task<LocatieMetVCode[]> FindLocaties(params int[] adresIds)
         => adresIds.SelectMany(adresId => _locatieLookupData[adresId.ToString()]).ToArray();
 }
