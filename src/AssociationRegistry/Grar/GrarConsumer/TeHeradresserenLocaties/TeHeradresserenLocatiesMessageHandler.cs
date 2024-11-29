@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Grar.HeradresseerLocaties;
+namespace AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
 
-using EventStore;
-using Framework;
-using Models;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging;
 
 public class TeHeradresserenLocatiesMessageHandler
 {
@@ -21,7 +21,7 @@ public class TeHeradresserenLocatiesMessageHandler
     {
         var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 
-        var locatiesWithAddresses = await FetchAddressesForLocaties(message.LocatiesMetAdres, cancellationToken);
+        var locatiesWithAddresses = await FetchAddressesForLocaties(message.TeHeradresserenLocaties, cancellationToken);
 
         await vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey, _client);
 
@@ -30,7 +30,7 @@ public class TeHeradresserenLocatiesMessageHandler
                                                                vereniging.Version), cancellationToken);
     }
 
-    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<LocatieIdWithAdresId> locatiesMetAdres, CancellationToken cancellationToken)
+    private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<TeHeradresserenLocatie> locatiesMetAdres, CancellationToken cancellationToken)
     {
         var locatiesWithAddresses = new List<LocatieWithAdres>();
 

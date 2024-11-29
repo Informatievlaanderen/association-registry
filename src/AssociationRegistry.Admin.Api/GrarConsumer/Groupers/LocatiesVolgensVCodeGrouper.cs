@@ -1,18 +1,23 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 
-using Grar.HeradresseerLocaties;
 using Grar.Models;
 using Finders;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 
-internal class LocatiesVolgensVCodeGrouper
+public static class LocatiesVolgensVCodeGrouper
 {
-    public TeHeradresserenLocatiesMessage[] Group(IEnumerable<LocatieLookupData> lookupDocuments)
-        => lookupDocuments
-          .GroupBy(v => v.VCode)
-          .Select(g =>
-                      new TeHeradresserenLocatiesMessage(
-                          g.Key,
-                          g.Select(doc => new LocatieIdWithAdresId(doc.LocatieId, doc.AdresId)).ToList(),
-                          idempotencyKey: ""))
-          .ToArray();
+    public static TeHeradresserenLocatiesMessage[] Group(LocatieLookupData[] lookupDocuments, int destinationAdresId)
+    {
+        if (!lookupDocuments.Any())
+            return [];
+
+        return lookupDocuments
+              .GroupBy(v => v.VCode)
+              .Select(g =>
+                          new TeHeradresserenLocatiesMessage(
+                              g.Key,
+                              g.Select(doc => new TeHeradresserenLocatie(doc.LocatieId, destinationAdresId.ToString())).ToList(),
+                              idempotencyKey: ""))
+              .ToArray();
+    }
 }

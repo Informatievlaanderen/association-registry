@@ -5,7 +5,7 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Grar;
-using Grar.HeradresseerLocaties;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 using Grar.Models;
 using Moq;
 using Xunit;
@@ -35,8 +35,8 @@ public class With_NonExistingLocatie
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>
-                { new(nonExistingLocatieId, AddressId: "123") },
+            TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
+                { new(nonExistingLocatieId, DestinationAdresId: "123") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };

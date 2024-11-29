@@ -7,6 +7,7 @@ using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using Groupers;
+using Handlers;
 using IdentityModel;
 using Marten;
 using Polly;
@@ -85,11 +86,15 @@ public class AddressKafkaConsumer : BackgroundService
                 switch (message)
                 {
                     case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId);
+                        await _adresMergerHandler.Handle(
+                            addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId,
+                            addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId);
+                        await _adresMergerHandler.Handle(
+                            addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId,
+                            addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
 
                     case StreetNameWasReaddressed streetNameWasReaddressed:

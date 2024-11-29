@@ -8,7 +8,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using FluentAssertions;
 using Grar;
-using Grar.HeradresseerLocaties;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 using Grar.Models;
 using Moq;
 using Xunit;
@@ -41,16 +41,16 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
 
         var message1 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>
-                { new(locatieId1, AddressId: "123"), new(locatieId2, AddressId: "456") },
+            TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
+                { new(locatieId1, DestinationAdresId: "123"), new(locatieId2, DestinationAdresId: "456") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey,
         };
 
         var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>
-                { new(locatieId1, AddressId: "456"), new(locatieId2, AddressId: "123") },
+            TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
+                { new(locatieId1, DestinationAdresId: "456"), new(locatieId2, DestinationAdresId: "123") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey + 1,
         };

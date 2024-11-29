@@ -9,7 +9,7 @@ using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
-using Grar.HeradresseerLocaties;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 using Grar.Models;
 using Xunit;
 
@@ -108,7 +108,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
         {
             new(
                 vCode1,
-                new List<LocatieIdWithAdresId>
+                new List<TeHeradresserenLocatie>
                 {
                     new(locatieLookupHuisnummer1.Document.LocatieId,
                         locatieLookupHuisnummer1.ExpectedAdresId),
@@ -120,7 +120,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                 idempotencyKey: "idempotencyKey"),
             new(
                 vCode2,
-                new List<LocatieIdWithAdresId>
+                new List<TeHeradresserenLocatie>
                 {
                     new(locatieLookupHuisnummer1Busnummer1.Document.LocatieId,
                         locatieLookupHuisnummer1Busnummer1.ExpectedAdresId),

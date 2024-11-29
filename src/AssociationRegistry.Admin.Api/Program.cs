@@ -26,6 +26,7 @@ using Grar.AddressMatch;
 using GrarConsumer;
 using GrarConsumer.Finders;
 using GrarConsumer.Groupers;
+using GrarConsumer.Handlers;
 using GrarConsumer.Kafka;
 using Hosts;
 using Hosts.Configuration;
@@ -397,7 +398,6 @@ public class Program
                .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()
                .AddTransient<TeHeradresserenLocatiesMapper>()
-               .AddTransient<ITeHeradresserenLocatiesFinder, TeHeradresserenLocatiesFinder>()
                .AddTransient<IAdresMergerHandler, AdresMergerHandler>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
