@@ -1,6 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 
 using Grar.HeradresseerLocaties;
+using Groupers;
 
 public class TeHeradresserenLocatiesFinder : ITeHeradresserenLocatiesFinder
 {

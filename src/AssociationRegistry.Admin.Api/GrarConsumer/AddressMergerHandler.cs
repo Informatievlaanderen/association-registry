@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
 
+using Finders;
 using Infrastructure.AWS;
 
 public interface IAdresMergerHandler

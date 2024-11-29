@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 
 using Schema.Detail;
 using Marten;

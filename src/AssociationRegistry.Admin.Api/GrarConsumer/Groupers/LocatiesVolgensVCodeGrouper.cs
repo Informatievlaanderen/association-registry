@@ -1,7 +1,8 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 
 using Grar.HeradresseerLocaties;
 using Grar.Models;
+using Finders;
 
 internal class LocatiesVolgensVCodeGrouper
 {

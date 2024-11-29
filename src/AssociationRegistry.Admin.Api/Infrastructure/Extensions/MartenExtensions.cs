@@ -2,6 +2,7 @@
 
 using Formats;
 using GrarConsumer;
+using GrarConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Json;

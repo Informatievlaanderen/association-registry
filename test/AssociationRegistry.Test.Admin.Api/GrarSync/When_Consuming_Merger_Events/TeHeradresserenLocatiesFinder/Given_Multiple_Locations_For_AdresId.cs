@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Consuming_Merger_Events.TeHeradresserenLocatiesFinder;
 
 using AssociationRegistry.Admin.Api.GrarConsumer;
+using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;

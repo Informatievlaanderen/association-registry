@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Kafka;
 
 using Infrastructure.AWS;
 using Infrastructure.Extensions;
@@ -6,6 +6,8 @@ using Notifications.Messages;
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
+using Finders;
+using Groupers;
 using IdentityModel;
 using Marten;
 using Polly;
