@@ -6,7 +6,7 @@ using Grar.GrarConsumer.TeHeradresserenLocaties;
 
 public static class LocatiesVolgensVCodeGrouper
 {
-    public static TeHeradresserenLocatiesMessage[] Group(LocatieLookupData[] lookupDocuments, int destinationAdresId)
+    public static TeHeradresserenLocatiesMessage[] Group(IEnumerable<LocatieLookupData> lookupDocuments, int destinationAdresId)
     {
         if (!lookupDocuments.Any())
             return [];
