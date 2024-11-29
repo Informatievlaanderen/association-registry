@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Consuming_Merger_Events;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Consuming_Merger_Events;
 
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
 using Moq;
 
 public static class SetupMockExtension

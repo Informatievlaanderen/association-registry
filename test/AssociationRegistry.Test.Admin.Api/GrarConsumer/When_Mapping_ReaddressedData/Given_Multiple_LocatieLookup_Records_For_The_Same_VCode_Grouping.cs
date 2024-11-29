@@ -1,16 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Mapping_ReaddressedData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Mapping_ReaddressedData;
 
-using AssociationRegistry.Admin.Api.GrarConsumer;
-using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
-using Grar.Models;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping

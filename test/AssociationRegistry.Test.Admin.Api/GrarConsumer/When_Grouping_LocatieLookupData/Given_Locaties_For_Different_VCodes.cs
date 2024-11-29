@@ -1,13 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Grouping_LocatieLookupData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Grouping_LocatieLookupData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
+using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
-using Grar.Models;
-using Vereniging;
 using Xunit;
 
 public class Given_Locaties_For_Different_VCodes

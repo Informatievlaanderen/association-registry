@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Grouping_LocatieLookupData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Grouping_LocatieLookupData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
 using Xunit;
 
