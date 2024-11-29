@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Mapping_ReaddressedData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Mapping_ReaddressedData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;

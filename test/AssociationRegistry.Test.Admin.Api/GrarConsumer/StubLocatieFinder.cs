@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
