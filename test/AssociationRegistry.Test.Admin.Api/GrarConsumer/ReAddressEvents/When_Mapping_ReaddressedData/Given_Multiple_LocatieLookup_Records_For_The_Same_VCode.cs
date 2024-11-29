@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
