@@ -6,7 +6,7 @@ using Schema.Detail;
 
 internal class LocatiesVolgensVCodeGrouper
 {
-    public TeHeradresserenLocatiesMessage[] Group(IEnumerable<LocatieLookupDocument> lookupDocuments)
+    public TeHeradresserenLocatiesMessage[] Group(IEnumerable<LocatieLookupData> lookupDocuments)
         => lookupDocuments
           .GroupBy(v => v.VCode)
           .Select(g =>

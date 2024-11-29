@@ -24,31 +24,31 @@ public class Given_Multiple_Locations_For_AdresId
 
         var locatiesVolgensVCode = new[]
         {
-            fixture.Create<LocatieLookupDocument>() with
+            fixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode1,
                 AdresId = adresId,
                 LocatieId = 1
             },
-            fixture.Create<LocatieLookupDocument>() with
+            fixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode1,
                 AdresId = adresId,
                 LocatieId = 2
             },
-            fixture.Create<LocatieLookupDocument>() with
+            fixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode2,
                 AdresId = adresId,
                 LocatieId = 1
             },
-            fixture.Create<LocatieLookupDocument>() with
+            fixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode1,
                 AdresId = adresId,
                 LocatieId = 3
             },
-            fixture.Create<LocatieLookupDocument>() with
+            fixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode2,
                 AdresId = adresId,

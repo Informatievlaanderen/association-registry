@@ -6,12 +6,5 @@ using Schema.Detail;
 public interface ILocatieFinder
 {
     Task<IEnumerable<LocatieLookupDocument>> FindLocaties(params string[] adresIds);
-    Task<LocatieLookupDocument[]> FindLocaties(params int[] adresIds);
-}
-
-public class LocatiesVolgensVCode
-{
-    public string VCode { get; set; }
-
-    public List<LocatieIdWithAdresId> LocatiesMetAdresId { get; set; }
+    Task<LocatieLookupData[]> FindLocaties(params int[] adresIds);
 }
