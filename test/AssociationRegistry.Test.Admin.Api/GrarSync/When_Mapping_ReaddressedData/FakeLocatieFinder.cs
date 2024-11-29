@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Mapping_ReaddressedData;
 
-using AssociationRegistry.Admin.Api.GrarSync;
+using AssociationRegistry.Admin.Api.GrarConsumer;
 using AssociationRegistry.Admin.Schema.Detail;
 
 public class FakeLocatieFinder : ILocatieFinder

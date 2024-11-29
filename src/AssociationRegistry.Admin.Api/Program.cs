@@ -23,7 +23,7 @@ using Formats;
 using Framework;
 using Grar;
 using Grar.AddressMatch;
-using GrarSync;
+using GrarConsumer;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;

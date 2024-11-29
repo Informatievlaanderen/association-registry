@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarSync;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
 
+using Infrastructure.AWS;
+using Infrastructure.Extensions;
+using Notifications.Messages;
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using IdentityModel;
-using Infrastructure.AWS;
-using Infrastructure.Extensions;
 using Marten;
-using Notifications.Messages;
 using Polly;
 using System.Text;
 

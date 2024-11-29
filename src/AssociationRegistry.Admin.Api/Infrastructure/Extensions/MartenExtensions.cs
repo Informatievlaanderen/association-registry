@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Formats;
-using GrarSync;
+using GrarConsumer;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Json;

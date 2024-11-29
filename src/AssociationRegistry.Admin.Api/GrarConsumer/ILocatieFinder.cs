@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarSync;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
 
-using Grar.Models;
 using Schema.Detail;
 
 public interface ILocatieFinder
