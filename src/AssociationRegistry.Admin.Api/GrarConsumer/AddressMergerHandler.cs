@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarSync;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
 
-using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Infrastructure.AWS;
 
 public interface IAdresMergerHandler

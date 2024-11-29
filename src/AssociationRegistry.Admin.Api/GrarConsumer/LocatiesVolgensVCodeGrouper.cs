@@ -1,8 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarSync;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
 
 using Grar.HeradresseerLocaties;
 using Grar.Models;
-using Schema.Detail;
 
 internal class LocatiesVolgensVCodeGrouper
 {

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Consuming_Merger_Events.AdresMergerHandler;
 
-using AssociationRegistry.Admin.Api.GrarSync;
+using AssociationRegistry.Admin.Api.GrarConsumer;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AutoFixture;
 using Common.AutoFixture;
