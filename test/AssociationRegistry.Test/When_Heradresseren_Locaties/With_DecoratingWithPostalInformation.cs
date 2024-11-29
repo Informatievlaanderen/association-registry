@@ -6,7 +6,7 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
 using Grar;
-using Grar.HeradresseerLocaties;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 using Grar.Models;
 using Grar.Models.PostalInfo;
 using Moq;
@@ -52,8 +52,8 @@ public class With_DecoratingWithPostalInformation
 
         var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
         {
-            LocatiesMetAdres = new List<LocatieIdWithAdresId>
-                { new(locatieId, AddressId: "123") },
+            TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
+                { new(locatieId, DestinationAdresId: "123") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };

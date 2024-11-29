@@ -9,7 +9,7 @@ using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Common.AutoFixture;
 using FluentAssertions;
 using Framework;
-using Grar.HeradresseerLocaties;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 using Grar.Models;
 using Xunit;
 
@@ -72,11 +72,11 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
         result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>
         {
             new(
-                VCode: "VCode1", new List<LocatieIdWithAdresId>
-                    { new(LocatieId: 1, AddressId: "777"), new(LocatieId: 2, AddressId: "888") },
+                VCode: "VCode1", new List<TeHeradresserenLocatie>
+                    { new(LocatieId: 1, DestinationAdresId: "777"), new(LocatieId: 2, DestinationAdresId: "888") },
                 idempotencyKey: "idempotencyKey"),
-            new(VCode: "VCode2", new List<LocatieIdWithAdresId>
-                    { new(LocatieId: 1, AddressId: "777") },
+            new(VCode: "VCode2", new List<TeHeradresserenLocatie>
+                    { new(LocatieId: 1, DestinationAdresId: "777") },
                 idempotencyKey: "idempotencyKey"),
         });
     }

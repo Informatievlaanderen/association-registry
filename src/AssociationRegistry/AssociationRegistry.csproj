@@ -70,6 +70,7 @@
   <ItemGroup>
     <Folder Include="Configuration\" />
     <Folder Include="Grar\AddressMerger\" />
+    <Folder Include="Grar\GrarConsumer\TeOnkoppelenLocaties\" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>

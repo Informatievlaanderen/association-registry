@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 
-using Grar.HeradresseerLocaties;
 using Grar.Models;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Finders;
+using Grar.GrarConsumer.TeHeradresserenLocaties;
 
 public class TeHeradresserenLocatiesMapper
 {
@@ -27,7 +27,7 @@ public class TeHeradresserenLocatiesMapper
         var result = grouping.Select(g => new TeHeradresserenLocatiesMessage(
                                          g.Key,
                                          g.Select(s =>
-                                                      new LocatieIdWithAdresId(s.LocatieId,
+                                                      new TeHeradresserenLocatie(s.LocatieId,
                                                                                GetDestinationAddressIdFromSourceAddressId(
                                                                                    s.AdresId, readdressedAddressData))).ToList(),
                                          idempotenceKey));
