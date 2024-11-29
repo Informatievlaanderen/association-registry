@@ -8,7 +8,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using FluentAssertions;
 using Grar;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Grar.Models;
 using Moq;
 using Xunit;

@@ -3,9 +3,9 @@
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
-using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Moq;
 using Xunit;
 

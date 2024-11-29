@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
 using Amazon.SQS;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;

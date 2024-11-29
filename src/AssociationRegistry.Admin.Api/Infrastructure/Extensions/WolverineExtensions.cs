@@ -3,7 +3,7 @@
 using Amazon.Runtime;
 using EventStore;
 using Grar.AddressMatch;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;

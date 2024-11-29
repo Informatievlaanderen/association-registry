@@ -3,7 +3,7 @@
 using Grar.Models;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Finders;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 
 public class TeHeradresserenLocatiesMapper
 {

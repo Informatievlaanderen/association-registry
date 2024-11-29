@@ -2,11 +2,11 @@
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
-using AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.Utilities;
 using FluentAssertions;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Grar.Models;
 using JasperFx.Core;
 using Xunit;

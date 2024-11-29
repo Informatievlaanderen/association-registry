@@ -2,7 +2,7 @@
 
 using Grar.Models;
 using Finders;
-using Grar.GrarConsumer.TeHeradresserenLocaties;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
 
 public static class LocatiesVolgensVCodeGrouper
 {

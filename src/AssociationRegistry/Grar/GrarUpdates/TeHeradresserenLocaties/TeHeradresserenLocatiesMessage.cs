@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Grar.GrarConsumer.TeHeradresserenLocaties;
+namespace AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
 
 using AssociationRegistry.Grar.Models;
 
