@@ -13,7 +13,7 @@ public class Given_No_Data
     public void Then_Returns_Empty_Array()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var locatieLookupData = Array.Empty<LocatieLookupData>();
+        var locatieLookupData = Array.Empty<LocatieMetVCode>();
         var actual = LocatiesVolgensVCodeGrouper.Group(locatieLookupData, fixture.Create<int>());
         actual.Should().BeEmpty();
     }

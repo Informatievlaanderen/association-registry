@@ -20,10 +20,10 @@ public class LocatieFinder : ILocatieFinder
                       .Where(x => adresIds.Contains(x.AdresId));
     }
 
-    public async Task<LocatieLookupData[]> FindLocaties(params int[] adresIds)
+    public async Task<LocatieMetVCode[]> FindLocaties(params int[] adresIds)
     {
         var locaties = await FindLocaties(adresIds.Select(x => x.ToString()).ToArray());
 
-        return locaties.Select(s => new LocatieLookupData(s.VCode, s.LocatieId, s.AdresId)).ToArray();
+        return locaties.Select(s => new LocatieMetVCode(s.VCode, s.LocatieId)).ToArray();
     }
 }

@@ -18,7 +18,7 @@ public class Given_One_Locatie_For_One_VCode
         var fixture = new Fixture().CustomizeAdminApi();
         var destinationAdresId = fixture.Create<int>();
 
-        var lookupData = new LocatieLookupData(fixture.Create<VCode>(), fixture.Create<int>(), fixture.Create<string>());
+        var lookupData = new LocatieMetVCode(fixture.Create<VCode>(), fixture.Create<int>());
 
         var actual = LocatiesVolgensVCodeGrouper.Group([lookupData], destinationAdresId);
 

@@ -24,7 +24,7 @@ public class Given_One_Location_Found
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueReaddressMessage(message => actual = message);
 
-        LocatieLookupData[] locatieLookupData = [fixture.Create<LocatieLookupData>()];
+        LocatieMetVCode[] locatieLookupData = [fixture.Create<LocatieMetVCode>()];
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, locatieLookupData);
 
         var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapper.Object, locatiesFinder);
