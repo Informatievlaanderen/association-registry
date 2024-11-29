@@ -18,7 +18,7 @@ public class Given_One_Location_For_AdresId
         var fixture = new Fixture().CustomizeAdminApi();
         var locatieFinder = new Mock<ILocatieFinder>();
         var adresId = fixture.Create<int>();
-        var locatieLookupDocument = fixture.Create<LocatieLookupDocument>();
+        var locatieLookupDocument = fixture.Create<LocatieLookupData>();
 
         locatieFinder.Setup(s => s.FindLocaties(adresId))
                      .ReturnsAsync([locatieLookupDocument]);

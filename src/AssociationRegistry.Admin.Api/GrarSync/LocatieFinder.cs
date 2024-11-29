@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarSync;
 
+using Grar.Models;
 using Marten;
 using Schema.Detail;
 
@@ -19,10 +20,10 @@ public class LocatieFinder : ILocatieFinder
         return session.Query<LocatieLookupDocument>().Where(x => adresIds.Contains(x.AdresId));
     }
 
-    public async Task<LocatieLookupDocument[]> FindLocaties(params int[] adresIds)
+    public async Task<LocatieLookupData[]> FindLocaties(params int[] adresIds)
     {
         var locaties = await FindLocaties(adresIds.Select(x => x.ToString()).ToArray());
 
-        return locaties.ToArray();
+        return locaties.Select(s => new LocatieLookupData(s.VCode, s.LocatieId, s.AdresId)).ToArray();
     }
 }
