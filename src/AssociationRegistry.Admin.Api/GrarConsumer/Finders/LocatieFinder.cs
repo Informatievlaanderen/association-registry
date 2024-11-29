@@ -20,10 +20,24 @@ public class LocatieFinder : ILocatieFinder
                       .Where(x => adresIds.Contains(x.AdresId));
     }
 
-    public async Task<LocatieMetVCode[]> FindLocaties(params int[] adresIds)
+    public async Task<LocatieIdsPerVCode> FindLocaties(params int[] adresIds)
     {
         var locaties = await FindLocaties(adresIds.Select(x => x.ToString()).ToArray());
 
-        return locaties.Select(s => new LocatieMetVCode(s.VCode, s.LocatieId)).ToArray();
+        return LocatieIdsPerVCode.FromLocatieLookupDocuments(locaties.ToArray());
+    }
+}
+
+public class LocatieIdsPerVCode : Dictionary<string, int[]>
+{
+    public LocatieIdsPerVCode(Dictionary<string, int[]> dictionary): base(dictionary)
+    {
+
+    }
+    public static LocatieIdsPerVCode FromLocatieLookupDocuments(IEnumerable<LocatieLookupDocument> locaties)
+    {
+        return new(locaties.GroupBy(x => x.VCode)
+                           .ToDictionary(grouping => grouping.Key,
+                                         documents => documents.Select(x => x.LocatieId).ToArray()));
     }
 }
