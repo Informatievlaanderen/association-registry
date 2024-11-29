@@ -8,20 +8,21 @@ public interface IAdresMergerHandler
 public class AdresMergerHandler : IAdresMergerHandler
 {
     private readonly ITeHeradresserenLocatiesHandler _teHeradresserenLocatiesHandler;
+    private readonly ITeOntkoppelenLocatiesHandler _teOntkoppelenLocatiesHandler;
 
-    public AdresMergerHandler(ITeHeradresserenLocatiesHandler teHeradresserenLocatiesHandler)
+    public AdresMergerHandler(
+        ITeHeradresserenLocatiesHandler teHeradresserenLocatiesHandler,
+        ITeOntkoppelenLocatiesHandler teOntkoppelenLocatiesHandler)
     {
         _teHeradresserenLocatiesHandler = teHeradresserenLocatiesHandler;
+        _teOntkoppelenLocatiesHandler = teOntkoppelenLocatiesHandler;
     }
 
     public async Task Handle(int sourceAdresId, int? destinationAdresId)
     {
-        // if null -> TeOnkoppelenHandler
-        // send teOnkoppelenMessages
-
-
-        // if not null -> zie code hieronder via TeHeradresserenLocatiesHandler
-        if (destinationAdresId.HasValue)
+        if (!destinationAdresId.HasValue)
+            await _teOntkoppelenLocatiesHandler.Handle(sourceAdresId);
+        else
             await _teHeradresserenLocatiesHandler.Handle(sourceAdresId, destinationAdresId.Value);
     }
 }
@@ -29,4 +30,9 @@ public class AdresMergerHandler : IAdresMergerHandler
 public interface ITeHeradresserenLocatiesHandler
 {
     Task Handle(int sourceAdresId, int destinationAdresId);
+}
+
+public interface ITeOntkoppelenLocatiesHandler
+{
+    Task Handle(int sourceAdresId);
 }
