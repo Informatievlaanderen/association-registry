@@ -6,7 +6,6 @@ using Notifications.Messages;
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
-using Finders;
 using Groupers;
 using IdentityModel;
 using Marten;

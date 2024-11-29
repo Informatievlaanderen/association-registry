@@ -12,11 +12,12 @@ public class LocatieFinder : ILocatieFinder
         _documentStore = documentStore;
     }
 
-    public async Task<IEnumerable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
+    public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
     {
         await using var session = _documentStore.LightweightSession();
 
-        return session.Query<LocatieLookupDocument>().Where(x => adresIds.Contains(x.AdresId));
+        return session.Query<LocatieLookupDocument>()
+                      .Where(x => adresIds.Contains(x.AdresId));
     }
 
     public async Task<LocatieLookupData[]> FindLocaties(params int[] adresIds)
