@@ -1,8 +1,9 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 
 using Grar.HeradresseerLocaties;
 using Grar.Models;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
+using Finders;
 
 public class TeHeradresserenLocatiesMapper
 {

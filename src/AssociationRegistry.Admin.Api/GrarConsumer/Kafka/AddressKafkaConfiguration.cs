@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Kafka;
 
 using Hosts.Configuration;
 using Confluent.Kafka;

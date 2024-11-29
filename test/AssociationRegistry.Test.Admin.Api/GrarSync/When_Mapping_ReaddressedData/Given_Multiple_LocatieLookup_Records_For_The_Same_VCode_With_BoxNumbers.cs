@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarSync.When_Mapping_ReaddressedData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer;
+using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
+using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
