@@ -1,0 +1,32 @@
+﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
+
+using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Grar.GrarUpdates.TeOnkoppelenLocaties;
+using Grar.GrarUpdates.TeOntkoppelenLocaties;
+using Xunit;
+
+public class Given_No_Existing_Locatie
+{
+    [Fact]
+    public async Task Then_The_Locaties_Are_Ontkoppeld()
+    {
+        var fixture = new Fixture().CustomizeDomain();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+
+        var message = fixture.Create<TeOntkoppelenLocatiesMessage>() with
+        {
+            VCode = scenario.VCode,
+        };
+
+        var sut = new TeOntkoppelenLocatiesHandler(verenigingRepositoryMock);
+
+        await sut.Handle(message, CancellationToken.None);
+
+        verenigingRepositoryMock.ShouldNotHaveAnySaves();
+    }
+}
