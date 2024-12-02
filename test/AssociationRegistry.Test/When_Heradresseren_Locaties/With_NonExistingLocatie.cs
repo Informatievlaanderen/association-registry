@@ -5,7 +5,7 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Grar;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.Models;
 using Moq;
 using Xunit;

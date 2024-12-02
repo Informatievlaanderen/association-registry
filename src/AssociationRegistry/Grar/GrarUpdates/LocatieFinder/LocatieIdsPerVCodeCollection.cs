@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Grar.LocatieFinder;
+namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
-using GrarUpdates.TeHeradresserenLocaties;
-using GrarUpdates.TeOnkoppelenLocaties;
-using Models;
+using AssociationRegistry.Grar.Models;
+using Fusies.TeHeradresserenLocaties;
+using Fusies.TeOntkoppelenLocaties;
 using System.Collections.ObjectModel;
 
 public class LocatieIdsPerVCodeCollection : ReadOnlyCollection<LocatieIdsPerVCode>

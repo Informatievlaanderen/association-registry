@@ -65,6 +65,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="GrarConsumer\Handlers\Fusies\" />
     <Folder Include="GrarConsumer\Handlers\StraatHernummering\" />
     <Folder Include="Infrastructure\ConfigurationBindings\" />
     <Folder Include="Verenigingen\Contactgegevens\FeitelijkeVereniging\" />

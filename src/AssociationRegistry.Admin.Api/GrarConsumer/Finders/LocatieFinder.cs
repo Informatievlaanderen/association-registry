@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 
-using Grar.LocatieFinder;
+using Grar.GrarUpdates.LocatieFinder;
 using Schema.Detail;
 using Marten;
 

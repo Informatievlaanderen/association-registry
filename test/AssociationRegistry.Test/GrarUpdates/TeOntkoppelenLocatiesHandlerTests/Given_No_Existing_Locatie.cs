@@ -4,8 +4,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
-using Grar.GrarUpdates.TeOnkoppelenLocaties;
-using Grar.GrarUpdates.TeOntkoppelenLocaties;
+using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Xunit;
 
 public class Given_No_Existing_Locatie

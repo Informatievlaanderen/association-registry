@@ -1,5 +1,5 @@
-namespace AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
+namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 
-using AssociationRegistry.Grar.Models;
+using Models;
 
 public record TeHeradresserenLocatiesMessage(string VCode, List<TeHeradresserenLocatie> TeHeradresserenLocaties, string idempotencyKey);

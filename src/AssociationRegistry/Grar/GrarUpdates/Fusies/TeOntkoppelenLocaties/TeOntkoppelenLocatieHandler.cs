@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
+﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 
-using Grar.LocatieFinder;
-using Infrastructure.AWS;
+using Framework;
+using LocatieFinder;
 
 public class TeOntkoppelenLocatieHandler : ITeOntkoppelenLocatiesHandler
 {

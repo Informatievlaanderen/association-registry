@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using Grar.GrarUpdates;
-using Grar.LocatieFinder;
+using Grar.GrarUpdates.LocatieFinder;
 
 public class FakeLocatieFinder : ILocatieFinder
 {
