@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Grar.LocatieFinder;
 
 using GrarUpdates.TeHeradresserenLocaties;
+using GrarUpdates.TeOnkoppelenLocaties;
 using Models;
 using System.Collections.ObjectModel;
 
@@ -22,5 +23,12 @@ public class LocatieIdsPerVCodeCollection : ReadOnlyCollection<LocatieIdsPerVCod
                                                        x.LocatieIds.Select(locatieId => new TeHeradresserenLocatie(locatieId, destinationAdresId.ToString()))
                                                         .ToList(),
                                                        ""));
+    }
+
+    public IEnumerable<TeOntkoppelenLocatiesMessage> Map()
+    {
+        return this.Select(x => new TeOntkoppelenLocatiesMessage(
+                                                       x.VCode,
+                                                       x.LocatieIds));
     }
 }

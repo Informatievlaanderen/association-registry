@@ -10,6 +10,7 @@ using System.Text.Json;
 public interface ISqsClientWrapper
 {
     Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message);
+    Task QueueMessage<TMessage>(TMessage message);
     Task QueueKboNummerToSynchronise(string kboNummer);
 }
 
@@ -28,6 +29,11 @@ public class SqsClientWrapper : ISqsClientWrapper
 
     public async Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message)
     {
+        await QueueMessage(message);
+    }
+
+    public async Task QueueMessage<TMessage>(TMessage message)
+    {
         await _sqsClient.SendMessageAsync(
             _readdressQueueUrl,
             JsonSerializer.Serialize(message));
@@ -35,9 +41,6 @@ public class SqsClientWrapper : ISqsClientWrapper
 
     public async Task QueueKboNummerToSynchronise(string kboNummer)
     {
-        await _sqsClient.SendMessageAsync(
-            _kboSyncQueueUrl,
-            JsonSerializer.Serialize(
-                new TeSynchroniserenKboNummerMessage(kboNummer)));
+        await QueueMessage(new TeSynchroniserenKboNummerMessage(kboNummer));
     }
 }

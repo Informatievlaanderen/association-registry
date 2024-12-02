@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Mapping_LocatieIdsPerVCode;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Mapping_LocatieIdsPerVCode;
 
+using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
+using AssociationRegistry.Grar.LocatieFinder;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
-using Grar.LocatieFinder;
-using Grar.Models;
 using Xunit;
 
 public class Given_Locaties_For_Different_VCodes

@@ -1,11 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Mapping_LocatieIdsPerVCode;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Mapping_LocatieIdsPerVCode;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
+using AssociationRegistry.Grar.LocatieFinder;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
-using Grar.LocatieFinder;
 using Xunit;
 
 public class Given_No_Data
