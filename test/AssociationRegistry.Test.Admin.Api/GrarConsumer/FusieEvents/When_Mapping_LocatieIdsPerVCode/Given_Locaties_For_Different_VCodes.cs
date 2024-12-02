@@ -6,7 +6,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using Xunit;
 

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
 using Framework;
-using Groupers;
 
 public class HernummeringEventHandler: IHernummeringEventHandler
 {

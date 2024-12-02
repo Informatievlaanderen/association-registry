@@ -2,7 +2,7 @@ namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
 using Acties.HeradresseerLocaties;
 using Acties.OntkoppelAdres;
-using Hernummering.Groupers;
+using Hernummering;
 using System.Collections.ObjectModel;
 
 public class LocatiesPerVCodeCollection : ReadOnlyCollection<LocatiesPerVCode>

@@ -25,7 +25,7 @@ using Grar;
 using Grar.AddressMatch;
 using Grar.GrarUpdates;
 using Grar.GrarUpdates.Fusies;
-using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using GrarConsumer;
 using GrarConsumer.Finders;

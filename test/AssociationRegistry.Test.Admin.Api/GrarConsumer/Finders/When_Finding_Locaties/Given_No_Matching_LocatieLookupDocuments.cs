@@ -59,7 +59,7 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
     [Fact]
     public async Task With_One_Matching_Documents_Then_Returns_A_Collection_With_One_Match()
     {
-        var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupData>();
+        var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
 
         _fixture.Session.Store(locatieLookupDocument);
         await _fixture.Session.SaveChangesAsync();
@@ -70,7 +70,9 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
 
         actual.Should().BeEquivalentTo(LocatiesPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, LocatieLookupData[]>()
         {
-            { locatieLookupDocument.VCode, [locatieLookupDocument] },
+            { locatieLookupDocument.VCode,
+                [new LocatieLookupData(locatieLookupDocument.LocatieId, locatieLookupDocument.AdresId, locatieLookupDocument.VCode)]
+            },
         }));
     }
 
@@ -81,26 +83,26 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
         var vCode2 = _fixture.AutoFixture.Create<VCode>();
         var adresId1 = _fixture.AutoFixture.Create<string>();
 
-        LocatieLookupData[] locatieLookupDocument =
+        LocatieLookupDocument[] locatieLookupData =
         [
-            _fixture.AutoFixture.Create<LocatieLookupData>() with
+            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
             {
                 VCode = vCode1,
                 AdresId = adresId1
             },
-            _fixture.AutoFixture.Create<LocatieLookupData>() with
+            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
             {
                 VCode = vCode2,
                 AdresId = adresId1
             },
-            _fixture.AutoFixture.Create<LocatieLookupData>() with
+            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
             {
                 VCode = vCode1,
                 AdresId = adresId1
             },
         ];
 
-        _fixture.Session.Store(locatieLookupDocument);
+        _fixture.Session.Store(locatieLookupData);
         await _fixture.Session.SaveChangesAsync();
 
         var sut = new LocatieFinder(_fixture.Store);
@@ -112,14 +114,14 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
             {
                 vCode1,
                 [
-                    locatieLookupDocument[0],
-                    locatieLookupDocument[2]
+                    new LocatieLookupData(locatieLookupData[0].LocatieId, locatieLookupData[0].AdresId, locatieLookupData[0].VCode),
+                    new LocatieLookupData(locatieLookupData[2].LocatieId, locatieLookupData[2].AdresId, locatieLookupData[2].VCode),
                 ]
             },
             {
                 vCode2,
                 [
-                    locatieLookupDocument[1]
+                    new LocatieLookupData(locatieLookupData[1].LocatieId, locatieLookupData[1].AdresId, locatieLookupData[1].VCode),
                 ]
             },
         }));

@@ -5,7 +5,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Vereniging;
-using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 using NodaTime;
 
 public class HeradresseerLocatiesMessageHandler
