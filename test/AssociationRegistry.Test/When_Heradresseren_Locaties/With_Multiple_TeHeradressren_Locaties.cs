@@ -8,6 +8,7 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Grar;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Grar.Models;
 using Moq;
 using Xunit;
@@ -40,7 +41,7 @@ public class With_Multiple_TeHeradressren_Locaties
         var message = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
-                { new(locatieId1, DestinationAdresId: "123"), new(locatieId2, DestinationAdresId: "456") },
+                { new(locatieId1, NaarAdresId: "123"), new(locatieId2, NaarAdresId: "456") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };

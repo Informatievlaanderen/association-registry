@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
 using Acties.HeradresseerLocaties;
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -9,6 +8,7 @@ using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
@@ -53,17 +53,11 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
 
         var sut = new TeHeradresserenLocatiesMapper(locatieFinder);
 
-        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>
+        var addressHouseNumberReaddressedData = new TeHernummerenStraat(new List<TeHernummerenAdres>
         {
-            new(addressPersistentLocalId: 777, // can be ignored
-                CreateReaddressedAddressData(vanAdresId: 123, naarAdresId: 777), // vanAdresId, naarAdresId (HouseNumber)
-                new List<ReaddressedAddressData>() // BoxNumbers
-            ),
-            new(addressPersistentLocalId: 777, // can be ignored
-                CreateReaddressedAddressData(vanAdresId: 456, naarAdresId: 888), // vanAdresId, naarAdresId (HouseNumber)
-                new List<ReaddressedAddressData>() // BoxNumbers
-            ),
-        };
+            new(VanAdresId: 123, NaarAdresId: 777),
+            new(VanAdresId: 456, NaarAdresId: 888),
+        });
 
         var result = await sut.ForAddress(addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
 
@@ -71,10 +65,10 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_Grouping
         {
             new(
                 VCode: "VCode1", new List<TeHeradresserenLocatie>
-                    { new(LocatieId: 1, DestinationAdresId: "777"), new(LocatieId: 2, DestinationAdresId: "888") },
+                    { new(LocatieId: 1, NaarAdresId: "777"), new(LocatieId: 2, NaarAdresId: "888") },
                 idempotencyKey: "idempotencyKey"),
             new(VCode: "VCode2", new List<TeHeradresserenLocatie>
-                    { new(LocatieId: 1, DestinationAdresId: "777") },
+                    { new(LocatieId: 1, NaarAdresId: "777") },
                 idempotencyKey: "idempotencyKey"),
         });
     }

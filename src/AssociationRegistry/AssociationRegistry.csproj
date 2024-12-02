@@ -69,7 +69,6 @@
 
   <ItemGroup>
     <Folder Include="Configuration\" />
-    <Folder Include="Grar\GrarUpdates\Hernummering\" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>

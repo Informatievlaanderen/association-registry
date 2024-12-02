@@ -13,7 +13,7 @@ public class LocatieFinder : ILocatieFinder
         _documentStore = documentStore;
     }
 
-    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+    public async Task<LocatiesPerVCodeCollection> FindLocaties(params int[] adresIds)
     {
         return await FindLocaties(
             adresIds
@@ -21,14 +21,14 @@ public class LocatieFinder : ILocatieFinder
                .ToArray());
     }
 
-    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params string[] adresIds)
+    public async Task<LocatiesPerVCodeCollection> FindLocaties(params string[] adresIds)
     {
         var locatieIdsGroupedByVCode =
             GroupByVCode(
                 await FindLocatieLookupDocuments(adresIds)
             );
 
-        return LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(locatieIdsGroupedByVCode);
+        return LocatiesPerVCodeCollection.FromLocatiesPerVCode(locatieIdsGroupedByVCode);
     }
 
     public async Task<IEnumerable<LocatieLookupData>> FindLocatieLookupDocuments(string[] adresIds)
@@ -40,12 +40,12 @@ public class LocatieFinder : ILocatieFinder
                       .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode));
     }
 
-    private static Dictionary<string, int[]> GroupByVCode(IEnumerable<LocatieLookupData> locaties)
+    private static Dictionary<string, LocatieLookupData[]> GroupByVCode(IEnumerable<LocatieLookupData> locaties)
     {
         return locaties
               .GroupBy(x => x.VCode)
               .ToDictionary(grouping => grouping.Key,
-                            documents => documents.Select(x => x.LocatieId)
+                            documents => documents.Select(x => x)
                                                   .ToArray());
     }
 }

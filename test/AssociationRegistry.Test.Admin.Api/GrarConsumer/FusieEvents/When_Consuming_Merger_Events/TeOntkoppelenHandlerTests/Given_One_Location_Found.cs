@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
 
@@ -22,7 +23,7 @@ public class Given_One_Location_Found
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueOntkoppelMessage(message => actual = message);
 
-        var locatieId = fixture.Create<int>();
+        var locatieId = fixture.Create<LocatieLookupData>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
@@ -33,7 +34,7 @@ public class Given_One_Location_Found
             new TeOntkoppelenLocatiesMessage
             (
                 locatieIdsPerVCode.First().VCode,
-                locatieIdsPerVCode.First().LocatieIds
+                locatieIdsPerVCode.First().Locaties.Select(x => x.LocatieId).ToArray()
             ));
     }
 }

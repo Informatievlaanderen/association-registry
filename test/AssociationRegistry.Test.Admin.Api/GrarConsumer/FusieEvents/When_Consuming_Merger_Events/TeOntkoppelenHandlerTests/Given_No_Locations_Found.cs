@@ -22,7 +22,7 @@ public class Given_No_Locations_Found
         var locatiesFinder = new Mock<ILocatieFinder>();
 
         locatiesFinder.Setup(s => s.FindLocaties(sourceAdresId))
-                      .ReturnsAsync(LocatieIdsPerVCodeCollection.Empty);
+                      .ReturnsAsync(LocatiesPerVCodeCollection.Empty);
 
         var sut = new TeOntkoppelenLocatieHandler(sqsClientWrapperMock.Object, locatiesFinder.Object);
         await sut.Handle(sourceAdresId);

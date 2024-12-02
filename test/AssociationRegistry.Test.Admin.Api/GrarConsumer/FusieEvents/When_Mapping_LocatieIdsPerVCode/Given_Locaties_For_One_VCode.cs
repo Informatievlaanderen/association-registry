@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Grar.GrarUpdates.LocatieFinder;
 using Xunit;
 
@@ -19,9 +20,9 @@ public class Given_Locaties_For_One_VCode
 
         var vCode = fixture.Create<string>();
 
-        var locatieIds = fixture.Create<int[]>();
+        var locatieIds = fixture.Create<LocatieLookupData[]>();
 
-        var locatieIdsPerVCode = LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, int[]>()
+        var locatieIdsPerVCode = LocatiesPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, LocatieLookupData[]>()
         {
             {vCode, locatieIds},
         });
@@ -31,7 +32,7 @@ public class Given_Locaties_For_One_VCode
         actual.Should().BeEquivalentTo([
             new HeradresseerLocatiesMessage(
                 vCode,
-                locatieIds.Select(l => new TeHeradresserenLocatie(l, destinationAdresId.ToString())).ToList(),
+                locatieIds.Select(l => new TeHeradresserenLocatie(l.LocatieId, destinationAdresId.ToString())).ToList(),
                 ""),
         ]);
     }

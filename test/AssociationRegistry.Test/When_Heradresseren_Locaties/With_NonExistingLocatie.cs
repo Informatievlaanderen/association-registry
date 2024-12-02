@@ -7,6 +7,7 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Grar;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Grar.Models;
 using Moq;
 using Xunit;
@@ -37,7 +38,7 @@ public class With_NonExistingLocatie
         var message = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
-                { new(nonExistingLocatieId, DestinationAdresId: "123") },
+                { new(nonExistingLocatieId, NaarAdresId: "123") },
             VCode = "V001",
             idempotencyKey = "123456789",
         };

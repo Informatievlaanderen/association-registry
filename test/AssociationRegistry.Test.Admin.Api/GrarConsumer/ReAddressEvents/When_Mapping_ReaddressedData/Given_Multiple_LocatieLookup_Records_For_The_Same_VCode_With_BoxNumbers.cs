@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
 using Acties.HeradresseerLocaties;
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -9,6 +8,7 @@ using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNumbers
@@ -45,11 +45,16 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode_With_BoxNum
                                                                                          vanAdresId: 2002, naarAdresId: 3003),
                                                                                  });
 
-        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>
+
+        var addressHouseNumberReaddressedData = new TeHernummerenStraat(new List<TeHernummerenAdres>
         {
-            firstHouseNumberToReaddress,
-            secondHouseNumberToReaddress,
-        };
+            new(VanAdresId: 1000, NaarAdresId: 2000),
+            new(VanAdresId: 1001, NaarAdresId: 2001),
+            new(VanAdresId: 1002, NaarAdresId: 2002),
+            new(VanAdresId: 2000, NaarAdresId: 3000),
+            new(VanAdresId: 2001, NaarAdresId: 3002),
+            new(VanAdresId: 2002, NaarAdresId: 3003),
+        });
 
         var vCode1 = "VCode1";
         var vCode2 = "VCode2";

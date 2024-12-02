@@ -10,6 +10,7 @@ using Events;
 using FluentAssertions;
 using Grar;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
 using Grar.Models;
 using Moq;
 using Xunit;
@@ -43,7 +44,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
         var message1 = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
-                { new(locatieId1, DestinationAdresId: "123"), new(locatieId2, DestinationAdresId: "456") },
+                { new(locatieId1, NaarAdresId: "123"), new(locatieId2, NaarAdresId: "456") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey,
         };
@@ -51,7 +52,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
         var message2 = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
-                { new(locatieId1, DestinationAdresId: "456"), new(locatieId2, DestinationAdresId: "123") },
+                { new(locatieId1, NaarAdresId: "456"), new(locatieId2, NaarAdresId: "123") },
             VCode = scenario.VCode,
             idempotencyKey = idempotenceKey + 1,
         };

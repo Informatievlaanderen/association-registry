@@ -12,7 +12,7 @@ public class Given_No_Data
     public void Then_Returns_Empty_Array()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var locatieIdsPerVCode = LocatieIdsPerVCodeCollection.Empty;
+        var locatieIdsPerVCode = LocatiesPerVCodeCollection.Empty;
 
         var actual = locatieIdsPerVCode.Map(fixture.Create<int>());
         actual.Should().BeEmpty();

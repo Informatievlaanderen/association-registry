@@ -2,8 +2,8 @@
 
 public interface ILocatieFinder
 {
-    Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds);
-    Task<LocatieIdsPerVCodeCollection> FindLocaties(params string[] adresIds);
+    Task<LocatiesPerVCodeCollection> FindLocaties(params int[] adresIds);
+    Task<LocatiesPerVCodeCollection> FindLocaties(params string[] adresIds);
     Task<IEnumerable<LocatieLookupData>> FindLocatieLookupDocuments(string[] adresIds);
 }
 
