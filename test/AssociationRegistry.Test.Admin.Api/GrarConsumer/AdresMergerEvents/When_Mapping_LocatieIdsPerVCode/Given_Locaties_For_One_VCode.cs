@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.LocatieFinder;
 using Grar.Models;
 using Xunit;
 
@@ -21,7 +22,7 @@ public class Given_Locaties_For_One_VCode
 
         var locatieIds = fixture.Create<int[]>();
 
-        var locatieIdsPerVCode = new LocatieIdsPerVCodeCollection(new Dictionary<string, int[]>()
+        var locatieIdsPerVCode = LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, int[]>()
         {
             {vCode, locatieIds},
         });

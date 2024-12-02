@@ -7,6 +7,7 @@ using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Grar.GrarUpdates;
+using Grar.LocatieFinder;
 using Moq;
 using Xunit;
 
@@ -23,7 +24,7 @@ public class Given_No_Locations_Found
         var locatiesFinder = new Mock<ILocatieFinder>();
 
         locatiesFinder.Setup(s => s.FindLocaties(sourceAdresId))
-                                     .ReturnsAsync(new LocatieIdsPerVCodeCollection(new Dictionary<string, int[]>()));
+                                     .ReturnsAsync(LocatieIdsPerVCodeCollection.Empty);
 
         var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapperMock.Object, locatiesFinder.Object);
         await sut.Handle(sourceAdresId, destinationAdresId);
