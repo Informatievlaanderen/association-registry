@@ -8,7 +8,7 @@ using Marten.Services;
 using Newtonsoft.Json;
 using Weasel.Core;
 
-public class TestDocumentStoreFactory
+public static class TestDocumentStoreFactory
 {
     public static async Task<DocumentStore> Create(string schema)
     {
