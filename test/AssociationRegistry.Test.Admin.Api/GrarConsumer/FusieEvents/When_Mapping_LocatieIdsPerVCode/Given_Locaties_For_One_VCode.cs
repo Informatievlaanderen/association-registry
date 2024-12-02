@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Mapping_LocatieIdsPerVCode;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
@@ -11,7 +12,7 @@ using Xunit;
 public class Given_Locaties_For_One_VCode
 {
     [Fact]
-    public void Then_Returns_One_TeHeradresserenLocatiesMessage_For_VCode()
+    public void Then_Returns_One_HeradresseerLocatiesMessage_For_VCode()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var destinationAdresId = fixture.Create<int>();
@@ -28,7 +29,7 @@ public class Given_Locaties_For_One_VCode
         var actual = locatieIdsPerVCode.Map(destinationAdresId);
 
         actual.Should().BeEquivalentTo([
-            new TeHeradresserenLocatiesMessage(
+            new HeradresseerLocatiesMessage(
                 vCode,
                 locatieIds.Select(l => new TeHeradresserenLocatie(l, destinationAdresId.ToString())).ToList(),
                 ""),

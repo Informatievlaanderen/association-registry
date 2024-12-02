@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+﻿namespace AssociationRegistry.Acties.OntkoppelAdres;
 
-using EventStore;
-using Framework;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging;
 
 public class TeOntkoppelenLocatiesHandler
 {

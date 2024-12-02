@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Acties.HeradresseerLocaties;
 using Amazon.Runtime;
 using EventStore;
 using Grar.AddressMatch;
@@ -107,7 +108,7 @@ public static class WolverineExtensions
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
                .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
-               .ReceiveRawJsonMessage(typeof(TeHeradresserenLocatiesMessage))
+               .ReceiveRawJsonMessage(typeof(HeradresseerLocatiesMessage))
                .MaximumParallelMessages(1);
     }
 }

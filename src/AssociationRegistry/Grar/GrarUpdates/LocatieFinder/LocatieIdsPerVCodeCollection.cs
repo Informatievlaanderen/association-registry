@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
+using Acties.HeradresseerLocaties;
+using Acties.OntkoppelAdres;
 using AssociationRegistry.Grar.Models;
 using Fusies.TeHeradresserenLocaties;
 using Fusies.TeOntkoppelenLocaties;
@@ -16,9 +18,9 @@ public class LocatieIdsPerVCodeCollection : ReadOnlyCollection<LocatieIdsPerVCod
     public static LocatieIdsPerVCodeCollection FromLocatiesPerVCode(Dictionary<string, int[]> locatieIdsGroupedByVCode)
         => new(locatieIdsGroupedByVCode.Select(s => new LocatieIdsPerVCode(s.Key, locatieIdsGroupedByVCode[s.Key])));
 
-    public IEnumerable<TeHeradresserenLocatiesMessage> Map(int destinationAdresId)
+    public IEnumerable<HeradresseerLocatiesMessage> Map(int destinationAdresId)
     {
-        return this.Select(x => new TeHeradresserenLocatiesMessage(
+        return this.Select(x => new HeradresseerLocatiesMessage(
                                                        x.VCode,
                                                        x.LocatieIds.Select(locatieId => new TeHeradresserenLocatie(locatieId, destinationAdresId.ToString()))
                                                         .ToList(),

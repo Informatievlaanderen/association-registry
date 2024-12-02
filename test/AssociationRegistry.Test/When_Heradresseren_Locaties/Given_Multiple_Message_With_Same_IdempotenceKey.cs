@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -39,7 +40,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
         var locatieId1 = scenario.Locaties.First().LocatieId;
         var locatieId2 = scenario.Locaties.ToArray()[1].LocatieId;
 
-        var message1 = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        var message1 = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
                 { new(locatieId1, DestinationAdresId: "123"), new(locatieId2, DestinationAdresId: "456") },
@@ -47,7 +48,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
             idempotencyKey = idempotenceKey,
         };
 
-        var message2 = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        var message2 = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
                 { new(locatieId1, DestinationAdresId: "456"), new(locatieId2, DestinationAdresId: "123") },
@@ -55,7 +56,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
             idempotencyKey = idempotenceKey + 1,
         };
 
-        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message1, CancellationToken.None);
         await messageHandler.Handle(message2, CancellationToken.None);

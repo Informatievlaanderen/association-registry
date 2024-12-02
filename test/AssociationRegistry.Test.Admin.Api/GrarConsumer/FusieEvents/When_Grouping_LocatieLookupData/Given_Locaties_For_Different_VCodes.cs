@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Grouping_LocatieLookupData;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Grar.Models;
@@ -12,7 +13,7 @@ using Xunit;
 public class Given_Locaties_For_Different_VCodes
 {
     [Fact]
-    public void Then_Returns_One_TeHeradresserenLocatiesMessage_For_VCode()
+    public void Then_Returns_One_HeradresseerLocatiesMessage_For_VCode()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var destinationAdresId = fixture.Create<int>();
@@ -23,13 +24,13 @@ public class Given_Locaties_For_Different_VCodes
 
         actual.Should().BeEquivalentTo(
         [
-            new TeHeradresserenLocatiesMessage(
+            new HeradresseerLocatiesMessage(
                 locatieLookupData.VCode1,
                 locatieLookupData.For(locatieLookupData.VCode1)
                                  .Select(x => new TeHeradresserenLocatie(x.LocatieId, destinationAdresId.ToString()))
                                  .ToList(),
                 ""),
-            new TeHeradresserenLocatiesMessage(
+            new HeradresseerLocatiesMessage(
                 locatieLookupData.VCode2,
                 locatieLookupData.For(locatieLookupData.VCode2)
                                  .Select(x => new TeHeradresserenLocatie(x.LocatieId, destinationAdresId.ToString()))

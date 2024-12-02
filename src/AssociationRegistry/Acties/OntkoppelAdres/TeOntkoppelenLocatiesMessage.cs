@@ -1,3 +1,3 @@
-﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+﻿namespace AssociationRegistry.Acties.OntkoppelAdres;
 
 public record TeOntkoppelenLocatiesMessage (string VCode, int[] TeOntkoppelenLocatieIds);

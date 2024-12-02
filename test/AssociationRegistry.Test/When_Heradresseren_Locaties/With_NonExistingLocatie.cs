@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
+using Acties.HeradresseerLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -33,7 +34,7 @@ public class With_NonExistingLocatie
         var locatieId = scenario.Locaties.First().LocatieId;
         var nonExistingLocatieId = locatieId * -1;
 
-        var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        var message = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
                 { new(nonExistingLocatieId, DestinationAdresId: "123") },
@@ -41,7 +42,7 @@ public class With_NonExistingLocatie
             idempotencyKey = "123456789",
         };
 
-        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message, CancellationToken.None);
 
