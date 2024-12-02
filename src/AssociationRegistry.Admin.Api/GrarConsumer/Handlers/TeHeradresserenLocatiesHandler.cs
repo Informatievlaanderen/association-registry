@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
 
 using Finders;
-using Groupers;
+using Grar.GrarUpdates;
+using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.Models;
 using Infrastructure.AWS;
 
 public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
@@ -19,7 +21,7 @@ public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
     {
         var locatiesMetVCodes = await _locatieFinder.FindLocaties(sourceAdresId);
 
-        var messages = LocatiesVolgensVCodeGrouper.Group(locatiesMetVCodes, destinationAdresId);
+        var messages = locatiesMetVCodes.Map(destinationAdresId);
 
         foreach (var message in messages)
         {
@@ -27,3 +29,4 @@ public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
         }
     }
 }
+

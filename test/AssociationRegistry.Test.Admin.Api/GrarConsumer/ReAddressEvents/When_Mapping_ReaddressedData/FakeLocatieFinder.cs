@@ -1,7 +1,8 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Mapping_ReaddressedData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
+using Grar.GrarUpdates;
 
 public class FakeLocatieFinder : ILocatieFinder
 {
@@ -15,7 +16,7 @@ public class FakeLocatieFinder : ILocatieFinder
     public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
         => _locatieLookupDocuments.Where(x => adresIds.Contains(x.AdresId)).AsQueryable();
 
-    public async Task<LocatieMetVCode[]> FindLocaties(params int[] adresIds)
+    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
         => throw new NotImplementedException();
 }
 
