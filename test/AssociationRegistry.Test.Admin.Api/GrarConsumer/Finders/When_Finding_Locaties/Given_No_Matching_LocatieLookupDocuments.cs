@@ -32,17 +32,17 @@ public class LocatieLookupFixture : IAsyncLifetime
 }
 
 [IntegrationTest]
-public class Given_No_Matching_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
+public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
 {
     private readonly LocatieLookupFixture _fixture;
 
-    public Given_No_Matching_LocatieLookupDocuments(LocatieLookupFixture fixture)
+    public Given_LocatieLookupDocuments(LocatieLookupFixture fixture)
     {
         _fixture = fixture;
     }
 
     [Fact]
-    public async Task Then_Returns_Empty_Collection()
+    public async Task With_No_Matching_Documents_Then_Returns_Empty_Collection()
     {
         var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
 
@@ -55,20 +55,9 @@ public class Given_No_Matching_LocatieLookupDocuments : IClassFixture<LocatieLoo
 
         actual.Should().BeEmpty();
     }
-}
-
-[IntegrationTest]
-public class Given_A_Single_Matching_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
-{
-    private readonly LocatieLookupFixture _fixture;
-
-    public Given_A_Single_Matching_LocatieLookupDocuments(LocatieLookupFixture fixture)
-    {
-        _fixture = fixture;
-    }
 
     [Fact]
-    public async Task Then_Returns_A_Collection()
+    public async Task With_One_Matching_Documents_Then_Returns_A_Collection_With_One_Match()
     {
         var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
 
@@ -84,20 +73,9 @@ public class Given_A_Single_Matching_LocatieLookupDocuments : IClassFixture<Loca
             { locatieLookupDocument.VCode, [locatieLookupDocument.LocatieId] },
         }));
     }
-}
-
-[IntegrationTest]
-public class Given_A_Multiple_Matching_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
-{
-    private readonly LocatieLookupFixture _fixture;
-
-    public Given_A_Multiple_Matching_LocatieLookupDocuments(LocatieLookupFixture fixture)
-    {
-        _fixture = fixture;
-    }
 
     [Fact]
-    public async Task Then_Returns_A_Collection()
+    public async Task With_Multiple_Matching_Documents_Then_Returns_A_Collection_With_Multiple_Matches()
     {
         var vCode1 = _fixture.AutoFixture.Create<VCode>();
         var vCode2 = _fixture.AutoFixture.Create<VCode>();
