@@ -1,9 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Finders;
-
-using Schema.Detail;
+﻿namespace AssociationRegistry.Grar.GrarUpdates;
 
 public interface ILocatieFinder
 {
     Task<IQueryable<LocatieLookupDocument>> FindLocaties(params string[] adresIds);
-    Task<LocatieIdsPerVCode> FindLocaties(params int[] adresIds);
+    Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds);
 }

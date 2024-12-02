@@ -2,14 +2,15 @@
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
+using Grar.GrarUpdates;
 
 public class StubLocatieFinder : ILocatieFinder
 {
-    private readonly Dictionary<string, LocatieMetVCode[]> _locatieLookupData;
+    private readonly Dictionary<string, int[]> _locatieLookupData;
 
-    public StubLocatieFinder(int sourceAdresId, LocatieMetVCode[]? stubData)
+    public StubLocatieFinder(int sourceAdresId, int[]? stubData)
     {
-        _locatieLookupData = new Dictionary<string, LocatieMetVCode[]>()
+        _locatieLookupData = new Dictionary<string, int[]>()
         {
             { sourceAdresId.ToString(), stubData },
         };
@@ -18,6 +19,6 @@ public class StubLocatieFinder : ILocatieFinder
     public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(params string[] adresIds)
         => throw new NotImplementedException();
 
-    public async Task<LocatieMetVCode[]> FindLocaties(params int[] adresIds)
-        => adresIds.SelectMany(adresId => _locatieLookupData[adresId.ToString()]).ToArray();
+    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+        => new LocatieIdsPerVCodeCollection(_locatieLookupData);
 }

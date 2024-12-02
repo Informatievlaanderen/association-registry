@@ -1,13 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
-using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
+using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
 using Moq;
 using Xunit;
 
@@ -24,13 +22,15 @@ public class Given_One_Location_Found
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueReaddressMessage(message => actual = message);
 
-        LocatieMetVCode[] locatieLookupData = [fixture.Create<LocatieMetVCode>()];
-        var locatiesFinder = new StubLocatieFinder(sourceAdresId, locatieLookupData);
+        var locatieId = fixture.Create<int>();
+        var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
+        var locatieIdsPerVCode = await locatiesFinder.FindLocaties([locatieId]);
 
         var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapper.Object, locatiesFinder);
         await sut.Handle(sourceAdresId, destinationAdresId);
 
-        var messages = LocatiesVolgensVCodeGrouper.Group(locatieLookupData, destinationAdresId);
+        var messages = locatieIdsPerVCode.Map(destinationAdresId);
+
         actual.Should().BeEquivalentTo(messages.First());
     }
 }
