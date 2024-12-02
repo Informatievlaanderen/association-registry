@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 
-using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
-using AssociationRegistry.Grar.LocatieFinder;
 using AssociationRegistry.Grar.Models;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.LocatieFinder;
 
 public class TeHeradresserenLocatiesMapper
 {

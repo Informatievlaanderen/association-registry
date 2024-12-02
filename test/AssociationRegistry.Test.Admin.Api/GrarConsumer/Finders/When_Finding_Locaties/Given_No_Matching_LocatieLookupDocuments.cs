@@ -6,7 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
-using Grar.LocatieFinder;
+using Grar.GrarUpdates.LocatieFinder;
 using Marten;
 using Vereniging;
 using Xunit;

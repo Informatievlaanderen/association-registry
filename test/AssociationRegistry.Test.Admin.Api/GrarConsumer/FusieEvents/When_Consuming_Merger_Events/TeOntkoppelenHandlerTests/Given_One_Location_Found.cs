@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeOntkoppelenHandlerTests;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
+using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Grar.GrarUpdates.TeOnkoppelenLocaties;
+using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Moq;
 using Xunit;
 

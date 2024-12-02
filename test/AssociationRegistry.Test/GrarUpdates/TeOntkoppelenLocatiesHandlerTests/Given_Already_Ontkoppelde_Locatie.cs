@@ -3,8 +3,7 @@
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
-using Grar.GrarUpdates.TeOnkoppelenLocaties;
-using Grar.GrarUpdates.TeOntkoppelenLocaties;
+using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Vereniging;
 using Xunit;
 

@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
+namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Vereniging;
+using EventStore;
+using Framework;
+using Models;
 using NodaTime;
+using Vereniging;
 
 public class TeHeradresserenLocatiesMessageHandler
 {

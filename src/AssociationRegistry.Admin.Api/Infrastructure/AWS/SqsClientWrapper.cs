@@ -1,18 +1,14 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
 using Amazon.SQS;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Framework;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using System.Text.Json;
 
-public interface ISqsClientWrapper
-{
-    Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message);
-    Task QueueMessage<TMessage>(TMessage message);
-    Task QueueKboNummerToSynchronise(string kboNummer);
-}
+
 
 public class SqsClientWrapper : ISqsClientWrapper
 {

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
+﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies;
 
 public interface IAdresMergerHandler
 {

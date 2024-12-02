@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Grar.GrarUpdates.TeOntkoppelenLocaties;
+﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 
+using EventStore;
 using Framework;
 using NodaTime;
-using TeOnkoppelenLocaties;
 using Vereniging;
 
 public class TeOntkoppelenLocatiesHandler
@@ -23,7 +23,7 @@ public class TeOntkoppelenLocatiesHandler
             vereniging.OntkoppelLocatie(teOntkoppelenLocatieId);
         }
 
-        await _repository.Save(vereniging, new CommandMetadata(EventStore.EventStore.DigitaalVlaanderenOvoNumber,
+        await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
                                                                SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
                                                                vereniging.Version), cancellationToken);
     }

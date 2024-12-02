@@ -1,3 +1,3 @@
-namespace AssociationRegistry.Grar.LocatieFinder;
+namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
 public record LocatieIdsPerVCode(string VCode, int[] LocatieIds);

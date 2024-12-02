@@ -6,7 +6,7 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
 using Grar;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.Models;
 using Moq;
 using Xunit;

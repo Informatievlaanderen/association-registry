@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Grar.LocatieFinder;
+﻿namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
 public interface ILocatieFinder
 {

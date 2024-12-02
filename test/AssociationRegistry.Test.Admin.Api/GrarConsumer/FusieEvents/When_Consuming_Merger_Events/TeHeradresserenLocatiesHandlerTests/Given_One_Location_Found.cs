@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
-using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
+using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Moq;
 using Xunit;
 

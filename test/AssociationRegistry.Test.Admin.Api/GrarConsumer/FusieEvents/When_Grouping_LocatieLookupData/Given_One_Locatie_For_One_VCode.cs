@@ -2,12 +2,12 @@
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
-using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Xunit;
 
 public class Given_One_Locatie_For_One_VCode
