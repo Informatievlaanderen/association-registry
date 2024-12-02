@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
+using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
 using AssociationRegistry.Grar.Models;

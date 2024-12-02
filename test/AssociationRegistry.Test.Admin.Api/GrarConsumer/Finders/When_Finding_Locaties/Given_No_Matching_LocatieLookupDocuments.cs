@@ -129,10 +129,21 @@ public class Given_A_Multiple_Matching_LocatieLookupDocuments : IClassFixture<Lo
 
         var actual = await sut.FindLocaties(adresId1);
 
-        actual.Should().BeEquivalentTo(LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, int[]>()
+        actual.Should().BeEquivalentTo(LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new()
         {
-            { vCode1, [locatieLookupDocument[0].LocatieId, locatieLookupDocument[2].LocatieId] },
-            { vCode2, [locatieLookupDocument[1].LocatieId] },
+            {
+                vCode1,
+                [
+                    locatieLookupDocument[0].LocatieId,
+                    locatieLookupDocument[2].LocatieId
+                ]
+            },
+            {
+                vCode2,
+                [
+                    locatieLookupDocument[1].LocatieId
+                ]
+            },
         }));
     }
 }

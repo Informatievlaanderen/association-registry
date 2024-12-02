@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Consuming_Merger_Events.AdresMergerHandler;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
+using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Moq;

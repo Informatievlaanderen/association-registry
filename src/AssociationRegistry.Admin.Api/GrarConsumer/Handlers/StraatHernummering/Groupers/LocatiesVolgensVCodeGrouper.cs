@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 
-using Grar.Models;
-using Finders;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
+using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
+using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
+using AssociationRegistry.Grar.Models;
 
 public static class LocatiesVolgensVCodeGrouper
 {
