@@ -14,7 +14,7 @@ public class Given_A_Destination_Adres
         var teHeradresserenLocatiesHandler = new Mock<ITeHeradresserenLocatiesHandler>();
         var teOntkoppelenLocatiesHandler = new Mock<ITeOntkoppelenLocatiesHandler>();
 
-        var sut = new AdresMergerHandler(teHeradresserenLocatiesHandler.Object, teOntkoppelenLocatiesHandler.Object);
+        var sut = new FusieEventHandler(teHeradresserenLocatiesHandler.Object, teOntkoppelenLocatiesHandler.Object);
 
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();

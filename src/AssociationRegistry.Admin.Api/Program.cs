@@ -401,7 +401,7 @@ public class Program
                .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()
                .AddTransient<TeHeradresserenLocatiesMapper>()
-               .AddTransient<IAdresMergerHandler, AdresMergerHandler>()
+               .AddTransient<IFusieEventHandler, FusieEventHandler>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

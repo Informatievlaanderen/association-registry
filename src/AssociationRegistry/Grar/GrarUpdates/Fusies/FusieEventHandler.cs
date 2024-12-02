@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies;
 
-public interface IAdresMergerHandler
+public interface IFusieEventHandler
 {
     Task Handle(int sourceAdresId, int? destinationAdresId);
 }
 
-public class AdresMergerHandler : IAdresMergerHandler
+public class FusieEventHandler : IFusieEventHandler
 {
     private readonly ITeHeradresserenLocatiesHandler _teHeradresserenLocatiesHandler;
     private readonly ITeOntkoppelenLocatiesHandler _teOntkoppelenLocatiesHandler;
 
-    public AdresMergerHandler(
+    public FusieEventHandler(
         ITeHeradresserenLocatiesHandler teHeradresserenLocatiesHandler,
         ITeOntkoppelenLocatiesHandler teOntkoppelenLocatiesHandler)
     {

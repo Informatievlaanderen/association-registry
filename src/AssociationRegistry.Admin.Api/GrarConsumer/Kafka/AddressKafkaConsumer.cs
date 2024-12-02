@@ -18,7 +18,7 @@ public class AddressKafkaConsumer : BackgroundService
 {
     private readonly AddressKafkaConfiguration _configuration;
     private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
-    private readonly IAdresMergerHandler _adresMergerHandler;
+    private readonly IFusieEventHandler _fusieEventHandler;
     private readonly SqsClientWrapper _sqsClientWrapper;
     private readonly IDocumentStore _store;
     private readonly INotifier _notifier;
@@ -27,7 +27,7 @@ public class AddressKafkaConsumer : BackgroundService
     public AddressKafkaConsumer(
         AddressKafkaConfiguration configuration,
         TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
-        IAdresMergerHandler adresMergerHandler,
+        IFusieEventHandler fusieEventHandler,
         SqsClientWrapper sqsClientWrapper,
         IDocumentStore store,
         INotifier notifier,
@@ -35,7 +35,7 @@ public class AddressKafkaConsumer : BackgroundService
     {
         _configuration = configuration;
         _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
-        _adresMergerHandler = adresMergerHandler;
+        _fusieEventHandler = fusieEventHandler;
         _sqsClientWrapper = sqsClientWrapper;
         _store = store;
         _notifier = notifier;
@@ -87,13 +87,13 @@ public class AddressKafkaConsumer : BackgroundService
                 switch (message)
                 {
                     case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(
+                        await _fusieEventHandler.Handle(
                             addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
-                        await _adresMergerHandler.Handle(
+                        await _fusieEventHandler.Handle(
                             addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
@@ -101,13 +101,13 @@ public class AddressKafkaConsumer : BackgroundService
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
-                        var HeradresseerLocatiesMessages =
+                        var heradresseerLocatiesMessages =
                             await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers,
                                                                             idempotenceKey);
 
-                        foreach (var HeradresseerLocatiesMessage in HeradresseerLocatiesMessages)
+                        foreach (var heradresseerLocatiesMessage in heradresseerLocatiesMessages)
                         {
-                            await _sqsClientWrapper.QueueReaddressMessage(HeradresseerLocatiesMessage);
+                            await _sqsClientWrapper.QueueReaddressMessage(heradresseerLocatiesMessage);
                         }
 
                         break;
