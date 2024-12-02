@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
 using Acties.HeradresseerLocaties;
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -9,6 +8,9 @@ using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.LocatieFinder;
+using Moq;
 using Xunit;
 
 public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
@@ -23,53 +25,40 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
     [Fact]
     public async Task Then_Messages_Are_GroupedBy_VCode()
     {
-        var locatieFinder = new FakeLocatieFinder(new List<LocatieLookupDocument>
+
+        var locatieFinderMock = new Mock<ILocatieFinder>();
+
+        locatieFinderMock.Setup(x => x.FindLocaties(It.IsAny<string[]>()))
+                         .ReturnsAsync(LocatiesPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, LocatieLookupData[]>()
+                          {
+                              { "VCode1", [new LocatieLookupData(1, "123", "VCode1"), new LocatieLookupData(2, "456", "VCode1")] },
+                              { "VCode2", [new LocatieLookupData(1, "123", "VCode2"), new LocatieLookupData(2, "789", "VCode2")] },
+                          }));
+
+        var sut = new TeHeradresserenLocatiesMapper(locatieFinderMock.Object);
+
+        var addressHouseNumberReaddressedData = new TeHernummerenStraat(new List<TeHernummerenAdres>
         {
-            new()
-            {
-                VCode = "VCode1",
-                AdresId = "123",
-                LocatieId = 1,
-            },
-            new()
-            {
-                VCode = "VCode1",
-                AdresId = "456",
-                LocatieId = 2,
-            },
-            new()
-            {
-                VCode = "VCode2",
-                AdresId = "123",
-                LocatieId = 1,
-            },
-            new()
-            {
-                VCode = "VCode2",
-                AdresId = "789",
-                LocatieId = 2,
-            },
+            new(VanAdresId: 123, NaarAdresId: 777),
+            new(VanAdresId: 456, NaarAdresId: 888),
+            new(VanAdresId: 789, NaarAdresId: 999),
         });
-
-        var sut = new TeHeradresserenLocatiesMapper(locatieFinder);
-
-        var addressHouseNumberReaddressedData = new List<AddressHouseNumberReaddressedData>
-        {
-            new(addressPersistentLocalId: 777, // can be ignored
-                CreateReaddressedAddressData(vanAdresId: 123, naarAdresId: 777), // vanAdresId, naarAdresId (HouseNumber)
-                new List<ReaddressedAddressData>() // BoxNumbers
-            ),
-        };
 
         var result = await sut.ForAddress(addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
 
         result.Should().BeEquivalentTo(new List<HeradresseerLocatiesMessage>
         {
             new(VCode: "VCode1", new List<TeHeradresserenLocatie>
-                    { new(LocatieId: 1, DestinationAdresId: "777") },
+                {
+                    new(LocatieId: 1, NaarAdresId: "777"),
+                    new(LocatieId: 2, NaarAdresId: "888"),
+                },
                 idempotencyKey: "idempotencyKey"),
             new(VCode: "VCode2", new List<TeHeradresserenLocatie>
-                    { new(LocatieId: 1, DestinationAdresId: "777") },
+                {
+                    new(LocatieId: 1, NaarAdresId: "777"),
+                    new(LocatieId: 2, NaarAdresId: "999"),
+                },
                 idempotencyKey: "idempotencyKey"),
         });
     }

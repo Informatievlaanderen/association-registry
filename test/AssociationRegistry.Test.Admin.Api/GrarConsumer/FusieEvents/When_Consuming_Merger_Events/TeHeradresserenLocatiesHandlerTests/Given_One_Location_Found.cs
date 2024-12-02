@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
 
@@ -23,7 +24,7 @@ public class Given_One_Location_Found
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueReaddressMessage(message => actual = message);
 
-        var locatieId = fixture.Create<int>();
+        var locatieId = fixture.Create<LocatieLookupData>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 

@@ -7,36 +7,33 @@ using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
 using Grar.GrarUpdates.Fusies;
-using Handlers;
-using Handlers.StraatHernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 using IdentityModel;
 using Marten;
 using Polly;
+using StraatHernummering;
 using System.Text;
 
 public class AddressKafkaConsumer : BackgroundService
 {
     private readonly AddressKafkaConfiguration _configuration;
-    private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
     private readonly IFusieEventHandler _fusieEventHandler;
-    private readonly SqsClientWrapper _sqsClientWrapper;
+    private readonly HernummeringEventHandler _hernummeringEventHandler;
     private readonly IDocumentStore _store;
     private readonly INotifier _notifier;
     private readonly ILogger<AddressKafkaConsumer> _logger;
 
     public AddressKafkaConsumer(
         AddressKafkaConfiguration configuration,
-        TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
         IFusieEventHandler fusieEventHandler,
-        SqsClientWrapper sqsClientWrapper,
+        HernummeringEventHandler hernummeringEventHandler,
         IDocumentStore store,
         INotifier notifier,
         ILogger<AddressKafkaConsumer> logger)
     {
         _configuration = configuration;
-        _teHeradresserenLocatiesMapper = teHeradresserenLocatiesMapper;
         _fusieEventHandler = fusieEventHandler;
-        _sqsClientWrapper = sqsClientWrapper;
+        _hernummeringEventHandler = hernummeringEventHandler;
         _store = store;
         _notifier = notifier;
         _logger = logger;
@@ -101,14 +98,8 @@ public class AddressKafkaConsumer : BackgroundService
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
-                        var heradresseerLocatiesMessages =
-                            await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers,
-                                                                            idempotenceKey);
-
-                        foreach (var heradresseerLocatiesMessage in heradresseerLocatiesMessages)
-                        {
-                            await _sqsClientWrapper.QueueReaddressMessage(heradresseerLocatiesMessage);
-                        }
+                        await _hernummeringEventHandler.Handle(
+                            TeHernummerenStraatFactory.From(streetNameWasReaddressed), idempotenceKey);
 
                         break;
 

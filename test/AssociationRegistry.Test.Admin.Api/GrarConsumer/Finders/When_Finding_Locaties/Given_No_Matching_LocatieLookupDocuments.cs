@@ -59,7 +59,7 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
     [Fact]
     public async Task With_One_Matching_Documents_Then_Returns_A_Collection_With_One_Match()
     {
-        var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
+        var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupData>();
 
         _fixture.Session.Store(locatieLookupDocument);
         await _fixture.Session.SaveChangesAsync();
@@ -68,9 +68,9 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
 
         var actual = await sut.FindLocaties(locatieLookupDocument.AdresId);
 
-        actual.Should().BeEquivalentTo(LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, int[]>()
+        actual.Should().BeEquivalentTo(LocatiesPerVCodeCollection.FromLocatiesPerVCode(new Dictionary<string, LocatieLookupData[]>()
         {
-            { locatieLookupDocument.VCode, [locatieLookupDocument.LocatieId] },
+            { locatieLookupDocument.VCode, [locatieLookupDocument] },
         }));
     }
 
@@ -81,19 +81,19 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
         var vCode2 = _fixture.AutoFixture.Create<VCode>();
         var adresId1 = _fixture.AutoFixture.Create<string>();
 
-        LocatieLookupDocument[] locatieLookupDocument =
+        LocatieLookupData[] locatieLookupDocument =
         [
-            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
+            _fixture.AutoFixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode1,
                 AdresId = adresId1
             },
-            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
+            _fixture.AutoFixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode2,
                 AdresId = adresId1
             },
-            _fixture.AutoFixture.Create<LocatieLookupDocument>() with
+            _fixture.AutoFixture.Create<LocatieLookupData>() with
             {
                 VCode = vCode1,
                 AdresId = adresId1
@@ -107,19 +107,19 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
 
         var actual = await sut.FindLocaties(adresId1);
 
-        actual.Should().BeEquivalentTo(LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(new()
+        actual.Should().BeEquivalentTo(LocatiesPerVCodeCollection.FromLocatiesPerVCode(new()
         {
             {
                 vCode1,
                 [
-                    locatieLookupDocument[0].LocatieId,
-                    locatieLookupDocument[2].LocatieId
+                    locatieLookupDocument[0],
+                    locatieLookupDocument[2]
                 ]
             },
             {
                 vCode2,
                 [
-                    locatieLookupDocument[1].LocatieId
+                    locatieLookupDocument[1]
                 ]
             },
         }));

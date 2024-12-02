@@ -19,10 +19,10 @@ public class FakeLocatieFinder : ILocatieFinder
                                   .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode))
                                   .ToList();
 
-    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+    public async Task<LocatiesPerVCodeCollection> FindLocaties(params int[] adresIds)
         => throw new NotImplementedException();
 
-    async Task<LocatieIdsPerVCodeCollection> ILocatieFinder.FindLocaties(params string[] adresIds)
+    async Task<LocatiesPerVCodeCollection> ILocatieFinder.FindLocaties(params string[] adresIds)
         => throw new NotImplementedException();
 }
 
