@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using Grar.GrarUpdates;
+using Grar.LocatieFinder;
 
 public class StubLocatieFinder : ILocatieFinder
 {
@@ -16,9 +17,12 @@ public class StubLocatieFinder : ILocatieFinder
         };
     }
 
-    public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(params string[] adresIds)
+    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params string[] adresIds)
+        => throw new NotImplementedException();
+
+    public async Task<IEnumerable<LocatieLookupData>> FindLocatieLookupDocuments(string[] adresIds)
         => throw new NotImplementedException();
 
     public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
-        => new LocatieIdsPerVCodeCollection(_locatieLookupData);
+        => await Task.FromResult(LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(_locatieLookupData));
 }

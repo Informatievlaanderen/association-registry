@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
 using Grar.GrarUpdates;
+using Grar.LocatieFinder;
 
 public class FakeLocatieFinder : ILocatieFinder
 {
@@ -13,10 +14,15 @@ public class FakeLocatieFinder : ILocatieFinder
         _locatieLookupDocuments = locatieLookupDocuments;
     }
 
-    public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
-        => _locatieLookupDocuments.Where(x => adresIds.Contains(x.AdresId)).AsQueryable();
+    public async Task<IEnumerable<LocatieLookupData>> FindLocatieLookupDocuments(string[] adresIds)
+        => _locatieLookupDocuments.Where(x => adresIds.Contains(x.AdresId))
+                                  .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode))
+                                  .ToList();
 
     public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+        => throw new NotImplementedException();
+
+    async Task<LocatieIdsPerVCodeCollection> ILocatieFinder.FindLocaties(params string[] adresIds)
         => throw new NotImplementedException();
 }
 

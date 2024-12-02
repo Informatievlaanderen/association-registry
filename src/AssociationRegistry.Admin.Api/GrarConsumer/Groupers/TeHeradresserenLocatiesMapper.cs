@@ -5,6 +5,7 @@ using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Finders;
 using Grar.GrarUpdates;
 using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.LocatieFinder;
 
 public class TeHeradresserenLocatiesMapper
 {
@@ -21,17 +22,18 @@ public class TeHeradresserenLocatiesMapper
     {
         var readdressedAddressData = GetReaddressedAddressData(readdressedHouseNumbers);
         var sourceAddressIds = readdressedAddressData.Select(s => s.SourceAddressPersistentLocalId.ToString()).ToArray();
-        var locations = await _locatieFinder.FindLocaties(sourceAddressIds);
+        var locations = await _locatieFinder.FindLocatieLookupDocuments(sourceAddressIds);
 
-        var grouping = locations.GroupBy(l => l.VCode);
 
-        var result = grouping.Select(g => new TeHeradresserenLocatiesMessage(
-                                         g.Key,
-                                         g.Select(s =>
-                                                      new TeHeradresserenLocatie(s.LocatieId,
-                                                                               GetDestinationAddressIdFromSourceAddressId(
-                                                                                   s.AdresId, readdressedAddressData))).ToList(),
-                                         idempotenceKey));
+        var result = locations.GroupBy(v => v.VCode)
+                              .Select(g => new TeHeradresserenLocatiesMessage(
+                                          g.Key,
+                                          g.Select(locatieIdWithVCode =>
+                                                       new TeHeradresserenLocatie(locatieIdWithVCode.LocatieId,
+                                                                                  GetDestinationAddressIdFromSourceAddressId(
+                                                                                      locatieIdWithVCode.AdresId, readdressedAddressData)))
+                                           .ToList(),
+                                          idempotenceKey));
 
         return result;
     }

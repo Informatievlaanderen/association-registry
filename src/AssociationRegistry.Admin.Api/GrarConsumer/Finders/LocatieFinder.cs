@@ -2,6 +2,7 @@
 
 using Grar.GrarUpdates;
 using Grar.GrarUpdates.TeHeradresserenLocaties;
+using Grar.LocatieFinder;
 using Grar.Models;
 using Schema.Detail;
 using Marten;
@@ -15,44 +16,39 @@ public class LocatieFinder : ILocatieFinder
         _documentStore = documentStore;
     }
 
-    public async Task<IQueryable<LocatieLookupDocument>> FindLocaties(string[] adresIds)
+    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+    {
+        return await FindLocaties(
+            adresIds
+               .Select(x => x.ToString())
+               .ToArray());
+    }
+
+    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params string[] adresIds)
+    {
+        var locatieLookupDocs = await FindLocatieLookupDocuments(adresIds);
+
+        var locatieIdsGroupedByVCode = GroupByVCode(locatieLookupDocs.ToArray());
+
+        return LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(locatieIdsGroupedByVCode);
+    }
+
+    public async Task<IEnumerable<LocatieLookupData>> FindLocatieLookupDocuments(string[] adresIds)
     {
         await using var session = _documentStore.LightweightSession();
 
         return session.Query<LocatieLookupDocument>()
-                      .Where(x => adresIds.Contains(x.AdresId));
+                      .Where(x => adresIds.Contains(x.AdresId))
+                      .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode));
     }
 
-    public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params int[] adresIds)
+    private static Dictionary<string, int[]> GroupByVCode(LocatieLookupData[] locaties)
     {
-        var locaties = await FindLocaties(adresIds.Select(x => x.ToString()).ToArray());
-
-        return LocatieIdsPerVCodeCollection.FromLocatieLookupDocuments(locaties.ToArray());
+        return locaties
+              .GroupBy(x => x.VCode)
+              .ToDictionary(grouping => grouping.Key,
+                            documents => documents.Select(x => x.LocatieId)
+                                                  .ToArray());
     }
 }
 
-public record LocatieIdsPerVCode(string VCode, int[] LocatieIds);
-
-public class LocatieIdsPerVCodeCollection : List<LocatieIdsPerVCode>
-{
-    private LocatieIdsPerVCodeCollection(Dictionary<string, int[]> dictionary)
-        : base(dictionary.Select(s => new LocatieIdsPerVCode(s.Key, dictionary[s.Key])))
-    {
-    }
-
-    public static LocatieIdsPerVCodeCollection FromLocatieLookupDocuments(IEnumerable<LocatieLookupDocument> locaties)
-    {
-        return new(locaties.GroupBy(x => x.VCode)
-                           .ToDictionary(grouping => grouping.Key,
-                                         documents => documents.Select(x => x.LocatieId).ToArray()));
-    }
-
-    public static IEnumerable<TeHeradresserenLocatiesMessage> Map(LocatieIdsPerVCodeCollection locatieIdsPerVCodeCollection, int destinationAdresId)
-    {
-        return locatieIdsPerVCodeCollection.Select(x => new TeHeradresserenLocatiesMessage(
-                                             x.VCode,
-                                             x.LocatieIds.Select(locatieId => new TeHeradresserenLocatie(locatieId, destinationAdresId.ToString()))
-                                              .ToList(),
-                                             ""));
-    }
-}

@@ -24,6 +24,7 @@ using Framework;
 using Grar;
 using Grar.AddressMatch;
 using Grar.GrarUpdates;
+using Grar.LocatieFinder;
 using GrarConsumer;
 using GrarConsumer.Finders;
 using GrarConsumer.Groupers;
