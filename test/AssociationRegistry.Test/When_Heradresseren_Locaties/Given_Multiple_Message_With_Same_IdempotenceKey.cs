@@ -10,7 +10,7 @@ using Events;
 using FluentAssertions;
 using Grar;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 using Grar.Models;
 using Moq;
 using Xunit;

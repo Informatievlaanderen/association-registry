@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Grar.GrarUpdates.Hernummering.Groupers;
+namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
 using System.Collections.ObjectModel;
 

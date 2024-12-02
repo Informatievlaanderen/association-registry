@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.GrarConsumer.Kafka.StraatHernummering;
 
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
-using Grar.GrarUpdates.Hernummering.Groupers;
+using Grar.GrarUpdates.Hernummering;
 
 public static class TeHernummerenStraatFactory
 {
