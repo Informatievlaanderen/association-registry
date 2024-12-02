@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Mapping_LocatieIdsPerVCode;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
-using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;

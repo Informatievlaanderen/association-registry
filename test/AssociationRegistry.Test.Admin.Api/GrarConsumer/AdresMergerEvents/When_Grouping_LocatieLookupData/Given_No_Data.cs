@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Grouping_LocatieLookupData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
-using AssociationRegistry.Admin.Api.GrarConsumer.Groupers;
+using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;

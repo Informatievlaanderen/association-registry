@@ -1,11 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
+﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
 
-using Finders;
-using Grar.GrarUpdates;
-using Grar.GrarUpdates.TeHeradresserenLocaties;
-using Grar.LocatieFinder;
-using Grar.Models;
-using Infrastructure.AWS;
+using AssociationRegistry.Admin.Api.Infrastructure.AWS;
+using AssociationRegistry.Grar.LocatieFinder;
 
 public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
 {

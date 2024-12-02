@@ -23,9 +23,10 @@ public class LocatieFinder : ILocatieFinder
 
     public async Task<LocatieIdsPerVCodeCollection> FindLocaties(params string[] adresIds)
     {
-        var locatieLookupDocs = await FindLocatieLookupDocuments(adresIds);
-
-        var locatieIdsGroupedByVCode = GroupByVCode(locatieLookupDocs.ToArray());
+        var locatieIdsGroupedByVCode =
+            GroupByVCode(
+                await FindLocatieLookupDocuments(adresIds)
+            );
 
         return LocatieIdsPerVCodeCollection.FromLocatiesPerVCode(locatieIdsGroupedByVCode);
     }
@@ -39,7 +40,7 @@ public class LocatieFinder : ILocatieFinder
                       .Select(x => new LocatieLookupData(x.LocatieId, x.AdresId, x.VCode));
     }
 
-    private static Dictionary<string, int[]> GroupByVCode(LocatieLookupData[] locaties)
+    private static Dictionary<string, int[]> GroupByVCode(IEnumerable<LocatieLookupData> locaties)
     {
         return locaties
               .GroupBy(x => x.VCode)
