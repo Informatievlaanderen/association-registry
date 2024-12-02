@@ -365,6 +365,23 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         return @event;
     }
 
+    public void OntkoppelLocatie(int locatieId)
+    {
+        if (!State.Locaties.HasKey(locatieId))
+            return;
+
+        var locatie = State.Locaties[locatieId];
+
+        if (locatie.AdresId is null)
+            return;
+
+        AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
+                     VCode,
+                     locatieId,
+                     Registratiedata.AdresId.With(locatie.AdresId),
+                     Registratiedata.Adres.With(locatie.Adres)));
+    }
+
     private string GetExceptionMessage(HttpStatusCode statusCode)
         => statusCode == HttpStatusCode.BadRequest
             ? GrarClient.BadRequestSuccessStatusCodeMessage
