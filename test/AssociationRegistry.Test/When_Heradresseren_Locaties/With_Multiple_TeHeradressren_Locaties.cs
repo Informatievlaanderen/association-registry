@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
+using Acties.HeradresseerLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -36,7 +37,7 @@ public class With_Multiple_TeHeradressren_Locaties
         var locatieId1 = scenario.Locaties.First().LocatieId;
         var locatieId2 = scenario.Locaties.ToArray()[1].LocatieId;
 
-        var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        var message = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
                 { new(locatieId1, DestinationAdresId: "123"), new(locatieId2, DestinationAdresId: "456") },
@@ -44,7 +45,7 @@ public class With_Multiple_TeHeradressren_Locaties
             idempotencyKey = "123456789",
         };
 
-        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         await messageHandler.Handle(message, CancellationToken.None);
 

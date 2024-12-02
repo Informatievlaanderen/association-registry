@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
+using Acties.OntkoppelAdres;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;

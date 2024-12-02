@@ -101,13 +101,13 @@ public class AddressKafkaConsumer : BackgroundService
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
-                        var teHeradresserenLocatiesMessages =
+                        var HeradresseerLocatiesMessages =
                             await _teHeradresserenLocatiesMapper.ForAddress(streetNameWasReaddressed.ReaddressedHouseNumbers,
                                                                             idempotenceKey);
 
-                        foreach (var teHeradresserenLocatiesMessage in teHeradresserenLocatiesMessages)
+                        foreach (var HeradresseerLocatiesMessage in HeradresseerLocatiesMessages)
                         {
-                            await _sqsClientWrapper.QueueReaddressMessage(teHeradresserenLocatiesMessage);
+                            await _sqsClientWrapper.QueueReaddressMessage(HeradresseerLocatiesMessage);
                         }
 
                         break;

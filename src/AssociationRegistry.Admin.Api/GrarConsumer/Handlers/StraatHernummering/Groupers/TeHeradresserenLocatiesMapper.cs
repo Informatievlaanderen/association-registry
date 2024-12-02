@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Grar.Models;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
@@ -14,7 +15,7 @@ public class TeHeradresserenLocatiesMapper
         _locatieFinder = locatieFinder;
     }
 
-    public async Task<IEnumerable<TeHeradresserenLocatiesMessage>> ForAddress(
+    public async Task<IEnumerable<HeradresseerLocatiesMessage>> ForAddress(
         IReadOnlyList<AddressHouseNumberReaddressedData> readdressedHouseNumbers,
         string idempotenceKey)
     {
@@ -24,7 +25,7 @@ public class TeHeradresserenLocatiesMapper
 
 
         var result = locations.GroupBy(v => v.VCode)
-                              .Select(g => new TeHeradresserenLocatiesMessage(
+                              .Select(g => new HeradresseerLocatiesMessage(
                                           g.Key,
                                           g.Select(locatieIdWithVCode =>
                                                        new TeHeradresserenLocatie(locatieIdWithVCode.LocatieId,

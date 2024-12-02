@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Grar.Models;
@@ -62,7 +63,7 @@ public class Given_Multiple_LocatieLookup_Records_For_The_Same_VCode
 
         var result = await sut.ForAddress(addressHouseNumberReaddressedData, idempotenceKey: "idempotencyKey");
 
-        result.Should().BeEquivalentTo(new List<TeHeradresserenLocatiesMessage>
+        result.Should().BeEquivalentTo(new List<HeradresseerLocatiesMessage>
         {
             new(VCode: "VCode1", new List<TeHeradresserenLocatie>
                     { new(LocatieId: 1, DestinationAdresId: "777") },

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
+using Acties.HeradresseerLocaties;
 using Amazon.SQS;
 using Framework;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
@@ -23,7 +24,7 @@ public class SqsClientWrapper : ISqsClientWrapper
         _readdressQueueUrl = grarOptions.Sqs.GrarSyncQueueUrl;
     }
 
-    public async Task QueueReaddressMessage(TeHeradresserenLocatiesMessage message)
+    public async Task QueueReaddressMessage(HeradresseerLocatiesMessage message)
     {
         await QueueMessage(message);
     }

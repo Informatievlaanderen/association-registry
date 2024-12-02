@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
+using Acties.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -18,7 +19,7 @@ public class Given_One_Location_Found
         var sourceAdresId = fixture.Create<int>();
         var destinationAdresId = fixture.Create<int>();
 
-        TeHeradresserenLocatiesMessage actual = null;
+        HeradresseerLocatiesMessage actual = null;
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueReaddressMessage(message => actual = message);
 

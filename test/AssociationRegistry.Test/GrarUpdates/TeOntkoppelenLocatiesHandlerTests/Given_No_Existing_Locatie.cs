@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
+using Acties.OntkoppelAdres;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;

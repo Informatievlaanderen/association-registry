@@ -1,29 +1,30 @@
-namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+namespace AssociationRegistry.Acties.HeradresseerLocaties;
 
-using EventStore;
-using Framework;
-using Models;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Models;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging;
 
-public class TeHeradresserenLocatiesMessageHandler
+public class HeradresseerLocatiesMessageHandler
 {
     private readonly IVerenigingsRepository _repository;
     private readonly IGrarClient _client;
 
-    public TeHeradresserenLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
+    public HeradresseerLocatiesMessageHandler(IVerenigingsRepository repository, IGrarClient client)
     {
         _repository = repository;
         _client = client;
     }
 
-    public async Task Handle(TeHeradresserenLocatiesMessage message, CancellationToken cancellationToken)
+    public async Task Handle(HeradresseerLocatiesMessage doorFusieMessage, CancellationToken cancellationToken)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(doorFusieMessage.VCode));
 
-        var locatiesWithAddresses = await FetchAddressesForLocaties(message.TeHeradresserenLocaties, cancellationToken);
+        var locatiesWithAddresses = await FetchAddressesForLocaties(doorFusieMessage.TeHeradresserenLocaties, cancellationToken);
 
-        await vereniging.HeradresseerLocaties(locatiesWithAddresses, message.idempotencyKey, _client);
+        await vereniging.HeradresseerLocaties(locatiesWithAddresses, doorFusieMessage.idempotencyKey, _client);
 
         await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
                                                                SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),

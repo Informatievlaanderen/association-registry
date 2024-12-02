@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
+using Acties.HeradresseerLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -50,7 +51,7 @@ public class With_DecoratingWithPostalInformation
 
         var locatieId = scenario.Locaties.First().LocatieId;
 
-        var message = fixture.Create<TeHeradresserenLocatiesMessage>() with
+        var message = fixture.Create<HeradresseerLocatiesMessage>() with
         {
             TeHeradresserenLocaties = new List<TeHeradresserenLocatie>
                 { new(locatieId, DestinationAdresId: "123") },
@@ -58,7 +59,7 @@ public class With_DecoratingWithPostalInformation
             idempotencyKey = "123456789",
         };
 
-        var messageHandler = new TeHeradresserenLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
+        var messageHandler = new HeradresseerLocatiesMessageHandler(verenigingRepositoryMock, grarClientMock.Object);
 
         var expectedAdres = new AdresDetailUitAdressenregister
         {
