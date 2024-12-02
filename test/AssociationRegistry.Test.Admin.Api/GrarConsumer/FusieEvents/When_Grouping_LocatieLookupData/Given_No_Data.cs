@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Grouping_LocatieLookupData;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Grouping_LocatieLookupData;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.StraatHernummering.Groupers;

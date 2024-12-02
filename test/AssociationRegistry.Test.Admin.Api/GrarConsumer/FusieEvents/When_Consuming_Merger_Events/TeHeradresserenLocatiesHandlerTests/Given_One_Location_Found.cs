@@ -1,6 +1,5 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.AdresMergerEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
+﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using AssociationRegistry.Admin.Api.GrarConsumer.Handlers;
 using AssociationRegistry.Admin.Api.GrarConsumer.Handlers.Fusies;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Grar.GrarUpdates.TeHeradresserenLocaties;
@@ -25,7 +24,7 @@ public class Given_One_Location_Found
 
         var locatieId = fixture.Create<int>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
-        var locatieIdsPerVCode = await locatiesFinder.FindLocaties([locatieId]);
+        var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
         var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapper.Object, locatiesFinder);
         await sut.Handle(sourceAdresId, destinationAdresId);
