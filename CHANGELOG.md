@@ -1,3 +1,28 @@
+# [8.182.0](https://github.com/informatievlaanderen/association-registry/compare/v8.181.1...v8.182.0) (2024-12-03)
+
+
+### Bug Fixes
+
+* or-2472 fix missing registrations, add handler for sqs ([d161f6d](https://github.com/informatievlaanderen/association-registry/commit/d161f6dd2c636199fdabe3e5fe2fe7a25ac4cda1))
+* or-2472 group with destination adres idÃ ([959085a](https://github.com/informatievlaanderen/association-registry/commit/959085a7ef76a58e02fb8c97faff183553c62ad8))
+* or-2472 return IQueryAble for locatie lookup ([af0453c](https://github.com/informatievlaanderen/association-registry/commit/af0453c46b2948da6d5af026b0fbb347580e5dfa))
+
+
+### Features
+
+* or-2472 add registration for ITeHeradresserenLocatiesFinder ([d723f42](https://github.com/informatievlaanderen/association-registry/commit/d723f42aa39cf15e7e5a1cc87c5a516d6d72b054))
+* or-2472 complete implementation of TeHeradresserenLocatiesFinder ([487dc9e](https://github.com/informatievlaanderen/association-registry/commit/487dc9e3c47f08e50ee60729a56bf61f136612ae))
+* or-2472 consume extra events for fusies ([857763e](https://github.com/informatievlaanderen/association-registry/commit/857763e322b0798e7e1916b4ffcb07ccf50d4811))
+* or-2472 implement AddressMergerHandler ([37ec964](https://github.com/informatievlaanderen/association-registry/commit/37ec9643cbeaeb3e705f455360c96042d8de7de7))
+* or-2472 implement idempotencykey to heradresseerMessage for fusies ([ab30a9a](https://github.com/informatievlaanderen/association-registry/commit/ab30a9aaf8e6afab81e5f7a3f98d50cd0a87aa5b))
+* or-2472 implement TeOnkoppelenLocatieHandler ([f3b7028](https://github.com/informatievlaanderen/association-registry/commit/f3b702849dbc87c4e5143c4a6196f1a0c1b3c226))
+* or-2472 implement TeOntkoppelenLocatieHandler ([6a2981d](https://github.com/informatievlaanderen/association-registry/commit/6a2981de1b7cd9aec1c3f677eb7e6c3cf7a7f593))
+* or-2472 introduce TeHeradresserenLocatiesFinder ([4d271c2](https://github.com/informatievlaanderen/association-registry/commit/4d271c290e4cab02e933a4115b6f084176e768b6))
+* or-2472 introduce TeOntkoppelenAdresHandler ([155a2a7](https://github.com/informatievlaanderen/association-registry/commit/155a2a7eda7c9c5740a22a3be86a1f86c0ac68ce))
+* or-2472 return LocatieLookupData instead of the LocatieLookupDocuments ([59185fe](https://github.com/informatievlaanderen/association-registry/commit/59185fe20c559044de1e760c687d14afecb65ece))
+* or-2472 use correct handler depending on destination adres ([64ce835](https://github.com/informatievlaanderen/association-registry/commit/64ce83556a6f6f4c47f3eca9a2cd6d1e28a0b91f))
+* or-2472 use wrapper event to allow dynamic routing on same queue ([b7ed63f](https://github.com/informatievlaanderen/association-registry/commit/b7ed63f0399627d9664c78b2a19e812b67fe454e))
+
 ## [8.181.1](https://github.com/informatievlaanderen/association-registry/compare/v8.181.0...v8.181.1) (2024-11-26)
 
 
