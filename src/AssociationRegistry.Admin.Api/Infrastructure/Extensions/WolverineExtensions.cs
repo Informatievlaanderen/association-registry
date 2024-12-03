@@ -27,11 +27,8 @@ public static class WolverineExtensions
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
-                options.Discovery.IncludeType<HeradresseerLocatiesMessage>();
-                options.Discovery.IncludeType<HeradresseerLocatiesMessageHandler>();
-                options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
-                options.Discovery.IncludeType<OntkoppelLocatiesMessageHandler>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
+                options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
