@@ -17,12 +17,12 @@ public class Given_A_Single_Existing_Locatie
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var message = new TeOntkoppelenLocatiesMessage(scenario.VCode,
+        var message = new OntkoppelLocatiesMessage(scenario.VCode,
         [
             scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
         ]);
 
-        var sut = new TeOntkoppelenLocatiesHandler(verenigingRepositoryMock);
+        var sut = new OntkoppelLocatiesHandler(verenigingRepositoryMock);
 
         await sut.Handle(message, CancellationToken.None);
 

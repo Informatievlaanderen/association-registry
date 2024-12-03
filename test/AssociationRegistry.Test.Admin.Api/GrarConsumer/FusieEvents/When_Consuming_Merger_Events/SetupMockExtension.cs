@@ -19,9 +19,9 @@ public static class SetupMockExtension
     }
     public static void CaptureQueueOntkoppelMessage(
         this Mock<ISqsClientWrapper> sqsClientWrapper,
-        Action<TeOntkoppelenLocatiesMessage> action)
+        Action<OntkoppelLocatiesMessage> action)
     {
-        sqsClientWrapper.Setup(v => v.QueueMessage(It.IsAny<TeOntkoppelenLocatiesMessage>()))
-                        .Callback<TeOntkoppelenLocatiesMessage>(action);
+        sqsClientWrapper.Setup(v => v.QueueMessage(It.IsAny<OntkoppelLocatiesMessage>()))
+                        .Callback<OntkoppelLocatiesMessage>(action);
     }
 }

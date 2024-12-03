@@ -25,6 +25,8 @@ using Grar;
 using Grar.AddressMatch;
 using Grar.GrarUpdates;
 using Grar.GrarUpdates.Fusies;
+using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using GrarConsumer;
@@ -391,6 +393,7 @@ public class Program
                .AddScoped<IMagdaRegistreerInschrijvingService, MagdaRegistreerInschrijvingService>()
                .AddScoped<IMagdaClient, MagdaClient>()
                .AddScoped<TeAdresMatchenLocatieMessageHandler>()
+               .AddTransient<ISqsClientWrapper, SqsClientWrapper>()
                .AddTransient<SqsClientWrapper>()
                .AddTransient<IEventStore, EventStore>()
                .AddTransient<IVerenigingsRepository, VerenigingsRepository>()
@@ -400,7 +403,10 @@ public class Program
                .AddTransient<INotifier, SlackNotifier>()
                .AddTransient<ILocatieFinder, LocatieFinder>()
                .AddTransient<TeHeradresserenLocatiesMapper>()
-               .AddTransient<IFusieEventHandler, FusieEventHandler>()
+               .AddTransient<ITeHeradresserenLocatiesProcessor, TeHeradresserenLocatiesProcessor>()
+               .AddTransient<ITeOntkoppelenLocatiesProcessor, TeOntkoppelenLocatiesProcessor>()
+               .AddTransient<IFusieEventProcessor, FusieEventProcessor>()
+               .AddTransient<ITeHernummerenStraatEventProcessor, TeHernummerenStraatEventProcessor>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

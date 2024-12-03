@@ -3,18 +3,18 @@
 using Framework;
 using LocatieFinder;
 
-public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
+public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcessor
 {
     private readonly ISqsClientWrapper _sqsClientWrapper;
     private readonly ILocatieFinder _locatieFinder;
 
-    public TeHeradresserenLocatiesHandler(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
+    public TeHeradresserenLocatiesProcessor(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
     {
         _sqsClientWrapper = sqsClientWrapper;
         _locatieFinder = locatieFinder;
     }
 
-    public async Task Handle(int sourceAdresId, int destinationAdresId)
+    public async Task Process(int sourceAdresId, int destinationAdresId)
     {
         var locatiesMetVCodes = await _locatieFinder.FindLocaties(sourceAdresId);
 
@@ -27,3 +27,7 @@ public class TeHeradresserenLocatiesHandler : ITeHeradresserenLocatiesHandler
     }
 }
 
+public interface ITeHeradresserenLocatiesProcessor
+{
+    Task Process(int sourceAdresId, int destinationAdresId);
+}

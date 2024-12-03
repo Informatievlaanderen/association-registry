@@ -25,8 +25,8 @@ public class Given_No_Locations_Found
         locatiesFinder.Setup(s => s.FindLocaties(sourceAdresId))
                                      .ReturnsAsync(LocatiesPerVCodeCollection.Empty);
 
-        var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapperMock.Object, locatiesFinder.Object);
-        await sut.Handle(sourceAdresId, destinationAdresId);
+        var sut = new TeHeradresserenLocatiesProcessor(sqsClientWrapperMock.Object, locatiesFinder.Object);
+        await sut.Process(sourceAdresId, destinationAdresId);
 
         sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(It.IsAny<HeradresseerLocatiesMessage>()), Times.Never());
     }
