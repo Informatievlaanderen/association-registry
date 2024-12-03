@@ -20,9 +20,10 @@ public class Given_No_Destination_Adres
 
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();
-        await sut.Process(sourceAdresId, null);
+        var idempotencyKey = fixture.Create<string>();
+        await sut.Process(sourceAdresId, null, idempotencyKey);
 
-        teHeradresserenLocatiesHandler.Verify(v => v.Process(It.IsAny<int>(), It.IsAny<int>()), Times.Never());
+        teHeradresserenLocatiesHandler.Verify(v => v.Process(It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>()), Times.Never());
         teOntkoppelenLocatiesHandler.Verify(v => v.Process(sourceAdresId), Times.Once());
     }
 }

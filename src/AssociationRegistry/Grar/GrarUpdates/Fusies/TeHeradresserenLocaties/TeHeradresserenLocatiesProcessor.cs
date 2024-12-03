@@ -15,11 +15,11 @@ public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcesso
         _locatieFinder = locatieFinder;
     }
 
-    public async Task Process(int sourceAdresId, int destinationAdresId)
+    public async Task Process(int sourceAdresId, int destinationAdresId, string idempotencyKey)
     {
         var locatiesMetVCodes = await _locatieFinder.FindLocaties(sourceAdresId);
 
-        var messages = locatiesMetVCodes.Map(destinationAdresId);
+        var messages = locatiesMetVCodes.Map(destinationAdresId, idempotencyKey);
 
         foreach (var message in messages)
         {
@@ -34,5 +34,5 @@ public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcesso
 
 public interface ITeHeradresserenLocatiesProcessor
 {
-    Task Process(int sourceAdresId, int destinationAdresId);
+    Task Process(int sourceAdresId, int destinationAdresId, string idempotencyKey);
 }
