@@ -4,10 +4,8 @@ using Acties.GrarConsumer;
 using Acties.GrarConsumer.HeradresseerLocaties;
 using Acties.GrarConsumer.OntkoppelAdres;
 using Amazon.Runtime;
-using Amazon.SQS.Model;
 using EventStore;
 using Grar.AddressMatch;
-using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
@@ -15,8 +13,6 @@ using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
-using Wolverine.Runtime.Routing;
-using Wolverine.Runtime.Serialization;
 
 public static class WolverineExtensions
 {
@@ -36,8 +32,6 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
                 options.Discovery.IncludeType<OntkoppelLocatiesMessageHandler>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
-                options.Discovery.IncludeType<StringHandler>();
-
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
@@ -118,37 +112,10 @@ public static class WolverineExtensions
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
-                    configure.RegisterSerializer(new MySerializer());
                 })
                .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
                .ReceiveRawJsonMessage(typeof(OverkoepelendeGrarConsumerMessage))
                .MaximumParallelMessages(1);
     }
-}
-
-internal class MySerializer : IntrinsicSerializer
-{
-    public byte[] Write(Envelope envelope)
-    {
-        return base.Write(envelope);
-    }
-
-    public object ReadFromData(Type messageType, Envelope envelope)
-    {
-        return base.ReadFromData(messageType, envelope);
-    }
-
-    public object ReadFromData(byte[] data)
-    {
-        return base.ReadFromData(data);
-
-    }
-
-    public byte[] WriteMessage(object message)
-    {
-        return base.WriteMessage(message);
-    }
-
-    public string ContentType { get; }
 }
 
