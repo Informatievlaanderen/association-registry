@@ -1,10 +1,7 @@
 ﻿namespace AssociationRegistry.Acties.SyncKbo;
 
-using Events;
 using Framework;
-using Grar.AddressMatch;
 using Kbo;
-using Marten;
 using Microsoft.Extensions.Logging;
 using Notifications;
 using Notifications.Messages;
@@ -12,7 +9,6 @@ using Resources;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
-using Wolverine.Marten;
 
 public class SyncKboCommandHandler
 {

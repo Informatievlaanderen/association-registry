@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 
+using Grar;
+using Grar.AddressMatch;
 using DuplicateVerenigingDetection;
 using Events;
 using Framework;
-using Grar;
-using Grar.AddressMatch;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;

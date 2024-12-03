@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer.OntkoppelAdres;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
@@ -22,7 +22,7 @@ public class Given_A_Single_Existing_Locatie
             scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
         ]);
 
-        var sut = new OntkoppelLocatiesHandler(verenigingRepositoryMock);
+        var sut = new OntkoppelLocatiesMessageHandler(verenigingRepositoryMock);
 
         await sut.Handle(message, CancellationToken.None);
 

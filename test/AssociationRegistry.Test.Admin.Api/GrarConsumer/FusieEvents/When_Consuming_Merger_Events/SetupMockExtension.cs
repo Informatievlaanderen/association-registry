@@ -1,7 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 
-using Acties.HeradresseerLocaties;
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer;
+using Acties.GrarConsumer.HeradresseerLocaties;
+using Acties.GrarConsumer.OntkoppelAdres;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
@@ -10,18 +11,11 @@ using Moq;
 
 public static class SetupMockExtension
 {
-    public static void CaptureQueueReaddressMessage(
+    public static void CaptureQueueOverkoepelendeGrarMessage(
         this Mock<ISqsClientWrapper> sqsClientWrapper,
-        Action<HeradresseerLocatiesMessage> action)
+        Action<OverkoepelendeGrarConsumerMessage> action)
     {
-        sqsClientWrapper.Setup(v => v.QueueReaddressMessage(It.IsAny<HeradresseerLocatiesMessage>()))
-                        .Callback<HeradresseerLocatiesMessage>(action);
-    }
-    public static void CaptureQueueOntkoppelMessage(
-        this Mock<ISqsClientWrapper> sqsClientWrapper,
-        Action<OntkoppelLocatiesMessage> action)
-    {
-        sqsClientWrapper.Setup(v => v.QueueMessage(It.IsAny<OntkoppelLocatiesMessage>()))
-                        .Callback<OntkoppelLocatiesMessage>(action);
+        sqsClientWrapper.Setup(v => v.QueueMessage(It.IsAny<OverkoepelendeGrarConsumerMessage>()))
+                        .Callback<OverkoepelendeGrarConsumerMessage>(action);
     }
 }

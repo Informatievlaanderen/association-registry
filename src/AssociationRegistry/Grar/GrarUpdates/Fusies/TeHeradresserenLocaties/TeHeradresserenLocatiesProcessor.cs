@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 
+using Acties.GrarConsumer;
 using Framework;
 using LocatieFinder;
 
@@ -22,7 +23,11 @@ public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcesso
 
         foreach (var message in messages)
         {
-            await _sqsClientWrapper.QueueReaddressMessage(message);
+            await _sqsClientWrapper.QueueMessage(
+                new OverkoepelendeGrarConsumerMessage
+                {
+                    HeradresseerLocatiesMessage = message,
+                });
         }
     }
 }

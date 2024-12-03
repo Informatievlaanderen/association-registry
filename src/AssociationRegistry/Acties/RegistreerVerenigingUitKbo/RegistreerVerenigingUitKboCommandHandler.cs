@@ -2,17 +2,13 @@
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using DuplicateVerenigingDetection;
-using Events;
 using Framework;
-using Grar.AddressMatch;
 using Kbo;
-using Marten;
 using Microsoft.Extensions.Logging;
 using Resources;
 using ResultNet;
 using Vereniging;
 using Vereniging.Exceptions;
-using Wolverine.Marten;
 
 public class RegistreerVerenigingUitKboCommandHandler
 {

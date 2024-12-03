@@ -1,12 +1,32 @@
-namespace AssociationRegistry.Acties.HeradresseerLocaties;
+namespace AssociationRegistry.Acties.GrarConsumer.HeradresseerLocaties;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Vereniging;
-using Grar.GrarUpdates.Hernummering;
+using Newtonsoft.Json;
 using NodaTime;
+using Wolverine;
+
+public class StringHandler
+{
+    private readonly IVerenigingsRepository _repository;
+    private readonly IGrarClient _client;
+
+    public StringHandler(IVerenigingsRepository repository, IGrarClient client)
+    {
+        _repository = repository;
+        _client = client;
+    }
+
+    public async Task Handle(HeradresseerLocatiesMessage message, Envelope envelope, CancellationToken cancellationToken)
+    {
+        var asJson = JsonConvert.SerializeObject(message);
+        var back1 = JsonConvert.DeserializeObject<HeradresseerLocatiesMessage>(asJson);
+    }
+}
 
 public class HeradresseerLocatiesMessageHandler
 {

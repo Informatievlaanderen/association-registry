@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
-using Acties.HeradresseerLocaties;
+using Acties.GrarConsumer.HeradresseerLocaties;
 using Amazon.SQS;
 using Framework;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;

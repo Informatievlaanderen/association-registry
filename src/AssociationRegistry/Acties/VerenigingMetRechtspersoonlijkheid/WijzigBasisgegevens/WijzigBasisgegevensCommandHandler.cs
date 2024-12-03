@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 
 using Framework;
-using Marten;
 using Vereniging;
 
 public class WijzigBasisgegevensCommandHandler

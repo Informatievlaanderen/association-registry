@@ -6,7 +6,6 @@ using Emails;
 using Exceptions;
 using Framework;
 using SocialMedias;
-using System.Text.RegularExpressions;
 using TelefoonNummers;
 using Websites;
 

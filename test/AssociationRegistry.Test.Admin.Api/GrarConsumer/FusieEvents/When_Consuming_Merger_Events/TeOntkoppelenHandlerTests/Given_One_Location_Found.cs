@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeOntkoppelenHandlerTests;
 
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer.OntkoppelAdres;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AutoFixture;
@@ -21,7 +21,7 @@ public class Given_One_Location_Found
 
         OntkoppelLocatiesMessage actual = null;
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
-        sqsClientWrapper.CaptureQueueOntkoppelMessage(message => actual = message);
+        sqsClientWrapper.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.OntkoppelLocatiesMessage);
 
         var locatieId = fixture.Create<LocatieLookupData>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);

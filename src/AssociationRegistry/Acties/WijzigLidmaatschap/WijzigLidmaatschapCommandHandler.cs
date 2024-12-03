@@ -2,7 +2,6 @@ namespace AssociationRegistry.Acties.WijzigLidmaatschap;
 
 using Framework;
 using Vereniging;
-using Vereniging.Exceptions;
 
 public class WijzigLidmaatschapCommandHandler
 {

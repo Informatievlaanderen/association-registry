@@ -1,8 +1,10 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Acties.HeradresseerLocaties;
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer;
+using Acties.GrarConsumer.HeradresseerLocaties;
+using Acties.GrarConsumer.OntkoppelAdres;
 using Amazon.Runtime;
+using Amazon.SQS.Model;
 using EventStore;
 using Grar.AddressMatch;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
@@ -13,6 +15,8 @@ using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
+using Wolverine.Runtime.Routing;
+using Wolverine.Runtime.Serialization;
 
 public static class WolverineExtensions
 {
@@ -27,6 +31,13 @@ public static class WolverineExtensions
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
+                options.Discovery.IncludeType<HeradresseerLocatiesMessage>();
+                options.Discovery.IncludeType<HeradresseerLocatiesMessageHandler>();
+                options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
+                options.Discovery.IncludeType<OntkoppelLocatiesMessageHandler>();
+                options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
+                options.Discovery.IncludeType<StringHandler>();
+
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
@@ -103,14 +114,41 @@ public static class WolverineExtensions
                                sqsDeadLetterQueueName
         );
 
-        options.ListenToSqsQueue(sqsQueueName, configure: configure =>
+         options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
+                    configure.RegisterSerializer(new MySerializer());
                 })
                .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
-               .ReceiveRawJsonMessage(typeof(HeradresseerLocatiesMessage))
-               .ReceiveRawJsonMessage(typeof(OntkoppelLocatiesMessage))
+               .ReceiveRawJsonMessage(typeof(OverkoepelendeGrarConsumerMessage))
                .MaximumParallelMessages(1);
     }
 }
+
+internal class MySerializer : IntrinsicSerializer
+{
+    public byte[] Write(Envelope envelope)
+    {
+        return base.Write(envelope);
+    }
+
+    public object ReadFromData(Type messageType, Envelope envelope)
+    {
+        return base.ReadFromData(messageType, envelope);
+    }
+
+    public object ReadFromData(byte[] data)
+    {
+        return base.ReadFromData(data);
+
+    }
+
+    public byte[] WriteMessage(object message)
+    {
+        return base.WriteMessage(message);
+    }
+
+    public string ContentType { get; }
+}
+

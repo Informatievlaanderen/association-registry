@@ -1,6 +1,5 @@
-namespace AssociationRegistry.Acties.HeradresseerLocaties;
+namespace AssociationRegistry.Acties.GrarConsumer.HeradresseerLocaties;
 
-using AssociationRegistry.Grar.Models;
-using Grar.GrarUpdates.Hernummering;
+using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
 public record HeradresseerLocatiesMessage(string VCode, List<TeHeradresserenLocatie> TeHeradresserenLocaties, string idempotencyKey);

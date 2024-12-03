@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Framework;
 
-using Acties.HeradresseerLocaties;
-using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Acties.GrarConsumer.HeradresseerLocaties;
 
 public interface ISqsClientWrapper
 {

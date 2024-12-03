@@ -12,7 +12,6 @@ using Grar.Models;
 using SocialMedias;
 using System.Diagnostics.Contracts;
 using System.Net;
-using System.Numerics;
 using TelefoonNummers;
 
 public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>

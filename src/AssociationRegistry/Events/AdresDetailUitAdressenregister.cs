@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Events;
 
 using Grar.Models;
-using System.Text.RegularExpressions;
 
 public record AdresDetailUitAdressenregister
 {

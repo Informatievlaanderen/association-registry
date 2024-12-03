@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using Acties.HeradresseerLocaties;
+using Acties.GrarConsumer.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AutoFixture;

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Acties.WijzigLidmaatschap;
 
-using Primitives;
 using Vereniging;
 
 public record WijzigLidmaatschapCommand(

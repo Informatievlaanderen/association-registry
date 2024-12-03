@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
 
-using Acties.HeradresseerLocaties;
+using Acties.GrarConsumer.HeradresseerLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;

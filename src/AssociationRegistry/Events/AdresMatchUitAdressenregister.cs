@@ -2,7 +2,6 @@
 
 using Grar.Models;
 using Grar.Models.PostalInfo;
-using Vereniging;
 using Gemeentenaam = Vereniging.Gemeentenaam;
 using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
