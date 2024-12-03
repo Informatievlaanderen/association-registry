@@ -86,13 +86,15 @@ public class AddressKafkaConsumer : BackgroundService
                     case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
                         await _fusieEventProcessor.Process(
                             addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId,
-                            addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
+                            addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId,
+                            idempotenceKey);
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
                         await _fusieEventProcessor.Process(
                             addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId,
-                            addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
+                            addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId,
+                            idempotenceKey);
                         break;
 
                     case StreetNameWasReaddressed streetNameWasReaddressed:

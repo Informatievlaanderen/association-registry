@@ -16,15 +16,15 @@ public class FusieEventProcessor : IFusieEventProcessor
         _teOntkoppelenLocatiesHandler = teOntkoppelenLocatiesHandler;
     }
 
-    public async Task Process(int sourceAdresId, int? destinationAdresId)
+    public async Task Process(int sourceAdresId, int? destinationAdresId, string idempotencyKey)
     {
         if (!destinationAdresId.HasValue)
             await _teOntkoppelenLocatiesHandler.Process(sourceAdresId);
         else
-            await _teHeradresserenLocatiesHandler.Process(sourceAdresId, destinationAdresId.Value);
+            await _teHeradresserenLocatiesHandler.Process(sourceAdresId, destinationAdresId.Value, idempotencyKey);
     }
 }
 public interface IFusieEventProcessor
 {
-    Task Process(int sourceAdresId, int? destinationAdresId);
+    Task Process(int sourceAdresId, int? destinationAdresId, string idempotencyKey);
 }

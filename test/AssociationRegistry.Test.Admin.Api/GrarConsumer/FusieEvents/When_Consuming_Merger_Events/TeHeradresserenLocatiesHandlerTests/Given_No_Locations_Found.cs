@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
 using Acties.GrarConsumer.HeradresseerLocaties;
-using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -18,6 +17,7 @@ public class Given_No_Locations_Found
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();
         var destinationAdresId = fixture.Create<int>();
+        var idempotencyKey = fixture.Create<string>();
 
         var sqsClientWrapperMock = new Mock<ISqsClientWrapper>();
         var locatiesFinder = new Mock<ILocatieFinder>();
@@ -26,7 +26,7 @@ public class Given_No_Locations_Found
                                      .ReturnsAsync(LocatiesPerVCodeCollection.Empty);
 
         var sut = new TeHeradresserenLocatiesProcessor(sqsClientWrapperMock.Object, locatiesFinder.Object);
-        await sut.Process(sourceAdresId, destinationAdresId);
+        await sut.Process(sourceAdresId, destinationAdresId, idempotencyKey);
 
         sqsClientWrapperMock.Verify(v => v.QueueReaddressMessage(It.IsAny<HeradresseerLocatiesMessage>()), Times.Never());
     }

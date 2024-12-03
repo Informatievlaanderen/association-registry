@@ -17,6 +17,7 @@ public class Given_Locaties_For_Different_VCodes
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var destinationAdresId = fixture.Create<int>();
+        var idempotencyKey = fixture.Create<string>();
 
         var vCode1 = fixture.Create<string>();
         var locatieIdsForVCode1 = fixture.Create<LocatieLookupData[]>();
@@ -30,17 +31,17 @@ public class Given_Locaties_For_Different_VCodes
             { vCode2, locatieIdsForVCode2 },
         });
 
-        var actual = locatieIdsPerVCode.Map(destinationAdresId);
+        var actual = locatieIdsPerVCode.Map(destinationAdresId, idempotencyKey);
 
         actual.Should().BeEquivalentTo([
             new HeradresseerLocatiesMessage(
                 vCode1,
                 locatieIdsForVCode1.Select(l => new TeHeradresserenLocatie(l.LocatieId, destinationAdresId.ToString())).ToList(),
-                ""),
+                idempotencyKey),
             new HeradresseerLocatiesMessage(
                 vCode2,
                 locatieIdsForVCode2.Select(l => new TeHeradresserenLocatie(l.LocatieId, destinationAdresId.ToString())).ToList(),
-                ""),
+                idempotencyKey),
         ]);
     }
 }

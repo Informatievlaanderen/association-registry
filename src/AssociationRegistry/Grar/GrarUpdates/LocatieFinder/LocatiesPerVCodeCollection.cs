@@ -16,13 +16,13 @@ public class LocatiesPerVCodeCollection : ReadOnlyCollection<LocatiesPerVCode>
     public static LocatiesPerVCodeCollection FromLocatiesPerVCode(Dictionary<string, LocatieLookupData[]> locatieLookupDataGroupedByVCode)
         => new(locatieLookupDataGroupedByVCode.Select(s => new LocatiesPerVCode(s.Key, locatieLookupDataGroupedByVCode[s.Key])));
 
-    public IEnumerable<HeradresseerLocatiesMessage> Map(int destinationAdresId)
+    public IEnumerable<HeradresseerLocatiesMessage> Map(int destinationAdresId, string idempotencyKey)
     {
         return this.Select(x => new HeradresseerLocatiesMessage(
                                                        x.VCode,
                                                        x.Locaties.Select(locatie => new TeHeradresserenLocatie(locatie.LocatieId, destinationAdresId.ToString()))
                                                         .ToList(),
-                                                       ""));
+                                                       idempotencyKey));
     }
 
     public IEnumerable<OntkoppelLocatiesMessage> Map()

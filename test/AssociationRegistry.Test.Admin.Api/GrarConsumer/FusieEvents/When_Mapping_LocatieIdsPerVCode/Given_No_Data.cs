@@ -14,7 +14,7 @@ public class Given_No_Data
         var fixture = new Fixture().CustomizeAdminApi();
         var locatieIdsPerVCode = LocatiesPerVCodeCollection.Empty;
 
-        var actual = locatieIdsPerVCode.Map(fixture.Create<int>());
+        var actual = locatieIdsPerVCode.Map(fixture.Create<int>(), fixture.Create<string>());
         actual.Should().BeEmpty();
     }
 }

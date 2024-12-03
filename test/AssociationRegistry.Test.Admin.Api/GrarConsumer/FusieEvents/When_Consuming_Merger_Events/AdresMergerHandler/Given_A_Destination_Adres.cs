@@ -21,9 +21,10 @@ public class Given_A_Destination_Adres
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();
         var destinationAdresId = fixture.Create<int>();
-        await sut.Process(sourceAdresId, destinationAdresId);
+        var idempotencyKey = fixture.Create<string>();
+        await sut.Process(sourceAdresId, destinationAdresId, idempotencyKey);
 
-        teHeradresserenLocatiesHandler.Verify(v => v.Process(sourceAdresId, destinationAdresId), Times.Once());
+        teHeradresserenLocatiesHandler.Verify(v => v.Process(sourceAdresId, destinationAdresId, idempotencyKey), Times.Once());
         teOntkoppelenLocatiesHandler.Verify(v => v.Process(It.IsAny<int>()), Times.Never());
     }
 }

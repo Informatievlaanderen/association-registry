@@ -1,14 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using Acties.GrarConsumer;
 using Acties.GrarConsumer.HeradresseerLocaties;
-using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
@@ -27,13 +24,14 @@ public class Given_One_Location_Found
         sqsClientWrapper.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.HeradresseerLocatiesMessage);
 
         var locatieId = fixture.Create<LocatieLookupData>();
+        var idempotencyKey = fixture.Create<string>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
         var sut = new TeHeradresserenLocatiesProcessor(sqsClientWrapper.Object, locatiesFinder);
-        await sut.Process(sourceAdresId, destinationAdresId);
+        await sut.Process(sourceAdresId, destinationAdresId, idempotencyKey);
 
-        var messages = locatieIdsPerVCode.Map(destinationAdresId);
+        var messages = locatieIdsPerVCode.Map(destinationAdresId, idempotencyKey);
 
         actual.Should().BeEquivalentTo(messages.First());
     }
