@@ -14,7 +14,7 @@ public class Given_No_Existing_Locatie
     public async Task Then_The_Locaties_Are_Ontkoppeld()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
