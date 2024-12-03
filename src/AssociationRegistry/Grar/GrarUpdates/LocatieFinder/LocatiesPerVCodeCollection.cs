@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 
-using Acties.HeradresseerLocaties;
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer.HeradresseerLocaties;
+using Acties.GrarConsumer.OntkoppelAdres;
 using Hernummering;
 using System.Collections.ObjectModel;
 

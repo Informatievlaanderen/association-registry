@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
-using Acties.HeradresseerLocaties;
+using Acties.GrarConsumer.HeradresseerLocaties;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Common.AutoFixture;

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
+using Acties.GrarConsumer;
 using Framework;
 
 public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcessor
@@ -23,7 +24,11 @@ public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcess
 
         foreach (var heradresseerLocatiesMessage in heradresseerLocatiesMessages)
         {
-            await _sqsClientWrapper.QueueReaddressMessage(heradresseerLocatiesMessage);
+            await _sqsClientWrapper.QueueMessage(
+                new OverkoepelendeGrarConsumerMessage
+                {
+                    HeradresseerLocatiesMessage = heradresseerLocatiesMessage,
+                });
         }
     }
 }

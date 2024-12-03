@@ -1,12 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using Acties.HeradresseerLocaties;
+using Acties.GrarConsumer;
+using Acties.GrarConsumer.HeradresseerLocaties;
 using AssociationRegistry.Admin.Api.Infrastructure.AWS;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
+using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
@@ -22,7 +24,7 @@ public class Given_One_Location_Found
 
         HeradresseerLocatiesMessage actual = null;
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
-        sqsClientWrapper.CaptureQueueReaddressMessage(message => actual = message);
+        sqsClientWrapper.CaptureQueueOverkoepelendeGrarMessage(message => actual = message.HeradresseerLocatiesMessage);
 
         var locatieId = fixture.Create<LocatieLookupData>();
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);

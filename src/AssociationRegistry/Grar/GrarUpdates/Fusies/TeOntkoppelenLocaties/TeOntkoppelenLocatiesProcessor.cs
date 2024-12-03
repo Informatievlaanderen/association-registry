@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 
+using Acties.GrarConsumer;
 using Framework;
 using LocatieFinder;
 
@@ -22,7 +23,11 @@ public class TeOntkoppelenLocatiesProcessor : ITeOntkoppelenLocatiesProcessor
 
         foreach (var message in messages)
         {
-            await _sqsClientWrapper.QueueMessage(message);
+            await _sqsClientWrapper.QueueMessage(
+                new OverkoepelendeGrarConsumerMessage
+                {
+                    OntkoppelLocatiesMessage = message,
+                });
         }
     }
 }

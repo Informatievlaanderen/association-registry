@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using Acties.OntkoppelAdres;
+using Acties.GrarConsumer.OntkoppelAdres;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -23,7 +23,7 @@ public class Given_No_Existing_Locatie
             VCode = scenario.VCode,
         };
 
-        var sut = new OntkoppelLocatiesHandler(verenigingRepositoryMock);
+        var sut = new OntkoppelLocatiesMessageHandler(verenigingRepositoryMock);
 
         await sut.Handle(message, CancellationToken.None);
 

@@ -1,15 +1,15 @@
-﻿namespace AssociationRegistry.Acties.OntkoppelAdres;
+﻿namespace AssociationRegistry.Acties.GrarConsumer.OntkoppelAdres;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using NodaTime;
 
-public class OntkoppelLocatiesHandler
+public class OntkoppelLocatiesMessageHandler
 {
     private readonly IVerenigingsRepository _repository;
 
-    public OntkoppelLocatiesHandler(IVerenigingsRepository repository)
+    public OntkoppelLocatiesMessageHandler(IVerenigingsRepository repository)
     {
         _repository = repository;
     }

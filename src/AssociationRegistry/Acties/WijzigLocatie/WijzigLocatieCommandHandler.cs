@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Acties.WijzigLocatie;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressMatch;
 using Framework;
-using Grar;
-using Grar.AddressMatch;
 using Marten;
 using Vereniging;
 using Wolverine.Marten;

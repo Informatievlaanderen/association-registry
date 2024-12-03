@@ -1,10 +1,9 @@
 namespace AssociationRegistry.Acties.VoegLocatieToe;
 
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.AddressMatch;
 using Events;
 using Framework;
-using Grar;
-using Grar.AddressMatch;
-using Grar.Exceptions;
 using Marten;
 using Vereniging;
 using Wolverine.Marten;
