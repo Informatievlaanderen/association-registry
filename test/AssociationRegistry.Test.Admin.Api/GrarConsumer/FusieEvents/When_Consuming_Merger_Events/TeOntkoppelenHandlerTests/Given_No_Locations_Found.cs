@@ -24,9 +24,9 @@ public class Given_No_Locations_Found
         locatiesFinder.Setup(s => s.FindLocaties(sourceAdresId))
                       .ReturnsAsync(LocatiesPerVCodeCollection.Empty);
 
-        var sut = new TeOntkoppelenLocatieHandler(sqsClientWrapperMock.Object, locatiesFinder.Object);
-        await sut.Handle(sourceAdresId);
+        var sut = new TeOntkoppelenLocatiesProcessor(sqsClientWrapperMock.Object, locatiesFinder.Object);
+        await sut.Process(sourceAdresId);
 
-        sqsClientWrapperMock.Verify(v => v.QueueMessage(It.IsAny<TeOntkoppelenLocatiesMessage>()), Times.Never());
+        sqsClientWrapperMock.Verify(v => v.QueueMessage(It.IsAny<OntkoppelLocatiesMessage>()), Times.Never());
     }
 }

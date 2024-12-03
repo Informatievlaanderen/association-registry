@@ -25,9 +25,9 @@ public class LocatiesPerVCodeCollection : ReadOnlyCollection<LocatiesPerVCode>
                                                        ""));
     }
 
-    public IEnumerable<TeOntkoppelenLocatiesMessage> Map()
+    public IEnumerable<OntkoppelLocatiesMessage> Map()
     {
-        return this.Select(x => new TeOntkoppelenLocatiesMessage(
+        return this.Select(x => new OntkoppelLocatiesMessage(
                                                        x.VCode,
                                                        x.Locaties.Select(x => x.LocatieId).ToArray()));
     }

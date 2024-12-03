@@ -2,12 +2,12 @@ namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
 using Framework;
 
-public class HernummeringEventHandler: IHernummeringEventHandler
+public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcessor
 {
     private readonly TeHeradresserenLocatiesMapper _teHeradresserenLocatiesMapper;
     private readonly ISqsClientWrapper _sqsClientWrapper;
 
-    public HernummeringEventHandler(
+    public TeHernummerenStraatEventProcessor(
         TeHeradresserenLocatiesMapper teHeradresserenLocatiesMapper,
         ISqsClientWrapper sqsClientWrapper)
     {
@@ -15,7 +15,7 @@ public class HernummeringEventHandler: IHernummeringEventHandler
         _sqsClientWrapper = sqsClientWrapper;
     }
 
-    public async Task Handle(TeHernummerenStraat teHernummerenStraat, string idempotenceKey)
+    public async Task Process(TeHernummerenStraat teHernummerenStraat, string idempotenceKey)
     {
         var heradresseerLocatiesMessages =
             await _teHeradresserenLocatiesMapper.ForAddress(teHernummerenStraat,
@@ -28,6 +28,7 @@ public class HernummeringEventHandler: IHernummeringEventHandler
     }
 }
 
-public interface IHernummeringEventHandler
+public interface ITeHernummerenStraatEventProcessor
 {
+    Task Process(TeHernummerenStraat teHernummerenStraat, string idempotenceKey);
 }

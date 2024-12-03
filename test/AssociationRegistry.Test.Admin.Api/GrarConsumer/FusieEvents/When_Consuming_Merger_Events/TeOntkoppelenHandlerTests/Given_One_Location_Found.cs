@@ -19,7 +19,7 @@ public class Given_One_Location_Found
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();
 
-        TeOntkoppelenLocatiesMessage actual = null;
+        OntkoppelLocatiesMessage actual = null;
         var sqsClientWrapper = new Mock<ISqsClientWrapper>();
         sqsClientWrapper.CaptureQueueOntkoppelMessage(message => actual = message);
 
@@ -27,11 +27,11 @@ public class Given_One_Location_Found
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
-        var sut = new TeOntkoppelenLocatieHandler(sqsClientWrapper.Object, locatiesFinder);
-        await sut.Handle(sourceAdresId);
+        var sut = new TeOntkoppelenLocatiesProcessor(sqsClientWrapper.Object, locatiesFinder);
+        await sut.Process(sourceAdresId);
 
         actual.Should().BeEquivalentTo(
-            new TeOntkoppelenLocatiesMessage
+            new OntkoppelLocatiesMessage
             (
                 locatieIdsPerVCode.First().VCode,
                 locatieIdsPerVCode.First().Locaties.Select(x => x.LocatieId).ToArray()

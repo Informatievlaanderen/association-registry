@@ -5,16 +5,16 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using NodaTime;
 
-public class TeOntkoppelenLocatiesHandler
+public class OntkoppelLocatiesHandler
 {
     private readonly IVerenigingsRepository _repository;
 
-    public TeOntkoppelenLocatiesHandler(IVerenigingsRepository repository)
+    public OntkoppelLocatiesHandler(IVerenigingsRepository repository)
     {
         _repository = repository;
     }
 
-    public async Task Handle(TeOntkoppelenLocatiesMessage message, CancellationToken cancellationToken)
+    public async Task Handle(OntkoppelLocatiesMessage message, CancellationToken cancellationToken)
     {
         var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
 

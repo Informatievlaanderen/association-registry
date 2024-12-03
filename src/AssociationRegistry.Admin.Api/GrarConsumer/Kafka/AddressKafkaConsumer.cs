@@ -17,23 +17,23 @@ using System.Text;
 public class AddressKafkaConsumer : BackgroundService
 {
     private readonly AddressKafkaConfiguration _configuration;
-    private readonly IFusieEventHandler _fusieEventHandler;
-    private readonly HernummeringEventHandler _hernummeringEventHandler;
+    private readonly IFusieEventProcessor _fusieEventProcessor;
+    private readonly ITeHernummerenStraatEventProcessor _teHernummerenStraatEventProcessor;
     private readonly IDocumentStore _store;
     private readonly INotifier _notifier;
     private readonly ILogger<AddressKafkaConsumer> _logger;
 
     public AddressKafkaConsumer(
         AddressKafkaConfiguration configuration,
-        IFusieEventHandler fusieEventHandler,
-        HernummeringEventHandler hernummeringEventHandler,
+        IFusieEventProcessor fusieEventProcessor,
+        ITeHernummerenStraatEventProcessor teHernummerenStraatEventProcessor,
         IDocumentStore store,
         INotifier notifier,
         ILogger<AddressKafkaConsumer> logger)
     {
         _configuration = configuration;
-        _fusieEventHandler = fusieEventHandler;
-        _hernummeringEventHandler = hernummeringEventHandler;
+        _fusieEventProcessor = fusieEventProcessor;
+        _teHernummerenStraatEventProcessor = teHernummerenStraatEventProcessor;
         _store = store;
         _notifier = notifier;
         _logger = logger;
@@ -84,13 +84,13 @@ public class AddressKafkaConsumer : BackgroundService
                 switch (message)
                 {
                     case AddressWasRetiredBecauseOfMunicipalityMerger addressWasRetiredBecauseOfMunicipalityMerger:
-                        await _fusieEventHandler.Handle(
+                        await _fusieEventProcessor.Process(
                             addressWasRetiredBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRetiredBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
 
                     case AddressWasRejectedBecauseOfMunicipalityMerger addressWasRejectedBecauseOfMunicipalityMerger:
-                        await _fusieEventHandler.Handle(
+                        await _fusieEventProcessor.Process(
                             addressWasRejectedBecauseOfMunicipalityMerger.AddressPersistentLocalId,
                             addressWasRejectedBecauseOfMunicipalityMerger.NewAddressPersistentLocalId);
                         break;
@@ -98,7 +98,7 @@ public class AddressKafkaConsumer : BackgroundService
                     case StreetNameWasReaddressed streetNameWasReaddressed:
                         _logger.LogInformation($"{nameof(StreetNameWasReaddressed)} found! Offset: {result.Offset}");
 
-                        await _hernummeringEventHandler.Handle(
+                        await _teHernummerenStraatEventProcessor.Process(
                             TeHernummerenStraatFactory.From(streetNameWasReaddressed), idempotenceKey);
 
                         break;

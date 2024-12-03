@@ -3,18 +3,18 @@
 using Framework;
 using LocatieFinder;
 
-public class TeOntkoppelenLocatieHandler : ITeOntkoppelenLocatiesHandler
+public class TeOntkoppelenLocatiesProcessor : ITeOntkoppelenLocatiesProcessor
 {
     private readonly ISqsClientWrapper _sqsClientWrapper;
     private readonly ILocatieFinder _locatieFinder;
 
-    public TeOntkoppelenLocatieHandler(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
+    public TeOntkoppelenLocatiesProcessor(ISqsClientWrapper sqsClientWrapper, ILocatieFinder locatieFinder)
     {
         _sqsClientWrapper = sqsClientWrapper;
         _locatieFinder = locatieFinder;
     }
 
-    public async Task Handle(int sourceAdresId)
+    public async Task Process(int sourceAdresId)
     {
         var locatiesMetVCodes = await _locatieFinder.FindLocaties(sourceAdresId);
 
@@ -25,4 +25,9 @@ public class TeOntkoppelenLocatieHandler : ITeOntkoppelenLocatiesHandler
             await _sqsClientWrapper.QueueMessage(message);
         }
     }
+}
+
+public interface ITeOntkoppelenLocatiesProcessor
+{
+    Task Process(int sourceAdresId);
 }

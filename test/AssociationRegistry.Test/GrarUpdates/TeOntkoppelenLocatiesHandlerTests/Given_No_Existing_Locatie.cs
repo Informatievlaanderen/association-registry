@@ -18,12 +18,12 @@ public class Given_No_Existing_Locatie
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var message = fixture.Create<TeOntkoppelenLocatiesMessage>() with
+        var message = fixture.Create<OntkoppelLocatiesMessage>() with
         {
             VCode = scenario.VCode,
         };
 
-        var sut = new TeOntkoppelenLocatiesHandler(verenigingRepositoryMock);
+        var sut = new OntkoppelLocatiesHandler(verenigingRepositoryMock);
 
         await sut.Handle(message, CancellationToken.None);
 

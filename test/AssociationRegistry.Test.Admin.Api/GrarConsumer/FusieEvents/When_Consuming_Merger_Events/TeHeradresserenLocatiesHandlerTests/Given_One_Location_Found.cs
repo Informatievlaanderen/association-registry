@@ -28,8 +28,8 @@ public class Given_One_Location_Found
         var locatiesFinder = new StubLocatieFinder(sourceAdresId, [locatieId]);
         var locatieIdsPerVCode = await locatiesFinder.FindLocaties(sourceAdresId);
 
-        var sut = new TeHeradresserenLocatiesHandler(sqsClientWrapper.Object, locatiesFinder);
-        await sut.Handle(sourceAdresId, destinationAdresId);
+        var sut = new TeHeradresserenLocatiesProcessor(sqsClientWrapper.Object, locatiesFinder);
+        await sut.Process(sourceAdresId, destinationAdresId);
 
         var messages = locatieIdsPerVCode.Map(destinationAdresId);
 
