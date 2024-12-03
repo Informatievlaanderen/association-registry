@@ -1,3 +1,10 @@
+## [8.182.1](https://github.com/informatievlaanderen/association-registry/compare/v8.182.0...v8.182.1) (2024-12-03)
+
+
+### Bug Fixes
+
+* or-2472 add OverkoepelendeGrarConsumerMessageHandler to wolverineExtensions ([a177f34](https://github.com/informatievlaanderen/association-registry/commit/a177f342f2f38ed9ac230618331c7539232ff977))
+
 # [8.182.0](https://github.com/informatievlaanderen/association-registry/compare/v8.181.1...v8.182.0) (2024-12-03)
 
 
