@@ -36,8 +36,6 @@ public class Postnamen: ReadOnlyCollection<Postnaam>
 
 public record Postnaam
 {
-    public string Value { get; init; }
-
     private Postnaam(string Value)
     {
         this.Value = Value;
@@ -45,7 +43,6 @@ public record Postnaam
 
     public static Postnaam FromGrar(Models.Postnaam postnaam)
         => new(postnaam.GeografischeNaam.Spelling);
-
     public static Postnaam FromValue(string postnaam)
     {
         if (string.IsNullOrEmpty(postnaam))
@@ -57,8 +54,7 @@ public record Postnaam
     public static implicit operator string(Postnaam postnaam)
         => postnaam.Value;
 
-    public override string ToString()
-        => Value;
+    public string Value { get; init; }
 
     public void Deconstruct(out string Value)
     {
