@@ -9,10 +9,14 @@ using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
+using System.Text.Encodings.Web;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
+using Wolverine.Runtime.Serialization;
 
 public static class WolverineExtensions
 {
@@ -105,14 +109,18 @@ public static class WolverineExtensions
                                sqsDeadLetterQueueName
         );
 
+        options.PublishMessage<OverkoepelendeGrarConsumerMessage>()
+               .ToSqsQueue(sqsQueueName);
+
          options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
                     configure.DeadLetterQueueName = sqsDeadLetterQueueName;
                 })
-               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName)
-               .ReceiveRawJsonMessage(typeof(OverkoepelendeGrarConsumerMessage))
+               .ConfigureDeadLetterQueue(sqsDeadLetterQueueName, configure: queue =>
+                {
+                    queue.DeadLetterQueueName = sqsDeadLetterQueueName;
+                })
                .MaximumParallelMessages(1);
     }
 }
-

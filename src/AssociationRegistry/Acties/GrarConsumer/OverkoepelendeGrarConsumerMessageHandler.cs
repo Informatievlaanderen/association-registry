@@ -13,6 +13,7 @@ public class OverkoepelendeGrarConsumerMessageHandler
 
     public async Task Handle(OverkoepelendeGrarConsumerMessage message)
     {
+        throw new Exception();
         if (message.HeradresseerLocatiesMessage is not null)
             await _bus.InvokeAsync(message.HeradresseerLocatiesMessage, CancellationToken.None);
 

@@ -8,18 +8,19 @@ using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
 using System.Text.Json;
-
-
+using Wolverine;
 
 public class SqsClientWrapper : ISqsClientWrapper
 {
     private readonly IAmazonSQS _sqsClient;
+    private readonly IMessageBus _messageBus;
     private readonly string _kboSyncQueueUrl;
     private readonly string _readdressQueueUrl;
 
-    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings, GrarOptions grarOptions)
+    public SqsClientWrapper(IAmazonSQS sqsClient, AppSettings appSettings, GrarOptions grarOptions, IMessageBus messageBus)
     {
         _sqsClient = sqsClient;
+        _messageBus = messageBus;
         _kboSyncQueueUrl = appSettings.KboSyncQueueUrl;
         _readdressQueueUrl = grarOptions.Sqs.GrarSyncQueueUrl;
     }
@@ -31,9 +32,10 @@ public class SqsClientWrapper : ISqsClientWrapper
 
     public async Task QueueMessage<TMessage>(TMessage message)
     {
-        await _sqsClient.SendMessageAsync(
-            _readdressQueueUrl,
-            JsonSerializer.Serialize(message));
+        // await _sqsClient.SendMessageAsync(
+        //     _readdressQueueUrl,
+        //     JsonSerializer.Serialize(message));
+        await _messageBus.SendAsync(message);
     }
 
     public async Task QueueKboNummerToSynchronise(string kboNummer)
