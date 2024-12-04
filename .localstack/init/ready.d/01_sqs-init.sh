@@ -10,7 +10,7 @@ with_dlq()
 {
   QUEUE_PART=$@
   QUEUE_NAME="verenigingsregister-$@"
-  DLQ_NAME="$QUEUE_NAME-dlq"
+  DLQ_NAME=$QUEUE_NAME"-dlq"
   DLQ_ARN="arn:aws:sqs:$REGION:$ACCOUNT_ID:$DLQ_NAME"
 
   awslocal sqs create-queue --region $REGION --queue-name $QUEUE_NAME
