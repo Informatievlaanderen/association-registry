@@ -1,3 +1,10 @@
+## [8.182.2](https://github.com/informatievlaanderen/association-registry/compare/v8.182.1...v8.182.2) (2024-12-04)
+
+
+### Bug Fixes
+
+* or-2596 make sure gemeentenaam serializes only to its value ([400fbfb](https://github.com/informatievlaanderen/association-registry/commit/400fbfbdfef24cea8cbf3a675d2d8bbdc89f73e3))
+
 ## [8.182.1](https://github.com/informatievlaanderen/association-registry/compare/v8.182.0...v8.182.1) (2024-12-03)
 
 
