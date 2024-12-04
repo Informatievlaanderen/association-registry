@@ -43,10 +43,10 @@ public class Returns_SearchVerenigingenResponse
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
-
+        var tries = 0;
         var passed = false;
 
-        while (!passed)
+        while (!passed && tries < 5)
         {
             try
             {
@@ -54,6 +54,7 @@ public class Returns_SearchVerenigingenResponse
 
                 receiveMessageResponse.Messages.Should().NotBeEmpty();
                 passed = true;
+                ++tries;
             }
             catch (Exception e)
             {
