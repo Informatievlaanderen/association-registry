@@ -40,12 +40,19 @@ public class Given_GrarClient_Returned_BadRequest
             new VerenigingState()
                .Apply(feitelijkeVerenigingWerdGeregistreerd));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+        var locatie = feitelijkeVerenigingWerdGeregistreerd.Locaties.First();
+
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, locatie.LocatieId,
                                                CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<AdresKonNietOvergenomenWordenUitAdressenregister>().SingleOrDefault();
 
         @event.Should().NotBeNull();
+        @event.Adres.Should().BeEquivalentTo($"{locatie.Adres.Straatnaam} {locatie.Adres.Huisnummer}" +
+                                             (!string.IsNullOrWhiteSpace(locatie.Adres.Busnummer)
+                                                 ? $" bus {locatie.Adres.Busnummer}"
+                                                 : string.Empty) +
+                                             $", {locatie.Adres.Postcode} {locatie.Adres.Gemeente}, {locatie.Adres.Land}");
         @event!.Reden.Should().Be(ExceptionMessages.AdresKonNietOvergenomenWordenBadRequest);
     }
 }
