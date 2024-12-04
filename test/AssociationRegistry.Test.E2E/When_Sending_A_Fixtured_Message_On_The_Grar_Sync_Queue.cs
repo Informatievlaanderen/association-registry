@@ -1,32 +1,22 @@
 namespace AssociationRegistry.Test.E2E;
 
 using Acties.GrarConsumer;
-using Acties.GrarConsumer.HeradresseerLocaties;
 using AutoFixture;
 using Common.AutoFixture;
-using E2E;
-using E2E.Framework.ApiSetup;
-using E2E.Framework.TestClasses;
-using E2E.Scenarios.Requests;
-using E2E.When_Verwijder_Lidmaatschap;
-using Events;
 using FluentAssertions;
+using Framework.ApiSetup;
 using Hosts.Configuration;
-using Marten;
-using Microsoft.Extensions.DependencyInjection;
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 using Xunit.Abstractions;
-using Xunit.Categories;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse
+public class When_Sending_A_Fixtured_Message_On_The_Grar_Sync_Queue
 {
     private readonly FullBlownApiSetup _setup;
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly Fixture _autoFixture;
 
-    public Returns_SearchVerenigingenResponse(FullBlownApiSetup setup, ITestOutputHelper testOutputHelper)
+    public When_Sending_A_Fixtured_Message_On_The_Grar_Sync_Queue(FullBlownApiSetup setup, ITestOutputHelper testOutputHelper)
     {
         _autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -35,7 +25,7 @@ public class Returns_SearchVerenigingenResponse
     }
 
     [Fact]
-    public async Task XXX()
+    public async Task Then_The_Dlq_Recieves_The_Message()
     {
         var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.GrarSyncDeadLetterQueueName);
 
@@ -59,6 +49,10 @@ public class Returns_SearchVerenigingenResponse
             catch (Exception e)
             {
                 _testOutputHelper.WriteLine(e.Message);
+                if (tries == 4)
+                {
+                    throw;
+                }
                 await Task.Delay(500);
             }
         }
