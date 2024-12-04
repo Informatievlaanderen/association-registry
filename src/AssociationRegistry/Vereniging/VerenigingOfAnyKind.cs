@@ -355,9 +355,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         IEvent @event = ex.StatusCode switch
         {
-            //TODO: is this correct?
-            HttpStatusCode.NotFound => AdresWerdNietGevondenInAdressenregister.From(VCode, locatieVoorTeMatchenAdres),
-            _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
+            HttpStatusCode.NotFound =>
+                AdresWerdNietGevondenInAdressenregister.From(VCode, locatieVoorTeMatchenAdres),
+
+            _ =>
+                new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
                                                                       GetExceptionMessage(ex.StatusCode)),
         };
 
