@@ -19,7 +19,7 @@ services:
     environment:
       SERVICES: sqs,s3
       DOCKER_HOST: unix:///var/run/docker.sock
-      DEFAULT_REGION: eu-west-1
+      DEFAULT_REGION: us-east-1
       DEBUG: 1
       PORT_WEB_UI: 8080
     volumes:

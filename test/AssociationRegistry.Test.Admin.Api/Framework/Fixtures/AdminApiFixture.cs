@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
+using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using AssociationRegistry.Framework;
@@ -32,6 +33,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier = "adminapifixture";
     private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
+    public IConfigurationRoot Configuration { get; }
 
     internal IElasticClient ElasticClient
         => (IElasticClient)_adminApiServer.Services.GetRequiredService(typeof(ElasticClient));
@@ -56,13 +58,15 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
     protected AdminApiFixture()
     {
+        Configuration = GetConfiguration();
+
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AdminApiFixture>(),
-                    GetConnectionString(GetConfiguration(), RootDatabase))
+                    GetConnectionString(Configuration, RootDatabase))
                .GetAwaiter().GetResult();
 
         DropDatabase();
-        EnsureDbExists(GetConfiguration());
+        EnsureDbExists(Configuration);
 
         OaktonEnvironment.AutoStartHost = true;
 
@@ -72,20 +76,23 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting(key: "PostgreSQLOptions:database", _identifier);
-                    builder.UseConfiguration(GetConfiguration());
+                    builder.UseConfiguration(Configuration);
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
         _adminApiServer.CreateClient();
 
+        SqsClientWrapper = _adminApiServer.Services.GetRequiredService<ISqsClientWrapper>();
+        AmazonSqs = _adminApiServer.Services.GetRequiredService<IAmazonSQS>();
+
         AdminApiClients = new AdminApiClients(
-            GetConfiguration().GetSection(nameof(OAuth2IntrospectionOptions))
-                              .Get<OAuth2IntrospectionOptions>(),
+            Configuration.GetSection(nameof(OAuth2IntrospectionOptions))
+                             .Get<OAuth2IntrospectionOptions>(),
             _adminApiServer.CreateClient);
 
         WaitFor.PostGreSQLToBecomeAvailable(
                     new NullLogger<AdminApiFixture>(),
-                    GetConnectionString(GetConfiguration(), GetConfiguration().GetPostgreSqlOptionsSection().Database!))
+                    GetConnectionString(Configuration, Configuration.GetPostgreSqlOptionsSection().Database!))
                .GetAwaiter().GetResult();
 
         var postgreSqlOptionsSection = _adminApiServer.Services.GetRequiredService<PostgreSqlOptionsSection>();
@@ -102,10 +109,13 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
                     builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
-                    builder.UseConfiguration(GetConfiguration());
+                    builder.UseConfiguration(Configuration);
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
     }
+
+    public IAmazonSQS AmazonSqs { get; set; }
+    public ISqsClientWrapper SqsClientWrapper { get; set; }
 
     public IDocumentStore ApiDocumentStore
         => _adminApiServer.Services.GetRequiredService<IDocumentStore>();
