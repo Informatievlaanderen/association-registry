@@ -20,12 +20,23 @@ public static class PublicApiEndpoints
     public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {
         var locationHeader = GetDetailAllLocationHeader(source);
+        using var handler = new HttpClientHandler();
+        using var s3HttpClient = new HttpClient(handler);
 
-        var s3Response = GetS3Response(locationHeader);
+        handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
 
-        var responseContent = s3Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+        try
+        {
+            var s3Response = s3HttpClient.GetAsync(locationHeader).GetAwaiter().GetResult();
 
-        return ParseResponse(responseContent);
+            var responseContent = s3Response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
+
+            return ParseResponse(responseContent);
+        }
+        catch (Exception e)
+        {
+            throw new Exception($"{e.Message}: (locationheader: {locationHeader}, handler baseaddress {s3HttpClient.BaseAddress}.");
+        }
     }
 
     private static JObject[] ParseResponse(string responseContent)
@@ -35,6 +46,7 @@ public static class PublicApiEndpoints
 
         var verenigingen = new List<JObject>();
         var reader = new StringReader(responseContent);
+
         while (reader.Peek() != -1)
         {
             var line = reader.ReadLine();
@@ -44,19 +56,11 @@ public static class PublicApiEndpoints
         return verenigingen.ToArray();
     }
 
-    private static HttpResponseMessage GetS3Response(Uri? locationHeader)
-    {
-        using var handler = new HttpClientHandler();
-        handler.ServerCertificateCustomValidationCallback = (_, _, _, _) => true;
-
-        using var s3HttpClient = new HttpClient(handler);
-        return s3HttpClient.GetAsync(locationHeader).GetAwaiter().GetResult();
-    }
-
     private static Uri? GetDetailAllLocationHeader(IAlbaHost source)
     {
         var client = source.Server.CreateClient();
         var response = client.GetAsync($"/v1/verenigingen/detail/all").GetAwaiter().GetResult();
+
         return response.Headers.Location;
     }
 }
