@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E;
 
 using Acties.GrarConsumer;
+using Amazon.SQS.Model;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
@@ -33,28 +34,26 @@ public class When_Sending_A_Fixtured_Message_On_The_Grar_Sync_Queue
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
+        var maxRetries = 5;
         var tries = 0;
-        var passed = false;
+        List<Message> messages = null;
 
-        while (!passed && tries < 5)
+        while (tries < maxRetries)
         {
-            try
-            {
-                var receiveMessageResponse = await _setup.AmazonSqs.ReceiveMessageAsync(dlqUrl.QueueUrl);
+            tries++;
 
-                receiveMessageResponse.Messages.Should().NotBeEmpty();
-                passed = true;
-                ++tries;
-            }
-            catch (Exception e)
+            var receiveMessageResponse = await _setup.AmazonSqs.ReceiveMessageAsync(dlqUrl.QueueUrl);
+            messages = receiveMessageResponse.Messages;
+
+            if (messages.Any())
             {
-                _testOutputHelper.WriteLine(e.Message);
-                if (tries == 4)
-                {
-                    throw;
-                }
-                await Task.Delay(500);
+                break;
             }
+
+            _testOutputHelper.WriteLine($"Attempt {tries}");
+            await Task.Delay(500);
         }
+
+        messages.Should().NotBeEmpty();
     }
 }

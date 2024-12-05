@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E;
 
 using Acties.GrarConsumer;
+using Amazon.SQS.Model;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
@@ -28,35 +29,32 @@ public class When_Sending_A_Fixtured_Message_On_The_Adres_Match_Queue
     [Fact]
     public async Task Then_The_Dlq_Recieves_The_Message()
     {
-        var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.AddressMatchQueueName);
+        var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.AddressMatchDeadLetterQueueName);
 
         await _setup.AmazonSqs.PurgeQueueAsync(dlqUrl.QueueUrl);
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
 
+        var maxRetries = 5;
         var tries = 0;
-        var passed = false;
+        List<Message> messages = null;
 
-        while (!passed && tries < 5)
+        while (tries < maxRetries)
         {
-            try
-            {
-                var receiveMessageResponse = await _setup.AmazonSqs.ReceiveMessageAsync(dlqUrl.QueueUrl);
+            tries++;
 
-                receiveMessageResponse.Messages.Should().NotBeEmpty();
-                passed = true;
-                ++tries;
-            }
-            catch (Exception e)
-            {
-                _testOutputHelper.WriteLine(e.Message);
+            var receiveMessageResponse = await _setup.AmazonSqs.ReceiveMessageAsync(dlqUrl.QueueUrl);
+            messages = receiveMessageResponse.Messages;
 
-                if (tries == 4)
-                {
-                    throw;
-                }
-                await Task.Delay(500);
+            if (messages.Any())
+            {
+                break;
             }
+
+            _testOutputHelper.WriteLine($"Attempt {tries}");
+            await Task.Delay(500);
         }
+
+        messages.Should().NotBeEmpty();
     }
 }
