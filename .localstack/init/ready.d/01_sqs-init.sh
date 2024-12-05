@@ -8,9 +8,8 @@ QUEUE_PART=""
 
 with_dlq()
 {
-  QUEUE_PART=$@
   QUEUE_NAME="verenigingsregister-$@"
-  DLQ_NAME=$QUEUE_NAME"-dlq"
+  DLQ_NAME="$QUEUE_NAME-dlq"
   DLQ_ARN="arn:aws:sqs:$REGION:$ACCOUNT_ID:$DLQ_NAME"
 
   awslocal sqs create-queue --region $REGION --queue-name $QUEUE_NAME
@@ -18,7 +17,7 @@ with_dlq()
   awslocal sqs set-queue-attributes \
     --queue-url http://sqs.$REGION.localhost.localstack.cloud:4566/000000000000/$QUEUE_NAME \
     --attributes "{
-      \"RedrivePolicy\": \"{ \\\"maxReceiveCount\\\": \\\"3\\\", \\\"deadLetterTargetArn\\\": \\\"arn:aws:sqs:$REGION:000000000000:$DLQ_NAME\\\" }\"
+      \"RedrivePolicy\": \"{ \\\"maxReceiveCount\\\": \\\"3\\\", \\\"deadLetterTargetArn\\\": \\\"$DLQ_ARN\\\" }\"
     }"
 }
 
