@@ -4,31 +4,22 @@ using AutoFixture;
 using Events;
 using Framework.Fixtures;
 
-public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 {
     public string VCodeDochter { get; private set; }
     public string VCodeMoeder { get; private set; }
-    public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; private set; }
-    public LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd { get; private set; }
-    public FeitelijkeVerenigingWerdGeregistreerd[] VerenigingenwerdenGeregistreerd { get; }
+    public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; }
+    public LidmaatschapWerdVerwijderd LidmaatschapWerdVerwijderd { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd VerenigingenwerdenGeregistreerdDochter { get; }
+    public FeitelijkeVerenigingWerdGeregistreerd VerenigingenwerdenGeregistreerdMoeder { get; }
 
-    public LidmaatschapWerdVerwijderdScenario(ProjectionContext context) : base(context)
+    public LidmaatschapWerdVerwijderdScenario()
     {
-        VerenigingenwerdenGeregistreerd = AutoFixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>()
-                                                     .ToArray();
-    }
+        VerenigingenwerdenGeregistreerdDochter = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        VerenigingenwerdenGeregistreerdMoeder = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
-    public override async Task Given()
-    {
-        await using var session = await Context.GetDocumentSession();
-
-        foreach (var feitelijkeVerenigingWerdGeregistreerd in VerenigingenwerdenGeregistreerd)
-        {
-            session.Events.Append(feitelijkeVerenigingWerdGeregistreerd.VCode, feitelijkeVerenigingWerdGeregistreerd);
-        }
-
-        VCodeDochter = VerenigingenwerdenGeregistreerd[0].VCode;
-        VCodeMoeder = VerenigingenwerdenGeregistreerd[1].VCode;
+        VCodeDochter = VerenigingenwerdenGeregistreerdDochter.VCode;
+        VCodeMoeder = VerenigingenwerdenGeregistreerdMoeder.VCode;
 
         LidmaatschapWerdToegevoegd = AutoFixture.Create<LidmaatschapWerdToegevoegd>() with
         {
@@ -42,11 +33,19 @@ public class LidmaatschapWerdVerwijderdScenario : ProjectionScenarioFixture<Proj
         LidmaatschapWerdVerwijderd = AutoFixture.Create<LidmaatschapWerdVerwijderd>() with
         {
             VCode = VCodeDochter,
-            Lidmaatschap = LidmaatschapWerdToegevoegd.Lidmaatschap,
+            Lidmaatschap = AutoFixture.Create<Registratiedata.Lidmaatschap>() with
+            {
+                LidmaatschapId = LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+                AndereVereniging = VCodeMoeder,
+            },
         };
-
-        session.Events.Append(VCodeDochter, LidmaatschapWerdToegevoegd, LidmaatschapWerdVerwijderd);
-
-        await session.SaveChangesAsync();
     }
+
+    public override string VCode => VerenigingenwerdenGeregistreerdDochter.VCode;
+
+    public override EventsPerVCode[] Events =>
+    [
+        new(VerenigingenwerdenGeregistreerdMoeder.VCode, VerenigingenwerdenGeregistreerdMoeder),
+        new(VCode, VerenigingenwerdenGeregistreerdDochter, LidmaatschapWerdToegevoegd, LidmaatschapWerdVerwijderd),
+    ];
 }

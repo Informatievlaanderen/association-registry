@@ -2,10 +2,11 @@
 
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
+using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdGeregistreerd(FeitelijkeVerenigingWerdGeregistreerdFixture fixture)
-    : IClassFixture<FeitelijkeVerenigingWerdGeregistreerdFixture>
+public class Given_FeitelijkeVerenigingWerdGeregistreerd(PowerBiScenarioFixture<FeitelijkeVerenigingWerdGeregistreerdScenario> fixture)
+    : PowerBiScenarioClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
 {
     [Fact]
     public void ARecordIsStored_With_VCodeAndNaam()

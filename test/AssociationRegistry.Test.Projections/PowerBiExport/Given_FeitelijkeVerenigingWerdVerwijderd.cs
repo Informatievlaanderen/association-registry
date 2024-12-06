@@ -1,48 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.ProjectionHost.Projections.PowerBiExport;
-using Admin.Schema.PowerBiExport;
-using Marten;
+using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_FeitelijkeVerenigingWerdVerwijderd : IClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>
+public class Given_FeitelijkeVerenigingWerdVerwijderd(PowerBiScenarioFixture<FeitelijkeVerenigingWerdVerwijderdScenario> fixture)
+    : PowerBiScenarioClassFixture<FeitelijkeVerenigingWerdVerwijderdScenario>
 {
-    private readonly ProjectionContext _context;
-    private readonly FeitelijkeVerenigingWerdVerwijderdScenario _scenario;
-
-    public Given_FeitelijkeVerenigingWerdVerwijderd(
-        ProjectionContext context,
-        FeitelijkeVerenigingWerdVerwijderdScenario scenario)
+    [Fact]
+    public void ARecordIsStored_For_Vereniging1_With_StatusVerwijderd()
     {
-        _context = context;
-        _scenario = scenario;
+        fixture.Result.Should().NotBeNull();
+        fixture.Result.Status.Should().Be(PowerBiExportProjection.StatusVerwijderd);
     }
 
     [Fact]
-    public async Task ARecordIsStored_For_Vereniging1_With_StatusVerwijderd()
+    public void ARecordIsStored_For_Vereniging2()
     {
-        await using var documentSession = _context.Session;
-
-        var vereniging1 =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .Where(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd1.VCode)
-                 .SingleOrDefaultAsync();
-
-        vereniging1.Should().NotBeNull();
-        vereniging1.Status.Should().Be(PowerBiExportProjection.StatusVerwijderd);
-    }
-
-    [Fact]
-    public async Task ARecordIsStored_For_Vereniging2()
-    {
-        await using var documentSession = _context.Session;
-
-        var vereniging2 =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .SingleOrDefaultAsync(w => w.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd2.VCode);
-
-        vereniging2.Should().NotBeNull();
+        fixture.Result.Should().NotBeNull();
     }
 }

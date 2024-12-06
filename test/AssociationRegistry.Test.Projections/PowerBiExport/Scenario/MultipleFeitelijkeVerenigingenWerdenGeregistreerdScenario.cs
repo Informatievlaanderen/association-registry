@@ -2,27 +2,21 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using AutoFixture;
 using Events;
-using Framework.Fixtures;
 
-public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : ProjectionScenarioFixture<ProjectionContext>
+public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : ScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd[] VerenigingenwerdenGeregistreerd { get; }
 
-    public MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario(ProjectionContext context) : base(context)
+    public MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario()
     {
         VerenigingenwerdenGeregistreerd = AutoFixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>()
                                                      .ToArray();
     }
 
-    public override async Task Given()
-    {
-        await using var session = await Context.GetDocumentSession();
+    public override string VCode => VerenigingenwerdenGeregistreerd[0].VCode;
 
-        foreach (var feitelijkeVerenigingWerdGeregistreerd in VerenigingenwerdenGeregistreerd)
-        {
-            session.Events.Append(feitelijkeVerenigingWerdGeregistreerd.VCode, feitelijkeVerenigingWerdGeregistreerd);
-        }
-
-        await session.SaveChangesAsync();
-    }
+    public override EventsPerVCode[] Events
+        => VerenigingenwerdenGeregistreerd
+          .Select(vereniging => new EventsPerVCode(vereniging.VCode, vereniging))
+          .ToArray();
 }

@@ -3,29 +3,19 @@
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
+using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd : IClassFixture<
-    MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario>
+public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(PowerBiScenarioFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario> fixture)
+    : PowerBiScenarioClassFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario>
 {
-    private readonly MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario _setup;
-    private readonly ProjectionContext _context;
-    private ComparisonConfig _compareVCodeOnly;
-
-    public Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(
-        ProjectionContext context,
-        MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario setup)
-    {
-        _context = context;
-        _setup = setup;
-    }
-
     [Fact]
     public async Task ARecordIsStoredForEachVCode()
     {
-        await using var documentSession = _context.Session;
+        await using var documentSession = fixture.Context.AdminStore.LightweightSession();
 
-        foreach (var feitelijkeVerenigingWerdGeregistreerd in _setup.VerenigingenwerdenGeregistreerd)
+        //TODO:
+        foreach (var feitelijkeVerenigingWerdGeregistreerd in fixture.Scenario.VerenigingenwerdenGeregistreerd)
         {
             var powerBiExportDocument =
                 await documentSession.Query<PowerBiExportDocument>()

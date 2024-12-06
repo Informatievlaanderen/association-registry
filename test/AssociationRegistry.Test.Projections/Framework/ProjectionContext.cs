@@ -1,115 +1,87 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
-using Alba;
-using AssociationRegistry.Framework;
+using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
+using Admin.ProjectionHost.Projections.Locaties;
+using Admin.ProjectionHost.Projections.Search;
 using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using Marten;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using NodaTime;
-using NodaTime.Text;
+using Microsoft.Extensions.Logging.Abstractions;
+using Nest;
 using Npgsql;
-using Oakton;
-using AdminProjectionHostProgram = Admin.ProjectionHost.Program;
-using PublicProjectionHostProgram = Public.ProjectionHost.Program;
+using Public.ProjectionHost.Projections.Search;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
     private IConfigurationRoot Configuration { get; }
+    public IDocumentStore AdminStore { get; set; }
+    public IDocumentStore PublicStore { get; set; }
+    public IElasticClient ElasticClient { get; set; }
 
     public ProjectionContext()
     {
-        OaktonEnvironment.AutoStartHost = true;
         Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
-
-        MetadataInitiator = "metadata.Initiator";
-        MetadataTijdstip = InstantPattern.General.Format(new Instant());
     }
-
-    public ProjectionHostContext Beheer { get; private set; }
-    public ProjectionHostContext Publiek { get; private set; }
-
-    public IDocumentSession Session
-    {
-        get
-        {
-            var session = Beheer.Host.Services.GetRequiredService<IDocumentSession>();
-            session.SetHeader(MetadataHeaderNames.Initiator, MetadataInitiator);
-            session.SetHeader(MetadataHeaderNames.Tijdstip, MetadataTijdstip);
-            session.CorrelationId = Guid.NewGuid().ToString();
-
-            return session;
-        }
-    }
-
-    public string MetadataInitiator { get; }
-    public string MetadataTijdstip { get; }
 
     public async Task InitializeAsync()
     {
         DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
-        var beheerProjectionHost = await AlbaHost.For<AdminProjectionHostProgram>(ConfigureAlbaHost("appsettings.v2.beheer.json"));
-        var publiekProjectionHost = await AlbaHost.For<PublicProjectionHostProgram>(ConfigureAlbaHost("appsettings.v2.publiek.json"));
+        var adminStore = DocumentStore.For(
+            opts =>
+            {
+                ConfigureMartenExtensions.ConfigureStoreOptions(opts,
+                                                                NullLogger<LocatieLookupProjection>.Instance,
+                                                                NullLogger<LocatieZonderAdresMatchProjection>.Instance,
+                                                                null,
+                                                                true,
+                                                                NullLogger<BeheerZoekenEventsConsumer>.Instance,
+                                                                new PostgreSqlOptionsSection()
+                                                                {
+                                                                    Host = "localhost",
+                                                                    Database = RootDatabase,
+                                                                    Password = "root",
+                                                                    Username = "root",
+                                                                    Schema = "admin",
+                                                                });
+            });
 
-        await InitializeHostAsync(beheerProjectionHost);
-        await InitializeHostAsync(publiekProjectionHost);
+        await adminStore.Advanced.Clean.DeleteAllEventDataAsync();
 
-        Beheer = new ProjectionHostContext(beheerProjectionHost);
-        Publiek = new ProjectionHostContext(publiekProjectionHost);
+        AdminStore = adminStore;
+
+        var publicStore = DocumentStore.For(
+            opts =>
+            {
+                Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
+                    opts,
+                    null,
+                    NullLogger<MartenEventsConsumer>.Instance,
+                    new PostgreSqlOptionsSection()
+                    {
+                        Host = "localhost",
+                        Database = RootDatabase,
+                        Password = "root",
+                        Username = "root",
+                        Schema = "admin",
+                    },
+                    true);
+            });
+
+        await publicStore.Advanced.Clean.DeleteAllEventDataAsync();
+
+        AdminStore = publicStore;
     }
 
-    private Action<IWebHostBuilder> ConfigureAlbaHost(string configuration)
-        => b =>
-        {
-            b.UseEnvironment("Development");
-            b.UseContentRoot(Directory.GetCurrentDirectory());
-            b.UseConfiguration(new ConfigurationBuilder().AddJsonFile(configuration).Build());
-        };
-
-    private async Task InitializeHostAsync(IAlbaHost host)
-    {
-        await host.DocumentStore().Advanced.ResetAllData();
-        await host.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await host.ResumeAllDaemonsAsync();
-    }
-
-    public async Task SaveAsync(EventsPerVCode[] events)
+    public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)
     {
         foreach (var eventsPerVCode in events)
         {
-            Session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
-            await Session.SaveChangesAsync();
-        }
-
-        await RefreshDataAsync();
-    }
-
-    public async Task RefreshDataAsync()
-        => Task.WaitAll(Beheer.RefreshDataAsync(), Publiek.RefreshDataAsync());
-
-    public async Task<IDocumentSession> GetDocumentSession()
-    {
-        IDocumentSession? session = null;
-
-        try
-        {
-            session = Beheer.Host.DocumentStore().LightweightSession();
-
-            session.SetHeader(MetadataHeaderNames.Initiator, MetadataInitiator);
-            session.SetHeader(MetadataHeaderNames.Tijdstip, MetadataTijdstip);
-            session.CorrelationId = Guid.NewGuid().ToString();
-
-            return session;
-        }
-        catch
-        {
-            await session.DisposeAsync();
-
-            throw;
+            session.Events.Append(eventsPerVCode.VCode, eventsPerVCode.Events);
+            await session.SaveChangesAsync();
         }
     }
 

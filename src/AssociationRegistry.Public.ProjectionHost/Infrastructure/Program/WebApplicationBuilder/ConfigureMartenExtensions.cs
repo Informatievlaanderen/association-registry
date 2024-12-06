@@ -20,23 +20,37 @@ using PostgreSqlOptionsSection = Hosts.Configuration.ConfigurationBindings.Postg
 public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(
-        this IServiceCollection source,
+        this IServiceCollection services,
         ConfigurationManager configurationManager)
     {
-        source
+        services
            .AddTransient<IElasticRepository, ElasticRepository>();
 
-        var martenConfiguration = AddMarten(source, configurationManager);
+        var martenConfiguration = services.AddMarten(serviceProvider =>
+        {
+            var opts = new StoreOptions();
+
+            return ConfigureStoreOptions(opts,
+                                         serviceProvider.GetRequiredService<IElasticRepository>(),
+                                         serviceProvider.GetRequiredService<ILogger<MartenEventsConsumer>>(),
+                                         configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
+                                                             .Get<PostgreSqlOptionsSection>(),
+                                         serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
+        });
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
-        return source;
+        return services;
     }
 
-    private static MartenServiceCollectionExtensions.MartenConfigurationExpression AddMarten(
-        IServiceCollection services,
-        ConfigurationManager configurationManager)
+    public static StoreOptions ConfigureStoreOptions(
+        StoreOptions opts,
+        IElasticRepository elasticRepository,
+        ILogger<MartenEventsConsumer> martenEventsConsumerLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection,
+        bool isDevelopment
+    )
     {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection? postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
@@ -59,66 +73,54 @@ public static class ConfigureMartenExtensions
             return jsonNetSerializer;
         }
 
-        var martenConfigurationExpression = services.AddMarten(
-            serviceProvider =>
-            {
-                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
-                                                            .Get<PostgreSqlOptionsSection>();
+        var postgreSqlOptions = postgreSqlOptionsSection;
 
-                var connectionString = GetPostgresConnectionString(postgreSqlOptions);
+        var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
-                var opts = new StoreOptions();
+        opts.Connection(connectionString);
 
-                opts.Connection(connectionString);
+        if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+        {
+            opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+            opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+        }
 
-                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
-                {
-                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
-                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
-                }
+        opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                opts.Events.StreamIdentity = StreamIdentity.AsString;
+        opts.Projections.DaemonLockId = 3;
 
-                opts.Projections.DaemonLockId = 3;
+        opts.Events.MetadataConfig.EnableAll();
 
-                opts.Events.MetadataConfig.EnableAll();
+        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
-                opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+        opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
 
-                opts.Projections.Add(new PubliekVerenigingDetailProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new PubliekVerenigingSequenceProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(
+            new MartenSubscription(
+                new MartenEventsConsumer(
+                    new PubliekZoekProjectionHandler(elasticRepository),
+                    martenEventsConsumerLogger
+                )
+            ),
+            ProjectionLifecycle.Async,
+            ProjectionNames.PubliekZoek);
 
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new MartenEventsConsumer(
-                            new PubliekZoekProjectionHandler(serviceProvider.GetRequiredService<IElasticRepository>()),
-                            serviceProvider.GetRequiredService<ILogger<MartenEventsConsumer>>()
-                        )
-                    ),
-                    ProjectionLifecycle.Async,
-                    ProjectionNames.PubliekZoek);
+        opts.Serializer(CreateCustomMartenSerializer());
 
-                opts.Serializer(CreateCustomMartenSerializer());
+        opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
+        opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
 
-                opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
-                opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
+        if (isDevelopment)
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+        }
+        else
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Static;
+            opts.SourceCodeWritingEnabled = false;
+        }
 
-                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                }
-                else
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Static;
-                    opts.SourceCodeWritingEnabled = false;
-                }
-
-                return opts;
-            });
-
-        if (configurationManager["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
-            martenConfigurationExpression.ApplyAllDatabaseChangesOnStartup();
-
-        return martenConfigurationExpression;
+        return opts;
     }
 }
