@@ -143,10 +143,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "boot", "boot", "{74A2617E-B
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ready", "ready", "{24B63C4D-D0B0-41BF-9CC8-8C3C7E6D5778}"
 	ProjectSection(SolutionItems) = preProject
-		.localstack\init\ready.d\01_sqs-init.redrive.json = .localstack\init\ready.d\01_sqs-init.redrive.json
 		.localstack\init\ready.d\01_sqs-init.sh = .localstack\init\ready.d\01_sqs-init.sh
-		.localstack\init\ready.d\02_sqs-init.redrive.json = .localstack\init\ready.d\02_sqs-init.redrive.json
-		.localstack\init\ready.d\02_sqs-init.sh = .localstack\init\ready.d\02_sqs-init.sh
+		.localstack\init\ready.d\02_s3-init.sh = .localstack\init\ready.d\02_s3-init.sh
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AdresMatch", "AdresMatch", "{CB723987-9ECB-446A-832A-18CA30D7B8FE}"

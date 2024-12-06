@@ -3,6 +3,7 @@
 using Admin.Api;
 using Alba;
 using AlbaHost;
+using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.RuntimeCompiler.Scenarios;
@@ -37,6 +38,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public async Task InitializeAsync()
     {
+        SetUpAdminApiConfiguration();
+
         OaktonEnvironment.AutoStartHost = true;
 
         AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting("adminapi")))
@@ -55,22 +58,29 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
             ConfigureForTesting("publicapi"));
 
         AcmApiHost = (await AlbaHost.For<Acm.Api.Program>(
-            ConfigureForTesting("acmapi")))
-               .EnsureEachCallIsAuthenticatedForAcmApi();
+                ConfigureForTesting("acmapi")))
+           .EnsureEachCallIsAuthenticatedForAcmApi();
+
+        SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
+        AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
 
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await AdminProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
-        await PublicProjectionHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-        await PublicApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
-        await AcmApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
-
-        await PublicProjectionHost.ResumeAllDaemonsAsync();
-        await AdminProjectionHost.ResumeAllDaemonsAsync();
-        await AcmApiHost.ResumeAllDaemonsAsync();
     }
+
+    private void SetUpAdminApiConfiguration()
+    {
+        var configuration = new ConfigurationBuilder()
+                           .AddJsonFile("appsettings.development.json", false)
+                           .AddJsonFile("appsettings.e2e.json", false)
+                           .AddJsonFile($"appsettings.e2e.adminapi.json", false)
+                           .Build();
+
+        AdminApiConfiguration = configuration;
+    }
+
+    public IAmazonSQS AmazonSqs { get; set; }
+    public ISqsClientWrapper SqsClientWrapper { get; set; }
 
     private Action<IWebHostBuilder> ConfigureForTesting(string name)
     {
@@ -95,6 +105,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
              .UseSetting(key: "ApplyAllDatabaseChangesDisabled", value: "true");
         };
     }
+
+    public IConfigurationRoot AdminApiConfiguration { get; set; }
 
     public async Task DisposeAsync()
     {

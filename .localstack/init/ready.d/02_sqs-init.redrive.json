@@ -1,3 +1,0 @@
-{
-  "RedrivePolicy": "{\"maxReceiveCount\": \"3\", \"deadLetterTargetArn\": \"arn:aws:sqs:eu-west-1:000000000000:verenigingsregister-grarsync-dlq\"}"
-}

@@ -350,7 +350,10 @@ public class Program
         var appSettings = builder.Configuration.Get<AppSettings>();
 
         var sqsClient = grarOptions.Sqs.UseLocalStack
-            ? new AmazonSQSClient(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"), RegionEndpoint.EUWest1)
+            ? new AmazonSQSClient(new BasicAWSCredentials("dummy", "dummy"), new AmazonSQSConfig()
+            {
+                ServiceURL = "http://localhost:4566",
+            })
             : new AmazonSQSClient(RegionEndpoint.EUWest1);
 
         builder.Services
