@@ -1,3 +1,10 @@
+## [8.182.3](https://github.com/informatievlaanderen/association-registry/compare/v8.182.2...v8.182.3) (2024-12-06)
+
+
+### Bug Fixes
+
+* or-2595 failed messages exceptions are sent to dlq ([bf44b16](https://github.com/informatievlaanderen/association-registry/commit/bf44b166d5537910f90328328077fe170f8cd6c7))
+
 ## [8.182.2](https://github.com/informatievlaanderen/association-registry/compare/v8.182.1...v8.182.2) (2024-12-04)
 
 
