@@ -22,7 +22,7 @@ public class Given_WerkingsgebiedenWerdenNietBepaald(BeheerHistoriekScenarioFixt
                            Beschrijving: "Werkingsgebieden werden niet bepaald.",
                            nameof(WerkingsgebiedenWerdenNietBepaald),
                            fixture.Scenario.WerkingsgebiedenWerdenNietBepaald,
-                           fixture.Context.MetadataInitiator,
-                           fixture.Context.MetadataTijdstip)
+                           fixture.MetadataInitiator,
+                           fixture.MetadataTijdstip)
                    );
 }

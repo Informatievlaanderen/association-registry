@@ -49,6 +49,27 @@ public static class ConfigureMartenExtensions
         IServiceCollection services,
         ConfigurationManager configurationManager)
     {
+        var martenConfigurationExpression = services.AddMarten(
+            serviceProvider =>
+            {
+                var opts = new StoreOptions();
+
+                return ConfigureStoreOptions(opts, serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>(), serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>(), serviceProvider.GetRequiredService<IElasticRepository>(), serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment(), serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>(), configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
+                                            .Get<PostgreSqlOptionsSection>());
+            });
+
+        return martenConfigurationExpression;
+    }
+
+    public static StoreOptions ConfigureStoreOptions(
+        StoreOptions opts,
+        ILogger<LocatieLookupProjection> locatieLookupLogger,
+        ILogger<LocatieZonderAdresMatchProjection> locatieZonderAdresMatchProjectionLogger,
+        IElasticRepository elasticRepository,
+        bool isDevelopment,
+        ILogger<BeheerZoekenEventsConsumer> beheerZoekenEventsConsumerLogger,
+        PostgreSqlOptionsSection? postgreSqlOptionsSection)
+    {
         static string GetPostgresConnectionString(PostgreSqlOptionsSection postgreSqlOptions)
             => $"host={postgreSqlOptions.Host};" +
                $"database={postgreSqlOptions.Database};" +
@@ -70,97 +91,89 @@ public static class ConfigureMartenExtensions
             return jsonNetSerializer;
         }
 
-        var martenConfigurationExpression = services.AddMarten(
-            serviceProvider =>
-            {
-                var postgreSqlOptions = configurationManager.GetSection(PostgreSqlOptionsSection.SectionName)
-                                                            .Get<PostgreSqlOptionsSection>() ??
-                                        throw new ConfigurationErrorsException("Missing a valid postgres configuration");
+        var postgreSqlOptions = postgreSqlOptionsSection ??
+                                throw new ConfigurationErrorsException("Missing a valid postgres configuration");
 
-                var connectionString = GetPostgresConnectionString(postgreSqlOptions);
+        var connectionString = GetPostgresConnectionString(postgreSqlOptions);
 
-                var opts = new StoreOptions();
 
-                if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
-                {
-                    opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
-                    opts.DatabaseSchemaName = postgreSqlOptions.Schema;
-                }
+        if (!string.IsNullOrEmpty(postgreSqlOptions.Schema))
+        {
+            opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+            opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+        }
 
-                opts.Connection(connectionString);
+        opts.Connection(connectionString);
 
                 opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
                 opts.OpenTelemetry.TrackEventCounters();
 
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
-                opts.Events.MetadataConfig.EnableAll();
+        opts.Events.MetadataConfig.EnableAll();
 
-                opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
+        opts.Projections.StaleSequenceThreshold = TimeSpan.FromSeconds(30);
 
-                opts.Projections.DaemonLockId = 1;
+        opts.Projections.DaemonLockId = 1;
 
-                opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
-                opts.Projections.Add( new LocatieLookupProjection(serviceProvider.GetRequiredService<ILogger<LocatieLookupProjection>>()), ProjectionLifecycle.Async);
-                opts.Projections.Add( new LocatieZonderAdresMatchProjection(serviceProvider.GetRequiredService<ILogger<LocatieZonderAdresMatchProjection>>()), ProjectionLifecycle.Async);
+        opts.Projections.Add(new BeheerVerenigingHistoriekProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new BeheerVerenigingDetailProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new PowerBiExportProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add(new BeheerKboSyncHistoriekProjection(), ProjectionLifecycle.Async);
+        opts.Projections.Add( new LocatieLookupProjection(locatieLookupLogger), ProjectionLifecycle.Async);
+        opts.Projections.Add( new LocatieZonderAdresMatchProjection(locatieZonderAdresMatchProjectionLogger), ProjectionLifecycle.Async);
 
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new BeheerZoekenEventsConsumer(
-                            new BeheerZoekProjectionHandler(
-                                serviceProvider.GetRequiredService<IElasticRepository>()
-                            ),
-                            serviceProvider.GetRequiredService<ILogger<BeheerZoekenEventsConsumer>>())
+        opts.Projections.Add(
+            new MartenSubscription(
+                new BeheerZoekenEventsConsumer(
+                    new BeheerZoekProjectionHandler(
+                        elasticRepository
                     ),
-                    ProjectionLifecycle.Async,
-                    ProjectionNames.BeheerZoek);
+                    beheerZoekenEventsConsumerLogger)
+            ),
+            ProjectionLifecycle.Async,
+            ProjectionNames.BeheerZoek);
 
-                opts.Projections.Add(
-                    new MartenSubscription(
-                        new DuplicateDetectionEventsConsumer(
-                            new DuplicateDetectionProjectionHandler(
-                                serviceProvider.GetRequiredService<IElasticRepository>())
-                        )
-                    ),
-                    ProjectionLifecycle.Async,
-                    ProjectionNames.DuplicateDetection);
+        opts.Projections.Add(
+            new MartenSubscription(
+                new DuplicateDetectionEventsConsumer(
+                    new DuplicateDetectionProjectionHandler(
+                        elasticRepository)
+                )
+            ),
+            ProjectionLifecycle.Async,
+            ProjectionNames.DuplicateDetection);
 
-                opts.Serializer(CreateCustomMartenSerializer());
+        opts.Serializer(CreateCustomMartenSerializer());
 
-                opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
-                opts.RegisterDocumentType<PowerBiExportDocument>();
-                opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
-                opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
-                opts.RegisterDocumentType<LocatieLookupDocument>();
-                opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
+        opts.RegisterDocumentType<BeheerVerenigingDetailDocument>();
+        opts.RegisterDocumentType<PowerBiExportDocument>();
+        opts.RegisterDocumentType<BeheerVerenigingHistoriekDocument>();
+        opts.RegisterDocumentType<BeheerKboSyncHistoriekGebeurtenisDocument>();
+        opts.RegisterDocumentType<LocatieLookupDocument>();
+        opts.RegisterDocumentType<LocatieZonderAdresMatchDocument>();
 
-                opts.Schema.For<LocatieLookupDocument>()
-                    .UseNumericRevisions(true)
-                    .UseOptimisticConcurrency(false);
-                opts.Schema.For<LocatieZonderAdresMatchDocument>()
-                    .UseNumericRevisions(true)
-                    .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieLookupDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+        opts.Schema.For<LocatieZonderAdresMatchDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
 
-                opts.Schema.For<PowerBiExportDocument>()
-                    .UseNumericRevisions(true)
-                    .UseOptimisticConcurrency(false);
+        opts.Schema.For<PowerBiExportDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
 
-                if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                }
-                else
-                {
-                    opts.GeneratedCodeMode = TypeLoadMode.Static;
-                    opts.SourceCodeWritingEnabled = false;
-                }
+        if (isDevelopment)
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+        }
+        else
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Static;
+            opts.SourceCodeWritingEnabled = false;
+        }
 
-                return opts;
-            });
-
-        return martenConfigurationExpression;
+        return opts;
     }
 }

@@ -23,7 +23,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
                            Beschrijving: "Werkingsgebieden werden niet van toepassing.",
                            nameof(WerkingsgebiedenWerdenNietVanToepassing),
                            fixture.Scenario.WerkingsgebiedenWerdenNietVanToepassing,
-                           fixture.Context.MetadataInitiator,
-                           fixture.Context.MetadataTijdstip)
+                           fixture.MetadataInitiator,
+                           fixture.MetadataTijdstip)
                    );
 }

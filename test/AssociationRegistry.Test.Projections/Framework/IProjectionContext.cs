@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
+using Marten;
+
 public interface IProjectionContext
 {
-    Task SaveAsync(EventsPerVCode[] events);
-    Task RefreshDataAsync();
+    IDocumentStore AdminStore { get; }
+    Task SaveAsync(EventsPerVCode[] events, IDocumentSession session);
 }

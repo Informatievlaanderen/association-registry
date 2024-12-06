@@ -22,7 +22,7 @@ public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerHistoriekScenarioFixtur
                            Beschrijving: "Werkingsgebieden werden gewijzigd.",
                            nameof(WerkingsgebiedenWerdenGewijzigd),
                            fixture.Scenario.WerkingsgebiedenWerdenGewijzigd,
-                           fixture.Context.MetadataInitiator,
-                           fixture.Context.MetadataTijdstip)
+                           fixture.MetadataInitiator,
+                           fixture.MetadataTijdstip)
                    );
 }

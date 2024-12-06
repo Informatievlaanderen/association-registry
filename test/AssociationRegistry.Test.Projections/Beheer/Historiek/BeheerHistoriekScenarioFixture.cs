@@ -1,17 +1,25 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Historiek;
 
+using Admin.ProjectionHost.Projections.Historiek;
 using Admin.Schema.Historiek;
 using Framework.Fixtures;
 using Marten;
+using Marten.Events.Daemon;
 
 public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingHistoriekDocument, ProjectionContext>(context)
     where TScenario : IScenario, new()
 {
-    protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(TScenario scenario)
-        => await Context.Session
-                        .Query<BeheerVerenigingHistoriekDocument>()
-                        .SingleAsync(x => x.VCode == scenario.VCode);
+    protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(
+        TScenario scenario,
+        IDocumentSession session,
+        IProjectionDaemon daemon)
+    {
+        await daemon.RebuildProjectionAsync<BeheerVerenigingHistoriekProjection>(CancellationToken.None);
+        return await session
+                            .Query<BeheerVerenigingHistoriekDocument>()
+                            .SingleAsync(x => x.VCode == scenario.VCode);
+    }
 }
 
 public class BeheerHistoriekScenarioClassFixture<TScenario>

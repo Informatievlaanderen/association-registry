@@ -20,6 +20,6 @@ public class Given_WerkingsgebiedenWerdenBepaald(BeheerHistoriekScenarioFixture<
                                                Beschrijving: "Werkingsgebieden werden bepaald.",
                                                nameof(WerkingsgebiedenWerdenBepaald),
                                                fixture.Scenario.WerkingsgebiedenWerdenBepaald,
-                                               fixture.Context.MetadataInitiator,
-                                               fixture.Context.MetadataTijdstip));
+                                               fixture.MetadataInitiator,
+                                               fixture.MetadataTijdstip));
 }
