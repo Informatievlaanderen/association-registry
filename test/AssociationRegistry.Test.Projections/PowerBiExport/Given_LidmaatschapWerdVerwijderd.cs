@@ -3,49 +3,26 @@
 using Admin.Schema.PowerBiExport;
 using Events;
 using Marten;
+using Publiek.Detail;
+using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_LidmaatschapWerdVerwijderd : IClassFixture<LidmaatschapWerdVerwijderdScenario>
+public class Given_LidmaatschapWerdVerwijderd(PowerBiScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
+    : PowerBiScenarioClassFixture<LidmaatschapWerdVerwijderdScenario>
 {
-    private readonly ProjectionContext _context;
-    private readonly LidmaatschapWerdVerwijderdScenario _scenario;
-
-    public Given_LidmaatschapWerdVerwijderd(
-        ProjectionContext context,
-        LidmaatschapWerdVerwijderdScenario scenario)
+    [Fact]
+    public void ARecordIsStored_With_Lidmaatschap()
     {
-        _context = context;
-        _scenario = scenario;
+        fixture.Result.Lidmaatschappen.Should().BeEmpty();
     }
 
     [Fact]
-    public async Task ARecordIsStored_With_Lidmaatschap()
+    public void ARecordIsStored_With_Historiek()
     {
-        await using var documentSession = _context.Session;
+        fixture.Result.VCode.Should().Be(fixture.Scenario.LidmaatschapWerdVerwijderd.VCode);
+        fixture.Result.Historiek.Should().NotBeEmpty();
 
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .Where(w => w.VCode == _scenario.VCodeDochter)
-                 .SingleAsync();
-
-        powerBiExportDocument.Lidmaatschappen.Should().BeEmpty();
-    }
-
-    [Fact]
-    public async Task ARecordIsStored_With_Historiek()
-    {
-        await using var documentSession = _context.Session;
-
-        var powerBiExportDocument =
-            await documentSession
-                 .Query<PowerBiExportDocument>()
-                 .SingleAsync(w => w.VCode == _scenario.LidmaatschapWerdVerwijderd.VCode);
-
-        powerBiExportDocument.VCode.Should().Be(_scenario.LidmaatschapWerdVerwijderd.VCode);
-        powerBiExportDocument.Historiek.Should().NotBeEmpty();
-
-        powerBiExportDocument.Historiek.Should()
+        fixture.Result.Historiek.Should()
                              .ContainSingle(x => x.EventType == nameof(LidmaatschapWerdVerwijderd));
     }
 }

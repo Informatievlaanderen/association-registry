@@ -23,7 +23,7 @@ public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ProjectionSc
 
     public override async Task Given()
     {
-        await using var session = await Context.GetDocumentSession();
+        await using var session = Context.AdminStore.LightweightSession();
 
         session.Events.Append(FeitelijkeVerenigingWerdGeregistreerd.VCode,
                               FeitelijkeVerenigingWerdGeregistreerd);
