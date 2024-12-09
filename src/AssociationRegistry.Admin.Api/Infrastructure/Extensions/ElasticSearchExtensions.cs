@@ -32,7 +32,7 @@ public static class ElasticSearchExtensions
     private static GetMappingResponse GetMappingFor<T>(this IServiceProvider serviceProvider) where T : class
         => serviceProvider.GetRequiredService<ElasticClient>().Indices.GetMapping<T>();
 
-    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
