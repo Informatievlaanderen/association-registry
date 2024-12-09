@@ -10,18 +10,17 @@ public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context
     : ScenarioFixture<TScenario, BeheerVerenigingHistoriekDocument, ProjectionContext>(context)
     where TScenario : IScenario, new()
 {
-    protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(
-        TScenario scenario)
-    {
-        var store = Context.AdminStore;
-        await using var session = store.LightweightSession();
-        using var daemon = await store.BuildProjectionDaemonAsync();
+    protected override IDocumentStore DocumentStore => Context.AdminStore;
 
-        await daemon.RebuildProjectionAsync<BeheerVerenigingHistoriekProjection>(CancellationToken.None);
-        return await session
-                            .Query<BeheerVerenigingHistoriekDocument>()
-                            .SingleAsync(x => x.VCode == scenario.VCode);
-    }
+    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
+        => await daemon.RebuildProjectionAsync<BeheerVerenigingHistoriekProjection>(CancellationToken.None);
+
+    protected override async Task<BeheerVerenigingHistoriekDocument> GetResultAsync(
+        IDocumentSession session,
+        TScenario scenario)
+        => await session
+                .Query<BeheerVerenigingHistoriekDocument>()
+                .SingleAsync(x => x.VCode == scenario.VCode);
 }
 
 public class BeheerHistoriekScenarioClassFixture<TScenario>
