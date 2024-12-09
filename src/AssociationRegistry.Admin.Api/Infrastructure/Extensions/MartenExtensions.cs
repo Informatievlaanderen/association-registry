@@ -41,6 +41,9 @@ public static class MartenExtensions
                                               opts.DatabaseSchemaName = postgreSqlOptions.Schema;
                                           }
 
+                                          opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
+                                          opts.OpenTelemetry.TrackEventCounters();
+
                                           opts.Connection(postgreSqlOptions.GetConnectionString());
                                           opts.Storage.Add(new VCodeSequence(opts, VCode.StartingVCode));
                                           opts.Serializer(CreateCustomMartenSerializer());
