@@ -1,3 +1,10 @@
+# [8.183.0](https://github.com/informatievlaanderen/association-registry/compare/v8.182.3...v8.183.0) (2024-12-09)
+
+
+### Features
+
+* or-2605 add marten/wolverine metrics ([1ba85f6](https://github.com/informatievlaanderen/association-registry/commit/1ba85f6367b33754891b9a73813dddb5173e098e))
+
 ## [8.182.3](https://github.com/informatievlaanderen/association-registry/compare/v8.182.2...v8.182.3) (2024-12-06)
 
 
