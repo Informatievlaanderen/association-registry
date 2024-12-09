@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
+using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.ProjectionHost.Projections.Search;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using Npgsql;
 using Public.ProjectionHost.Projections.Search;
+using ElasticRepository = Admin.ProjectionHost.Projections.Search.ElasticRepository;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime
 {
@@ -30,13 +32,15 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
+        ElasticClient = ElasticSearchExtensions.CreateElasticClient(Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+
         var adminStore = DocumentStore.For(
             opts =>
             {
                 ConfigureMartenExtensions.ConfigureStoreOptions(opts,
                                                                 NullLogger<LocatieLookupProjection>.Instance,
                                                                 NullLogger<LocatieZonderAdresMatchProjection>.Instance,
-                                                                null,
+                                                                new ElasticRepository(ElasticClient),
                                                                 true,
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
                                                                 new PostgreSqlOptionsSection()
