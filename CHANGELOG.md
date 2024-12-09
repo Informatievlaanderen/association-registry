@@ -1,3 +1,15 @@
+## [8.183.1](https://github.com/informatievlaanderen/association-registry/compare/v8.183.0...v8.183.1) (2024-12-09)
+
+
+### Bug Fixes
+
+* or-2582 add delay when getting results inside projection tests ([f1b625d](https://github.com/informatievlaanderen/association-registry/commit/f1b625d012c6c675ba0e4d3f441ba5bc3dff9b29))
+* or-2582 incorrect document session retrieval caused out-of-sync ([60fc370](https://github.com/informatievlaanderen/association-registry/commit/60fc370e43307f8d8d3b4e8aeb51dd4019e98539))
+* or-2582 incorrect read location for historiek ([20bb261](https://github.com/informatievlaanderen/association-registry/commit/20bb2617a3f841a29006fa045084d714108d89a3))
+* or-2582 temporary fix for the marten time gapping with projections ([a4721f8](https://github.com/informatievlaanderen/association-registry/commit/a4721f84c7614c62e861813f68184efd477c274a))
+* or-2582 use seperate appsettings for beheer and publiek hosts ([909950c](https://github.com/informatievlaanderen/association-registry/commit/909950c1ca466604d052ffdd0f7a2a25fffd4351))
+* or-2582 use seperate appsettings for beheer and publiek hosts ([ce394b4](https://github.com/informatievlaanderen/association-registry/commit/ce394b40084c479255686cab1654f67de177325e))
+
 # [8.183.0](https://github.com/informatievlaanderen/association-registry/compare/v8.182.3...v8.183.0) (2024-12-09)
 
 
