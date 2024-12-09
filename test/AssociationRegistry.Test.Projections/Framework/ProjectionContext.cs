@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework;
 
-using Admin.Api.Infrastructure.Extensions;
 using Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 using Admin.ProjectionHost.Projections.Locaties;
 using Admin.ProjectionHost.Projections.Search;
@@ -20,7 +19,8 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     private IConfigurationRoot Configuration { get; }
     public IDocumentStore AdminStore { get; set; }
     public IDocumentStore PublicStore { get; set; }
-    public IElasticClient ElasticClient { get; set; }
+    public IElasticClient AdminElasticClient { get; set; }
+    public IElasticClient PublicElasticClient { get; set; }
 
     public ProjectionContext()
     {
@@ -29,10 +29,12 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        DropDatabase(Configuration);
+        // DropDatabase(Configuration);
         EnsureDbExists(Configuration);
 
-        ElasticClient = ElasticSearchExtensions.CreateElasticClient(Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+        AdminElasticClient =
+            Admin.Api.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
+                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
 
         var adminStore = DocumentStore.For(
             opts =>
@@ -40,7 +42,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
                 ConfigureMartenExtensions.ConfigureStoreOptions(opts,
                                                                 NullLogger<LocatieLookupProjection>.Instance,
                                                                 NullLogger<LocatieZonderAdresMatchProjection>.Instance,
-                                                                new ElasticRepository(ElasticClient),
+                                                                new ElasticRepository(AdminElasticClient),
                                                                 true,
                                                                 NullLogger<BeheerZoekenEventsConsumer>.Instance,
                                                                 new PostgreSqlOptionsSection()
@@ -57,12 +59,16 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
         AdminStore = adminStore;
 
+        PublicElasticClient =
+            Public.Api.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
+                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
+
         var publicStore = DocumentStore.For(
             opts =>
             {
                 Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder.ConfigureMartenExtensions.ConfigureStoreOptions(
                     opts,
-                    null,
+                    new AssociationRegistry.Public.ProjectionHost.Projections.Search.ElasticRepository(PublicElasticClient),
                     NullLogger<MartenEventsConsumer>.Instance,
                     new PostgreSqlOptionsSection()
                     {

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
-using ConfigurationBindings;
 using Framework;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -10,8 +10,8 @@ public static class ConfigurationExtensions
     public static AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection GetPostgreSqlOptionsSection(this IConfiguration configuration)
     {
         var postgreSqlOptionsSection = configuration
-                                      .GetSection(PostgreSqlOptionsSection.Name)
-                                      .Get<AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection>();
+                                      .GetSection(PostgreSqlOptionsSection.SectionName)
+                                      .Get<PostgreSqlOptionsSection>();
 
         postgreSqlOptionsSection.ThrowIfInvalid();
 

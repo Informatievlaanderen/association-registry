@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using Admin.ProjectionHost.Projections.PowerBiExport;
+using Admin.ProjectionHost.Projections;
 using Admin.Schema.PowerBiExport;
 using Framework.Fixtures;
 using Marten;
@@ -10,18 +10,19 @@ public class PowerBiScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, PowerBiExportDocument, ProjectionContext>(context)
     where TScenario : IScenario, new()
 {
-    protected override async Task<PowerBiExportDocument> GetResultAsync(
-        TScenario scenario)
-    {
-        var store = Context.AdminStore;
-        await using var session = store.LightweightSession();
-        using var daemon = await store.BuildProjectionDaemonAsync();
+    protected override IDocumentStore DocumentStore => Context.AdminStore;
 
-        await daemon.RebuildProjectionAsync<PowerBiExportProjection>(CancellationToken.None);
-        return await session
-                    .Query<PowerBiExportDocument>()
-                    .SingleAsync(x => x.VCode == scenario.VCode);
+    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
+    {
+        await daemon.RebuildProjectionAsync(ProjectionNames.PowerBi, CancellationToken.None);
     }
+
+    protected override async Task<PowerBiExportDocument> GetResultAsync(
+        IDocumentSession session,
+        TScenario scenario)
+        => await session
+                .Query<PowerBiExportDocument>()
+                .SingleAsync(x => x.VCode == scenario.VCode);
 }
 
 public class PowerBiScenarioClassFixture<TScenario>

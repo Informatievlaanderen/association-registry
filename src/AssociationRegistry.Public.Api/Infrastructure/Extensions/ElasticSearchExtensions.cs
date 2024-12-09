@@ -1,13 +1,9 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
-using ConfigurationBindings;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Identity.Client;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Schema;
 using Schema.Search;
-using System;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
@@ -18,8 +14,13 @@ public static class ElasticSearchExtensions
         this IServiceCollection services,
         ElasticSearchOptionsSection elasticSearchOptions)
     {
-        services.AddSingleton<ElasticClient>(serviceProvider => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
-        services.AddSingleton<IElasticClient>(serviceProvider => CreateElasticClient(elasticSearchOptions, serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
+        services.AddSingleton<ElasticClient>(serviceProvider
+                                                 => CreateElasticClient(elasticSearchOptions,
+                                                                        serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
+
+        services.AddSingleton<IElasticClient>(serviceProvider
+                                                  => CreateElasticClient(elasticSearchOptions,
+                                                                         serviceProvider.GetRequiredService<ILogger<ElasticClient>>()));
 
         services.AddSingleton(serviceProvider =>
         {
@@ -32,28 +33,28 @@ public static class ElasticSearchExtensions
         return services;
     }
 
-    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
+    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
         var settings = new ConnectionSettings(
                            new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
                            elasticSearchOptions.Username,
                            elasticSearchOptions.Password)
-                     .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
-                      {
-                          logger.LogWarning("Policy errors: [{Cert}|{Chain}] {Error}", certificate.Subject, arg3, arg4.ToString());
-                          logger.LogWarning("Policy object: {@Error}", o);
+                      .ServerCertificateValidationCallback((o, certificate, arg3, arg4) =>
+                       {
+                           logger.LogWarning("Policy errors: [{Cert}|{Chain}] {Error}", certificate.Subject, arg3, arg4.ToString());
+                           logger.LogWarning("Policy object: {@Error}", o);
 
-                          if (arg4 != SslPolicyErrors.None)
-                          {
-                              logger.LogWarning(Convert.ToBase64String(certificate.Export(X509ContentType.Cert),
-                                                                       Base64FormattingOptions.InsertLineBreaks));
+                           if (arg4 != SslPolicyErrors.None)
+                           {
+                               logger.LogWarning(Convert.ToBase64String(certificate.Export(X509ContentType.Cert),
+                                                                        Base64FormattingOptions.InsertLineBreaks));
 
-                              LogCertificateDetails(certificate, arg3);
-                          }
+                               LogCertificateDetails(certificate, arg3);
+                           }
 
-                          return true;
-                      })
+                           return true;
+                       })
                       .IncludeServerStackTraceOnError()
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!);
 

@@ -10,19 +10,17 @@ public class BeheerDetailScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingDetailDocument, ProjectionContext>(context)
     where TScenario : IScenario, new()
 {
+    protected override IDocumentStore DocumentStore => Context.AdminStore;
+
+    protected override async Task RefreshProjectionsAsync(IProjectionDaemon daemon)
+        => await daemon.RebuildProjectionAsync<BeheerVerenigingDetailProjection>(CancellationToken.None);
+
     protected override async Task<BeheerVerenigingDetailDocument> GetResultAsync(
+        IDocumentSession session,
         TScenario scenario)
-    {
-        var store = Context.AdminStore;
-        await using var session = store.LightweightSession();
-        using var daemon = await store.BuildProjectionDaemonAsync();
-
-        await daemon.RebuildProjectionAsync<BeheerVerenigingDetailProjection>(CancellationToken.None);
-
-        return await session
-                    .Query<BeheerVerenigingDetailDocument>()
-                    .SingleAsync(x => x.VCode == scenario.VCode);
-    }
+        => await session
+                .Query<BeheerVerenigingDetailDocument>()
+                .SingleAsync(x => x.VCode == scenario.VCode);
 }
 
 public class BeheerDetailScenarioClassFixture<TScenario>
