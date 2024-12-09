@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
 using Destructurama;
+using global::OpenTelemetry;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
@@ -82,6 +83,9 @@ public static class ServiceCollectionExtensions
         return services.AddOpenTelemetry()
                        .ConfigureResource(configureResource)
                        .WithMetrics(providerBuilder => providerBuilder
+                                                      .ConfigureResource(configureResource)
+                                                      .AddMeter($"Wolverine:{serviceName}")
+                                                      .AddMeter("Marten")
                                                       .AddRuntimeInstrumentation()
                                                       .AddAspNetCoreInstrumentation()
                                                       .AddHttpClientInstrumentation()

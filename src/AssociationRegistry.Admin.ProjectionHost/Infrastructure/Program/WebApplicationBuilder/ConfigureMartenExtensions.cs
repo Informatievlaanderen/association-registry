@@ -89,6 +89,9 @@ public static class ConfigureMartenExtensions
 
                 opts.Connection(connectionString);
 
+                opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
+                opts.OpenTelemetry.TrackEventCounters();
+
                 opts.Events.StreamIdentity = StreamIdentity.AsString;
 
                 opts.Events.MetadataConfig.EnableAll();

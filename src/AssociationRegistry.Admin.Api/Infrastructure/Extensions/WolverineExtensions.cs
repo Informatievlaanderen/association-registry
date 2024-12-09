@@ -1,22 +1,16 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Acties.GrarConsumer;
-using Acties.GrarConsumer.HeradresseerLocaties;
-using Acties.GrarConsumer.OntkoppelAdres;
 using Amazon.Runtime;
 using EventStore;
 using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
-using System.Text.Encodings.Web;
-using System.Text.Json;
-using System.Text.Json.Serialization;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
-using Wolverine.Runtime.Serialization;
 
 public static class WolverineExtensions
 {
@@ -26,7 +20,6 @@ public static class WolverineExtensions
             (context, options) =>
             {
                 Log.Logger.Information("Setting up wolverine");
-
                 options.ApplicationAssembly = typeof(Program).Assembly;
                 options.Discovery.IncludeAssembly(typeof(Vereniging).Assembly);
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessage>();
