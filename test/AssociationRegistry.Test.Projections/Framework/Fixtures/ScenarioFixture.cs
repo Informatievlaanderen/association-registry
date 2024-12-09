@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using AssociationRegistry.Framework;
-using Marten;
 using Marten.Events.Daemon;
 using NodaTime;
 using NodaTime.Text;
@@ -29,11 +28,10 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext con
 
         await Context.SaveAsync(Scenario.Events, session);
 
-        using var daemon = await store.BuildProjectionDaemonAsync();
-
-        Result = await GetResultAsync(Scenario, session, daemon);
+        Result = await GetResultAsync(Scenario);
     }
 
-    protected abstract Task<TResult> GetResultAsync(TScenario scenario, IDocumentSession session, IProjectionDaemon daemon);
+    protected abstract Task<TResult> GetResultAsync(
+        TScenario scenario);
     public Task DisposeAsync() => Task.CompletedTask;
 }

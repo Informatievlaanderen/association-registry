@@ -12,7 +12,7 @@ public class Given_LidmaatschapWerdToegevoegd(PowerBiScenarioFixture<Lidmaatscha
     : PowerBiScenarioClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
 {
     [Fact]
-    public async Task ARecordIsStored_With_Lidmaatschap()
+    public void ARecordIsStored_With_Lidmaatschap()
     {
         Lidmaatschap[] expectedLidmaatschap =
         [
@@ -30,7 +30,7 @@ public class Given_LidmaatschapWerdToegevoegd(PowerBiScenarioFixture<Lidmaatscha
     }
 
     [Fact]
-    public async Task ARecordIsStored_With_Historiek()
+    public void ARecordIsStored_With_Historiek()
     {
         fixture.Result.VCode.Should().Be(fixture.Scenario.LidmaatschapWerdToegevoegd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();

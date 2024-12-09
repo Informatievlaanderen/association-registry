@@ -73,7 +73,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
         await publicStore.Advanced.Clean.DeleteAllEventDataAsync();
 
-        AdminStore = publicStore;
+        PublicStore = publicStore;
     }
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)
