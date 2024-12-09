@@ -11,10 +11,12 @@ public class PubliekDetailScenarioFixture<TScenario>(ProjectionContext context)
     where TScenario : IScenario, new()
 {
     protected override async Task<PubliekVerenigingDetailDocument> GetResultAsync(
-        TScenario scenario,
-        IDocumentSession session,
-        IProjectionDaemon daemon)
+        TScenario scenario)
     {
+        var store = Context.PublicStore;
+        await using var session = store.LightweightSession();
+        using var daemon = await store.BuildProjectionDaemonAsync();
+
         await daemon.RebuildProjectionAsync<PubliekVerenigingDetailProjection>(CancellationToken.None);
         return await session
                             .Query<PubliekVerenigingDetailDocument>()

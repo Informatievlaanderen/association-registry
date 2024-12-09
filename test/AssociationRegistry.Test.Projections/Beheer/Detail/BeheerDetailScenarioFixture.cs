@@ -11,10 +11,12 @@ public class BeheerDetailScenarioFixture<TScenario>(ProjectionContext context)
     where TScenario : IScenario, new()
 {
     protected override async Task<BeheerVerenigingDetailDocument> GetResultAsync(
-        TScenario scenario,
-        IDocumentSession session,
-        IProjectionDaemon daemon)
+        TScenario scenario)
     {
+        var store = Context.AdminStore;
+        await using var session = store.LightweightSession();
+        using var daemon = await store.BuildProjectionDaemonAsync();
+
         await daemon.RebuildProjectionAsync<BeheerVerenigingDetailProjection>(CancellationToken.None);
 
         return await session

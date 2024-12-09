@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken;
 
 using Framework.Fixtures;
-using Marten;
 using Marten.Events.Daemon;
 using Public.Schema.Search;
 
@@ -10,9 +9,7 @@ public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)
     where TScenario : IScenario, new()
 {
     protected override async Task<VerenigingZoekDocument> GetResultAsync(
-        TScenario scenario,
-        IDocumentSession session,
-        IProjectionDaemon daemon)
+        TScenario scenario)
     {
         var getResponse =
             await Context.ElasticClient
