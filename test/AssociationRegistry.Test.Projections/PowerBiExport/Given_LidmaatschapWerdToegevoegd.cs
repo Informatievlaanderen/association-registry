@@ -9,7 +9,7 @@ using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd(PowerBiScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)
-    : PowerBiScenarioClassFixture<FeitelijkeVerenigingWerdGeregistreerdScenario>
+    : PowerBiScenarioClassFixture<LidmaatschapWerdToegevoegdScenario>
 {
     [Fact]
     public void ARecordIsStored_With_Lidmaatschap()
