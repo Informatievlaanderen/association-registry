@@ -79,6 +79,7 @@ public class Returns_DetailResponse :
             Relaties = MapRelaties([], TestContext.VCode),
             Lidmaatschappen = [],
             Sleutels = MapSleutels(Request, TestContext.VCode),
+            IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)

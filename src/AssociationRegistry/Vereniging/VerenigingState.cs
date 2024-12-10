@@ -662,4 +662,10 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(AdresHeeftGeenVerschillenMetAdressenregister @event)
         => this;
+
+    public VerenigingState Apply(VerenigingWerdGermarkeerdAlsDubbelVan @event)
+        => this with
+        {
+            IsDubbel = true,
+        };
 }

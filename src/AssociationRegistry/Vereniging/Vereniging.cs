@@ -232,6 +232,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new VerenigingWerdIngeschrevenInPubliekeDatastroom());
     }
 
+    public void MarkeerAlsDubbelVan(VCode isDubbelVan)
+    {
+        if (isDubbelVan.Equals(VCode))
+            throw new VerenigingKanGeenDubbelWordenVanZichzelf();
+
+        var @event = VerenigingWerdGermarkeerdAlsDubbelVan.With(VCode, isDubbelVan);
+        AddEvent(@event);
+    }
+
     public void Hydrate(VerenigingState obj)
     {
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);

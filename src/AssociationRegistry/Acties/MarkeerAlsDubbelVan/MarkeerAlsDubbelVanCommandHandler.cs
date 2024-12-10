@@ -17,15 +17,13 @@ public class MarkeerAlsDubbelVanCommandHandler
         CommandEnvelope<MarkeerAlsDubbelVanCommand> message,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(message.Command.VCode, message.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingsRepository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion);
 
         if (await _verenigingsRepository.IsVerwijderd(message.Command.IsDubbelVan))
             throw new VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging();
 
         if (await _verenigingsRepository.IsDubbel(message.Command.IsDubbelVan))
             throw new VerenigingKanGeenDubbelWordenVanDubbelVereniging();
-
-
 
         vereniging.MarkeerAlsDubbelVan(message.Command.IsDubbelVan);
 

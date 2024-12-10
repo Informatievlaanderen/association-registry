@@ -39,7 +39,7 @@ public class Given_A_Vereniging_Verwijderd
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new VerenigingWerdGermarkeerdAlsDubbel(
+            new VerenigingWerdGermarkeerdAlsDubbelVan(
                 _scenario.VCode,
                 command.IsDubbelVan));
     }
