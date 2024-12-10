@@ -7,9 +7,13 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using FluentAssertions;
+using GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 using Marten;
 using Moq;
 using Vereniging;
+using Vereniging.Dubbels;
+using Wolverine;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -21,6 +25,7 @@ public class Given_A_Vereniging
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly MarkeerAlsDubbelVanCommandHandler _commandHandler;
+    private VoegDubbelToeMessage _outboxMessage;
 
     public Given_A_Vereniging()
     {
@@ -28,9 +33,12 @@ public class Given_A_Vereniging
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
+        var martenOutbox = new Mock<IMartenOutbox>();
+        martenOutbox.CaptureOutboxSendAsyncMessage<VoegDubbelToeMessage>(message => _outboxMessage = message);
+
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _verenigingRepositoryMock,
-            Mock.Of<IMartenOutbox>(),
+            martenOutbox.Object,
             Mock.Of<IDocumentSession>()
         );
     }
@@ -50,5 +58,19 @@ public class Given_A_Vereniging
             new VerenigingWerdGermarkeerdAlsDubbelVan(
                 _scenario.VCode,
                 command.IsDubbelVan));
+    }
+
+    [Fact]
+    public async Task Then_It_Sends_A_Message_To_The_Outbox()
+    {
+        var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
+        {
+            VCode = _scenario.VCode,
+            IsDubbelVan = _fixture.Create<VCode>(),
+        };
+
+        await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
+
+        _outboxMessage.Should().BeEquivalentTo(new VoegDubbelToeMessage(command.IsDubbelVan, command.VCode));
     }
 }
