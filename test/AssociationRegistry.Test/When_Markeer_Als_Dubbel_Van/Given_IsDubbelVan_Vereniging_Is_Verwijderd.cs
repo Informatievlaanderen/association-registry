@@ -4,9 +4,11 @@ using Acties.MarkeerAlsDubbelVan;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using Marten;
 using Moq;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 
 public class Given_IsDubbelVan_Vereniging_Is_Verwijderd
@@ -22,9 +24,12 @@ public class Given_IsDubbelVan_Vereniging_Is_Verwijderd
         verenigingsRepositoryMock.Setup(s => s.IsVerwijderd(command.IsDubbelVan))
                                  .ReturnsAsync(true);
 
-        var sut = new MarkeerAlsDubbelVanCommandHandler(verenigingsRepositoryMock.Object);
+        var sut = new MarkeerAlsDubbelVanCommandHandler(verenigingsRepositoryMock.Object,
+                                                        Mock.Of<IMartenOutbox>(),
+                                                        Mock.Of<IDocumentSession>()
+        );
 
         await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging>
-            (async () => await sut.Handle(commandEnvelope, CancellationToken.None)) ;
+            (async () => await sut.Handle(commandEnvelope, CancellationToken.None));
     }
 }

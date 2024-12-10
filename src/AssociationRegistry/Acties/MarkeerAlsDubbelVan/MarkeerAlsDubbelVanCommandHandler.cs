@@ -1,16 +1,27 @@
 ﻿namespace AssociationRegistry.Acties.MarkeerAlsDubbelVan;
 
 using Framework;
+using Marten;
 using Vereniging;
+using Vereniging.Dubbels;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 
 public class MarkeerAlsDubbelVanCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingsRepository;
+    private readonly IMartenOutbox _outbox;
+    private readonly IDocumentSession _session;
 
-    public MarkeerAlsDubbelVanCommandHandler(IVerenigingsRepository verenigingsRepository)
+    public MarkeerAlsDubbelVanCommandHandler(
+        IVerenigingsRepository verenigingsRepository,
+        IMartenOutbox outbox,
+        IDocumentSession session
+    )
     {
         _verenigingsRepository = verenigingsRepository;
+        _outbox = outbox;
+        _session = session;
     }
 
     public async Task<CommandResult> Handle(
@@ -27,7 +38,9 @@ public class MarkeerAlsDubbelVanCommandHandler
 
         vereniging.MarkeerAlsDubbelVan(message.Command.IsDubbelVan);
 
-        var result = await _verenigingsRepository.Save(vereniging, message.Metadata, cancellationToken);
+        await _outbox.SendAsync(new VoegDubbelToeMessage(vereniging.VCode, message.Command.IsDubbelVan));
+
+        var result = await _verenigingsRepository.Save(vereniging, _session, message.Metadata, cancellationToken);
 
         return CommandResult.Create(message.Command.VCode, result);
     }

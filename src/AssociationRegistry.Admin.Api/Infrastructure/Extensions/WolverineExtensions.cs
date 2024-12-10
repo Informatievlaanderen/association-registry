@@ -8,14 +8,18 @@ using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
 using Vereniging;
+using Vereniging.Dubbels;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
+using Wolverine.Postgresql;
 
 public static class WolverineExtensions
 {
     public static void AddWolverine(this WebApplicationBuilder builder)
     {
+        const string VoegDubbelToeQueueName = "vereniging-dubbel-queue";
+
         builder.Host.UseWolverine(
             (context, options) =>
             {
@@ -26,6 +30,8 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
+                options.Discovery.IncludeType<VoegDubbelToeMessage>();
+                options.Discovery.IncludeType<VoegDubbelToeMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
@@ -50,11 +56,18 @@ public static class WolverineExtensions
 
                 ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
 
-                ConfiguredAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName,
+                ConfigureAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName,
                                                grarOptions.Sqs.AddressMatchDeadLetterQueueName);
 
                 ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName,
                                           grarOptions.Sqs.GrarSyncQueueListenerEnabled);
+
+                options.PersistMessagesWithPostgresql(context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString());
+
+                options.PublishMessage<VoegDubbelToeMessage>()
+                       .ToPostgresqlQueue(VoegDubbelToeQueueName);
+
+                options.ListenToPostgresqlQueue(VoegDubbelToeQueueName);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
@@ -73,7 +86,7 @@ public static class WolverineExtensions
                .MessageBatchSize(1);
     }
 
-    private static void ConfiguredAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
+    private static void ConfigureAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
     {
         options.ListenToSqsQueue(sqsQueueName, configure: configure =>
                 {
