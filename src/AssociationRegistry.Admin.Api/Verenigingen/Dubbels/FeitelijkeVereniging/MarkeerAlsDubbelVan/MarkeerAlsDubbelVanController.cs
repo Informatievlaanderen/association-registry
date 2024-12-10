@@ -51,18 +51,18 @@ public class MarkeerAlsDubbelVanController : ApiController
     /// <param name="request">De gegevens van de andere vereniging waarvan deze een dubbel is.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
-    /// <response code="202">De vertegenwoordiger werd toegevoegd.</response>
+    /// <response code="202">De vereniging werd als dubbel gemarkeerd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
-    [HttpPost("{vCode}/vertegenwoordigers")]
+    [HttpPost("{vCode}/dubbelVan")]
     [ConsumesJson]
     [ProducesJson]
     [SwaggerRequestExample(typeof(MarkeerAlsDubbelVanRequest), typeof(MarkeerAlsDubbelVanRequestExamples))]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, WellknownHeaderNames.Sequence, type: "string",
                            description: "Het sequence nummer van deze request.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "ETag", type: "string",
-                           description: "De versie van de geregistreerde vereniging.")]
+                           description: "De versie van de vereniging die als dubbel werd gemarkeerd.")]
     [SwaggerResponseExample(StatusCodes.Status400BadRequest, typeof(ProblemAndValidationProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status412PreconditionFailed, typeof(PreconditionFailedProblemDetailsExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
