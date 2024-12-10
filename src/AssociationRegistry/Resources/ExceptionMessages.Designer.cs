@@ -683,6 +683,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan niet primair worden van zichzelf..
+        /// </summary>
+        public static string VerenigingKanNietPrimairWordenVanZichzelf {
+            get {
+                return ResourceManager.GetString("VerenigingKanNietPrimairWordenVanZichzelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze vereniging kan niet verwijderd worden..
         /// </summary>
         public static string VerenigingKanNietVerwijderdWorden {

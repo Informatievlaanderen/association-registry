@@ -15,3 +15,15 @@ public class VerenigingKanGeenDubbelWordenVanZichzelf : DomainException
     {
     }
 }
+
+[Serializable]
+public class InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf : ApplicationException
+{
+    public InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf() : base(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf)
+    {
+    }
+
+    protected InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+    }
+}

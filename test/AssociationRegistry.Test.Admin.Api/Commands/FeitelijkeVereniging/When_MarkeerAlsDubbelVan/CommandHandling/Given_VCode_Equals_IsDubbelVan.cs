@@ -7,8 +7,11 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using Marten;
+using Moq;
 using Vereniging;
 using Vereniging.Exceptions;
+using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
@@ -25,7 +28,12 @@ public class Given_VCode_Equals_IsDubbelVan
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(_verenigingRepositoryMock);
+
+        _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
+            _verenigingRepositoryMock,
+            Mock.Of<IMartenOutbox>(),
+            Mock.Of<IDocumentSession>()
+        );
     }
 
     [Fact]
@@ -39,6 +47,7 @@ public class Given_VCode_Equals_IsDubbelVan
 
         await Assert
            .ThrowsAsync<VerenigingKanGeenDubbelWordenVanZichzelf>
-                (async () => await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
+            (async () => await _commandHandler.Handle(
+                 new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
     }
 }
