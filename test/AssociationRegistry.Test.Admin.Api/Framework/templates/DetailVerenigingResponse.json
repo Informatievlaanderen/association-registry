@@ -179,7 +179,8 @@
     },
 {{end}}
     ],
-    "bron": "{{vereniging.bron}}"
+    "bron": "{{vereniging.bron}}",
+    "isDubbelVan":""
   },
   "metadata": {
     "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"
