@@ -8,18 +8,19 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
 using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Vereniging_Dubbel
+public class Given_VCode_Equals_IsDubbelVan
 {
     private readonly Fixture _fixture;
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly MarkeerAlsDubbelVanCommandHandler _commandHandler;
 
-    public Given_A_Vereniging_Dubbel()
+    public Given_VCode_Equals_IsDubbelVan()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
@@ -28,16 +29,16 @@ public class Given_A_Vereniging_Dubbel
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Save_An_VerenigingWerdGemarkeerdAlsDubbel_Event()
+    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanZichzelf()
     {
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
             VCode = _scenario.VCode,
-            IsDubbelVan = _fixture.Create<VCode>(),
+            IsDubbelVan = _scenario.VCode,
         };
 
-        await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
-
-        _verenigingRepositoryMock.ShouldNotHaveSaved<VerenigingWerdGermarkeerdAlsDubbelVan>();
+        await Assert
+           .ThrowsAsync<VerenigingKanGeenDubbelWordenVanZichzelf>
+                (async () => await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
     }
 }
