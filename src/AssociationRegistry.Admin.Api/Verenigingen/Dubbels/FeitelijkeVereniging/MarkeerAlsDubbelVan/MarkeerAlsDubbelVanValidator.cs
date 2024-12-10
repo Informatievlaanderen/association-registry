@@ -13,5 +13,9 @@ public class MarkeerAlsDubbelVanValidator : AbstractValidator<MarkeerAlsDubbelVa
         RuleFor(r => r.IsDubbelVan)
            .NotNull()
            .WithVeldIsVerplichtMessage(nameof(MarkeerAlsDubbelVanRequest.IsDubbelVan));
+
+        RuleFor(r => r.IsDubbelVan)
+           .NotEmpty()
+           .WithVeldIsVerplichtMessage(nameof(MarkeerAlsDubbelVanRequest.IsDubbelVan));
     }
 }

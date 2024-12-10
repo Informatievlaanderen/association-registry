@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van;
 
+using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;
@@ -27,9 +28,4 @@ public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequ
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
-}
-
-public class MarkeerAlsDubbelVanRequest
-{
-    public string IsDubbelVan { get; set; }
 }

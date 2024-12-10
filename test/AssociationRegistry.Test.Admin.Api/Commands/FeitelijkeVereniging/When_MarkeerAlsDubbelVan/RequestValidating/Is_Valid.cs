@@ -6,20 +6,20 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class Is_Empty : ValidatorTest
+public class Is_Valid : ValidatorTest
 {
     [Fact]
-    public void Has_validation_error_IsDubbelVan_is_verplicht()
+    public void Has_no_validation_errors()
     {
         var validator = new MarkeerAlsDubbelVanValidator();
 
         var request = new MarkeerAlsDubbelVanRequest
         {
-            IsDubbelVan = "",
+            IsDubbelVan = "V0001001",
         };
+
         var result = validator.TestValidate(request);
 
-        result.ShouldHaveValidationErrorFor(toeRequest => toeRequest.IsDubbelVan)
-              .WithErrorMessage($"'{nameof(MarkeerAlsDubbelVanRequest.IsDubbelVan)}' is verplicht.");
+        result.ShouldNotHaveAnyValidationErrors();
     }
 }
