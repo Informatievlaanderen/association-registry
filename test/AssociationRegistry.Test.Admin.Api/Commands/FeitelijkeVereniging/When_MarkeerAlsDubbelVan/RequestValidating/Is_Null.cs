@@ -6,7 +6,7 @@ using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
 
-public class Is_Empty : ValidatorTest
+public class Is_Null : ValidatorTest
 {
     [Fact]
     public void Has_validation_error_IsDubbelVan_is_verplicht()
@@ -15,7 +15,7 @@ public class Is_Empty : ValidatorTest
 
         var request = new MarkeerAlsDubbelVanRequest
         {
-            IsDubbelVan = "",
+            IsDubbelVan = null,
         };
         var result = validator.TestValidate(request);
 

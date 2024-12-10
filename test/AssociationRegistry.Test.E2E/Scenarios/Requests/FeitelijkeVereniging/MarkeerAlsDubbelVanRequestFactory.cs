@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
+using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Alba;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
 using System.Net;
 using Vereniging;
-using When_Markeer_Als_Dubbel_Van;
 
 public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsDubbelVanRequest>
 {
