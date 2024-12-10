@@ -74,4 +74,18 @@ public class VerenigingsRepository : IVerenigingsRepository
         if (verenigingState.IsVerwijderd)
             throw new VerenigingWerdVerwijderd(verenigingState.VCode);
     }
+
+    public async Task<bool> IsDubbel(VCode vCode)
+    {
+        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
+
+        return verenigingState.IsDubbel;
+    }
+
+    private void ThrowIfDubbel(VerenigingState verenigingState)
+    {
+        if (verenigingState.IsDubbel)
+            throw new VerenigingWerdVerwijderd(verenigingState.VCode);
+    }
+
 }

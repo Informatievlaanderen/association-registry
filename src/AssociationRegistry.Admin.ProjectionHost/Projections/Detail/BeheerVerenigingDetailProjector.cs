@@ -36,6 +36,7 @@ public class BeheerVerenigingDetailProjector
                                                                           .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
+            IsDubbelVan = "",
             Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
                                                                    .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(
                                                                                c, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
@@ -90,6 +91,7 @@ public class BeheerVerenigingDetailProjector
             DatumLaatsteAanpassing = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
+            IsDubbelVan = "",
             Contactgegevens = [],
             Locaties = [],
             Vertegenwoordigers = [],
@@ -746,4 +748,12 @@ public class BeheerVerenigingDetailProjector
                                            .OrderBy(l => l.LidmaatschapId)
                                            .ToArray();
     }
+
+
+    public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbel> verenigingWerdGemarkeerdAlsDubbel, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = VerenigingStatus.Dubbel;
+        document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.IsDubbelVan;
+    }
+
 }

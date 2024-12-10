@@ -79,6 +79,7 @@ public class BeheerVerenigingDetailMapper
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
             Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, namenVoorLidmaatschapMapper)).ToArray(),
             Bron = vereniging.Bron,
+            IsDubbelVan = vereniging.IsDubbelVan
         };
     }
 

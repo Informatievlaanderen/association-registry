@@ -402,4 +402,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public long Version => State.Version;
+
+    public void MarkeerAlsDubbelVan(VCode isDubbelVan)
+    {
+        if (isDubbelVan.Equals(VCode))
+            throw new VerenigingKanGeenDubbelWordenVanZichzelf();
+
+        var @event = VerenigingWerdGermarkeerdAlsDubbel.With(VCode, isDubbelVan);
+        AddEvent(@event);
+    }
 }

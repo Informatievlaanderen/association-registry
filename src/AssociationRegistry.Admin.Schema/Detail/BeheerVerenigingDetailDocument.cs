@@ -38,4 +38,5 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     [Identity] public string VCode { get; init; } = null!;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
+    public string IsDubbelVan { get; set; }
 }
