@@ -102,4 +102,8 @@ public class VerenigingDetail
     /// </summary>
     [DataMember(Name = "Bron")]
     public string Bron { get; set; } = null!;
+
+    /// <summary>De VCode van de vereniging waarvan deze vereniging een dubbel is</summary>
+    [DataMember(Name = "IsDubbelVan")]
+    public string IsDubbelVan { get; set; }
 }
