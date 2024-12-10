@@ -38,6 +38,6 @@ public class Given_A_Vereniging_Dubbel
 
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _verenigingRepositoryMock.ShouldNotHaveSaved<VerenigingWerdGermarkeerdAlsDubbel>();
+        _verenigingRepositoryMock.ShouldNotHaveSaved<VerenigingWerdGermarkeerdAlsDubbelVan>();
     }
 }

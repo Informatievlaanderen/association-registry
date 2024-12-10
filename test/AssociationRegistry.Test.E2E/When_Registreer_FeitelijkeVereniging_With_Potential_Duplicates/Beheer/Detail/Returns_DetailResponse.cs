@@ -79,6 +79,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Relaties = MapRelaties([], TestContext.VCode),
             Sleutels = MapSleutels(Request, TestContext.VCode),
             Lidmaatschappen = [],
+            IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
