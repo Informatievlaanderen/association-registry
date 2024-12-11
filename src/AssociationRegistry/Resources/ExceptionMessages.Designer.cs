@@ -647,11 +647,47 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging..
+        /// </summary>
+        public static string VerenigingKanGeenDubbelWordenVanDubbelVereniging {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanDubbelVereniging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan geen lid worden van een verwijderde vereniging..
+        /// </summary>
+        public static string VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van zichzelf..
+        /// </summary>
+        public static string VerenigingKanGeenDubbelWordenVanZichzelf {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanZichzelf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen lid worden van een verwijderde vereniging..
         /// </summary>
         public static string VerenigingKanGeenLidWordenVanVerwijderdeVereniging {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenLidWordenVanVerwijderdeVereniging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan niet primair worden van zichzelf..
+        /// </summary>
+        public static string VerenigingKanNietPrimairWordenVanZichzelf {
+            get {
+                return ResourceManager.GetString("VerenigingKanNietPrimairWordenVanZichzelf", resourceCulture);
             }
         }
         

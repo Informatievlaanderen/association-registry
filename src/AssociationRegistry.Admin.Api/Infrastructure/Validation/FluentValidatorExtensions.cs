@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Validation;
 
-using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
+using ExceptionHandlers;
 using FluentValidation;
 using System.Diagnostics.CodeAnalysis;
 

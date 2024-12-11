@@ -67,6 +67,7 @@
   <ItemGroup>
     <Folder Include="GrarConsumer\Handlers\Fusies\" />
     <Folder Include="Infrastructure\ConfigurationBindings\" />
+    <Folder Include="MessageHandling\Postgres\" />
     <Folder Include="Verenigingen\Contactgegevens\FeitelijkeVereniging\" />
     <Folder Include="Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
   </ItemGroup>

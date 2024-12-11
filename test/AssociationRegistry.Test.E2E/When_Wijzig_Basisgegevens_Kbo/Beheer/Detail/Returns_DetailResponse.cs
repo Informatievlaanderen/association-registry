@@ -76,6 +76,7 @@ public class Returns_DetailResponse :
             Relaties = [],
             Lidmaatschappen = [],
             Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
+            IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

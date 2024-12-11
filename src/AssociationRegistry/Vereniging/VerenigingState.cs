@@ -41,6 +41,9 @@ public record VerenigingState : IHasVersion
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsVerwijderd { get; set; }
+    public bool IsDubbel { get; set; }
+
+    public string[] CorresponderendeVCodes { get; set; } = [];
     public long Version { get; set; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
@@ -661,4 +664,16 @@ public record VerenigingState : IHasVersion
 
     public VerenigingState Apply(AdresHeeftGeenVerschillenMetAdressenregister @event)
         => this;
+
+    public VerenigingState Apply(VerenigingWerdGermarkeerdAlsDubbelVan @event)
+        => this with
+        {
+            IsDubbel = true,
+        };
+
+    public VerenigingState Apply(VerenigingAanvaardeDubbeleVereniging @event)
+        => this with
+        {
+            CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
+        };
 }

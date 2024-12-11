@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
+using Extensions;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
