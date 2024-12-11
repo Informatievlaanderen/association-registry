@@ -5,15 +5,18 @@ using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using FluentAssertions;
 using Xunit;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;
+    private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_AuthentiekeVereniging(MarkeerAlsDubbelVanContext context)
+    public Returns_Detail_AuthentiekeVereniging(MarkeerAlsDubbelVanContext context, ITestOutputHelper helper)
     {
         _context = context;
+        _helper = helper;
     }
 
     [Fact]
@@ -23,8 +26,24 @@ public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubb
     }
 
     [Fact]
-    public void With_DubbeleVereniging_In_CorresponderendeVCodes()
+    public async Task With_DubbeleVereniging_In_CorresponderendeVCodes()
     {
+        var tryCounter = 0;
+
+        while (tryCounter < 20)
+        {
+            ++tryCounter;
+            await Task.Delay(500);
+
+            _helper.WriteLine($"Looking for CorresponderendeVCodes (try {tryCounter})...");
+            if (Response.Vereniging.CorresponderendeVCodes.Any())
+            {
+                _helper.WriteLine("Found it!");
+                break;
+            }
+
+            _helper.WriteLine("Did not find any CorresponderendeVCodes.");
+        }
         Response.Vereniging.CorresponderendeVCodes.Should().Contain(_context.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
