@@ -241,7 +241,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     public void VoegDubbeleVerenigingToe(VCode dubbeleVereniging)
     {
         Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
-        AddEvent(Events.DubbeleVerenigingWerdToegevoegd.With(VCode, dubbeleVereniging));
+        AddEvent(DubbeleVerenigingWerdToegevoegd.With(VCode, dubbeleVereniging));
     }
 
     public void Hydrate(VerenigingState obj)
