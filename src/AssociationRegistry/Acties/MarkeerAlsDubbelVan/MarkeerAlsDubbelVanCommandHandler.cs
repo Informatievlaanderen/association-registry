@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Acties.MarkeerAlsDubbelVan;
 
+using Dubbels;
 using Framework;
 using Marten;
 using Vereniging;
-using Vereniging.Dubbels;
 using Vereniging.Exceptions;
 using Wolverine.Marten;
 
@@ -30,15 +30,15 @@ public class MarkeerAlsDubbelVanCommandHandler
     {
         var vereniging = await _verenigingsRepository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion);
 
-        if (await _verenigingsRepository.IsVerwijderd(message.Command.IsDubbelVan))
+        if (await _verenigingsRepository.IsVerwijderd(message.Command.VCodeAuthentiekeVereniging))
             throw new VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging();
 
-        if (await _verenigingsRepository.IsDubbel(message.Command.IsDubbelVan))
+        if (await _verenigingsRepository.IsDubbel(message.Command.VCodeAuthentiekeVereniging))
             throw new VerenigingKanGeenDubbelWordenVanDubbelVereniging();
 
-        vereniging.MarkeerAlsDubbelVan(message.Command.IsDubbelVan);
+        vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
 
-        await _outbox.SendAsync(new VoegDubbelToeMessage(message.Command.IsDubbelVan, message.Command.VCode));
+        await _outbox.SendAsync(new VoegDubbelToeMessage(message.Command.VCodeAuthentiekeVereniging, message.Command.VCode));
 
         var result = await _verenigingsRepository.Save(vereniging, _session, message.Metadata, cancellationToken);
 

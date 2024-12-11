@@ -4,8 +4,8 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Dubbels;
 using Events;
-using Vereniging.Dubbels;
 using Xunit;
 
 public class Given_Valid_VoegDubbelToeMessage
@@ -25,6 +25,6 @@ public class Given_Valid_VoegDubbelToeMessage
 
          await sut.Handle(message, CancellationToken.None);
 
-         repositoryMock.ShouldHaveSaved(new DubbeleVerenigingWerdToegevoegd(scenario.VCode, message.VCodeDubbeleVereniging));
+         repositoryMock.ShouldHaveSaved(new VerenigingWerdToegevoegdAlsDubbel(scenario.VCode, message.VCodeDubbeleVereniging));
     }
 }

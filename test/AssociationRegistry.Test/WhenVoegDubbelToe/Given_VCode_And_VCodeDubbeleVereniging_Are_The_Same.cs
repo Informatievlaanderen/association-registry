@@ -4,8 +4,8 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Dubbels;
 using Vereniging;
-using Vereniging.Dubbels;
 using Vereniging.Exceptions;
 using Xunit;
 

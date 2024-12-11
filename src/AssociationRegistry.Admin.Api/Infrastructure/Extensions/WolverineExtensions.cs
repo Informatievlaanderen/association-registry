@@ -2,13 +2,13 @@
 
 using Acties.GrarConsumer;
 using Amazon.Runtime;
+using Dubbels;
 using EventStore;
 using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using Serilog;
 using Vereniging;
-using Vereniging.Dubbels;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;

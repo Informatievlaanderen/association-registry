@@ -3,8 +3,8 @@
 using Framework;
 using Vereniging;
 
-public record VerenigingWerdGermarkeerdAlsDubbelVan(string VCode, string IsDubbelVan) : IEvent
+public record VerenigingWerdGermarkeerdAlsDubbelVan(string VCode, string VCodeAuthentiekeVereniging) : IEvent
 {
-    public static VerenigingWerdGermarkeerdAlsDubbelVan With(VCode vCode, VCode isDubbelVan)
-        => new(vCode, isDubbelVan);
+    public static VerenigingWerdGermarkeerdAlsDubbelVan With(VCode vCode, VCode vCodeAuthentiekeVereniging)
+        => new(vCode, vCodeAuthentiekeVereniging);
 }
