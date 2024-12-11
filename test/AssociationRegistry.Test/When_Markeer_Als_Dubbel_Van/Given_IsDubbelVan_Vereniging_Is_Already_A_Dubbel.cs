@@ -21,7 +21,7 @@ public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
         var command = fixture.Create<MarkeerAlsDubbelVanCommand>();
         var commandEnvelope = new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, fixture.Create<CommandMetadata>());
 
-        verenigingsRepositoryMock.Setup(s => s.IsDubbel(command.IsDubbelVan))
+        verenigingsRepositoryMock.Setup(s => s.IsDubbel(command.VCodeAuthentiekeVereniging))
                                  .ReturnsAsync(true);
 
         var sut = new MarkeerAlsDubbelVanCommandHandler(verenigingsRepositoryMock.Object,

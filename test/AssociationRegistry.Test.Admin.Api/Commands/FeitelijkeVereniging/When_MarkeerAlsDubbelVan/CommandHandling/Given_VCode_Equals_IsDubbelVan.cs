@@ -42,7 +42,7 @@ public class Given_VCode_Equals_IsDubbelVan
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
             VCode = _scenario.VCode,
-            IsDubbelVan = _scenario.VCode,
+            VCodeAuthentiekeVereniging = _scenario.VCode,
         };
 
         await Assert

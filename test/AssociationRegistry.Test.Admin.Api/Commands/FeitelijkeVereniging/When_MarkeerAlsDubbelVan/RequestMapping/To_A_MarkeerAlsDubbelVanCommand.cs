@@ -27,6 +27,6 @@ public class To_A_MarkeerAlsDubbelVanCommand
         var actual = request.ToCommand(vCodeA);
 
         actual.VCode.Should().BeEquivalentTo(vCodeA);
-        actual.IsDubbelVan.Should().BeEquivalentTo(vCodeB);
+        actual.VCodeAuthentiekeVereniging.Should().BeEquivalentTo(vCodeB);
     }
 }

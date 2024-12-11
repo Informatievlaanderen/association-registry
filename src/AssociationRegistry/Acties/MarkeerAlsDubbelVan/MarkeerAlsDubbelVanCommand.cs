@@ -2,4 +2,4 @@
 
 using Vereniging;
 
-public record MarkeerAlsDubbelVanCommand(VCode VCode, VCode IsDubbelVan);
+public record MarkeerAlsDubbelVanCommand(VCode VCode, VCode VCodeAuthentiekeVereniging);

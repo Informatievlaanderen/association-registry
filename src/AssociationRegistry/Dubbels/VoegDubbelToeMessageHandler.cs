@@ -1,8 +1,9 @@
-﻿namespace AssociationRegistry.Vereniging.Dubbels;
+﻿namespace AssociationRegistry.Dubbels;
 
-using EventStore;
-using Framework;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
 using NodaTime;
+using Vereniging;
 
 public class VoegDubbelToeMessageHandler(IVerenigingsRepository repository)
 {

@@ -671,9 +671,9 @@ public record VerenigingState : IHasVersion
             IsDubbel = true,
         };
 
-    public VerenigingState Apply(DubbeleVerenigingWerdToegevoegd @event)
+    public VerenigingState Apply(VerenigingWerdToegevoegdAlsDubbel @event)
         => this with
         {
-            CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.DubbeleVereniging).ToArray(),
+            CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 }

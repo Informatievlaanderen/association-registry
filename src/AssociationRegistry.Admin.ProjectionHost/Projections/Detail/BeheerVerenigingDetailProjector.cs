@@ -753,6 +753,6 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, BeheerVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Dubbel;
-        document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.IsDubbelVan;
+        document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.VCodeAuthentiekeVereniging;
     }
 }

@@ -13,7 +13,7 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(BeheerDetailScenarioFixt
 
     [Fact]
     public void Document_IsDubbelVan_Is_Updated()
-        => fixture.Result.IsDubbelVan.Should().Be(fixture.Scenario.VerenigingWerdGermarkeerdAlsDubbelVan.IsDubbelVan);
+        => fixture.Result.IsDubbelVan.Should().Be(fixture.Scenario.VerenigingWerdGermarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
 
     [Fact]
     public void Document_Status_Is_Dubbel()

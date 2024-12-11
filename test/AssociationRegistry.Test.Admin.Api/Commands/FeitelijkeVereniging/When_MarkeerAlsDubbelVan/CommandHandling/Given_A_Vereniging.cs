@@ -6,13 +6,13 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Dubbels;
 using Events;
 using FluentAssertions;
 using GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 using Marten;
 using Moq;
 using Vereniging;
-using Vereniging.Dubbels;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -49,7 +49,7 @@ public class Given_A_Vereniging
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
             VCode = _scenario.VCode,
-            IsDubbelVan = _fixture.Create<VCode>(),
+            VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
         };
 
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
@@ -57,7 +57,7 @@ public class Given_A_Vereniging
         _verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingWerdGermarkeerdAlsDubbelVan(
                 _scenario.VCode,
-                command.IsDubbelVan));
+                command.VCodeAuthentiekeVereniging));
     }
 
     [Fact]
@@ -66,11 +66,11 @@ public class Given_A_Vereniging
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {
             VCode = _scenario.VCode,
-            IsDubbelVan = _fixture.Create<VCode>(),
+            VCodeAuthentiekeVereniging = _fixture.Create<VCode>(),
         };
 
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _outboxMessage.Should().BeEquivalentTo(new VoegDubbelToeMessage(command.IsDubbelVan, command.VCode));
+        _outboxMessage.Should().BeEquivalentTo(new VoegDubbelToeMessage(command.VCodeAuthentiekeVereniging, command.VCode));
     }
 }
