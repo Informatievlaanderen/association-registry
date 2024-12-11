@@ -190,6 +190,7 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
 
     public async Task Project(IEvent<AdresWerdOntkoppeldVanAdressenregister> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(IEvent<LidmaatschapWerdToegevoegd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
@@ -197,6 +198,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(

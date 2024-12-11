@@ -18,6 +18,7 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : ScenarioBase
         VerenigingWerdGermarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGermarkeerdAlsDubbelVan>() with
         {
             VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
+            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
         };
 
         VerenigingAanvaardeDubbeleVereniging = AutoFixture.Create<VerenigingAanvaardeDubbeleVereniging>() with

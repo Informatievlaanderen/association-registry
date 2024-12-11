@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
@@ -501,6 +502,20 @@ public static class HistoriekGebeurtenisMapper
                 Tot = lidmaatschap.Lidmaatschap.DatumTot,
                 Identificatie = lidmaatschap.Lidmaatschap.Identificatie,
                 Beschrijving = lidmaatschap.Lidmaatschap.Beschrijving
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? VerenigingWerdGermarkeerdAlsDubbelVan(MarkeerAlsDubbelVanRequest request, string vCode)
+        => new()
+        {
+            Beschrijving = $"Vereniging werd gemarkeerd als dubbel van {request.IsDubbelVan}.",
+            Gebeurtenis = nameof(Events.VerenigingWerdGermarkeerdAlsDubbelVan),
+            Data = new
+            {
+                VCode = vCode,
+                VCodeAuthentiekeVereniging = request.IsDubbelVan,
             },
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
