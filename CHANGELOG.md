@@ -1,3 +1,22 @@
+# [8.184.0](https://github.com/informatievlaanderen/association-registry/compare/v8.183.1...v8.184.0) (2024-12-11)
+
+
+### Bug Fixes
+
+* or-2334 also return verenigingen with status dubbel for publiek detail ([436a294](https://github.com/informatievlaanderen/association-registry/commit/436a294a12f477c7b960733489f3d819daca2aa6))
+* or-2334 combine empty and null validation ([88793cc](https://github.com/informatievlaanderen/association-registry/commit/88793cc377d48da213122f7443fd1c36200ac4f4))
+* or-2334 correct endpoint route and documentation ([815d190](https://github.com/informatievlaanderen/association-registry/commit/815d1905e0a27a71450b8de8de690540842e0942))
+* or-2334 fix exception message VerenigingKanGeenDubbelWordenVanVerwijderdeVerenigingÃ ([3e28cfc](https://github.com/informatievlaanderen/association-registry/commit/3e28cfc74794e79661e1171789faaa9c2364f0f6))
+* or-2334 use primitive string io vCode in wolverine messages ([ee5ba35](https://github.com/informatievlaanderen/association-registry/commit/ee5ba357d4c511a605dbdebd9095c62931c1927e))
+
+
+### Features
+
+* or-2334 add aanvaarde vereniging to corresponderende vcodes of authentieke vereniging ([6ff6cc6](https://github.com/informatievlaanderen/association-registry/commit/6ff6cc62262b3b0dd38ffd4a003925de483d7089))
+* or-2334 add controller & command for markeer als dubbel van ([e4fa444](https://github.com/informatievlaanderen/association-registry/commit/e4fa44457088509af0d07b5bf48b8d47b1580c13))
+* or-2334 complete beheer detail flow for markeer als dubbel van ([64ba6f1](https://github.com/informatievlaanderen/association-registry/commit/64ba6f1aaa3595582307ff0dd9233dc403855192))
+* or-2334 implement public detail for dubbels ([2bdd8a9](https://github.com/informatievlaanderen/association-registry/commit/2bdd8a9d5519ed19075a55b5a07296bede228f6e))
+
 ## [8.183.1](https://github.com/informatievlaanderen/association-registry/compare/v8.183.0...v8.183.1) (2024-12-09)
 
 
