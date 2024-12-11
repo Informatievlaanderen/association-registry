@@ -755,4 +755,12 @@ public class BeheerVerenigingDetailProjector
         document.Status = VerenigingStatus.Dubbel;
         document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.VCodeAuthentiekeVereniging;
     }
+
+    public static void Apply(IEvent<VerenigingAanvaardeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging, BeheerVerenigingDetailDocument document)
+    {
+        document.CorresponderendeVCodes =
+            document.CorresponderendeVCodes
+                    .Append(verenigingAanvaardeDubbeleVereniging.Data.VCodeDubbeleVereniging)
+                    .ToArray();
+    }
 }
