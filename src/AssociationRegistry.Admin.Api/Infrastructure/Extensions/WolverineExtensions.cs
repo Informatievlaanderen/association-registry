@@ -2,7 +2,6 @@
 
 using Acties.GrarConsumer;
 using Amazon.Runtime;
-using Dubbels;
 using EventStore;
 using Grar.AddressMatch;
 using Hosts.Configuration;
@@ -13,6 +12,8 @@ using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
 using Wolverine.Postgresql;
+using VoegDubbelToeMessage = Messages.VoegDubbelToeMessage;
+using VoegDubbelToeMessageHandler = MessageHandling.Postgres.Dubbels.VoegDubbelToeMessageHandler;
 
 public static class WolverineExtensions
 {

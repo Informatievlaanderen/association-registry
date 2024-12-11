@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Sequence;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.EventStore;
+using Extensions;
+using Schema.Detail;
+using EventStore;
 using Marten;
 
 public class SequenceGuarder : ISequenceGuarder
