@@ -7,6 +7,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using FluentAssertions;
+using Resources;
 using Xunit;
 
 public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
@@ -25,7 +27,8 @@ public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
         };
         var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock);
 
-        await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(
+        var exception = await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(
             async () => await sut.Handle(command, CancellationToken.None));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
     }
 }

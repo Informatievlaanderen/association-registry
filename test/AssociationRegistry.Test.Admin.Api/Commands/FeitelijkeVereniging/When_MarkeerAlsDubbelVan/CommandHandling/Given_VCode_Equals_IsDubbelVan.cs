@@ -7,8 +7,10 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using FluentAssertions;
 using Marten;
 using Moq;
+using Resources;
 using Vereniging;
 using Vereniging.Exceptions;
 using Wolverine.Marten;
@@ -45,9 +47,10 @@ public class Given_VCode_Equals_IsDubbelVan
             VCodeAuthentiekeVereniging = _scenario.VCode,
         };
 
-        await Assert
+        var exception = await Assert
            .ThrowsAsync<VerenigingKanGeenDubbelWordenVanZichzelf>
             (async () => await _commandHandler.Handle(
                  new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
     }
 }

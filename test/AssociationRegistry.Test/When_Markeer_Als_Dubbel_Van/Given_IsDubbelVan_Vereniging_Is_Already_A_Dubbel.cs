@@ -4,8 +4,10 @@ using Acties.MarkeerAlsDubbelVan;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using FluentAssertions;
 using Marten;
 using Moq;
+using Resources;
 using Vereniging;
 using Vereniging.Exceptions;
 using Wolverine.Marten;
@@ -29,7 +31,9 @@ public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
                                                         Mock.Of<IDocumentSession>()
         );
 
-        await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanDubbelVereniging>
+        var exception = await Assert.ThrowsAsync<VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel>
             (async () => await sut.Handle(commandEnvelope, CancellationToken.None));
+
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel);
     }
 }

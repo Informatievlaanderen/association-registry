@@ -188,16 +188,13 @@
     <value>Een vereniging kan geen lid worden van een verwijderde vereniging.</value>
   </data>
   <data name="VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging">
-    <value>Een vereniging kan geen lid worden van een verwijderde vereniging.</value>
+    <value>Een vereniging kan geen dubbel worden van een verwijderde vereniging.</value>
   </data>
-  <data name="VerenigingKanGeenDubbelWordenVanDubbelVereniging">
+  <data name="VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel">
     <value>Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging.</value>
   </data>
   <data name="VerenigingKanGeenDubbelWordenVanZichzelf">
     <value>Een vereniging kan geen dubbel worden van zichzelf.</value>
-  </data>
-  <data name="VerenigingKanNietPrimairWordenVanZichzelf">
-    <value>Een vereniging kan niet primair worden van zichzelf.</value>
   </data>
   <data name="LidmaatschapIsOverlappend">
     <value>Een lidmaatschap mag niet overlappen voor eenzelfde vereniging.</value>
