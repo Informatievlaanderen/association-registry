@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 
+using AssociationRegistry.Vereniging;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
@@ -49,31 +50,37 @@ public class Vereniging
 
     /// <summary>De contactgegevens van deze vereniging</summary>
     [DataMember(Name = "Contactgegevens")]
-    public Contactgegeven[] Contactgegevens { get; init; } = Array.Empty<Contactgegeven>();
+    public Contactgegeven[] Contactgegevens { get; init; } = [];
 
     /// <summary>Alle locaties waar deze vereniging actief is</summary>
     [DataMember(Name = "Locaties")]
-    public Locatie[] Locaties { get; init; } = Array.Empty<Locatie>();
+    public Locatie[] Locaties { get; init; } = [];
 
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } =
-        Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; } = [];
 
     /// <summary>De werkingsgebieden van deze vereniging</summary>
     [DataMember(Name = "Werkingsgebieden")]
-    public Werkingsgebied[] Werkingsgebieden { get; init; } =
-        Array.Empty<Werkingsgebied>();
+    public Werkingsgebied[] Werkingsgebieden { get; init; } = [];
 
     /// <summary>De sleutels die deze vereniging beheren</summary>
     [DataMember(Name = "Sleutels")]
-    public Sleutel[] Sleutels { get; init; } = Array.Empty<Sleutel>();
+    public Sleutel[] Sleutels { get; init; } = [];
 
     /// <summary>De relaties van deze vereniging</summary>
     [DataMember(Name = "Relaties")]
-    public Relatie[] Relaties { get; init; } = Array.Empty<Relatie>();
+    public Relatie[] Relaties { get; init; } = [];
 
     /// <summary>De lidmaatschappen van deze vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
-    public Lidmaatschap[] Lidmaatschappen { get; init; } = Array.Empty<Lidmaatschap>();
+    public Lidmaatschap[] Lidmaatschappen { get; init; } = [];
+
+    /// <summary>De VCode van de vereniging waarvan deze vereniging een dubbel is</summary>
+    [DataMember(Name = "IsDubbelVan")]
+    public string IsDubbelVan { get; set; }
+
+    // <summary>De unieke identificatie codes van de corresponderende verenigingen</summary>
+    [DataMember(Name = "CorresponderendeVCodes")]
+    public string[] CorresponderendeVCodes { get; init; } = [];
 }

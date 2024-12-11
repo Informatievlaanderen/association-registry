@@ -24,18 +24,15 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public string Status { get; set; } = null!;
     public string DatumLaatsteAanpassing { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
-    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
+    public Contactgegeven[] Contactgegevens { get; set; } = [];
 
-    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } =
-        Array.Empty<HoofdactiviteitVerenigingsloket>();
+    public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = [];
 
-    public Werkingsgebied[] Werkingsgebieden { get; set; } =
-        Array.Empty<Werkingsgebied>();
+    public Werkingsgebied[] Werkingsgebieden { get; set; } = [];
 
-    public Sleutel[] Sleutels { get; set; } = Array.Empty<Sleutel>();
-    public Relatie[] Relaties { get; set; } = Array.Empty<Relatie>();
-    public Lidmaatschap[] Lidmaatschappen { get; set; } = Array.Empty<Lidmaatschap>();
-
+    public Sleutel[] Sleutels { get; set; } = [];
+    public Relatie[] Relaties { get; set; } = [];
+    public Lidmaatschap[] Lidmaatschappen { get; set; } = [];
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     [Identity] public string VCode { get; set; } = null!;
 
@@ -130,7 +127,6 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
         string Identificatie,
         string Beschrijving);
 
-
     public class AdresId
     {
         public string? Broncode { get; set; }
@@ -150,6 +146,8 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
+    public string IsDubbelVan { get; set; } = string.Empty;
+    public string[] CorresponderendeVCodes { get; set; } = [];
 }
 
 public class JsonLdMetadata
