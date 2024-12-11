@@ -638,6 +638,20 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            verenigingWerdGemarkeerdAlsDubbelVan,
+            new
+            {
+                VCode = verenigingWerdGemarkeerdAlsDubbelVan.Data.VCode,
+                VCodeAuthentiekeVereniging = verenigingWerdGemarkeerdAlsDubbelVan.Data.VCodeAuthentiekeVereniging,
+            },
+            document,
+            $"Vereniging werd gemarkeerd als dubbel van {verenigingWerdGemarkeerdAlsDubbelVan.Data.VCodeAuthentiekeVereniging}."
+        );
+    }
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
         {
