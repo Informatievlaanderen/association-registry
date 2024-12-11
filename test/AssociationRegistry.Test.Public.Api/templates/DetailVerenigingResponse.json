@@ -137,7 +137,9 @@
       },
 {{end}}
     ],
-"lidmaatschappen": []
+"lidmaatschappen": [],
+"isDubbelVan": "",
+"corresponderendeVCodes": []
   },
   "metadata": {
     "datumLaatsteAanpassing": "{{datumlaatsteaanpassing}}"
