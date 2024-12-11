@@ -34,7 +34,7 @@ public class MarkeerAlsDubbelVanCommandHandler
             throw new VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging();
 
         if (await _verenigingsRepository.IsDubbel(message.Command.VCodeAuthentiekeVereniging))
-            throw new VerenigingKanGeenDubbelWordenVanDubbelVereniging();
+            throw new VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel();
 
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
 

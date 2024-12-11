@@ -649,14 +649,14 @@ namespace AssociationRegistry.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging..
         /// </summary>
-        public static string VerenigingKanGeenDubbelWordenVanDubbelVereniging {
+        public static string VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel {
             get {
-                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanDubbelVereniging", resourceCulture);
+                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een vereniging kan geen lid worden van een verwijderde vereniging..
+        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een verwijderde vereniging..
         /// </summary>
         public static string VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging {
             get {
@@ -679,15 +679,6 @@ namespace AssociationRegistry.Resources {
         public static string VerenigingKanGeenLidWordenVanVerwijderdeVereniging {
             get {
                 return ResourceManager.GetString("VerenigingKanGeenLidWordenVanVerwijderdeVereniging", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Een vereniging kan niet primair worden van zichzelf..
-        /// </summary>
-        public static string VerenigingKanNietPrimairWordenVanZichzelf {
-            get {
-                return ResourceManager.GetString("VerenigingKanNietPrimairWordenVanZichzelf", resourceCulture);
             }
         }
         
