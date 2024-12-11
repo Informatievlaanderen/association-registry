@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.WhenVoegDubbelToe;
 
+using Acties.VoegDubbelToe;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
-using Dubbels;
 using Events;
 using Xunit;
 
-public class Given_Valid_VoegDubbelToeMessage
+public class Given_Valid_VoegDubbelToeCommand
 {
     [Fact]
     public async Task Then_Throws_InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf()
@@ -16,15 +16,15 @@ public class Given_Valid_VoegDubbelToeMessage
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
-        var message = fixture.Create<VoegDubbelToeMessage>()
+        var command = fixture.Create<VoegDubbelToeCommand>()
             with
             {
                 VCode = scenario.VCode,
             };
-        var sut = new VoegDubbelToeMessageHandler(repositoryMock);
+        var sut = new VoegDubbelToeCommandHandler(repositoryMock);
 
-         await sut.Handle(message, CancellationToken.None);
+         await sut.Handle(command, CancellationToken.None);
 
-         repositoryMock.ShouldHaveSaved(new VerenigingWerdToegevoegdAlsDubbel(scenario.VCode, message.VCodeDubbeleVereniging));
+         repositoryMock.ShouldHaveSaved(new VerenigingWerdToegevoegdAlsDubbel(scenario.VCode, command.VCodeDubbeleVereniging));
     }
 }

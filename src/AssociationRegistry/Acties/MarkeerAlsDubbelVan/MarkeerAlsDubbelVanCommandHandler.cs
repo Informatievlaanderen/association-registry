@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Acties.MarkeerAlsDubbelVan;
 
-using Dubbels;
 using Framework;
 using Marten;
+using Messages;
 using Vereniging;
 using Vereniging.Exceptions;
 using Wolverine.Marten;
