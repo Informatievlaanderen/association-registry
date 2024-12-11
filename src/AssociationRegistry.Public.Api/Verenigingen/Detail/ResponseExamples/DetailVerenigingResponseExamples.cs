@@ -149,6 +149,8 @@ public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenig
                         AndereVereniging = "V0001111",
                     },
                 ],
+                IsDubbelVan = "V0001002",
+                CorresponderendeVCodes = [],
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = "2023-05-15" },
         };

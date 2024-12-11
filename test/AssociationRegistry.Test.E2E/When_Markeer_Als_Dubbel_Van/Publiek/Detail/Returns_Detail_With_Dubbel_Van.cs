@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.Detail;
 
-
 using FluentAssertions;
 using Framework.AlbaHost;
 using Public.Api.Verenigingen.Detail.ResponseModels;
