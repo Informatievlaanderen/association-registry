@@ -3,9 +3,9 @@
 using Messages;
 using Wolverine;
 
-public class VoegDubbelToeMessageHandler(IMessageBus messageBus)
+public class AanvaardDubbeleVerenigingMessageHandler(IMessageBus messageBus)
 {
-    public async Task Handle(VoegDubbelToeMessage message, CancellationToken cancellationToken)
+    public async Task Handle(AanvaardDubbeleVerenigingMessage message, CancellationToken cancellationToken)
     {
         var command = message.ToCommand();
 

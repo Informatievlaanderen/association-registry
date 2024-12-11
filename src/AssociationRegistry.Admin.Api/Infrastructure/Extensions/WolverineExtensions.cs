@@ -6,20 +6,20 @@ using EventStore;
 using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
+using MessageHandling.Postgres.Dubbels;
+using Messages;
 using Serilog;
 using Vereniging;
 using Wolverine;
 using Wolverine.AmazonSqs;
 using Wolverine.ErrorHandling;
 using Wolverine.Postgresql;
-using VoegDubbelToeMessage = Messages.VoegDubbelToeMessage;
-using VoegDubbelToeMessageHandler = MessageHandling.Postgres.Dubbels.VoegDubbelToeMessageHandler;
 
 public static class WolverineExtensions
 {
     public static void AddWolverine(this WebApplicationBuilder builder)
     {
-        const string VoegDubbelToeQueueName = "vereniging-dubbel-queue";
+        const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
 
         builder.Host.UseWolverine(
             (context, options) =>
@@ -31,8 +31,8 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<TeAdresMatchenLocatieMessageHandler>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessage>();
                 options.Discovery.IncludeType<OverkoepelendeGrarConsumerMessageHandler>();
-                options.Discovery.IncludeType<VoegDubbelToeMessage>();
-                options.Discovery.IncludeType<VoegDubbelToeMessageHandler>();
+                options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
+                options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
@@ -65,10 +65,10 @@ public static class WolverineExtensions
 
                 options.PersistMessagesWithPostgresql(context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString());
 
-                options.PublishMessage<VoegDubbelToeMessage>()
-                       .ToPostgresqlQueue(VoegDubbelToeQueueName);
+                options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
+                       .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
 
-                options.ListenToPostgresqlQueue(VoegDubbelToeQueueName);
+                options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();

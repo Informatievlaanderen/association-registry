@@ -24,7 +24,7 @@ public class Given_A_Vereniging
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly MarkeerAlsDubbelVanCommandHandler _commandHandler;
-    private VoegDubbelToeMessage _outboxMessage;
+    private AanvaardDubbeleVerenigingMessage _outboxMessage;
 
     public Given_A_Vereniging()
     {
@@ -33,7 +33,7 @@ public class Given_A_Vereniging
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
 
         var martenOutbox = new Mock<IMartenOutbox>();
-        martenOutbox.CaptureOutboxSendAsyncMessage<VoegDubbelToeMessage>(message => _outboxMessage = message);
+        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardDubbeleVerenigingMessage>(message => _outboxMessage = message);
 
         _commandHandler = new MarkeerAlsDubbelVanCommandHandler(
             _verenigingRepositoryMock,
@@ -70,6 +70,6 @@ public class Given_A_Vereniging
 
         await _commandHandler.Handle(new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        _outboxMessage.Should().BeEquivalentTo(new VoegDubbelToeMessage(command.VCodeAuthentiekeVereniging, command.VCode));
+        _outboxMessage.Should().BeEquivalentTo(new AanvaardDubbeleVerenigingMessage(command.VCodeAuthentiekeVereniging, command.VCode));
     }
 }

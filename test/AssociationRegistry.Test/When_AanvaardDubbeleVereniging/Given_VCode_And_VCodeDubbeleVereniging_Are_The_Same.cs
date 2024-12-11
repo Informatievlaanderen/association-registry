@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.WhenVoegDubbelToe;
+﻿namespace AssociationRegistry.Test.When_AanvaardDubbeleVereniging;
 
-using Acties.VoegDubbelToe;
+using AssociationRegistry.Acties.AanvaardDubbel;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
@@ -18,12 +18,12 @@ public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
         var vCode = fixture.Create<VCode>();
-        var command = fixture.Create<VoegDubbelToeCommand>() with
+        var command = fixture.Create<AanvaardDubbeleVerenigingCommand>() with
         {
             VCode = scenario.VCode,
             VCodeDubbeleVereniging = scenario.VCode,
         };
-        var sut = new VoegDubbelToeCommandHandler(repositoryMock);
+        var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock);
 
         await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(
             async () => await sut.Handle(command, CancellationToken.None));
