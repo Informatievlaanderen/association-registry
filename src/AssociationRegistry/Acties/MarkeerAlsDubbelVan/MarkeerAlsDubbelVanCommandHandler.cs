@@ -38,7 +38,7 @@ public class MarkeerAlsDubbelVanCommandHandler
 
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
 
-        await _outbox.SendAsync(new VoegDubbelToeMessage(message.Command.VCodeAuthentiekeVereniging, message.Command.VCode));
+        await _outbox.SendAsync(new AanvaardDubbeleVerenigingMessage(message.Command.VCodeAuthentiekeVereniging, message.Command.VCode));
 
         var result = await _verenigingsRepository.Save(vereniging, _session, message.Metadata, cancellationToken);
 

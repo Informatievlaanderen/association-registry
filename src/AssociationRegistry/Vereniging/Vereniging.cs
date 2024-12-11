@@ -238,10 +238,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VerenigingWerdGermarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
     }
 
-    public void VoegDubbeleVerenigingToe(VCode dubbeleVereniging)
+    public void AanvaardDubbeleVereniging(VCode dubbeleVereniging)
     {
         Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
-        AddEvent(VerenigingWerdToegevoegdAlsDubbel.With(VCode, dubbeleVereniging));
+        AddEvent(VerenigingAanvaardeDubbeleVereniging.With(VCode, dubbeleVereniging));
     }
 
     public void Hydrate(VerenigingState obj)

@@ -1,16 +1,19 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+namespace AssociationRegistry.Test.Projections.Scenario;
 
 using AutoFixture;
 using Events;
 
-public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : ScenarioBase
+/// <summary>
+/// This is exactly the same as VerenigingWerdGemarkeerdAlsDubbelVanScenario, but from the POV of the AuthentiekeVereniging
+/// </summary>
+public class VerenigingWerdToegevoegdAlsDubbelScenario : ScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd { get; }
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGermarkeerdAlsDubbelVan VerenigingWerdGermarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaardeDubbeleVereniging VerenigingAanvaardeDubbeleVereniging { get; set; }
 
-    public VerenigingWerdGemarkeerdAlsDubbelVanScenario()
+    public VerenigingWerdToegevoegdAlsDubbelScenario()
     {
         DubbeleVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         AuthentiekeVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -27,11 +30,11 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : ScenarioBase
         };
     }
 
-    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
+    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGermarkeerdAlsDubbelVan),
+        new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGermarkeerdAlsDubbelVan),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaardeDubbeleVereniging),
     ];
 }
