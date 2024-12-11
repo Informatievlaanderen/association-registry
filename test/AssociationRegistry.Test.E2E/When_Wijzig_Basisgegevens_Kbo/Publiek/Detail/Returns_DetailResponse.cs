@@ -71,6 +71,8 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
             Locaties = [],
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
+            IsDubbelVan = string.Empty,
+            CorresponderendeVCodes = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse

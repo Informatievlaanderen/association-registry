@@ -15,7 +15,7 @@ public class VerenigingDetail
 
     // <summary>De unieke identificatie codes van de corresponderende verenigingen</summary>
     [DataMember(Name = "CorresponderendeVCodes")]
-    public string[] CorresponderendeVCodes { get; init; } = Array.Empty<string>();
+    public string[] CorresponderendeVCodes { get; init; } = [];
 
     /// <summary>Het type van deze vereniging</summary>
     [DataMember(Name = "Verenigingstype")]
