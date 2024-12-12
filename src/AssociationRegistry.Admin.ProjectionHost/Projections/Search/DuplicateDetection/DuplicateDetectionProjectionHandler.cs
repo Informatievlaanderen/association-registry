@@ -26,6 +26,7 @@ public class DuplicateDetectionProjectionHandler
                 HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
                 IsGestopt = false,
                 IsVerwijderd = false,
+                IsDubbel = false,
             }
         );
 
@@ -41,6 +42,7 @@ public class DuplicateDetectionProjectionHandler
                 HoofdactiviteitVerenigingsloket = Array.Empty<string>(),
                 IsGestopt = false,
                 IsVerwijderd = false,
+                IsDubbel = false,
             }
         );
 
@@ -181,6 +183,15 @@ public class DuplicateDetectionProjectionHandler
 
     public async Task Handle(EventEnvelope<LocatieDuplicaatWerdVerwijderdNaAdresMatch> message)
         => await _elasticRepository.RemoveLocatie<DuplicateDetectionDocument>(message.VCode, message.Data.VerwijderdeLocatieId);
+
+    public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionDocument
+            {
+                IsDubbel = true,
+            }
+        );
 
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)

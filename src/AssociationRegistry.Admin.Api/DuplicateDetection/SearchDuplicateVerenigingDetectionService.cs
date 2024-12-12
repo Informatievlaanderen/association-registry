@@ -32,9 +32,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                             q => q.Bool(
                                 b => b.Must(
                                            MatchOpNaam(naam),
-                                           IsNietGestopt
+                                           IsNietGestopt,
+                                           IsNietDubbel
                                        )
                                       .MustNot(BeVerwijderd)
+                                      .MustNot(BeDubbel)
                                       .Filter(MatchOpPostcodeOfGemeente(gemeentes, postcodes)
                                        )
                             )
@@ -67,12 +69,27 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                  .Value(false));
     }
 
+    private static QueryContainer IsNietDubbel(QueryContainerDescriptor<DuplicateDetectionDocument> descriptor)
+    {
+        return descriptor.Term(queryDescriptor => queryDescriptor.Field(document => document.IsDubbel)
+                                                                 .Value(false));
+    }
+
     private static QueryContainer BeVerwijderd(QueryContainerDescriptor<DuplicateDetectionDocument> shouldDescriptor)
     {
         return shouldDescriptor
            .Term(termDescriptor
                      => termDescriptor
                        .Field(document => document.IsVerwijderd)
+                       .Value(true));
+    }
+
+    private static QueryContainer BeDubbel(QueryContainerDescriptor<DuplicateDetectionDocument> shouldDescriptor)
+    {
+        return shouldDescriptor
+           .Term(termDescriptor
+                     => termDescriptor
+                       .Field(document => document.IsDubbel)
                        .Value(true));
     }
 
