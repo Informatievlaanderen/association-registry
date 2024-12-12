@@ -498,6 +498,14 @@ public class PubliekZoekProjectionHandler
             message.Data.Lidmaatschap.LidmaatschapId);
     }
 
+    // public async Task Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message)
+    // {
+    //     await _elasticRepository.UpdateLidmaatschap(
+    //         message.VCode,
+    //         Map(message.Data.Lidmaatschap, message.VCode));
+    // }
+
+
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()
         {

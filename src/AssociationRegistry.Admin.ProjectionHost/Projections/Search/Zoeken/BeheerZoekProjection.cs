@@ -538,6 +538,13 @@ public class BeheerZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<VerenigingAanvaarddeDubbeleVereniging> message)
+    {
+        await _elasticRepository.AppendCorresponderendeVCodes<VerenigingZoekDocument>(
+            message.VCode,
+            message.Data.VCodeDubbeleVereniging);
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {

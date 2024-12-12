@@ -208,4 +208,20 @@ public class ElasticRepository : IElasticRepository
             // todo: log ? (should never happen in test/staging/production)
             throw new IndexDocumentFailed(response.DebugInformation);
     }
+
+    public async Task AppendCorresponderendeVCodes<T>(string id, string vCodeDubbeleVereniging) where T : class
+    {
+        var response = await _elasticClient.UpdateAsync<T>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("if(! ctx._source.corresponderendeVCodes.contains(params.item)){" +
+                            "ctx._source.corresponderendeVCodes.add(params.item)" +
+                            "}")
+                    .Params(objects => objects.Add(key: "item", vCodeDubbeleVereniging))));
+
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
 }
