@@ -2,7 +2,7 @@ namespace AssociationRegistry.Public.Schema.Search;
 
 using Detail;
 
-public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
+public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
@@ -21,6 +21,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public string Status { get; set; } = null!;
     public bool IsVerwijderd { get; set; }
+    public bool IsDubbel { get; set; }
 
     public class Locatie
     {
