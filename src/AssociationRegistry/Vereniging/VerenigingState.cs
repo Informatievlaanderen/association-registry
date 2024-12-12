@@ -665,13 +665,13 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(AdresHeeftGeenVerschillenMetAdressenregister @event)
         => this;
 
-    public VerenigingState Apply(VerenigingWerdGermarkeerdAlsDubbelVan @event)
+    public VerenigingState Apply(VerenigingWerdGemarkeerdAlsDubbelVan @event)
         => this with
         {
             IsDubbel = true,
         };
 
-    public VerenigingState Apply(VerenigingAanvaardeDubbeleVereniging @event)
+    public VerenigingState Apply(VerenigingAanvaarddeDubbeleVereniging @event)
         => this with
         {
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),

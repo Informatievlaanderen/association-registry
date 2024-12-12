@@ -4,8 +4,8 @@ using Admin.Schema.Historiek;
 using Events;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
-    : BeheerHistoriekScenarioClassFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario>
+public class Given_VerenigingAanvaarddeDubbeleVereniging(BeheerHistoriekScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
+    : BeheerHistoriekScenarioClassFixture<VerenigingAanvaarddeDubbeleVerenigingScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -17,12 +17,12 @@ public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixt
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging werd gemarkeerd als dubbel van {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode}.",
-                                               nameof(VerenigingWerdGemarkeerdAlsDubbelVan),
+                                               Beschrijving: $"Vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode} werd toegevoegd als dubbel.",
+                                               nameof(VerenigingAanvaarddeDubbeleVereniging),
                                                new
                                                {
                                                    VCode = fixture.Scenario.VCode,
-                                                   VCodeAuthentiekeVereniging = fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode,
+                                                   VCodeDubbeleVereniging = fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

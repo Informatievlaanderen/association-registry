@@ -211,7 +211,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     private static async Task Update<T>(

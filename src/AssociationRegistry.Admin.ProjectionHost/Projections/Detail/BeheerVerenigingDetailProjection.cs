@@ -224,10 +224,10 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
-    public async Task Project(IEvent<VerenigingAanvaardeDubbeleVereniging> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
