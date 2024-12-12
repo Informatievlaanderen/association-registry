@@ -39,8 +39,6 @@ public static class PubliekVerenigingDetailMapper
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
                 Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, lidmaatschapMapper)).ToArray(),
-                IsDubbelVan = document.IsDubbelVan,
-                CorresponderendeVCodes = document.CorresponderendeVCodes,
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };

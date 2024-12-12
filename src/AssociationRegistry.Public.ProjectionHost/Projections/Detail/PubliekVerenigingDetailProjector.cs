@@ -79,8 +79,6 @@ public static class PubliekVerenigingDetailProjector
                     CodeerSysteem = CodeerSysteem.VR,
                 },
             ],
-            IsDubbelVan = "",
-            CorresponderendeVCodes = [],
         };
 
     public static PubliekVerenigingDetailDocument Create(
@@ -156,8 +154,6 @@ public static class PubliekVerenigingDetailProjector
                     CodeerSysteem = CodeerSysteem.KBO,
                 },
             ],
-            IsDubbelVan = "",
-            CorresponderendeVCodes = [],
         };
 
     private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(
@@ -783,14 +779,5 @@ public static class PubliekVerenigingDetailProjector
     public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, PubliekVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Dubbel;
-        document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.VCodeAuthentiekeVereniging;
-    }
-
-    public static void Apply(IEvent<VerenigingAanvaardeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging, PubliekVerenigingDetailDocument document)
-    {
-        document.CorresponderendeVCodes =
-            document.CorresponderendeVCodes
-                    .Append(verenigingAanvaardeDubbeleVereniging.Data.VCodeDubbeleVereniging)
-                    .ToArray();
     }
 }

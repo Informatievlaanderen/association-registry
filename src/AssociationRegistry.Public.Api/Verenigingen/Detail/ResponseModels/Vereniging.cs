@@ -75,12 +75,4 @@ public class Vereniging
     /// <summary>De lidmaatschappen van deze vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = [];
-
-    /// <summary>De VCode van de vereniging waarvan deze vereniging een dubbel is</summary>
-    [DataMember(Name = "IsDubbelVan")]
-    public string IsDubbelVan { get; set; }
-
-    // <summary>De unieke identificatie codes van de corresponderende verenigingen</summary>
-    [DataMember(Name = "CorresponderendeVCodes")]
-    public string[] CorresponderendeVCodes { get; init; } = [];
 }

@@ -68,6 +68,6 @@ public class DetailVerenigingenController : ApiController
                 .Query<PubliekVerenigingDetailDocument>()
                 .WithVCode(vCode)
                 .OnlyIngeschrevenInPubliekeDatastroom()
-                .OnlyActiefOrDubbel()
+                .OnlyActief()
                 .SingleOrDefaultAsync();
 }
