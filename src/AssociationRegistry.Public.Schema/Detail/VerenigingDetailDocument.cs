@@ -146,8 +146,6 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
-    public string IsDubbelVan { get; set; } = string.Empty;
-    public string[] CorresponderendeVCodes { get; set; } = [];
 }
 
 public class JsonLdMetadata

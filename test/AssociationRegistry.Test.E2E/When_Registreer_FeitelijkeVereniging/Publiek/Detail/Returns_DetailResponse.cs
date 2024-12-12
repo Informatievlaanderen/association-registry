@@ -78,8 +78,6 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
             Locaties = MapLocaties(Request.Locaties, _testContext.VCode),
             Relaties = MapRelaties([], _testContext.VCode),
             Sleutels = MapSleutels(Request, _testContext.VCode),
-            IsDubbelVan = string.Empty,
-            CorresponderendeVCodes = [],
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)

@@ -5,11 +5,20 @@ using Newtonsoft.Json.Linq;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Public.Api.Werkingsgebieden.ResponseModels;
+using System.Net;
 
 public static class PublicApiEndpoints
 {
     public static PubliekVerenigingDetailResponse GetPubliekDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<PubliekVerenigingDetailResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static HttpStatusCode GetPubliekDetailStatusCode(this IAlbaHost source, string vCode)
+    {
+        var client = source.Server.CreateClient();
+        var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
+
+        return response.StatusCode;
+    }
 
     public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
         => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
