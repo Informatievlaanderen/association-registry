@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
 using Framework;
+using Marten.Linq.SoftDeletes;
 using Nest;
 using Schema;
 using Schema.Constants;
@@ -44,7 +45,8 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                              )
                                                             .MustNot(
                                                                  BeUitgeschrevenUitPubliekeDatastroom,
-                                                                 BeRemoved)
+                                                                 BeRemoved,
+                                                                 BeDubbel)
                                  )
                        )
                       .Aggregations(
@@ -203,6 +205,12 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
         where T : class, IDeletable
     {
         return q.Term(field: arg => arg.IsVerwijderd, value: true);
+    }
+
+    private static QueryContainer BeDubbel<T>(QueryContainerDescriptor<T> q)
+        where T : class, IIsDubbel
+    {
+        return q.Term(field: arg => arg.IsDubbel, value: true);
     }
 }
 

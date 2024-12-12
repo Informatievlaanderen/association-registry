@@ -498,13 +498,12 @@ public class PubliekZoekProjectionHandler
             message.Data.Lidmaatschap.LidmaatschapId);
     }
 
-    // public async Task Handle(EventEnvelope<LidmaatschapWerdGewijzigd> message)
-    // {
-    //     await _elasticRepository.UpdateLidmaatschap(
-    //         message.VCode,
-    //         Map(message.Data.Lidmaatschap, message.VCode));
-    // }
-
+    public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekDocument
+                                                 { IsDubbel = true });
+    }
 
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()

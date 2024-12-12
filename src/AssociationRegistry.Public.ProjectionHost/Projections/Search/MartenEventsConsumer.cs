@@ -58,6 +58,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(LidmaatschapWerdToegevoegd):
                 case nameof(LidmaatschapWerdGewijzigd):
                 case nameof(LidmaatschapWerdVerwijderd):
+                case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
                     try
                     {
                         await _handler.Handle(eventEnvelope);
