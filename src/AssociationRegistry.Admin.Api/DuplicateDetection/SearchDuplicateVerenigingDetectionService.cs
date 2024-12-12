@@ -36,7 +36,6 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                            IsNietDubbel
                                        )
                                       .MustNot(BeVerwijderd)
-                                      .MustNot(BeDubbel)
                                       .Filter(MatchOpPostcodeOfGemeente(gemeentes, postcodes)
                                        )
                             )
@@ -81,15 +80,6 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
            .Term(termDescriptor
                      => termDescriptor
                        .Field(document => document.IsVerwijderd)
-                       .Value(true));
-    }
-
-    private static QueryContainer BeDubbel(QueryContainerDescriptor<DuplicateDetectionDocument> shouldDescriptor)
-    {
-        return shouldDescriptor
-           .Term(termDescriptor
-                     => termDescriptor
-                       .Field(document => document.IsDubbel)
                        .Value(true));
     }
 
