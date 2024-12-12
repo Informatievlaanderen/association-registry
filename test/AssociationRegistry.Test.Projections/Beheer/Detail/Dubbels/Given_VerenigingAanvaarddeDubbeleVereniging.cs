@@ -3,8 +3,8 @@
 using Admin.Schema.Constants;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingWerdToegevoegdAlsDubbel(BeheerDetailScenarioFixture<VerenigingWerdToegevoegdAlsDubbelScenario> fixture)
-    : BeheerDetailScenarioClassFixture<VerenigingWerdToegevoegdAlsDubbelScenario>
+public class Given_VerenigingWerdToegevoegdAlsDubbel(BeheerDetailScenarioFixture<VerenigingAanvaarddeDubbeleVerenigingScenario> fixture)
+    : BeheerDetailScenarioClassFixture<VerenigingAanvaarddeDubbeleVerenigingScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()

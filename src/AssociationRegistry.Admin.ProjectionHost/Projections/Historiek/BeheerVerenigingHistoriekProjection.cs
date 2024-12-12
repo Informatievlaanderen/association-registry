@@ -200,16 +200,19 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<LidmaatschapWerdVerwijderd> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
-    public async Task Project(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
     public async Task Project(
-        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> vertegenwoordigerWerdOvergenomenUitKbo,
+        IEvent<VertegenwoordigerWerdOvergenomenUitKBO> @event,
         IDocumentOperations ops)
     {
-        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(vertegenwoordigerWerdOvergenomenUitKbo.StreamKey!))!;
+        var doc = (await ops.LoadAsync<BeheerVerenigingHistoriekDocument>(@event.StreamKey!))!;
 
-        BeheerVerenigingHistoriekProjector.Apply(vertegenwoordigerWerdOvergenomenUitKbo, doc);
+        BeheerVerenigingHistoriekProjector.Apply(@event, doc);
 
         ops.Store(doc);
     }

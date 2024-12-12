@@ -37,7 +37,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
     public void With_All_Gebeurtenissen()
     {
         var gebeurtenis =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdGermarkeerdAlsDubbelVan));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdGemarkeerdAlsDubbelVan));
 
         gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGermarkeerdAlsDubbelVan(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);

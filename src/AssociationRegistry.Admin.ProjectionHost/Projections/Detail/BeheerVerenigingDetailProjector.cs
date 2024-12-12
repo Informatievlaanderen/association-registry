@@ -750,13 +750,13 @@ public class BeheerVerenigingDetailProjector
     }
 
 
-    public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, BeheerVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Dubbel;
         document.IsDubbelVan = verenigingWerdGemarkeerdAlsDubbel.Data.VCodeAuthentiekeVereniging;
     }
 
-    public static void Apply(IEvent<VerenigingAanvaardeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaardeDubbeleVereniging, BeheerVerenigingDetailDocument document)
     {
         document.CorresponderendeVCodes =
             document.CorresponderendeVCodes

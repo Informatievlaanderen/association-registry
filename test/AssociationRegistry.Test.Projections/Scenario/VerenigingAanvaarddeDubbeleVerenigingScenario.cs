@@ -6,24 +6,24 @@ using Events;
 /// <summary>
 /// This is exactly the same as VerenigingWerdGemarkeerdAlsDubbelVanScenario, but from the POV of the AuthentiekeVereniging
 /// </summary>
-public class VerenigingWerdToegevoegdAlsDubbelScenario : ScenarioBase
+public class VerenigingAanvaarddeDubbeleVerenigingScenario : ScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd { get; }
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
-    public VerenigingWerdGermarkeerdAlsDubbelVan VerenigingWerdGermarkeerdAlsDubbelVan { get; set; }
-    public VerenigingAanvaardeDubbeleVereniging VerenigingAanvaardeDubbeleVereniging { get; set; }
+    public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
+    public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
 
-    public VerenigingWerdToegevoegdAlsDubbelScenario()
+    public VerenigingAanvaarddeDubbeleVerenigingScenario()
     {
         DubbeleVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
         AuthentiekeVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
 
-        VerenigingWerdGermarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGermarkeerdAlsDubbelVan>() with
+        VerenigingWerdGemarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
             VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
 
-        VerenigingAanvaardeDubbeleVereniging = AutoFixture.Create<VerenigingAanvaardeDubbeleVereniging>() with
+        VerenigingAanvaarddeDubbeleVereniging = AutoFixture.Create<VerenigingAanvaarddeDubbeleVereniging>() with
         {
             VCode = AuthentiekeVerenigingWerdGeregistreerd.VCode,
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
@@ -34,7 +34,7 @@ public class VerenigingWerdToegevoegdAlsDubbelScenario : ScenarioBase
 
     public override EventsPerVCode[] Events =>
     [
-        new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGermarkeerdAlsDubbelVan),
-        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaardeDubbeleVereniging),
+        new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
+        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 }

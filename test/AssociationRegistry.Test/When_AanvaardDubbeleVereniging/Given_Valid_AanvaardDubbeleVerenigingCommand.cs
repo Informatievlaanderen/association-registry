@@ -25,6 +25,6 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
 
          await sut.Handle(command, CancellationToken.None);
 
-         repositoryMock.ShouldHaveSaved(new VerenigingAanvaardeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
+         repositoryMock.ShouldHaveSaved(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
     }
 }

@@ -776,7 +776,7 @@ public static class PubliekVerenigingDetailProjector
                                            .ToArray();
     }
 
-    public static void Apply(IEvent<VerenigingWerdGermarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, PubliekVerenigingDetailDocument document)
+    public static void Apply(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbel, PubliekVerenigingDetailDocument document)
     {
         document.Status = VerenigingStatus.Dubbel;
     }
