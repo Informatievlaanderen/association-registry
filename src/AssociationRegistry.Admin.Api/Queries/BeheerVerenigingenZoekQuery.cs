@@ -40,6 +40,15 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
                        .Value(true));
     }
 
+    private static QueryContainer BeDubbel(QueryContainerDescriptor<VerenigingZoekDocument> shouldDescriptor)
+    {
+        return shouldDescriptor
+           .Term(termDescriptor
+                     => termDescriptor
+                       .Field(document => document.IsDubbel)
+                       .Value(true));
+    }
+
     public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(BeheerVerenigingenZoekFilter filter, CancellationToken cancellationToken)
         => await _client.SearchAsync<VerenigingZoekDocument>(
             s => s
@@ -50,6 +59,7 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
                           .Bool(boolQueryDescriptor =>
                                     boolQueryDescriptor.Must(MatchWithQuery(filter.Query))
                                                        .MustNot(BeVerwijderd)
+                                                       .MustNot(BeDubbel)
                            )
                  )
                 .TrackTotalHits(),

@@ -40,6 +40,9 @@ public static class VerenigingZoekDocumentMapping
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsVerwijderd))
+                         .Boolean(
+                              propertyDescriptor => propertyDescriptor
+                                 .Name(document => document.IsDubbel))
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.JsonLdMetadataType))

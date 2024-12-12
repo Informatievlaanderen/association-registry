@@ -22,6 +22,7 @@ public class VerenigingZoekDocument
 
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public bool IsVerwijderd { get; set; }
+    public bool IsDubbel { get; set; }
 
     public class Locatie : ILocatie
     {

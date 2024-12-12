@@ -528,6 +528,16 @@ public class BeheerZoekProjectionHandler
             message.Data.VerwijderdeLocatieId);
     }
 
+    public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                IsDubbel = true,
+            });
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {
