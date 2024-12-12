@@ -1,3 +1,15 @@
+# [8.186.0](https://github.com/informatievlaanderen/association-registry/compare/v8.185.0...v8.186.0) (2024-12-12)
+
+
+### Bug Fixes
+
+* or-2334 remove chaining MustNot for beheer zoeken ([e6d3c9c](https://github.com/informatievlaanderen/association-registry/commit/e6d3c9c96a0a4c334b42ece512f3b6adf3a3cb14))
+
+
+### Features
+
+* or-2334 do not check dubbeldetection for dubbele vereniging ([0a78ae8](https://github.com/informatievlaanderen/association-registry/commit/0a78ae8c556262abd923fb3858264ee47400f4b4))
+
 # [8.185.0](https://github.com/informatievlaanderen/association-registry/compare/v8.184.0...v8.185.0) (2024-12-12)
 
 
