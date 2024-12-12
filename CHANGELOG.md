@@ -1,3 +1,16 @@
+# [8.185.0](https://github.com/informatievlaanderen/association-registry/compare/v8.184.0...v8.185.0) (2024-12-12)
+
+
+### Bug Fixes
+
+* or-2334 remove dubbel properties on publiek detail ([5c32325](https://github.com/informatievlaanderen/association-registry/commit/5c32325e66c7c9c8db9103c298e0fa22bef833c5))
+
+
+### Features
+
+* or-2334 add VerenigingAanvaarddeDubbeleVereniging in beheer historiek ([b1477c9](https://github.com/informatievlaanderen/association-registry/commit/b1477c97977e6c6c8ffef943a3e7a450a2a2c03b))
+* or-2334 implement historiek for VerenigingWerdGemarkeerdAlsDubbelVan ([59e8df5](https://github.com/informatievlaanderen/association-registry/commit/59e8df522ba095a811de0c7ecc443acbd61742ea))
+
 # [8.184.0](https://github.com/informatievlaanderen/association-registry/compare/v8.183.1...v8.184.0) (2024-12-11)
 
 
