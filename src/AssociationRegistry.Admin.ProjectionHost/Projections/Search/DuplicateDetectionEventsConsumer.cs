@@ -41,7 +41,9 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdOvergenomenUitAdressenregister):
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                 case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
+                case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
+
                     break;
             }
         }
