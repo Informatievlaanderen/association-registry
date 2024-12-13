@@ -1,3 +1,18 @@
+# [8.187.0](https://github.com/informatievlaanderen/association-registry/compare/v8.186.0...v8.187.0) (2024-12-13)
+
+
+### Bug Fixes
+
+* or-2334 allow chaining for must not on zoek query ([a3fd966](https://github.com/informatievlaanderen/association-registry/commit/a3fd9665ecc2276f5acec5047f359e70c702f2cf))
+* or-2334 use type instead of anonymous type for historiek ([35326fb](https://github.com/informatievlaanderen/association-registry/commit/35326fb4a5035ab3ca4ec75921945dfbdb12e441))
+
+
+### Features
+
+* or-2334 add vcode dubbele vereniging to beheer zoeken when VerenigingAanvaarddeDubbeleVereniging ([05852b9](https://github.com/informatievlaanderen/association-registry/commit/05852b9be7941ac89d8db45a480dd537efbb7c31))
+* or-2334 dont return dubbele vereniging for publiek zoeken ([42b0616](https://github.com/informatievlaanderen/association-registry/commit/42b0616f7fd435bef0f2ddacd683343583648277))
+* or-2334 dont return dubbele vereniging in beheer zoeken ([d472b45](https://github.com/informatievlaanderen/association-registry/commit/d472b454c0fea04d64b0b66f8704933a3296802f))
+
 # [8.186.0](https://github.com/informatievlaanderen/association-registry/compare/v8.185.0...v8.186.0) (2024-12-12)
 
 
