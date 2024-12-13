@@ -17,7 +17,7 @@ public class Given_VerenigingAanvaarddeDubbeleVereniging(BeheerHistoriekScenario
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode} werd toegevoegd als dubbel.",
+                                               Beschrijving: $"Vereniging aanvaardde dubbele vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode}.",
                                                nameof(VerenigingAanvaarddeDubbeleVereniging),
                                                new
                                                {

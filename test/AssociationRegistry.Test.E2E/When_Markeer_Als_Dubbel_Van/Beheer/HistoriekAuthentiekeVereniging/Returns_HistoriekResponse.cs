@@ -1,0 +1,83 @@
+﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
+
+using AssociationRegistry.Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
+using Xunit;
+using Xunit.Abstractions;
+
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
+{
+    private readonly ITestOutputHelper _helper;
+
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext)
+    {
+        _helper = helper;
+    }
+
+    [Fact]
+    public async Task With_VCode()
+    {
+        var tryCounter = 0;
+
+        while (tryCounter < 20)
+        {
+            ++tryCounter;
+            await Task.Delay(500);
+
+            _helper.WriteLine($"Looking for CorresponderendeVCodes (try {tryCounter})...");
+            if (Response.VCode is not null)
+            {
+                _helper.WriteLine("Found it!");
+                break;
+            }
+
+            _helper.WriteLine("Did not find any CorresponderendeVCodes.");
+        }
+
+        Response.VCode.ShouldCompare(TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+    }
+
+    [Fact]
+    public void With_Context()
+    {
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/historiek-vereniging-context.json");
+    }
+
+    [Fact]
+    public async Task With_All_Gebeurtenissen()
+    {
+        var gebeurtenis =
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeDubbeleVereniging));
+
+        var tryCounter = 0;
+
+        while (tryCounter < 20)
+        {
+            ++tryCounter;
+            await Task.Delay(500);
+
+            _helper.WriteLine($"Looking for CorresponderendeVCodes (try {tryCounter})...");
+            if (gebeurtenis is not null)
+            {
+                _helper.WriteLine("Found it!");
+                break;
+            }
+
+            _helper.WriteLine("Did not find any CorresponderendeVCodes.");
+        }
+
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingAanvaarddeDubbeleVereniging(TestContext.Request, TestContext.VCode),
+                                        compareConfig: HistoriekComparisonConfig.Instance);
+    }
+}

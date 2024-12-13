@@ -656,11 +656,7 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            new
-            {
-                VCode = @event.Data.VCode,
-                VCodeAuthentiekeVereniging = @event.Data.VCodeAuthentiekeVereniging,
-            },
+            @event.Data,
             document,
             $"Vereniging werd gemarkeerd als dubbel van {@event.Data.VCodeAuthentiekeVereniging}."
         );
@@ -670,13 +666,9 @@ public class BeheerVerenigingHistoriekProjector
     {
         AddHistoriekEntry(
             @event,
-            new
-            {
-                VCode = @event.Data.VCode,
-                VCodeDubbeleVereniging = @event.Data.VCodeDubbeleVereniging,
-            },
+            @event.Data,
             document,
-            $"Vereniging {@event.Data.VCodeDubbeleVereniging} werd toegevoegd als dubbel."
+            $"Vereniging aanvaardde dubbele vereniging {@event.Data.VCodeDubbeleVereniging}."
         );
     }
 
