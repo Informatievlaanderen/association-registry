@@ -520,4 +520,18 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? VerenigingAanvaarddeDubbeleVereniging(MarkeerAlsDubbelVanRequest request, string vCode)
+        => new()
+        {
+            Beschrijving = $"Vereniging aanvaardde dubbele vereniging {vCode}.",
+            Gebeurtenis = nameof(Events.VerenigingAanvaarddeDubbeleVereniging),
+            Data = new
+            {
+                VCode = request.IsDubbelVan,
+                VCodeDubbeleVereniging = vCode,
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
