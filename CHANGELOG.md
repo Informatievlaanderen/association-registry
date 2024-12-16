@@ -1,3 +1,10 @@
+## [8.187.1](https://github.com/informatievlaanderen/association-registry/compare/v8.187.0...v8.187.1) (2024-12-16)
+
+
+### Bug Fixes
+
+* or-2335 set wolverine schema to public ([43d53c8](https://github.com/informatievlaanderen/association-registry/commit/43d53c851a517b46e011ca390c59ff6c65fb20b3))
+
 # [8.187.0](https://github.com/informatievlaanderen/association-registry/compare/v8.186.0...v8.187.0) (2024-12-13)
 
 
