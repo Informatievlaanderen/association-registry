@@ -20,6 +20,7 @@ public static class WolverineExtensions
     public static void AddWolverine(this WebApplicationBuilder builder)
     {
         const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
+        const string wolverineSchema = "public";
 
         builder.Host.UseWolverine(
             (context, options) =>
@@ -63,8 +64,9 @@ public static class WolverineExtensions
                 ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName,
                                           grarOptions.Sqs.GrarSyncQueueListenerEnabled);
 
-                options.PersistMessagesWithPostgresql(context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString());
+                var connectionString = context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
+                options.UsePostgresqlPersistenceAndTransport(connectionString, wolverineSchema, wolverineSchema);
                 options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                        .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
 
