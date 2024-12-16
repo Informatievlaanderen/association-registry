@@ -1,3 +1,10 @@
+## [8.187.2](https://github.com/informatievlaanderen/association-registry/compare/v8.187.1...v8.187.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* or-2335 define schema name on marten/wolv. integration ([9d4bcf5](https://github.com/informatievlaanderen/association-registry/commit/9d4bcf5c1607faea0a5400874c4792a620a9e38b))
+
 ## [8.187.1](https://github.com/informatievlaanderen/association-registry/compare/v8.187.0...v8.187.1) (2024-12-16)
 
 
