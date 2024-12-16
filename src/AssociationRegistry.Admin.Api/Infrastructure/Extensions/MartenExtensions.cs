@@ -23,6 +23,8 @@ using Wolverine.Marten;
 
 public static class MartenExtensions
 {
+    private const string WolverineSchemaName = "public";
+
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
         IConfigurationRoot configuration,
@@ -92,7 +94,7 @@ public static class MartenExtensions
 
                                           return opts;
                                       })
-                                 .IntegrateWithWolverine()
+                                 .IntegrateWithWolverine(schemaName: WolverineSchemaName, transportSchemaName: WolverineSchemaName)
                                  .UseLightweightSessions();
 
         if (configuration["ApplyAllDatabaseChangesDisabled"]?.ToLowerInvariant() != "true")
