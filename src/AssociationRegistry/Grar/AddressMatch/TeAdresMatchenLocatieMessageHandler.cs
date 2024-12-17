@@ -23,16 +23,16 @@ public class TeAdresMatchenLocatieMessageHandler
     }
 
     public async Task Handle(
-        TeAdresMatchenLocatieMessage matchenLocatieMessage,
+        TeAdresMatchenLocatieMessage teAdresMatchenLocatieMessage,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(TeAdresMatchenLocatieMessageHandler)}");
 
         try
         {
-            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(matchenLocatieMessage.VCode));
+            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(teAdresMatchenLocatieMessage.VCode), allowDubbeleVereniging: true);
 
-            await vereniging.ProbeerAdresTeMatchen(_grarClient, matchenLocatieMessage.LocatieId, cancellationToken);
+            await vereniging.ProbeerAdresTeMatchen(_grarClient, teAdresMatchenLocatieMessage.LocatieId, cancellationToken);
 
             await _verenigingsRepository.Save(
                 vereniging,
@@ -46,7 +46,7 @@ public class TeAdresMatchenLocatieMessageHandler
         }
         catch (AssociationRegistry.Vereniging.Exceptions.VerenigingIsVerwijderd)
         {
-            _logger.LogWarning("Kon de locatie niet adresmatchen wegens verwijderde vereniging met VCode: {VCode}.", matchenLocatieMessage.VCode);
+            _logger.LogWarning("Kon de locatie niet adresmatchen wegens verwijderde vereniging met VCode: {VCode}.", teAdresMatchenLocatieMessage.VCode);
         }
         catch (Exception ex)
         {
