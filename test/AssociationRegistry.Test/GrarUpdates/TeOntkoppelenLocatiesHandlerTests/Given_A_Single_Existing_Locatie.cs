@@ -15,7 +15,7 @@ public class Given_A_Single_Existing_Locatie
     {
         var scenario = new AdresWerdOvergenomenUitAdressenregisterScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true);
 
         var message = new OntkoppelLocatiesMessage(scenario.VCode,
         [

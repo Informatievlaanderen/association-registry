@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.When_Heradresseren_Locaties;
+﻿namespace AssociationRegistry.Test.GrarClient;
 
 using Events;
-using Fixtures;
 using FluentAssertions;
 using Grar.Models;
+using When_Heradresseren_Locaties.Fixtures;
 using Xunit;
 using Xunit.Categories;
 
