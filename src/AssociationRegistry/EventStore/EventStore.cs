@@ -148,4 +148,12 @@ public class EventStore : IEventStore
 
         return await Load<T>(id, expectedVersion);
     }
+
+    public async Task<bool> Exists(VCode vCode)
+    {
+        await using var session = _documentStore.LightweightSession();
+        var streamState = await session.Events.FetchStreamStateAsync(vCode);
+
+        return streamState != null;
+    }
 }

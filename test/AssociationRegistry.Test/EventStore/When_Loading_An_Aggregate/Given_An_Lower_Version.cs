@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.When_Loading_An_Aggregate;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using AutoFixture.Kernel;
@@ -14,7 +15,6 @@ using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
-[Category("AdminApi")]
 [IntegrationTest]
 public class Given_An_Lower_Version
 {

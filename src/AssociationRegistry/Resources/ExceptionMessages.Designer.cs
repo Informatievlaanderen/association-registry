@@ -665,6 +665,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een niet bestaande vereniging..
+        /// </summary>
+        public static string VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging..
         /// </summary>
         public static string VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel {

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.VerenigingsRepositoryTests;
 
+using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;

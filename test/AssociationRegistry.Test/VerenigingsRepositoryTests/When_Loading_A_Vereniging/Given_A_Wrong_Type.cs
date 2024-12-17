@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
+using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;

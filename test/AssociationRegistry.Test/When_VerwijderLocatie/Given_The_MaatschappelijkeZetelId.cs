@@ -28,7 +28,13 @@ public class Given_The_MaatschappelijkeZetelId
         var vereniging = new VerenigingOfAnyKind();
 
         vereniging.Hydrate(new VerenigingState()
-                          .Apply(fixture.Create<LocatieWerdToegevoegd>())
+                          .Apply(fixture.Create<LocatieWerdToegevoegd>() with
+                           {
+                               Locatie = fixture.Create<Registratiedata.Locatie>() with
+                               {
+                                   LocatieId = 2,
+                               },
+                           })
                           .Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo.With(locatie)));
 
         var wijzigLocatie = () => vereniging.VerwijderLocatie(1);
