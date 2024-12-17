@@ -190,6 +190,9 @@
   <data name="VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging">
     <value>Een vereniging kan geen dubbel worden van een verwijderde vereniging.</value>
   </data>
+  <data name="VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging">
+    <value>Een vereniging kan geen dubbel worden van een niet bestaande vereniging.</value>
+  </data>
   <data name="VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel">
     <value>Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging.</value>
   </data>

@@ -82,6 +82,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public Task<bool> IsDubbel(VCode vCode)
         => Task.FromResult(false);
 
+    public async Task<bool> Exists(VCode vCode)
+        => true;
+
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(

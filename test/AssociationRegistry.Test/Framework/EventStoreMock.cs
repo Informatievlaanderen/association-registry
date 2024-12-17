@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Framework;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using EventStore;
 using Marten;
@@ -52,4 +53,7 @@ public class EventStoreMock : IEventStore
 
     public Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new()
         => Task.FromException<T?>(new NotImplementedException());
+
+    public async Task<bool> Exists(VCode vCode)
+        => true;
 }

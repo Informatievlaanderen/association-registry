@@ -80,4 +80,7 @@ public class VerenigingsRepository : IVerenigingsRepository
 
         return verenigingState.IsDubbel;
     }
+
+    public async Task<bool> Exists(VCode vCode)
+        => await _eventStore.Exists(vCode);
 }

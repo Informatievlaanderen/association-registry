@@ -21,4 +21,5 @@ public interface IEventStore
 
     Task<T> Load<T>(string id, long? expectedVersion) where T : class, IHasVersion, new();
     Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new();
+    Task<bool> Exists(VCode vCode);
 }

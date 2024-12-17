@@ -30,11 +30,7 @@ public class MarkeerAlsDubbelVanCommandHandler
     {
         var vereniging = await _verenigingsRepository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion);
 
-        if (await _verenigingsRepository.IsVerwijderd(message.Command.VCodeAuthentiekeVereniging))
-            throw new VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging();
-
-        if (await _verenigingsRepository.IsDubbel(message.Command.VCodeAuthentiekeVereniging))
-            throw new VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel();
+        await ThrowIfInvalidAuthentiekeVereniging(message);
 
         vereniging.MarkeerAlsDubbelVan(message.Command.VCodeAuthentiekeVereniging);
 
@@ -43,5 +39,17 @@ public class MarkeerAlsDubbelVanCommandHandler
         var result = await _verenigingsRepository.Save(vereniging, _session, message.Metadata, cancellationToken);
 
         return CommandResult.Create(message.Command.VCode, result);
+    }
+
+    private async Task ThrowIfInvalidAuthentiekeVereniging(CommandEnvelope<MarkeerAlsDubbelVanCommand> message)
+    {
+        if (!await _verenigingsRepository.Exists(message.Command.VCodeAuthentiekeVereniging))
+            throw new VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging();
+
+        if (await _verenigingsRepository.IsVerwijderd(message.Command.VCodeAuthentiekeVereniging))
+            throw new VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging();
+
+        if (await _verenigingsRepository.IsDubbel(message.Command.VCodeAuthentiekeVereniging))
+            throw new VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel();
     }
 }

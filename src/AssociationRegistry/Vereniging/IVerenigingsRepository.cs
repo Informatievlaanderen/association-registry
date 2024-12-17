@@ -12,4 +12,5 @@ public interface IVerenigingsRepository
     Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion = null);
     Task<bool> IsVerwijderd(VCode vCode);
     Task<bool> IsDubbel(VCode vCode);
+    Task<bool> Exists(VCode vCode);
 }
