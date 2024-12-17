@@ -34,7 +34,7 @@ public class With_DecoratingWithPostalInformation
             }),
         };
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario, expectedLoadingDubbel: true);
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>();
 

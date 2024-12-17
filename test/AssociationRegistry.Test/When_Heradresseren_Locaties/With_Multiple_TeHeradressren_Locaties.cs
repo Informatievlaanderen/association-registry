@@ -20,7 +20,7 @@ public class With_Multiple_TeHeradressren_Locaties
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario, expectedLoadingDubbel: true);
 
         var fixture = new Fixture().CustomizeAdminApi();
 

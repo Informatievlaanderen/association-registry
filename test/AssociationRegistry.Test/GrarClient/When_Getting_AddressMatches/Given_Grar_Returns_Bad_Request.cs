@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.GrarClient.When_Getting_AddressMatches;
 
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Exceptions;
+using Grar;
+using Grar.Exceptions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;

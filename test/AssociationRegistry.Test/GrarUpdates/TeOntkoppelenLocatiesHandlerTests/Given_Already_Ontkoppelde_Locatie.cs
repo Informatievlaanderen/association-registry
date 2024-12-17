@@ -15,7 +15,7 @@ public class Given_Already_Ontkoppelde_Locatie
     {
         var scenario = new AdresWerdOntkoppeldScenario();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), expectedLoadingDubbel: true);
 
         var message = new OntkoppelLocatiesMessage(scenario.VCode,
         [

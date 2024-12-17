@@ -22,7 +22,7 @@ public class Given_Multiple_Message_With_Same_IdempotenceKey
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario, expectedLoadingDubbel: true);
 
         var fixture = new Fixture().CustomizeAdminApi();
 

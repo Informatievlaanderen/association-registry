@@ -16,7 +16,7 @@ public class OntkoppelLocatiesMessageHandler
 
     public async Task Handle(OntkoppelLocatiesMessage message, CancellationToken cancellationToken)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode), allowDubbeleVereniging: true);
 
         foreach (var teOntkoppelenLocatieId in message.TeOntkoppelenLocatieIds)
         {
