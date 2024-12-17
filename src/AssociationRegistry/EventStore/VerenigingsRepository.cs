@@ -41,11 +41,16 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, session, metadata, cancellationToken, events);
     }
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode, expectedVersion);
-        ThrowIfVerwijderd(verenigingState);
+
+        if (!allowVerwijderdeVereniging)
+            verenigingState.ThrowIfVerwijderd();
+
+        if (!allowDubbeleVereniging)
+            verenigingState.ThrowIfDubbel();
 
         var vereniging = new TVereniging();
         vereniging.Hydrate(verenigingState);
@@ -69,23 +74,10 @@ public class VerenigingsRepository : IVerenigingsRepository
         return verenigingState.IsVerwijderd;
     }
 
-    private void ThrowIfVerwijderd(VerenigingState verenigingState)
-    {
-        if (verenigingState.IsVerwijderd)
-            throw new VerenigingWerdVerwijderd(verenigingState.VCode);
-    }
-
     public async Task<bool> IsDubbel(VCode vCode)
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
 
         return verenigingState.IsDubbel;
     }
-
-    private void ThrowIfDubbel(VerenigingState verenigingState)
-    {
-        if (verenigingState.IsDubbel)
-            throw new VerenigingWerdVerwijderd(verenigingState.VCode);
-    }
-
 }

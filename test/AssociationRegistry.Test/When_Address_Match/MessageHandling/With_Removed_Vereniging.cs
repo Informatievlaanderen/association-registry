@@ -20,8 +20,8 @@ public class With_Removed_Vereniging
         var vCode = VCode.Create(1001001);
 
         verenigingRepositoryMock.Setup(s => s.Load<VerenigingOfAnyKind>(It.IsAny<VCode>(),
-                                                                        It.IsAny<long?>()))
-                                .ThrowsAsync(new VerenigingWerdVerwijderd(vCode));
+                                                                        It.IsAny<long?>(), false, false))
+                                .ThrowsAsync(new VerenigingIsVerwijderd(vCode));
 
         var grarClient = new Mock<IGrarClient>();
 

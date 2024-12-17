@@ -3,6 +3,7 @@ namespace AssociationRegistry.Vereniging;
 using Bronnen;
 using Emails;
 using Events;
+using Exceptions;
 using Framework;
 using Marten.Schema;
 using SocialMedias;
@@ -676,4 +677,16 @@ public record VerenigingState : IHasVersion
         {
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
+
+    public void ThrowIfVerwijderd()
+    {
+        if (IsVerwijderd)
+            throw new VerenigingIsVerwijderd(VCode);
+    }
+
+    public void ThrowIfDubbel()
+    {
+        if (IsDubbel)
+            throw new VerenigingIsDubbel(VCode);
+    }
 }

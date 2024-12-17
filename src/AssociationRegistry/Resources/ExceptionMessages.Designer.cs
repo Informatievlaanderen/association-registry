@@ -647,6 +647,24 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deze vereniging is dubbel en kan niet geladen worden..
+        /// </summary>
+        public static string VerenigingIsDubbel {
+            get {
+                return ResourceManager.GetString("VerenigingIsDubbel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deze vereniging is verwijderd en kan niet geladen worden..
+        /// </summary>
+        public static string VerenigingIsVerwijderd {
+            get {
+                return ResourceManager.GetString("VerenigingIsVerwijderd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging..
         /// </summary>
         public static string VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel {
@@ -715,15 +733,6 @@ namespace AssociationRegistry.Resources {
         public static string VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden {
             get {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Deze vereniging werd verwijderd..
-        /// </summary>
-        public static string VerenigingWerdVerwijderd {
-            get {
-                return ResourceManager.GetString("VerenigingWerdVerwijderd", resourceCulture);
             }
         }
         

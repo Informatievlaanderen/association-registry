@@ -205,8 +205,11 @@
   <data name="LidmaatschapIsNietGekend">
     <value>Lidmaatschap met lidmaatschapId '{0}' is niet gekend</value>
   </data>
-  <data name="VerenigingWerdVerwijderd">
-    <value>Deze vereniging werd verwijderd.</value>
+  <data name="VerenigingIsVerwijderd">
+    <value>Deze vereniging is verwijderd en kan niet geladen worden.</value>
+  </data>
+  <data name="VerenigingIsDubbel">
+    <value>Deze vereniging is dubbel en kan niet geladen worden.</value>
   </data>
   <data name="UnsupportedOperationForLocatietype">
     <value>Deze actie kan niet uitgevoerd worden op deze locatie.</value>
