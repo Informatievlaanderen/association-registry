@@ -7,10 +7,14 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
+using Xunit;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {
     private VerenigingState? _verenigingToLoad;
+    private readonly bool _expectedLoadingDubbel;
+    private bool _actualLoadingDubbel;
+
     public record SaveInvocation(VerenigingsBase Vereniging);
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
@@ -19,9 +23,10 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false)
     {
         _verenigingToLoad = verenigingToLoad;
+        _expectedLoadingDubbel = expectedLoadingDubbel;
     }
 
     public async Task<StreamActionResult> Save(
@@ -51,6 +56,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
+        _actualLoadingDubbel = allowDubbeleVereniging;
         _invocationsLoad.Add(new InvocationLoad(vCode, typeof(TVereniging)));
         var vereniging = new TVereniging();
         vereniging.Hydrate(_verenigingToLoad!);
@@ -88,6 +94,14 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         SaveInvocations.Should().HaveCount(1);
 
         SaveInvocations[0].Vereniging.UncommittedEvents.ToArray().ShouldCompare(events);
+
+        AssertLoadingDubbel();
+    }
+
+    public void AssertLoadingDubbel()
+    {
+        _actualLoadingDubbel.Should().Be(_expectedLoadingDubbel);
+
     }
 
     public void ShouldNotHaveSaved<TEvent>() where TEvent : IEvent

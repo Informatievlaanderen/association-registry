@@ -5,6 +5,7 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using FluentAssertions;
 using Framework.Customizations;
 using Grar;
 using Grar.AddressSync;
@@ -18,11 +19,11 @@ using Xunit.Categories;
 public class With_AddressIsNullFromGrar
 {
     [Fact]
-    public async Task Then_ShouldHaveNoSaves()
+    public async Task Then_ShouldHaveSaved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 
-        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario);
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario, expectedLoadingDubbel: true);
 
         var fixture = new Fixture().CustomizeDomain();
 

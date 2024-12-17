@@ -14,7 +14,7 @@ public class TeSynchroniserenLocatieAdresMessageHandler(IVerenigingsRepository r
 
         try
         {
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode));
+            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode), allowDubbeleVereniging: true);
 
             await vereniging.SyncAdresLocaties(message.LocatiesWithAdres, message.IdempotenceKey, grarClient);
 
