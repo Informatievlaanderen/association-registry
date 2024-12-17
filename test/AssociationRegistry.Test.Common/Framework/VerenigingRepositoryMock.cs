@@ -48,7 +48,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         CancellationToken cancellationToken)
         => await Save(vereniging, metadata, cancellationToken);
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Add(new InvocationLoad(vCode, typeof(TVereniging)));

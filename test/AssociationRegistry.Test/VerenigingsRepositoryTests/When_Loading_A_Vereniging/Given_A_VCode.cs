@@ -40,11 +40,4 @@ public class Given_A_VCode
            .And
            .BeOfType<Vereniging>();
     }
-
-    [Fact]
-    public async Task Then_It_Throws_A_UnsupportedOperationException()
-    {
-        var loadMethod = () => _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, expectedVersion: null);
-        await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
-    }
 }

@@ -72,6 +72,6 @@ public class Given_A_Removed_Vereniging : IClassFixture<Remove_A_Removed_Verenig
         var responseBody = await _classFixture.Response.Content.ReadAsStringAsync();
         var problemDetails = JsonConvert.DeserializeObject<JObject>(responseBody);
 
-        problemDetails["detail"].Value<string>().Should().Be(ExceptionMessages.VerenigingWerdVerwijderd);
+        problemDetails["detail"].Value<string>().Should().Be(ExceptionMessages.VerenigingIsVerwijderd);
     }
 }
