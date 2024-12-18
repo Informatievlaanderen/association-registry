@@ -106,6 +106,15 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingWerdGemarkeerdAlsDubbelVan, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging, IDocumentOperations ops)
     {
         var docs = new List<object>();
@@ -265,7 +274,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
                                                                                       .Where(v => v.VCode !=
-                                                                                           verenigingWerdVerwijderd.StreamKey)
+                                                                                               verenigingWerdVerwijderd.StreamKey)
                                                                                       .ToList();
 
                 docs.Add(verenigingenPerInszDocument);
@@ -283,7 +292,8 @@ public class VerenigingenPerInszProjection : EventProjection
 
             foreach (var verenigingenPerInszDocument in documents)
             {
-                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!).Verenigingstype =
+                verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!)
+                                           .Verenigingstype =
                     MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
                 docs.Add(verenigingenPerInszDocument);
@@ -301,12 +311,35 @@ public class VerenigingenPerInszProjection : EventProjection
 
             foreach (var verenigingenPerInszDocument in documents)
             {
-                var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == verenigingAanvaarddeDubbeleVereniging.StreamKey!);
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == verenigingAanvaarddeDubbeleVereniging.StreamKey!);
 
                 vereniging.CorresponderendeVCodes =
                     vereniging.CorresponderendeVCodes
                               .Append(verenigingAanvaarddeDubbeleVereniging.Data.VCodeDubbeleVereniging)
                               .ToArray();
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> verenigingWerdGemarkeerdAlsDubbelVan,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(verenigingWerdGemarkeerdAlsDubbelVan.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == verenigingWerdGemarkeerdAlsDubbelVan.StreamKey!);
+
+                vereniging.IsDubbel = true;
 
                 docs.Add(verenigingenPerInszDocument);
             }
@@ -343,7 +376,8 @@ public class VerenigingenPerInszProjection : EventProjection
         {
             var verenigingDocument = await ops.GetVerenigingDocument(rechtsvormWerdGewijzigdInKbo.StreamKey);
 
-            verenigingDocument.VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+            verenigingDocument.VerenigingsType =
+                MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
             return verenigingDocument;
         }

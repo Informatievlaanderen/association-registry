@@ -10,7 +10,7 @@ public static class VerenigingPerInszMapper
         => new()
         {
             Insz = doc.Insz,
-            Verenigingen = doc.Verenigingen.Select(Map).ToArray(),
+            Verenigingen = doc.Verenigingen.Where(x => !x.IsDubbel).Select(Map).ToArray(),
             KboNummers = verenigingenPerKbo.Select(Map).ToArray(),
         };
 

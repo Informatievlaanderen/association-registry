@@ -39,7 +39,7 @@ public class Returns_VerenigingenPerInszResponse :
                 // Authentieke vereniging wordt getoond met corresponderende verenigingen
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = TestContext.VCode,
+                    VCode = TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
                     CorresponderendeVCodes = [TestContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode],
                     VertegenwoordigerId = TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
                     Naam = TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
