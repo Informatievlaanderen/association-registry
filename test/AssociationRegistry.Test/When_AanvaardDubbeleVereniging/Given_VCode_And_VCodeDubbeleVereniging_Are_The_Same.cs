@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.When_AanvaardDubbeleVereniging;
 
-using AssociationRegistry.Acties.AanvaardDubbel;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Acties.AanvaardDubbel;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using FluentAssertions;
 using Resources;
+using Vereniging;
+using Vereniging.Exceptions;
 using Xunit;
 
 public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same

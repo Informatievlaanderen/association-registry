@@ -9,7 +9,7 @@ public class AanvaardDubbeleVerenigingCommandHandler(IVerenigingsRepository repo
 {
     public async Task Handle(AanvaardDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
-        var vereniging = await repository.Load<Vereniging>(command.VCode);
+        var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode);
 
         vereniging.AanvaardDubbeleVereniging(command.VCodeDubbeleVereniging);
 
