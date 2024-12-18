@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.When_Address_Match;
+﻿namespace AssociationRegistry.Test.GrarClient;
 
 using Fixtures;
 using FluentAssertions;

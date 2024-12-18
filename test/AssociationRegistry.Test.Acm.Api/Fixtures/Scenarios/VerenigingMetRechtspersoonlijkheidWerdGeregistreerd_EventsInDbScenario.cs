@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Fixtures.Scenarios;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;

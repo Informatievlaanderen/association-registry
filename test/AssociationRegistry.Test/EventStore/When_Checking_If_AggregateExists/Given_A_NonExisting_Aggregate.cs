@@ -7,7 +7,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
-using AutoFixture.Kernel;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;

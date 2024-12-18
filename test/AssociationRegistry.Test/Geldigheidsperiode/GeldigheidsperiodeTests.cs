@@ -1,8 +1,9 @@
-namespace AssociationRegistry.Test.GeldigheidsGeldigheidsperiodee;
+namespace AssociationRegistry.Test;
 
+using AssociationRegistry.Vereniging.Exceptions;
 using FluentAssertions;
-using Vereniging.Exceptions;
 using Xunit;
+using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;
 
 public class GeldigheidsperiodeTests
 {

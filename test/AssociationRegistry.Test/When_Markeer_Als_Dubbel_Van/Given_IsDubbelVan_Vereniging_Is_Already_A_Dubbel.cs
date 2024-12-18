@@ -23,6 +23,10 @@ public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
         var command = fixture.Create<MarkeerAlsDubbelVanCommand>();
         var commandEnvelope = new CommandEnvelope<MarkeerAlsDubbelVanCommand>(command, fixture.Create<CommandMetadata>());
 
+        verenigingsRepositoryMock.Setup(s => s.Exists(command.VCodeAuthentiekeVereniging))
+                                 .ReturnsAsync(true);
+        verenigingsRepositoryMock.Setup(s => s.IsVerwijderd(command.VCodeAuthentiekeVereniging))
+                                 .ReturnsAsync(false);
         verenigingsRepositoryMock.Setup(s => s.IsDubbel(command.VCodeAuthentiekeVereniging))
                                  .ReturnsAsync(true);
 

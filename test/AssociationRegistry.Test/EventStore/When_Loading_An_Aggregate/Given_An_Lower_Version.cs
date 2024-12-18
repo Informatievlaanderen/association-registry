@@ -1,17 +1,16 @@
-namespace AssociationRegistry.Test.When_Loading_An_Aggregate;
+namespace AssociationRegistry.EventStore.When_Loading_An_Aggregate;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
-using Common.AutoFixture;
-using Common.Framework;
-using Events;
-using EventStore;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,8 +1,7 @@
-namespace AssociationRegistry.Test.When_Formatting_A_VerrijkteGemeentenaam;
+namespace AssociationRegistry.Test.When_Creating_A_VerrijkteGemeentenaam;
 
-using Events;
-using FluentAssertions;
-using Grar.Models.PostalInfo;
+using AssociationRegistry.Events;
+using AssociationRegistry.Grar.Models.PostalInfo;
 using Xunit;
 
 public class WithEmptyOrNull
