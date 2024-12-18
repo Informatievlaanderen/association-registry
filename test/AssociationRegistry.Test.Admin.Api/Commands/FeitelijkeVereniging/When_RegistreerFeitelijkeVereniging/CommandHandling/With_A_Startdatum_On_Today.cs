@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fakes;
 using Grar;
 using Marten;

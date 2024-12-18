@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using EventStore;

@@ -1,14 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries;
 
-using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Marten;
-using Public.Api.Queries;
-using Public.Schema.Detail;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

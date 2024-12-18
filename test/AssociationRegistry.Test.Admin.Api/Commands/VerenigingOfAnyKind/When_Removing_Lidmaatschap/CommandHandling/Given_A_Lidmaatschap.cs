@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Lidmaatschap.CommandHandling;
 
 using Acties.VerwijderLidmaatschap;
-using AssociationRegistry.Acties.VoegLidmaatschapToe;
 using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;

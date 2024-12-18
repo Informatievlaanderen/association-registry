@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;

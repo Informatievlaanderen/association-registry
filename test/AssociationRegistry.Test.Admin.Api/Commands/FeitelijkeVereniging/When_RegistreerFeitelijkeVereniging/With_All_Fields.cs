@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
@@ -12,13 +11,9 @@ using FluentAssertions.Execution;
 using Formats;
 using Framework;
 using Framework.Fixtures;
-using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.Core;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using Polly;
-using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

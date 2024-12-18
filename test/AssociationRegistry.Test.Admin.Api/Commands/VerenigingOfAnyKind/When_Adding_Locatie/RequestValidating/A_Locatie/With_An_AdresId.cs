@@ -7,7 +7,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AutoFixture;
 using Common.AutoFixture;
 using FluentValidation.TestHelper;
-using Framework;
 using Test.Framework;
 using Xunit;
 using Xunit.Categories;

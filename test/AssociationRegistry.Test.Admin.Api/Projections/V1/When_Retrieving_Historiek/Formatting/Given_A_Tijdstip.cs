@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek.Formatting;
 
-using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using FluentAssertions;
 using Formats;
 using NodaTime;

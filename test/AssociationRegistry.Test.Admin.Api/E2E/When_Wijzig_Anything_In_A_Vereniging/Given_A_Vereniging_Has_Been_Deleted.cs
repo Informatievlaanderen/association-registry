@@ -10,7 +10,6 @@ using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using EventStore;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;

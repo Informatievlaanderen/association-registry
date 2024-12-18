@@ -6,7 +6,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
-using Framework;
 using Framework.Fakes;
 using Grar;
 using Grar.AddressMatch;
