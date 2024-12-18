@@ -1,3 +1,18 @@
+# [8.189.0](https://github.com/informatievlaanderen/association-registry/compare/v8.188.0...v8.189.0) (2024-12-18)
+
+
+### Bug Fixes
+
+* or-2334 add markeer dubbel controller as superadmin only ([75b2459](https://github.com/informatievlaanderen/association-registry/commit/75b2459452b614f8267027cd2ffecf6f1f27817e))
+* or-2334 remove PostgresSqlOptionsSection from acm api ([8a7c8c1](https://github.com/informatievlaanderen/association-registry/commit/8a7c8c11a77ac0d8c31fd13b123c30088ac45383))
+
+
+### Features
+
+* or-2334 deny VZER to be marked as double ([6137cfa](https://github.com/informatievlaanderen/association-registry/commit/6137cfacb47c350cd0048956931ecf567ef9ffad))
+* or-2334 implement markeer als dubbel in acm ([12b1e79](https://github.com/informatievlaanderen/association-registry/commit/12b1e79d1d1dd357f2524edbcdde3e28b5dbec5c))
+* or-2334 update corresponderende vCodes when vereniging aanvaardde dubbele vereniging ([145c451](https://github.com/informatievlaanderen/association-registry/commit/145c451c6a79159263563f4a2930dbc03517786d))
+
 # [8.188.0](https://github.com/informatievlaanderen/association-registry/compare/v8.187.2...v8.188.0) (2024-12-18)
 
 
