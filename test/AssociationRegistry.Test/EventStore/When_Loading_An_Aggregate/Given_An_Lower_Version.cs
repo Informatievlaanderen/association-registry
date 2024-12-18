@@ -1,4 +1,4 @@
-namespace AssociationRegistry.EventStore.When_Loading_An_Aggregate;
+namespace AssociationRegistry.Test.EventStore.When_Loading_An_Aggregate;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;

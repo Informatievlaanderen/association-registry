@@ -1,4 +1,4 @@
-namespace AssociationRegistry.EventStore.When_Storing_An_Event;
+namespace AssociationRegistry.Test.EventStore.When_Storing_An_Event;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
