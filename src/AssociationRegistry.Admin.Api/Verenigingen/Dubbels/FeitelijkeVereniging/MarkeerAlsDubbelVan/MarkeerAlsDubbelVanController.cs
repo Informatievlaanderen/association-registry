@@ -14,6 +14,7 @@ using Infrastructure.Middleware;
 using Infrastructure.Swagger.Annotations;
 using Infrastructure.Swagger.Examples;
 using Infrastructure.Validation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
@@ -25,7 +26,8 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[SwaggerGroup.DecentraalBeheer]
+[ApiExplorerSettings(IgnoreApi = true)]
+[Authorize(Policy = Program.SuperAdminPolicyName)]
 public class MarkeerAlsDubbelVanController : ApiController
 {
     private readonly IMessageBus _messageBus;
