@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.When_Address_Match.Fixtures;
+﻿namespace AssociationRegistry.Test.GrarClient.Fixtures;
 
-using Grar;
-using Grar.Models;
+using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Models;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

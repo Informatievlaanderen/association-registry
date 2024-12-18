@@ -1,9 +1,8 @@
-namespace AssociationRegistry.Test.When_Storing_An_Event;
+namespace AssociationRegistry.EventStore.When_Storing_An_Event;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using Common.Framework;
-using EventStore;
+using AssociationRegistry.Test.Common.Framework;
 using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;

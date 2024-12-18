@@ -1,12 +1,11 @@
-﻿namespace AssociationRegistry.Test.WhenWijzigMaatschappelijkeZetel;
+﻿namespace AssociationRegistry.Test.When_WijzigMaatschappelijkeZetel;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.AutoFixture;
-using Events;
 using FluentAssertions;
-using Framework.Customizations;
-using Vereniging;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

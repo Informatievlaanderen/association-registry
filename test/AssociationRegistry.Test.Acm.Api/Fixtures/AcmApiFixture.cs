@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 using AssociationRegistry.Acm.Api;
 using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Fixtures;
 using EventStore;
