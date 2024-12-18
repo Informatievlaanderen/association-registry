@@ -2,8 +2,6 @@
 
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
-using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd(PowerBiScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)

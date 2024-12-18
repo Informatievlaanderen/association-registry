@@ -53,6 +53,7 @@ public class Vereniging
     public Verenigingstype Verenigingstype { get; set; } = null!;
 
     public bool IsHoofdvertegenwoordigerVan { get; set; }
+    public bool IsDubbel { get; set; }
 }
 
 public class Verenigingstype

@@ -2,14 +2,11 @@ namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
 using Marten;
 using Marten.Events.Projections;
-using Metrics;
-using Microsoft.Extensions.DependencyInjection;
 using Projections;
-using System;
 
 public static class StoreOptionsExtensions
 {
-    public static void AddPostgresProjections(this StoreOptions source, IServiceProvider serviceProvider)
+    public static void AddPostgresProjections(this StoreOptions source)
     {
         source.Projections.Add(new VerenigingenPerInszProjection(), ProjectionLifecycle.Async);
     }

@@ -4,8 +4,6 @@ using Admin.Schema.PowerBiExport;
 using Events;
 using Formats;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
-using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd(PowerBiScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)

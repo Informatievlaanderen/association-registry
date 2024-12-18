@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Dubbels;
 
-using Public.Schema.Constants;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGemarkeerdAlsDubbel(PubliekZoekenScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)
     : PubliekZoekenScenarioClassFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario>

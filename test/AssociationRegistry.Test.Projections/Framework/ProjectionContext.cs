@@ -19,6 +19,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
     private IConfigurationRoot Configuration { get; }
     public IDocumentStore AdminStore { get; set; }
     public IDocumentStore PublicStore { get; set; }
+    public IDocumentStore AcmStore { get; set; }
     public IElasticClient AdminElasticClient { get; set; }
     public IElasticClient PublicElasticClient { get; set; }
 
@@ -84,6 +85,26 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         await publicStore.Advanced.Clean.DeleteAllEventDataAsync();
 
         PublicStore = publicStore;
+
+
+        var acmStore = DocumentStore.For(
+            opts =>
+            {
+                AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
+                    opts,
+                    new AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings.PostgreSqlOptionsSection()
+                    {
+                        Host = "localhost",
+                        Database = RootDatabase,
+                        Password = "root",
+                        Username = "root",
+                    },
+                    true);
+            });
+
+        await acmStore.Advanced.Clean.DeleteAllEventDataAsync();
+
+        AcmStore = acmStore;
     }
 
     public async Task SaveAsync(EventsPerVCode[] events, IDocumentSession session)

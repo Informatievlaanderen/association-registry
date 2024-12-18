@@ -29,6 +29,7 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
         AndereFeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = await service.GetNext(),
+            Vertegenwoordigers = FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers,
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };

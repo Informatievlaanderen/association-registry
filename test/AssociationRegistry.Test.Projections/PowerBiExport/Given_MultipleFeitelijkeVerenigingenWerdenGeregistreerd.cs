@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Admin.Schema.PowerBiExport;
-using KellermanSoftware.CompareNetObjects;
 using Marten;
-using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(PowerBiScenarioFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario> fixture)
