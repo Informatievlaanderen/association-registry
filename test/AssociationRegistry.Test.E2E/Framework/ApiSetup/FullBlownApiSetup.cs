@@ -5,7 +5,9 @@ using Alba;
 using AlbaHost;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
+using Common.Clients;
 using Hosts.Configuration.ConfigurationBindings;
+using IdentityModel.AspNetCore.OAuth2Introspection;
 using JasperFx.RuntimeCompiler.Scenarios;
 using Marten;
 using Marten.Events;
@@ -23,7 +25,6 @@ using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 {
-
     public FullBlownApiSetup()
     {
     }
@@ -42,13 +43,20 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         OaktonEnvironment.AutoStartHost = true;
 
-        AdminApiHost = (await AlbaHost.For<Program>(ConfigureForTesting("adminapi")))
-           .EnsureEachCallIsAuthenticated();
+        var adminApiHost = await AlbaHost.For<Program>(ConfigureForTesting("adminapi"));
+
+        var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
+                                  createClientFunc: () => new HttpClient());
+
+        SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
+
+        AdminApiHost = adminApiHost.EnsureEachCallIsAuthenticated(clients.Authenticated.HttpClient);
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting("adminproj"));
+
         Logger = AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 
         PublicProjectionHost = await AlbaHost.For<ProjectionHostProgram>(
@@ -64,9 +72,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
         AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
 
-
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
     }
+
+    public HttpClient SuperAdminHttpClient { get; private set; }
 
     private void SetUpAdminApiConfiguration()
     {
