@@ -35,7 +35,7 @@ public class Given_A_NonExisting_Aggregate
     [Fact]
     public async Task Then_it_Throws_Exception()
     {
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Existing_Aggregate));
+        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_A_NonExisting_Aggregate));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
