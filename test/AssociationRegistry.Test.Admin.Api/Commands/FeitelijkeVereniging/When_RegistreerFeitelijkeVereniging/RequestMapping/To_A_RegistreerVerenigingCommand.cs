@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;

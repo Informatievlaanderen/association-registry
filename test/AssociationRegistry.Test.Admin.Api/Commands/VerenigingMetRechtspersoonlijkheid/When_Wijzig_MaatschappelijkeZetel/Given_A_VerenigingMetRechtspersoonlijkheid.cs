@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Hosts.Configuration.ConfigurationBindings;
 using Marten;

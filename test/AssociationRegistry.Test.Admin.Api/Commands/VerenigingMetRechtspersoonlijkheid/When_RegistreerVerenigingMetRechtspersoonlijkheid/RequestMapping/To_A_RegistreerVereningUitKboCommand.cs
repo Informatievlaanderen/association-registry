@@ -5,7 +5,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijk
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

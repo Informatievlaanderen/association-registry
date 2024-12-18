@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;

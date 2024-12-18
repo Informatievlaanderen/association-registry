@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using FluentAssertions;
-using Framework;
 using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;

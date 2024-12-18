@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
-using Framework;
 using Grar;
 using Grar.Models;
 using Marten;

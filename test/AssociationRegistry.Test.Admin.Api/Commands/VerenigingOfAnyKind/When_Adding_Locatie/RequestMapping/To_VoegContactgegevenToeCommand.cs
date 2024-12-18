@@ -4,7 +4,6 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.V
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

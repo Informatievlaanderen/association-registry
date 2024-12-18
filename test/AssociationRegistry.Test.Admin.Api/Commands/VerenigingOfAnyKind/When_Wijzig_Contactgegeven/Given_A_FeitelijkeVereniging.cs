@@ -5,11 +5,9 @@ using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
 using Events;
 using FluentAssertions;
-using Framework;
 using Framework.Fixtures;
 using Marten;
 using System.Net;
-using Test.Framework.Customizations;
 using Xunit;
 using Xunit.Categories;
 

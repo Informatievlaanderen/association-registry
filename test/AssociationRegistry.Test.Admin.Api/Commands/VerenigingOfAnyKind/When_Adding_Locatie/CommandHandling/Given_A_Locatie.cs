@@ -8,7 +8,6 @@ using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
 using FluentAssertions;
-using Framework;
 using Grar;
 using Marten;
 using Moq;

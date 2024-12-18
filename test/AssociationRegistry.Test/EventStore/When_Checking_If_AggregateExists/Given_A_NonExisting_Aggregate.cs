@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.EventStore.When_Checking_If_AggregateExists;
+namespace AssociationRegistry.Test.When_Checking_If_AggregateExists;
 
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
