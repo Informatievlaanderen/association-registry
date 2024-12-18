@@ -1,3 +1,13 @@
+# [8.188.0](https://github.com/informatievlaanderen/association-registry/compare/v8.187.2...v8.188.0) (2024-12-18)
+
+
+### Features
+
+* or-2334 allow loading a dubbele vereniging for adresmatch and adres nightly sync ([67eec01](https://github.com/informatievlaanderen/association-registry/commit/67eec01d4c01e53eeb2b4c1be83b131fbdd4c5d6))
+* or-2334 dont allow loading a dubbele verenigingen by default ([baeb600](https://github.com/informatievlaanderen/association-registry/commit/baeb60074394de34b64f599db5596a67bba387fb))
+* or-2334 throw when authentieke vereniging does not exists ([d99c725](https://github.com/informatievlaanderen/association-registry/commit/d99c725a860d0b340875456b669de757efaa7030))
+* or-2335 load vereniging with dubbels when handling grar consumer commands ([bf68a09](https://github.com/informatievlaanderen/association-registry/commit/bf68a090a01684573b4126d767691028ac4ce932))
+
 ## [8.187.2](https://github.com/informatievlaanderen/association-registry/compare/v8.187.1...v8.187.2) (2024-12-16)
 
 
