@@ -27,26 +27,7 @@ public static class MartenExtensions
                                       serviceProvider =>
                                       {
                                           var opts = new StoreOptions();
-                                          opts.Connection(postgreSqlOptions.GetConnectionString());
-                                          opts.Events.StreamIdentity = StreamIdentity.AsString;
-                                          opts.Serializer(CreateCustomMartenSerializer());
-                                          opts.Events.MetadataConfig.EnableAll();
-                                          opts.AddPostgresProjections(serviceProvider);
-
-                                          opts.Projections.DaemonLockId = 2;
-
-                                          opts.RegisterDocumentType<VerenigingenPerInszDocument>();
-                                          opts.RegisterDocumentType<VerenigingDocument>();
-
-                                          if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
-                                          {
-                                              opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
-                                          }
-                                          else
-                                          {
-                                              opts.GeneratedCodeMode = TypeLoadMode.Static;
-                                              opts.SourceCodeWritingEnabled = false;
-                                          }
+                                          ConfigureStoreOptions(opts, postgreSqlOptions, serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment());
 
                                           return opts;
                                       });
@@ -58,6 +39,30 @@ public static class MartenExtensions
             martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
 
         return services;
+    }
+
+    public static void ConfigureStoreOptions(StoreOptions opts, PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
+    {
+        opts.Connection(postgreSqlOptions.GetConnectionString());
+        opts.Events.StreamIdentity = StreamIdentity.AsString;
+        opts.Serializer(CreateCustomMartenSerializer());
+        opts.Events.MetadataConfig.EnableAll();
+        opts.AddPostgresProjections();
+
+        opts.Projections.DaemonLockId = 2;
+
+        opts.RegisterDocumentType<VerenigingenPerInszDocument>();
+        opts.RegisterDocumentType<VerenigingDocument>();
+
+        if (isDevelopment)
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
+        }
+        else
+        {
+            opts.GeneratedCodeMode = TypeLoadMode.Static;
+            opts.SourceCodeWritingEnabled = false;
+        }
     }
 
     public static string GetConnectionString(this PostgreSqlOptionsSection postgreSqlOptions)

@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Events;
-using Publiek.Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_AnyEventIsApplied(PowerBiScenarioFixture<ApplyAllEventsScenario> fixture) : PowerBiScenarioClassFixture<ApplyAllEventsScenario>

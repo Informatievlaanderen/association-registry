@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using AutoFixture;
 using Events;
-using Framework.Fixtures;
 
 public class LidmaatschapWerdGewijzigdScenario : ScenarioBase
 {

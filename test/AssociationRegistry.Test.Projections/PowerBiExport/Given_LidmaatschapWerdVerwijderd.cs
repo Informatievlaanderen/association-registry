@@ -1,10 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using Admin.Schema.PowerBiExport;
 using Events;
-using Marten;
-using Publiek.Detail;
-using Vereniging;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdVerwijderd(PowerBiScenarioFixture<LidmaatschapWerdVerwijderdScenario> fixture)
