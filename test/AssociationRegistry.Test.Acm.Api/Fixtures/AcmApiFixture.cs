@@ -8,6 +8,7 @@ using AssociationRegistry.Framework;
 using Common.Fixtures;
 using EventStore;
 using Framework.Helpers;
+using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using JasperFx.Core;
 using Marten;
@@ -65,7 +66,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                 builder =>
                 {
                     builder.UseContentRoot(Directory.GetCurrentDirectory());
-                    builder.UseSetting($"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
+                    builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
 
                     builder.UseConfiguration(GetConfiguration());
                     builder.ConfigureAppConfiguration(
@@ -77,7 +78,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                                     new[]
                                     {
                                         new KeyValuePair<string, string>(
-                                            $"{PostgreSqlOptionsSection.Name}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                            $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
                                     })
                     );
                 });

@@ -2,7 +2,6 @@ namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.Extensions.Configuration;
 using System;
 
 public static class ConfigurationExtensions
