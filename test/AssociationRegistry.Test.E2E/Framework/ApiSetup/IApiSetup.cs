@@ -5,6 +5,7 @@ using TestClasses;
 
 public interface IApiSetup
 {
+    public HttpClient SuperAdminHttpClient { get; }
     public IAlbaHost AdminApiHost { get; }
     public IAlbaHost AcmApiHost { get; }
     public IAlbaHost AdminProjectionHost { get; }

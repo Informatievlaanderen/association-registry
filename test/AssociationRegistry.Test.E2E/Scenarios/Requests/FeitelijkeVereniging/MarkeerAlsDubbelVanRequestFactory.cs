@@ -26,6 +26,7 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
+            s.WithRequestHeader("Authorization", apiSetup.SuperAdminHttpClient.DefaultRequestHeaders.GetValues("Authorization").First());
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/dubbelVan");
