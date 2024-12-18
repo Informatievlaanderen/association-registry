@@ -1,16 +1,13 @@
 ﻿namespace AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 
-using ConfigurationBindings;
 using Constants;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
 using Json;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Services;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
@@ -19,7 +16,7 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions,
+        PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
         var martenConfiguration = services
@@ -42,7 +39,7 @@ public static class MartenExtensions
         return services;
     }
 
-    public static void ConfigureStoreOptions(StoreOptions opts, AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
+    public static void ConfigureStoreOptions(StoreOptions opts, PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
     {
         opts.Connection(postgreSqlOptions.GetConnectionString());
 
