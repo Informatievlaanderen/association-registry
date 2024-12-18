@@ -92,12 +92,13 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
             {
                 AssociationRegistry.Acm.Api.Infrastructure.Extensions.MartenExtensions.ConfigureStoreOptions(
                     opts,
-                    new AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings.PostgreSqlOptionsSection()
+                    new PostgreSqlOptionsSection()
                     {
                         Host = "localhost",
                         Database = RootDatabase,
                         Password = "root",
                         Username = "root",
+                        Schema = "admin",
                     },
                     true);
             });
