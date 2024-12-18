@@ -678,6 +678,12 @@ public record VerenigingState : IHasVersion
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 
+    public VerenigingState Apply(MarkeerVerenigingAlsDubbelVanWerdGecorrigeerd @event)
+        => this with
+        {
+            IsDubbel = false,
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
