@@ -11,6 +11,7 @@ using Marten.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Schema.VerenigingenPerInsz;
 
@@ -18,7 +19,7 @@ public static class MartenExtensions
 {
     public static IServiceCollection AddMarten(
         this IServiceCollection services,
-        PostgreSqlOptionsSection postgreSqlOptions,
+        AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions,
         IConfiguration configuration)
     {
         var martenConfiguration = services
@@ -41,9 +42,16 @@ public static class MartenExtensions
         return services;
     }
 
-    public static void ConfigureStoreOptions(StoreOptions opts, PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
+    public static void ConfigureStoreOptions(StoreOptions opts, AssociationRegistry.Hosts.Configuration.ConfigurationBindings.PostgreSqlOptionsSection postgreSqlOptions, bool isDevelopment)
     {
         opts.Connection(postgreSqlOptions.GetConnectionString());
+
+        if (!postgreSqlOptions.Schema.IsNullOrEmpty())
+        {
+            opts.Events.DatabaseSchemaName = postgreSqlOptions.Schema;
+            opts.DatabaseSchemaName = postgreSqlOptions.Schema;
+        }
+
         opts.Events.StreamIdentity = StreamIdentity.AsString;
         opts.Serializer(CreateCustomMartenSerializer());
         opts.Events.MetadataConfig.EnableAll();
