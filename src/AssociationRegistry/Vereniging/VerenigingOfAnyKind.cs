@@ -408,4 +408,9 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
         AddEvent(VerenigingAanvaarddeDubbeleVereniging.With(VCode, dubbeleVereniging));
     }
+
+    public void CorrigeerMarkeerAlsDubbeleVereniging(VCode commandVCode)
+    {
+        AddEvent(MarkeerVerenigingAlsDubbelVanWerdGecorrigeerd.With(VCode));
+    }
 }
