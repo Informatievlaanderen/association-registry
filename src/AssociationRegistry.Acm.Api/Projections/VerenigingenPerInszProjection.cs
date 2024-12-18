@@ -106,6 +106,15 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingAanvaarddeDubbeleVereniging, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
@@ -276,6 +285,28 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!).Verenigingstype =
                     MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<VerenigingAanvaarddeDubbeleVereniging> verenigingAanvaarddeDubbeleVereniging,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(verenigingAanvaarddeDubbeleVereniging.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging = verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == verenigingAanvaarddeDubbeleVereniging.StreamKey!);
+
+                vereniging.CorresponderendeVCodes =
+                    vereniging.CorresponderendeVCodes
+                              .Append(verenigingAanvaarddeDubbeleVereniging.Data.VCodeDubbeleVereniging)
+                              .ToArray();
 
                 docs.Add(verenigingenPerInszDocument);
             }
