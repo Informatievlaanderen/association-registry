@@ -9,9 +9,6 @@ public class MarkeerAlsDubbelVanValidator : AbstractValidator<MarkeerAlsDubbelVa
 {
     public MarkeerAlsDubbelVanValidator()
     {
-        RuleFor(r => r.IsDubbelVan)
-           .NotNull()
-           .NotEmpty()
-           .WithVeldIsVerplichtMessage(nameof(MarkeerAlsDubbelVanRequest.IsDubbelVan));
+        this.RequireNotNullOrEmpty(request => request.IsDubbelVan);
     }
 }
