@@ -1,3 +1,16 @@
+# [8.190.0](https://github.com/informatievlaanderen/association-registry/compare/v8.189.0...v8.190.0) (2024-12-19)
+
+
+### Bug Fixes
+
+* or-2334 change exception message ([972b82e](https://github.com/informatievlaanderen/association-registry/commit/972b82e81b41caae146e186b8993bae8d3c91725))
+* or-2334 fix english validation messages for dubbles ([32b6b14](https://github.com/informatievlaanderen/association-registry/commit/32b6b14d361453845de0907c908dfef2204dcccb))
+
+
+### Features
+
+* or-2334 dont allow markeer als dubbel when vereniging is authentieke vereniging ([e0b101a](https://github.com/informatievlaanderen/association-registry/commit/e0b101a5e8c788269cda78f0682d99d50ce4fa8e))
+
 # [8.189.0](https://github.com/informatievlaanderen/association-registry/compare/v8.188.0...v8.189.0) (2024-12-18)
 
 
