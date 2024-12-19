@@ -123,6 +123,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Een authentieke vereniging kan geen dubbel worden van een andere vereniging..
+        /// </summary>
+        public static string AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden {
+            get {
+                return ResourceManager.GetString("AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden..
         /// </summary>
         public static string ContactgegevenFromKboCannotBeRemoved {

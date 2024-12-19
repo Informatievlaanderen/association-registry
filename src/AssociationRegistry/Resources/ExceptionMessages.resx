@@ -199,6 +199,9 @@
   <data name="VerenigingKanGeenDubbelWordenVanZichzelf">
     <value>Een vereniging kan geen dubbel worden van zichzelf.</value>
   </data>
+  <data name="AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden">
+    <value>Een authentieke vereniging kan geen dubbel worden van een andere vereniging.</value>
+  </data>
   <data name="LidmaatschapIsOverlappend">
     <value>Een lidmaatschap mag niet overlappen voor eenzelfde vereniging.</value>
   </data>
