@@ -683,7 +683,7 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van vereniging die zelf al een dubbel is van een andere vereniging..
+        ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een vereniging die zelf al een dubbel is..
         /// </summary>
         public static string VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel {
             get {
