@@ -18,6 +18,7 @@ using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVere
 using IEvent = Marten.Events.IEvent;
 using Lidmaatschap = Schema.PowerBiExport.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
 
 public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocument>

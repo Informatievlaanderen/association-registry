@@ -15,6 +15,7 @@ using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse :

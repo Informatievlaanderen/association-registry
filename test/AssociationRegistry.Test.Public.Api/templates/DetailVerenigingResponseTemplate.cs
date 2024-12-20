@@ -10,6 +10,7 @@ using NodaTime;
 using Scriban;
 using System.Dynamic;
 using Vereniging;
+using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 using WellknownFormats = AssociationRegistry.Public.Api.Constants.WellknownFormats;
 
 public class DetailVerenigingResponseTemplate

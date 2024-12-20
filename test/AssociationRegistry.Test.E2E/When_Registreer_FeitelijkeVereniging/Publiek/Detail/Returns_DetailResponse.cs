@@ -22,6 +22,7 @@ using Locatie = Public.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
 using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 

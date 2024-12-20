@@ -12,6 +12,7 @@ using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {

@@ -8,6 +8,7 @@ using NodaTime;
 using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 public class DetailVerenigingResponseTemplate : ResponseTemplate
 {

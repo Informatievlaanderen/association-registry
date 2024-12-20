@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Vereniging;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.VerenigingenPerInsz.Verenigingstype;
 
 public class VerenigingenPerInszProjection : EventProjection

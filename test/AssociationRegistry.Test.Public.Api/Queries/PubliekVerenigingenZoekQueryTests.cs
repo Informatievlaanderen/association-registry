@@ -15,6 +15,7 @@ using Vereniging;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(PublicApiCollection))]
 [Category("PublicApi")]

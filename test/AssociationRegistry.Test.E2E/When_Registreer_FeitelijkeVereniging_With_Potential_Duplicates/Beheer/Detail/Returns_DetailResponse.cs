@@ -18,6 +18,7 @@ using Xunit;
 using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
 
 [Collection(FullBlownApiCollection.Name)]

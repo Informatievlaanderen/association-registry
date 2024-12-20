@@ -16,6 +16,7 @@ using Scenarios.Requests;
 using Vereniging;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatschapContext, NullRequest, SearchVerenigingenResponse>
