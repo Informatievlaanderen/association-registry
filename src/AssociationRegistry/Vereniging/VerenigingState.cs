@@ -678,7 +678,7 @@ public record VerenigingState : IHasVersion
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 
-    public VerenigingState Apply(MarkeerVerenigingAlsDubbelVanWerdGecorrigeerd @event)
+    public VerenigingState Apply(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt @event)
         => this with
         {
             IsDubbel = false,

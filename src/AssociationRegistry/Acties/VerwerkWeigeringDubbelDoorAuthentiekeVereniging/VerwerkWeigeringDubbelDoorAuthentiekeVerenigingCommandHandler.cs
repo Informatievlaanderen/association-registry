@@ -1,17 +1,17 @@
-﻿namespace AssociationRegistry.Acties.CorrigeerMarkeerAlsDubbel;
+﻿namespace AssociationRegistry.Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
 using EventStore;
 using Framework;
 using NodaTime;
 using Vereniging;
 
-public class CorrigeerMarkeerAlsDubbeleVerenigingCommandHandler(IVerenigingsRepository repository)
+public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(IVerenigingsRepository repository)
 {
-    public async Task Handle(CorrigeerMarkeerAlsDubbeleVerenigingCommand command, CancellationToken cancellationToken)
+    public async Task Handle(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand command, CancellationToken cancellationToken)
     {
         var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode);
 
-        vereniging.CorrigeerMarkeerAlsDubbeleVereniging(command.VCode);
+        vereniging.VerwerkWeigeringDubbelDoorAuthentiekeVereniging(command.VCode);
 
         await repository.Save(
             vereniging,

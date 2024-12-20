@@ -37,7 +37,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
         repositoryMock.ShouldHaveSaved(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
 
         messageBus.Verify(x => x.InvokeAsync(
-                          It.Is<CorrigeerMarkeerAlsDubbeleVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
+                          It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
                           It.IsAny<CancellationToken>(),
                           It.IsAny<TimeSpan>()),
                       Times.Never);
@@ -64,7 +64,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
         repositoryMock.ShouldHaveSaved(new VerenigingAanvaarddeDubbeleVereniging(scenario.VCode, command.VCodeDubbeleVereniging));
 
         messageBus.Verify(x => x.InvokeAsync(
-                              It.Is<CorrigeerMarkeerAlsDubbeleVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
+                              It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
                               It.IsAny<CancellationToken>(),
                               It.IsAny<TimeSpan>()),
                           Times.Never);
