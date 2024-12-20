@@ -14,6 +14,8 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     private VerenigingState? _verenigingToLoad;
     private readonly bool _expectedLoadingDubbel;
     private bool _actualLoadingDubbel;
+    private bool _expectedLoadingVerwijderd;
+    private bool _actualLoadingVerwijderd;
 
     public record SaveInvocation(VerenigingsBase Vereniging);
 
@@ -23,10 +25,11 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public List<SaveInvocation> SaveInvocations { get; } = new();
     private readonly List<InvocationLoad> _invocationsLoad = new();
 
-    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false)
+    public VerenigingRepositoryMock(VerenigingState? verenigingToLoad = null, bool expectedLoadingDubbel = false, bool expectedLoadingVerwijderd = false)
     {
         _verenigingToLoad = verenigingToLoad;
         _expectedLoadingDubbel = expectedLoadingDubbel;
+        _expectedLoadingVerwijderd = expectedLoadingVerwijderd;
     }
 
     public async Task<StreamActionResult> Save(
@@ -57,6 +60,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         _actualLoadingDubbel = allowDubbeleVereniging;
+        _actualLoadingVerwijderd = allowVerwijderdeVereniging;
         _invocationsLoad.Add(new InvocationLoad(vCode, typeof(TVereniging)));
         var vereniging = new TVereniging();
         vereniging.Hydrate(_verenigingToLoad!);
@@ -104,7 +108,11 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public void AssertLoadingDubbel()
     {
         _actualLoadingDubbel.Should().Be(_expectedLoadingDubbel);
+    }
 
+    public void AssertLoadingVerwijderd()
+    {
+        _actualLoadingVerwijderd.Should().Be(_expectedLoadingVerwijderd);
     }
 
     public void ShouldNotHaveSaved<TEvent>() where TEvent : IEvent

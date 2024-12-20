@@ -20,6 +20,7 @@ public static class EventCustomizations
         fixture.CustomizeContactgegevenKonNietOvergenomenWordenUitKBO();
         fixture.CustomizeRechtsvormWerdGewijzigdInKBO();
         fixture.CustomizeLidmaatschapWerdToegevoegd();
+        fixture.CustomizeWeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt();
     }
 
     private static void CustomizeLidmaatschapWerdToegevoegd(this IFixture fixture)
@@ -168,5 +169,15 @@ public static class EventCustomizations
             composer => composer.FromFactory(
                 () => new RechtsvormWerdGewijzigdInKBO(
                     fixture.Create<Verenigingstype>().Code)).OmitAutoProperties());
+    }
+
+    private static void CustomizeWeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(this IFixture fixture)
+    {
+        fixture.Customize<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt>(
+            composer => composer.FromFactory(
+                () => new WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
+                    fixture.Create<VCode>().ToString(),
+                    VerenigingStatus.Actief.Naam
+                )).OmitAutoProperties());
     }
 }

@@ -3,21 +3,28 @@ namespace AssociationRegistry.Test.Dubbels.When_Verwerk_Weigering_Dubbel_Door_Au
 using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Events;
+using Moq;
+using Vereniging;
 using Xunit;
 
-public class Given_An_Actieve_Vereniging
+public class Given_A_Verwijderde_Vereniging
 {
     [Fact]
     public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+        var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanEnVerwijderdScenario();
+        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode);
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(repositoryMock);
 
         await sut.Handle(command, CancellationToken.None);
 
-        repositoryMock.ShouldNotHaveAnySaves();
+        repositoryMock.ShouldHaveSaved(
+            WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(scenario.VCode, VerenigingStatus.Actief));
+
+        repositoryMock.AssertLoadingDubbel();
+        repositoryMock.AssertLoadingVerwijderd();
     }
 }
