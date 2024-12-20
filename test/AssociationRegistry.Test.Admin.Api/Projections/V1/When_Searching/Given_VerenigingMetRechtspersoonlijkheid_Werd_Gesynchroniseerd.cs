@@ -10,6 +10,7 @@ using Common.Extensions;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]

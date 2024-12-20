@@ -14,6 +14,7 @@ using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Constants.WellknownFormats;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;

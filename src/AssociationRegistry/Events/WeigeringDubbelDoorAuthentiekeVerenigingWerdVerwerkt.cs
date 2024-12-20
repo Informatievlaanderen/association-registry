@@ -3,10 +3,10 @@
 using Framework;
 using Vereniging;
 
-public record WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(string VCode) : IEvent
+public record WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(string VCode, string VorigeStatus) : IEvent
 {
-    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt With(VCode vCode)
-        => new(vCode);
+    public static WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt With(VCode vCode, VerenigingStatus vorigeStatus)
+        => new(vCode, vorigeStatus.Naam);
 }
 
 

@@ -17,6 +17,7 @@ using Xunit;
 using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Api.Verenigingen.Search.ResponseModels.Locatie;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]

@@ -409,8 +409,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VerenigingAanvaarddeDubbeleVereniging.With(VCode, dubbeleVereniging));
     }
 
-    public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode commandVCode)
+    public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode vCode)
     {
-        AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode));
+        if (State.IsDubbel)
+        {
+            AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, State.VorigeVerenigingStatus));
+        }
     }
 }

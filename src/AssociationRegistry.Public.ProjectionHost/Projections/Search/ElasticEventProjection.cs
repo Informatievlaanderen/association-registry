@@ -9,6 +9,7 @@ using Schema.Detail;
 using Schema.Search;
 using Vereniging;
 using Doelgroep = Schema.Search.Doelgroep;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public class PubliekZoekProjectionHandler
 {

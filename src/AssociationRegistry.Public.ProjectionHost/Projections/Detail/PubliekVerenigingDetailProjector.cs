@@ -11,6 +11,7 @@ using Vereniging;
 using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public static class PubliekVerenigingDetailProjector
 {

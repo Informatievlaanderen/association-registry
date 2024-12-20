@@ -16,6 +16,7 @@ using NodaTime;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(FullBlownApiCollection.Name)]

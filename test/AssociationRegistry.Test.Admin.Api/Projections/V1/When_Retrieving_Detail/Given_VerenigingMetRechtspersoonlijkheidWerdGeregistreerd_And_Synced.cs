@@ -13,6 +13,7 @@ using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AdminApiCollection))]
 [System.ComponentModel.Category("AdminApi")]

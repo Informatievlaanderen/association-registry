@@ -15,6 +15,7 @@ using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 

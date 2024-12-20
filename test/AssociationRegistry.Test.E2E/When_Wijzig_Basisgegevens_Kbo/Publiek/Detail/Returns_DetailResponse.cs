@@ -15,6 +15,7 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,

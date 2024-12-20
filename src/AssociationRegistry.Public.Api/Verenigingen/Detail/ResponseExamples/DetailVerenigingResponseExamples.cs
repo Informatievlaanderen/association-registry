@@ -13,6 +13,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class DetailVerenigingResponseExamples : IExamplesProvider<PubliekVerenigingDetailResponse>

@@ -20,6 +20,7 @@ using Contactgegeven = AssociationRegistry.Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = AssociationRegistry.Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = AssociationRegistry.Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = AssociationRegistry.Admin.Schema.Detail.Locatie;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = AssociationRegistry.Admin.Schema.Detail.Vertegenwoordiger;
 
 [UnitTest]
