@@ -3,7 +3,7 @@
 using Events;
 using FluentAssertions;
 using Grar.Models;
-using When_Heradresseren_Locaties.Fixtures;
+using Locaties.When_Heradresseren_Locaties.Fixtures;
 using Xunit;
 using Xunit.Categories;
 

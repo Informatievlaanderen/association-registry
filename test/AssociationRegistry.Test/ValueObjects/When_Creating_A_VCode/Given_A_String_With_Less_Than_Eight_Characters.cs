@@ -1,0 +1,20 @@
+namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VCode;
+
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
+using FluentAssertions;
+using Xunit;
+using Xunit.Categories;
+
+[UnitTest]
+public class Given_A_String_With_Less_Than_Eight_Characters
+{
+    [Theory]
+    [InlineData("V123456")]
+    [InlineData("V1")]
+    public void Then_It_Throws_an_InvalidVCodeFormatException(string strCode)
+    {
+        var ctor = () => VCode.Create(strCode);
+        ctor.Should().Throw<VCodeFormaatIsOngeldig>();
+    }
+}
