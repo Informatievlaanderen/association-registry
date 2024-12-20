@@ -25,5 +25,11 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="KboSync\" />
+    <Folder Include="Locaties\Adressen\" />
+    <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
