@@ -35,7 +35,7 @@ public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
         exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
 
         messageBus.Verify(x => x.InvokeAsync(
-                              It.Is<CorrigeerMarkeerAlsDubbeleVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
+                              It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
                               It.IsAny<CancellationToken>(),
                               It.IsAny<TimeSpan?>()),
                           Times.Once);

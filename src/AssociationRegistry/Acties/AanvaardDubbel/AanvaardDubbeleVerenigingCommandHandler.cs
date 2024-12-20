@@ -28,7 +28,7 @@ public class AanvaardDubbeleVerenigingCommandHandler(
         }
         catch (Exception)
         {
-            await bus.InvokeAsync(new CorrigeerMarkeerAlsDubbeleVerenigingMessage(command.VCodeDubbeleVereniging), cancellationToken);
+            await bus.InvokeAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging), cancellationToken);
             throw;
         }
 
