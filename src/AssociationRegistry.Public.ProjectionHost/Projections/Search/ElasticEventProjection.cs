@@ -506,6 +506,13 @@ public class PubliekZoekProjectionHandler
                                                  { IsDubbel = true });
     }
 
+    public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekDocument
+                                                 { IsDubbel = false });
+    }
+
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()
         {
