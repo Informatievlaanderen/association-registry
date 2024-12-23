@@ -764,4 +764,10 @@ public class BeheerVerenigingDetailProjector
                     .Append(verenigingAanvaardeDubbeleVereniging.Data.VCodeDubbeleVereniging)
                     .ToArray();
     }
+
+    public static void Apply(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VorigeStatus;
+        document.IsDubbelVan = string.Empty;
+    }
 }
