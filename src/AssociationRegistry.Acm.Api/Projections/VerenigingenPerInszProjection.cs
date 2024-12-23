@@ -125,6 +125,17 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(
+        IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> verenigingAanvaarddeDubbeleVereniging,
+        IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingAanvaarddeDubbeleVereniging, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
@@ -275,7 +286,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen = verenigingenPerInszDocument.Verenigingen
                                                                                       .Where(v => v.VCode !=
-                                                                                               verenigingWerdVerwijderd.StreamKey)
+                                                                                           verenigingWerdVerwijderd.StreamKey)
                                                                                       .ToList();
 
                 docs.Add(verenigingenPerInszDocument);
@@ -341,6 +352,27 @@ public class VerenigingenPerInszProjection : EventProjection
                         vereniging => vereniging.VCode == verenigingWerdGemarkeerdAlsDubbelVan.StreamKey!);
 
                 vereniging.IsDubbel = true;
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.StreamKey!);
+
+                vereniging.IsDubbel = false;
 
                 docs.Add(verenigingenPerInszDocument);
             }
