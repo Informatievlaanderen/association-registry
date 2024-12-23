@@ -9,7 +9,7 @@ public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(IVere
 {
     public async Task Handle(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand command, CancellationToken cancellationToken)
     {
-        var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode, allowDubbeleVereniging:true, allowVerwijderdeVereniging:true);
+        var vereniging = await repository.Load<Vereniging>(command.VCode, allowDubbeleVereniging:true, allowVerwijderdeVereniging:true);
 
         vereniging.VerwerkWeigeringDubbelDoorAuthentiekeVereniging(command.VCode);
 

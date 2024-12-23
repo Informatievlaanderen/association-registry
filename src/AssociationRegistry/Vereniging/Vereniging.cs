@@ -241,6 +241,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VerenigingWerdGemarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
     }
 
+    public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode vCode)
+    {
+        if (State.IsDubbel)
+            AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, State.VorigeVerenigingStatus));
+    }
+
     public void Hydrate(VerenigingState obj)
     {
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
