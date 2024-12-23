@@ -1,22 +1,22 @@
 ﻿namespace AssociationRegistry.Test.Dubbels.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
 using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
-using Common.Framework;
 using Common.Scenarios.CommandHandling;
-using Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
+using Notifications.Messages;
 using Vereniging;
 using Xunit;
 
-public class Given_A_Dubbele_Vereniging
+public class Given_An_Exception
 {
     [Fact]
-    public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
+    public async Task Then_It_Retries()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);
+        var repositoryMock = new Mock<IVerenigingsRepository>();
+        var notifier = new Mock<INotifier>();
         var vCodeAuthentiekeVereniging = VCode.Create(scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging);
 
         var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(
@@ -24,13 +24,14 @@ public class Given_A_Dubbele_Vereniging
             VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging);
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
-            repositoryMock,
-            Mock.Of<INotifier>(),
+            repositoryMock.Object,
+            notifier.Object,
             new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
 
-        await sut.Handle(command, CancellationToken.None);
+        // ignore the assert throw, only interested in the veryfies
+        await Assert.ThrowsAsync<NullReferenceException>(async () => await sut.Handle(command, CancellationToken.None));
 
-        repositoryMock.ShouldHaveSaved(
-            WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(scenario.VCode, vCodeAuthentiekeVereniging, VerenigingStatus.Actief));
+        repositoryMock.Verify(x => x.Load<Vereniging>(It.IsAny<VCode>(), It.IsAny<int?>(), true, true), times: Times.Exactly(5));
+        notifier.Verify(x => x.Notify(It.IsAny<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald>()), times: Times.Exactly(4));
     }
 }
