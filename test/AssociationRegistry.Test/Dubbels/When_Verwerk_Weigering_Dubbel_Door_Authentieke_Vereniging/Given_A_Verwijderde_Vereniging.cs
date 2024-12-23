@@ -4,7 +4,9 @@ using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Notifications;
 using Vereniging;
 using Xunit;
 
@@ -21,7 +23,10 @@ public class Given_A_Verwijderde_Vereniging
             VCode: scenario.VCode,
             VCodeAuthentiekeVereniging: vCodeAuthentiekeVereniging);
 
-        var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(repositoryMock);
+        var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
+            repositoryMock,
+            Mock.Of<INotifier>(),
+            new NullLogger<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler>());
 
         await sut.Handle(command, CancellationToken.None);
 
