@@ -546,6 +546,16 @@ public class BeheerZoekProjectionHandler
             message.Data.VCodeDubbeleVereniging);
     }
 
+    public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                IsDubbel = false,
+            });
+    }
+
     private static JsonLdMetadata CreateJsonLdMetadata(JsonLdType jsonLdType, params string[] values)
         => new()
         {
