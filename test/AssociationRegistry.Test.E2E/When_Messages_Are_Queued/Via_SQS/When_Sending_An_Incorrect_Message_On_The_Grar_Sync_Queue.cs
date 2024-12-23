@@ -1,24 +1,23 @@
-namespace AssociationRegistry.Test.E2E;
+namespace AssociationRegistry.Test.E2E.When_Messages_Are_Queued.Via_SQS;
 
-using Acties.GrarConsumer;
 using Amazon.SQS.Model;
+using AssociationRegistry.Acties.GrarConsumer;
+using AssociationRegistry.Hosts.Configuration;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Framework.ApiSetup;
-using Grar.AddressMatch;
-using Hosts.Configuration;
 using Xunit;
 using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
-public class When_Sending_A_Fixtured_Message_On_The_Adres_Match_Queue
+public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 {
     private readonly FullBlownApiSetup _setup;
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly Fixture _autoFixture;
 
-    public When_Sending_A_Fixtured_Message_On_The_Adres_Match_Queue(FullBlownApiSetup setup, ITestOutputHelper testOutputHelper)
+    public When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue(FullBlownApiSetup setup, ITestOutputHelper testOutputHelper)
     {
         _autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -29,11 +28,11 @@ public class When_Sending_A_Fixtured_Message_On_The_Adres_Match_Queue
     [Fact]
     public async Task Then_The_Dlq_Recieves_The_Message()
     {
-        var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.AddressMatchDeadLetterQueueName);
+        var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.GrarSyncDeadLetterQueueName);
 
         await _setup.AmazonSqs.PurgeQueueAsync(dlqUrl.QueueUrl);
 
-        await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
+        await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
         var maxRetries = 5;
         var tries = 0;
