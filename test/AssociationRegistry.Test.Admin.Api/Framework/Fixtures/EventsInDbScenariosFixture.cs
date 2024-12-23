@@ -190,8 +190,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V079_FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigdScenario
         V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd = new();
 
-    public readonly V080_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection
-        V080VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection = new();
+    public readonly V080_V081_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection
+        V080V081VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection = new();
 
     protected override async Task Given()
     {
@@ -256,7 +256,7 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V071FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForAddingLocatieForPostalInformation,
             V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
             V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd,
-            V080VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection,
+            V080V081VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection,
         };
 
         using var daemon = await PreAddEvents();

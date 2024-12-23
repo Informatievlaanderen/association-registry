@@ -6,14 +6,14 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 
-public class V080_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection : IEventsInDbScenario
+public class V080_V081_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection : IEventsInDbScenario
 {
     public readonly CommandMetadata Metadata;
     public readonly FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd;
     public readonly FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd;
     public readonly VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan;
 
-    public V080_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection()
+    public V080_V081_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VCode = VCodeDubbeleVereniging;
