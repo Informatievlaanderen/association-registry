@@ -781,4 +781,9 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Status = VerenigingStatus.Dubbel;
     }
+
+    public static void Apply(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt, PubliekVerenigingDetailDocument document)
+    {
+        document.Status = weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VorigeStatus;
+    }
 }
