@@ -42,6 +42,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(AdresWerdGewijzigdInAdressenregister):
                 case nameof(LocatieDuplicaatWerdVerwijderdNaAdresMatch):
                 case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
+                case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
 
                     break;

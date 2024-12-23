@@ -24,13 +24,13 @@ public class Given_A_Vereniging_Gemarkeerd_Als_Dubbel
     private readonly ITestOutputHelper _testOutputHelper;
     private readonly AdminApiClient _adminApiClient;
     private readonly Fixture _fixture;
-    private readonly V080_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection _scenario;
+    private readonly V080_V081_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection _scenario;
 
     public Given_A_Vereniging_Gemarkeerd_Als_Dubbel(EventsInDbScenariosFixture fixture, ITestOutputHelper testOutputHelper)
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _adminApiClient = fixture.AdminApiClient;
-        _scenario = fixture.V080VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection;
+        _scenario = fixture.V080V081VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection;
         _testOutputHelper = testOutputHelper;
     }
 
