@@ -177,6 +177,7 @@ public static class EventCustomizations
             composer => composer.FromFactory(
                 () => new WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
                     fixture.Create<VCode>().ToString(),
+                    fixture.Create<VCode>().ToString(),
                     VerenigingStatus.Actief.Naam
                 )).OmitAutoProperties());
     }

@@ -2,4 +2,4 @@
 
 using Vereniging;
 
-public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode VCode);
+public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode VCode, VCode VCodeAuthentiekeVereniging);

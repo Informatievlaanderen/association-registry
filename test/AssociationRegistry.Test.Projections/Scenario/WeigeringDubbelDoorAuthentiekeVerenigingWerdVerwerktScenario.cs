@@ -42,6 +42,7 @@ public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : Insz
             AutoFixture.Create<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt>() with
             {
                 VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
+                VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
                 VorigeStatus = VerenigingStatus.Actief.Naam,
             };
     }
