@@ -1,8 +1,11 @@
 namespace AssociationRegistry.Test.Dubbels.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
 using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using AutoFixture;
+using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Vereniging;
 using Xunit;
 
 public class Given_Vereniging_Is_Not_Dubbel
@@ -10,9 +13,11 @@ public class Given_Vereniging_Is_Not_Dubbel
     [Fact]
     public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
+        var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
-        var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode);
+
+        var command = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand(VCode: scenario.VCode, fixture.Create<VCode>());
 
         var sut = new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(repositoryMock);
 

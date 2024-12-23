@@ -672,6 +672,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Vereniging is geen dubbel meer van {@event.Data.VCodeAuthentiekeVereniging}."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()

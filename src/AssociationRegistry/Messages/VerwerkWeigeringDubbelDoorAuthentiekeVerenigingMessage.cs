@@ -2,8 +2,8 @@
 
 using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
-public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(string VCode)
+public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(string VCode, string VCodeAuthentiekeVereniging)
 {
     public VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand ToCommand()
-        => new(Vereniging.VCode.Create(VCode));
+        => new(Vereniging.VCode.Create(VCode), Vereniging.VCode.Create(VCodeAuthentiekeVereniging));
 }

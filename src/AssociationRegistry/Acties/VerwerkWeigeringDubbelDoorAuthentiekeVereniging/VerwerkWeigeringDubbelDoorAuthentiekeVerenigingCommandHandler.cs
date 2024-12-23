@@ -11,7 +11,7 @@ public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(IVere
     {
         var vereniging = await repository.Load<Vereniging>(command.VCode, allowDubbeleVereniging:true, allowVerwijderdeVereniging:true);
 
-        vereniging.VerwerkWeigeringDubbelDoorAuthentiekeVereniging(command.VCode);
+        vereniging.VerwerkWeigeringDubbelDoorAuthentiekeVereniging(command.VCodeAuthentiekeVereniging);
 
         await repository.Save(
             vereniging,
