@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
 using Formats;
 using Framework.AlbaHost;
 using JsonLdContext;

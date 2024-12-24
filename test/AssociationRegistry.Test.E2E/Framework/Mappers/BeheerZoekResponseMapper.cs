@@ -4,7 +4,6 @@ using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
 using Events;
 using Formats;
 using JsonLdContext;

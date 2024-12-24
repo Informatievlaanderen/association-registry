@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Zoeken;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
-using Admin.Schema.Constants;
 using Events;
 using Formats;
 using Framework.AlbaHost;

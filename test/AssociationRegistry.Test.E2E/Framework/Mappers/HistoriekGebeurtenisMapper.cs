@@ -511,7 +511,7 @@ public static class HistoriekGebeurtenisMapper
         => new()
         {
             Beschrijving = $"Vereniging werd gemarkeerd als dubbel van {request.IsDubbelVan}.",
-            Gebeurtenis = nameof(Events.VerenigingWerdGemarkeerdAlsDubbelVan),
+            Gebeurtenis = nameof(VerenigingWerdGemarkeerdAlsDubbelVan),
             Data = new
             {
                 VCode = vCode,

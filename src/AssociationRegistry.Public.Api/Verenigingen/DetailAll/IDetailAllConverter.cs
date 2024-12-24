@@ -47,6 +47,7 @@ public class DetailAllConverter : IDetailAllConverter
     private static bool IsTeVerwijderenVereniging(PubliekVerenigingDetailDocument vereniging)
         => vereniging.Deleted ||
            vereniging.Status == VerenigingStatus.Gestopt ||
+           vereniging.Status == VerenigingStatus.Dubbel ||
            vereniging.IsUitgeschrevenUitPubliekeDatastroom is not null &&
            vereniging.IsUitgeschrevenUitPubliekeDatastroom.Value;
 

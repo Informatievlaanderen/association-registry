@@ -94,6 +94,29 @@ public class DetailAllConverterTests
     }
 
     [Fact]
+    public void Convert_Dubbele_Vereniging()
+    {
+        var converter = new DetailAllConverter(new AppSettings());
+        var doc = GetPubliekVerenigingDetailDocument();
+        doc.Status = VerenigingStatus.Dubbel;
+
+        var actual = converter.SerializeToJson(doc);
+        var expected = JsonConvert.SerializeObject(
+            new DetailAllConverter.TeVerwijderenVereniging
+            {
+                Vereniging = new DetailAllConverter.TeVerwijderenVereniging.TeVerwijderenVerenigingData
+                {
+                    VCode = doc.VCode,
+                    TeVerwijderen = true,
+                    DeletedAt = doc.DatumLaatsteAanpassing,
+                },
+            },
+            _serializerSettings);
+
+        actual.Should().BeEquivalentTo(expected);
+    }
+
+    [Fact]
     public void Convert_Actieve_Vereniging()
     {
         var appSettings = new AppSettings();

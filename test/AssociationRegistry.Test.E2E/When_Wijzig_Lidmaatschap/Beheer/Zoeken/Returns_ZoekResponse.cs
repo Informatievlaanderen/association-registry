@@ -2,8 +2,6 @@
 
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.ProjectionHost.Infrastructure.Extensions;
-using Admin.Schema.Constants;
 using Events;
 using Formats;
 using Framework.AlbaHost;

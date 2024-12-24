@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Admin.Schema.Constants;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;

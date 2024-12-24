@@ -1,14 +1,9 @@
 namespace AssociationRegistry.Test.E2E.When_Messages_Are_Queued.Via_Postgres;
 
-using Amazon.SQS.Model;
-using AssociationRegistry.Grar.AddressMatch;
-using AssociationRegistry.Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using Framework.ApiSetup;
 using AutoFixture;
 using FluentAssertions;
-using Marten;
-using Marten.Internal.Storage;
 using Messages;
 using Microsoft.Extensions.DependencyInjection;
 using Vereniging.Exceptions;

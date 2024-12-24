@@ -1,8 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Bogus;
-using FluentAssertions.Equivalency;
 
 public class AdminDetailComparisonConfig : End2EndComparisonConfig
 {

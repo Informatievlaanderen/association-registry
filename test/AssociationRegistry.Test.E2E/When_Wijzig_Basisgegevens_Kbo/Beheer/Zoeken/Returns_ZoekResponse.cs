@@ -2,7 +2,6 @@
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Admin.Schema.Constants;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;

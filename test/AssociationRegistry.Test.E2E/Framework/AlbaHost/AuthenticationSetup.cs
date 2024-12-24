@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Alba;
-using Common.Clients;
 using Common.Fixtures;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.Extensions.DependencyInjection;
