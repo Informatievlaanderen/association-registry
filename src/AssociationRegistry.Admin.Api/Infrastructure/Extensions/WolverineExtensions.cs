@@ -3,10 +3,10 @@
 using Acties.GrarConsumer;
 using Amazon.Runtime;
 using EventStore;
-using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using MessageHandling.Postgres.Dubbels;
+using MessageHandling.Sqs.AddressMatch;
 using Messages;
 using Serilog;
 using Vereniging;

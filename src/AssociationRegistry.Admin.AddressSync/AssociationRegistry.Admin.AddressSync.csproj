@@ -52,5 +52,9 @@
     <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="MessageHandling\Sqs\" />
+  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>

@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.AddressSync;
 
-using Grar.AddressSync;
 using Grar.Models;
 using Infrastructure.Notifications;
 using Marten;
+using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Notifications;

@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressSync;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using Acties.SyncAdresLocaties;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Grar;
+using Grar.Models;
+using Messages;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -52,7 +53,7 @@ public class With_No_Changes_Then_No_Event
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
-        var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
+        var command = fixture.Create<SyncAdresLocatiesCommand>() with
         {
             LocatiesWithAdres = new List<LocatieWithAdres>
                 { new(locatie.LocatieId, mockedAdresDetail) },
@@ -60,10 +61,10 @@ public class With_No_Changes_Then_No_Event
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var commandHandler = new SyncAdresLocatiesCommandHandler(verenigingRepositoryMock, grarClientMock.Object,
+                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>());
 
-        await messageHandler.Handle(message, CancellationToken.None);
+        await commandHandler.Handle(command, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldNotHaveAnySaves();
         verenigingRepositoryMock.ShouldNotHaveSaved<AdresWerdGewijzigdInAdressenregister>();

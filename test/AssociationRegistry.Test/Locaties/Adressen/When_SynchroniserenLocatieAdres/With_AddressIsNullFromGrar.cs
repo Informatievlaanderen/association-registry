@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressSync;
-using AssociationRegistry.Grar.Models;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
+using Acties.SyncAdresLocaties;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
+using Events;
+using Grar;
+using Grar.Models;
+using Messages;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -29,7 +30,7 @@ public class With_AddressIsNullFromGrar
 
         var locatie = scenario.Locaties.First();
 
-        var message = fixture.Create<TeSynchroniserenLocatieAdresMessage>() with
+        var command = fixture.Create<SyncAdresLocatiesCommand>() with
         {
             LocatiesWithAdres = new List<LocatieWithAdres>
                 { new(locatie.LocatieId, Adres: null) },
@@ -37,10 +38,10 @@ public class With_AddressIsNullFromGrar
             IdempotenceKey = "123456789",
         };
 
-        var messageHandler = new TeSynchroniserenLocatieAdresMessageHandler(verenigingRepositoryMock, grarClientMock.Object,
-                                                                            new NullLogger<TeSynchroniserenLocatieAdresMessageHandler>());
+        var commandHandler = new SyncAdresLocatiesCommandHandler(verenigingRepositoryMock, grarClientMock.Object,
+                                                                 new NullLogger<SyncAdresLocatiesCommandHandler>());
 
-        await messageHandler.Handle(message, CancellationToken.None);
+        await commandHandler.Handle(command, CancellationToken.None);
 
         verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(
                                                      scenario.VCode.Value,
