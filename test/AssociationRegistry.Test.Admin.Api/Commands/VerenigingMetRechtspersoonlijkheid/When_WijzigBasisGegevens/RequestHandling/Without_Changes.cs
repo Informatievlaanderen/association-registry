@@ -4,7 +4,7 @@ using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using FluentAssertions;
 using Framework;

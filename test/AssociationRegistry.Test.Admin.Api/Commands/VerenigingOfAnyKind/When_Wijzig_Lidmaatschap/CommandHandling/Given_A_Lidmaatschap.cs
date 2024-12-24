@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Lidmaatschap.CommandHandling;
 
 using Acties.WijzigLidmaatschap;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;

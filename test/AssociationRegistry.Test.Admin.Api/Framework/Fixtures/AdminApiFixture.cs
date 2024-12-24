@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Amazon.SQS;
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using Helpers;
 using Hosts.Configuration;

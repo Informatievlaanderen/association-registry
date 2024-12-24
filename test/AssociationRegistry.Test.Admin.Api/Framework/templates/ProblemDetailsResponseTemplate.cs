@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.templates;
 
-using AssociationRegistry.EventStore;
+using EventStore;
 using Microsoft.AspNetCore.Http;
 using System.Dynamic;
 

@@ -4,7 +4,7 @@ using Acties.WijzigContactgegevenFromKbo;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using FluentAssertions;
 using Framework;

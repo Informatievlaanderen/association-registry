@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework.templates;
 
-using AssociationRegistry.Admin.Schema.Constants;
 using Events;
 using Formats;
 using JsonLdContext;

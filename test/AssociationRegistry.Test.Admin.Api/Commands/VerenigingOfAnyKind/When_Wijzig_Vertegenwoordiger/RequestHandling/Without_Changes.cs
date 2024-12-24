@@ -4,7 +4,7 @@ using Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using FluentAssertions;
 using FluentValidation;

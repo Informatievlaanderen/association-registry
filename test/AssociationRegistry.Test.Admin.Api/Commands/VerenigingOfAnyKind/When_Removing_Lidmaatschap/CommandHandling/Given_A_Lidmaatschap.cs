@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Lidmaatschap.CommandHandling;
 
 using Acties.VerwijderLidmaatschap;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;

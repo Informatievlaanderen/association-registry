@@ -241,6 +241,16 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VerenigingWerdGemarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
     }
 
+    public string CorrigeerMarkeringAlsDubbelVan()
+    {
+        Throw<VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel>.If(!State.IsDubbel || State.IsDubbelVan == string.Empty);
+
+        var vCodeAuthentiekeVereniging = VCode.Create(State.IsDubbelVan);
+        AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, vCodeAuthentiekeVereniging, State.VorigeVerenigingStatus));
+
+        return vCodeAuthentiekeVereniging;
+    }
+
     public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode vCodeAuthentiekeVereniging)
     {
         if (State.IsDubbel)

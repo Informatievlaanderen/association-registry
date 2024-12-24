@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail;
 
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Framework.Fixtures;
+using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using System.Net;

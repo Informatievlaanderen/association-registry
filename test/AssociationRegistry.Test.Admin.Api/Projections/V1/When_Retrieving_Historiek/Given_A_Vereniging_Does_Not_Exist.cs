@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using Framework.Fixtures;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;

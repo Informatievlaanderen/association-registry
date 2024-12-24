@@ -4,7 +4,7 @@ using Acties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using FluentAssertions;
 using Framework;

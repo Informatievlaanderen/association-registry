@@ -7,7 +7,6 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using FluentAssertions;
-using GrarConsumer.FusieEvents.When_Consuming_Merger_Events;
 using Marten;
 using Messages;
 using Moq;
