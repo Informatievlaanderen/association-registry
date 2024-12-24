@@ -1,3 +1,15 @@
+# [8.193.0](https://github.com/informatievlaanderen/association-registry/compare/v8.192.0...v8.193.0) (2024-12-24)
+
+
+### Bug Fixes
+
+* or-2334 use dedicated property for IsAuthentieke verenging ([5ce5abf](https://github.com/informatievlaanderen/association-registry/commit/5ce5abf9ec477c8a49bf03c97963b2f1b64a4c90))
+
+
+### Features
+
+* or-2334 handle grar as command instead of messages ([388eec4](https://github.com/informatievlaanderen/association-registry/commit/388eec424ff4c51b4967cea530c360384d18a6c5))
+
 # [8.192.0](https://github.com/informatievlaanderen/association-registry/compare/v8.191.0...v8.192.0) (2024-12-24)
 
 
