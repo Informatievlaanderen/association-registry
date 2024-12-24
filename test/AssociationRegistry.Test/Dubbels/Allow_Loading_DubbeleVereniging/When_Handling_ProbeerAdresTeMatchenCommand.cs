@@ -1,23 +1,23 @@
 ﻿namespace AssociationRegistry.Test.Dubbels.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.AddressMatch;
-using AssociationRegistry.Vereniging;
+using Acties.ProbeerAdresTeMatchen;
 using AutoFixture;
+using Grar;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using Vereniging;
 using Xunit;
 
-public class When_Handling_TeAdresMatchenLocatieMessage : When_Loading_With_Dubbels_TestBase
+public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase
 {
     [Fact]
     public async Task Then_It_Should_Have_Loaded_AllowDubbels()
     {
         await VerifyVerenigingWasLoadedWithAllowDubbeleVereniging(async repositoryMock =>
         {
-            var sut = new TeAdresMatchenLocatieMessageHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<TeAdresMatchenLocatieMessageHandler>.Instance);
+            var sut = new ProbeerAdresTeMatchenCommandHandler(repositoryMock, Mock.Of<IGrarClient>(), NullLogger<ProbeerAdresTeMatchenCommandHandler>.Instance);
 
-            await sut.Handle(_fixture.Create<TeAdresMatchenLocatieMessage>() with
+            await sut.Handle(_fixture.Create<ProbeerAdresTeMatchenCommand>() with
             {
                 VCode = _fixture.Create<VCode>(),
             }, CancellationToken.None);

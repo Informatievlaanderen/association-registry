@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.AddressSync;
 
-using Grar.AddressSync;
 using Marten;
+using Messages;
 
 public interface ITeSynchroniserenLocatiesFetcher
 {

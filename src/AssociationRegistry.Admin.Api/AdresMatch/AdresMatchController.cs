@@ -2,8 +2,9 @@
 
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
-using Grar.AddressMatch;
 using Marten;
+using MessageHandling.Sqs.AddressMatch;
+using Messages;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Schema.Detail;

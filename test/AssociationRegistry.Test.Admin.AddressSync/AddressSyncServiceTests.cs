@@ -2,14 +2,15 @@
 
 using AssociationRegistry.Admin.AddressSync;
 using AssociationRegistry.Admin.AddressSync.Infrastructure.Notifications;
+using AssociationRegistry.Admin.AddressSync.MessageHandling.Sqs.AddressSync;
 using Grar;
-using Grar.AddressSync;
 using Marten;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
 using Vereniging;
+using Wolverine;
 
 public class AddressSyncServiceTests
 {
@@ -27,10 +28,7 @@ public class AddressSyncServiceTests
                                        .ThrowsAsync(new Exception());
 
         var addressSyncService = new AddressSyncService(store,
-                                                        new TeSynchroniserenLocatieAdresMessageHandler(
-                                                            Mock.Of<IVerenigingsRepository>(),
-                                                            Mock.Of<IGrarClient>(),
-                                                            NullLogger<TeSynchroniserenLocatieAdresMessageHandler>.Instance),
+                                                        new TeSynchroniserenLocatieAdresMessageHandler(Mock.Of<IMessageBus>()),
                                                         teSynchroniserenLocatiesFetcher.Object,
                                                         notifier.Object,
                                                         NullLogger<AddressSyncService>.Instance,
