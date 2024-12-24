@@ -1,3 +1,10 @@
+# [8.192.0](https://github.com/informatievlaanderen/association-registry/compare/v8.191.0...v8.192.0) (2024-12-24)
+
+
+### Features
+
+* or-2334 return dubbele vereniging as teVerwijderen for publiek deteail all ([729fdc6](https://github.com/informatievlaanderen/association-registry/commit/729fdc61d02492f4cec02ef7130a9523e56824af))
+
 # [8.191.0](https://github.com/informatievlaanderen/association-registry/compare/v8.190.0...v8.191.0) (2024-12-24)
 
 
