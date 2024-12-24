@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Schema.Constants;
 using Formats;
 using JsonLdContext;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;

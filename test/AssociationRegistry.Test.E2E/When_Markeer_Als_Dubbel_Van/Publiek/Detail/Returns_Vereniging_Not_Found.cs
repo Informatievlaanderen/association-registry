@@ -2,9 +2,6 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using global::OpenTelemetry.Trace;
-using Public.Api.Verenigingen.Detail.ResponseModels;
-using Public.Schema.Constants;
 using System.Net;
 using Xunit;
 

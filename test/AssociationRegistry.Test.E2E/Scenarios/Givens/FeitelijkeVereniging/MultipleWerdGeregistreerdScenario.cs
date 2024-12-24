@@ -6,7 +6,6 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
-using Requests.FeitelijkeVereniging;
 
 public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
 {

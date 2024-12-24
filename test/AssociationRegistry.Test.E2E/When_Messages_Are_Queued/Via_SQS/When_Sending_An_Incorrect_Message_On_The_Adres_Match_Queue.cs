@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.E2E.When_Messages_Are_Queued.Via_SQS;
 
 using Amazon.SQS.Model;
-using AssociationRegistry.Grar.AddressMatch;
-using AssociationRegistry.Hosts.Configuration;
+using Grar.AddressMatch;
+using Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using Framework.ApiSetup;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

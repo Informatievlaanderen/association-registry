@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Newtonsoft.Json.Linq;
-using Public.Api.Verenigingen.Detail;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.DetailAll;
 

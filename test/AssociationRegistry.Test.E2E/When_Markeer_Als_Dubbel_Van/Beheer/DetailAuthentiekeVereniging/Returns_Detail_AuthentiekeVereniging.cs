@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.DetailAuthentiekeVereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Admin.Schema.Constants;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Admin.Schema.Constants;
+using Framework.AlbaHost;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;

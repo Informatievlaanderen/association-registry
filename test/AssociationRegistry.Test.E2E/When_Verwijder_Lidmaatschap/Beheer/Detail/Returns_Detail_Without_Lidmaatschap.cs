@@ -4,7 +4,6 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
-using When_Voeg_Lidmaatschap_Toe;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]

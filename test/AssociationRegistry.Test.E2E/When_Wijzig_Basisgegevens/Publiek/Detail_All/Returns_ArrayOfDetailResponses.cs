@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Detail_All;
 
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Admin.Schema.Constants;
 using Formats;
 using JsonLdContext;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;

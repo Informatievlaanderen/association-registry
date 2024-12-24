@@ -4,7 +4,6 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
-using Newtonsoft.Json;
 
 public static class AdminApiEndpoints
 {

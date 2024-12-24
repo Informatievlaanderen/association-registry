@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Events;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Xunit.Abstractions;

@@ -7,7 +7,6 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
-using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
 

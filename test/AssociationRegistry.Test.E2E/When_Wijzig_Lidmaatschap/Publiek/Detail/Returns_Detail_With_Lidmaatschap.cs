@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Detail;
 
-using Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using Framework.AlbaHost;
 using Formats;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;

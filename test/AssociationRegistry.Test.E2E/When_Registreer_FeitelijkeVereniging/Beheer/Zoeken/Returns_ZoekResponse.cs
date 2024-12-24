@@ -3,7 +3,6 @@
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.Schema.Constants;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;

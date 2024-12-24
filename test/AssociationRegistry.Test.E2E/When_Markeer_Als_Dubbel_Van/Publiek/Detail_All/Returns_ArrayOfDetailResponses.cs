@@ -1,23 +1,23 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Publiek.Detail_All;
+﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.Detail_All;
 
-using Admin.Api.Verenigingen.Stop.RequestModels;
+using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Formats;
+using Public.Api.Verenigingen.DetailAll;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using FluentAssertions;
-using Formats;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
-using Public.Api.Verenigingen.DetailAll;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext, StopVerenigingRequest, IEnumerable<JObject>>
+public class Returns_ArrayOfDetailResponses : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, IEnumerable<JObject>>
 {
     public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>
         setup => setup.PublicApiHost.GetPubliekDetailAll();
 
-    public Returns_ArrayOfDetailResponses(StopVerenigingContext context) : base(context)
+    public Returns_ArrayOfDetailResponses(MarkeerAlsDubbelVanContext context) : base(context)
     {
     }
 
