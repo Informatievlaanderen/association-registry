@@ -236,7 +236,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         Throw<VerenigingKanGeenDubbelWordenVanZichzelf>.If(isDubbelVan.Equals(VCode));
 
-        Throw<AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden>.If(State.CorresponderendeVCodes.Any());
+        Throw<AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden>.If(State.IsAuthentiekeVereniging);
 
         AddEvent(VerenigingWerdGemarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
     }
