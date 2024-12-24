@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail;
 
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
 using Xunit;

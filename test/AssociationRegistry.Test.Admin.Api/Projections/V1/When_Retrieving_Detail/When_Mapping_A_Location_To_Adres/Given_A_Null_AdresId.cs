@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Deta
 
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

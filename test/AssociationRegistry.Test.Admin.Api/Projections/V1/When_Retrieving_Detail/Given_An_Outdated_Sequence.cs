@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework.templates;
+using Framework.Fixtures;
+using Framework.templates;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http;

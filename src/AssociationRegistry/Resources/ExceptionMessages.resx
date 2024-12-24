@@ -202,6 +202,9 @@
   <data name="AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden">
     <value>Een authentieke vereniging kan geen dubbel worden van een andere vereniging.</value>
   </data>
+  <data name="VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel">
+    <value>Een vereniging moet gemarkeerd zijn als dubbel om te kunnen corrigeren als dubbel.</value>
+  </data>
   <data name="LidmaatschapIsOverlappend">
     <value>Een lidmaatschap mag niet overlappen voor eenzelfde vereniging.</value>
   </data>

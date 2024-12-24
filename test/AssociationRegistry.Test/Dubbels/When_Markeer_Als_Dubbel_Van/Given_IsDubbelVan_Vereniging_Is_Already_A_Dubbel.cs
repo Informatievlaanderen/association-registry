@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Dubbels.When_Markeer_Als_Dubbel_Van;
 
-using AssociationRegistry.Acties.MarkeerAlsDubbelVan;
+using Acties.MarkeerAlsDubbelVan;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
+using Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Marten;

@@ -43,6 +43,7 @@ public record VerenigingState : IHasVersion
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel => VerenigingStatus == VerenigingStatus.Dubbel;
+    public string IsDubbelVan { get; set; }
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
@@ -684,6 +685,7 @@ public record VerenigingState : IHasVersion
         {
             VorigeVerenigingStatus = VerenigingStatus,
             VerenigingStatus = VerenigingStatus.Dubbel,
+            IsDubbelVan = @event.VCodeAuthentiekeVereniging,
         };
 
     public VerenigingState Apply(VerenigingAanvaarddeDubbeleVereniging @event)
@@ -696,6 +698,7 @@ public record VerenigingState : IHasVersion
         => this with
         {
             VerenigingStatus = VerenigingStatus.Parse(@event.VorigeStatus),
+            IsDubbelVan = string.Empty,
         };
 
     public void ThrowIfVerwijderd()

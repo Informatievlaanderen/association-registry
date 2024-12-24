@@ -4,7 +4,7 @@ using Acties.StopVereniging;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
 using FluentAssertions;
 using Framework;
