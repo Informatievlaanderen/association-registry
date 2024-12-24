@@ -1,3 +1,25 @@
+# [8.191.0](https://github.com/informatievlaanderen/association-registry/compare/v8.190.0...v8.191.0) (2024-12-24)
+
+
+### Bug Fixes
+
+* or-2335 move VerwerkWeigeringDubbelDoorAuthentiekeVereniging naar Verenging ([9dc028e](https://github.com/informatievlaanderen/association-registry/commit/9dc028e041676704d8959e07a5df9c571efdfbd9))
+
+
+### Features
+
+* or-2335 corrigeer markering dubbele vereniging ([1310573](https://github.com/informatievlaanderen/association-registry/commit/1310573da04ff3327829213a15f6f0a5911d107d))
+* or-2335 handle edge cases around VerwerkWeigeringDubbelDoorAuthVereniging ([4f937f1](https://github.com/informatievlaanderen/association-registry/commit/4f937f12a849c3d3af82c8376cabf928c495ad21))
+* or-2335 implement acm projection for weigering dubbel ([69a9a56](https://github.com/informatievlaanderen/association-registry/commit/69a9a56005fe00500469674b538a4d031ecc3789))
+* or-2335 implement beheer zoeken for weigering dubbel ([2cbfb94](https://github.com/informatievlaanderen/association-registry/commit/2cbfb946b48573313341f64e634535b38a8f6655))
+* or-2335 implement dubble detection for weigering dubbel ([d18a761](https://github.com/informatievlaanderen/association-registry/commit/d18a7615b9ad58be1c7b8ad77b66f2bf9a1111eb))
+* or-2335 implement historiek projection for weigering dubbel ([98efeec](https://github.com/informatievlaanderen/association-registry/commit/98efeecfefb66a3a87078c00cbd15cbc2b7baf0b))
+* or-2335 implement publiek detail for weigering dubbel ([a25b971](https://github.com/informatievlaanderen/association-registry/commit/a25b97160898cfb8ad316a4734fe59da834cd9ef))
+* or-2335 implement publiek zoeken for weigering dubbel ([465114d](https://github.com/informatievlaanderen/association-registry/commit/465114d42460c6070f068f3cef0293941c2df6ec))
+* or-2335 implement retry mechanism for weigering dubbel ([43664bf](https://github.com/informatievlaanderen/association-registry/commit/43664bfdfa6120675efb638c20f721f18e687a04))
+* or-2335 implement verwerk weigering dubbel in beheer detail ([3a0e3be](https://github.com/informatievlaanderen/association-registry/commit/3a0e3be77b32e6403bd191f44b7d1d48ae5ec1d3))
+* or-2335 keep track of previous verenigingstatus for WeigeringDubbelDoorAuthentiekeVereniging ([8ff1079](https://github.com/informatievlaanderen/association-registry/commit/8ff107960c8b4ffe2d32131f0cb099b85cd3600c))
+
 # [8.190.0](https://github.com/informatievlaanderen/association-registry/compare/v8.189.0...v8.190.0) (2024-12-19)
 
 
