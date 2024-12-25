@@ -35,6 +35,7 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
                 options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
                 options.Discovery.IncludeType<CorrigeerAanvaardingDubbeleVerenigingMessageHandler>();
+                options.Discovery.IncludeType<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
                     TimeSpan.FromSeconds(1),
