@@ -26,7 +26,7 @@ public class Given_A_Vereniging
     private readonly VerenigingWerdGemarkeerdAlsDubbelVanScenario _scenario;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly CorrigeerMarkeringAlsDubbelVanCommandHandler _commandHandler;
-    private CorrigeerAanvaardingDubbeleVerenigingMessage _outboxMessage;
+    private AanvaardCorrectieDubbeleVerenigingMessage _outboxMessage;
 
     public Given_A_Vereniging()
     {
@@ -36,7 +36,7 @@ public class Given_A_Vereniging
 
         var martenOutbox = new Mock<IMartenOutbox>();
 
-        martenOutbox.CaptureOutboxSendAsyncMessage<CorrigeerAanvaardingDubbeleVerenigingMessage>(message => _outboxMessage = message);
+        martenOutbox.CaptureOutboxSendAsyncMessage<AanvaardCorrectieDubbeleVerenigingMessage>(message => _outboxMessage = message);
 
         _commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
             _verenigingRepositoryMock,
@@ -76,6 +76,6 @@ public class Given_A_Vereniging
             new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>()));
 
         _outboxMessage.Should()
-                      .BeEquivalentTo(new CorrigeerAanvaardingDubbeleVerenigingMessage(_scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging, command.VCode));
+                      .BeEquivalentTo(new AanvaardCorrectieDubbeleVerenigingMessage(_scenario.VerenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging, command.VCode));
     }
 }
