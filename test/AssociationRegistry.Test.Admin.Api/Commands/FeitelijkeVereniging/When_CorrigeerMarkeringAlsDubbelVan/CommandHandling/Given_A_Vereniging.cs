@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_CorrigeerMarkeringAlsDubbelVan.CommandHandling;
 
-using Acties.CorrigeerAanvaardingDubbel;
 using Acties.CorrigeerMarkeringAlsDubbelVan;
 using Events;
 using AssociationRegistry.Framework;
@@ -32,7 +31,7 @@ public class Given_A_Vereniging
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingWerdGemarkeerdAlsDubbelVanScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState(), expectedLoadingDubbel: true);
 
         var martenOutbox = new Mock<IMartenOutbox>();
 

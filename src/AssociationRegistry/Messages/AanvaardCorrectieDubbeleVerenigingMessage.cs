@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Messages;
 
-using Acties.CorrigeerAanvaardingDubbel;
+using Acties.AanvaardCorrectieDubbel;
 
 public record AanvaardCorrectieDubbeleVerenigingMessage(string VCode, string VCodeDubbeleVereniging)
 {
