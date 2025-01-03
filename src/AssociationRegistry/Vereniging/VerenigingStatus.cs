@@ -2,8 +2,16 @@ namespace AssociationRegistry.Vereniging;
 
 public abstract record VerenigingStatus(string StatusNaam)
 {
-    public record StatusActief() : VerenigingStatus("Actief");
-    public record StatusGestopt() : VerenigingStatus("Gestopt");
+    public record StatusActief() : VerenigingStatus(Naam)
+    {
+        public const string Naam = "Actief";
+    }
+
+    public record StatusGestopt() : VerenigingStatus(Naam)
+    {
+        public const string Naam = "Gestopt";
+    }
+
     public record StatusDubbel(VCode VCodeAuthentiekeVereniging, VerenigingStatus VorigeVerenigingStatus) : VerenigingStatus("Dubbel");
 
     public static VerenigingStatus Actief => new StatusActief();
@@ -13,8 +21,8 @@ public abstract record VerenigingStatus(string StatusNaam)
     {
         switch (vorigeStatus)
         {
-            case "Actief": return new StatusActief();
-            case "Gestopt": return new StatusGestopt();
+            case StatusActief.Naam: return new StatusActief();
+            case StatusGestopt.Naam: return new StatusGestopt();
             default: throw new ArgumentOutOfRangeException();
         }
     }
