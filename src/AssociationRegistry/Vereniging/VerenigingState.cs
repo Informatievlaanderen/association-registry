@@ -42,12 +42,9 @@ public record VerenigingState : IHasVersion
     public bool IsIngeschrevenOpWijzigingenUitKbo { get; private init; }
     public List<string> HandledIdempotenceKeys { get; set; } = new();
     public bool IsVerwijderd { get; set; }
-    public bool IsDubbel => VerenigingStatus == VerenigingStatus.Dubbel;
-    public string VCodeAuthentiekeVereniging { get; set; }
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
-    public VerenigingStatus VorigeVerenigingStatus { get; set; }
 
     public long Version { get; set; }
 
@@ -118,7 +115,7 @@ public record VerenigingState : IHasVersion
                            h => HoofdactiviteitVerenigingsloket.Create(h.Code))
                       .ToArray()),
             Werkingsgebieden = Werkingsgebieden.NietBepaald,
-            VerenigingStatus = VerenigingStatus.Actief,
+            VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
 
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
@@ -130,7 +127,7 @@ public record VerenigingState : IHasVersion
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
             Startdatum = Datum.Hydrate(@event.Startdatum),
-            VerenigingStatus = VerenigingStatus.Actief,
+            VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
 
     public VerenigingState Apply(VerenigingWerdIngeschrevenOpWijzigingenUitKbo _)
@@ -152,14 +149,14 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Einddatum = Datum.Hydrate(@event.Einddatum),
-            VerenigingStatus = VerenigingStatus.Gestopt,
+            VerenigingStatus = new VerenigingStatus.StatusGestopt(),
         };
 
     public VerenigingState Apply(VerenigingWerdGestoptInKBO @event)
         => this with
         {
             Einddatum = Datum.Hydrate(@event.Einddatum),
-            VerenigingStatus = VerenigingStatus.Gestopt,
+            VerenigingStatus = new VerenigingStatus.StatusGestopt(),
         };
 
     public VerenigingState Apply(VerenigingWerdVerwijderd @event)
@@ -683,9 +680,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingWerdGemarkeerdAlsDubbelVan @event)
         => this with
         {
-            VorigeVerenigingStatus = VerenigingStatus,
-            VerenigingStatus = VerenigingStatus.Dubbel,
-            VCodeAuthentiekeVereniging = @event.VCodeAuthentiekeVereniging,
+            VerenigingStatus = new VerenigingStatus.StatusDubbel(VCode.Hydrate(@event.VCodeAuthentiekeVereniging), VerenigingStatus),
         };
 
     public VerenigingState Apply(VerenigingAanvaarddeDubbeleVereniging @event)
@@ -697,8 +692,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt @event)
         => this with
         {
-            VerenigingStatus = VerenigingStatus.Parse(@event.VorigeStatus),
-            VCodeAuthentiekeVereniging = string.Empty,
+            VerenigingStatus = VerenigingStatus.ParseVorigeStatus(@event.VorigeStatus),
         };
 
     public void ThrowIfVerwijderd()
@@ -709,7 +703,7 @@ public record VerenigingState : IHasVersion
 
     public void ThrowIfDubbel()
     {
-        if (IsDubbel)
+        if (VerenigingStatus is VerenigingStatus.StatusDubbel)
             throw new VerenigingIsDubbel(VCode);
     }
 }

@@ -65,6 +65,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (werkingsgebieden.IsNietVanToepassing)
         {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
+
             return;
         }
 
@@ -169,12 +170,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietBepaald(VCode));
+
             return;
         }
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
+
             return;
         }
 
@@ -243,18 +246,26 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public string CorrigeerMarkeringAlsDubbelVan()
     {
-        Throw<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>.If(!State.IsDubbel);
+        switch (State.VerenigingStatus)
+        {
+            case VerenigingStatus.StatusDubbel statusDubbel:
+                AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, statusDubbel));
 
-        var vCodeAuthentiekeVereniging = VCode.Create(State.VCodeAuthentiekeVereniging);
-        AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, vCodeAuthentiekeVereniging, State.VorigeVerenigingStatus));
+                return statusDubbel.VCodeAuthentiekeVereniging;
 
-        return vCodeAuthentiekeVereniging;
+            default:
+                throw new VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden();
+        }
     }
 
     public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode vCodeAuthentiekeVereniging)
     {
-        if (State.IsDubbel)
-            AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, vCodeAuthentiekeVereniging, State.VorigeVerenigingStatus));
+        switch (State.VerenigingStatus)
+        {
+            case VerenigingStatus.StatusDubbel statusDubbel:
+                AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, statusDubbel));
+                break;
+        }
     }
 
     public void Hydrate(VerenigingState obj)

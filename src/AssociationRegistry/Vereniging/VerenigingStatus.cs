@@ -1,25 +1,22 @@
 namespace AssociationRegistry.Vereniging;
 
-public class VerenigingStatus
+public abstract record VerenigingStatus(string StatusNaam)
 {
-    public static readonly VerenigingStatus Actief = new("Actief");
-    public static readonly VerenigingStatus Gestopt = new("Gestopt");
-    public static readonly VerenigingStatus Dubbel = new("Dubbel");
+    public record StatusActief() : VerenigingStatus("Actief");
+    public record StatusGestopt() : VerenigingStatus("Gestopt");
+    public record StatusDubbel(VCode VCodeAuthentiekeVereniging, VerenigingStatus VorigeVerenigingStatus) : VerenigingStatus("Dubbel");
 
-    public string Naam { get; }
+    public static VerenigingStatus Actief => new StatusActief();
+    public static VerenigingStatus Gestopt => new StatusGestopt();
 
-    public VerenigingStatus(string naam)
+    public VerenigingStatus ParseVorigeStatus(string vorigeStatus)
     {
-        Naam = naam;
+        switch (vorigeStatus)
+        {
+            case "Actief": return new StatusActief();
+            case "Gestopt": return new StatusGestopt();
+            default: throw new ArgumentOutOfRangeException();
+        }
     }
-
-    public static readonly VerenigingStatus[] All =
-    {
-        Actief,
-        Gestopt,
-        Dubbel
-    };
-
-    public static VerenigingStatus Parse(string naam)
-        => All.Single(t => t.Naam == naam);
 }
+

@@ -17,5 +17,5 @@ public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerDe
 
     [Fact]
     public void Document_Status_Is_Dubbel()
-        => fixture.Result.Status.Should().Be(VerenigingStatus.Actief.Naam);
+        => fixture.Result.Status.Should().Be(VerenigingStatus.Actief.StatusNaam);
 }
