@@ -31,7 +31,7 @@ public class CorrigeerMarkeringAlsDubbelVanCommandHandler
 
         var vCodeAuthentiekeVereniging = vereniging.CorrigeerMarkeringAlsDubbelVan();
 
-        await _outbox.SendAsync(new CorrigeerAanvaardingDubbeleVerenigingMessage(VCode.Create(vCodeAuthentiekeVereniging), envelope.Command.VCode));
+        await _outbox.SendAsync(new AanvaardCorrectieDubbeleVerenigingMessage(VCode.Create(vCodeAuthentiekeVereniging), envelope.Command.VCode));
 
         var result = await _verenigingsRepository.Save(vereniging, _session, envelope.Metadata, cancellationToken);
 

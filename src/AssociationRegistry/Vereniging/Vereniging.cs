@@ -243,7 +243,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public string CorrigeerMarkeringAlsDubbelVan()
     {
-        Throw<VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel>.If(!State.IsDubbel || State.IsDubbelVan == string.Empty);
+        Throw<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>.If(!State.IsDubbel || State.IsDubbelVan == string.Empty);
 
         var vCodeAuthentiekeVereniging = VCode.Create(State.IsDubbelVan);
         AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, vCodeAuthentiekeVereniging, State.VorigeVerenigingStatus));

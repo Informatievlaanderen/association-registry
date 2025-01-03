@@ -8,11 +8,11 @@ using AssociationRegistry.Vereniging;
 using NodaTime;
 using Wolverine;
 
-public class CorrigeerAanvaardingDubbeleVerenigingCommandHandler(
+public class AanvaardCorrectieDubbeleVerenigingCommandHandler(
     IVerenigingsRepository repository,
     IMessageBus bus)
 {
-    public async Task Handle(CorrigeerAanvaardingDubbeleVerenigingCommand command, CancellationToken cancellationToken)
+    public async Task Handle(AanvaardCorrectieDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
         // try
         // {

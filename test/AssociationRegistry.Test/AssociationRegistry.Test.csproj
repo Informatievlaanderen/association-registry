@@ -26,9 +26,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Dubbels\When_Corrigeer_Aanvaarding_Dubbel\" />
     <Folder Include="KboSync\" />
     <Folder Include="Locaties\Adressen\" />
     <Folder Include="ValueObjects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Dubbels\When_Corrigeer_Aanvaarding_Dubbel\Given_AuthentiekeVereniging.cs" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
