@@ -15,17 +15,17 @@ using Moq;
 using Wolverine.Marten;
 using Xunit;
 
-public class Given_VerenigingMetRechtspersoonlijkheid
+public class Given_GeenDubbeleVereniging
 {
     [Fact]
     public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario();
+        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingsRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
         var command = fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
         {
-            VCode = VCode.Create(scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode),
+            VCode = VCode.Create(scenario.VCode),
         };
         var commandEnvelope = new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, fixture.Create<CommandMetadata>());
 
@@ -34,9 +34,9 @@ public class Given_VerenigingMetRechtspersoonlijkheid
                                                         Mock.Of<IDocumentSession>()
         );
 
-        var exception = await Assert.ThrowsAsync<ActieIsNietToegestaanVoorVerenigingstype>
+        var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>
             (async () => await sut.Handle(commandEnvelope, CancellationToken.None));
 
-        exception.Message.Should().Be(ExceptionMessages.UnsupportedOperationForVerenigingstype);
+        exception.Message.Should().Be(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden);
     }
 }

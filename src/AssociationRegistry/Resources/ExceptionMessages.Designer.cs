@@ -757,9 +757,9 @@ namespace AssociationRegistry.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging moet gemarkeerd zijn als dubbel om gecorrigeerd te kunnen worden..
         /// </summary>
-        public static string VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel {
+        public static string VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden {
             get {
-                return ResourceManager.GetString("VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel", resourceCulture);
+                return ResourceManager.GetString("VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden", resourceCulture);
             }
         }
         
