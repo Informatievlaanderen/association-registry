@@ -8,5 +8,3 @@ public record VerenigingAanvaarddeDubbeleVereniging(string VCode, string VCodeDu
     public static VerenigingAanvaarddeDubbeleVereniging With(VCode vCode, VCode dubbeleVereniging)
         => new(vCode, dubbeleVereniging);
 }
-
-

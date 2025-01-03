@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.Acties.CorrigeerAanvaardingDubbel;
+﻿namespace AssociationRegistry.Acties.AanvaardCorrectieDubbel;
 
-using Vereniging;
+using AssociationRegistry.Vereniging;
 
 public record AanvaardCorrectieDubbeleVerenigingCommand(VCode VCode, VCode VCodeDubbeleVereniging);

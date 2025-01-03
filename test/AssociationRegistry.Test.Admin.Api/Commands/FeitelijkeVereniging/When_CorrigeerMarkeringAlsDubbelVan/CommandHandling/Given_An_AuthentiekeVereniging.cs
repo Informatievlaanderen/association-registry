@@ -21,38 +21,37 @@ using Xunit.Categories;
 public class Given_An_Authentieke_Vereniging
 {
     private readonly Fixture _fixture;
-    private readonly VerenigingAanvaarddeDubbeleVerenigingScenario _scenario;
-    private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
-    private readonly CorrigeerMarkeringAlsDubbelVanCommandHandler _commandHandler;
-    private Mock<IMartenOutbox> _martenOutbox;
+
 
     public Given_An_Authentieke_Vereniging()
     {
         _fixture = new Fixture().CustomizeDomain();
-        _scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario();
-        _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState());
-
-        _martenOutbox = new Mock<IMartenOutbox>();
-
-        _commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
-            _verenigingRepositoryMock,
-            _martenOutbox.Object,
-            Mock.Of<IDocumentSession>()
-        );
     }
 
-    [Fact]
-    public async Task Then_It_Throws()
+    [Theory]
+    [InlineData(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype.Feitelijke)]
+    public async Task Then_It_Throws(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
     {
+        var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
+        var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
+
+        var martenOutbox = new Mock<IMartenOutbox>();
+
+        var commandHandler = new CorrigeerMarkeringAlsDubbelVanCommandHandler(
+            verenigingRepositoryMock,
+            martenOutbox.Object,
+            Mock.Of<IDocumentSession>()
+        );
+
         var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
         {
-            VCode = _scenario.VCode,
+            VCode = scenario.VCode,
         };
 
-       var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>(async () => await _commandHandler.Handle(new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
+       var exception = await Assert.ThrowsAsync<VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden>(async () => await commandHandler.Handle(new CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand>(command, _fixture.Create<CommandMetadata>())));
 
        exception.Message.Should().Be(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden);
 
-       _martenOutbox.Verify(x => x.SendAsync(It.IsAny<AanvaardDubbeleVerenigingMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
+       martenOutbox.Verify(x => x.SendAsync(It.IsAny<AanvaardDubbeleVerenigingMessage>(), It.IsAny<DeliveryOptions>()), Times.Never);
     }
 }

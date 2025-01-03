@@ -1,16 +1,10 @@
-﻿namespace AssociationRegistry.Acties.CorrigeerAanvaardingDubbel;
+﻿namespace AssociationRegistry.Acties.AanvaardCorrectieDubbel;
 
-using AanvaardDubbel;
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
-using NodaTime;
 using Wolverine;
 
 public class AanvaardCorrectieDubbeleVerenigingCommandHandler(
-    IVerenigingsRepository repository,
-    IMessageBus bus)
+    IVerenigingsRepository repository)
 {
     public async Task Handle(AanvaardCorrectieDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
