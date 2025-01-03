@@ -45,7 +45,6 @@ public record VerenigingState : IHasVersion
     public bool IsAuthentiekeVereniging => CorresponderendeVCodes.Length != 0;
     public string[] CorresponderendeVCodes { get; set; } = [];
     public VerenigingStatus VerenigingStatus { get; set; }
-
     public long Version { get; set; }
 
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
@@ -690,6 +689,12 @@ public record VerenigingState : IHasVersion
         };
 
     public VerenigingState Apply(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt @event)
+        => this with
+        {
+            VerenigingStatus = VerenigingStatus.ParseVorigeStatus(@event.VorigeStatus),
+        };
+
+    public VerenigingState Apply(MarkeringDubbeleVerengingWerdGecorrigeerd @event)
         => this with
         {
             VerenigingStatus = VerenigingStatus.ParseVorigeStatus(@event.VorigeStatus),
