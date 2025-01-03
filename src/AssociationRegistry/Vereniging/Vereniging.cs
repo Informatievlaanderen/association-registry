@@ -263,6 +263,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         switch (State.VerenigingStatus)
         {
             case VerenigingStatus.StatusDubbel statusDubbel:
+                Throw<ApplicationException>.If(!statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging));
                 AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, statusDubbel));
                 break;
         }
