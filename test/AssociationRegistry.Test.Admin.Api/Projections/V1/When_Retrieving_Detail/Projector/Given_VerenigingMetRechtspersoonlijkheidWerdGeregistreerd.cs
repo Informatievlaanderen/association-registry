@@ -2,13 +2,12 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
-using AssociationRegistry.Admin.Schema.Constants;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using Events;
+using Formats;
+using JsonLdContext;
+using Vereniging;
+using Vereniging.Bronnen;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

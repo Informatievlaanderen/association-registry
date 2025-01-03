@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

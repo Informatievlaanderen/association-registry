@@ -2,8 +2,8 @@
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
-using AssociationRegistry.Vereniging;
+using Events;
+using Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

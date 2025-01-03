@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using AssociationRegistry.EventStore;
+using EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Framework.Fixtures;
+using Common.Scenarios.EventsInDb;
 using Common.Extensions;
 using FluentAssertions;
 using Formats;

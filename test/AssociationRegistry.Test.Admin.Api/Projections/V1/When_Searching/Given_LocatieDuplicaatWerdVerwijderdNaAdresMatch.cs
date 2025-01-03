@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching;
 
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework.templates;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
-using AssociationRegistry.Vereniging;
+using Formats;
+using JsonLdContext;
+using Framework.Fixtures;
+using Framework.templates;
+using Common.Scenarios.EventsInDb;
+using Vereniging;
 using Common.Extensions;
 using FluentAssertions;
 using Xunit;

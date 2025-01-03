@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_Sorting;
 
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using Framework.Fixtures;
 using FluentAssertions;
 using Xunit;
 using Xunit.Abstractions;

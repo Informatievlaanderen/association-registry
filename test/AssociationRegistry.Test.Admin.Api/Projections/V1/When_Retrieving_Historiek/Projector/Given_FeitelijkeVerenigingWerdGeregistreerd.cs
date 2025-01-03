@@ -3,7 +3,7 @@
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
-using AssociationRegistry.Events;
+using Events;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

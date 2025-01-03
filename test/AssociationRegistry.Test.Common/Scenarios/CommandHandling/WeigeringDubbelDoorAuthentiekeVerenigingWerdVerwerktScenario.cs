@@ -26,7 +26,7 @@ public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : Comm
         WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt = fixture.Create<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt>() with
         {
             VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
-            VorigeStatus = VerenigingStatus.Actief.Naam,
+            VorigeStatus = VerenigingStatus.Actief.StatusNaam,
         };
     }
 

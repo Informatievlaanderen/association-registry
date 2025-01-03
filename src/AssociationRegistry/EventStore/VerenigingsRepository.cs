@@ -78,7 +78,7 @@ public class VerenigingsRepository : IVerenigingsRepository
     {
         var verenigingState = await _eventStore.Load<VerenigingState>(vCode, null);
 
-        return verenigingState.IsDubbel;
+        return verenigingState.VerenigingStatus is VerenigingStatus.StatusDubbel;
     }
 
     public async Task<bool> Exists(VCode vCode)

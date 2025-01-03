@@ -23,7 +23,7 @@ public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(BeheerHi
                                                new
                                                {
                                                    VCode = fixture.Scenario.VCode,
-                                                   VorigeStatus = VerenigingStatus.Actief.Naam,
+                                                   VorigeStatus = VerenigingStatus.Actief.StatusNaam,
                                                },
                                                fixture.MetadataInitiator,
                                                fixture.MetadataTijdstip));

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.RequestValidating;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;

@@ -381,6 +381,22 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                      Registratiedata.Adres.With(locatie.Adres)));
     }
 
+
+    public void AanvaardDubbeleVereniging(VCode dubbeleVereniging)
+    {
+        Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
+        AddEvent(VerenigingAanvaarddeDubbeleVereniging.With(VCode, dubbeleVereniging));
+    }
+
+    public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)
+    {
+        if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
+            throw new ApplicationException($"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging " +
+                                           $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}.");
+
+        AddEvent(VerenigingAanvaarddeCorrectieDubbeleVereniging.With(VCode, dubbeleVereniging));
+    }
+
     private string GetExceptionMessage(HttpStatusCode statusCode)
         => statusCode == HttpStatusCode.BadRequest
             ? GrarClient.BadRequestSuccessStatusCodeMessage
@@ -402,10 +418,4 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     }
 
     public long Version => State.Version;
-
-    public void AanvaardDubbeleVereniging(VCode dubbeleVereniging)
-    {
-        Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
-        AddEvent(VerenigingAanvaarddeDubbeleVereniging.With(VCode, dubbeleVereniging));
-    }
 }

@@ -65,6 +65,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (werkingsgebieden.IsNietVanToepassing)
         {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
+
             return;
         }
 
@@ -169,12 +170,14 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietBepaald!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietBepaald(VCode));
+
             return;
         }
 
         if (Werkingsgebieden.Equals(werkingsgebieden, Werkingsgebieden.NietVanToepassing!))
         {
             AddEvent(new WerkingsgebiedenWerdenNietVanToepassing(VCode));
+
             return;
         }
 
@@ -241,10 +244,29 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(VerenigingWerdGemarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
     }
 
+    public string CorrigeerMarkeringAlsDubbelVan()
+    {
+        switch (State.VerenigingStatus)
+        {
+            case VerenigingStatus.StatusDubbel statusDubbel:
+                AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, statusDubbel));
+
+                return statusDubbel.VCodeAuthentiekeVereniging;
+
+            default:
+                throw new VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden();
+        }
+    }
+
     public void VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VCode vCodeAuthentiekeVereniging)
     {
-        if (State.IsDubbel)
-            AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, vCodeAuthentiekeVereniging, State.VorigeVerenigingStatus));
+        switch (State.VerenigingStatus)
+        {
+            case VerenigingStatus.StatusDubbel statusDubbel:
+                Throw<ApplicationException>.If(!statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging));
+                AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, statusDubbel));
+                break;
+        }
     }
 
     public void Hydrate(VerenigingState obj)

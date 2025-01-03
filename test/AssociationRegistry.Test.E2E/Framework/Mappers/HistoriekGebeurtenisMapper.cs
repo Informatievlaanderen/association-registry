@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
@@ -530,6 +530,35 @@ public static class HistoriekGebeurtenisMapper
             {
                 VCode = request.IsDubbelVan,
                 VCodeDubbeleVereniging = vCode,
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse MarkeringDubbeleVerengingWerdGecorrigeerd(
+        VerenigingWerdGemarkeerdAlsDubbelVan verenigingWerdGemarkeerdAlsDubbelVan)
+        => new()
+        {
+            Beschrijving = $"Vereniging werd gecorrigeerd als dubbel van {verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging}.",
+            Gebeurtenis = nameof(Events.MarkeringDubbeleVerengingWerdGecorrigeerd),
+            Data = new
+            {
+                VCode = verenigingWerdGemarkeerdAlsDubbelVan.VCode,
+                VCodeAuthentiekeVereniging = verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging,
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? AanvaardingDubbeleVerenigingWerdGecorrigeerd(VerenigingAanvaarddeDubbeleVereniging scenarioVerenigingAanvaarddeDubbeleVereniging)
+        => new()
+        {
+            Beschrijving = $"Aanvaarding dubbele vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCode} werd gecorrigeerd.",
+            Gebeurtenis = nameof(Events.VerenigingAanvaarddeDubbeleVereniging),
+            Data = new
+            {
+                VCode = scenarioVerenigingAanvaarddeDubbeleVereniging.VCode,
+                VCodeDubbeleVereniging = scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging,
             },
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",

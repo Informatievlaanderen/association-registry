@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
-using AssociationRegistry.Test.Admin.Api.Framework.templates;
-using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using EventStore;
+using Framework.Fixtures;
+using Framework.templates;
+using Common.Scenarios.EventsInDb;
 using Common.Extensions;
 using FluentAssertions;
 using System.Net;

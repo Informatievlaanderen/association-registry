@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Acm;
 
-using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.Constants;
 using Framework.AlbaHost;

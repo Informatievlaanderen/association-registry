@@ -23,13 +23,13 @@ public class Given_A_Dubbele_Vereniging
 
         var eventStoreMock = new EventStoreMock(
             fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode,  },
-            fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with{ VCode = _vCode});
+            fixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with{ VCode = _vCode, VCodeAuthentiekeVereniging = fixture.Create<VCode>()});
 
         _repo = new VerenigingsRepository(eventStoreMock);
     }
 
     [Fact]
-    public async Task Then_A_FeitelijkeVereniging_Is_Returned()
+    public async Task Then_Throws_A_VerenigingIsDubbelException()
     {
         var exception = await
             Assert.ThrowsAsync<AssociationRegistry.Vereniging.Exceptions.VerenigingIsDubbel>(async () => await _repo.Load<Vereniging>(_vCode, expectedVersion: null)) ;

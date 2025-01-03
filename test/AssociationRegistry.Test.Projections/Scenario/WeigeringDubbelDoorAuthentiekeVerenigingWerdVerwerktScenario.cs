@@ -43,7 +43,7 @@ public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : Insz
             {
                 VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
                 VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
-                VorigeStatus = VerenigingStatus.Actief.Naam,
+                VorigeStatus = VerenigingStatus.Actief.StatusNaam,
             };
     }
 

@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using AssociationRegistry.Resources;
+using Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Messages;
 
-using Acties.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+using Acties.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
 public record VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(string VCode, string VCodeAuthentiekeVereniging)
 {

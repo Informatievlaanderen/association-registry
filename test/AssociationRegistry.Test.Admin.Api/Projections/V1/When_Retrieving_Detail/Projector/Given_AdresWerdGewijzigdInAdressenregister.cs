@@ -3,9 +3,9 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Deta
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Events;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
+using Events;
+using Formats;
+using JsonLdContext;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
