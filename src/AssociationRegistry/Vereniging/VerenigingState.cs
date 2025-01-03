@@ -688,6 +688,12 @@ public record VerenigingState : IHasVersion
             CorresponderendeVCodes = CorresponderendeVCodes.Append(@event.VCodeDubbeleVereniging).ToArray(),
         };
 
+    public VerenigingState Apply(VerenigingAanvaarddeCorrectieDubbeleVereniging @event)
+        => this with
+        {
+            CorresponderendeVCodes = CorresponderendeVCodes.Where(x => x != @event.VCodeDubbeleVereniging).ToArray(),
+        };
+
     public VerenigingState Apply(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt @event)
         => this with
         {
