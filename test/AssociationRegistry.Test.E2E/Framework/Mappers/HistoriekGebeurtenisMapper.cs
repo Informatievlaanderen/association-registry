@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Dubbels.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
