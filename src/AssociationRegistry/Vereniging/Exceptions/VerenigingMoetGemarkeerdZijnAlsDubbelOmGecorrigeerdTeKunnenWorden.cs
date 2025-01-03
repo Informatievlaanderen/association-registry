@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 [Serializable]
 public class VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden : DomainException
 {
-    public VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden() : base(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmTeKunnenCorrigerenAlsDubbel)
+    public VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden() : base(ExceptionMessages.VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden)
     {
     }
 
