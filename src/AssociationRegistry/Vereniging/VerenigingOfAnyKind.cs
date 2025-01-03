@@ -390,6 +390,10 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
     public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)
     {
+        if (!State.CorresponderendeVCodes.Contains(dubbeleVereniging))
+            throw new ApplicationException($"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging " +
+                                           $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}.");
+
         AddEvent(VerenigingAanvaarddeCorrectieDubbeleVereniging.With(VCode, dubbeleVereniging));
     }
 
