@@ -770,4 +770,18 @@ public class BeheerVerenigingDetailProjector
         document.Status = weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VorigeStatus;
         document.IsDubbelVan = string.Empty;
     }
+
+    public static void Apply(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd, BeheerVerenigingDetailDocument document)
+    {
+        document.Status = markeringDubbeleVerengingWerdGecorrigeerd.Data.VorigeStatus;
+        document.IsDubbelVan = string.Empty;
+    }
+
+    public static void Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> verenigingAanvaarddeCorrectieDubbeleVereniging, BeheerVerenigingDetailDocument document)
+    {
+        document.CorresponderendeVCodes =
+            document.CorresponderendeVCodes
+                    .Where(x => x != verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCodeDubbeleVereniging)
+                    .ToArray();
+    }
 }
