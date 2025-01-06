@@ -9,7 +9,6 @@ public class VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenar
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
-    public MarkeringDubbeleVerengingWerdGecorrigeerd MarkeringDubbeleVerengingWerdGecorrigeerd { get; set; }
     public VerenigingAanvaarddeCorrectieDubbeleVereniging VerenigingAanvaarddeCorrectieDubbeleVereniging { get; set; }
 
     private string _insz { get; }
@@ -38,12 +37,6 @@ public class VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenar
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
 
-        MarkeringDubbeleVerengingWerdGecorrigeerd = AutoFixture.Create<MarkeringDubbeleVerengingWerdGecorrigeerd>() with
-        {
-            VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
-            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
-        };
-
         VerenigingAanvaarddeCorrectieDubbeleVereniging = AutoFixture.Create<VerenigingAanvaarddeCorrectieDubbeleVereniging>() with
         {
             VCode = AuthentiekeVerenigingWerdGeregistreerd.VCode,
@@ -51,11 +44,11 @@ public class VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenar
         };
     }
 
-    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
+    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, MarkeringDubbeleVerengingWerdGecorrigeerd),
+        new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging, VerenigingAanvaarddeCorrectieDubbeleVereniging),
     ];
 
