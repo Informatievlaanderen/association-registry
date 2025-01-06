@@ -553,8 +553,8 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? AanvaardingDubbeleVerenigingWerdGecorrigeerd(VerenigingAanvaarddeDubbeleVereniging scenarioVerenigingAanvaarddeDubbeleVereniging)
         => new()
         {
-            Beschrijving = $"Aanvaarding dubbele vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCode} werd gecorrigeerd.",
-            Gebeurtenis = nameof(Events.VerenigingAanvaarddeDubbeleVereniging),
+            Beschrijving = $"Authentieke vereniging aanvaardde de correctie van dubbele vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging}.",
+            Gebeurtenis = nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging),
             Data = new
             {
                 VCode = scenarioVerenigingAanvaarddeDubbeleVereniging.VCode,

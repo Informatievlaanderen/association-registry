@@ -682,6 +682,26 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Markering dubbel van vereniging {@event.Data.VCodeAuthentiekeVereniging} werd gecorrigeerd."
+        );
+    }
+
+    public static void Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            $"Authentieke vereniging aanvaardde de correctie van dubbele vereniging {@event.Data.VCodeDubbeleVereniging}."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()

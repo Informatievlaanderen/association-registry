@@ -58,7 +58,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
     public async Task With_All_Gebeurtenissen()
     {
         var gebeurtenis =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(AanvaardingDubbeleVerenigingWerdGecorrigeerd));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging));
 
         var tryCounter = 0;
 
