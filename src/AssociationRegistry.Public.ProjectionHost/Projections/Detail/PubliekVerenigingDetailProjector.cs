@@ -786,4 +786,9 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Status = weigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.Data.VorigeStatus;
     }
+
+    public static void Apply(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd, PubliekVerenigingDetailDocument document)
+    {
+        document.Status = markeringDubbeleVerengingWerdGecorrigeerd.Data.VorigeStatus;
+    }
 }
