@@ -136,6 +136,24 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(markeringDubbeleVerengingWerdGecorrigeerd, ops));
+
+        ops.StoreObjects(docs);
+    }
+
+    public async Task Project(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> VerenigingAanvaarddeCorrectieDubbeleVereniging, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(VerenigingAanvaarddeCorrectieDubbeleVereniging, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
@@ -379,6 +397,52 @@ public class VerenigingenPerInszProjection : EventProjection
 
             return docs;
         }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> verenigingAanvaarddeCorrectieDubbeleVereniging,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == verenigingAanvaarddeCorrectieDubbeleVereniging.StreamKey!);
+
+                vereniging.CorresponderendeVCodes =
+                    vereniging.CorresponderendeVCodes
+                              .Where(w => w != verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCodeDubbeleVereniging)
+                              .ToArray();
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(markeringDubbeleVerengingWerdGecorrigeerd.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == markeringDubbeleVerengingWerdGecorrigeerd.StreamKey!);
+
+                vereniging.IsDubbel = false;
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
+
     }
 
     private static class VerenigingDocumentProjector

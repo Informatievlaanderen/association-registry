@@ -2,35 +2,33 @@
 
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.Constants;
+using Azure;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Scenarios.Requests;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VerenigingenPerInszResponse :
-    IClassFixture<CorrigeerMarkeringAlsDubbelVanContext>
+    End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, VerenigingenPerInszResponse>
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext context): base(context)
     {
         _context = context;
         _inszToCompare = context.Scenario.DubbeleVerenging.Vertegenwoordigers[0].Insz;
+
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
             KboNummers = [],
         };
-    }
-
-    private VerenigingenPerInszResponse Response { get; set; }
-
-    public async Task InitializeAsync()
-    {
-        Response = await _context.ApiSetup.AdminApiHost.GetVerenigingenPerInsz(_request);
     }
 
     [Fact]
@@ -74,4 +72,8 @@ public class Returns_VerenigingenPerInszResponse :
             KboNummers = [],
         });
     }
+
+    public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
+                         .GetAwaiter().GetResult();
 }
