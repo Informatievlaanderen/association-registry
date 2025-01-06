@@ -546,6 +546,23 @@ public class BeheerZoekProjectionHandler
             message.Data.VCodeDubbeleVereniging);
     }
 
+    public async Task Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                IsDubbel = false,
+            });
+    }
+
+    public async Task Handle(EventEnvelope<VerenigingAanvaarddeCorrectieDubbeleVereniging> message)
+    {
+        await _elasticRepository.RemoveCorresponderendeVCode<VerenigingZoekDocument>(
+            message.VCode,
+            message.Data.VCodeDubbeleVereniging);
+    }
+
     public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
     {
         await _elasticRepository.UpdateAsync(

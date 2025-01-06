@@ -224,4 +224,18 @@ public class ElasticRepository : IElasticRepository
             // todo: log ? (should never happen in test/staging/production)
             throw new IndexDocumentFailed(response.DebugInformation);
     }
+
+    public async Task RemoveCorresponderendeVCode<T>(string id, string vCodeDubbeleVereniging) where T : class
+    {
+        var response = await _elasticClient.UpdateAsync<T>(
+            id,
+            selector: u => u.Script(
+                s => s
+                    .Source("ctx._source.corresponderendeVCodes.removeIf(c -> c == params.item)")
+                    .Params(objects => objects.Add(key: "item", vCodeDubbeleVereniging))));
+
+        if (!response.IsValid)
+            // todo: log ? (should never happen in test/staging/production)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
 }

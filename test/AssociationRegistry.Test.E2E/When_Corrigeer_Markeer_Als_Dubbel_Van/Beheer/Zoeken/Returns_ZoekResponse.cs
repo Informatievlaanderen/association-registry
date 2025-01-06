@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
     }
 
     [Fact]
-    public async Task With_Verenigingen_Empty()
+    public async Task With_Vereniging()
         => Response.Verenigingen.Should().NotBeEmpty();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
