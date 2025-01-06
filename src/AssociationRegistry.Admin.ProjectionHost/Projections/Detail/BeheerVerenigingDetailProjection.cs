@@ -229,7 +229,14 @@ public class BeheerVerenigingDetailProjection : EventProjection
 
     public async Task Project(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
     public async Task Project(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+
+    public async Task Project(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)

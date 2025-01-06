@@ -60,8 +60,6 @@ public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeri
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Actief);
     }
 
-    public DetailVerenigingResponse Response { get; set; }
-
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerDetail(_context.Scenario.AuthentiekeVereniging.VCode);
 }
