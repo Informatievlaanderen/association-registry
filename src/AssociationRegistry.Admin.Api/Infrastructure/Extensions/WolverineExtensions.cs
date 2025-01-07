@@ -20,6 +20,7 @@ public static class WolverineExtensions
     public static void AddWolverine(this WebApplicationBuilder builder)
     {
         const string AanvaardDubbeleVerenigingQueueName = "aanvaard-dubbele-vereniging-queue";
+        const string VerwerkWeigeringDubbeleVerenigingQueueName = "verwerk-weigering-dubbele-vereniging-queue";
         const string wolverineSchema = "public";
 
         builder.Host.UseWolverine(
@@ -35,6 +36,7 @@ public static class WolverineExtensions
                 options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessage>();
                 options.Discovery.IncludeType<AanvaardDubbeleVerenigingMessageHandler>();
                 options.Discovery.IncludeType<AanvaardCorrectieDubbeleVerenigingMessageHandler>();
+                options.Discovery.IncludeType<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>();
                 options.Discovery.IncludeType<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler>();
 
                 options.OnException<UnexpectedAggregateVersionDuringSyncException>().RetryWithCooldown(
@@ -69,10 +71,14 @@ public static class WolverineExtensions
                 var connectionString = context.Configuration.GetPostgreSqlOptionsSection().GetConnectionString();
 
                 options.UsePostgresqlPersistenceAndTransport(connectionString, wolverineSchema, wolverineSchema);
+
                 options.PublishMessage<AanvaardDubbeleVerenigingMessage>()
                        .ToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
-
                 options.ListenToPostgresqlQueue(AanvaardDubbeleVerenigingQueueName);
+
+                options.PublishMessage<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>()
+                       .ToPostgresqlQueue(VerwerkWeigeringDubbeleVerenigingQueueName);
+                options.ListenToPostgresqlQueue(VerwerkWeigeringDubbeleVerenigingQueueName);
 
                 if (grarOptions.Wolverine.AutoProvision)
                     transportConfiguration.AutoProvision();
