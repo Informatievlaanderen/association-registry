@@ -1,3 +1,27 @@
+# [8.194.0](https://github.com/informatievlaanderen/association-registry/compare/v8.193.0...v8.194.0) (2025-01-07)
+
+
+### Bug Fixes
+
+* or-1716 change message names for historiek ([806e3b9](https://github.com/informatievlaanderen/association-registry/commit/806e3b9f4d660ffb6499cdd570a23c1235b44c5d))
+* or-1716 register verwerk weigering dubbel queue ([dc39693](https://github.com/informatievlaanderen/association-registry/commit/dc39693dbfc16c15c852f828af57b1cdebf28b92))
+* or-1716 use vorigeStatus when processing undo/weigering dubbels commands ([959f339](https://github.com/informatievlaanderen/association-registry/commit/959f339bb15adba5139a90093f4a855695ca2318))
+* or-2335 add message handler for VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler ([0271ac5](https://github.com/informatievlaanderen/association-registry/commit/0271ac5cdc84450f6080fd487bbdf062a532e5ea))
+
+
+### Features
+
+* or-1716 allow aanvaarding correctie dubbele vereniging in authentieke vereniging ([62f6e4b](https://github.com/informatievlaanderen/association-registry/commit/62f6e4bcc31a240ed456e757fd6e018aca0bb074))
+* or-1716 implement acm for correctie dubbels ([2932e7e](https://github.com/informatievlaanderen/association-registry/commit/2932e7e5e68053641e541688d7b00392a7676631))
+* or-1716 implement beheer detail for correctie dubbels ([349326b](https://github.com/informatievlaanderen/association-registry/commit/349326bafb14e847e3a029aee7ad36e7e3d35b78))
+* or-1716 implement beheer historiek for correctie dubbels ([137799a](https://github.com/informatievlaanderen/association-registry/commit/137799a1ef7fe15f5719e402d44dca48047d8ece))
+* or-1716 implement beheer zoeken for corrigeer dubbel ([03ed5b7](https://github.com/informatievlaanderen/association-registry/commit/03ed5b7cba9ec87c9adb11322931838c0a6cc89a))
+* or-1716 implement CorrigeerMarkeringAlsDubbelVanCommandHandler ([7fa6680](https://github.com/informatievlaanderen/association-registry/commit/7fa668032e930dc1fe06a90aacd74652e40f383a))
+* or-1716 implement publiek detail for corrigeer dubbels ([9cf758a](https://github.com/informatievlaanderen/association-registry/commit/9cf758a50e3ad8ab30ce55e926bfcfe50d8c4f6f))
+* or-1716 implement publiek zoeken for correctie dubbels ([a7b37d3](https://github.com/informatievlaanderen/association-registry/commit/a7b37d3cf433b5d8d553724089fcf210530dce93))
+* or-1716 throw application exception when authentieke vereniging is not my authentieke vereniging ([b8f22e4](https://github.com/informatievlaanderen/association-registry/commit/b8f22e4cc7505d84c8bc8791b83c32b61c222a0e))
+* or-1716 throw exception when trying to accept correctie for unknown vereniging ([35eb195](https://github.com/informatievlaanderen/association-registry/commit/35eb19578532b68c0bc08515290742561dc4a3a7))
+
 # [8.193.0](https://github.com/informatievlaanderen/association-registry/compare/v8.192.0...v8.193.0) (2024-12-24)
 
 
