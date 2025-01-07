@@ -11,6 +11,6 @@ public class Given_VerenigingAanvaarddeCorrectieDubbeleVereniging(BeheerDetailSc
                   .Metadata.Version.Should().Be(3);
 
     [Fact]
-    public void Document_Has_DubbeleVereniging_In_CorresponderendeVCodes()
+    public void Document_Does_Not_Have_DubbeleVereniging_In_CorresponderendeVCodes()
         => fixture.Result.CorresponderendeVCodes.Should().NotContain(fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode);
 }

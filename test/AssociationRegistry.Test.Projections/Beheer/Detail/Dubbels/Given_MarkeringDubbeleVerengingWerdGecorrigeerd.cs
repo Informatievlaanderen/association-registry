@@ -16,6 +16,6 @@ public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(BeheerDetailScenari
         => fixture.Result.IsDubbelVan.Should().Be(String.Empty);
 
     [Fact]
-    public void Document_Status_Is_Dubbel()
+    public void Document_Status_Is_VorigeStatus()
         => fixture.Result.Status.Should().Be(fixture.Scenario.MarkeringDubbeleVerengingWerdGecorrigeerd.VorigeStatus);
 }
