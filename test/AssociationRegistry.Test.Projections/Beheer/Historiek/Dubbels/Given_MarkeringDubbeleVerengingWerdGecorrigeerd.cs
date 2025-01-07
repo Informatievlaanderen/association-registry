@@ -17,7 +17,7 @@ public class Given_MarkeringDubbeleVerenigingWerdGecorrigeerd(BeheerHistoriekSce
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Markering dubbel van vereniging {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode} werd gecorrigeerd.",
+                                               Beschrijving: $"Markering als dubbel van vereniging {fixture.Scenario.AuthentiekeVerenigingWerdGeregistreerd.VCode} werd gecorrigeerd.",
                                                nameof(MarkeringDubbeleVerengingWerdGecorrigeerd),
                                                new
                                                {

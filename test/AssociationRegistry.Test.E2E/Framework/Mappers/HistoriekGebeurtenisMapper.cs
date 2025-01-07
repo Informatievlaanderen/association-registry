@@ -539,7 +539,7 @@ public static class HistoriekGebeurtenisMapper
         VerenigingWerdGemarkeerdAlsDubbelVan verenigingWerdGemarkeerdAlsDubbelVan)
         => new()
         {
-            Beschrijving = $"Markering dubbel van vereniging {verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging} werd gecorrigeerd.",
+            Beschrijving = $"Markering als dubbel van vereniging {verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging} werd gecorrigeerd.",
             Gebeurtenis = nameof(Events.MarkeringDubbeleVerengingWerdGecorrigeerd),
             Data = new
             {
@@ -553,7 +553,7 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? AanvaardingDubbeleVerenigingWerdGecorrigeerd(VerenigingAanvaarddeDubbeleVereniging scenarioVerenigingAanvaarddeDubbeleVereniging)
         => new()
         {
-            Beschrijving = $"Authentieke vereniging aanvaardde de correctie van dubbele vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging}.",
+            Beschrijving = $"Vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging} werd verwijderd als dubbel door correctie.",
             Gebeurtenis = nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging),
             Data = new
             {

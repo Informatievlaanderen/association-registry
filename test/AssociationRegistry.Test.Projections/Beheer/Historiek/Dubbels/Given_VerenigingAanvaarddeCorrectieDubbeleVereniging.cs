@@ -17,7 +17,7 @@ public class Given_VerenigingAanvaarddeCorrectieDubbeleVereniging(BeheerHistorie
         => fixture.Result
                   .Gebeurtenissen.Last()
                   .Should().BeEquivalentTo(new BeheerVerenigingHistoriekGebeurtenis(
-                                               Beschrijving: $"Authentieke vereniging aanvaardde de correctie van dubbele vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode}.",
+                                               Beschrijving: $"Vereniging {fixture.Scenario.DubbeleVerenigingWerdGeregistreerd.VCode} werd verwijderd als dubbel door correctie.",
                                                nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging),
                                                new
                                                {

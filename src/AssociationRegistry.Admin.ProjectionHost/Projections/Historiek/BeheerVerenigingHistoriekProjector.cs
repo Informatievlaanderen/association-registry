@@ -688,7 +688,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Markering dubbel van vereniging {@event.Data.VCodeAuthentiekeVereniging} werd gecorrigeerd."
+            $"Markering als dubbel van vereniging {@event.Data.VCodeAuthentiekeVereniging} werd gecorrigeerd."
         );
     }
 
@@ -698,7 +698,7 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            $"Authentieke vereniging aanvaardde de correctie van dubbele vereniging {@event.Data.VCodeDubbeleVereniging}."
+            $"Vereniging {@event.Data.VCodeDubbeleVereniging} werd verwijderd als dubbel door correctie."
         );
     }
 
