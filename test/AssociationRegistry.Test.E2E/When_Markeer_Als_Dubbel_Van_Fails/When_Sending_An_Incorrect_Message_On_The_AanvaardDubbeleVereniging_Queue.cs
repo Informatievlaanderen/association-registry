@@ -53,7 +53,7 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
             tries++;
 
             var envelopesFound = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters());
-            messages = envelopesFound.DeadLetterEnvelopes.Where(x => x.ExceptionType == typeof(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage).FullName).ToArray();
+            messages = envelopesFound.DeadLetterEnvelopes.Where(x => x.MessageType == typeof(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage).FullName).ToArray();
 
             var deadLetterEnvelopes = envelopesFound.DeadLetterEnvelopes;
             deadLetterEnvelopes.ToList().ForEach(x => _testOutputHelper.WriteLine(x.MessageType));
@@ -73,7 +73,10 @@ public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_
 
     private static async Task PurgeDeadLetters(IMessageStore messageStore, string? messageType)
     {
-        var deadLetters = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters());
+        var deadLetters = await messageStore.DeadLetters.QueryDeadLetterEnvelopesAsync(new DeadLetterEnvelopeQueryParameters()
+        {
+            MessageType = messageType,
+        });
 
         await messageStore.DeadLetters.DeleteDeadLetterEnvelopesAsync(deadLetters.DeadLetterEnvelopes.Select(x => x.Id).ToArray());
     }
