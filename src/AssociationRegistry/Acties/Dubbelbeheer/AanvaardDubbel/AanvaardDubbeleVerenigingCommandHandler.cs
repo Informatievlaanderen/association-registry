@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Acties.Dubbelbeheer.AanvaardDubbel;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
-using AssociationRegistry.Vereniging;
+using EventStore;
+using Framework;
+using Messages;
+using Vereniging;
 using NodaTime;
+using Vereniging.Exceptions;
 using Wolverine;
 
 public class AanvaardDubbeleVerenigingCommandHandler(
@@ -29,7 +30,6 @@ public class AanvaardDubbeleVerenigingCommandHandler(
         catch (Exception)
         {
             await bus.SendAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging, command.VCode));
-            throw;
         }
     }
 }
