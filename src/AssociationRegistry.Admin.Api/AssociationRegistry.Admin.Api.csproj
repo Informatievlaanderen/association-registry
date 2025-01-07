@@ -65,15 +65,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GrarConsumer\Handlers\Fusies\" />
-    <Folder Include="Infrastructure\ConfigurationBindings\" />
-    <Folder Include="MessageHandling\Postgres\" />
-    <Folder Include="MessageHandling\Sqs\" />
-    <Folder Include="Verenigingen\Contactgegevens\FeitelijkeVereniging\" />
-    <Folder Include="Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <EmbeddedResource Include="Contexten\*.json" />
     <Compile Update="ValidationMessages.Designer.cs">
       <DesignTime>True</DesignTime>
