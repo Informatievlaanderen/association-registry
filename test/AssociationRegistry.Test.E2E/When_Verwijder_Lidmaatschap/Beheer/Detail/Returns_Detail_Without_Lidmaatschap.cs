@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;

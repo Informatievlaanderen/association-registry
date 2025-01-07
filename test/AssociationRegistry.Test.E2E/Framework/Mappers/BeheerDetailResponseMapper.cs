@@ -1,16 +1,16 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using JsonLdContext;
 using Vereniging;
 using Vereniging.Bronnen;
-using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
-using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
-using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
-using Werkingsgebied = Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
+using Contactgegeven = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Locatie;
+using Vertegenwoordiger = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
+using Werkingsgebied = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 public class BeheerDetailResponseMapper
 {

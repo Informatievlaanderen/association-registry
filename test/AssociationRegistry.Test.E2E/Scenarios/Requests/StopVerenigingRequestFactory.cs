@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
 using Alba;
-using Admin.Api.Verenigingen.Stop.RequestModels;
 using Events;
 using Framework.ApiSetup;
 using Vereniging;

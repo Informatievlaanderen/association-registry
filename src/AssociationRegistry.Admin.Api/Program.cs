@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Api;
 
+using Adapters.DuplicateVerenigingDetectionService;
+using Adapters.VCodeGeneration;
 using Amazon;
 using Amazon.Runtime;
 using Amazon.SQS;
@@ -14,7 +16,6 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Mvc.Middleware;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
-using DuplicateDetection;
 using DuplicateVerenigingDetection;
 using Events;
 using EventStore;
@@ -79,7 +80,6 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
-using VCodeGeneration;
 using Vereniging;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;

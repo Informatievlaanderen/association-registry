@@ -2,7 +2,7 @@
     Werkingsgebieden;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
 using Vereniging;

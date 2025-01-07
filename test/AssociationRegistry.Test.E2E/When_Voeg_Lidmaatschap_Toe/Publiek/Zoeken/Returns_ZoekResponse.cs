@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Publiek.Zoeken;
 
-using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

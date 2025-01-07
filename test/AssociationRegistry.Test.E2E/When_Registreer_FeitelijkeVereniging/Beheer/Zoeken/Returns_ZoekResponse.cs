@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Common;
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -13,11 +13,11 @@ using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.Verenigingen.Search.ResponseModels.Locatie;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using HoofdactiviteitVerenigingsloket = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Locatie;
+using Vereniging = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
+using Werkingsgebied = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>

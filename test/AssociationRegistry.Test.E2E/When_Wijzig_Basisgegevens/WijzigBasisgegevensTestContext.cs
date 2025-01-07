@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using Framework.ApiSetup;
 using Framework.TestClasses;

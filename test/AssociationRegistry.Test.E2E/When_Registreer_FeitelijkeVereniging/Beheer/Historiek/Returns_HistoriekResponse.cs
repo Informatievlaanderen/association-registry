@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

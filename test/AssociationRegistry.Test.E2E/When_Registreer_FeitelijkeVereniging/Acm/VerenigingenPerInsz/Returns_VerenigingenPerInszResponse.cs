@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Acm.VerenigingenPerInsz;
 
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.Constants;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

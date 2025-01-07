@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Alba;
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;

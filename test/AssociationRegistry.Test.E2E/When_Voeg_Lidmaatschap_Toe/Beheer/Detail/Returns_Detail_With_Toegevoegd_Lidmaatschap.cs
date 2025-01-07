@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
 using Formats;
 using Framework.AlbaHost;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Lidmaatschap = Admin.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
+using Lidmaatschap = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLidmaatschapToeContext>, IAsyncLifetime

@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid;
 
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;
