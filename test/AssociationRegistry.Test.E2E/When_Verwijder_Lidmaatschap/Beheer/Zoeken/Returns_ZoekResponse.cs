@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
 using Events;
 using Formats;
 using Framework.AlbaHost;
@@ -13,7 +13,7 @@ using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
 using Vereniging;
 using Xunit;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]

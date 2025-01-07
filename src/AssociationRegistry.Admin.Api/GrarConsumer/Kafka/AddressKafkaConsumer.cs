@@ -2,7 +2,6 @@
 
 using Infrastructure.AWS;
 using Infrastructure.Extensions;
-using Notifications.Messages;
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Confluent.Kafka;
@@ -10,6 +9,7 @@ using Grar.GrarUpdates.Fusies;
 using Grar.GrarUpdates.Hernummering;
 using IdentityModel;
 using Marten;
+using Notifications.Messages;
 using Polly;
 using StraatHernummering;
 using System.Text;

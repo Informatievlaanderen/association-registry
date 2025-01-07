@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Playground;
 
-using AssociationRegistry.Admin.Api.DuplicateDetection;
+using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;

@@ -2,7 +2,7 @@
     A_WerkingsgebiedenLijst;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;

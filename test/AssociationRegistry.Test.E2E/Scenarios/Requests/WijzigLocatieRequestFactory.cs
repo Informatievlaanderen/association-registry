@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
-using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Events;
 using Framework.ApiSetup;
 using Vereniging;
@@ -9,7 +9,7 @@ using FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
 using System.Net;
-using Adres = Admin.Api.Verenigingen.Common.Adres;
+using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
 
 public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequest>
 {

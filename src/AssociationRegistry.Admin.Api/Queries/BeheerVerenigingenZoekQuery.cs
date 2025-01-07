@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Admin.Api.Queries;
 
+using DecentraalBeheer.Verenigingen.Search;
+using DecentraalBeheer.Verenigingen.Search.RequestModels;
 using Framework;
 using Nest;
 using Schema.Search;
-using Verenigingen.Search;
-using Verenigingen.Search.RequestModels;
 
 public interface IBeheerVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, BeheerVerenigingenZoekFilter>;
 

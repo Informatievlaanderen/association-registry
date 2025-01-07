@@ -1,17 +1,17 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using Formats;
 using JsonLdContext;
 using Vereniging;
-using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Lidmaatschap = Admin.Api.Verenigingen.Search.ResponseModels.Lidmaatschap;
-using Locatie = Admin.Api.Verenigingen.Search.ResponseModels.Locatie;
-using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
+using HoofdactiviteitVerenigingsloket = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Lidmaatschap;
+using Locatie = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Locatie;
+using Werkingsgebied = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 public class BeheerZoekResponseMapper
 {

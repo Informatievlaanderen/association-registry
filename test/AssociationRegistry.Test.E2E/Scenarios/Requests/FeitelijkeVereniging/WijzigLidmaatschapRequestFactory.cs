@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;

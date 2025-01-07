@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
+using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
-using AssociationRegistry.Admin.Api.Verenigingen.Stop;
 using Framework;
 using Framework.Fakes;
 using Hosts.Configuration.ConfigurationBindings;

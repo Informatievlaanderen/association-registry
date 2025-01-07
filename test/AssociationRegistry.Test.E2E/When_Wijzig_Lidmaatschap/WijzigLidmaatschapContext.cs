@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap;
 
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;

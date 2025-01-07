@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Adapters.VCodeGeneration;
 using Formats;
 using GrarConsumer;
 using GrarConsumer.Kafka;
@@ -16,7 +17,6 @@ using Newtonsoft.Json;
 using Schema.Detail;
 using Schema.Historiek;
 using Schema.PowerBiExport;
-using VCodeGeneration;
 using Vereniging;
 using Weasel.Core;
 using Wolverine.Marten;

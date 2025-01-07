@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

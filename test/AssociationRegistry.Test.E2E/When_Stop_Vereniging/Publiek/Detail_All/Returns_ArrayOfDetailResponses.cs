@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Publiek.Detail_All;
 
-using Admin.Api.Verenigingen.Stop.RequestModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Detail_All;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Common;
+using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Formats;
 using JsonLdContext;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;

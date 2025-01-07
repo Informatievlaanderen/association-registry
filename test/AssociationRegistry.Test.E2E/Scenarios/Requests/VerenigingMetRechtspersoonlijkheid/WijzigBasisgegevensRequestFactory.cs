@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VerenigingMetRechtspersoonlijkheid;
 
+using Admin.Api.DecentraalBeheer.Verenigingen.Common;
+using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Alba;
 using Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;

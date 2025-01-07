@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.Controllers;
 
+using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Detail;
 using AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
 using AssociationRegistry.Admin.Api.Infrastructure.Sequence;
 using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
 using AutoFixture;
 using Common.AutoFixture;

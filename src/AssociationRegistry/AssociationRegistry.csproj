@@ -67,10 +67,5 @@
     <Content Include="paket.template" CopyToOutputDirectory="Always"/>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Acties\Dubbelbeheer\" />
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>

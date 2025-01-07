@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.E2E.When_Wijzig_Anything_In_A_Vereniging;
 
+using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using FluentAssertions;
 using Framework.Fixtures;

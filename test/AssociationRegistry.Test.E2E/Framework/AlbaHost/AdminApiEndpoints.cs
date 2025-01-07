@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
 using Alba;
 
 public static class AdminApiEndpoints
