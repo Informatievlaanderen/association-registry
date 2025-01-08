@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Adapters.VCodeGeneration;
+using Events;
 using Formats;
 using GrarConsumer;
 using GrarConsumer.Kafka;
@@ -20,6 +21,7 @@ using Schema.PowerBiExport;
 using Vereniging;
 using Weasel.Core;
 using Wolverine.Marten;
+using IEvent = Events.IEvent;
 
 public static class MartenExtensions
 {
@@ -53,6 +55,12 @@ public static class MartenExtensions
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
                                           opts.Events.AppendMode = isDevelopment ? EventAppendMode.Rich : EventAppendMode.Quick;
+
+                                          opts.Events.AddEventTypes( typeof(IEvent).Assembly
+                                                                         .GetTypes()
+                                                                         .Where(t => typeof(IEvent)
+                                                                                   .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+                                                                         .ToList());
 
                                           opts.Listeners.Add(
                                               new HighWatermarkListener(serviceProvider.GetRequiredService<Instrumentation>()));
