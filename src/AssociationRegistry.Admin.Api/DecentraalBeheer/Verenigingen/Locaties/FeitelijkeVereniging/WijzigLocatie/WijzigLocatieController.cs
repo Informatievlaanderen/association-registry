@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie;
 
+using Acties.Locaties.WijzigLocatie;
 using Asp.Versioning;
-using AssociationRegistry.Acties.WijzigLocatie;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
 
+using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using Asp.Versioning;
-using AssociationRegistry.Acties.VoegLidmaatschapToe;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 
+using Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using Asp.Versioning;
-using AssociationRegistry.Acties.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 
+using Acties.Locaties.VerwijderLocatie;
 using Asp.Versioning;
-using AssociationRegistry.Acties.VerwijderLocatie;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

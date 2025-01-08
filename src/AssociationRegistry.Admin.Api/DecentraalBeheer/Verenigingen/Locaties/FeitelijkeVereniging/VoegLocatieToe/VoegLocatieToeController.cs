@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 
+using Acties.Locaties.VoegLocatieToe;
 using Asp.Versioning;
-using AssociationRegistry.Acties.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

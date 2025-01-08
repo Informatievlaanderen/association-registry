@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging;
 
+using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using Asp.Versioning;
-using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

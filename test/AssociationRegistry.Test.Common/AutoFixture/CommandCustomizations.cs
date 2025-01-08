@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using Acties.RegistreerFeitelijkeVereniging;
-using Acties.WijzigLidmaatschap;
+using Acties.Lidmaatschappen.WijzigLidmaatschap;
+using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using global::AutoFixture;
 using Vereniging;
 

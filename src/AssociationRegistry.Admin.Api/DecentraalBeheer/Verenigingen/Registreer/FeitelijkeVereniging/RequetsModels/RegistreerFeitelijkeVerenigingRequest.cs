@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
-using AssociationRegistry.Acties.RegistreerFeitelijkeVereniging;
+using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using Common;
 using System.ComponentModel.DataAnnotations;

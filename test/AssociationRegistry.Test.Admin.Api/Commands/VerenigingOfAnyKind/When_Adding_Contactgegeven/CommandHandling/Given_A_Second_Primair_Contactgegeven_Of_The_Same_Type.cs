@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
-using Acties.VoegContactgegevenToe;
+using Acties.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

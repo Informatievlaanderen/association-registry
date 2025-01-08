@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Lidmaatschappen;
 
-using AssociationRegistry.Acties.VoegLidmaatschapToe;
+using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;

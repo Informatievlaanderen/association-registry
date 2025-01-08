@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 
-using AssociationRegistry.Acties.WijzigVertegenwoordiger;
+using Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.SocialMedias;

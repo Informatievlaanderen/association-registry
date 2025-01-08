@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Lidmaatschap.CommandHandling;
 
-using Acties.VoegLidmaatschapToe;
+using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

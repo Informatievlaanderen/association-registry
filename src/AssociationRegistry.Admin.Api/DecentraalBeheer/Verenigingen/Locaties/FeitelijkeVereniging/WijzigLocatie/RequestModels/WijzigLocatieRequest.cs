@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 
-using AssociationRegistry.Acties.WijzigLocatie;
+using Acties.Locaties.WijzigLocatie;
 using AssociationRegistry.Vereniging;
 
 public class WijzigLocatieRequest

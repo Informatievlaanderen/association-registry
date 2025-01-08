@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using Acties.RegistreerFeitelijkeVereniging;
 using Admin.Api.DecentraalBeheer.Verenigingen.Common;
 using Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.CommandHandling;
 
-using Acties.WijzigVertegenwoordiger;
+using Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

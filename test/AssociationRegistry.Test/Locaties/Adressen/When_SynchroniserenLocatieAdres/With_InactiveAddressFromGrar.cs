@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using Acties.SyncAdresLocaties;
+using Acties.AdresSync.SyncAdresLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;

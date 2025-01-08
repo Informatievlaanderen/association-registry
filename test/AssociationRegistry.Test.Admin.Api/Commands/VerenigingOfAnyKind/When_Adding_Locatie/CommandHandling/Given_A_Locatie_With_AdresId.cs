@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using Acties.VoegLocatieToe;
+using Acties.Locaties.VoegLocatieToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

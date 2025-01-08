@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Acties.ProbeerAdresTeMatchen;
+using Acties.Administratie.ProbeerAdresTeMatchen;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Vereniging;
 using AutoFixture;

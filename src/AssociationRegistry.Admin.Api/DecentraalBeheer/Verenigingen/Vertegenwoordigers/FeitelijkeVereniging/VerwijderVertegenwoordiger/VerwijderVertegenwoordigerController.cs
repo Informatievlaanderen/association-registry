@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
 
+using Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using Asp.Versioning;
-using AssociationRegistry.Acties.VerwijderVertegenwoordiger;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
