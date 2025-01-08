@@ -1,3 +1,10 @@
+## [8.194.2](https://github.com/informatievlaanderen/association-registry/compare/v8.194.1...v8.194.2) (2025-01-08)
+
+
+### Bug Fixes
+
+* add missing references to paket.template ([fbe21bf](https://github.com/informatievlaanderen/association-registry/commit/fbe21bfe923b8b42365cfc0172f0508355ddab02))
+
 ## [8.194.1](https://github.com/informatievlaanderen/association-registry/compare/v8.194.0...v8.194.1) (2025-01-08)
 
 # [8.194.0](https://github.com/informatievlaanderen/association-registry/compare/v8.193.0...v8.194.0) (2025-01-07)
