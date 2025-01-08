@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
+using EventFactories;
 using Events;
 using EventStore;
 using NodaTime;
@@ -22,7 +23,7 @@ public class V021_FeitelijkeVerenigingWerdGeregistreerdAsUitgeschrevenUitPubliek
             string.Empty,
             string.Empty,
             Startdatum: null,
-            Registratiedata.Doelgroep.With(Doelgroep.Null),
+            EventFactory.Doelgroep(Doelgroep.Null),
             IsUitgeschrevenUitPubliekeDatastroom: true,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

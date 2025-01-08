@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using AssociationRegistry.Framework;
+using Events;
 using JasperFx.Core;
 using System.Collections;
 

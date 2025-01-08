@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Bronnen;
+using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
@@ -98,7 +99,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         Throw<LaatsteHoofdActiviteitKanNietVerwijderdWorden>.If(State.HoofdactiviteitenVerenigingsloket.Any() && !hoofdactiviteitenVerenigingsloket.Any());
 
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
-        AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
+        AddEvent(EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten.ToArray()));
     }
 
     public void WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
@@ -107,20 +108,20 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             return;
 
         var werkingsgebiedenData = Werkingsgebieden.FromArray(werkingsgebieden);
-        AddEvent(WerkingsgebiedenWerdenGewijzigd.With(VCode, werkingsgebiedenData.ToArray()));
+        AddEvent(EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray()));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
     {
         if (Doelgroep.Equals(State.Doelgroep, doelgroep)) return;
 
-        AddEvent(DoelgroepWerdGewijzigd.With(doelgroep));
+        AddEvent(EventFactory.DoelgroepWerdGewijzigd(doelgroep));
     }
 
     private void VoegMaatschappelijkeZetelToe(Adres adres)
     {
         AddEvent(
-            MaatschappelijkeZetelWerdOvergenomenUitKbo.With(
+            EventFactory.MaatschappelijkeZetelWerdOvergenomenUitKbo(
                 Locatie.Create(
                         Locatienaam.Empty,
                         isPrimair: false,
@@ -144,7 +145,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         Throw<ActieIsNietToegestaanVoorLocatieType>.If(gewijzigdeLocatie.Locatietype != Locatietype.MaatschappelijkeZetelVolgensKbo);
 
-        AddEvent(MaatschappelijkeZetelVolgensKBOWerdGewijzigd.With(gewijzigdeLocatie));
+        AddEvent(EventFactory.MaatschappelijkeZetelVolgensKBOWerdGewijzigd(gewijzigdeLocatie));
     }
 
     public void WijzigMaatschappelijkeZetelUitKbo(AdresVolgensKbo? adresVolgensKbo)
@@ -160,7 +161,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (adresVolgensKbo is null || adresVolgensKbo.IsEmpty())
         {
-            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
+            AddEvent(EventFactory.MaatschappelijkeZetelWerdVerwijderdUitKbo(maatschappelijkeZetel));
 
             return;
         }
@@ -169,8 +170,8 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (adres is null)
         {
-            AddEvent(MaatschappelijkeZetelWerdVerwijderdUitKbo.With(maatschappelijkeZetel));
-            AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adresVolgensKbo));
+            AddEvent(EventFactory.MaatschappelijkeZetelWerdVerwijderdUitKbo(maatschappelijkeZetel));
+            AddEvent(EventFactory.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(adresVolgensKbo));
 
             return;
         }
@@ -179,14 +180,14 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
             return;
 
         var gewijzigdeLocatie = maatschappelijkeZetel.Wijzig(adres: adres);
-        AddEvent(MaatschappelijkeZetelWerdGewijzigdInKbo.With(gewijzigdeLocatie));
+        AddEvent(EventFactory.MaatschappelijkeZetelWerdGewijzigdInKbo(gewijzigdeLocatie));
     }
 
     private void VoegContactgegevenToe(Contactgegeven contactgegeven, ContactgegeventypeVolgensKbo typeVolgensKbo)
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
-        AddEvent(ContactgegevenWerdOvergenomenUitKBO.With(toegevoegdContactgegeven, typeVolgensKbo));
+        AddEvent(EventFactory.ContactgegevenWerdOvergenomenUitKBO(toegevoegdContactgegeven, typeVolgensKbo));
     }
 
     private void VoegFoutiefContactgegevenToe(ContactgegeventypeVolgensKbo type, string waarde)
@@ -196,7 +197,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
     private void VoegFoutieveMaatschappelijkeZetelToe(AdresVolgensKbo adres)
     {
-        AddEvent(MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo.With(adres));
+        AddEvent(EventFactory.MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo(adres));
     }
 
     private void VoegContactgegevenToe(string? waarde, ContactgegeventypeVolgensKbo type)
@@ -224,7 +225,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         Throw<ActieIsNietToegestaanVoorContactgegevenBron>.If(gewijzigdContactgegeven.Bron != Bron.KBO);
 
-        AddEvent(ContactgegevenUitKBOWerdGewijzigd.With(gewijzigdContactgegeven));
+        AddEvent(EventFactory.ContactgegevenUitKBOWerdGewijzigd(gewijzigdContactgegeven));
     }
 
     private void VoegMaatschappelijkeZetelToe(AdresVolgensKbo? adresVolgensKbo)
@@ -252,7 +253,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     public void WijzigRechtsvormUitKbo(Verenigingstype verenigingstype)
     {
         if (State.Verenigingstype == verenigingstype) return;
-        AddEvent(RechtsvormWerdGewijzigdInKBO.With(verenigingstype));
+        AddEvent(EventFactory.RechtsvormWerdGewijzigdInKBO(verenigingstype));
     }
 
     public void WijzigKorteNaamUitKbo(string? korteNaam)
@@ -264,7 +265,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     public void WijzigStartdatum(Datum? startdatum)
     {
         if (State.Startdatum == startdatum) return;
-        AddEvent(StartdatumWerdGewijzigdInKbo.With(startdatum));
+        AddEvent(EventFactory.StartdatumWerdGewijzigdInKbo(startdatum));
     }
 
     public void WijzigContactgegevenUitKbo(string? waarde, ContactgegeventypeVolgensKbo typeVolgensKbo)
@@ -281,7 +282,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
                 if (equivalentContactgegeven is not null)
                 {
-                    AddEvent(ContactgegevenWerdInBeheerGenomenDoorKbo.With(equivalentContactgegeven, typeVolgensKbo));
+                    AddEvent(EventFactory.ContactgegevenWerdInBeheerGenomenDoorKbo(equivalentContactgegeven, typeVolgensKbo));
 
                     return;
                 }
@@ -294,7 +295,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
 
         if (newContactgegeven is null)
         {
-            AddEvent(ContactgegevenWerdVerwijderdUitKBO.With(teWijzigenContactgegeven));
+            AddEvent(EventFactory.ContactgegevenWerdVerwijderdUitKBO(teWijzigenContactgegeven));
 
             if (waarde is not null)
                 VoegFoutiefContactgegevenToe(typeVolgensKbo, waarde);
@@ -307,13 +308,13 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         if (gewijzigdContactgegeven is null)
             return;
 
-        AddEvent(ContactgegevenWerdGewijzigdInKbo.With(gewijzigdContactgegeven, typeVolgensKbo));
+        AddEvent(EventFactory.ContactgegevenWerdGewijzigdInKbo(gewijzigdContactgegeven, typeVolgensKbo));
     }
 
     public void StopUitKbo(Datum eindDatum)
     {
         if (State.IsGestopt) return;
-        AddEvent(VerenigingWerdGestoptInKBO.With(eindDatum));
+        AddEvent(EventFactory.VerenigingWerdGestoptInKBO(eindDatum));
     }
 
     public void MarkeerAlsIngeschreven(KboNummer kboNummer)

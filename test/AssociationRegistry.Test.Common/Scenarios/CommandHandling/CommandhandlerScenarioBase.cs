@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
+using Events;
 using Vereniging;
 
 public abstract class CommandhandlerScenarioBase

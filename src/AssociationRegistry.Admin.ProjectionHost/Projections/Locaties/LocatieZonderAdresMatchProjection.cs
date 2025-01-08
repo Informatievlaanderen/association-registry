@@ -128,7 +128,7 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
 
 public class LocatieZonderAdresMatchGrouper : IAggregateGrouper<string>
 {
-    public async Task Group(IQuerySession session, IEnumerable<IEvent> events, ITenantSliceGroup<string> grouping)
+    public async Task Group(IQuerySession session, IEnumerable<Marten.Events.IEvent> events, ITenantSliceGroup<string> grouping)
     {
         var verwijderdEvents = events
                               .OfType<IEvent<VerenigingWerdVerwijderd>>()

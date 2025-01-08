@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework.Fakes;
@@ -38,8 +39,7 @@ public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator_And_Beschrijv
         _scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
 
         _verenigingRepositoryMock = new VerenigingRepositoryMock(_scenario.GetVerenigingState()
-                                                                          .Apply(ContactgegevenWerdToegevoegd
-                                                                                    .With(_existingContactgegeven)));
+                                                                          .Apply(EventFactory.ContactgegevenWerdToegevoegd(_existingContactgegeven)));
 
         _notifierMock = new Mock<INotifier>();
 

@@ -6,6 +6,7 @@ using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Fixtures;
+using Events;
 using EventStore;
 using Framework.Helpers;
 using Hosts.Configuration.ConfigurationBindings;

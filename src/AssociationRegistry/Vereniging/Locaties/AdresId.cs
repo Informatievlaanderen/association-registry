@@ -4,10 +4,10 @@ using Events;
 using Exceptions;
 using Framework;
 
-public record AdresId
+public record AdresId : IAdresId
 {
     public const string DataVlaanderenAdresPrefix = "https://data.vlaanderen.be/id/adres/";
-    public Adresbron Adresbron { get; }
+    public IAdresbron Adresbron { get; }
     public string Bronwaarde { get; }
 
     private AdresId(Adresbron adresbron, string bronwaarde)
@@ -22,7 +22,7 @@ public record AdresId
         Throw<AdresIdIsIncompleet>.If(adresbron is null);
         Throw<AdresIdIsIncompleet>.If(string.IsNullOrWhiteSpace(bronwaarde));
 
-        Throw<BronwaardeVoorAdresIsOngeldig>.If(adresbron == Adresbron.AR && !IsValidArBronwaarde(bronwaarde));
+        Throw<BronwaardeVoorAdresIsOngeldig>.If(adresbron == AssociationRegistry.Vereniging.Adresbron.AR && !IsValidArBronwaarde(bronwaarde));
 
         return new AdresId(adresbron!, bronwaarde);
     }

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
+using EventFactories;
 using Events;
 using Vereniging;
 
@@ -25,7 +26,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithMultipleContactgegevens_C
                 KorteNaam: "FOud",
                 string.Empty,
                 new DateOnly(year: 2023, month: 3, day: 6),
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),

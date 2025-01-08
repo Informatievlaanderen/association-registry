@@ -5,6 +5,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Grar;
 using Grar.Models;
@@ -46,7 +47,7 @@ public class With_AddressIsNullFromGrar
         verenigingRepositoryMock.ShouldHaveSaved(new AdresWerdOntkoppeldVanAdressenregister(
                                                      scenario.VCode.Value,
                                                      locatie.LocatieId,
-                                                     Registratiedata.AdresId.With(locatie.AdresId),
-                                                     Registratiedata.Adres.With(locatie.Adres)));
+                                                     EventFactory.AdresId(locatie.AdresId),
+                                                     EventFactory.Adres(locatie.Adres)));
     }
 }

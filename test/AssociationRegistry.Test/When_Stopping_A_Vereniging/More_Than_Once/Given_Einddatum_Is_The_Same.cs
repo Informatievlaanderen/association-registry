@@ -2,6 +2,7 @@
 
 using AutoFixture;
 using Common.AutoFixture;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework;
@@ -28,7 +29,7 @@ public class Given_Einddatum_Is_The_Same
                           {
                               Startdatum = null,
                           })
-               .Apply(VerenigingWerdGestopt.With(einddatum)));
+               .Apply(EventFactory.VerenigingWerdGestopt(einddatum)));
 
         vereniging.Stop(einddatum, clock);
 

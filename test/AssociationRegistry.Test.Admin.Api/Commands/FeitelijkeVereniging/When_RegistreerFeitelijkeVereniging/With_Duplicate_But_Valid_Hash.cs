@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Common.AutoFixture;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework.Fixtures;
@@ -54,7 +55,7 @@ public class With_Duplicate_But_Valid_Hash : IClassFixture<With_Duplicate_But_Va
                 _setup.Request.KorteNaam ?? string.Empty,
                 _setup.Request.KorteBeschrijving ?? string.Empty,
                 _setup.Request.Startdatum,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 _setup.Request.IsUitgeschrevenUitPubliekeDatastroom,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]

@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using EventStore;
 using global::AutoFixture;
@@ -47,7 +48,7 @@ public class V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDup
                     new KorteNaamWerdGewijzigd(VCode: "V9999047", KorteNaam: "Korte Naam Test"),
                     new HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
                         HoofdactiviteitVerenigingsloket.All().Take(3)
-                                                       .Select(Registratiedata.HoofdactiviteitVerenigingsloket.With)
+                                                       .Select(EventFactory.HoofdactiviteitVerenigingsloket)
                                                        .ToArray()),
                     new LocatieWerdToegevoegd(locatie),
                     new LocatieWerdGewijzigd(locatie with { Naam = "Erembodegem" }),

@@ -3,6 +3,7 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
+using Events;
 using EventStore;
 using Framework.Helpers;
 using Marten;

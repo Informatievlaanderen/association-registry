@@ -3,6 +3,7 @@
 using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Vereniging;
 using Xunit;
@@ -38,7 +39,7 @@ public class With_NietBepaald_To_Bepaald
     public void Then_A_WerkingsgebiedenWerdenBepaald_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            WerkingsgebiedenWerdenBepaald.With(_scenario.VCode, _werkingsgebieden)
+            EventFactory.WerkingsgebiedenWerdenBepaald(_scenario.VCode, _werkingsgebieden)
         );
     }
 }

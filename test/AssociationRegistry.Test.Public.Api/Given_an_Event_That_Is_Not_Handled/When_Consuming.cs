@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
 using Xunit.Categories;
-using IEvent = AssociationRegistry.Framework.IEvent;
+using IEvent = AssociationRegistry.Events.IEvent;
 
 public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
 {

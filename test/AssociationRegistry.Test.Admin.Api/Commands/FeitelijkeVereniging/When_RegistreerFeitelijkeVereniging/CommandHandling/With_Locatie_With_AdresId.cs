@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using EventFactories;
 using Events;
 using Framework.Fakes;
 using Grar;
@@ -45,7 +46,7 @@ public class With_Locatie_With_AdresId
 
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde),
+            AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
             IsActief = true,
         };
 
@@ -92,10 +93,10 @@ public class With_Locatie_With_AdresId
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
-                new[] { Registratiedata.Locatie.With(locatie) },
+                new[] { EventFactory.Locatie(locatie) },
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
             new AdresWerdOvergenomenUitAdressenregister(vCodeService.GetLast(), LocatieId: 1, adresDetailResponse.AdresId,

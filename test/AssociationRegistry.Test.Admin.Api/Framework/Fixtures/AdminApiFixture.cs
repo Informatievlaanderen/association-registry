@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using EventStore;
 using AssociationRegistry.Framework;
+using Events;
 using Helpers;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;

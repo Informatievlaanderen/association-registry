@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 
 using AssociationRegistry.Framework;
+using EventFactories;
 using Events;
 using NodaTime.Extensions;
 using Vereniging;
@@ -16,7 +17,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         string.Empty,
         string.Empty,
         Startdatum: null,
-        Registratiedata.Doelgroep.With(Doelgroep.Null),
+        EventFactory.Doelgroep(Doelgroep.Null),
         IsUitgeschrevenUitPubliekeDatastroom: false,
         Array.Empty<Registratiedata.Contactgegeven>(),
         new[] { teVerwijderenLocatie },

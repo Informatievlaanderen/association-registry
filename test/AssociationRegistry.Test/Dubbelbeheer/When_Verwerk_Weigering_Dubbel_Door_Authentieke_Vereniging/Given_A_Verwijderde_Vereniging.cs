@@ -6,6 +6,7 @@ using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
+using EventFactories;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
@@ -31,7 +32,7 @@ public class Given_A_Verwijderde_Vereniging
         await sut.Handle(command, CancellationToken.None);
 
         repositoryMock.ShouldHaveSaved(
-            WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(scenario.VCode, new VerenigingStatus.StatusDubbel(vCodeAuthentiekeVereniging, VerenigingStatus.Actief)));
+            EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(scenario.VCode, new VerenigingStatus.StatusDubbel(vCodeAuthentiekeVereniging, VerenigingStatus.Actief)));
 
         repositoryMock.AssertLoadingDubbel();
         repositoryMock.AssertLoadingVerwijderd();

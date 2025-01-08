@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -26,7 +27,7 @@ public class Given_A_Second_Primair
 
         vereniging.Hydrate(new VerenigingState()
                           .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-                          .Apply(ContactgegevenWerdToegevoegd.With(
+                          .Apply(EventFactory.ContactgegevenWerdToegevoegd(
                                      fixture.CreateContactgegevenVolgensType(contactgegevenWerdOvergenomenUitKbo.Contactgegeventype) with
                                      {
                                          ContactgegevenId = 1,

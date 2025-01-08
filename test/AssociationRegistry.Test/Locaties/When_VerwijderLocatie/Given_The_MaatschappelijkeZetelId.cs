@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -34,7 +35,7 @@ public class Given_The_MaatschappelijkeZetelId
                                    LocatieId = 2,
                                },
                            })
-                          .Apply(MaatschappelijkeZetelWerdOvergenomenUitKbo.With(locatie)));
+                          .Apply(EventFactory.MaatschappelijkeZetelWerdOvergenomenUitKbo(locatie)));
 
         var wijzigLocatie = () => vereniging.VerwijderLocatie(1);
 

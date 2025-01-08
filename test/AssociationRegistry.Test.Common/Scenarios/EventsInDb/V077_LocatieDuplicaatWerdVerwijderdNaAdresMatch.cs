@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using EventStore;
 using global::AutoFixture;
@@ -32,7 +33,7 @@ public class V077_LocatieDuplicaatWerdVerwijderdNaAdresMatch : IEventsInDbScenar
                 Locatie,
             }.ToArray(),
             HoofdactiviteitenVerenigingsloket = Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>(),
-            Doelgroep = Registratiedata.Doelgroep.With(Doelgroep.Null),
+            Doelgroep = EventFactory.Doelgroep(Doelgroep.Null),
             Vertegenwoordigers = Array.Empty<Registratiedata.Vertegenwoordiger>(),
             Contactgegevens = Array.Empty<Registratiedata.Contactgegeven>(),
         };

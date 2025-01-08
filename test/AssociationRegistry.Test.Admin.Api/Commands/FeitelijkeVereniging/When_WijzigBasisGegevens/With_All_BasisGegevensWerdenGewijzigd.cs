@@ -6,6 +6,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Formats;
@@ -119,7 +120,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         startdatumWerdGewijzigd.Startdatum.Should().Be(_request.Startdatum!.Value);
 
         hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(
+            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
                 _request.HoofdactiviteitenVerenigingsloket!.Select(HoofdactiviteitVerenigingsloket.Create)
                         .ToArray()));
 

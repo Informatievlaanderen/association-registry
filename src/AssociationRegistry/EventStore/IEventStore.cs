@@ -1,5 +1,6 @@
 namespace AssociationRegistry.EventStore;
 
+using Events;
 using Framework;
 using Marten;
 using Vereniging;

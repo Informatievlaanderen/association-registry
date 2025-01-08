@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Framework;
 
+using Events;
 using Marten;
 
 public static class DocumentSessionExtensions

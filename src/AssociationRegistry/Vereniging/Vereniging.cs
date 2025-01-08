@@ -1,9 +1,11 @@
 namespace AssociationRegistry.Vereniging;
 
 using Emails;
+using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
+using GemeentenaamDecorator;
 using Grar;
 using Grar.Exceptions;
 using SocialMedias;
@@ -42,7 +44,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                 korteNaam ?? string.Empty,
                 korteBeschrijving ?? string.Empty,
                 startDatum?.Value,
-                Registratiedata.Doelgroep.With(doelgroep),
+                EventFactory.Doelgroep(doelgroep),
                 uitgeschrevenUitPubliekeDatastroom,
                 ToEventContactgegevens(toegevoegdeContactgegevens),
                 ToLocatieLijst(toegevoegdeLocaties),
@@ -69,25 +71,25 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             return;
         }
 
-        AddEvent(WerkingsgebiedenWerdenBepaald.With(VCode, werkingsgebieden.ToArray()));
+        AddEvent(EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebieden.ToArray()));
     }
 
     private static Registratiedata.Contactgegeven[] ToEventContactgegevens(Contactgegeven[] contactgegevens)
-        => contactgegevens.Select(Registratiedata.Contactgegeven.With).ToArray();
+        => contactgegevens.Select(EventFactory.Contactgegeven).ToArray();
 
     private static Registratiedata.HoofdactiviteitVerenigingsloket[] ToHoofdactiviteitenLijst(
         HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloketLijst)
-        => hoofdactiviteitenVerenigingsloketLijst.Select(Registratiedata.HoofdactiviteitVerenigingsloket.With).ToArray();
+        => hoofdactiviteitenVerenigingsloketLijst.Select(EventFactory.HoofdactiviteitVerenigingsloket).ToArray();
 
     private static Registratiedata.Werkingsgebied[] ToWerkingsgebiedenLijst(
         Werkingsgebied[] werkingsgebieden)
-        => werkingsgebieden.Select(Registratiedata.Werkingsgebied.With).ToArray();
+        => werkingsgebieden.Select(EventFactory.Werkingsgebied).ToArray();
 
     private static Registratiedata.Vertegenwoordiger[] ToVertegenwoordigersLijst(Vertegenwoordiger[] vertegenwoordigersLijst)
-        => vertegenwoordigersLijst.Select(Registratiedata.Vertegenwoordiger.With).ToArray();
+        => vertegenwoordigersLijst.Select(EventFactory.Vertegenwoordiger).ToArray();
 
     private static Registratiedata.Locatie[] ToLocatieLijst(Locatie[] locatieLijst)
-        => locatieLijst.Select(Registratiedata.Locatie.With).ToArray();
+        => locatieLijst.Select(EventFactory.Locatie).ToArray();
 
     public void WijzigNaam(VerenigingsNaam naam)
     {
@@ -121,7 +123,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<StartdatumLigtNaEinddatum>.If(State.Einddatum?.IsInPastOf(startDatum) ?? false);
         Throw<StartdatumMagNietInToekomstZijn>.If(startDatum?.IsInFutureOf(clock.Today) ?? false);
 
-        AddEvent(StartdatumWerdGewijzigd.With(State.VCode, startDatum));
+        AddEvent(EventFactory.StartdatumWerdGewijzigd(State.VCode, startDatum));
     }
 
     public void Stop(Datum einddatum, IClock clock)
@@ -132,22 +134,22 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         Throw<EinddatumLigtVoorStartdatum>.If(einddatum.IsInPastOf(State.Startdatum));
 
         if (State.IsGestopt)
-            AddEvent(EinddatumWerdGewijzigd.With(einddatum));
+            AddEvent(EventFactory.EinddatumWerdGewijzigd(einddatum));
         else
-            AddEvent(VerenigingWerdGestopt.With(einddatum));
+            AddEvent(EventFactory.VerenigingWerdGestopt(einddatum));
     }
 
     public void Verwijder(string reden)
     {
         Throw<VerenigingKanNietVerwijderdWorden>.If(State.IsVerwijderd);
-        AddEvent(VerenigingWerdVerwijderd.With(VCode, reden));
+        AddEvent(new VerenigingWerdVerwijderd(VCode, reden));
     }
 
     public void WijzigDoelgroep(Doelgroep doelgroep)
     {
         if (Doelgroep.Equals(State.Doelgroep, doelgroep)) return;
 
-        AddEvent(DoelgroepWerdGewijzigd.With(doelgroep));
+        AddEvent(EventFactory.DoelgroepWerdGewijzigd(doelgroep));
     }
 
     public void WijzigHoofdactiviteitenVerenigingsloket(HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
@@ -159,7 +161,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                                 !hoofdactiviteitenVerenigingsloket.Any());
 
         var hoofdactiviteiten = HoofdactiviteitenVerenigingsloket.FromArray(hoofdactiviteitenVerenigingsloket);
-        AddEvent(HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(hoofdactiviteiten.ToArray()));
+        AddEvent(EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(hoofdactiviteiten.ToArray()));
     }
 
     public void WijzigWerkingsgebieden(Werkingsgebied[] werkingsgebieden)
@@ -185,15 +187,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         AddEvent(State.Werkingsgebieden == Werkingsgebieden.NietBepaald ||
                  State.Werkingsgebieden == Werkingsgebieden.NietVanToepassing
-                     ? WerkingsgebiedenWerdenBepaald.With(VCode, werkingsgebiedenData.ToArray())
-                     : WerkingsgebiedenWerdenGewijzigd.With(VCode, werkingsgebiedenData.ToArray()));
+                     ? EventFactory.WerkingsgebiedenWerdenBepaald(VCode, werkingsgebiedenData.ToArray())
+                     : EventFactory.WerkingsgebiedenWerdenGewijzigd(VCode, werkingsgebiedenData.ToArray()));
     }
 
     public Vertegenwoordiger VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
     {
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger));
 
         return toegevoegdeVertegenwoordiger;
     }
@@ -214,13 +216,13 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (gewijzigdeVertegenwoordiger is null)
             return;
 
-        AddEvent(VertegenwoordigerWerdGewijzigd.With(gewijzigdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
     {
         var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
-        AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(vertegenwoordiger));
     }
 
     public void SchrijfUitUitPubliekeDatastroom()
@@ -241,7 +243,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         Throw<AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden>.If(State.IsAuthentiekeVereniging);
 
-        AddEvent(VerenigingWerdGemarkeerdAlsDubbelVan.With(VCode, isDubbelVan));
+        AddEvent(EventFactory.VerenigingWerdGemarkeerdAlsDubbelVan(VCode, isDubbelVan));
     }
 
     public string CorrigeerMarkeringAlsDubbelVan()
@@ -249,7 +251,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         switch (State.VerenigingStatus)
         {
             case VerenigingStatus.StatusDubbel statusDubbel:
-                AddEvent(MarkeringDubbeleVerengingWerdGecorrigeerd.With(VCode, statusDubbel));
+                AddEvent(EventFactory.MarkeringDubbeleVerengingWerdGecorrigeerd(VCode, statusDubbel));
 
                 return statusDubbel.VCodeAuthentiekeVereniging;
 
@@ -264,7 +266,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         {
             case VerenigingStatus.StatusDubbel statusDubbel:
                 Throw<ApplicationException>.If(!statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging));
-                AddEvent(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt.With(VCode, statusDubbel));
+                AddEvent(EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(VCode, statusDubbel));
                 break;
         }
     }
@@ -292,7 +294,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             adresDetailResponse.Gemeente);
 
         var registratieData =
-            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+            EventFactory.AdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,

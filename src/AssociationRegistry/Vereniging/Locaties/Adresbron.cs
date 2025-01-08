@@ -1,9 +1,10 @@
 namespace AssociationRegistry.Vereniging;
 
+using Events;
 using Exceptions;
 using Framework;
 
-public class Adresbron
+public class Adresbron: IAdresbron
 {
     public static readonly Adresbron AR = new(code: "AR", beschrijving: "Adressenregister");
     public static readonly Adresbron[] All = { AR };

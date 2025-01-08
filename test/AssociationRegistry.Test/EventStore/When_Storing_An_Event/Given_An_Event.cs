@@ -57,5 +57,5 @@ public class Given_An_Event
     }
 
     // ReSharper disable once NotAccessedPositionalProperty.Local
-    private record SomeEvent(string Name) : AssociationRegistry.Framework.IEvent;
+    private record SomeEvent(string Name) : AssociationRegistry.Events.IEvent;
 }

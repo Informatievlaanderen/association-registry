@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using global::AutoFixture;
 using Vereniging;
@@ -33,7 +34,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithRemovedContactgegevenScena
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
-            Registratiedata.Doelgroep.With(Doelgroep.Null),
+            EventFactory.Doelgroep(Doelgroep.Null),
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Contactgegevens,
             Array.Empty<Registratiedata.Locatie>(),

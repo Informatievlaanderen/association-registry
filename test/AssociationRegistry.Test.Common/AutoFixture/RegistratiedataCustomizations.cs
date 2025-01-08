@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using EventFactories;
 using Events;
 using global::AutoFixture;
 using Vereniging;
@@ -82,7 +83,7 @@ public static class RegistratiedataCustomizations
         fixture.Customize<Registratiedata.AdresId>(
             composer =>
                 composer.FromFactory<int>(
-                             _ => Registratiedata.AdresId.With(
+                             _ => EventFactory.AdresId(
                                  fixture.Create<AdresId>())!)
                         .OmitAutoProperties()
         );
@@ -93,7 +94,7 @@ public static class RegistratiedataCustomizations
         fixture.Customize<Registratiedata.Doelgroep>(
             composer =>
                 composer.FromFactory(
-                             () => Registratiedata.Doelgroep.With(
+                             () => EventFactory.Doelgroep(
                                  fixture.Create<Doelgroep>()))
                         .OmitAutoProperties()
         );

@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Framework.Fakes;
 using Vereniging;
@@ -50,7 +51,7 @@ public class With_HoofdactiviteitenVerenigingsloket
     public void Then_A_HoofactiviteitenVerenigingloketWerdenGewijzigd_Event_Is_Saved()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_hoofdactiviteitenVerenigingsloket)
+            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(_hoofdactiviteitenVerenigingsloket)
         );
     }
 }

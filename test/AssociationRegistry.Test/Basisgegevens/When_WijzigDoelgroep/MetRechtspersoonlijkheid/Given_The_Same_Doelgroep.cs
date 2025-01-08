@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -22,7 +23,7 @@ public class Given_The_Same_Doelgroep
         vereniging.Hydrate(
             new VerenigingState()
                .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-               .Apply(DoelgroepWerdGewijzigd.With(doelgroep))
+               .Apply(EventFactory.DoelgroepWerdGewijzigd(doelgroep))
         );
 
         vereniging.WijzigDoelgroep(doelgroep);

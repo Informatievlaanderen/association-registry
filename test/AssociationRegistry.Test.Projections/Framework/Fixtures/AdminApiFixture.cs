@@ -5,6 +5,7 @@ using Admin.Api.Constants;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Common.Configuration;
+using Events;
 using EventStore;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
