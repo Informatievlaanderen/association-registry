@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestHandling;
 
-using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

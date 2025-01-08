@@ -7,6 +7,7 @@ using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
 using Grar;
+using Grar.Clients;
 using Grar.Exceptions;
 using SocialMedias;
 using TelefoonNummers;

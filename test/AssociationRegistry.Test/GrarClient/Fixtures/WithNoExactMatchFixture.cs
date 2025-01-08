@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models;
+using Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

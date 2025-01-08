@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
+using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 
 public record Lidmaatschap
 {

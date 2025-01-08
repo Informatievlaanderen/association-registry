@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Contactgegevens.VoegContactgegevenToe;
+﻿namespace AssociationRegistry.DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

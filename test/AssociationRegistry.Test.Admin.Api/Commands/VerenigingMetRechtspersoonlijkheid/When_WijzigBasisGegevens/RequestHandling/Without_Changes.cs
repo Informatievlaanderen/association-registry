@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.RequestHandling;
 
-using Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using EventStore;
 using AssociationRegistry.Framework;
+using DecentraalBeheer.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using FluentAssertions;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;

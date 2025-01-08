@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
-using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using EventFactories;
 using Events;
 using Framework.Fakes;
 using Grar;
+using Grar.Clients;
 using Grar.Models;
 using Marten;
 using Messages;

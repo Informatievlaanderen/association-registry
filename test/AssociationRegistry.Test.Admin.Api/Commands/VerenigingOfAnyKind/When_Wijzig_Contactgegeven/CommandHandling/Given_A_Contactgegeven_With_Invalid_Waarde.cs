@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.CommandHandling;
 
-using Acties.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Contactgegevens.WijzigContactgegeven;
 using FluentAssertions;
 using Vereniging.Emails.Exceptions;
 using Vereniging.Websites;

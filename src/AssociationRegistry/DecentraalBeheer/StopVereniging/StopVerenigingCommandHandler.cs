@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Acties.StopVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.StopVereniging;
 
-using Framework;
-using Vereniging;
-using Vereniging.Exceptions;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 
 public class StopVerenigingCommandHandler
 {

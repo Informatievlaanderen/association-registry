@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.RequestHandling;
 
-using Acties.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

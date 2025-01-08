@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
-using Acties.GrarConsumer.HeradresseerLocaties;
 using Framework;
+using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;

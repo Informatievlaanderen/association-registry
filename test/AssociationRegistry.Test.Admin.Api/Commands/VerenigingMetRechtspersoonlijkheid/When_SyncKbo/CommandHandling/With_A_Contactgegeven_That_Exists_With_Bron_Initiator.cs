@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using Acties.KboSyncLambda.SyncKbo;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -11,6 +10,7 @@ using Events;
 using FluentAssertions;
 using Framework.Fakes;
 using Kbo;
+using KboSyncLambda.SyncKbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;

@@ -1,13 +1,14 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.CommandHandling;
 
-using Acties.Locaties.VoegLocatieToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Locaties.VoegLocatieToe;
 using FluentAssertions;
 using Grar;
+using Grar.Clients;
 using Grar.Exceptions;
 using Marten;
 using Moq;

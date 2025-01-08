@@ -2,6 +2,7 @@
 
 using Events;
 using Grar;
+using Grar.Clients;
 using Marten;
 using Marten.Events;
 using Marten.Events.Aggregation;

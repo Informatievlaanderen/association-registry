@@ -2,6 +2,7 @@
 
 using FluentAssertions;
 using Grar;
+using Grar.Clients;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;

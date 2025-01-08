@@ -1,14 +1,15 @@
-namespace AssociationRegistry.Grar;
+namespace AssociationRegistry.Grar.Clients;
 
+using AssociationRegistry.Grar.Exceptions;
+using AssociationRegistry.Grar.Models.PostalInfo;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Vereniging;
+using Contracts;
 using Events;
-using Exceptions;
 using Microsoft.Extensions.Logging;
 using Models;
-using Models.PostalInfo;
 using Newtonsoft.Json;
-using Resources;
 using System.Net;
-using Vereniging;
 
 public class GrarClient : IGrarClient
 {

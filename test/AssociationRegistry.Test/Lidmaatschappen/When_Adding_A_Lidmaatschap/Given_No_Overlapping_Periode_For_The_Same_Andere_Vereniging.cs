@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.Lidmaatschappen.When_Adding_A_Lidmaatschap;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using FluentAssertions;
 using Xunit;
 using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;

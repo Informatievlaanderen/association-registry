@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using Acties.GrarConsumer.OntkoppelAdres;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using Events;
+using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Vereniging;
 using Xunit;

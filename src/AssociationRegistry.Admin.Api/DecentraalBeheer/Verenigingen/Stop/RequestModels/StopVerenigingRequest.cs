@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
 
-using AssociationRegistry.Acties.StopVereniging;
+using AssociationRegistry.DecentraalBeheer.StopVereniging;
 using AssociationRegistry.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;

@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Lidmaatschap.CommandHandling;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using Events;
 using Xunit;
 using Xunit.Categories;

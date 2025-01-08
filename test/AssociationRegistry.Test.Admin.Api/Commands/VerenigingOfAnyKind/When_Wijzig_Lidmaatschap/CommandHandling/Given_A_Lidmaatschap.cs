@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Lidmaatschap.CommandHandling;
 
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -8,6 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 using Xunit;
 using Xunit.Categories;
 

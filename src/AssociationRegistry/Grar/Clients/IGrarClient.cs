@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Grar;
+﻿namespace AssociationRegistry.Grar.Clients;
 
+using AssociationRegistry.Grar.Models.PostalInfo;
 using Models;
-using Models.PostalInfo;
 
 public interface IGrarClient
 {

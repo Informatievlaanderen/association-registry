@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
+﻿namespace AssociationRegistry.DecentraalBeheer.Vertegenwoordigers.VoegVertegenwoordigerToe;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

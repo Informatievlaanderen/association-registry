@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_Corrigeer_Markering_Als_Dubbel_Van;
 
-using AssociationRegistry.Acties.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -9,6 +8,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 using FluentAssertions;
 using Marten;
 using Moq;

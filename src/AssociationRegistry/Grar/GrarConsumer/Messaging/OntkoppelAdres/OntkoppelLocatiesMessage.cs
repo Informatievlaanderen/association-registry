@@ -1,3 +1,3 @@
-﻿namespace AssociationRegistry.Acties.GrarConsumer.OntkoppelAdres;
+﻿namespace AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 
 public record OntkoppelLocatiesMessage (string VCode, int[] TeOntkoppelenLocatieIds);

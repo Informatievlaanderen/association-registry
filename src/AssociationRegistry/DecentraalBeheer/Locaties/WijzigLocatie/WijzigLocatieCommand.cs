@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Locaties.WijzigLocatie;
+﻿namespace AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
 
 using AssociationRegistry.Vereniging;
 

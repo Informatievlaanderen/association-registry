@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 
-using Acties.GrarConsumer;
 using Framework;
+using GrarConsumer.Messaging;
 using LocatieFinder;
 
 public class TeOntkoppelenLocatiesProcessor : ITeOntkoppelenLocatiesProcessor

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
-using Acties.StopVereniging;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using EventStore;
 using AssociationRegistry.Framework;
+using DecentraalBeheer.StopVereniging;
 using FluentAssertions;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;

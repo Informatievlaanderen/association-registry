@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 
-using AssociationRegistry.Acties.Dubbelbeheer.MarkeerAlsDubbelVan;
+using AssociationRegistry.DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 using AssociationRegistry.Vereniging;
 using System.Runtime.Serialization;
 

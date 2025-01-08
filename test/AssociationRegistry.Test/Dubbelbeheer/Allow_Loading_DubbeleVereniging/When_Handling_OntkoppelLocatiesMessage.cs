@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Acties.GrarConsumer.OntkoppelAdres;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Xunit;
 
 public class When_Handling_OntkoppelLocatiesMessage : When_Loading_With_Dubbels_TestBase

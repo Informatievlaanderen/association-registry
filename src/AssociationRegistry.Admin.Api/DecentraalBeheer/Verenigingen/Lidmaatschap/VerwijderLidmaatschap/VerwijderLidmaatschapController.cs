@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VerwijderLidmaatschap;
 
-using Acties.Lidmaatschappen.VerwijderLidmaatschap;
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
+using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VerwijderLidmaatschap;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;

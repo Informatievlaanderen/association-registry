@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Locaties.VoegLocatieToe;
+﻿namespace AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
 
 using AssociationRegistry.Vereniging;
 

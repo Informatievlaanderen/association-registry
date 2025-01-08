@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.RequestHandling;
 
-using Acties.Locaties.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Locaties.VoegLocatieToe;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

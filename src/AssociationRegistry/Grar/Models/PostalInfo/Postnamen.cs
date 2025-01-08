@@ -20,7 +20,7 @@ public class Postnamen: ReadOnlyCollection<Postnaam>
     public Postnaam? FindSingleOrDefault()
         => HasSinglePostnaam ? this.SingleOrDefault() : null;
 
-    public static Postnamen FromPostalInfo(List<Models.Postnaam> postnamen)
+    public static Postnamen FromPostalInfo(List<Clients.Contracts.Postnaam> postnamen)
         => new (postnamen.Select(Postnaam.FromGrar).ToList());
 
     public static Postnamen FromValues(params string[] values)

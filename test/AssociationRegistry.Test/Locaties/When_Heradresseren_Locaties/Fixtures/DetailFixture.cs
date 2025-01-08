@@ -3,6 +3,7 @@
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.Framework;
+using Grar.Clients;
 using Xunit;
 
 public class DetailFixture : IAsyncLifetime

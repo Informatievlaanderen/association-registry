@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.RequestHandling;
 
-using Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Contactgegevens.WijzigContactgegevenFromKbo;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

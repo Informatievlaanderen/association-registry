@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Lidmaatschappen.When_Wijzig_A_Lidmaatschap;
 
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 using FluentAssertions;
 using Xunit;
 using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;

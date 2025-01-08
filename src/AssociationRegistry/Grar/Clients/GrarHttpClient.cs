@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Grar;
+﻿namespace AssociationRegistry.Grar.Clients;
 
 public class GrarHttpClient : IGrarHttpClient
 {

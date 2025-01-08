@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestHandling;
 
-using Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

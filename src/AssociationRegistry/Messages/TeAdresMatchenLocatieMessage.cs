@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Messages;
 
-using Acties.Administratie.ProbeerAdresTeMatchen;
+using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
 
 public record TeAdresMatchenLocatieMessage(string VCode, int LocatieId)
 {

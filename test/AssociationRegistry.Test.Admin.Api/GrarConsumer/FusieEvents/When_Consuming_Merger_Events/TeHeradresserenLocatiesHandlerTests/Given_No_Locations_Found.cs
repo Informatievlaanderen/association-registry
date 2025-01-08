@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeHeradresserenLocatiesHandlerTests;
 
-using Acties.GrarConsumer.HeradresseerLocaties;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;

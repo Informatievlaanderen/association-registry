@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Contactgegevens.WijzigContactgegeven;
+﻿namespace AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegeven;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

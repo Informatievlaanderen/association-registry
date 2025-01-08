@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.RequestModels;
 
-using Acties.Locaties.WijzigMaatschappelijkeZetel;
+using AssociationRegistry.DecentraalBeheer.Locaties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Vereniging;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;

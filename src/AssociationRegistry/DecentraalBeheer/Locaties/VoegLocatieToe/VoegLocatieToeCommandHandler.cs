@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Acties.Locaties.VoegLocatieToe;
+namespace AssociationRegistry.DecentraalBeheer.Locaties.VoegLocatieToe;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
+using Events;
+using Grar.Clients;
 using Marten;
 using Wolverine.Marten;
 

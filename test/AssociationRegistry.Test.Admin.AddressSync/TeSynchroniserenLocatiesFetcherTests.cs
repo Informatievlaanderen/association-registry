@@ -8,6 +8,7 @@ using Events;
 using FluentAssertions;
 using Framework.Customizations;
 using Grar;
+using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;
 using Marten;

@@ -23,6 +23,7 @@ using FluentValidation;
 using Formats;
 using Framework;
 using Grar;
+using Grar.Clients;
 using Grar.GrarUpdates;
 using Grar.GrarUpdates.Fusies;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;

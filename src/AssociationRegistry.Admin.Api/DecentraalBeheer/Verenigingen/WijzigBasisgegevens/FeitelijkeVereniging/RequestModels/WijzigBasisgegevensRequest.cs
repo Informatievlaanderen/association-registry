@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 
-using Acties.Basisgegevens.FeitelijkeVereniging;
+using AssociationRegistry.DecentraalBeheer.Basisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;
 using Common;

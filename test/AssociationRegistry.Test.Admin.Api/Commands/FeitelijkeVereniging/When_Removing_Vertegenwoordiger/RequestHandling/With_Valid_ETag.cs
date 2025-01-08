@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.RequestHandling;
 
-using Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using Framework;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Lidmaatschappen.WijzigLidmaatschap;
+﻿namespace AssociationRegistry.DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 
 using AssociationRegistry.Vereniging;
 

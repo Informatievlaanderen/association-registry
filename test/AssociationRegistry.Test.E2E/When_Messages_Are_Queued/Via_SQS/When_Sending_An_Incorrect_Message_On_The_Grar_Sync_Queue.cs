@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.E2E.When_Messages_Are_Queued.Via_SQS;
 
 using Amazon.SQS.Model;
-using Acties.GrarConsumer;
 using Hosts.Configuration;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using AutoFixture;
 using FluentAssertions;
+using Grar.GrarConsumer.Messaging;
 using Xunit;
 using Xunit.Abstractions;
 

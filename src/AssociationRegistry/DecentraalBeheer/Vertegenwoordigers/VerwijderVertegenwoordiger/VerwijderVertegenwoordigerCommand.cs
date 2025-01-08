@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
+namespace AssociationRegistry.DecentraalBeheer.Vertegenwoordigers.VerwijderVertegenwoordiger;
 
 using AssociationRegistry.Vereniging;
 

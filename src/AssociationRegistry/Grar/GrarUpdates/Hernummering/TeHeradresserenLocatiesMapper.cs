@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
-using Acties.GrarConsumer.HeradresseerLocaties;
+using GrarConsumer.Messaging.HeradresseerLocaties;
 using LocatieFinder;
 
 public class TeHeradresserenLocatiesMapper

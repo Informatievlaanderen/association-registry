@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acties.GrarConsumer;
+namespace AssociationRegistry.Grar.GrarConsumer.Messaging;
 
 using HeradresseerLocaties;
 using OntkoppelAdres;

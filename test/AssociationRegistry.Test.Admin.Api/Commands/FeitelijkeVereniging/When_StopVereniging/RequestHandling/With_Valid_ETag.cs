@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
-using Acties.StopVereniging;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.StopVereniging;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;

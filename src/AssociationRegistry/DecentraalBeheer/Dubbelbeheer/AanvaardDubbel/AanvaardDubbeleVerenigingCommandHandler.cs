@@ -1,11 +1,10 @@
-﻿namespace AssociationRegistry.Acties.Dubbelbeheer.AanvaardDubbel;
+﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 
-using EventStore;
-using Framework;
-using Messages;
-using Vereniging;
+using AssociationRegistry.EventStore;
+using AssociationRegistry.Framework;
+using AssociationRegistry.Messages;
+using AssociationRegistry.Vereniging;
 using NodaTime;
-using Vereniging.Exceptions;
 using Wolverine;
 
 public class AanvaardDubbeleVerenigingCommandHandler(

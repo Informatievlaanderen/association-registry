@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
+﻿namespace AssociationRegistry.DecentraalBeheer.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

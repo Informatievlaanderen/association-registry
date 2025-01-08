@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Verwijder;
 
 using Asp.Versioning;
-using AssociationRegistry.Acties.VerwijderVereniging;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
+using AssociationRegistry.DecentraalBeheer.VerwijderVereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;

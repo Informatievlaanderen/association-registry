@@ -3,6 +3,7 @@
 using Destructurama;
 using EventStore;
 using Grar;
+using Grar.Clients;
 using Infrastructure.Extensions;
 using MessageHandling.Sqs.AddressSync;
 using Microsoft.Extensions.Configuration;
