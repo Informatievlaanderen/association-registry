@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Grar.Clients;
 using Moq;
 using System.Net;
 using Xunit;

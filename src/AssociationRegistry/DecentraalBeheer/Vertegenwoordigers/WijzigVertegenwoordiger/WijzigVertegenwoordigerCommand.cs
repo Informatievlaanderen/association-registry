@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
+﻿namespace AssociationRegistry.DecentraalBeheer.Vertegenwoordigers.WijzigVertegenwoordiger;
 
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;

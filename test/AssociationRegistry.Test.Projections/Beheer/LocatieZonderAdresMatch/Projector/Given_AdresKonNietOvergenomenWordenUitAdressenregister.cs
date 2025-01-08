@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Framework.Fixtures;
 using Grar;
+using Grar.Clients;
 using Marten;
 
 [Collection(nameof(MultiStreamTestCollection))]

@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Acties.Locaties.WijzigLocatie;
+namespace AssociationRegistry.DecentraalBeheer.Locaties.WijzigLocatie;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
+using Grar.Clients;
 using Marten;
 using Wolverine.Marten;
 

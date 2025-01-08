@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VerwijderLocatie;
 
-using Acties.Locaties.VerwijderLocatie;
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
+using AssociationRegistry.DecentraalBeheer.Locaties.VerwijderLocatie;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;

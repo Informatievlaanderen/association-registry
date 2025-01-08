@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging;
 
-using Acties.Basisgegevens.FeitelijkeVereniging;
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
@@ -8,6 +7,7 @@ using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
+using AssociationRegistry.DecentraalBeheer.Basisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;

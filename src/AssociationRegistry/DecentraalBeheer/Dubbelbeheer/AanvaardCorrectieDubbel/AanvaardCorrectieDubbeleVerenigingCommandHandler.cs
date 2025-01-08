@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Dubbelbeheer.AanvaardCorrectieDubbel;
+﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.AanvaardCorrectieDubbel;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;

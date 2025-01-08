@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Locaties.WijzigMaatschappelijkeZetel;
+﻿namespace AssociationRegistry.DecentraalBeheer.Locaties.WijzigMaatschappelijkeZetel;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Messages;
 
-using Acties.Dubbelbeheer.AanvaardDubbel;
+using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 
 public record AanvaardDubbeleVerenigingMessage(string VCode, string VCodeDubbeleVereniging)
 {

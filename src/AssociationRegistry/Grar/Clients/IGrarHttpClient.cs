@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Grar;
+namespace AssociationRegistry.Grar.Clients;
 
 public interface IGrarHttpClient : IDisposable
 {

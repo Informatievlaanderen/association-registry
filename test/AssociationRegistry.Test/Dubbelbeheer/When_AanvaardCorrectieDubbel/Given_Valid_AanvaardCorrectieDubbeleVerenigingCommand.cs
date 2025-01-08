@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardCorrectieDubbel;
 
-using AssociationRegistry.Acties.Dubbelbeheer.AanvaardCorrectieDubbel;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using DecentraalBeheer.Dubbelbeheer.AanvaardCorrectieDubbel;
 using Xunit;
 
 public class Given_Valid_AanvaardCorrectieDubbeleVerenigingCommand

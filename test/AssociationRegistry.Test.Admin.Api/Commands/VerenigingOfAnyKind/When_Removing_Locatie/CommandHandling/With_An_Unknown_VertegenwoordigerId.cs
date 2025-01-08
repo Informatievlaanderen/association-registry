@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
-using Acties.Locaties.VerwijderLocatie;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Locaties.VerwijderLocatie;
 using FluentAssertions;
 using Vereniging.Exceptions;
 using Xunit;

@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using Acties.GrarConsumer.OntkoppelAdres;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Xunit;
 

@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Contactgegeven.RequestHandling;
 
-using Acties.Contactgegevens.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.VerwijderContactgegeven;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Contactgegevens.VerwijderContactgegeven;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

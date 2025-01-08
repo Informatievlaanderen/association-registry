@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 
-using Acties.GrarConsumer;
 using Framework;
+using GrarConsumer.Messaging;
 using LocatieFinder;
 
 public class TeHeradresserenLocatiesProcessor : ITeHeradresserenLocatiesProcessor

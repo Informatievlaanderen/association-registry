@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_StopVereniging.CommandHandling;
 
-using Acties.StopVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.StopVereniging;
 using FluentAssertions;
 using Framework.Fakes;
 using Vereniging;

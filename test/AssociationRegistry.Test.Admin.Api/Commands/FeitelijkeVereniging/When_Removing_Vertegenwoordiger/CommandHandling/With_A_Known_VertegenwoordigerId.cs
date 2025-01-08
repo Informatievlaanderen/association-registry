@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_Vertegenwoordiger.CommandHandling;
 
-using Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using Events;
 using Vereniging;
 using Xunit;

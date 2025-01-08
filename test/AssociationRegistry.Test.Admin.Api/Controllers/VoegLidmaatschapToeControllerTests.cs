@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Controllers;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
@@ -10,6 +9,7 @@ using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using FluentValidation;
 using Hosts.Configuration.ConfigurationBindings;
 using Moq;

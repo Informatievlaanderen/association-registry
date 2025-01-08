@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Locaties.Adressen.When_Formatting_A_Verrijkte
 
 using AssociationRegistry.Events;
 using FluentAssertions;
+using GemeentenaamDecorator;
 using Xunit;
 
 public class WithoutPostnaam

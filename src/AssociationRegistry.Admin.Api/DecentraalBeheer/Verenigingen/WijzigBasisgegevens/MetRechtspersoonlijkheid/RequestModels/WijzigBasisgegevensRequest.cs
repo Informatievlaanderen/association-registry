@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 
-using Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.DecentraalBeheer.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
 using Common;
 using System.Runtime.Serialization;

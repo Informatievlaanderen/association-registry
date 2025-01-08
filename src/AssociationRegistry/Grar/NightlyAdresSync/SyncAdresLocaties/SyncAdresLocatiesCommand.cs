@@ -1,5 +1,5 @@
-﻿namespace AssociationRegistry.Acties.AdresSync.SyncAdresLocaties;
+﻿namespace AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 
-using AssociationRegistry.Grar.Models;
+using Models;
 
 public record SyncAdresLocatiesCommand(string VCode, List<LocatieWithAdres> LocatiesWithAdres, string IdempotenceKey);

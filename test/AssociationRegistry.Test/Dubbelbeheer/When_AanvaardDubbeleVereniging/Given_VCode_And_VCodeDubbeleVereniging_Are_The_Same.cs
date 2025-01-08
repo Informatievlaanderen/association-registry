@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardDubbeleVereniging;
 
-using AssociationRegistry.Acties.Dubbelbeheer.AanvaardDubbel;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -8,6 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using FluentAssertions;
 using Moq;
 using Wolverine;

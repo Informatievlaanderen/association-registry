@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.GrarConsumer.OntkoppelAdres;
+﻿namespace AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;

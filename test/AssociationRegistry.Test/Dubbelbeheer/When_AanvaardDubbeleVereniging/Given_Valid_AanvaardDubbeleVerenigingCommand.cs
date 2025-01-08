@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardDubbeleVereniging;
 
-using AssociationRegistry.Acties.Dubbelbeheer.AanvaardDubbel;
 using AssociationRegistry.Events;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using Moq;
 using Wolverine;
 using Xunit;

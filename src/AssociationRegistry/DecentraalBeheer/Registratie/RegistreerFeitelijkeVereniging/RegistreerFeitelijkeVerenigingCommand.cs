@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Registratie.RegistreerFeitelijkeVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 
 using AssociationRegistry.Vereniging;
 

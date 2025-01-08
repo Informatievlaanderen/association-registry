@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Contactgegevens.WijzigContactgegevenFromKbo;
+﻿namespace AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegevenFromKbo;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;

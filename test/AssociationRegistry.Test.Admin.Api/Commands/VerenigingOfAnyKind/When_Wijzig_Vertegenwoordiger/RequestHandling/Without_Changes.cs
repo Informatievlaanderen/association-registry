@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Vertegenwoordiger.RequestHandling;
 
-using Acties.Vertegenwoordigers.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger;
 using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using EventStore;
 using AssociationRegistry.Framework;
+using DecentraalBeheer.Vertegenwoordigers.WijzigVertegenwoordiger;
 using FluentAssertions;
 using FluentValidation;
 using Framework;

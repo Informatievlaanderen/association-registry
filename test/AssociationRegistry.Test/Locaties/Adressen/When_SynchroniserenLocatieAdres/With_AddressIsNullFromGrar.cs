@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_SynchroniserenLocatieAdres;
 
-using Acties.AdresSync.SyncAdresLocaties;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
@@ -8,7 +7,9 @@ using Common.Scenarios.CommandHandling;
 using EventFactories;
 using Events;
 using Grar;
+using Grar.Clients;
 using Grar.Models;
+using Grar.NightlyAdresSync.SyncAdresLocaties;
 using Messages;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

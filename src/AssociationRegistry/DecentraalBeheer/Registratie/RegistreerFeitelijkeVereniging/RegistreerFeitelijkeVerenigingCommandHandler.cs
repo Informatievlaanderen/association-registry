@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Acties.Registratie.RegistreerFeitelijkeVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 
 using AssociationRegistry.DuplicateVerenigingDetection;
-using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Vereniging;
+using Events;
+using Grar.Clients;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Grar.GrarUpdates.Hernummering;
 
-using Acties.GrarConsumer;
 using Framework;
+using GrarConsumer.Messaging;
 
 public class TeHernummerenStraatEventProcessor: ITeHernummerenStraatEventProcessor
 {

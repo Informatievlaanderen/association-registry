@@ -1,14 +1,12 @@
-namespace AssociationRegistry.Acties.GrarConsumer.HeradresseerLocaties;
+namespace AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
-using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Vereniging;
-using Newtonsoft.Json;
+using Clients;
+using Models;
 using NodaTime;
-using Wolverine;
 
 public class HeradresseerLocatiesMessageHandler
 {

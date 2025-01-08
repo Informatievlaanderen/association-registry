@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
-using Acties.Lidmaatschappen.WijzigLidmaatschap;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
+using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 using Emails;
 using EventFactories;
 using Events;
@@ -9,6 +9,7 @@ using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
 using Grar;
+using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;
 using SocialMedias;

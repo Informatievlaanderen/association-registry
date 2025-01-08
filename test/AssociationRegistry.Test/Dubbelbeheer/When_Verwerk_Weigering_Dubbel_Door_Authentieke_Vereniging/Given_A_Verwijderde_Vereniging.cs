@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
-using AssociationRegistry.Acties.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using AssociationRegistry.Events;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
+using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using EventFactories;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

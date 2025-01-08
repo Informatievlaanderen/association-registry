@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Dubbelbeheer.MarkeerAlsDubbelVan;
+﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 
 using AssociationRegistry.Framework;
 using AssociationRegistry.Messages;

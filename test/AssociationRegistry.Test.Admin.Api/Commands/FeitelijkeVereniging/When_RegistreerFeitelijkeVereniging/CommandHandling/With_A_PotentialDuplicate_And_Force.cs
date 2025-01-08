@@ -1,17 +1,18 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
 
-using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using DuplicateVerenigingDetection;
 using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework.Fakes;
 using Grar;
+using Grar.Clients;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;

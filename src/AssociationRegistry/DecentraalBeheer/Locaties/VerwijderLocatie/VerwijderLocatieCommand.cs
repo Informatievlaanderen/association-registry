@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Acties.Locaties.VerwijderLocatie;
+namespace AssociationRegistry.DecentraalBeheer.Locaties.VerwijderLocatie;
 
 using AssociationRegistry.Vereniging;
 

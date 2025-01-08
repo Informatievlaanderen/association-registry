@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Acties.Administratie.ProbeerAdresTeMatchen;
+﻿namespace AssociationRegistry.DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
+using Grar.Clients;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 

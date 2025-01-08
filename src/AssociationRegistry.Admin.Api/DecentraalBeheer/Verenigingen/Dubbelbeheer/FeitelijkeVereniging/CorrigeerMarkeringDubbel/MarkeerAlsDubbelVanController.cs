@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.CorrigeerMarkeringDubbel;
 
 using Asp.Versioning;
-using AssociationRegistry.Acties.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
+using AssociationRegistry.DecentraalBeheer.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;

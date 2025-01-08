@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.CommandHandling;
 
-using Acties.Locaties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Locaties.WijzigMaatschappelijkeZetel;
 using Events;
 using Vereniging;
 using Xunit;

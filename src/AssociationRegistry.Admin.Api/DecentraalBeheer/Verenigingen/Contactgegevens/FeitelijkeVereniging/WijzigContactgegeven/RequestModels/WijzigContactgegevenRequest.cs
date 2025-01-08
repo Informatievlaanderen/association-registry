@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.WijzigContactgegeven.RequestModels;
 
-using Acties.Contactgegevens.WijzigContactgegeven;
+using AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.Vereniging;
 using System.Runtime.Serialization;
 

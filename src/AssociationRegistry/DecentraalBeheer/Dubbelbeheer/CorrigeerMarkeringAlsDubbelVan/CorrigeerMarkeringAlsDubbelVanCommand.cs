@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
+﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.CorrigeerMarkeringAlsDubbelVan;
 
 using AssociationRegistry.Vereniging;
 

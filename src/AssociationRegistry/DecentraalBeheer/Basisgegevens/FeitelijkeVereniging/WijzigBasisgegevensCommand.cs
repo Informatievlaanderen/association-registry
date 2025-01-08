@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Basisgegevens.FeitelijkeVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.Basisgegevens.FeitelijkeVereniging;
 
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Vereniging;

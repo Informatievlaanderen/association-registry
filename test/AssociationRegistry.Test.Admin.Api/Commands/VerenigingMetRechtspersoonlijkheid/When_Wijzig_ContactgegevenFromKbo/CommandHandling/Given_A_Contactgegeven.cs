@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.CommandHandling;
 
-using Acties.Contactgegevens.WijzigContactgegevenFromKbo;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Contactgegevens.WijzigContactgegevenFromKbo;
 using Events;
 using Vereniging;
 using Xunit;

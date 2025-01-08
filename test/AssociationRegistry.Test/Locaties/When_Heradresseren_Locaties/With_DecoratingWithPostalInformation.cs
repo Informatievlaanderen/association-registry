@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
-using AssociationRegistry.Acties.GrarConsumer.HeradresseerLocaties;
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
@@ -11,6 +10,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Grar.Clients;
+using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Moq;
 using Xunit;
 

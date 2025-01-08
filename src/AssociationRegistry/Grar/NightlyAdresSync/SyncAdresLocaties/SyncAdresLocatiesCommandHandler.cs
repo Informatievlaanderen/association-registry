@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Acties.AdresSync.SyncAdresLocaties;
+﻿namespace AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Vereniging;
+using Clients;
 using Microsoft.Extensions.Logging;
 using NodaTime;
 

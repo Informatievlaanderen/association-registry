@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
 
-using Acties.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 using Events;
 using FluentAssertions;
 using Vereniging;

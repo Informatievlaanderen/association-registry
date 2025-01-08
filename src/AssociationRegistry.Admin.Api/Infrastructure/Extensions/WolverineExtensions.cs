@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Acties.GrarConsumer;
 using Amazon.Runtime;
 using EventStore;
+using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
 using MessageHandling.Postgres.Dubbels;

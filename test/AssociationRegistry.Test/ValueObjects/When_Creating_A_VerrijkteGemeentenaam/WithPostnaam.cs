@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_VerrijkteGemeent
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar.Models.PostalInfo;
+using GemeentenaamDecorator;
 using Xunit;
 
 public class WithEmptyOrNull

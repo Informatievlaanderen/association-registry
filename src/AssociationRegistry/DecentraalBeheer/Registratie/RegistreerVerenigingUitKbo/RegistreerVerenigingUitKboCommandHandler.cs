@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Registratie.RegistreerVerenigingUitKbo;
+﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
 
 using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Framework;

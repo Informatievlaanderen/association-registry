@@ -2,6 +2,7 @@
 
 using FluentAssertions;
 using Grar;
+using Grar.Clients;
 using Grar.Models.PostalInfo;
 using Microsoft.Extensions.Logging;
 using Moq;

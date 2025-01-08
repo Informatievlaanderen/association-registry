@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;

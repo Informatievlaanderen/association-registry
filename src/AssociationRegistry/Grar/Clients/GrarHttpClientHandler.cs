@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Grar;
+namespace AssociationRegistry.Grar.Clients;
 
 using System.Security.Authentication;
 using System.Security.Cryptography.X509Certificates;

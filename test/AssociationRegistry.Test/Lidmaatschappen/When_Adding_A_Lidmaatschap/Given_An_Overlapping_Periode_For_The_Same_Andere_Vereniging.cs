@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.Lidmaatschappen.When_Adding_A_Lidmaatschap;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using FluentAssertions;
 using Xunit;
 

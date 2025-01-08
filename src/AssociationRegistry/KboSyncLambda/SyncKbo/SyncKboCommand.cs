@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Acties.KboSyncLambda.SyncKbo;
+﻿namespace AssociationRegistry.KboSyncLambda.SyncKbo;
 
 using AssociationRegistry.Vereniging;
 

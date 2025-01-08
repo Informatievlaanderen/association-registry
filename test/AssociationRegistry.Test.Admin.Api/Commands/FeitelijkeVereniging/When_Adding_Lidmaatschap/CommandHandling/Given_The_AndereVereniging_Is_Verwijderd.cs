@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Lidmaatschap.CommandHandling;
 
-using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.CommandHandling;
+using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using Moq;
 using Vereniging;
 using Vereniging.Exceptions;
