@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_WijzigBasisGegevens.CommandHandling;
 
-using Acties.WijzigBasisgegevens;
+using Acties.Basisgegevens.FeitelijkeVereniging;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

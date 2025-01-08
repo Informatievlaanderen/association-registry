@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Lidmaatschappen.When_Wijzig_A_Lidmaatschap;
 
-using AssociationRegistry.Acties.WijzigLidmaatschap;
+using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;

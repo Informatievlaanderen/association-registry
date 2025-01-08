@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.CommandHandling;
 
-using Acties.VoegVertegenwoordigerToe;
+using Acties.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

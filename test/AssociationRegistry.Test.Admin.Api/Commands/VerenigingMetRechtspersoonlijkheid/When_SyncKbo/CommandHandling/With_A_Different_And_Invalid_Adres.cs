@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_SyncKbo.CommandHandling;
 
-using Acties.SyncKbo;
+using Acties.KboSyncLambda.SyncKbo;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

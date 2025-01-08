@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Vereniging;
 
-using Acties.VoegLidmaatschapToe;
-using Acties.WijzigLidmaatschap;
+using Acties.Lidmaatschappen.VoegLidmaatschapToe;
+using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Emails;
 using Events;
 using Exceptions;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Lidmaatschappen;
 
+using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using AssociationRegistry.Acties.WijzigLidmaatschap;
 using AssociationRegistry.Primitives;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_WijzigBasisGegevens.CommandHandling;
 
-using Acties.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevens;
+using Acties.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

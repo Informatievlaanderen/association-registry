@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Removing_Vertegenwoordiger.CommandHandling;
 
-using Acties.VerwijderVertegenwoordiger;
+using Acties.Vertegenwoordigers.VerwijderVertegenwoordiger;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

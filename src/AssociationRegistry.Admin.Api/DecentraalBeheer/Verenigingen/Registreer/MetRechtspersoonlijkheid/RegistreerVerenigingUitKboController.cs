@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid;
 
+using Acties.Registratie.RegistreerVerenigingUitKbo;
 using Asp.Versioning;
-using AssociationRegistry.Acties.RegistreerVerenigingUitKbo;
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;

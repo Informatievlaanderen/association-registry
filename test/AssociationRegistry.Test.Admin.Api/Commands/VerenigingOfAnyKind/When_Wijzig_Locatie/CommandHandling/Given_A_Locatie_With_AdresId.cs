@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie.CommandHandling;
 
-using Acties.WijzigLocatie;
+using Acties.Locaties.WijzigLocatie;
 using AssociationRegistry.Admin.ProjectionHost.Constants;
 using AssociationRegistry.Framework;
 using AutoFixture;

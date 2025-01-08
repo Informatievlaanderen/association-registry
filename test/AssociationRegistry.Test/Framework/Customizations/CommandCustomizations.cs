@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
-using Acties.RegistreerFeitelijkeVereniging;
-using Acties.VoegContactgegevenToe;
+using Acties.Contactgegevens.VoegContactgegevenToe;
+using Acties.Registratie.RegistreerFeitelijkeVereniging;
 using AutoFixture;
 using Vereniging;
 

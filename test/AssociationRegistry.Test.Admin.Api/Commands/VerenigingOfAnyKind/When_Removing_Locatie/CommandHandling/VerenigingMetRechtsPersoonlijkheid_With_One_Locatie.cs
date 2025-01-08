@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
-using Acties.VerwijderLocatie;
+using Acties.Locaties.VerwijderLocatie;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

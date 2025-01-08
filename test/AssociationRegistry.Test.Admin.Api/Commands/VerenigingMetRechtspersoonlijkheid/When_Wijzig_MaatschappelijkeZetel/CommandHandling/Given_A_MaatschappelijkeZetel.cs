@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_MaatschappelijkeZetel.CommandHandling;
 
-using Acties.WijzigMaatschappelijkeZetel;
+using Acties.Locaties.WijzigMaatschappelijkeZetel;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

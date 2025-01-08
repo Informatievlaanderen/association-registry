@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Lidmaatschappen.When_VoegLidmaatschapToe;
 
-using AssociationRegistry.Acties.VoegLidmaatschapToe;
+using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Events;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven.CommandHandling;
 
-using Acties.WijzigContactgegeven;
+using Acties.Contactgegevens.WijzigContactgegeven;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
