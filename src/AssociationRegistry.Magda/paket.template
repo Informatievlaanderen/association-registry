@@ -14,6 +14,8 @@ licenseUrl https://opensource.org/licenses/EUPL-1.2
 
 description Association Registry MAGDA
 
+include-referenced-projects true
+
 dependencies
   framework: net8.0
     Microsoft.Extensions.Http >= LOCKEDVERSION
@@ -21,6 +23,8 @@ dependencies
     System.ServiceModel.Http 6.2.0
     System.ServiceModel.NetTcp 6.2.0
     System.ServiceModel.Security 6.0.0
+    System.Security.Cryptography.Xml >= LOCKEDVERSION
+    NEST >= LOCKEDVERSION
 
 files
 
