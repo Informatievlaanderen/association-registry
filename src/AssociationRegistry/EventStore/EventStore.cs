@@ -9,7 +9,7 @@ using Marten.Exceptions;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
 using Vereniging;
-using IEvent = Framework.IEvent;
+using IEvent = Events.IEvent;
 
 public class EventStore : IEventStore
 {

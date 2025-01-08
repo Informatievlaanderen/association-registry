@@ -40,7 +40,7 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_Inactief
 
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
+            AdresId = new Registratiedata.AdresId(adresId.Adresbron.Code, adresId.Bronwaarde),
             IsActief = false,
         };
 

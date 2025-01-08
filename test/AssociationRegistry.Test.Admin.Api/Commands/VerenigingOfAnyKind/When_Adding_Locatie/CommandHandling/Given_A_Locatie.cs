@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Grar;
@@ -47,7 +48,7 @@ public class Given_A_Locatie
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdToegevoegd(
-                Registratiedata.Locatie.With(command.Locatie) with
+                EventFactory.Locatie(command.Locatie) with
                 {
                     LocatieId = expectedLocatieId,
                 })

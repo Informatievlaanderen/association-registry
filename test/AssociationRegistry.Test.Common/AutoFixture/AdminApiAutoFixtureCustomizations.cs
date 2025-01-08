@@ -9,6 +9,7 @@ using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.Re
 using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using EventFactories;
 using Events;
 using global::AutoFixture;
 using Primitives;

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
+using EventFactories;
 using Events;
 using Vereniging;
 
@@ -22,7 +23,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithMinimalFields : Commandhan
             KorteNaam,
             KorteBeschrijving,
             Startdatum,
-            Registratiedata.Doelgroep.With(Doelgroep.Null),
+            EventFactory.Doelgroep(Doelgroep.Null),
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

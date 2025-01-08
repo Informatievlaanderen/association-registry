@@ -2,6 +2,7 @@
 
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Vereniging;
 using Xunit;
@@ -30,6 +31,6 @@ public class With_Bepaald_To_NietVanToepassing
     [Fact]
     public void Then_A_WerkingsgebiedenWerdenNietVanToepassing_Event_Is_Saved()
     {
-        _verenigingRepositoryMock.ShouldHaveSaved(WerkingsgebiedenWerdenNietVanToepassing.With(_scenario.VCode));
+        _verenigingRepositoryMock.ShouldHaveSaved(EventFactory.WerkingsgebiedenWerdenNietVanToepassing(_scenario.VCode));
     }
 }

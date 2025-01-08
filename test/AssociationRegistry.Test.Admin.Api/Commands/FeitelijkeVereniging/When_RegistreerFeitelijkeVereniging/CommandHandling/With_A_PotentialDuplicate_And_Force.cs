@@ -7,6 +7,7 @@ using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using DuplicateVerenigingDetection;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework.Fakes;
@@ -97,20 +98,20 @@ public class With_A_PotentialDuplicate_And_Force
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
-                Registratiedata.Doelgroep.With(_command.Doelgroep),
+                EventFactory.Doelgroep(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 _command.Contactgegevens.Select(
-                    (g, index) => Registratiedata.Contactgegeven.With(g) with
+                    (g, index) => EventFactory.Contactgegeven(g) with
                     {
                         ContactgegevenId = index + 1,
                     }).ToArray(),
                 _command.Locaties.Select(
-                    (l, index) => Registratiedata.Locatie.With(l) with
+                    (l, index) => EventFactory.Locatie(l) with
                     {
                         LocatieId = index + 1,
                     }).ToArray(),
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
+                    (v, index) => EventFactory.Vertegenwoordiger(v) with
                     {
                         VertegenwoordigerId = index + 1,
                     }).ToArray(),

@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -28,7 +29,7 @@ public class Given_Not_The_MaatschappelijkeZetelId
 
         vereniging.Hydrate(new VerenigingState()
                           .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
-                          .Apply(LocatieWerdToegevoegd.With(locatie)));
+                          .Apply(EventFactory.LocatieWerdToegevoegd(locatie)));
 
         var wijzigLocatie = () => vereniging.WijzigMaatschappelijkeZetel(
             locatieId: 1,

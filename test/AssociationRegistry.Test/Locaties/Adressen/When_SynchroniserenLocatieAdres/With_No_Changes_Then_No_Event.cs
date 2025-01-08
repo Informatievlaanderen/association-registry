@@ -38,7 +38,7 @@ public class With_No_Changes_Then_No_Event
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>()
             with
             {
-                AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron, locatie.AdresId.Bronwaarde),
+                AdresId = new Registratiedata.AdresId(locatie.AdresId.Adresbron.Code, locatie.AdresId.Bronwaarde),
                 Straatnaam = locatie.Adres.Straatnaam,
                 Busnummer = locatie.Adres.Busnummer,
                 Gemeente = locatie.Adres.Gemeente.Naam,

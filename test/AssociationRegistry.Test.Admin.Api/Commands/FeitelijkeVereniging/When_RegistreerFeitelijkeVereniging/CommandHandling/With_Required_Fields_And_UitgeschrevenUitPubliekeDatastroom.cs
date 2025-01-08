@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using EventFactories;
 using Events;
 using Framework.Fakes;
 using Grar;
@@ -74,7 +75,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: true,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),

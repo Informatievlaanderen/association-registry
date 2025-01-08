@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -28,7 +29,7 @@ public class Given_A_New_Doelgroep
         vereniging.UncommittedEvents.Should()
                   .BeEquivalentTo(new[]
                    {
-                       DoelgroepWerdGewijzigd.With(doelgroep),
+                       EventFactory.DoelgroepWerdGewijzigd(doelgroep),
                    });
     }
 }

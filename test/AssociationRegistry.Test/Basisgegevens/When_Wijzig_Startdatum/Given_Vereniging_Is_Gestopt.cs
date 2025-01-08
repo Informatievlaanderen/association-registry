@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 
@@ -20,7 +21,7 @@ public class Given_Vereniging_Is_Gestopt
 
         var einddatum = fixture.Create<Datum>();
         var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        var verenigingWerdGestopt = VerenigingWerdGestopt.With(einddatum);
+        var verenigingWerdGestopt = EventFactory.VerenigingWerdGestopt(einddatum);
 
         vereniging.Hydrate(
             new VerenigingState()

@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Grar;
 using Marten;
@@ -62,8 +63,8 @@ public class Given_All_Fields
                     _locatie.Locatietype!,
                     _locatie.IsPrimair!.Value,
                     _locatie.Naam!,
-                    Registratiedata.Adres.With(_locatie.Adres),
-                    Registratiedata.AdresId.With(_locatie.AdresId))
+                    EventFactory.Adres(_locatie.Adres),
+                    EventFactory.AdresId(_locatie.AdresId))
             ));
     }
 }

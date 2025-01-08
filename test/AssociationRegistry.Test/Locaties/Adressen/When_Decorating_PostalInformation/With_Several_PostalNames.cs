@@ -5,6 +5,7 @@ using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using GemeentenaamDecorator;
 using Xunit;
 using Postnaam = Grar.Models.PostalInfo.Postnaam;
 

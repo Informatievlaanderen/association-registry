@@ -5,6 +5,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
+using EventFactories;
 using Events;
 using Framework.Fakes;
 using Grar;
@@ -77,7 +78,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                 _command.KorteNaam ?? string.Empty,
                 _command.KorteBeschrijving ?? string.Empty,
                 _command.Startdatum,
-                Registratiedata.Doelgroep.With(_command.Doelgroep),
+                EventFactory.Doelgroep(_command.Doelgroep),
                 _command.IsUitgeschrevenUitPubliekeDatastroom,
                 new[]
                 {
@@ -97,12 +98,12 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                     ),
                 },
                 _command.Locaties.Select(
-                    (l, index) => Registratiedata.Locatie.With(l) with
+                    (l, index) => EventFactory.Locatie(l) with
                     {
                         LocatieId = index + 1,
                     }).ToArray(),
                 _command.Vertegenwoordigers.Select(
-                    (v, index) => Registratiedata.Vertegenwoordiger.With(v) with
+                    (v, index) => EventFactory.Vertegenwoordiger(v) with
                     {
                         VertegenwoordigerId = index + 1,
                     }).ToArray(),

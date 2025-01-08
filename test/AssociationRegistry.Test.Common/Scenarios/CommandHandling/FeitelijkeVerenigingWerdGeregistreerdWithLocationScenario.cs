@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using global::AutoFixture;
 using Vereniging;
@@ -32,7 +33,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario : Command
                 KorteNaam,
                 KorteBeschrijving,
                 Startdatum,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 IsUitgeschrevenUitPubliekeDatastroom: false,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[] { Locatie },

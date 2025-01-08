@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
+using EventFactories;
 using Events;
 using global::AutoFixture;
 using Vereniging;
@@ -31,7 +32,7 @@ public static class EventCustomizations
                 composer.FromFactory(
                              () => new LidmaatschapWerdToegevoegd(
                                  fixture.Create<VCode>(),
-                                 Registratiedata.Lidmaatschap.With(
+                                 EventFactory.Lidmaatschap(
                                      Lidmaatschap.Hydrate(
                                          fixture.Create<int>(),
                                          fixture.Create<VCode>(),

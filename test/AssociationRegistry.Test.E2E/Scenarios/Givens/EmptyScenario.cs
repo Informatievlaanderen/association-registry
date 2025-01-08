@@ -14,7 +14,7 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
-using IEvent = AssociationRegistry.Framework.IEvent;
+using IEvent = AssociationRegistry.Events.IEvent;
 
 public class EmptyScenario : Framework.TestClasses.IScenario
 {

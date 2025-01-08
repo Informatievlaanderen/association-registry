@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.Fei
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AutoFixture;
 using Common.AutoFixture;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Formats;
@@ -172,7 +173,7 @@ public class With_Same_Naam_And_Gemeente
                 Request.KorteNaam ?? string.Empty,
                 Request.KorteBeschrijving ?? string.Empty,
                 Request.Startdatum,
-                Registratiedata.Doelgroep.With(Doelgroep.Null),
+                EventFactory.Doelgroep(Doelgroep.Null),
                 Request.IsUitgeschrevenUitPubliekeDatastroom,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 new[]

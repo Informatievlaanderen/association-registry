@@ -7,6 +7,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using EventFactories;
 using Events;
 using Grar;
 using Grar.Models;
@@ -44,7 +45,7 @@ public class Given_A_Locatie_With_Adres_id
 
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
+            AdresId = new Registratiedata.AdresId(adresId.Adresbron.Code, adresId.Bronwaarde),
             IsActief = true,
         };
 
@@ -73,7 +74,7 @@ public class Given_A_Locatie_With_Adres_id
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new LocatieWerdGewijzigd(
-                Registratiedata.Locatie.With(Locatie.Hydrate(locatie.LocatieId, locatie.Naam, isPrimair: false, locatie.Locatietype,
+                EventFactory.Locatie(Locatie.Hydrate(locatie.LocatieId, locatie.Naam, isPrimair: false, locatie.Locatietype,
                                                              locatie.Adres, locatie.AdresId))),
             new AdresWerdOvergenomenUitAdressenregister(scenario.VCode, locatie.LocatieId, adresDetailResponse.AdresId,
                                                         adresDetailResponse.ToAdresUitAdressenregister())

@@ -42,7 +42,7 @@ public class Given_An_Existing_Locatie_Without_AdresId
 
         var adresDetailResponse = fixture.Create<AddressDetailResponse>() with
         {
-            AdresId = new Registratiedata.AdresId(adresId.Adresbron, adresId.Bronwaarde),
+            AdresId = new Registratiedata.AdresId(adresId.Adresbron.Code, adresId.Bronwaarde),
             Gemeente = scenarioAdres.Gemeente,
             Busnummer = scenarioAdres.Busnummer,
             Huisnummer = scenarioAdres.Huisnummer,

@@ -6,6 +6,7 @@ using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 using Marten.Internal.Sessions;
 using Schema.Sequence;
+using IEvent = Events.IEvent;
 
 public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVerenigingSequenceDocument, string>
 {
@@ -13,9 +14,9 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
     {
         AggregateByStream();
 
-        var eventTypes = typeof(AssociationRegistry.Framework.IEvent).Assembly
+        var eventTypes = typeof(IEvent).Assembly
                                                                      .GetTypes()
-                                                                     .Where(t => typeof(AssociationRegistry.Framework.IEvent)
+                                                                     .Where(t => typeof(IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
                                                                      .ToList();
 

@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using EventStore;
 using global::AutoFixture;
@@ -24,7 +25,7 @@ public class V027_LocatieWerdGewijzigd : IEventsInDbScenario
             KorteNaam: "FBD",
             KorteBeschrijving: "De party van Brakeldorp",
             DateOnly.FromDateTime(new DateTime(year: 2022, month: 11, day: 9)),
-            Registratiedata.Doelgroep.With(Doelgroep.Null),
+            EventFactory.Doelgroep(Doelgroep.Null),
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             new[]

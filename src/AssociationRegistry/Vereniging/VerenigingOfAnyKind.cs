@@ -3,9 +3,11 @@ namespace AssociationRegistry.Vereniging;
 using Acties.Lidmaatschappen.VoegLidmaatschapToe;
 using Acties.Lidmaatschappen.WijzigLidmaatschap;
 using Emails;
+using EventFactories;
 using Events;
 using Exceptions;
 using Framework;
+using GemeentenaamDecorator;
 using Grar;
 using Grar.Exceptions;
 using Grar.Models;
@@ -20,7 +22,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         var toegevoegdContactgegeven = State.Contactgegevens.VoegToe(contactgegeven);
 
-        AddEvent(ContactgegevenWerdToegevoegd.With(toegevoegdContactgegeven));
+        AddEvent(EventFactory.ContactgegevenWerdToegevoegd(toegevoegdContactgegeven));
 
         return toegevoegdContactgegeven;
     }
@@ -32,20 +34,20 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (gewijzigdContactgegeven is null)
             return;
 
-        AddEvent(ContactgegevenWerdGewijzigd.With(gewijzigdContactgegeven));
+        AddEvent(EventFactory.ContactgegevenWerdGewijzigd(gewijzigdContactgegeven));
     }
 
     public void VerwijderContactgegeven(int contactgegevenId)
     {
         var verwijderdContactgegeven = State.Contactgegevens.Verwijder(contactgegevenId);
-        AddEvent(ContactgegevenWerdVerwijderd.With(verwijderdContactgegeven));
+        AddEvent(EventFactory.ContactgegevenWerdVerwijderd(verwijderdContactgegeven));
     }
 
     public void VoegVertegenwoordigerToe(Vertegenwoordiger vertegenwoordiger)
     {
         var toegevoegdeVertegenwoordiger = State.Vertegenwoordigers.VoegToe(vertegenwoordiger);
 
-        AddEvent(VertegenwoordigerWerdToegevoegd.With(toegevoegdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdToegevoegd(toegevoegdeVertegenwoordiger));
     }
 
     public void WijzigVertegenwoordiger(
@@ -64,13 +66,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (gewijzigdeVertegenwoordiger is null)
             return;
 
-        AddEvent(VertegenwoordigerWerdGewijzigd.With(gewijzigdeVertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdGewijzigd(gewijzigdeVertegenwoordiger));
     }
 
     public void VerwijderVertegenwoordiger(int vertegenwoordigerId)
     {
         var vertegenwoordiger = State.Vertegenwoordigers.Verwijder(vertegenwoordigerId);
-        AddEvent(VertegenwoordigerWerdVerwijderd.With(vertegenwoordiger));
+        AddEvent(EventFactory.VertegenwoordigerWerdVerwijderd(vertegenwoordiger));
     }
 
     public Locatie VoegLocatieToe(Locatie toeTeVoegenLocatie)
@@ -79,7 +81,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var toegevoegdeLocatie = State.Locaties.VoegToe(toeTeVoegenLocatie);
 
-        AddEvent(LocatieWerdToegevoegd.With(toegevoegdeLocatie));
+        AddEvent(EventFactory.LocatieWerdToegevoegd(toegevoegdeLocatie));
 
         return toegevoegdeLocatie;
     }
@@ -94,13 +96,13 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (gewijzigdeLocatie is null)
             return;
 
-        AddEvent(LocatieWerdGewijzigd.With(gewijzigdeLocatie));
+        AddEvent(EventFactory.LocatieWerdGewijzigd(gewijzigdeLocatie));
     }
 
     public void VerwijderLocatie(int locatieId)
     {
         var locatie = State.Locaties.Verwijder(locatieId);
-        AddEvent(LocatieWerdVerwijderd.With(State.VCode, locatie));
+        AddEvent(EventFactory.LocatieWerdVerwijderd(State.VCode, locatie));
     }
 
     public Lidmaatschap VoegLidmaatschapToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
@@ -109,7 +111,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(lidmaatschap);
 
-        AddEvent(LidmaatschapWerdToegevoegd.With(VCode, toegevoegdLidmaatschap));
+        AddEvent(EventFactory.LidmaatschapWerdToegevoegd(VCode, toegevoegdLidmaatschap));
 
         return toegevoegdLidmaatschap;
     }
@@ -117,7 +119,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public void VerwijderLidmaatschap(LidmaatschapId lidmaatschapId)
     {
         var locatie = State.Lidmaatschappen.Verwijder(lidmaatschapId);
-        AddEvent(LidmaatschapWerdVerwijderd.With(State.VCode, locatie));
+        AddEvent(EventFactory.LidmaatschapWerdVerwijderd(State.VCode, locatie));
     }
 
     public void WijzigLidmaatschap(WijzigLidmaatschapCommand.TeWijzigenLidmaatschap lidmaatschap)
@@ -127,7 +129,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (toegevoegdLidmaatschap is null)
             return;
 
-        AddEvent(LidmaatschapWerdGewijzigd.With(VCode, toegevoegdLidmaatschap));
+        AddEvent(EventFactory.LidmaatschapWerdGewijzigd(VCode, toegevoegdLidmaatschap));
     }
 
     public async Task HeradresseerLocaties(List<LocatieWithAdres> locatiesMetAdressen, string idempotenceKey, IGrarClient grarClient)
@@ -153,7 +155,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             State.Locaties.ThrowIfCannotAppendOrUpdate(verrijkteLocatie);
 
             var registratieData =
-                Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+                EventFactory.AdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
 
             AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                               locatieId,
@@ -180,8 +182,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
                              VCode,
                              locatieId,
-                             Registratiedata.AdresId.With(locatie.AdresId),
-                             Registratiedata.Adres.With(locatie.Adres)));
+                             EventFactory.AdresId(locatie.AdresId),
+                             EventFactory.Adres(locatie.Adres)));
 
                 continue;
             }
@@ -201,9 +203,8 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 AddEvent(new AdresWerdGewijzigdInAdressenregister(VCode,
                                                                   locatieId,
                                                                   adresDetailResponse.AdresId,
-                                                                  Registratiedata
-                                                                     .AdresUitAdressenregister
-                                                                     .FromVerrijktAddressDetailResponse(
+                                                                  EventFactory
+                                                                     .AdresUitAdressenregister(
                                                                           adresDetailResponse, verrijkteGemeentenaam)!,
                                                                   idempotenceKey));
             }
@@ -294,7 +295,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         State.Locaties.ThrowIfCannotAppendOrUpdate(decoratedLocatie);
 
         var registratieData =
-            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(adresDetailResponse, verrijkteGemeentenaam);
+            EventFactory.AdresUitAdressenregister(adresDetailResponse, verrijkteGemeentenaam);
 
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                              adresDetailResponse.AdresId,
@@ -327,11 +328,11 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
 
         if (adresMatches.HasNoResponse)
-            return AdresWerdNietGevondenInAdressenregister.From(VCode, locatie);
+            return EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie);
 
         if (!adresMatches.HasSingularResponse)
             return new AdresNietUniekInAdressenregister(VCode, locatieId,
-                                                        adresMatches.Select(NietUniekeAdresMatchUitAdressenregister.FromResponse)
+                                                        adresMatches.Select(EventFactory.NietUniekeAdresMatchUitAdressenregister)
                                                                     .ToArray());
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
@@ -340,7 +341,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             adresMatches.SingularResponse.Gemeente);
 
         var registratieData =
-            Registratiedata.AdresUitAdressenregister.FromVerrijktAddressDetailResponse(
+            EventFactory.AdresUitAdressenregister(
                 adresMatches.SingularResponse, verrijkteGemeentenaam);
 
         return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
@@ -355,7 +356,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         IEvent @event = ex.StatusCode switch
         {
-            HttpStatusCode.NotFound => AdresWerdNietGevondenInAdressenregister.From(VCode, locatieVoorTeMatchenAdres),
+            HttpStatusCode.NotFound => EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatieVoorTeMatchenAdres),
 
             _ => new AdresKonNietOvergenomenWordenUitAdressenregister(VCode, locatieId, locatieVoorTeMatchenAdres.Adres.ToAdresString(),
                                                                       GetExceptionMessage(ex.StatusCode)),
@@ -377,15 +378,15 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new AdresWerdOntkoppeldVanAdressenregister(
                      VCode,
                      locatieId,
-                     Registratiedata.AdresId.With(locatie.AdresId),
-                     Registratiedata.Adres.With(locatie.Adres)));
+                     EventFactory.AdresId(locatie.AdresId),
+                     EventFactory.Adres(locatie.Adres)));
     }
 
 
     public void AanvaardDubbeleVereniging(VCode dubbeleVereniging)
     {
         Throw<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>.If(dubbeleVereniging.Equals(VCode));
-        AddEvent(VerenigingAanvaarddeDubbeleVereniging.With(VCode, dubbeleVereniging));
+        AddEvent(EventFactory.VerenigingAanvaarddeDubbeleVereniging(VCode, dubbeleVereniging));
     }
 
     public void AanvaardCorrectieDubbeleVereniging(VCode dubbeleVereniging)
@@ -394,7 +395,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
             throw new ApplicationException($"Vereniging kon correctie dubbele vereniging ({dubbeleVereniging}) niet aanvaarden omdat dubbele vereniging " +
                                            $"niet voorkomt in de corresponderende VCodes: {string.Join(',', State.CorresponderendeVCodes)}.");
 
-        AddEvent(VerenigingAanvaarddeCorrectieDubbeleVereniging.With(VCode, dubbeleVereniging));
+        AddEvent(EventFactory.VerenigingAanvaarddeCorrectieDubbeleVereniging(VCode, dubbeleVereniging));
     }
 
     private string GetExceptionMessage(HttpStatusCode statusCode)

@@ -4,6 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using EventFactories;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -18,7 +19,7 @@ public class Given_An_Adres
 
         var adres = fixture.Create<Adres>();
 
-        Registratiedata.Adres.With(adres)
+        EventFactory.Adres(adres)
                        .Should().Be(new Registratiedata.Adres(
                                         adres.Straatnaam,
                                         adres.Huisnummer,

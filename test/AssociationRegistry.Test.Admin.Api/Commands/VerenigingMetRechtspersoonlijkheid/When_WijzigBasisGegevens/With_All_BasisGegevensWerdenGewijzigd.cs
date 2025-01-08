@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
+using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework.Fixtures;
@@ -95,14 +96,14 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
            .Single(@event => @event.Data.GetType() == typeof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd));
 
         hoofdactiviteitenVerenigingsloketWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            HoofdactiviteitenVerenigingsloketWerdenGewijzigd.With(_request.HoofdactiviteitenVerenigingsloket!
+            EventFactory.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(_request.HoofdactiviteitenVerenigingsloket!
                                                                           .Select(HoofdactiviteitVerenigingsloket.Create).ToArray()));
 
         var werkingsgebiedenWerdenGewijzigd = events
            .Single(@event => @event.Data.GetType() == typeof(WerkingsgebiedenWerdenGewijzigd));
 
         werkingsgebiedenWerdenGewijzigd.Data.Should().BeEquivalentTo(
-            WerkingsgebiedenWerdenGewijzigd.With(
+            EventFactory.WerkingsgebiedenWerdenGewijzigd(
                 VCode.Create(_vCode),
                 _request.Werkingsgebieden!.Select(Werkingsgebied.Create).ToArray())
         );

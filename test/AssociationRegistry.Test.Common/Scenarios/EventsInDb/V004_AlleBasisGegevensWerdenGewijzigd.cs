@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 
 using AssociationRegistry.Framework;
 using AutoFixture;
+using EventFactories;
 using Events;
 using EventStore;
 using global::AutoFixture;
@@ -32,7 +33,7 @@ public class V004_AlleBasisGegevensWerdenGewijzigd : IEventsInDbScenario
             KorteNaam: "VVVV",
             string.Empty,
             startdatum,
-            Registratiedata.Doelgroep.With(Doelgroep.Null),
+            EventFactory.Doelgroep(Doelgroep.Null),
             IsUitgeschrevenUitPubliekeDatastroom: false,
             Array.Empty<Registratiedata.Contactgegeven>(),
             Array.Empty<Registratiedata.Locatie>(),

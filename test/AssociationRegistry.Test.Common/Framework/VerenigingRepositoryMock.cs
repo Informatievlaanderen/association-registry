@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Framework;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Events;
 using EventStore;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
