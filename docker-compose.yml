@@ -1,7 +1,7 @@
 services:
 
   acm:
-    image: ghcr.io/informatievlaanderen/identity-server-fake:1284967
+    image: ghcr.io/informatievlaanderen/identity-server-fake:2702492
     container_name: vr_acm
     volumes:
       - ./identityserver:/home/identityserver
