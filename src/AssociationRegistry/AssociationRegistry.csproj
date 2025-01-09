@@ -71,9 +71,5 @@
     <Folder Include="Grar\AdresMatch\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\AssociationRegistry.Events\AssociationRegistry.Events.csproj" />
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>
