@@ -1,3 +1,5 @@
+## [8.194.3](https://github.com/informatievlaanderen/association-registry/compare/v8.194.2...v8.194.3) (2025-01-09)
+
 ## [8.194.2](https://github.com/informatievlaanderen/association-registry/compare/v8.194.1...v8.194.2) (2025-01-08)
 
 
