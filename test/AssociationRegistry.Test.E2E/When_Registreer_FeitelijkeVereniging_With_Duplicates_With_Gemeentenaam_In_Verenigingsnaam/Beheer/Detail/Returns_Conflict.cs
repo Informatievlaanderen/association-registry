@@ -37,7 +37,8 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             s.Header(WellknownHeaderNames.Sequence).ShouldNotBeWritten();
         })).ReadAsTextAsync();
 
-        ExtractDuplicateVerenigingsnamen(response).Should().BeEquivalentTo(expectedDuplicateVerenigingen);
+        ExtractDuplicateVerenigingsnamen(response).Should().BeEquivalentTo(expectedDuplicateVerenigingen,
+                                                                           because: $"'{request.Naam}' did not expect these duplicates");
     }
 
 
@@ -48,13 +49,48 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
         yield return
         [
             RegistreerFeitelijkeVerenigingRequest(autoFixture, "Ultimate Frisbee club"),
-            new[] { "Ultimate Frisbee club Kortrijk" },
+            new[]
+            {
+                "Kortrijkse Ultimate Frisbee Club",
+            },
         ];
 
         yield return
         [
             RegistreerFeitelijkeVerenigingRequest(autoFixture, "Ryugi Kortrijk"),
-            new[] { "Ruygo Kortrijk" },
+            new[]
+            {
+                "Ruygi KORTRIJK",
+                "Ruygo Judoschool KORTRIJK"
+            },
+        ];
+
+        yield return
+        [
+            RegistreerFeitelijkeVerenigingRequest(autoFixture, "Judo School Kortrijk"),
+            new[]
+            {
+                "JUDOSCHOOL KORTRIJK",
+            },
+        ];
+
+        yield return
+        [
+            RegistreerFeitelijkeVerenigingRequest(autoFixture, "Ryugi"),
+            new[]
+            {
+                "Ruygi KORTRIJK",
+                "Ruygo Judoschool KORTRIJK"
+            },
+        ];
+
+        yield return
+        [
+            RegistreerFeitelijkeVerenigingRequest(autoFixture, "Osu Judoschool Kortrijk"),
+            new[]
+            {
+                "JUDOSCHOOL KORTRIJK",
+            },
         ];
     }
 
@@ -63,7 +99,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
         var request = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
         request.Locaties = autoFixture.CreateMany<ToeTeVoegenLocatie>().ToArray();
         request.Naam = verenigingsnaam;
-        request.Locaties[0].Adres.Postcode = "AAAA";
+        request.Locaties[0].Adres.Postcode = "8500";
         request.Locaties[0].Adres.Gemeente = "FictieveGemeentenaam";
 
         return request;

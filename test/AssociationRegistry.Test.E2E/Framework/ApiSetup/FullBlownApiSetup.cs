@@ -1,11 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
+using Admin.Api.Infrastructure.Extensions;
 using Alba;
 using AlbaHost;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
+using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Marten.Events;
@@ -13,6 +16,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
@@ -46,6 +51,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
                                   createClientFunc: () => new HttpClient());
 
+        var elasticSearchOptions = AdminApiConfiguration.GetElasticSearchOptionsSection();
+        ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
+        ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
+
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
 
         AdminApiHost = adminApiHost.EnsureEachCallIsAuthenticated(clients.Authenticated.HttpClient);
@@ -70,9 +79,14 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
         AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
 
+        ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
+
+
+
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
     }
 
+    public IElasticClient ElasticClient { get; set; }
     public HttpClient SuperAdminHttpClient { get; private set; }
 
     private void SetUpAdminApiConfiguration()
