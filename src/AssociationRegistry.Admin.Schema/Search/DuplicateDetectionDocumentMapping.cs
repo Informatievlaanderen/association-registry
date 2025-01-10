@@ -5,6 +5,7 @@ using Nest;
 public static class DuplicateDetectionDocumentMapping
 {
     public const string DuplicateAnalyzer = "duplicate_analyzer";
+    public const string DuplicateFullNameAnalyzer = "duplicate_fullname_analyzer";
 
     public static TypeMappingDescriptor<DuplicateDetectionDocument> Get(TypeMappingDescriptor<DuplicateDetectionDocument> map)
         => map
@@ -16,7 +17,8 @@ public static class DuplicateDetectionDocumentMapping
                              .Text(
                                   propertyDescriptor => propertyDescriptor
                                                        .Name(document => document.Naam)
-                                                       .Analyzer(DuplicateAnalyzer))
+                                                       .Analyzer(DuplicateAnalyzer)
+                                                       .Analyzer(DuplicateFullNameAnalyzer))
                              .Text(propertyDescriptor => propertyDescriptor
                                       .Name(document => document.KorteNaam)
                               )

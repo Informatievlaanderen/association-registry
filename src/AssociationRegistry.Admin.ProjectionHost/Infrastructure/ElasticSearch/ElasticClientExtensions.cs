@@ -76,12 +76,17 @@ public static class ElasticClientExtensions
                                                                                           selector: prcf
                                                                                               => prcf.Pattern("_").Replacement(" ")))
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
-                                                     .TokenFilters(AddDutchStopWordsFilter)))
+                                                     .TokenFilters(AddDutchStopWordsFilter)               ))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
                       .StopWords("_dutch_") // Or provide your custom list
+        )
+             .NGram("ngram_filter", ng => ng
+                                                     .MinGram(5)
+                                                     .MaxGram(5)
+                                         .PreserveOriginal()
         );
 
     private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)
@@ -91,6 +96,12 @@ public static class ElasticClientExtensions
                            .Tokenizer("standard")
                            .CharFilters("underscore_replace", "dot_replace")
                            .Filters("lowercase", "asciifolding", "dutch_stop")
+        ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
+                 selector: ca
+                     => ca
+                       .Tokenizer("standard")
+                       .CharFilters("underscore_replace", "dot_replace")
+                       .Filters("lowercase", "asciifolding", "dutch_stop", "ngram_filter")
         );
 
     private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
