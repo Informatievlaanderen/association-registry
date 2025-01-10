@@ -16,9 +16,16 @@ public static class DuplicateDetectionDocumentMapping
                                      .Name(document => document.VCode))
                              .Text(
                                   propertyDescriptor => propertyDescriptor
-                                                       .Name(document => document.Naam)
-                                                       .Analyzer(DuplicateAnalyzer)
-                                                       .Analyzer(DuplicateFullNameAnalyzer))
+                                       .Name(document => document.Naam)
+                                       .Fields(fields => fields
+                                                        .Text(subField => subField
+                                                                         .Name(x => x.Naam)
+                                                                         .Analyzer(DuplicateAnalyzer)
+                                                         )
+                                                        .Text(subField => subField
+                                                                         .Name("naamFull")
+                                                                         .Analyzer(DuplicateFullNameAnalyzer)
+                                                         )))
                              .Text(propertyDescriptor => propertyDescriptor
                                       .Name(document => document.KorteNaam)
                               )
