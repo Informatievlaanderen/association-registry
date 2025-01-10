@@ -38,7 +38,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
 
         public List<FeitelijkeVerenigingWerdGeregistreerd> Events { get; set; }
         public static string FictieveGemeentenaam = "FictieveGemeentenaam";
-        public static string FictievePostcode = "AAAA";
+        public static string FictievePostcode = "8500";
 
         public TestData()
         {
@@ -87,9 +87,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
         await ApiSetup.ExecuteGiven(_scenario);
 
         await ApiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminProjectionHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.AllIndices);
     }
-
 }

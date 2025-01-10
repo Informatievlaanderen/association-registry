@@ -34,7 +34,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                .SearchAsync<DuplicateDetectionDocument>(
                     s => s
                         .TrackScores()
-                        //.MinScore(1)
+                        .MinScore(1)
                         .Explain()
                         .Query(
                              q => q.Bool(
@@ -42,26 +42,18 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                      .Should(
                                           // Original must query
                                           s1 => s1.Bool(
-
                                               b => b.Must(
                                                   MatchOpNaam(naam)
                                               )),
-                                          s2 => s2.Bool(b => b.Must(m => m.Match(ma => ma
-                                                                                      .Field(f => f.Naam)
-                                                                                      .Query(naam)
-                                                                                      .Analyzer(DuplicateDetectionDocumentMapping
-                                                                                              .DuplicateFullNameAnalyzer)
-                                                                                      .Fuzziness(Fuzziness.Auto)
-                                                                                      .Boost(0.5)
-                                                                                      .MinimumShouldMatch(2)
-                                                                    )
-                                                        )
-                                              ))
-                                                  .MinimumShouldMatch(1) // At least one of the clauses must match
-                                                  .Filter(MatchOpPostcodeOfGemeente(gemeentes, postcodes),
-                                                          IsNietGestopt,
-                                                          IsNietDubbel,
-                                                          IsNietVerwijderd)
+                                          s2 => s2.Bool(
+                                              b => b.Must(
+                                                  MatchOpFullNaam(naam))
+                                          ))
+                                     .MinimumShouldMatch(1) // At least one of the clauses must match
+                                     .Filter(MatchOpPostcodeOfGemeente(gemeentes, postcodes),
+                                             IsNietGestopt,
+                                             IsNietDubbel,
+                                             IsNietVerwijderd)
 
                              )
                          ));
@@ -159,12 +151,24 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpNaam(VerenigingsNaam naam)
     {
         return must => must
+                      .Match(m => m
+                                 .Field(f => f.Naam)
+                                 .Query(naam)
+                                 .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
+                                 .Fuzziness(Fuzziness.AutoLength(2, 3))
+                      .MinimumShouldMatch("3<75%"));
+    }
+
+    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpFullNaam(VerenigingsNaam naam)
+    {
+        return must => must
            .Match(m => m
-                      .Field(f => f.Naam)
-                      .Query(naam)
-                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
-                      .Fuzziness(Fuzziness.AutoLength(3, 3))); // Assumes this analyzer applies lowercase and asciifolding
-        //.MinimumShouldMatch("90%") // You can adjust this percentage as needed);
+                      .Field("naam.naamFull")
+                      .Query(naam)//.ToString().Replace(" ", ""))
+                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
+                      .Fuzziness(Fuzziness.AutoLength(3,3))
+                      .MinimumShouldMatch("75%")
+                      ); // You can adjust this percentage as needed);
     }
 
     private static DuplicaatVereniging ToDuplicateVereniging(DuplicateDetectionDocument document)
