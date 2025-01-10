@@ -23,7 +23,7 @@ public class MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenari
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        var events = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>(10).ToArray();
+        var events = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>(12).ToArray();
 
         events[0] = events[0] with { Naam = "KORTRIJK SPURS" };
         events[1] = events[1] with { Naam = "JUDOSCHOOL KORTRIJK" };
@@ -35,6 +35,8 @@ public class MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenari
         events[7] = events[7] with { Naam = "KORTRIJKS SYMFONISCH ORKEST" };
         events[8] = events[8] with { Naam = "KONINKLIJK KORTRIJK SPORT ATLETIEK" };
         events[9] = events[9] with { Naam = "Kortrijkse Ultimate Frisbee Club" };
+        events[10] = events[10] with { Naam = "Ruygi KORTRIJK" };
+        events[11] = events[11] with { Naam = "Ruygo Judoschool KORTRIJK" };
 
         events = events.Select(
             @event => @event with
