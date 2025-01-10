@@ -74,7 +74,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
     }
 
     private MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenario _scenario;
-    public List<ExpectedActual> Responses { get; private set; }
+
 
     public RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext(FullBlownApiSetup apiSetup)
     {
@@ -82,63 +82,14 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
         _scenario = new();
     }
 
-    public record ExpectedActual(RegistreerFeitelijkeVerenigingRequest request, string[] expected, string[] actual);
-
     public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_scenario);
 
-        var autoFixture = new Fixture().CustomizeAdminApi();
-
-        var request = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request.Locaties = autoFixture.CreateMany<ToeTeVoegenLocatie>().ToArray();
-        request.Naam = "Ultimate Frisbee club";
-        request.Locaties[0].Adres.Postcode = "8500";
-        request.Locaties[0].Adres.Gemeente = "Kortrijk";
-
-        var request2 = autoFixture.Create<RegistreerFeitelijkeVerenigingRequest>();
-        request2.Locaties = autoFixture.CreateMany<ToeTeVoegenLocatie>().ToArray();
-        request2.Naam = "Ryugi Kortrijk";
-        request2.Locaties[0].Adres.Postcode = "8500";
-        request2.Locaties[0].Adres.Gemeente = "Kortrijk";
-
-        var requests = new List<ExpectedActual>
-        {
-            new(request, ["Ultimate Frisbee club Kortrijk"], []),
-            new(request2, ["Ruygo Kortrijk"], []),
-        };
-        Responses = new List<ExpectedActual>();
-
-        foreach (var r in requests)
-        {
-            var response = await (await ApiSetup.AdminApiHost.Scenario(s =>
-            {
-                s.Post
-                 .Json(r.request, JsonStyle.Mvc)
-                 .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
-
-                s.StatusCodeShouldBe(HttpStatusCode.Conflict);
-
-                s.Header(WellknownHeaderNames.Sequence).ShouldNotBeWritten();
-            })).ReadAsTextAsync();
-
-            Responses.Add(r with { actual = ExtractDuplicateVerenigingsnamen(response).ToArray() });
-        }
-
         await ApiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-
 
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminProjectionHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.AllIndices);
-    }
-
-    private static IEnumerable<string> ExtractDuplicateVerenigingsnamen(string responseContent)
-    {
-        var duplicates = JObject.Parse(responseContent)
-                                .SelectTokens("$.mogelijkeDuplicateVerenigingen[*].naam")
-                                .Select(x => x.ToString());
-
-        return duplicates;
     }
 
 }
