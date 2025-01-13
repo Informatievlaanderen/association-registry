@@ -1,3 +1,10 @@
+# [8.195.0](https://github.com/informatievlaanderen/association-registry/compare/v8.194.4...v8.195.0) (2025-01-13)
+
+
+### Features
+
+* or-1716 implement dubbeldetectie projecties for corrigeer dubbels ([8925285](https://github.com/informatievlaanderen/association-registry/commit/8925285196a2afeee2703b5d2fc86bc8769ac8d9))
+
 ## [8.194.4](https://github.com/informatievlaanderen/association-registry/compare/v8.194.3...v8.194.4) (2025-01-10)
 
 ## [8.194.3](https://github.com/informatievlaanderen/association-registry/compare/v8.194.2...v8.194.3) (2025-01-09)
