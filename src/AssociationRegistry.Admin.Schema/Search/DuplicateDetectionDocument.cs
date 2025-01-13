@@ -7,7 +7,7 @@ public record DuplicateDetectionDocument
     public Locatie[] Locaties { get; set; } = null!;
     public string VerenigingsTypeCode { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
-    public string[] HoofdactiviteitVerenigingsloket { get; set; } = [];
+    public string[] HoofdactiviteitVerenigingsloket { get; set; } = null!;
     public bool IsGestopt { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }

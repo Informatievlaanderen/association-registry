@@ -147,9 +147,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                     Verenigingstype.Parse(document.VerenigingsTypeCode).Naam),
             document.Naam,
             document.KorteNaam,
-            document.HoofdactiviteitVerenigingsloket
+            document.HoofdactiviteitVerenigingsloket?
                     .Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(
-                                h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray(),
+                                h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray() ?? [],
             document.Locaties.Select(ToLocatie).ToImmutableArray());
 
     private static DuplicaatVereniging.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)

@@ -57,6 +57,7 @@ public class BeheerZoekProjectionHandler
 
                 Werkingsgebieden = [],
                 Lidmaatschappen = [],
+                CorresponderendeVCodes = [],
                 Sleutels =
                 [
                     new VerenigingZoekDocument.Sleutel
@@ -103,6 +104,7 @@ public class BeheerZoekProjectionHandler
                 HoofdactiviteitenVerenigingsloket = [],
                 Werkingsgebieden = [],
                 Lidmaatschappen = [],
+                CorresponderendeVCodes = [],
                 Sleutels =
                 [
                     new VerenigingZoekDocument.Sleutel

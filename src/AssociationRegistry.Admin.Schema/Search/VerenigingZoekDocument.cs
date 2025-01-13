@@ -5,7 +5,7 @@ public class VerenigingZoekDocument
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
 
-    public string[] CorresponderendeVCodes { get; set; } = [];
+    public string[] CorresponderendeVCodes { get; set; } = null!;
     public VerenigingsType Verenigingstype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
