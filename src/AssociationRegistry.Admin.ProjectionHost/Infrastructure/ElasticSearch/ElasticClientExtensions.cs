@@ -91,6 +91,12 @@ public static class ElasticClientExtensions
                            .Tokenizer("standard")
                            .CharFilters("underscore_replace", "dot_replace")
                            .Filters("lowercase", "asciifolding", "dutch_stop")
+        ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
+                 selector: ca
+                     => ca
+                       .Tokenizer("keyword")
+                       .CharFilters("underscore_replace", "dot_replace")
+                       .Filters("lowercase", "asciifolding", "dutch_stop")
         );
 
     private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
