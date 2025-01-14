@@ -1,3 +1,11 @@
+## [8.195.1](https://github.com/informatievlaanderen/association-registry/compare/v8.195.0...v8.195.1) (2025-01-14)
+
+
+### Bug Fixes
+
+* or-2593 dont make corresponderendeVCodes empty when applying changes for beheer zoeken ([387dbd4](https://github.com/informatievlaanderen/association-registry/commit/387dbd455ae83da5e9b139d07abf152ce0cfaf64))
+* or-2593 dont make hoofdactiviteiten empty when applying changes for duplicate detection ([d5d3ad3](https://github.com/informatievlaanderen/association-registry/commit/d5d3ad3556741b270817fe678e4a162b07d88111))
+
 # [8.195.0](https://github.com/informatievlaanderen/association-registry/compare/v8.194.4...v8.195.0) (2025-01-13)
 
 
