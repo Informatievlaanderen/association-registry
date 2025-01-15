@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program;
 
-using ConfigurationBindings;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Framework;
 
 public static class ConfigHelpers

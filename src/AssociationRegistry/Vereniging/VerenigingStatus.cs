@@ -17,7 +17,7 @@ public abstract record VerenigingStatus(string StatusNaam)
     public static VerenigingStatus Actief => new StatusActief();
     public static VerenigingStatus Gestopt => new StatusGestopt();
 
-    public VerenigingStatus ParseVorigeStatus(string vorigeStatus)
+    public static VerenigingStatus ParseVorigeStatus(string vorigeStatus)
     {
         switch (vorigeStatus)
         {

@@ -23,5 +23,4 @@ public interface IElasticRepository
     Task UpdateAdres<TDocument>(string id, int locatieId, string adresVoorstelling, string postcode, string gemeente) where TDocument : class;
     Task AppendCorresponderendeVCodes<TDocument>(string id, string vCodeDubbeleVereniging) where TDocument : class;
     Task RemoveCorresponderendeVCode<TDocument>(string id, string vCodeDubbeleVereniging) where TDocument : class;
-
 }

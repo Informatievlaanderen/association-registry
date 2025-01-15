@@ -35,7 +35,7 @@ public static class ElasticSearchExtensions
             elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
     }
 
-    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
@@ -61,8 +61,11 @@ public static class ElasticSearchExtensions
     public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-            typeof(DuplicateDetectionDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(DuplicateDetectionDocument.VCode)));
+                            typeof(DuplicateDetectionDocument),
+                            selector: descriptor => descriptor.IndexName(indexName)
+                                                              .IdProperty(nameof(DuplicateDetectionDocument.VCode)))
+                       .DefaultMappingFor(typeof(DuplicateDetectionUpdateDocument),
+                                          selector: descriptor => descriptor.IndexName(indexName)
+                                                                            .IdProperty(nameof(DuplicateDetectionDocument.VCode)));
     }
 }

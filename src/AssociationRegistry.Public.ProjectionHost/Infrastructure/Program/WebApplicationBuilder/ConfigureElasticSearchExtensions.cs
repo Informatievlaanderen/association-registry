@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Schema;
 
@@ -20,7 +20,7 @@ public static class ConfigureElasticSearchExtensions
         return services;
     }
 
-    private static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
