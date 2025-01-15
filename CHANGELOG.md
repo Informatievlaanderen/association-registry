@@ -1,3 +1,11 @@
+## [8.195.2](https://github.com/informatievlaanderen/association-registry/compare/v8.195.1...v8.195.2) (2025-01-15)
+
+
+### Bug Fixes
+
+* or-2638 make sure booleans dont get reset on update elastic docs ([1d8205e](https://github.com/informatievlaanderen/association-registry/commit/1d8205e680843788d9fe2b5406f3f6a6440bd29f))
+* or-2638 verwerk weigering dubbel only on domain exceptions, otherwise dlq ([e1070a5](https://github.com/informatievlaanderen/association-registry/commit/e1070a51daa5ec004c4e58e72b27acf89942bcb5))
+
 ## [8.195.1](https://github.com/informatievlaanderen/association-registry/compare/v8.195.0...v8.195.1) (2025-01-14)
 
 
