@@ -189,6 +189,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             AndereVereniging = "V0001111",
                         },
                     ],
+                    IsDubbelVan = "",
                     Bron = Bron.Initiator.Waarde,
                 },
                 Metadata = new Metadata
@@ -377,6 +378,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                             Identificatie = "L4321",
                         },
                     },
+                    IsDubbelVan = "",
                     Bron = Bron.KBO.Waarde,
                 },
                 Metadata = new Metadata
