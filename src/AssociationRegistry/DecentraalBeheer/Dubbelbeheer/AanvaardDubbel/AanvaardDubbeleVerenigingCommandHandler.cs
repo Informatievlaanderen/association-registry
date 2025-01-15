@@ -1,9 +1,10 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 
-using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
-using AssociationRegistry.Vereniging;
+using EventStore;
+using Framework;
+using Messages;
+using Vereniging;
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using NodaTime;
 using Wolverine;
 
@@ -26,7 +27,11 @@ public class AanvaardDubbeleVerenigingCommandHandler(
                                     Guid.NewGuid()),
                 cancellationToken);
         }
-        catch (Exception)
+        catch (AggregateNotFoundException)
+        {
+            await bus.SendAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging, command.VCode));
+        }
+        catch (DomainException)
         {
             await bus.SendAsync(new VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage(command.VCodeDubbeleVereniging, command.VCode));
         }
