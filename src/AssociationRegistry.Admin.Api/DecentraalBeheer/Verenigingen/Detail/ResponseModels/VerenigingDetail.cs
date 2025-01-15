@@ -54,6 +54,7 @@ public class VerenigingDetail
     ///     Mogelijke waarden:<br />
     ///     - Actief<br />
     ///     - Gestopt<br />
+    ///     - Dubbel<br />
     /// </summary>
     [DataMember(Name = "Status")]
     public string Status { get; init; } = null!;
