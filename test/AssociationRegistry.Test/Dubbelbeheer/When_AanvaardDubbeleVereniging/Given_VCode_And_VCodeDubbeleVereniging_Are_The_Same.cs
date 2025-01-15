@@ -1,15 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_AanvaardDubbeleVereniging;
 
-using AssociationRegistry.Messages;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
+using Common.Scenarios.CommandHandling;
 using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using FluentAssertions;
 using Moq;
+using Resources;
+using Vereniging.Exceptions;
 using Wolverine;
 using Xunit;
 
@@ -30,11 +29,8 @@ public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
         };
         var sut = new AanvaardDubbeleVerenigingCommandHandler(repositoryMock, messageBus.Object);
 
-        await sut.Handle(command, CancellationToken.None);
+        var exception = await Assert.ThrowsAsync<InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf>(async () => await sut.Handle(command, CancellationToken.None)) ;
 
-        messageBus.Verify(x => x.SendAsync(
-                              It.Is<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage>(y => y.VCode == command.VCodeDubbeleVereniging),
-                              It.IsAny<DeliveryOptions?>()),
-                          Times.Once);
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenDubbelWordenVanZichzelf);
     }
 }
