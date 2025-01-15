@@ -1,13 +1,11 @@
 namespace AssociationRegistry.Public.ProjectionHost.Extensions;
 
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
-using Marten.Events.Daemon;
 using Nest;
 using Projections;
-using Projections.Detail;
-using Projections.Sequence;
 
 public static class ProjectionEndpointsExtensions
 {

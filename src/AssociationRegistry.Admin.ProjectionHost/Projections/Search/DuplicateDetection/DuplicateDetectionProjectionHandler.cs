@@ -49,7 +49,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 Naam = message.Data.Naam,
             }
@@ -58,7 +58,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
             }
@@ -67,7 +67,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 KorteNaam = message.Data.KorteNaam,
             }
@@ -76,7 +76,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<HoofdactiviteitenVerenigingsloketWerdenGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
             }
@@ -94,7 +94,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingWerdGestopt> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsGestopt = true,
             }
@@ -103,7 +103,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingWerdGestoptInKBO> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsGestopt = true,
             }
@@ -112,7 +112,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsVerwijderd = true,
             }
@@ -142,7 +142,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 Naam = message.Data.Naam,
             }
@@ -151,7 +151,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 KorteNaam = message.Data.KorteNaam,
             }
@@ -187,7 +187,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingWerdGemarkeerdAlsDubbelVan> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsDubbel = true,
             }
@@ -196,7 +196,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsDubbel = false,
             }
@@ -205,7 +205,7 @@ public class DuplicateDetectionProjectionHandler
     public async Task Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new DuplicateDetectionDocument
+            new DuplicateDetectionUpdateDocument
             {
                 IsDubbel = false,
             }

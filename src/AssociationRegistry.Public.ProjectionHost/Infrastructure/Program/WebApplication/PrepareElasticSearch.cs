@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Public.ProjectionHost.Infrastructure.Program.WebApplication;
 
-using ConfigurationBindings;
 using Extensions;
 using Hosts;
+using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Program = ProjectionHost.Program;
 using WebApplication = Microsoft.AspNetCore.Builder.WebApplication;
