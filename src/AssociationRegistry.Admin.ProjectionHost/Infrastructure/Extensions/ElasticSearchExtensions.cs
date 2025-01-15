@@ -4,14 +4,15 @@ using ElasticSearch;
 using Hosts.Configuration.ConfigurationBindings;
 using Nest;
 using Schema.Search;
+using System.Text;
 
 public static class ElasticSearchExtensions
 {
     public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions)
+        ElasticSearchOptionsSection elasticSearchOptions, ILogger<IElasticClient> logger)
     {
-        var elasticClient = CreateElasticClient(elasticSearchOptions);
+        var elasticClient = CreateElasticClient(elasticSearchOptions, logger);
 
         EnsureIndexExists(elasticClient,
                           elasticSearchOptions.Indices!.Verenigingen!,
@@ -35,7 +36,7 @@ public static class ElasticSearchExtensions
             elasticClient.Indices.CreateDuplicateDetectionIndex(duplicateDetectionIndexName);
     }
 
-    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions)
+    public static ElasticClient CreateElasticClient(ElasticSearchOptionsSection elasticSearchOptions, ILogger logger)
     {
         var settings = new ConnectionSettings(new Uri(elasticSearchOptions.Uri!))
                       .BasicAuthentication(
@@ -44,6 +45,23 @@ public static class ElasticSearchExtensions
                       .ServerCertificateValidationCallback((_, _, _, _) => true)
                       .MapVerenigingDocument(elasticSearchOptions.Indices!.Verenigingen!)
                       .MapDuplicateDetectionDocument(elasticSearchOptions.Indices!.DuplicateDetection!);
+
+        if (elasticSearchOptions.EnableDevelopmentLogs)
+            settings = settings.DisableDirectStreaming()
+                               .PrettyJson()
+                               .OnRequestCompleted(apiCallDetails =>
+                                {
+                                    if (apiCallDetails.RequestBodyInBytes != null)
+                                        logger.LogDebug(
+                                            message: "{HttpMethod} {Uri} \n {RequestBody}",
+                                            apiCallDetails.HttpMethod,
+                                            apiCallDetails.Uri,
+                                            Encoding.UTF8.GetString(apiCallDetails.RequestBodyInBytes));
+
+                                    if (apiCallDetails.ResponseBodyInBytes != null)
+                                        logger.LogDebug(message: "Response: {ResponseBody}",
+                                                        Encoding.UTF8.GetString(apiCallDetails.ResponseBodyInBytes));
+                                });
 
         var elasticClient = new ElasticClient(settings);
 

@@ -9,6 +9,7 @@ using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;
 using Wolverine;
@@ -59,7 +60,7 @@ public class Given_Incorrect_VCode_In_The_Message
         var message = messages.ShouldHaveMessageOfType<DeadLetterEnvelope>();
         message.Envelope.MessageType.Should().Be(typeof(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage).FullName);
     }
-    
+
     /// <summary>
     /// AanvaardDubbeleVerenigingMessage (onbestaande vCode) -> AanvaardDubbeleVerenigingMessagehandler
     /// AanvaardDubbeleVerenigingMessageHandler -> throws uncaught exception -> puts AanvaardDubbeleVerenigingMessage on DLQ
@@ -73,6 +74,21 @@ public class Given_Incorrect_VCode_In_The_Message
 
         await PurgeDeadLetters(messageStore, typeof(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessage).FullName);
 
+        var aanvaardDubbeleVerenigingMessage = await StoreImpossibleEventThatWillCrashTheEventStore(eventstore);
+
+        await bus.SendAsync(aanvaardDubbeleVerenigingMessage);
+
+        var messages = await WaitForMessageInDlq<AanvaardDubbeleVerenigingMessage>(messageStore);
+
+        var message = messages.ShouldHaveMessageOfType<DeadLetterEnvelope>();
+        message.Envelope.MessageType.Should().Be(typeof(AanvaardDubbeleVerenigingMessage).FullName);
+
+        var session = _setup.AdminApiHost.Services.GetRequiredService<IDocumentSession>();
+        session.Events.ArchiveStream(aanvaardDubbeleVerenigingMessage.VCode);
+    }
+
+    private async Task<AanvaardDubbeleVerenigingMessage> StoreImpossibleEventThatWillCrashTheEventStore(IEventStore eventstore)
+    {
         var aanvaardDubbeleVerenigingMessage = _autoFixture.Create<AanvaardDubbeleVerenigingMessage>()
             with
             {
@@ -83,12 +99,7 @@ public class Given_Incorrect_VCode_In_The_Message
         await eventstore.Save(aanvaardDubbeleVerenigingMessage.VCode, new CommandMetadata("test", new Instant(), Guid.NewGuid(), null),
                               CancellationToken.None, new VerenigingWerdGestopt(new DateOnly()));
 
-        await bus.SendAsync(aanvaardDubbeleVerenigingMessage);
-
-        var messages = await WaitForMessageInDlq<AanvaardDubbeleVerenigingMessage>(messageStore);
-
-        var message = messages.ShouldHaveMessageOfType<DeadLetterEnvelope>();
-        message.Envelope.MessageType.Should().Be(typeof(AanvaardDubbeleVerenigingMessage).FullName);
+        return aanvaardDubbeleVerenigingMessage;
     }
 
     private async Task<IReadOnlyList<DeadLetterEnvelope>?> WaitForMessageInDlq<TMessage>(IMessageStore messageStore)

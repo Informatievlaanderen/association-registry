@@ -41,7 +41,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
 
         AdminProjectionElasticClient =
             Admin.ProjectionHost.Infrastructure.Extensions.ElasticSearchExtensions.CreateElasticClient(
-                Configuration.GetElasticSearchOptionsSection());
+                Configuration.GetElasticSearchOptionsSection(), NullLogger.Instance);
 
         var adminStore = DocumentStore.For(
             opts =>

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost;
 using Asp.Versioning.ApplicationModels;
 using Extensions;
 using Infrastructure.ConfigurationBindings;
+using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Program;
@@ -77,6 +78,10 @@ public class Program
         builder.Host.UseConsoleLifetime();
 
         var app = builder.Build();
+
+        ElasticSearchExtensions.EnsureIndexExists(app.Services.GetRequiredService<IElasticClient>(),
+                                                  elasticSearchOptions.Indices!.Verenigingen!,
+                                                  elasticSearchOptions.Indices!.DuplicateDetection!);
 
         app.AddProjectionEndpoints(
             app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
