@@ -1,3 +1,10 @@
+# [8.199.0](https://github.com/informatievlaanderen/association-registry/compare/v8.198.0...v8.199.0) (2025-01-16)
+
+
+### Features
+
+* or-2350 add naam of duplicate vereniging ([e4db7ac](https://github.com/informatievlaanderen/association-registry/commit/e4db7acf1571d780652da8ce58e7a32e1c4e353b))
+
 # [8.198.0](https://github.com/informatievlaanderen/association-registry/compare/v8.197.0...v8.198.0) (2025-01-16)
 
 
