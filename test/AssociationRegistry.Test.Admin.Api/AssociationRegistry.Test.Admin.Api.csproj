@@ -23,7 +23,8 @@
     <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
     <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="DuplicateDetection\Given_An_Extensive_DataSet\data.csv" />
+    <EmbeddedResource Include="DuplicateDetection\Given_An_Extensive_DataSet\Seed\verwachte_dubbels.csv" />
+    <EmbeddedResource Include="DuplicateDetection\Given_An_Extensive_DataSet\Seed\verwachte_unieke.csv" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
     <EmbeddedResource Include="Framework\templates\DetailVerenigingResponse.json" />
     <EmbeddedResource Include="Framework\templates\kboSyncHistoriek\KboSyncHistoriek.json" />
