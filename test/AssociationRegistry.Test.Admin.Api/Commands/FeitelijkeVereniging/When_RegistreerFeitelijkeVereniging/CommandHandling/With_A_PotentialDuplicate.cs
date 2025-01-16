@@ -52,7 +52,8 @@ public class With_A_PotentialDuplicate
                              d =>
                                  d.GetDuplicates(
                                      command.Naam,
-                                     command.Locaties))
+                                     command.Locaties,
+                                     false, null))
                         .ReturnsAsync(_potentialDuplicates);
 
         var commandMetadata = fixture.Create<CommandMetadata>();

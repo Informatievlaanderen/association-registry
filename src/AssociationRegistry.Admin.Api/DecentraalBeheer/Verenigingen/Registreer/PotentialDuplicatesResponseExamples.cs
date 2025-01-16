@@ -28,13 +28,13 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                             Verenigingstype.FeitelijkeVereniging.Naam),
                         Naam: "Naam",
                         KorteNaam: "Korte naam",
-                        ImmutableArray.Create(
+                        [
                             new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(Code: "CODE", Naam: "Beschrijving")
-                        ),
-                        ImmutableArray.Create(
+                        ],
+                        [
                             new DuplicaatVereniging.Locatie(Locatietype: "Locatietype", IsPrimair: true, Adres: "Adresvoorstelling",
                                                             Naam: "Naam", Postcode: "Postcode", Gemeente: "Gemeente")
-                        )),
+                        ]),
                 }),
             _appSettings);
 }
