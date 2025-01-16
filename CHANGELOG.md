@@ -1,3 +1,10 @@
+# [8.196.0](https://github.com/informatievlaanderen/association-registry/compare/v8.195.2...v8.196.0) (2025-01-16)
+
+
+### Features
+
+* or-2654 add dubbel to api docs for beheer detail ([427df58](https://github.com/informatievlaanderen/association-registry/commit/427df58462abb804d74a3d014eb3724d60772c7b))
+
 ## [8.195.2](https://github.com/informatievlaanderen/association-registry/compare/v8.195.1...v8.195.2) (2025-01-15)
 
 
