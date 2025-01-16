@@ -1,3 +1,10 @@
+# [8.198.0](https://github.com/informatievlaanderen/association-registry/compare/v8.197.0...v8.198.0) (2025-01-16)
+
+
+### Features
+
+* or-2350 fix endpoint for duplicate check ([efe74fc](https://github.com/informatievlaanderen/association-registry/commit/efe74fc02542f3b9246200736944854ba76b5726))
+
 # [8.197.0](https://github.com/informatievlaanderen/association-registry/compare/v8.196.0...v8.197.0) (2025-01-16)
 
 
