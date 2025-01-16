@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 
-using AssociationRegistry.Admin.Schema.Search;
-using AssociationRegistry.DuplicateVerenigingDetection;
-using AssociationRegistry.Vereniging;
+using Schema.Search;
+using DuplicateVerenigingDetection;
+using Vereniging;
 using Nest;
 using System.Collections.Immutable;
 
@@ -15,8 +15,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         _client = client;
     }
 
-    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties)
+    public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicates(VerenigingsNaam naam, Locatie[] locaties,
+                                                                              bool includeScore = false, MinimumScore? minimumScoreOverride = null)
     {
+        minimumScoreOverride ??= MinimumScore.Default;
+
         var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
 
         if (locatiesMetAdres.Length == 0) return Array.Empty<DuplicaatVereniging>();
@@ -28,6 +31,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             await _client
                .SearchAsync<DuplicateDetectionDocument>(
                     s => s
+                        .Explain(includeScore)
+                        .TrackScores(includeScore)
+                        //.MinScore(minimumScoreOverride.Value)
                        .Query(
                             q => q.Bool(
                                 b => b.Must(
@@ -41,7 +47,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                             )
                         ));
 
-        return searchResponse.Documents.Select(ToDuplicateVereniging)
+        return searchResponse.Hits
+                             .Select(ToDuplicateVereniging)
                              .ToArray();
     }
 
@@ -140,17 +147,24 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             );
     }
 
-    private static DuplicaatVereniging ToDuplicateVereniging(DuplicateDetectionDocument document)
+    private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
         => new(
-            document.VCode,
-            new DuplicaatVereniging.VerenigingsType(document.VerenigingsTypeCode,
-                                                    Verenigingstype.Parse(document.VerenigingsTypeCode).Naam),
-            document.Naam,
-            document.KorteNaam,
-            document.HoofdactiviteitVerenigingsloket?
+            document.Source.VCode,
+            new DuplicaatVereniging.VerenigingsType(document.Source.VerenigingsTypeCode,
+                                                    Verenigingstype.Parse(document.Source.VerenigingsTypeCode).Naam),
+            document.Source.Naam,
+            document.Source.KorteNaam,
+            document.Source.HoofdactiviteitVerenigingsloket?
                     .Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(
                                 h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray() ?? [],
-            document.Locaties.Select(ToLocatie).ToImmutableArray());
+            document.Source.Locaties.Select(ToLocatie).ToImmutableArray(),
+            IncludesScore(document)
+                ? new DuplicaatVereniging.ScoringInfo(document.Explanation.Description, document.Score)
+                : DuplicaatVereniging.ScoringInfo.NotApplicable
+        );
+
+    private static bool IncludesScore(IHit<DuplicateDetectionDocument> document)
+        => document.Explanation is not null && document.Score is not null;
 
     private static DuplicaatVereniging.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)
         => new(
