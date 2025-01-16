@@ -1,3 +1,10 @@
+# [8.197.0](https://github.com/informatievlaanderen/association-registry/compare/v8.196.0...v8.197.0) (2025-01-16)
+
+
+### Features
+
+* or-2350 add admin endpoint to analyze duplicates ([be381d3](https://github.com/informatievlaanderen/association-registry/commit/be381d33a76eb2b26351fa5a5e2b74f3ef549902))
+
 # [8.196.0](https://github.com/informatievlaanderen/association-registry/compare/v8.195.2...v8.196.0) (2025-01-16)
 
 
