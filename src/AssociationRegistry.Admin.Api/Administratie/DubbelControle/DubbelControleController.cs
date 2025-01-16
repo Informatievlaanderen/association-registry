@@ -9,12 +9,12 @@ using Microsoft.AspNetCore.Mvc;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
-[ApiRoute("projections")]
+[ApiRoute("admin")]
 [ApiExplorerSettings(IgnoreApi = true)]
 [Authorize(Policy = Program.SuperAdminPolicyName)]
 public class DubbelControleController : ApiController
 {
-    [HttpPost("admin/dubbelcontrole")]
+    [HttpPost("dubbelcontrole")]
     public async Task<IActionResult> ControleerOpDubbels(
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
         [FromQuery] double? minimumScoreOverride,
@@ -30,6 +30,26 @@ public class DubbelControleController : ApiController
                 ? new MinimumScore(minimumScoreOverride.Value)
                 : MinimumScore.Default);
 
-        return Ok(result);
+        return Ok(result.Select(x => new DubbelControleResponse(x.VCode,
+                                                                x.Scoring.Explanation,
+                                                                x.Scoring.Score.Value)));
     }
+}
+public class DubbelControleResponse
+{
+    public DubbelControleResponse()
+    {
+
+    }
+
+    public DubbelControleResponse(string vCode, string explanation, double score)
+    {
+        VCode = vCode;
+        Explanation = explanation;
+        Score = score;
+    }
+
+    public string VCode { get; set; }
+    public string Explanation { get; set; }
+    public double Score { get; set; }
 }
