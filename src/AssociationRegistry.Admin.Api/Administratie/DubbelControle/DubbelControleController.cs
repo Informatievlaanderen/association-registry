@@ -31,6 +31,7 @@ public class DubbelControleController : ApiController
                 : MinimumScore.Default);
 
         return Ok(result.Select(x => new DubbelControleResponse(x.VCode,
+                                                                x.Naam,
                                                                 x.Scoring.Explanation,
                                                                 x.Scoring.Score.Value)));
     }
@@ -42,14 +43,16 @@ public class DubbelControleResponse
 
     }
 
-    public DubbelControleResponse(string vCode, string explanation, double score)
+    public DubbelControleResponse(string vCode, string naam, string explanation, double score)
     {
         VCode = vCode;
+        Naam = naam;
         Explanation = explanation;
         Score = score;
     }
 
     public string VCode { get; set; }
+    public string Naam { get; }
     public string Explanation { get; set; }
     public double Score { get; set; }
 }
