@@ -85,7 +85,9 @@ public static class WolverineExtensions
         options.ListenToSqsQueue("kbo-sync-production", configure: configure =>
                 {
                     configure.MaxNumberOfMessages = 1;
+                    configure.DeadLetterQueueName = "kbo-sync-production-dead-letter-queue";
                 })
+                               .ConfigureDeadLetterQueue("kbo-sync-production-dead-letter-queue")
                .MaximumParallelMessages(1);
     }
 
