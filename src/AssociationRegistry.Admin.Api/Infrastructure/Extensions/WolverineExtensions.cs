@@ -6,6 +6,7 @@ using EventStore;
 using Grar.AddressMatch;
 using Hosts.Configuration;
 using JasperFx.CodeGeneration;
+using Kbo;
 using Serilog;
 using Vereniging;
 using Wolverine;
@@ -48,6 +49,8 @@ public static class WolverineExtensions
                 if (grarOptions.Sqs.UseLocalStack)
                     transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
+                ConfigureKboSyncQueuePublisher(options, context.Configuration["KboSyncQueueUrl"]);
+
                 ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
 
                 ConfiguredAddressMatchListener(options, grarOptions.Sqs.AddressMatchQueueName,
@@ -71,6 +74,19 @@ public static class WolverineExtensions
         options.PublishMessage<TeAdresMatchenLocatieMessage>()
                .ToSqsQueue(sqsQueueName)
                .MessageBatchSize(1);
+    }
+
+    private static void ConfigureKboSyncQueuePublisher(WolverineOptions options, string sqsQueueName)
+    {
+        options.PublishMessage<TeSynchroniserenKboNummerMessage>()
+               .ToSqsQueue("kbo-sync-production")
+               .MessageBatchSize(1);
+
+        options.ListenToSqsQueue("kbo-sync-production", configure: configure =>
+                {
+                    configure.MaxNumberOfMessages = 1;
+                })
+               .MaximumParallelMessages(1);
     }
 
     private static void ConfiguredAddressMatchListener(WolverineOptions options, string sqsQueueName, string sqsDeadLetterQueueName)
