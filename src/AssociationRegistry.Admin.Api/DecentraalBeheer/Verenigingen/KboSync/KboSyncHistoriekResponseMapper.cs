@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.KboSync;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync;
 
 using AssociationRegistry.Admin.Schema.KboSync;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

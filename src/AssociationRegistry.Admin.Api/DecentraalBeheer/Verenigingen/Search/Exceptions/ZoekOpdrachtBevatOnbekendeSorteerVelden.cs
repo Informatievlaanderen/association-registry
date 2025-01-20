@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Search.Exceptions;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Exceptions;
 
 using AssociationRegistry.Resources;
 using Be.Vlaanderen.Basisregisters.AggregateSource;

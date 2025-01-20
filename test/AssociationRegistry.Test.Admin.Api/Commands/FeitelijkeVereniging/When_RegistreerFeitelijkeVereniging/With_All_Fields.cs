@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
@@ -17,7 +17,7 @@ using Polly;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Adres = AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 {

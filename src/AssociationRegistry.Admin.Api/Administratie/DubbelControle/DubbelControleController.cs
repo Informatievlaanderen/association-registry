@@ -2,10 +2,10 @@ namespace AssociationRegistry.Admin.Api.Administratie.DubbelControle;
 
 using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
-using DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using DuplicateVerenigingDetection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

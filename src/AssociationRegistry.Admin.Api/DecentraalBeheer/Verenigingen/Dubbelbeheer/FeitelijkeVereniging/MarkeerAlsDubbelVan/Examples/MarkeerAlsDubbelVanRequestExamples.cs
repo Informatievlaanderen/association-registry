@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

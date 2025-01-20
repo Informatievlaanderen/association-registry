@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

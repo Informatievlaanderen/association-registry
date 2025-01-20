@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

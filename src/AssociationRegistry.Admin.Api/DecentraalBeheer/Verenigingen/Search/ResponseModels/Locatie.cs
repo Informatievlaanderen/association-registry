@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 
 using System.Runtime.Serialization;
 

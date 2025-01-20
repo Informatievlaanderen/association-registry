@@ -1,14 +1,14 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using EventFactories;
 using Events;
 using global::AutoFixture;
@@ -17,7 +17,7 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
+using Adres = Admin.Api.Verenigingen.Common.Adres;
 using Contactgegeven = Vereniging.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 using Werkingsgebied = Vereniging.Werkingsgebied;
@@ -89,7 +89,7 @@ public static class AdminApiAutoFixtureCustomizations
                 }).OmitAutoProperties());
 
         fixture
-           .Customize<Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
+           .Customize<Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels.WijzigBasisgegevensRequest>(
                 composer => composer.With(
                                          propertyPicker: e => e.HoofdactiviteitenVerenigingsloket,
                                          valueFactory: () => fixture

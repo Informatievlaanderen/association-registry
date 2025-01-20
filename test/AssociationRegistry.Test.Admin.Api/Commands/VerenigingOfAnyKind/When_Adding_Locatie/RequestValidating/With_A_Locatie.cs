@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.RequestValidating;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;

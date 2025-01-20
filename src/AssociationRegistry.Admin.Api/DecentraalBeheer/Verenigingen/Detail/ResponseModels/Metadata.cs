@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
 /// <summary>De metadata van de vereniging, deze bevat bv de datum van laatste aanpassing</summary>
 public class Metadata

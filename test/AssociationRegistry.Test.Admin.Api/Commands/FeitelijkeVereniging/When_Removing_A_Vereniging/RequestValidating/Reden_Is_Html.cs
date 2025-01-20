@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Removing_A_Vereniging.RequestValidating;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Verwijder;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Verwijder.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
+using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
 using Resources;

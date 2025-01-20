@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Detail;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;

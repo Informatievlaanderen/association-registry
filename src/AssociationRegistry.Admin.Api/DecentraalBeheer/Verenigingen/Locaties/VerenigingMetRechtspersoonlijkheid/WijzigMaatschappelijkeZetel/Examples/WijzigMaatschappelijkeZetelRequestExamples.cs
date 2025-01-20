@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtspersoonlijkheid.WijzigMaatschappelijkeZetel.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

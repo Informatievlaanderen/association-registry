@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_Adding_Vertegenwoordiger.RequestHandling;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
+using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using Moq;

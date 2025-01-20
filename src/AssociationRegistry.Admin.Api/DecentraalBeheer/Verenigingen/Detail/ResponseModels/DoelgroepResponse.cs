@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
 using System.Runtime.Serialization;
 

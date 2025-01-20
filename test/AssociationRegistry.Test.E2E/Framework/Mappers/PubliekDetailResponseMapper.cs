@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;

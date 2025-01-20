@@ -349,10 +349,10 @@ public static class AutoFixtureCustomizations
                         .OmitAutoProperties()
         );
 
-        fixture.Customize<Admin.Api.DecentraalBeheer.Verenigingen.Common.AdresId>(
+        fixture.Customize<Admin.Api.Verenigingen.Common.AdresId>(
             composer =>
                 composer.FromFactory<int>(
-                             i => new Admin.Api.DecentraalBeheer.Verenigingen.Common.AdresId
+                             i => new Admin.Api.Verenigingen.Common.AdresId
                              {
                                  Bronwaarde = AdresId.DataVlaanderenAdresPrefix + i,
                                  Broncode = fixture.Create<Adresbron>(),

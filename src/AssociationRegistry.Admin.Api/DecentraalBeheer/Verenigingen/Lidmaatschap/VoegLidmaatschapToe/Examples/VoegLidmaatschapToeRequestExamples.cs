@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

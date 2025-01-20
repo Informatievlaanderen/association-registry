@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AcmBevraging;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

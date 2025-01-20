@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Historiek;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek;
 
 using AssociationRegistry.Admin.Schema.Historiek;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

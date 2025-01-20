@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Locatie.RequestMapping;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.VoegLocatieToe.RequestModels;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Adres = AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
-using AdresId = AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common.AdresId;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
+using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
 [UnitTest]
 [Category("Mapping")]

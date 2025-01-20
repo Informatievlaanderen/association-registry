@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using JsonLdContext;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;

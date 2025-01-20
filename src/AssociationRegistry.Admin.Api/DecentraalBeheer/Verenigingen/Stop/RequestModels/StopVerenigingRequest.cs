@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 
 using AssociationRegistry.DecentraalBeheer.StopVereniging;
 using AssociationRegistry.Vereniging;

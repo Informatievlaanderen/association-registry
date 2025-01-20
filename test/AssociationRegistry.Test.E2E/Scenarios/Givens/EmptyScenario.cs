@@ -1,9 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
 using Admin.Api.Infrastructure;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -13,7 +13,7 @@ using AutoFixture;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
+using Adres = Admin.Api.Verenigingen.Common.Adres;
 using IEvent = AssociationRegistry.Events.IEvent;
 
 public class EmptyScenario : Framework.TestClasses.IScenario

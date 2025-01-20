@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_StopVereniging.RequestHandling;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop;
+using AssociationRegistry.Admin.Api.Verenigingen.Stop.RequestModels;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;

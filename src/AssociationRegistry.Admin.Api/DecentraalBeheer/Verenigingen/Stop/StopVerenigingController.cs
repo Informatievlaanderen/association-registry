@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Stop;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

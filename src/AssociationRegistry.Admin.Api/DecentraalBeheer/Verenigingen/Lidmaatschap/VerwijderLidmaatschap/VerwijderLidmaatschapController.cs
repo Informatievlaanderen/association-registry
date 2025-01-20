@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VerwijderLidmaatschap;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VerwijderLidmaatschap;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

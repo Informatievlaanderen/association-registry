@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates.Beheer.DubbelControle;
 
 using Admin.Api.Administratie.DubbelControle;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Zoeken;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Search.ResponseModels;
 using Events;
 using Formats;
 using Framework.AlbaHost;
@@ -13,7 +13,7 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Xunit;
-using Vereniging = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]

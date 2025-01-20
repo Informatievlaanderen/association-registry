@@ -1,5 +1,5 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+namespace AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using Common;

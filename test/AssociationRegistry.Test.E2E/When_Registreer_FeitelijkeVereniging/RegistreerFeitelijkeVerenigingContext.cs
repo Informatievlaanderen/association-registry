@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.DetailAuthentiekeVereniging;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
 using Framework.AlbaHost;
 using FluentAssertions;

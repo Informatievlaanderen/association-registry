@@ -1,10 +1,10 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.DecentraalBeheer.Verenigingen;
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
 using Admin.Api.Infrastructure;
+using Admin.Api.Verenigingen;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Events;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
@@ -14,7 +14,7 @@ using AutoFixture;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
+using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory : ITestRequestFactory<RegistreerFeitelijkeVerenigingRequest>
 {

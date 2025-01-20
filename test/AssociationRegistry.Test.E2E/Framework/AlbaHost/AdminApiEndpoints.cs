@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api.Administratie.DubbelControle;
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
 
 public static class AdminApiEndpoints

@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;

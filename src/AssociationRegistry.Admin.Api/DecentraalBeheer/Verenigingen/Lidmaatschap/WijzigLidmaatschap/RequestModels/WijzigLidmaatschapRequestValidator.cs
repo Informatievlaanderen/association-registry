@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;
