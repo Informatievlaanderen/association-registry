@@ -1,0 +1,31 @@
+{
+  "errorType": "JsonSerializerException",
+  "errorMessage": "Error converting the Lambda event JSON payload to type System.String: The JSON value could not be converted to System.String. Path: $ | LineNumber: 0 | BytePositionInLine: 1.",
+  "stackTrace": [
+    "at Amazon.Lambda.Serialization.SystemTextJson.AbstractLambdaJsonSerializer.Deserialize[T](Stream requestStream) + 0x222",
+    "at Amazon.Lambda.RuntimeSupport.HandlerWrapper.<>c__DisplayClass44_0`2.<GetHandlerWrapper>b__0(InvocationRequest invocation) + 0x52",
+    "at Amazon.Lambda.RuntimeSupport.LambdaBootstrap.<InvokeOnceAsync>d__17.MoveNext() + 0x169"
+  ],
+  "cause":   {
+    "errorType": "JsonException",
+    "errorMessage": "The JSON value could not be converted to System.String. Path: $ | LineNumber: 0 | BytePositionInLine: 1.",
+    "stackTrace": [
+      "at System.Text.Json.ThrowHelper.ReThrowWithPath(ReadStack&, Utf8JsonReader&, Exception) + 0x4f",
+      "at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state) + 0x2bb",
+      "at System.Text.Json.JsonSerializer.ReadFromSpan[TValue](ReadOnlySpan`1, JsonTypeInfo, Nullable`1) + 0x10a",
+      "at System.Text.Json.JsonSerializer.Deserialize[TValue](ReadOnlySpan`1, JsonTypeInfo`1) + 0x65",
+      "at Amazon.Lambda.Serialization.SystemTextJson.SourceGeneratorLambdaJsonSerializer`1.InternalDeserialize[T](Byte[] utf8Json) + 0x7b",
+      "at Amazon.Lambda.Serialization.SystemTextJson.AbstractLambdaJsonSerializer.Deserialize[T](Stream requestStream) + 0x176"
+    ],
+    "cause":     {
+      "errorType": "InvalidOperationException",
+      "errorMessage": "Cannot get the value of a token type 'StartObject' as a string.",
+      "stackTrace": [
+        "at System.Text.Json.ThrowHelper.ThrowInvalidOperationException_ExpectedString(JsonTokenType) + 0x19",
+        "at System.Text.Json.Utf8JsonReader.GetString() + 0xb1",
+        "at System.Text.Json.Serialization.JsonConverter`1.TryRead(Utf8JsonReader& reader, Type typeToConvert, JsonSerializerOptions options, ReadStack& state, T& value) + 0xc7",
+        "at System.Text.Json.Serialization.JsonConverter`1.ReadCore(Utf8JsonReader& reader, JsonSerializerOptions options, ReadStack& state) + 0x173"
+      ]
+    }
+  }
+}

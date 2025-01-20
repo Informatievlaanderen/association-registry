@@ -1,0 +1,14 @@
+Amazon.Lambda.RuntimeSupport
+Amazon.Lambda.Core
+Amazon.Lambda.Serialization.SystemTextJson
+AWSSDK.SimpleSystemsManagement
+Be.Vlaanderen.Basisregisters.AssociationRegistry
+AWSSDK.SQS
+Microsoft.Extensions.Configuration
+Microsoft.Extensions.Configuration.EnvironmentVariables
+Microsoft.Extensions.Configuration.FileExtensions
+Microsoft.Extensions.Configuration.Json
+Microsoft.Extensions.Configuration.Binder
+Microsoft.Extensions.Logging
+Microsoft.Extensions.Options
+Slack.Webhooks

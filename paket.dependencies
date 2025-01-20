@@ -8,9 +8,15 @@ nuget AutoBogus
 nuget AutoFixture
 nuget AutoFixture.Xunit2
 
+nuget Amazon.Lambda.SQSEvents
+nuget Amazon.Lambda.RuntimeSupport
 nuget AWSSDK.S3
 nuget AWSSDK.SQS
+nuget Amazon.Lambda.Core
+nuget Amazon.Lambda.Serialization.SystemTextJson
+nuget AWSSDK.SimpleSystemsManagement
 
+nuget Be.Vlaanderen.Basisregisters.AssociationRegistry
 nuget Be.Vlaanderen.Basisregisters.AggregateSource
 nuget Be.Vlaanderen.Basisregisters.Api
 nuget Be.Vlaanderen.Basisregisters.Build.Pipeline
