@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen;
 
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using Newtonsoft.Json;

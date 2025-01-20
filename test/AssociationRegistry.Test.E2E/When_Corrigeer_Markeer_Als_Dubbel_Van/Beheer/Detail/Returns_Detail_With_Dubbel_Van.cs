@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Beheer.Detail;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
 using Framework.AlbaHost;
 using FluentAssertions;

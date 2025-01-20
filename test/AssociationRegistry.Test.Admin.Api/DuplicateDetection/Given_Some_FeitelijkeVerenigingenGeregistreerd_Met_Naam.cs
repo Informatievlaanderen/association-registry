@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Scenarios.EventsInDb;
@@ -14,7 +14,7 @@ using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
-using Adres = AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common.Adres;
+using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Search;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search;
 
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

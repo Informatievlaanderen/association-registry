@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Zoeken;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -13,7 +13,7 @@ using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
-using Vereniging = Admin.Api.DecentraalBeheer.Verenigingen.Search.ResponseModels.Vereniging;
+using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Stop.Examples;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Stop.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

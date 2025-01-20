@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates.Beheer.Detail;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -14,12 +14,12 @@ using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
-using Contactgegeven = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Locatie;
+using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Vertegenwoordiger = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
-using Werkingsgebied = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Werkingsgebied;
+using Vertegenwoordiger = Admin.Api.Verenigingen.Detail.ResponseModels.Vertegenwoordiger;
+using Werkingsgebied = Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
@@ -175,14 +175,14 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
         }).ToArray();
     }
 
-    private static Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
+    private static Admin.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
         string[] hoofdactiviteitenVerenigingsloket)
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
         {
             var hoofdactiviteitVerenigingsloket = HoofdactiviteitVerenigingsloket.Create(x);
 
-            return new Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket
+            return new Admin.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket
             {
                 Code = hoofdactiviteitVerenigingsloket.Code,
                 Naam = hoofdactiviteitVerenigingsloket.Naam,

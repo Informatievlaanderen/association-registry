@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Common;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
 using FluentValidation;

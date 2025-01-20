@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries;
 
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Api.Queries;
+using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;

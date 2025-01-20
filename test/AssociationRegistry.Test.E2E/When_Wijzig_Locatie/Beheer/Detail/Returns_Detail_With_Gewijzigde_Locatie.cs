@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie.Beheer.Detail;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using JsonLdContext;
 using Framework.AlbaHost;
 using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Adres = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Adres;
-using AdresId = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.AdresId;
-using Locatie = Admin.Api.DecentraalBeheer.Verenigingen.Detail.ResponseModels.Locatie;
+using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
+using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
+using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocatieContext>, IAsyncLifetime

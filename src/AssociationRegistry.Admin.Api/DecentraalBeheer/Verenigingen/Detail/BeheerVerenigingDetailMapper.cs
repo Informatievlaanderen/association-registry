@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Formats;

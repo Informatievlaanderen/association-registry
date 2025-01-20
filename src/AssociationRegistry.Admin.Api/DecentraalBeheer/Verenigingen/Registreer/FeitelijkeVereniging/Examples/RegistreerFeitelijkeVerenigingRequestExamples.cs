@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.Examples;
 
 using AssociationRegistry.Vereniging;
 using Common;

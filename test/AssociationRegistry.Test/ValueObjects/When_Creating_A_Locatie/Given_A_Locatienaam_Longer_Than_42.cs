@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Locatie;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;

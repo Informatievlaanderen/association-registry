@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Historiek.Examples;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Historiek.Examples;
 
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using ResponseModels;

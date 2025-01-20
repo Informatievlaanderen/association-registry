@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Detail.Examples;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
 using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.CorrigeerMarkeringDubbel;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.CorrigeerMarkeringDubbel;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

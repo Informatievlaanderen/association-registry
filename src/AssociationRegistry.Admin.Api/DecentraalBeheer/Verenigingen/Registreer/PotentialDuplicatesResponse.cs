@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

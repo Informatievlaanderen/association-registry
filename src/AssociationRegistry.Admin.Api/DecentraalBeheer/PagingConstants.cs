@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer;
+namespace AssociationRegistry.Admin.Api;
 
 public static class PagingConstants
 {

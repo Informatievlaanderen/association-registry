@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Vereniging;

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Search.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Search.Examples;
 
 using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;

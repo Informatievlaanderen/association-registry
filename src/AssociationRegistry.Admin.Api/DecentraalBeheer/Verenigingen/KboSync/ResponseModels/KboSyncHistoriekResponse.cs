@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.KboSync.ResponseModels;
+namespace AssociationRegistry.Admin.Api.Verenigingen.KboSync.ResponseModels;
 
 using System.Collections.ObjectModel;
 using System.Runtime.Serialization;

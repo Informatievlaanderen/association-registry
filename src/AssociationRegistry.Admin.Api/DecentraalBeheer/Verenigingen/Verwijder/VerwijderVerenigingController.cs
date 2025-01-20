@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Verwijder;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Verwijder;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure.Extensions;

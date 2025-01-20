@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Historiek;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
