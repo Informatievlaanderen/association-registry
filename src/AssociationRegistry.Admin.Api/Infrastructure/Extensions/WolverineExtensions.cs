@@ -89,6 +89,7 @@ public static class WolverineExtensions
     {
         options.PublishMessage<TeSynchroniserenKboNummerMessage>()
                .ToSqsQueue(appSettings.KboSyncQueueName)
+               .SendRawJsonMessage()
                .MessageBatchSize(1);
     }
 
