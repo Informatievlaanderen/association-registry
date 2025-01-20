@@ -30,6 +30,11 @@ public static class ConfigurationExtensions
         return grarOptions!;
     }
 
+    public static AppSettings GetAppSettings(this IConfiguration configuration)
+    {
+        return configuration.Get<AppSettings>();
+    }
+
     private static void ThrowIfInValid(this GrarOptions opt)
     {
         if (opt.Kafka.Enabled)
