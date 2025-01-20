@@ -1,10 +1,15 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
+using Amazon;
 using Amazon.Runtime;
+using Amazon.SQS;
+using Amazon.SQS.Model;
 using EventStore;
 using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
+using Kbo;
 using MessageHandling.Postgres.Dubbels;
 using MessageHandling.Sqs.AddressMatch;
 using Messages;
@@ -53,7 +58,7 @@ public static class WolverineExtensions
                 if (grarOptions.Sqs.UseLocalStack)
                     transportConfiguration.Credentials(new BasicAWSCredentials(accessKey: "dummy", secretKey: "dummy"));
 
-                ConfigureSqsQueues(options, grarOptions);
+                ConfigureSqsQueues(options, grarOptions, context.Configuration.GetAppSettings());
 
                 ConfigurePostgresQueues(options, context, wolverineSchema);
 
@@ -67,7 +72,7 @@ public static class WolverineExtensions
             });
     }
 
-    private static void ConfigureSqsQueues(WolverineOptions options, GrarOptions grarOptions)
+    private static void ConfigureSqsQueues(WolverineOptions options, GrarOptions grarOptions, AppSettings appSettings)
     {
         ConfigureAddressMatchPublisher(options, grarOptions.Sqs.AddressMatchQueueName);
 
@@ -76,6 +81,15 @@ public static class WolverineExtensions
 
         ConfigureGrarSyncListener(options, grarOptions.Sqs.GrarSyncQueueName, grarOptions.Sqs.GrarSyncDeadLetterQueueName,
                                   grarOptions.Sqs.GrarSyncQueueListenerEnabled);
+
+        ConfigureKboSyncPublisher(options, appSettings);
+    }
+
+    private static void ConfigureKboSyncPublisher(WolverineOptions options, AppSettings appSettings)
+    {
+        options.PublishMessage<TeSynchroniserenKboNummerMessage>()
+               .ToSqsQueue(appSettings.KboSyncQueueName)
+               .MessageBatchSize(1);
     }
 
     private static void ConfigurePostgresQueues(

@@ -9,6 +9,7 @@ public class AppSettings
     private string? _publicApiBaseUrl;
     private string? _publicProjectionHostBaseUrl;
     private string? _kboSyncQueueUrl;
+    private string? _kboSyncQueueName;
     private string? _readdressQueueUrl;
 
     public string BeheerProjectionHostBaseUrl
@@ -39,6 +40,12 @@ public class AppSettings
     {
         get => _kboSyncQueueUrl?.TrimEnd(trimChar: '/') ?? string.Empty;
         set => _kboSyncQueueUrl = value;
+    }
+
+    public string KboSyncQueueName
+    {
+        get => _kboSyncQueueName ?? string.Empty;
+        set => _kboSyncQueueName = value;
     }
 
     public string ReaddressQueueUrl
