@@ -1,3 +1,16 @@
+# [8.200.0](https://github.com/informatievlaanderen/association-registry/compare/v8.199.1...v8.200.0) (2025-01-20)
+
+
+### Bug Fixes
+
+* or-2583 add defaults for kbo sync queue in tests ([a506893](https://github.com/informatievlaanderen/association-registry/commit/a5068938da830ad703f4ecffcd4a386b8ab497fe))
+* or-2583 use kbo sync queue name and publish messages to it ([0fbcab6](https://github.com/informatievlaanderen/association-registry/commit/0fbcab67f3e0901cb4b8b12504770c5a450a6ec6))
+
+
+### Features
+
+* or-2583 publish message in raw json ([c3ec967](https://github.com/informatievlaanderen/association-registry/commit/c3ec9670e9a707d3221533f67ae71538d9e42aa7))
+
 ## [8.199.1](https://github.com/informatievlaanderen/association-registry/compare/v8.199.0...v8.199.1) (2025-01-20)
 
 
