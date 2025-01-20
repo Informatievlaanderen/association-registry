@@ -1,3 +1,10 @@
+## [8.199.1](https://github.com/informatievlaanderen/association-registry/compare/v8.199.0...v8.199.1) (2025-01-20)
+
+
+### Bug Fixes
+
+* remove DecentraalBeheer folder from namespace ([3a38b6e](https://github.com/informatievlaanderen/association-registry/commit/3a38b6e76f9a84f541101086e7a977dd4cbb6c34))
+
 # [8.199.0](https://github.com/informatievlaanderen/association-registry/compare/v8.198.0...v8.199.0) (2025-01-16)
 
 
