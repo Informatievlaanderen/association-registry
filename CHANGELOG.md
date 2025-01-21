@@ -1,3 +1,10 @@
+## [8.200.1](https://github.com/informatievlaanderen/association-registry/compare/v8.200.0...v8.200.1) (2025-01-21)
+
+
+### Bug Fixes
+
+* or-2583 include marten cmdline nuget ([cb2d703](https://github.com/informatievlaanderen/association-registry/commit/cb2d70353b4cb9f215873000042bc5f84e138419))
+
 # [8.200.0](https://github.com/informatievlaanderen/association-registry/compare/v8.199.1...v8.200.0) (2025-01-20)
 
 
