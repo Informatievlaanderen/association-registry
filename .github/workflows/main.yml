@@ -287,6 +287,52 @@ jobs:
       pre-gen-marten: false
     secrets: inherit
 
+    build-sync-lambda:
+    name: Build Sync Lambda
+    needs: [ set-release-version ]
+    runs-on: ubuntu-latest
+
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    steps:
+      - name: Check version
+        shell: bash
+        run: echo $SEMVER
+        env:
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Package lambda
+        if: inputs.semver != 'none'
+        shell: bash
+        run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Upload Lambda as Artifact
+        if: inputs.semver != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-sync-${{ needs.set-release-version.outputs.version }}
+          path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
+
   run-e2e-tests:
     name: Run e2e tests
     uses: ./.github/workflows/run-tests.yml
@@ -353,7 +399,8 @@ jobs:
       build-admin-address-sync,
       build-powerbi-exporthost,
       pack-association-registry,
-      pack-association-registry-magda
+      pack-association-registry-magda,
+      build-sync-lambda
     ]
 
     outputs:
@@ -495,6 +542,65 @@ jobs:
           SEMVER: ${{  needs.release.outputs.version }}
           WORKSPACE: ${{ github.workspace }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
+  upload-sync-lambda:
+    name: Upload & Deploy Sync Lambda
+    needs: [ release ]
+    runs-on: ubuntu-latest
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
+    steps:
+      - name: Download Lambda
+        uses: actions/download-artifact@v4
+        continue-on-error: false
+        with:
+          name: lambda-sync-${{ needs.release.outputs.version }}
+          path: ~/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Show AWS CLI version
+        shell: bash
+        run: aws --version
+        
+      - name: Upload Lambda function
+        shell: bash
+        run: |
+          aws s3 cp ~/AssociationRegistry.KboMutations.SyncLambda.zip s3://$S3_LAMBDA_BUCKETNAME/$S3_LAMBDA/$VERSION/lambda.zip --copy-props none
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+          S3_LAMBDA_BUCKETNAME: ${{ vars.S3_LAMBDA_BUCKETNAME }}
+          S3_LAMBDA: 'kbo-sync'
+
+      - name: CD
+        id: awscurl-polling-action
+        env:
+          BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/kbosync/test/deploy/v4
+          STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/kbosync/test/deploy/v4/status
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
+        with:
+          environment: test
+          version: ${{ needs.release.outputs.version }}
+          status-url: $STATUS_URL
+          deploy-url: $BUILD_URL
+          access-key: ${{ secrets.AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
+          secret-key: ${{ secrets.AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          deploy-target: 'lambda'
+          domain: 'verenigingsregister'
+          project: 'verenigingsregister'
+          application: 'lambda'
+          interval: 2
+      - name: output
+        shell: bash
+        if: always()
+        run: |
+          echo build-uuid: ${{ steps.awscurl-polling-action.outputs.build-uuid }}
+          echo Status: ${{ steps.awscurl-polling-action.outputs.status }}
+          echo ${{ steps.awscurl-polling-action.outputs.final-message }}
 
   publish_to_atlassian:
     if: needs.release.outputs.version != 'none'
