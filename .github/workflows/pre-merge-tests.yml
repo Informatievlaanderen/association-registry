@@ -140,7 +140,7 @@ jobs:
       - name: Package lambda
         if: inputs.semver != 'none'
         shell: bash
-        run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
+        run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package AssociationRegistry.KboMutations.SyncLambda.csproj --region ${{ secrets.VBR_AWS_REGION }}
 
   build:
     if: github.repository_owner == 'Informatievlaanderen'
