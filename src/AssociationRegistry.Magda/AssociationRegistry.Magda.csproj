@@ -48,7 +48,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="paket.template" CopyToOutputDirectory="Always" Condition=""/>
+    <Content Include="paket.template">
+      <CopyToOutputDirectory Condition="'$(PublishDir)' == ''">Always</CopyToOutputDirectory>
+      <ExcludeFromPublish>true</ExcludeFromPublish>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

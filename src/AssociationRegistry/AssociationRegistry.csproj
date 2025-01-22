@@ -64,11 +64,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="paket.template" CopyToOutputDirectory="Always"/>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Grar\AdresMatch\" />
+    <Content Include="paket.template">
+      <CopyToOutputDirectory Condition="'$(PublishDir)' == ''">Always</CopyToOutputDirectory>
+      <ExcludeFromPublish>true</ExcludeFromPublish>
+    </Content>
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
