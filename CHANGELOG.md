@@ -1,3 +1,21 @@
+# [8.201.0](https://github.com/informatievlaanderen/association-registry/compare/v8.200.1...v8.201.0) (2025-01-22)
+
+
+### Bug Fixes
+
+* or-2583 add amazon.lambda.tools to tools ([768a258](https://github.com/informatievlaanderen/association-registry/commit/768a2583466beb0cbcadc4490f542080ecad497b))
+* or-2583 exclude paket.template from referenced projects when publishing ([b1267f0](https://github.com/informatievlaanderen/association-registry/commit/b1267f028821b3a7d00a01eaa267c318f422aec1))
+* or-2583 fix missing paket.template ([9825ff1](https://github.com/informatievlaanderen/association-registry/commit/9825ff1cee5b5ea9bea4c5b173a7afe54429f5ef))
+* or-2583 really fix missing paket.template ([adc5ac1](https://github.com/informatievlaanderen/association-registry/commit/adc5ac182aca8174012dd63038b0e42f6a5ec55d))
+* or-2583 remove AssociationRegistry from paket ([810808d](https://github.com/informatievlaanderen/association-registry/commit/810808d0cb283ccc7d898844cb05db044c970c7a))
+
+
+### Features
+
+* or-2583 don't publish magda nuget package anymore ([8b03f38](https://github.com/informatievlaanderen/association-registry/commit/8b03f38da2eee7b25f409cf95e093ae797f85c7a))
+* or-2583 move kbo sync lambda to association-registry ([29e85ef](https://github.com/informatievlaanderen/association-registry/commit/29e85ef6e1eead32d8b08eb5fa440f6b4c97179d))
+* or-2583 restore paket before building ([c0e387d](https://github.com/informatievlaanderen/association-registry/commit/c0e387d1083110ac1f4a349a22c8c2eeba13351b))
+
 ## [8.200.1](https://github.com/informatievlaanderen/association-registry/compare/v8.200.0...v8.200.1) (2025-01-21)
 
 
