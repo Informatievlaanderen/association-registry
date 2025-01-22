@@ -1,3 +1,10 @@
+## [8.201.1](https://github.com/informatievlaanderen/association-registry/compare/v8.201.0...v8.201.1) (2025-01-22)
+
+
+### Bug Fixes
+
+* or-2583 change aws configure credentials in main.yml ([77dd505](https://github.com/informatievlaanderen/association-registry/commit/77dd505ede880077f4288afd11acb229ba3c0143))
+
 # [8.201.0](https://github.com/informatievlaanderen/association-registry/compare/v8.200.1...v8.201.0) (2025-01-22)
 
 
