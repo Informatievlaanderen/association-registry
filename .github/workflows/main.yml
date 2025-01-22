@@ -540,8 +540,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
-          aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          aws-access-key-id: ${{ secrets.VBR_AWS_DEPLOY_LAMBDA_USER_ACCESS_KEY_ID_IK4 }}
+          aws-secret-access-key: ${{ secrets.VBR_AWS_DEPLOY_LAMBDA_USER_SECRET_ACCESS_KEY_IK4 }}
           aws-region: ${{ secrets.VBR_AWS_REGION }}
 
       - name: Show AWS CLI version
@@ -568,8 +568,8 @@ jobs:
           version: ${{ needs.release.outputs.version }}
           status-url: $STATUS_URL
           deploy-url: $BUILD_URL
-          access-key: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
-          secret-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          access-key: ${{ secrets.VBR_AWS_DEPLOY_LAMBDA_USER_ACCESS_KEY_ID_IK4 }}
+          secret-key: ${{ secrets.VBR_AWS_DEPLOY_LAMBDA_USER_SECRET_ACCESS_KEY_IK4 }}
           deploy-target: 'lambda'
           domain: 'verenigingsregister'
           project: 'verenigingsregister'
