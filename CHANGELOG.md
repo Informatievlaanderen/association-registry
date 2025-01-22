@@ -1,3 +1,10 @@
+## [8.201.3](https://github.com/informatievlaanderen/association-registry/compare/v8.201.2...v8.201.3) (2025-01-22)
+
+
+### Bug Fixes
+
+* or-2583 add env for lambda deploy ([ef5bbcc](https://github.com/informatievlaanderen/association-registry/commit/ef5bbcc6f2ad1ba2510367b93c876c852b02f644))
+
 ## [8.201.2](https://github.com/informatievlaanderen/association-registry/compare/v8.201.1...v8.201.2) (2025-01-22)
 
 
