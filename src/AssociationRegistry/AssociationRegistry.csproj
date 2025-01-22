@@ -63,6 +63,13 @@
     </Compile>
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="paket.template" />
+    <Content Include="paket.template">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>
 </Project>
