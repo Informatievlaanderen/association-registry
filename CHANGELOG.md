@@ -1,3 +1,10 @@
+## [8.201.2](https://github.com/informatievlaanderen/association-registry/compare/v8.201.1...v8.201.2) (2025-01-22)
+
+
+### Bug Fixes
+
+* or-2583 use dedicated user for lambda deploy ([47a660e](https://github.com/informatievlaanderen/association-registry/commit/47a660efe7211065c25b4fc3765e461cc1912430))
+
 ## [8.201.1](https://github.com/informatievlaanderen/association-registry/compare/v8.201.0...v8.201.1) (2025-01-22)
 
 
