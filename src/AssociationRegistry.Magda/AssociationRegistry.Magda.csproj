@@ -48,13 +48,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="paket.template">
-      <CopyToOutputDirectory Condition="'$(PublishDir)' == ''">Always</CopyToOutputDirectory>
-      <ExcludeFromPublish>true</ExcludeFromPublish>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <Folder Include="WSDL\Generiek-02.00\"/>
     <Folder Include="WSDL\Onderneming-02.00\"/>
     <Folder Include="WSDL\Repertorium-02.01\"/>

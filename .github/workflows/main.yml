@@ -374,17 +374,6 @@ jobs:
       semver: ${{ needs.set-release-version.outputs.version }}
     secrets: inherit
 
-  pack-association-registry-magda:
-    name: Pack Association Registry Magda
-    uses: Informatievlaanderen/build-pipeline/.github/workflows/pack.yml@main
-    needs: [ set-release-version ]
-    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
-    with:
-      pack-file: Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda
-      build-project: AssociationRegistry.Magda
-      semver: ${{ needs.set-release-version.outputs.version }}
-    secrets: inherit
-
   release:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Semantic Release
@@ -399,7 +388,6 @@ jobs:
       build-admin-address-sync,
       build-powerbi-exporthost,
       pack-association-registry,
-      pack-association-registry-magda,
       build-sync-lambda
     ]
 
@@ -528,21 +516,6 @@ jobs:
           WORKSPACE: ${{ github.workspace }}
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
 
-      - name: Download NuGet package 'association-registry-magda'
-        uses: actions/download-artifact@v4
-        with:
-          name: nuget-Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda-${{ needs.release.outputs.version }}
-          path: dist/nuget
-
-      - name: Publish packages to NuGet 'association-registry-magda'
-        shell: bash
-        run: |
-          dotnet nuget push dist/nuget/Be.Vlaanderen.Basisregisters.AssociationRegistry.Magda.$SEMVER.nupkg --source nuget.org --api-key $NUGET_API_KEY
-        env:
-          SEMVER: ${{  needs.release.outputs.version }}
-          WORKSPACE: ${{ github.workspace }}
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-
   upload-sync-lambda:
     name: Upload & Deploy Sync Lambda
     needs: [ release ]
@@ -566,7 +539,7 @@ jobs:
       - name: Show AWS CLI version
         shell: bash
         run: aws --version
-        
+
       - name: Upload Lambda function
         shell: bash
         run: |
