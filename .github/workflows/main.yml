@@ -527,6 +527,7 @@ jobs:
   upload-sync-lambda:
     name: Upload & Deploy Sync Lambda
     needs: [ release ]
+    environment: test_ik4
     runs-on: ubuntu-latest
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
     steps:
