@@ -321,6 +321,14 @@ jobs:
         run: |
           dotnet tool restore
 
+      - name: Paket restore
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore --runtime linux-x64
+
       - name: Package lambda
         if: inputs.semver != 'none'
         shell: bash
