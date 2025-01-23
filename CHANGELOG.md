@@ -1,3 +1,10 @@
+## [8.201.6](https://github.com/informatievlaanderen/association-registry/compare/v8.201.5...v8.201.6) (2025-01-23)
+
+
+### Bug Fixes
+
+* or-2583 use AssociationRegistry.Events.IEvent instead of marten.IEvent ([21a48cc](https://github.com/informatievlaanderen/association-registry/commit/21a48cc4c1b879c3499d550fab36a500de989b08))
+
 ## [8.201.5](https://github.com/informatievlaanderen/association-registry/compare/v8.201.4...v8.201.5) (2025-01-23)
 
 
