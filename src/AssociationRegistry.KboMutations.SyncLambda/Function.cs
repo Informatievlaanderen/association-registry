@@ -143,6 +143,13 @@ public class Function
         opts.Serializer(CreateCustomMartenSerializer());
         opts.Events.MetadataConfig.EnableAll();
         opts.AutoCreateSchemaObjects = AutoCreate.None;
+
+        opts.Events.AddEventTypes( typeof(IEvent).Assembly
+                                                 .GetTypes()
+                                                 .Where(t => typeof(IEvent)
+                                                           .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
+                                                 .ToList());
+
         var store = new DocumentStore(opts);
         return store;
     }
