@@ -1,3 +1,10 @@
+## [8.201.5](https://github.com/informatievlaanderen/association-registry/compare/v8.201.4...v8.201.5) (2025-01-23)
+
+
+### Bug Fixes
+
+* or-2583 add eventtypes to sync kbo lambda marten options ([9097c72](https://github.com/informatievlaanderen/association-registry/commit/9097c72cd305ca6ebfb3e0d015c5e611475899e2))
+
 ## [8.201.4](https://github.com/informatievlaanderen/association-registry/compare/v8.201.3...v8.201.4) (2025-01-23)
 
 
