@@ -1,3 +1,10 @@
+## [8.201.4](https://github.com/informatievlaanderen/association-registry/compare/v8.201.3...v8.201.4) (2025-01-23)
+
+
+### Bug Fixes
+
+* or-2583 change credentials for upload lambda in github workflow ([32173f9](https://github.com/informatievlaanderen/association-registry/commit/32173f939f5e0bed5da5e6871780c24bdae575e3))
+
 ## [8.201.3](https://github.com/informatievlaanderen/association-registry/compare/v8.201.2...v8.201.3) (2025-01-22)
 
 
