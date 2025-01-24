@@ -5,7 +5,6 @@ NodaTime
 OpenTelemetry
 OpenTelemetry.Extensions.Hosting
 OpenTelemetry.Instrumentation.Runtime
-OpenTelemetry.Contrib.Instrumentation.AWS
 OpenTelemetry.Exporter.OpenTelemetryProtocol
 OpenTelemetry.Exporter.Console
 OpenTelemetry.Instrumentation.Http
