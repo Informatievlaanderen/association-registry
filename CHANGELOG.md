@@ -1,3 +1,10 @@
+# [8.202.0](https://github.com/informatievlaanderen/association-registry/compare/v8.201.6...v8.202.0) (2025-01-24)
+
+
+### Features
+
+* or-2583 add observability for kbo sync lambda ([66b1e8d](https://github.com/informatievlaanderen/association-registry/commit/66b1e8d51baf6852dde9afded16453e99285d9f2))
+
 ## [8.201.6](https://github.com/informatievlaanderen/association-registry/compare/v8.201.5...v8.201.6) (2025-01-23)
 
 
