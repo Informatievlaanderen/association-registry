@@ -172,9 +172,16 @@ public class MagdaClient : IMagdaClient
 
         var xml = await response.Content.ReadAsStringAsync();
 
-        using var reader = new StringReader(xml);
+        try
         {
+            using var reader = new StringReader(xml);
             return (ResponseEnvelope<T>?)serializer.Deserialize(reader);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError(e, "Could not Serialize response: {@Xml} to type: {@TypeOf}", xml, typeof(T));
+
+            throw;
         }
     }
 
