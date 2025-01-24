@@ -20,16 +20,11 @@ using Newtonsoft.Json;
 using Npgsql;
 using Weasel.Core;
 using PostgreSqlOptionsSection = AssociationRegistry.KboMutations.SyncLambda.Logging.PostgreSqlOptionsSection;
-using SsmClientWrapper = AssociationRegistry.KboMutations.SsmClientWrapper;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
-using global::OpenTelemetry.Metrics;
-using global::OpenTelemetry.Trace;
 using KboMutations.Configuration;
 using Notifications;
-using OpenTelemetry.Metrics;
-using OpenTelemetry.Trace;
 using System.Diagnostics.Metrics;
 
 public class Function
@@ -76,19 +71,19 @@ public class Function
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
-        _openTelemetrySetup = new OpenTelemetrySetup();
-
-        var meter =  new Meter(OpenTelemetrySetup.MeterName);
-
-        var counter = meter.CreateCounter<int>("kbosync_started");
-        counter.Add(1);
-
         var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddProvider(new LambdaLoggerProvider(context.Logger));
 
             _openTelemetrySetup.SetUpLogging(builder);
         });
+
+        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger);
+
+        var meter =  new Meter(OpenTelemetrySetup.MeterName);
+
+        var counter = meter.CreateCounter<int>("kbosync_started");
+        counter.Add(1);
 
         var repository = new VerenigingsRepository(new EventStore.EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore.EventStore>()));
 
@@ -147,6 +142,10 @@ public class Function
             throw new ApplicationException("PostgresSqlOptions is missing some values");
 
         var opts = new StoreOptions();
+
+        opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
+        opts.OpenTelemetry.TrackEventCounters();
+
         var connectionStringBuilder = new NpgsqlConnectionStringBuilder();
         connectionStringBuilder.Host = postgresSection.Host;
         connectionStringBuilder.Database = postgresSection.Database;
