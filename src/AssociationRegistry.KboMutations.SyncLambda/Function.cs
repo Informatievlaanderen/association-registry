@@ -38,7 +38,6 @@ public class Function
 
     private static async Task Main()
     {
-        _openTelemetrySetup = new OpenTelemetrySetup();
 
         var handler = FunctionHandler;
         await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
@@ -48,10 +47,7 @@ public class Function
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
-        var meter = new Meter(OpenTelemetrySetup.MeterName);
 
-        var counter = meter.CreateCounter<int>("kbosync_started");
-        counter.Add(1);
 
         var configurationBuilder = new ConfigurationBuilder()
                                   .SetBasePath(Directory.GetCurrentDirectory())
@@ -79,6 +75,13 @@ public class Function
 
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
+
+        _openTelemetrySetup = new OpenTelemetrySetup();
+
+        var meter =  new Meter(OpenTelemetrySetup.MeterName);
+
+        var counter = meter.CreateCounter<int>("kbosync_started");
+        counter.Add(1);
 
         var loggerFactory = LoggerFactory.Create(builder =>
         {

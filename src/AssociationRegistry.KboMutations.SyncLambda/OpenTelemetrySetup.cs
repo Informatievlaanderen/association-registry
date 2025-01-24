@@ -17,14 +17,16 @@ public class OpenTelemetrySetup : IDisposable
     private const string MetricsUri = "OTLP_METRICS_URI";
     private const string TracingUri = "OTLP_TRACING_URI";
     private const string OtlpLogsUri = "OTLP_LOGS_URI";
-    public static TracerProvider TracerProvider { get; }
-    public static MeterProvider MeterProvider { get; }
+    public TracerProvider TracerProvider { get; }
+    public MeterProvider MeterProvider { get; }
 
     public const string MeterName = "KboMutations.SyncLambda.Metrics";
 
     public OpenTelemetrySetup()
     {
         _resources = GetResources();
+        MeterProvider = SetupMeter();
+        TracerProvider = SetUpTracing();
     }
 
     public MeterProvider SetupMeter()
@@ -33,7 +35,8 @@ public class OpenTelemetrySetup : IDisposable
 
         var builder = Sdk.CreateMeterProviderBuilder()
                          .ConfigureResource(_resources.ConfigureResourceBuilder)
-                         .AddMeter(MeterName)
+                         .AddMeter(MeterName.ToLowerInvariant())
+                         .AddConsoleExporter()
                          .AddRuntimeInstrumentation()
                          .AddHttpClientInstrumentation();
 
@@ -92,25 +95,21 @@ public class OpenTelemetrySetup : IDisposable
 
     public OpenTelemetryResources GetResources()
     {
-        var executingAssembly = Assembly.GetEntryAssembly()!;
-        var serviceName = executingAssembly.GetName().Name!;
-        var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
+        var serviceName = "KboMutations.SyncLambda"; // Explicit service name
+        var assemblyVersion = Assembly.GetExecutingAssembly()?.GetName()?.Version?.ToString() ?? "unknown";
 
         Action<ResourceBuilder> configureResource = r => r
                                                         .AddService(
                                                              serviceName,
                                                              serviceVersion: assemblyVersion,
-                                                             serviceInstanceId: Environment.MachineName)
+                                                             serviceInstanceId: Environment.GetEnvironmentVariable("AWS_LAMBDA_FUNCTION_NAME") ?? Environment.MachineName)
                                                         .AddAttributes(
                                                              new Dictionary<string, object>
                                                              {
-                                                                 ["deployment.environment"] =
-                                                                     Environment.GetEnvironmentVariable("ENVIRONMENT")
-                                                                               ?.ToLowerInvariant()
-                                                                  ?? "unknown",
+                                                                 ["deployment.environment"] = Environment.GetEnvironmentVariable("ENVIRONMENT")?.ToLowerInvariant() ?? "unknown",
                                                              });
 
-        return new OpenTelemetryResources(serviceName, configureResource);
+        return  new OpenTelemetryResources(serviceName, configureResource);
     }
 
     public void Dispose()
