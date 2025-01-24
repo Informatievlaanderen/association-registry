@@ -1,3 +1,10 @@
+# [8.204.0](https://github.com/informatievlaanderen/association-registry/compare/v8.203.0...v8.204.0) (2025-01-24)
+
+
+### Features
+
+* or-2583 Add more telemetry ([b31b54e](https://github.com/informatievlaanderen/association-registry/commit/b31b54ed9d0c3333f2a2eefb9a944dbfc7a371f6))
+
 # [8.203.0](https://github.com/informatievlaanderen/association-registry/compare/v8.202.0...v8.203.0) (2025-01-24)
 
 
