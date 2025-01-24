@@ -10,11 +10,12 @@ using OpenTelemetry.Trace;
 public class OpenTelemetrySetup
 {
     private const string OtelAuthHeader = "OTEL_AUTH_HEADER";
+    public const string MeterName = "KboMutations.SyncLambda.Metrics";
 
     public static MeterProvider SetupMeter(string otlpMetricsUri)
     {
         return Sdk.CreateMeterProviderBuilder()
-                  .AddMeter("KboMutations.SyncLambda.Metrics")
+                  .AddMeter(MeterName)
                   .AddRuntimeInstrumentation()
                   .AddHttpClientInstrumentation()
                   .AddConsoleExporter()

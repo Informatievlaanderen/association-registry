@@ -30,6 +30,7 @@ using KboMutations.Configuration;
 using Notifications;
 using OpenTelemetry.Metrics;
 using OpenTelemetry.Trace;
+using System.Diagnostics.Metrics;
 
 public class Function
 {
@@ -55,14 +56,21 @@ public class Function
         await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
             .Build()
             .RunAsync();
+
+        _meterProvider.ForceFlush(2000);
     }
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
+        var meter = new Meter(OpenTelemetrySetup.MeterName);
+
+        var counter = meter.CreateCounter<int>("kbosync_started");
+        counter.Add(1);
+
         var configurationBuilder = new ConfigurationBuilder()
-            .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.json", true, true)
-            .AddEnvironmentVariables();
+                                  .SetBasePath(Directory.GetCurrentDirectory())
+                                  .AddJsonFile("appsettings.json", true, true)
+                                  .AddEnvironmentVariables();
 
         var configuration = configurationBuilder.Build();
         var awsConfigurationSection = configuration
