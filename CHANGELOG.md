@@ -1,3 +1,13 @@
+# [8.203.0](https://github.com/informatievlaanderen/association-registry/compare/v8.202.0...v8.203.0) (2025-01-24)
+
+
+### Features
+
+* or-2583 add logging when magda response could not be serialized ([a4a7ef3](https://github.com/informatievlaanderen/association-registry/commit/a4a7ef34775d86fb2d223b8c2cb213863bb814e1))
+* or-2583 add meter and flush ([f659d30](https://github.com/informatievlaanderen/association-registry/commit/f659d303e10c66c6503c790566b99c1016ab6e5b))
+* or-2583 Clean up observability ([f1c39da](https://github.com/informatievlaanderen/association-registry/commit/f1c39da105fc8c33f03b88c5cc029e7eb8f6def3))
+* or-2583 Set up meter and tracing ([12feb28](https://github.com/informatievlaanderen/association-registry/commit/12feb284174e4b35abbab20d9b954dbad626fa4a))
+
 # [8.202.0](https://github.com/informatievlaanderen/association-registry/compare/v8.201.6...v8.202.0) (2025-01-24)
 
 
