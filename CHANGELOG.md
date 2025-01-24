@@ -1,3 +1,10 @@
+## [8.204.1](https://github.com/informatievlaanderen/association-registry/compare/v8.204.0...v8.204.1) (2025-01-24)
+
+
+### Bug Fixes
+
+* or-2583 fix npe ([4612e1c](https://github.com/informatievlaanderen/association-registry/commit/4612e1c301ca665dd98d38c63d8d0da0834edafb))
+
 # [8.204.0](https://github.com/informatievlaanderen/association-registry/compare/v8.203.0...v8.204.0) (2025-01-24)
 
 
