@@ -57,6 +57,7 @@ nuget OpenTelemetry.Extensions.Hosting
 nuget OpenTelemetry.Instrumentation.AspNetCore
 nuget OpenTelemetry.Instrumentation.Http
 nuget OpenTelemetry.Instrumentation.Runtime
+nuget OpenTelemetry.Contrib.Instrumentation.AWS
 
 nuget Confluent.Kafka
 nuget Polly

@@ -24,13 +24,33 @@ using SsmClientWrapper = AssociationRegistry.KboMutations.SsmClientWrapper;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
+using global::OpenTelemetry.Metrics;
+using global::OpenTelemetry.Trace;
 using KboMutations.Configuration;
 using Notifications;
+using OpenTelemetry.Metrics;
+using OpenTelemetry.Trace;
 
 public class Function
 {
+    private const string MetricsUri = "OTLP_METRICS_URI";
+    private const string TracingUri = "OTLP_TRACING_URI";
+    private const string OtlpLogsUri = "OTLP_LOGS_URI";
+
+    private static TracerProvider _tracerProvider;
+    private static MeterProvider _meterProvider;
+
     private static async Task Main()
     {
+        var otlpMetricsUri = Environment.GetEnvironmentVariable(MetricsUri);
+        var otlpTracingUri = Environment.GetEnvironmentVariable(TracingUri);
+
+        if (!string.IsNullOrEmpty(otlpMetricsUri))
+            _meterProvider = OpenTelemetrySetup.SetupMeter(otlpMetricsUri);
+
+        if (!string.IsNullOrEmpty(otlpTracingUri))
+            _tracerProvider = OpenTelemetrySetup.SetUpTracing(otlpTracingUri);
+
         var handler = FunctionHandler;
         await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
             .Build()
@@ -69,6 +89,9 @@ public class Function
         var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddProvider(new LambdaLoggerProvider(context.Logger));
+            var otlpLogssUri = Environment.GetEnvironmentVariable(OtlpLogsUri);
+
+            OpenTelemetrySetup.SetUpLogging(otlpLogssUri, builder);
         });
 
         var repository = new VerenigingsRepository(new EventStore.EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore.EventStore>()));
@@ -99,9 +122,9 @@ public class Function
         context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
     }
 
-    private static async Task<MagdaOptionsSection> GetMagdaOptions(IConfiguration config,
-        SsmClientWrapper ssmClient,
-        ParamNamesConfiguration? paramNamesConfiguration)
+    public static async Task<MagdaOptionsSection> GetMagdaOptions(IConfiguration config,
+                                                                  SsmClientWrapper ssmClient,
+                                                                  ParamNamesConfiguration? paramNamesConfiguration)
     {
         var magdaOptions = config.GetSection(MagdaOptionsSection.SectionName)
             .Get<MagdaOptionsSection>();
