@@ -71,14 +71,14 @@ public class Function
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
+        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger);
+
         var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddProvider(new LambdaLoggerProvider(context.Logger));
 
             _openTelemetrySetup.SetUpLogging(builder);
         });
-
-        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger);
 
         var meter =  new Meter(OpenTelemetrySetup.MeterName);
 
