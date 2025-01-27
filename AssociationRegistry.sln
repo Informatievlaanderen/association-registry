@@ -48,6 +48,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{
 		.github\workflows\nuget-publish.yml = .github\workflows\nuget-publish.yml
 		.github\workflows\hotfix.yml = .github\workflows\hotfix.yml
 		.github\workflows\run-tests.yml = .github\workflows\run-tests.yml
+		.github\workflows\manual-lambda.yml = .github\workflows\manual-lambda.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssociationRegistry.Public.Api", "src\AssociationRegistry.Public.Api\AssociationRegistry.Public.Api.csproj", "{EC780706-D1C5-46DA-A9EA-1691E3C5052A}"
