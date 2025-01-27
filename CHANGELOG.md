@@ -1,3 +1,10 @@
+## [8.205.1](https://github.com/informatievlaanderen/association-registry/compare/v8.205.0...v8.205.1) (2025-01-27)
+
+
+### Bug Fixes
+
+* or-2583 roll back to before telemetry ([2e15cfe](https://github.com/informatievlaanderen/association-registry/commit/2e15cfe71b33848d54e0b60cd441adcdab915026))
+
 # [8.205.0](https://github.com/informatievlaanderen/association-registry/compare/v8.204.1...v8.205.0) (2025-01-27)
 
 
