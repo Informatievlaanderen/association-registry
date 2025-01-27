@@ -71,7 +71,7 @@ public class Function
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
-        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger);
+        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger, configuration);
 
         var loggerFactory = LoggerFactory.Create(builder =>
         {

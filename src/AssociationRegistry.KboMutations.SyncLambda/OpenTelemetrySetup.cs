@@ -1,6 +1,7 @@
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using Amazon.Lambda.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using OpenTelemetry;
@@ -14,6 +15,7 @@ using System.Reflection;
 public class OpenTelemetrySetup : IDisposable
 {
     private readonly OpenTelemetryResources _resources;
+    private OtlpConfigs _otlpConfigs;
     private const string OtelAuthHeader = "OTEL_AUTH_HEADER";
     private const string MetricsUri = "OTLP_METRICS_URI";
     private const string TracingUri = "OTLP_TRACING_URI";
@@ -23,8 +25,11 @@ public class OpenTelemetrySetup : IDisposable
 
     public const string MeterName = "kbomutations.sync.lambda.metrics";
 
-    public OpenTelemetrySetup(ILambdaLogger contextLogger)
+    public OpenTelemetrySetup(ILambdaLogger contextLogger, IConfigurationRoot configuration)
     {
+        _otlpConfigs = new OtlpConfigs();
+        configuration.Bind(_otlpConfigs.Configs);
+
         _resources = GetResources(contextLogger);
 
         MeterProvider = SetupMeter();
@@ -33,8 +38,6 @@ public class OpenTelemetrySetup : IDisposable
 
     public MeterProvider SetupMeter()
     {
-        var otlpMetricsUri = Environment.GetEnvironmentVariable(MetricsUri);
-
         var builder = Sdk.CreateMeterProviderBuilder()
                          .ConfigureResource(_resources.ConfigureResourceBuilder)
                          .AddMeter(MeterName)
@@ -43,57 +46,59 @@ public class OpenTelemetrySetup : IDisposable
                          .AddRuntimeInstrumentation()
                          .AddHttpClientInstrumentation();
 
-        if (!string.IsNullOrEmpty(otlpMetricsUri))
-            builder
-               .AddOtlpExporter(options =>
+        foreach (var otlpConfig in _otlpConfigs.Configs)
+        {
+            if (!string.IsNullOrEmpty(otlpConfig.Value.MetricsUri))
+                builder.AddOtlpExporter(options =>
                 {
                     options.Endpoint =
-                        new Uri(otlpMetricsUri);
-
-                    AddAuth(options);
+                        new Uri(otlpConfig.Value.MetricsUri);
+                    AddAuth(options, otlpConfig.Value.AuthHeader);
                 });
+        }
 
         return builder.Build();
     }
 
     public TracerProvider SetUpTracing()
     {
-        var otlpTracingUri = Environment.GetEnvironmentVariable(TracingUri);
-
         var builder = Sdk.CreateTracerProviderBuilder()
                          .AddHttpClientInstrumentation()
                          .AddNpgsql()
                          .ConfigureResource(_resources.ConfigureResourceBuilder)
                          .AddConsoleExporter();
 
-        if (!string.IsNullOrEmpty(otlpTracingUri))
-            builder.AddOtlpExporter(options =>
-            {
-                options.Endpoint = new Uri(otlpTracingUri);
-                AddAuth(options);
-            });
+        foreach (var otlpConfig in _otlpConfigs.Configs)
+        {
+            if (!string.IsNullOrEmpty(otlpConfig.Value.TracingUri))
+                builder.AddOtlpExporter(options =>
+                {
+                    options.Endpoint = new Uri(otlpConfig.Value.TracingUri);
+                    AddAuth(options, otlpConfig.Value.AuthHeader);
+                });
+        }
 
         return builder.Build();
     }
 
     public void SetUpLogging(ILoggingBuilder builder)
     {
-        var otlpLogssUri = Environment.GetEnvironmentVariable(OtlpLogsUri);
-
         builder.AddOpenTelemetry(options =>
         {
             var resourceBuilder = ResourceBuilder.CreateDefault();
             _resources.ConfigureResourceBuilder(resourceBuilder);
             options.SetResourceBuilder(resourceBuilder);
 
-            if (!string.IsNullOrEmpty(otlpLogssUri))
+            foreach (var otlpConfig in _otlpConfigs.Configs)
+            {
+                if (!string.IsNullOrEmpty(otlpConfig.Value.LogsUri))
+                    options.AddOtlpExporter(exporterOptions =>
+                    {
+                        exporterOptions.Endpoint = new Uri(otlpConfig.Value.LogsUri);
 
-                options.AddOtlpExporter(exporterOptions =>
-                {
-                    exporterOptions.Endpoint = new Uri(otlpLogssUri);
-
-                    AddAuth(exporterOptions);
-                });
+                        AddAuth(exporterOptions, otlpConfig.Value.AuthHeader);
+                    });
+            }
         });
     }
 
@@ -137,10 +142,8 @@ public class OpenTelemetrySetup : IDisposable
         TracerProvider.Dispose();
     }
 
-    private void AddAuth(OtlpExporterOptions options)
+    private void AddAuth(OtlpExporterOptions options, string authHeader)
     {
-        var authHeader = Environment.GetEnvironmentVariable(OtelAuthHeader);
-
         if (!string.IsNullOrEmpty(authHeader))
             options.Headers = $"Authorization={authHeader}";
     }
