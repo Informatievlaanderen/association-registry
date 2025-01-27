@@ -10,6 +10,7 @@ using AssociationRegistry.KboMutations.SyncLambda.Configuration;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
 using AssociationRegistry.KboMutations.SyncLambda.Logging;
 using AssociationRegistry.Magda;
+using AssociationRegistry.Magda.Models;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -19,21 +20,17 @@ using Newtonsoft.Json;
 using Npgsql;
 using Weasel.Core;
 using PostgreSqlOptionsSection = AssociationRegistry.KboMutations.SyncLambda.Logging.PostgreSqlOptionsSection;
+using SsmClientWrapper = AssociationRegistry.KboMutations.SsmClientWrapper;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using KboMutations.Configuration;
-using Magda.Models;
 using Notifications;
-using System.Diagnostics.Metrics;
 
 public class Function
 {
-    private static OpenTelemetrySetup _openTelemetrySetup;
-
     private static async Task Main()
     {
-
         var handler = FunctionHandler;
         await LambdaBootstrapBuilder.Create(handler, new SourceGeneratorLambdaJsonSerializer<LambdaFunctionJsonSerializerContext>())
             .Build()
@@ -42,12 +39,10 @@ public class Function
 
     private static async Task FunctionHandler(SQSEvent @event, ILambdaContext context)
     {
-
-
         var configurationBuilder = new ConfigurationBuilder()
-                                  .SetBasePath(Directory.GetCurrentDirectory())
-                                  .AddJsonFile("appsettings.json", true, true)
-                                  .AddEnvironmentVariables();
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", true, true)
+            .AddEnvironmentVariables();
 
         var configuration = configurationBuilder.Build();
         var awsConfigurationSection = configuration
@@ -71,19 +66,10 @@ public class Function
         var eventConflictResolver = new EventConflictResolver(Array.Empty<IEventPreConflictResolutionStrategy>(),
             Array.Empty<IEventPostConflictResolutionStrategy>());
 
-        _openTelemetrySetup = new OpenTelemetrySetup(context.Logger, configuration);
-
         var loggerFactory = LoggerFactory.Create(builder =>
         {
             builder.AddProvider(new LambdaLoggerProvider(context.Logger));
-
-            _openTelemetrySetup.SetUpLogging(builder);
         });
-
-        var meter =  new Meter(OpenTelemetrySetup.MeterName);
-
-        var counter = meter.CreateCounter<int>("kbosync_started");
-        counter.Add(1);
 
         var repository = new VerenigingsRepository(new EventStore.EventStore(store, eventConflictResolver, loggerFactory.CreateLogger<EventStore.EventStore>()));
 
@@ -113,9 +99,9 @@ public class Function
         context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
     }
 
-    public static async Task<MagdaOptionsSection> GetMagdaOptions(IConfiguration config,
-                                                                  SsmClientWrapper ssmClient,
-                                                                  ParamNamesConfiguration? paramNamesConfiguration)
+    private static async Task<MagdaOptionsSection> GetMagdaOptions(IConfiguration config,
+        SsmClientWrapper ssmClient,
+        ParamNamesConfiguration? paramNamesConfiguration)
     {
         var magdaOptions = config.GetSection(MagdaOptionsSection.SectionName)
             .Get<MagdaOptionsSection>();
@@ -142,10 +128,6 @@ public class Function
             throw new ApplicationException("PostgresSqlOptions is missing some values");
 
         var opts = new StoreOptions();
-
-        opts.OpenTelemetry.TrackConnections = TrackLevel.Normal;
-        opts.OpenTelemetry.TrackEventCounters();
-
         var connectionStringBuilder = new NpgsqlConnectionStringBuilder();
         connectionStringBuilder.Host = postgresSection.Host;
         connectionStringBuilder.Database = postgresSection.Database;
