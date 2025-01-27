@@ -3,6 +3,9 @@ name: Manual Lambda deploy
 on:
   workflow_dispatch:
     inputs:
+      version:
+        description: 'Version (format: x.xxx.x, ie: 1.221.1)'
+        required: true
       environment:
         description: 'Select the environment to deploy to'
         required: true
