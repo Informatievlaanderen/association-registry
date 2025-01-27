@@ -1,3 +1,15 @@
+# [8.205.0](https://github.com/informatievlaanderen/association-registry/compare/v8.204.1...v8.205.0) (2025-01-27)
+
+
+### Bug Fixes
+
+* or-2583 remove unused ref ([62a943a](https://github.com/informatievlaanderen/association-registry/commit/62a943a5a88c60814458bdc36e1a0b44013f74b6))
+
+
+### Features
+
+* or-2583 use configuration object ([36538d9](https://github.com/informatievlaanderen/association-registry/commit/36538d9a976df4c856762e63671c1d271b281bc4))
+
 ## [8.204.1](https://github.com/informatievlaanderen/association-registry/compare/v8.204.0...v8.204.1) (2025-01-24)
 
 
