@@ -1,4 +1,4 @@
-name: Manual Deploy To Staging (IK4)
+name: Manual Lambda deploy
 
 on:
   workflow_dispatch:
