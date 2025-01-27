@@ -42,7 +42,7 @@ jobs:
         env:
           BUILD_URL: ${{ secrets.VBR_AWS_BUILD_API }}/kbosync/${{ env.ENV }}/deploy/v4
           STATUS_URL: ${{ secrets.VBR_AWS_BUILD_STATUS_API }}/kbosync/${{ env.ENV }}/deploy/v4/status
-        uses: informatievlaanderen/awscurl-polling-action/polling-action@4e2d34a5f26755d7b79904f57648162920ef1b66
+        uses: informatievlaanderen/awscurl-polling-action/polling-action@deploy-v4
         with:
           environment: ${{ env.ENV }}
           version: ${{ github.event.inputs.version }}
