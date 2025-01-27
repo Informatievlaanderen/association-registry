@@ -3,13 +3,13 @@ name: Manual Lambda deploy
 on:
   workflow_dispatch:
     environment:
-        description: 'Select the environment to deploy to'
-        required: true
-        type: choice
-        options:
-          - test_ik4
-          - staging_ik4
-          - production_ik4
+      description: 'Select the environment to deploy to'
+      required: true
+      type: choice
+      options:
+        - test_ik4
+        - staging_ik4
+        - production_ik4
 
 jobs:
   deployment:
