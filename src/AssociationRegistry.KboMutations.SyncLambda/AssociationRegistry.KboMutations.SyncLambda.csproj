@@ -28,7 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\AssociationRegistry.KboMutations\AssociationRegistry.KboMutations.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Magda\AssociationRegistry.Magda.csproj" />
-    <ProjectReference Include="..\AssociationRegistry\AssociationRegistry.csproj" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

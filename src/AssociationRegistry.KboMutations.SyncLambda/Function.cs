@@ -10,7 +10,6 @@ using AssociationRegistry.KboMutations.SyncLambda.Configuration;
 using AssociationRegistry.KboMutations.SyncLambda.JsonSerialization;
 using AssociationRegistry.KboMutations.SyncLambda.Logging;
 using AssociationRegistry.Magda;
-using AssociationRegistry.Magda.Models;
 using Marten;
 using Marten.Events;
 using Marten.Services;
@@ -24,6 +23,7 @@ using PostgreSqlOptionsSection = AssociationRegistry.KboMutations.SyncLambda.Log
 namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using KboMutations.Configuration;
+using Magda.Models;
 using Notifications;
 using System.Diagnostics.Metrics;
 
