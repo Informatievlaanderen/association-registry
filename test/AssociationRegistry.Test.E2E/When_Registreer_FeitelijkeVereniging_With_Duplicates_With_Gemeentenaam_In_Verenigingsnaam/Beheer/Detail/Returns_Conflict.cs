@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam.Beheer.Detail;
 
 using Admin.Api.Infrastructure;
+using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Alba;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;

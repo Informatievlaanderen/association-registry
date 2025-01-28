@@ -1,23 +1,16 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam;
 
-using Admin.Api.DecentraalBeheer.Verenigingen.Common;
-using Admin.Api.Infrastructure;
-using Alba;
-using AssociationRegistry.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
-using AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Newtonsoft.Json.Linq;
-using Scenarios.Requests;
-using System.Net;
+using Scenarios.Givens.FeitelijkeVereniging;
+using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest[]>
 {
@@ -60,7 +53,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
                 RuygoJudoschoolKortrijk
             }.Select((x, i) => fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
               {
-                  VCode = AssociationRegistry.Vereniging.VCode.Create(i + 32000),
+                  VCode = VCode.Create(i + 32000),
                   Naam = x
               })
                     .Select(
