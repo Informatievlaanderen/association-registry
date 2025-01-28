@@ -81,7 +81,7 @@ public static class ElasticClientExtensions
 
     private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
         => tf.Stop(name: "dutch_stop", selector: st => st
-                      .StopWords("_dutch_") // Or provide your custom list
+                      .StopWords("aarschot", "Kortrijk", "gent", "brugge","vzw","_dutch_") // Or provide your custom list
         );
 
     private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)

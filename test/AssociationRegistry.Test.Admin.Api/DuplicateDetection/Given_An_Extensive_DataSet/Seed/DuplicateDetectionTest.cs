@@ -1,25 +1,22 @@
-namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet;
+namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed;
 
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
+using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 using AssociationRegistry.Admin.Schema.Search;
+using AssociationRegistry.DuplicateVerenigingDetection;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
 using CsvHelper;
 using CsvHelper.Configuration;
-using FluentAssertions;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Vereniging;
-using Xunit;
-using AssociationRegistry.Admin.Api.Infrastructure.Extensions;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using DuplicateVerenigingDetection;
-using Microsoft.Extensions.Logging;
 using Xunit.Abstractions;
-using LogLevel = Nest.LogLevel;
 
 public class DuplicateDetectionTest
 {
@@ -27,14 +24,16 @@ public class DuplicateDetectionTest
     private readonly Fixture _fixture;
     private readonly ElasticClient _elastic;
     private readonly string _duplicateDetectionIndex;
+    private readonly ITestOutputHelper _helper;
     private SearchDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
-    public IReadOnlyCollection<DuplicateDetectionSeedLine> VerwachteDubbels { get; private set; }
+    public IReadOnlyCollection<DuplicateDetectionSeedLine> DubbelDetectieData { get; private set; }
     public IReadOnlyCollection<DuplicateDetectionSeedLine> VerwachteUnieke { get; private set; }
 
     public DuplicateDetectionTest(string duplicateDetectionIndex, ITestOutputHelper helper)
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _duplicateDetectionIndex = duplicateDetectionIndex;
+        _helper = helper;
 
         _elastic = ElasticSearchExtensions.CreateElasticClient(new ElasticSearchOptionsSection()
         {
@@ -62,7 +61,7 @@ public class DuplicateDetectionTest
     {
         var toRegisterDuplicateDetectionDocuments = readVerwachtDubbels.Select(x => new DuplicateDetectionDocument() with
         {
-            Naam = x.Naam,
+            Naam = x.GeregistreerdeNaam,
             VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
             HoofdactiviteitVerenigingsloket = [],
             Locaties = [_fixture.Create<DuplicateDetectionDocument.Locatie>() with{ Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode}]
@@ -108,9 +107,8 @@ public class DuplicateDetectionTest
 
         _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(_elastic, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance);
 
-        VerwachteDubbels = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
-        VerwachteUnieke = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_unieke.csv");
-        await InsertGeregistreerdeVerenigingen(VerwachteDubbels);
+        DubbelDetectieData = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
+        await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
     }
 
     public Task DisposeAsync()

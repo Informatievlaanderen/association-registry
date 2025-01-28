@@ -10,3 +10,4 @@ Microsoft.AspNetCore.Mvc.Testing
 Marten
 Scriban
 Microsoft.AspNetCore.Hosting
+Microsoft.Extensions.Logging.Abstractions
