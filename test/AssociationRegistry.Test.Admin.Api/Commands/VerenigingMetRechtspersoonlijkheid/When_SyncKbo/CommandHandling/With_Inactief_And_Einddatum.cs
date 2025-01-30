@@ -34,9 +34,11 @@ public class With_Inactief_And_Einddatum
         var fixture = new Fixture().CustomizeAdminApi();
         _einddatum = fixture.Create<DateOnly>();
 
-        var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
-        verenigingVolgensKbo.IsActief = false;
-        verenigingVolgensKbo.EindDatum = _einddatum;
+        var verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>() with
+        {
+            EindDatum = _einddatum,
+            IsActief = false,
+        };
 
         var command = new SyncKboCommand(_scenario.KboNummer);
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -65,13 +67,16 @@ public class With_Inactief_And_Einddatum
     }
 
     [Fact]
-    public void Then_A_NaamWerdGewijzigdInKbo_Event_Is_Saved()
+    public void Then_A_VerenigingWerdGestoptInKBO_Event_Is_Saved()
     {
         _verenigingRepositoryMock
            .SaveInvocations[0]
            .Vereniging
            .UncommittedEvents
+           .ToArray()
            .Should()
-           .ContainSingle(e => e.Equals(new VerenigingWerdGestoptInKBO(_einddatum)));
+           .ContainInOrder(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_scenario.KboNummer), new VerenigingWerdGestoptInKBO(_einddatum), new SynchronisatieMetKboWasSuccesvol(_scenario.KboNummer))
+           .And
+           .HaveCount(3);
     }
 }

@@ -19,4 +19,7 @@ public class MagdaGeefVerenigingNumberFoundServiceMock : IMagdaGeefVerenigingSer
         CommandMetadata metadata,
         CancellationToken cancellationToken)
         => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
+
+    public Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+        => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
 }

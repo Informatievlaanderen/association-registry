@@ -41,7 +41,7 @@ public class SyncKboCommandHandler
         await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         var verenigingVolgensMagda =
-            await _magdaGeefVerenigingService.GeefVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
+            await _magdaGeefVerenigingService.GeefSyncVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         if (verenigingVolgensMagda.IsFailure())
         {
@@ -52,15 +52,19 @@ public class SyncKboCommandHandler
 
         vereniging.MarkeerAlsIngeschreven(message.Command.KboNummer);
 
-        vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
-        vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
-        vereniging.WijzigKorteNaamUitKbo(verenigingVolgensMagda.Data.KorteNaam ?? "");
-        vereniging.WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Data.Startdatum ?? null));
-        vereniging.WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Data.Adres);
-        HandleContactgegevens(vereniging, verenigingVolgensMagda);
-
-        if (!verenigingVolgensMagda.Data.IsActief)
+        if (verenigingVolgensMagda.Data.IsActief)
+        {
+            vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
+            vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
+            vereniging.WijzigKorteNaamUitKbo(verenigingVolgensMagda.Data.KorteNaam ?? "");
+            vereniging.WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Data.Startdatum ?? null));
+            vereniging.WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Data.Adres);
+            HandleContactgegevens(vereniging, verenigingVolgensMagda);
+        }
+        else
+        {
             vereniging.StopUitKbo(Datum.Create(verenigingVolgensMagda.Data.EindDatum!.Value));
+        }
 
         vereniging.SyncCompleted();
 

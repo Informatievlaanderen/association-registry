@@ -12,4 +12,7 @@ public class MagdaGeefVerenigingNumberNotFoundServiceMock : IMagdaGeefVereniging
         CommandMetadata metadata,
         CancellationToken cancellationToken)
         => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
+
+    public Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+        => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 }
