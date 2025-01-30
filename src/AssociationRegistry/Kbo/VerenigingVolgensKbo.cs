@@ -15,3 +15,10 @@ public record VerenigingVolgensKbo
     public DateOnly? EindDatum { get; set; }
     public bool IsActief { get; set; }
 }
+
+public record InactieveVereniging
+{
+    public KboNummer KboNummer { get; init; } = null!;
+    public DateOnly? EindDatum { get; set; }
+}
+

@@ -40,7 +40,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         _logger = logger;
     }
 
-    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+    public async Task<Result> GeefVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
@@ -95,7 +95,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         }
     }
 
-    public async Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(
+    public async Task<Result> GeefSyncVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
@@ -115,10 +115,15 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
             var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
 
             if (magdaOnderneming is null ||
-              //  !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
                 !IsOnderneming(magdaOnderneming) ||
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
+
+            if (!IsActief(magdaOnderneming))
+                return VerenigingVolgensKboResult.InactieveVereniging(new InactieveVereniging()
+                {
+                    EindDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Stopzetting?.Datum, Formats.DateOnly)
+                });
 
             var naamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.MaatschappelijkeNamen);
 

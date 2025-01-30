@@ -6,6 +6,7 @@ using Events;
 using Exceptions;
 using Framework;
 using Kbo;
+using ResultNet;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
 {
@@ -321,5 +322,51 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
     {
         if(!State.IsIngeschrevenOpWijzigingenUitKbo)
             AddEvent(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(kboNummer));
+    }
+
+    public void NeemGegevensOverUitKboSync(Result verenigingVolgensMagda)
+    {
+        MarkeerAlsIngeschreven(State.KboNummer);
+        switch (verenigingVolgensMagda)
+        {
+            case Result<InactieveVereniging> inactieveVereniging:
+                HandleInactief(inactieveVereniging.Data);
+
+                break;
+            case Result<VerenigingVolgensKbo> actieveVereniging:
+                HandleActief(actieveVereniging.Data);
+
+                break;
+            default:
+                throw new ArgumentOutOfRangeException(nameof(verenigingVolgensMagda));
+        }
+        SyncCompleted();
+    }
+
+    private void HandleActief(VerenigingVolgensKbo verenigingVolgensMagda)
+    {
+        WijzigRechtsvormUitKbo(verenigingVolgensMagda.Type);
+        WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Naam ?? ""));
+        WijzigKorteNaamUitKbo(verenigingVolgensMagda.KorteNaam ?? "");
+        WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Startdatum ?? null));
+        WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Adres);
+        HandleContactgegevens(verenigingVolgensMagda);
+    }
+
+    private void HandleInactief(InactieveVereniging verenigingVolgensMagda)
+    {
+        StopUitKbo(Datum.Create(verenigingVolgensMagda.EindDatum!.Value));
+    }
+
+    private void HandleContactgegevens(
+        Result<VerenigingVolgensKbo> verenigingVolgensMagda)
+    {
+        WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
+        WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
+
+        WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Telefoonnummer,
+                                              ContactgegeventypeVolgensKbo.Telefoon);
+
+        WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
     }
 }

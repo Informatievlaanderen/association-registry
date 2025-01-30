@@ -46,16 +46,23 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         var geefVerenigingResult = await _magdaGeefVerenigingService.GeefVereniging(command.KboNummer, message.Metadata, cancellationToken);
 
-        if (geefVerenigingResult.IsFailure() || !geefVerenigingResult.Data.IsActief)
+        if(geefVerenigingResult.IsFailure())
             throw new GeenGeldigeVerenigingInKbo();
 
-        await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
+        switch (geefVerenigingResult)
+        {
+            case Result<VerenigingVolgensKbo> verenigingResult:
+                await RegistreerInschrijving(command.KboNummer, message.Metadata, cancellationToken);
 
-        var result = await RegistreerVereniging(geefVerenigingResult, message.Metadata, cancellationToken);
+                var result = await RegistreerVereniging(verenigingResult, message.Metadata, cancellationToken);
 
-        _logger.LogInformation($"Handle {nameof(RegistreerVerenigingUitKboCommandHandler)} end");
+                _logger.LogInformation($"Handle {nameof(RegistreerVerenigingUitKboCommandHandler)} end");
 
-        return result;
+                return result;
+
+            default:
+                throw new ArgumentOutOfRangeException(nameof(geefVerenigingResult));
+        }
     }
 
     private async Task<Result> CheckForDuplicate(KboNummer kboNumber)

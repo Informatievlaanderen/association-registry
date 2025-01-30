@@ -20,7 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_Null
 {
-    private readonly Result<VerenigingVolgensKbo> _verenigingVolgensKbo;
+    private readonly Result _verenigingVolgensKbo;
 
     public Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_Null()
     {
@@ -62,7 +62,8 @@ public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_Null
     [Fact]
     public async Task Then_It_Returns_A_VerenigingVolgensKbo_With_Empty_String_For_KorteNaam()
     {
-        _verenigingVolgensKbo.Data.KorteNaam.Should().BeEmpty();
-        _verenigingVolgensKbo.Data.KorteNaam.Should().NotBeNull();
+        var result = (_verenigingVolgensKbo as Result<VerenigingVolgensKbo>).Data;
+        result.KorteNaam.Should().BeEmpty();
+        result.KorteNaam.Should().NotBeNull();
     }
 }

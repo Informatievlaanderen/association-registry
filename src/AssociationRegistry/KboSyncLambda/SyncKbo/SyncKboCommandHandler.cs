@@ -50,23 +50,7 @@ public class SyncKboCommandHandler
             throw new GeenGeldigeVerenigingInKbo();
         }
 
-        vereniging.MarkeerAlsIngeschreven(message.Command.KboNummer);
-
-        if (verenigingVolgensMagda.Data.IsActief)
-        {
-            vereniging.WijzigRechtsvormUitKbo(verenigingVolgensMagda.Data.Type);
-            vereniging.WijzigNaamUitKbo(VerenigingsNaam.Create(verenigingVolgensMagda.Data.Naam ?? ""));
-            vereniging.WijzigKorteNaamUitKbo(verenigingVolgensMagda.Data.KorteNaam ?? "");
-            vereniging.WijzigStartdatum(Datum.CreateOptional(verenigingVolgensMagda.Data.Startdatum ?? null));
-            vereniging.WijzigMaatschappelijkeZetelUitKbo(verenigingVolgensMagda.Data.Adres);
-            HandleContactgegevens(vereniging, verenigingVolgensMagda);
-        }
-        else
-        {
-            vereniging.StopUitKbo(Datum.Create(verenigingVolgensMagda.Data.EindDatum!.Value));
-        }
-
-        vereniging.SyncCompleted();
+        vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
         var result = await repository.Save(vereniging, message.Metadata, cancellationToken);
 
@@ -75,39 +59,26 @@ public class SyncKboCommandHandler
         return CommandResult.Create(VCode.Create(vereniging.VCode), result);
     }
 
-    private static void HandleContactgegevens(
-        VerenigingMetRechtspersoonlijkheid vereniging,
-        Result<VerenigingVolgensKbo> verenigingVolgensMagda)
+    private async Task RegistreerInschrijving(
+        KboNummer kboNummer,
+        CommandMetadata messageMetadata,
+        CancellationToken cancellationToken)
     {
-        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Email, ContactgegeventypeVolgensKbo.Email);
-        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Website, ContactgegeventypeVolgensKbo.Website);
-
-        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.Telefoonnummer,
-                                              ContactgegeventypeVolgensKbo.Telefoon);
-
-        vereniging.WijzigContactgegevenUitKbo(verenigingVolgensMagda.Data.Contactgegevens.GSM, ContactgegeventypeVolgensKbo.GSM);
-    }
-
-        private async Task RegistreerInschrijving(
-            KboNummer kboNummer,
-            CommandMetadata messageMetadata,
-            CancellationToken cancellationToken)
+        try
         {
-            try
-            {
-                var result = await _registreerInschrijvingService.RegistreerInschrijving(
-                    kboNummer, messageMetadata, cancellationToken);
+            var result = await _registreerInschrijvingService.RegistreerInschrijving(
+                kboNummer, messageMetadata, cancellationToken);
 
-                if (result.IsFailure())
-                    throw new RegistreerInschrijvingKonNietVoltooidWorden();
-
-                _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, kboNummer);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNummer);
-
+            if (result.IsFailure())
                 throw new RegistreerInschrijvingKonNietVoltooidWorden();
-            }
+
+            _logger.LogInformation(LoggerMessages.KboRegistreerInschrijvingGeslaagd, kboNummer);
         }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, LoggerMessages.KboRegistreerInschrijvingNietGeslaagd, kboNummer);
+
+            throw new RegistreerInschrijvingKonNietVoltooidWorden();
+        }
+    }
 }

@@ -34,10 +34,9 @@ public class With_Inactief_And_Einddatum
         var fixture = new Fixture().CustomizeAdminApi();
         _einddatum = fixture.Create<DateOnly>();
 
-        var verenigingVolgensKbo = fixture.Create<VerenigingVolgensKbo>() with
+        var verenigingVolgensKbo = fixture.Create<InactieveVereniging>() with
         {
             EindDatum = _einddatum,
-            IsActief = false,
         };
 
         var command = new SyncKboCommand(_scenario.KboNummer);
@@ -75,7 +74,9 @@ public class With_Inactief_And_Einddatum
            .UncommittedEvents
            .ToArray()
            .Should()
-           .ContainInOrder(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_scenario.KboNummer), new VerenigingWerdGestoptInKBO(_einddatum), new SynchronisatieMetKboWasSuccesvol(_scenario.KboNummer))
+           .ContainInOrder(new VerenigingWerdIngeschrevenOpWijzigingenUitKbo(_scenario.KboNummer),
+                           new VerenigingWerdGestoptInKBO(_einddatum),
+                           new SynchronisatieMetKboWasSuccesvol(_scenario.KboNummer))
            .And
            .HaveCount(3);
     }
