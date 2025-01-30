@@ -7,19 +7,27 @@ using Vereniging;
 
 public class MagdaGeefVerenigingNumberFoundServiceMock : IMagdaGeefVerenigingService
 {
-    private readonly VerenigingVolgensKbo _verenigingVolgensKbo;
+
+    private readonly Result _result;
+
+
 
     public MagdaGeefVerenigingNumberFoundServiceMock(VerenigingVolgensKbo verenigingVolgensKbo)
     {
-        _verenigingVolgensKbo = verenigingVolgensKbo;
+            _result = VerenigingVolgensKboResult.GeldigeVereniging(verenigingVolgensKbo);
     }
 
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+    public MagdaGeefVerenigingNumberFoundServiceMock(InactieveVereniging inactieve)
+    {
+            _result = VerenigingVolgensKboResult.InactieveVereniging(inactieve);
+    }
+
+    public Task<Result> GeefVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
+        => Task.FromResult(_result);
 
-    public Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeldigeVereniging(_verenigingVolgensKbo));
+    public Task<Result> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+        => Task.FromResult(_result);
 }

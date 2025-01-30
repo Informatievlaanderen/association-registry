@@ -7,12 +7,12 @@ using Vereniging;
 
 public class MagdaGeefVerenigingNumberNotFoundServiceMock : IMagdaGeefVerenigingService
 {
-    public Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+    public async Task<Result> GeefVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
+        => VerenigingVolgensKboResult.GeenGeldigeVereniging;
 
-    public Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
-        => Task.FromResult(VerenigingVolgensKboResult.GeenGeldigeVereniging);
+    public async Task<Result> GeefSyncVereniging(KboNummer kboNummer, CommandMetadata metadata, CancellationToken cancellationToken)
+        => VerenigingVolgensKboResult.GeenGeldigeVereniging;
 }
