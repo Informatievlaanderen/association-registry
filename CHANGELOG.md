@@ -1,3 +1,11 @@
+## [8.205.2](https://github.com/informatievlaanderen/association-registry/compare/v8.205.1...v8.205.2) (2025-01-30)
+
+
+### Bug Fixes
+
+* or-2186 only sync status when vereniging werd gestopt in kbo ([4133c83](https://github.com/informatievlaanderen/association-registry/commit/4133c83d73cfd8ddf2f426b824f54511b69fd051))
+* or-2462 only use necessary data in kbo sync for stopped vereniging ([0b984ce](https://github.com/informatievlaanderen/association-registry/commit/0b984cecb1a882b2d1b3439d757cec9ebfa43c20))
+
 ## [8.205.1](https://github.com/informatievlaanderen/association-registry/compare/v8.205.0...v8.205.1) (2025-01-27)
 
 
