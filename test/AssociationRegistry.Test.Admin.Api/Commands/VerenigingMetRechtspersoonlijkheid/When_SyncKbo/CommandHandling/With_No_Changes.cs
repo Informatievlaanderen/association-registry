@@ -113,7 +113,7 @@ public class With_FailureResultFromMagda
         _magdaGeefVerenigingService = new Mock<IMagdaGeefVerenigingService>();
 
         _magdaGeefVerenigingService
-           .Setup(s => s.GeefVereniging(It.IsAny<KboNummer>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
+           .Setup(s => s.GeefSyncVereniging(It.IsAny<KboNummer>(), It.IsAny<CommandMetadata>(), It.IsAny<CancellationToken>()))
            .ReturnsAsync(VerenigingVolgensKboResult.GeenGeldigeVereniging);
 
         var fixture = new Fixture().CustomizeAdminApi();

@@ -40,7 +40,7 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
         _logger = logger;
     }
 
-    public virtual async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
+    public async Task<Result<VerenigingVolgensKbo>> GeefVereniging(
         KboNummer kboNummer,
         CommandMetadata metadata,
         CancellationToken cancellationToken)
@@ -61,6 +61,61 @@ public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 
             if (magdaOnderneming is null ||
                 !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
+                !IsOnderneming(magdaOnderneming) ||
+                !IsRechtspersoon(magdaOnderneming))
+                return VerenigingVolgensKboResult.GeenGeldigeVereniging;
+
+            var naamOndernemingType = GetBestMatchingNaam(magdaOnderneming.Namen.MaatschappelijkeNamen);
+
+            if (naamOndernemingType is null)
+                return VerenigingVolgensKboResult.GeenGeldigeVereniging;
+
+            var maatschappelijkeZetel =
+                magdaOnderneming.Adressen.SingleOrDefault(a => a.Type.Code.Value == AdresCodes.MaatschappelijkeZetel &&
+                                                               IsActiveToday(a.DatumBegin, a.DatumEinde));
+
+            return VerenigingVolgensKboResult.GeldigeVereniging(
+                new VerenigingVolgensKbo
+                {
+                    KboNummer = KboNummer.Create(kboNummer),
+                    Type = rechtsvormMap[GetActiveRechtsvorm(magdaOnderneming)!.Code.Value],
+                    Naam = naamOndernemingType.Naam ?? string.Empty,
+                    KorteNaam = GetBestMatchingNaam(magdaOnderneming.Namen.AfgekorteNamen)?.Naam ?? string.Empty,
+                    Startdatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Start.Datum, Formats.DateOnly),
+                    EindDatum = DateOnlyHelper.ParseOrNull(magdaOnderneming.Stopzetting?.Datum, Formats.DateOnly),
+                    IsActief = IsActiefOfInOprichting(magdaOnderneming),
+                    Adres = GetAdresFrom(maatschappelijkeZetel),
+                    Contactgegevens = GetContactgegevensFrom(maatschappelijkeZetel),
+                    Vertegenwoordigers = GetVertegenwoordigers(),
+                });
+        }
+        catch (Exception e)
+        {
+            throw new MagdaException(message: "Er heeft zich een fout voorgedaan bij het aanroepen van de Magda GeefOndernemingDienst.", e);
+        }
+    }
+
+    public async Task<Result<VerenigingVolgensKbo>> GeefSyncVereniging(
+        KboNummer kboNummer,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var reference = await CreateReference(_magdaCallReferenceRepository, metadata.Initiator, metadata.CorrelationId, kboNummer,
+                                                  cancellationToken);
+
+            _logger.LogInformation($"MAGDA Call Reference - GeefOnderneming Service - KBO nummer '{kboNummer}' met referentie '{reference.Reference}'");
+
+            var magdaResponse = await _magdaClient.GeefOnderneming(kboNummer, reference);
+
+            if (MagdaResponseValidator.HasBlokkerendeUitzonderingen(magdaResponse))
+                return HandleUitzonderingen(kboNummer, magdaResponse);
+
+            var magdaOnderneming = magdaResponse?.Body?.GeefOndernemingResponse?.Repliek.Antwoorden.Antwoord.Inhoud.Onderneming ?? null;
+
+            if (magdaOnderneming is null ||
+              //  !HeeftToegestaneActieveRechtsvorm(magdaOnderneming) ||
                 !IsOnderneming(magdaOnderneming) ||
                 !IsRechtspersoon(magdaOnderneming))
                 return VerenigingVolgensKboResult.GeenGeldigeVereniging;
