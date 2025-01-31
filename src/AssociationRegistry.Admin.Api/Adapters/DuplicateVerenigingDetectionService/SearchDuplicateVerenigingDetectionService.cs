@@ -5,19 +5,24 @@ using DuplicateVerenigingDetection;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
+using Newtonsoft.Json;
 using System.Collections.Immutable;
 using System.Text.Json;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
 {
     private readonly IElasticClient _client;
+    private readonly Action<string> _log;
     private readonly ILogger<SearchDuplicateVerenigingDetectionService> _logger;
 
     public SearchDuplicateVerenigingDetectionService(
         IElasticClient client,
-        ILogger<SearchDuplicateVerenigingDetectionService> logger = null)
+        ILogger<SearchDuplicateVerenigingDetectionService> logger = null,
+        Action<string> log = null)
     {
         _client = client;
+        _log = log;
         _logger = logger ?? NullLogger<SearchDuplicateVerenigingDetectionService>.Instance;
     }
 
@@ -36,36 +41,29 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente.Naam).ToArray();
 
-        var searchResponse = await _client.SearchAsync<DuplicateDetectionDocument>(
-            s => s
-                .Explain(true)
-                .TrackScores(true)
-                .MinScore(1)
-                .Query(q => q
-                          .Boosting(bq => bq
-                                         .Positive(p => p
-                                                      .Bool(b => b
-                                                                .Should(
-                                                                     MultiMatchQuery(naam),
-                                                                     MatchOpNaam(naam)
-                                                                    ,MatchOpFullNaam(naam)
-                                                                 )
-                                                                .MinimumShouldMatch(1)
-                                                                .Filter(
-                                                                     MatchOpPostcodeOfGemeente(gemeentes, postcodes),
-                                                                     IsNietGestopt,
-                                                                     IsNietDubbel,
-                                                                     IsNietVerwijderd
-                                                                 )
-                                                       ))
-                                         .Negative(n => n
-                                                      .Terms(t => t
-                                                                 .Field(f => f.Naam)
-                                                                 .Terms("aarschot", "Kortrijk", "gent", "brugge","chiro","vzw","club", "feest","scouts","klj")  // Add multiple terms here
-                                                       )
-                                          )
-                                         .NegativeBoost(0.2)))
-        );
+        var searchResponse =
+            await _client
+               .SearchAsync<DuplicateDetectionDocument>(
+                    s => s
+                        .Explain(true)
+                        .TrackScores(true)
+                        .MinScore(2)
+                        .Query(
+                             q => q.Boosting(bo => bo.Positive(p => p.Bool(
+                                 b => b.Should(
+                                            // MultiMatchQuery(naam),
+                                            MatchOpNaam(naam),
+                                            MatchOpFullNaam(naam))
+                                       .MinimumShouldMatch(1)
+                                       .Filter(
+                                            MatchOpPostcodeOfGemeente(gemeentes, postcodes),
+                                            IsNietGestopt,
+                                            IsNietDubbel,
+                                            IsNietVerwijderd
+                                        )
+                             )).Negative(n => n.Terms(t => t.Field(f => f.Naam.Suffix("naam")).Terms("kortrijk"))).NegativeBoost(0.8))))
+            ;
+
 
         _logger.LogInformation("Score for query: {Score}",
                                string.Join(", ", searchResponse.Hits.Select(x => $"{x.Score} {x.Source.Naam}")));
@@ -75,6 +73,17 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             _logger.LogInformation("Query: {Query}Explanation for Score {Score} of '{Naam}': {@Explanation}", naam, x.Score, x.Source.Naam,
                                    x.Explanation);
         });
+
+        if (_log is not null && searchResponse.Hits.Any())
+        {
+            _log($"Score for query {naam}: {string.Join(", ", searchResponse.Hits.Select(x => $"\n{x.Score} {x.Source.Naam}"))}");
+            // _log($"Score for query {naam}: {string.Join(", ", searchResponse.Hits.Select(x => $"\n{x.Score} {x.Source.Naam} \n {JsonConvert.SerializeObject(x.Explanation)}  \n  \n  "))}");
+
+            // searchResponse.Hits.ToList().ForEach(x =>
+            // {
+            //     _log($"Query: {naam} \n Explanation for Score {x.Score} of '{x.Source.Naam}': {x.Explanation}");
+            // });
+        }
 
         foreach (var hit in searchResponse.Hits)
         {
@@ -177,13 +186,12 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     {
         return must => must
            .Match(m => m
-                      .Field(f => f.Naam)
+                      .Field(f => f.Naam.Suffix("naam"))
                       .Query(naam)
                       .Analyzer(DuplicateDetectionDocumentMapping
                                    .DuplicateAnalyzer)
                       .Fuzziness(
-                           Fuzziness
-                              .Auto) // Assumes this analyzer applies lowercase and asciifolding
+                           Fuzziness.AutoLength(3,3)) // Assumes this analyzer applies lowercase and asciifolding
                       .MinimumShouldMatch("66%") // You can adjust this percentage as needed
             );
     }
@@ -212,19 +220,36 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     {
         return must => must
            .Bool(b => b
-                    .Should(
-                         s => s.Match(m => m
-                                          .Field("naam.naamFull")
-                                          .Query(naam)
-                                          .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
-                                          .Fuzziness(Fuzziness.AutoLength(3,3))
-                                          .MinimumShouldMatch("66%")
-                         ),
-                         s => s.MatchPhrasePrefix(m => m
-                                                      .Field("naam.naamFull")
-                                                      .Query(naam)
-                                                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
-                         ))
+                     .Should(
+                          bs => bs.Match(m => m
+                                             .Field("naam.naamFull")
+                                             .Query(naam)
+                                             .Fuzziness(Fuzziness.Auto)// the user input
+                                             .Operator(Operator.And)  // require all tokens
+                          ),
+                          bs => bs.Match(m => m
+                                             .Field("naam.naamFull")
+                                             .Query(naam)
+                                             .Fuzziness(Fuzziness.Auto)
+                                             .MinimumShouldMatch("80%") // tweak as needed
+                          )
+                      )
+                     .MinimumShouldMatch(1)
+                );
+    }
+
+    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpNaamOud(VerenigingsNaam naam)
+    {
+        return must => must
+           .Match(m => m
+                      .Field(f => f.Naam.Suffix("naam"))
+                      .Query(naam)
+                      .Analyzer(DuplicateDetectionDocumentMapping
+                                   .DuplicateAnalyzer)
+                      .Fuzziness(
+                           Fuzziness
+                              .Auto) // Assumes this analyzer applies lowercase and asciifolding
+                      .MinimumShouldMatch("90%") // You can adjust this percentage as needed
             );
     }
 
@@ -232,14 +257,12 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     {
         return must => must
            .MultiMatch(m => m
-                           .Fields(f => f
-                                      .Field("naam.naamFull", 1.0) // Normal field
-                            )
+                           .Fields("naam.naamFull") // Normal field
                            .Query(naam)
-                           .Type(TextQueryType.BestFields) // Uses best scoring match
+                           // .Type(TextQueryType.BestFields) // Uses best scoring match
                            .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
                            .Fuzziness(Fuzziness.Auto)
-                           .MinimumShouldMatch("75%")
+                           // .MinimumShouldMatch("75%")
             );
     }
 

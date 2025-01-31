@@ -19,7 +19,7 @@ public static class DuplicateDetectionDocumentMapping
                                        .Name(document => document.Naam)
                                        .Fields(fields => fields
                                                         .Text(subField => subField
-                                                                         .Name(x => x.Naam)
+                                                                         .Name("naam")
                                                                          .Analyzer(DuplicateAnalyzer)
                                                          )
                                                         .Text(subField => subField
