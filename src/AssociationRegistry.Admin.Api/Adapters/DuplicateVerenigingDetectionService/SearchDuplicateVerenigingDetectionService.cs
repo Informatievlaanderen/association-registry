@@ -43,25 +43,24 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
 
         var searchResponse =
             await _client
-               .SearchAsync<DuplicateDetectionDocument>(
-                    s => s
-                        .Explain(true)
-                        .TrackScores(true)
-                        .MinScore(2)
-                        .Query(
-                             q => q.Boosting(bo => bo.Positive(p => p.Bool(
-                                 b => b.Should(
-                                            // MultiMatchQuery(naam),
-                                            MatchOpNaam(naam),
-                                            MatchOpFullNaam(naam))
-                                       .MinimumShouldMatch(1)
-                                       .Filter(
-                                            MatchOpPostcodeOfGemeente(gemeentes, postcodes),
-                                            IsNietGestopt,
-                                            IsNietDubbel,
-                                            IsNietVerwijderd
-                                        )
-                             )).Negative(n => n.Terms(t => t.Field(f => f.Naam.Suffix("naam")).Terms("kortrijk"))).NegativeBoost(0.8))))
+               .SearchAsync<DuplicateDetectionDocument>(s =>
+                                                            s
+                                                               .Explain(true)
+                                                               .TrackScores(true)
+                                                               .MinScore(3)
+                                                               .Query(p => p.Bool(b => b.Should(
+                                                                                             // MultiMatchQuery(naam),
+                                                                                             MatchOpFullNaam(naam),
+                                                                                             MatchOpNaam(naam))
+                                                                                        .MinimumShouldMatch(1)
+                                                                                        .Filter(
+                                                                                             MatchOpPostcodeOfGemeente(
+                                                                                                 gemeentes, postcodes),
+                                                                                             IsNietGestopt,
+                                                                                             IsNietDubbel,
+                                                                                             IsNietVerwijderd
+                                                                                         )
+                                                                      )));//).Negative(n => n.Terms(t => t.Field(f => f.Naam.Suffix("naam")).Terms("kortrijk"))).NegativeBoost(0.8))))
             ;
 
 
@@ -188,10 +187,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
            .Match(m => m
                       .Field(f => f.Naam.Suffix("naam"))
                       .Query(naam)
-                      .Analyzer(DuplicateDetectionDocumentMapping
-                                   .DuplicateAnalyzer)
+                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
                       .Fuzziness(
-                           Fuzziness.AutoLength(3,3)) // Assumes this analyzer applies lowercase and asciifolding
+                           Fuzziness.EditDistance(2)) // Assumes this analyzer applies lowercase and asciifolding
                       .MinimumShouldMatch("66%") // You can adjust this percentage as needed
             );
     }
@@ -224,14 +222,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                           bs => bs.Match(m => m
                                              .Field("naam.naamFull")
                                              .Query(naam)
-                                             .Fuzziness(Fuzziness.Auto)// the user input
-                                             .Operator(Operator.And)  // require all tokens
-                          ),
-                          bs => bs.Match(m => m
-                                             .Field("naam.naamFull")
-                                             .Query(naam)
-                                             .Fuzziness(Fuzziness.Auto)
-                                             .MinimumShouldMatch("80%") // tweak as needed
+                                             .Fuzziness(Fuzziness.EditDistance(2))
                           )
                       )
                      .MinimumShouldMatch(1)
