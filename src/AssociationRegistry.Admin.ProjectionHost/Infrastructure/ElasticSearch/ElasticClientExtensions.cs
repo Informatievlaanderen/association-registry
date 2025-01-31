@@ -45,36 +45,7 @@ public static class ElasticClientExtensions
 
     public static void CreateDuplicateDetectionIndex(this IndicesNamespace indicesNamespace, IndexName index)
     {
-        var createIndexResponse = indicesNamespace.Create(
-            index,
-            selector: c => c
-                          .Settings(s => s
-                                       .Analysis(a => a
-                                                     .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
-                                                                                          selector: prcf
-                                                                                              => prcf.Pattern("\\.").Replacement(""))
-                                                                          .PatternReplace(name: "underscore_replace",
-                                                                                          selector: prcf
-                                                                                              => prcf.Pattern("_").Replacement(" ")))
-
-                                                     .Analyzers(AddDuplicateDetectionAnalyzer)
-                                                     .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
-                                                                                    .StopWords("_dutch_") // Or provide your custom list
-                                                                   )    .WordDelimiter("mwd", wd =>
-                                                                                           wd.GenerateWordParts()
-                                                                                              .CatenateWords()
-                                                                                              .SplitOnCaseChange()
-                                                                                              .SplitOnNumerics()
-                                                                                              .PreserveOriginal())
-                                                                           .Fingerprint("my_fingerprint_filter", f => f
-                                                                                         // .Separator("")
-                                                                                        .MaxOutputSize(255)
-                                                                   ))))
-                          .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
-
-        if (!createIndexResponse.IsValid &&
-            !createIndexResponse.IndexAlreadyExisted())
-            throw createIndexResponse.OriginalException;
+        CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
     }
 
     public static async Task<CreateIndexResponse> CreateDuplicateDetectionIndexAsync(
@@ -114,7 +85,7 @@ public static class ElasticClientExtensions
                          => ca
                            .Tokenizer("whitespace")
                            .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding", "mwd", "dutch_stop")
+                           .Filters("lowercase", "asciifolding", "dutch_stop", "mwd")
         ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
                  selector: ca
                      => ca
