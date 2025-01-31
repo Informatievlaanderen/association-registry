@@ -45,9 +45,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             await _client
                .SearchAsync<DuplicateDetectionDocument>(s =>
                                                             s
-                                                               .Explain(true)
-                                                               .TrackScores(true)
-                                                               .MinScore(3)
+                                                               .Explain(includeScore)
+                                                               .TrackScores(includeScore)
+                                                               .MinScore(minimumScoreOverride.Value)
                                                                .Query(p => p.Bool(b => b.Should(
                                                                                              // MultiMatchQuery(naam),
                                                                                              MatchOpFullNaam(naam),
