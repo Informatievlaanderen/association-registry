@@ -388,6 +388,7 @@ public class Program
                .AddSingleton<IClock, Clock>()
                .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
                .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
+               .AddSingleton(new MinimumScore(elasticSearchOptionsSection.MinimumScoreDuplicateDetection))
                .AddScoped<InitiatorProvider>()
                .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
