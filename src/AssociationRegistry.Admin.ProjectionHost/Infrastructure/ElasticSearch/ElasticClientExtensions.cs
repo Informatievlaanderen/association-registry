@@ -19,7 +19,9 @@ public static class ElasticClientExtensions
                                                                      .PatternReplace(name: "underscore_replace",
                                                                                      selector: prcf
                                                                                          => prcf.Pattern("_").Replacement(" ")))
-                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
+                                                                               .StopWords("_dutch_") // Or provide your custom list
+                                                              ))
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
@@ -35,7 +37,9 @@ public static class ElasticClientExtensions
                                                                      .PatternReplace(name: "underscore_replace",
                                                                                      selector: prcf
                                                                                          => prcf.Pattern("_").Replacement(" ")))
-                                                .TokenFilters(AddDutchStopWordsFilter)
+                                                .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
+                                                                               .StopWords("_dutch_") // Or provide your custom list
+                                                              )   )
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
 
@@ -52,8 +56,20 @@ public static class ElasticClientExtensions
                                                                           .PatternReplace(name: "underscore_replace",
                                                                                           selector: prcf
                                                                                               => prcf.Pattern("_").Replacement(" ")))
+
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
-                                                     .TokenFilters(AddDutchStopWordsFilter)))
+                                                     .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
+                                                                                    .StopWords("_dutch_") // Or provide your custom list
+                                                                   )    .WordDelimiter("mwd", wd =>
+                                                                                           wd.GenerateWordParts()
+                                                                                              .CatenateWords()
+                                                                                              .SplitOnCaseChange()
+                                                                                              .SplitOnNumerics()
+                                                                                              .PreserveOriginal())
+                                                                           .Fingerprint("my_fingerprint_filter", f => f
+                                                                                         // .Separator("")
+                                                                                        .MaxOutputSize(255)
+                                                                   ))))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
 
         if (!createIndexResponse.IsValid &&
@@ -72,31 +88,39 @@ public static class ElasticClientExtensions
                                                      .CharFilters(cf => cf.PatternReplace(name: "dot_replace",
                                                                                           selector: prcf
                                                                                               => prcf.Pattern("\\.").Replacement(""))
+
                                                                           .PatternReplace(name: "underscore_replace",
                                                                                           selector: prcf
                                                                                               => prcf.Pattern("_").Replacement(" ")))
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
-                                                     .TokenFilters(AddDutchStopWordsFilter)))
+                                                     .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
+                                                                                    .StopWords("_dutch_") // Or provide your custom list
+                                                                   )
+                                                                  .WordDelimiter("mwd", wd =>
+                                                                                     wd.GenerateWordParts()
+                                                                                        .CatenateWords()
+                                                                                        .SplitOnCaseChange()
+                                                                                        .SplitOnNumerics()
+                                                                                        .PreserveOriginal())
+                                                                           .Fingerprint("my_fingerprint_filter", f => f
+                                                                                         // .Separator("")
+                                                                                        .MaxOutputSize(255)
+                                                                   ))))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
-
-    private static TokenFiltersDescriptor AddDutchStopWordsFilter(TokenFiltersDescriptor tf)
-        => tf.Stop(name: "dutch_stop", selector: st => st
-                      .StopWords("_dutch_") // Or provide your custom list
-        );
 
     private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)
         => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
                      selector: ca
                          => ca
-                           .Tokenizer("standard")
+                           .Tokenizer("whitespace")
                            .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding", "dutch_stop")
+                           .Filters("lowercase", "asciifolding", "mwd", "dutch_stop")
         ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
                  selector: ca
                      => ca
-                       .Tokenizer("keyword")
+                       .Tokenizer("standard")
                        .CharFilters("underscore_replace", "dot_replace")
-                       .Filters("lowercase", "asciifolding", "dutch_stop")
+                       .Filters("lowercase", "asciifolding", "dutch_stop", "mwd", "my_fingerprint_filter")
         );
 
     private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
