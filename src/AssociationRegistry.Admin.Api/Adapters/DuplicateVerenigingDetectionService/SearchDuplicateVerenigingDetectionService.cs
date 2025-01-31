@@ -13,16 +13,17 @@ using JsonSerializer = System.Text.Json.JsonSerializer;
 public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
 {
     private readonly IElasticClient _client;
+    private readonly MinimumScore _defaultMinimumScore;
     private readonly Action<string> _log;
     private readonly ILogger<SearchDuplicateVerenigingDetectionService> _logger;
 
     public SearchDuplicateVerenigingDetectionService(
         IElasticClient client,
-        ILogger<SearchDuplicateVerenigingDetectionService> logger = null,
-        Action<string> log = null)
+        MinimumScore defaultMinimumScore,
+        ILogger<SearchDuplicateVerenigingDetectionService> logger = null)
     {
         _client = client;
-        _log = log;
+        _defaultMinimumScore = defaultMinimumScore;
         _logger = logger ?? NullLogger<SearchDuplicateVerenigingDetectionService>.Instance;
     }
 
@@ -32,7 +33,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         bool includeScore = false,
         MinimumScore? minimumScoreOverride = null)
     {
-        minimumScoreOverride ??= MinimumScore.Default;
+        minimumScoreOverride ??= _defaultMinimumScore;
 
         var locatiesMetAdres = locaties.Where(l => l.Adres is not null).ToArray();
 

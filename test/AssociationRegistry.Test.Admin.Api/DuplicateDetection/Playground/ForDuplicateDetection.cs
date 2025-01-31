@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService
 using AssociationRegistry.Admin.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Search;
 using AssociationRegistry.Admin.Schema.Search;
+using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Framework.Fixtures;
 using Hosts;
@@ -131,7 +132,7 @@ public class DuplicateDetectionSetup
 
         Repository = new ElasticRepository(Client);
 
-        DuplicateDetectionService = new SearchDuplicateVerenigingDetectionService(Client);
+        DuplicateDetectionService = new SearchDuplicateVerenigingDetectionService(Client, MinimumScore.Default);
 
         Repository.Index(new DuplicateDetectionDocument
         {
