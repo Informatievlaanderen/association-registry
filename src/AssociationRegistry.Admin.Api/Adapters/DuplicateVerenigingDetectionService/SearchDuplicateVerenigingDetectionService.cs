@@ -48,7 +48,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                             s
                                                                .Explain(includeScore)
                                                                .TrackScores(includeScore)
-                                                               .MinScore(minimumScoreOverride.Value)
+                                                               .MinScore(3)
                                                                .Query(p => p.Bool(b => b.Should(
                                                                                              // MultiMatchQuery(naam),
                                                                                              MatchOpFullNaam(naam),

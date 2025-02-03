@@ -40,6 +40,7 @@ public class MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenari
         events[12] = events[12] with { Naam = "Schaakclub Kortrijk" };
         events[13] = events[13] with { Naam = "Wielerclub FC De ratjes" };
         events[14] = events[14] with { Naam = "Club Kortrijk" };
+        events[14] = events[14] with { Naam = "Designregio Kortrijk" };
         events[15] = events[15] with { Naam = "Kortrijkse C# fanclub" };
         events[16] = events[16] with { Naam = "Clubben met de vrienden" };
 
