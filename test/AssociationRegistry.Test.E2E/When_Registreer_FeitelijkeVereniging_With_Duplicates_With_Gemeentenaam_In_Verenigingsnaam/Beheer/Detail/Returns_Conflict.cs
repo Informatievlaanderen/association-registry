@@ -10,22 +10,25 @@ using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Xunit;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext _context;
+    private readonly ITestOutputHelper _testOutputHelper;
 
-
-    public Returns_Conflict(RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext context)
+    public Returns_Conflict(RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext context, ITestOutputHelper testOutputHelper)
     {
         _context = context;
+        _testOutputHelper = testOutputHelper;
     }
 
     [Theory]
     [MemberData(nameof(Scenarios))]
     public async Task WithDuplicateVerenigingen(RegistreerFeitelijkeVerenigingRequest request, string[] expectedDuplicateVerenigingen)
     {
+        _testOutputHelper.WriteLine(request.Naam);
         var response = await (await _context.ApiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
@@ -52,6 +55,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "Kortrijkse Ultimate Frisbee Club",
+                "Club Kortrijk"
             },
         ];
 
@@ -61,7 +65,6 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "Ruygi KORTRIJK",
-                "Ruygo Judoschool KORTRIJK"
             },
         ];
 
@@ -71,6 +74,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "JUDOSCHOOL KORTRIJK",
+                "Ruygo Judoschool KORTRIJK"
             },
         ];
 
@@ -90,6 +94,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "JUDOSCHOOL KORTRIJK",
+                "Ruygo Judoschool KORTRIJK"
             },
         ];
     }

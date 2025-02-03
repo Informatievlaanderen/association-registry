@@ -121,7 +121,7 @@ public class DuplicateDetectionTest
             {
                 Adres = _adres,
             },
-        ]);
+        ], includeScore: true, minimumScoreOverride: new MinimumScore(3));
 }
 
 public class TestOutputLogger : ILogger

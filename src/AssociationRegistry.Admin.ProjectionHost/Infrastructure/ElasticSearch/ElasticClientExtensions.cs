@@ -73,6 +73,10 @@ public static class ElasticClientExtensions
                                                                                         .SplitOnCaseChange()
                                                                                         .SplitOnNumerics()
                                                                                         .PreserveOriginal())
+                                                                  .Shingle("shingle", sd => sd.MinShingleSize(2)
+                                                                              .MaxShingleSize(2)
+                                                                              .OutputUnigrams(true)
+                                                                              .TokenSeparator(""))
                                                                            .Fingerprint("my_fingerprint_filter", f => f
                                                                                          // .Separator("")
                                                                                         .MaxOutputSize(255)
@@ -91,7 +95,7 @@ public static class ElasticClientExtensions
                      => ca
                        .Tokenizer("standard")
                        .CharFilters("underscore_replace", "dot_replace")
-                       .Filters("lowercase", "asciifolding", "dutch_stop", "mwd", "my_fingerprint_filter")
+                       .Filters("lowercase", "asciifolding", "dutch_stop", "mwd", "shingle")
         );
 
     private static NormalizersDescriptor AddVerenigingZoekNormalizer(NormalizersDescriptor ad)
