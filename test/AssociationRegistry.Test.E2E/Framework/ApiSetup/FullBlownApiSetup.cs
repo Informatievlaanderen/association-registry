@@ -8,7 +8,6 @@ using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
 using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Marten.Events;
@@ -21,6 +20,7 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
+using Scenarios.Requests;
 using TestClasses;
 using Vereniging;
 using Xunit;
@@ -84,6 +84,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
 
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
+
     }
 
     public IElasticClient ElasticClient { get; set; }
@@ -167,5 +168,21 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
         await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
         await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+    }
+
+    private readonly Dictionary<string, object> _ranContexts = new();
+
+    public void RegisterContext<T>(ITestContext<T> context)
+    {
+
+        if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
+        {
+            context.Init().GetAwaiter().GetResult();
+            _ranContexts.Add(context.GetType().Name, context.RequestResult);
+        }
+        else
+        {
+            context.RequestResult = (RequestResult<T>)ranContext;
+        }
     }
 }
