@@ -20,10 +20,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     public SearchDuplicateVerenigingDetectionService(
         IElasticClient client,
         MinimumScore defaultMinimumScore,
-        ILogger<SearchDuplicateVerenigingDetectionService> logger = null)
+        ILogger<SearchDuplicateVerenigingDetectionService> logger = null, Action<string> log = null)
     {
         _client = client;
         _defaultMinimumScore = defaultMinimumScore;
+        _log = log;
         _logger = logger ?? NullLogger<SearchDuplicateVerenigingDetectionService>.Instance;
     }
 
@@ -52,7 +53,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .Query(p => p.Bool(b => b.Should(
                                                                                              // MultiMatchQuery(naam),
                                                                                              MatchOpFullNaam(naam),
-                                                                                             MatchOpNaam(naam))
+                                                                                             MatchOpNaam(naam),
+                                                                                             MatchOpNaamOud(naam)
+                                                                                             )
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
                                                                                              MatchOpPostcodeOfGemeente(
@@ -190,7 +193,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                       .Query(naam)
                       .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
                       .Fuzziness(
-                           Fuzziness.EditDistance(2)) // Assumes this analyzer applies lowercase and asciifolding
+                           Fuzziness.Auto)
+                      .Boost(2)// Assumes this analyzer applies lowercase and asciifolding
                       .MinimumShouldMatch("66%") // You can adjust this percentage as needed
             );
     }
@@ -223,7 +227,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                           bs => bs.Match(m => m
                                              .Field("naam.naamFull")
                                              .Query(naam)
-                                             .Fuzziness(Fuzziness.EditDistance(2))
+                                             .Fuzziness(Fuzziness.Auto)
                           )
                       )
                      .MinimumShouldMatch(1)
@@ -234,14 +238,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     {
         return must => must
            .Match(m => m
-                      .Field(f => f.Naam.Suffix("naam"))
+                      .Field(f => f.Naam.Suffix("keyword"))
                       .Query(naam)
-                      .Analyzer(DuplicateDetectionDocumentMapping
-                                   .DuplicateAnalyzer)
-                      .Fuzziness(
-                           Fuzziness
-                              .Auto) // Assumes this analyzer applies lowercase and asciifolding
-                      .MinimumShouldMatch("90%") // You can adjust this percentage as needed
+                      .Boost(5)
+                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
+                      .Fuzziness(Fuzziness.Auto) // Assumes this analyzer applies lowercase and asciifolding
             );
     }
 
