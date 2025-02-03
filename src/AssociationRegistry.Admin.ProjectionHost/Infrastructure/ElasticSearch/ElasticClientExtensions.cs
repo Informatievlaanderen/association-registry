@@ -66,21 +66,23 @@ public static class ElasticClientExtensions
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(tf => tf.Stop(name: "dutch_stop", selector: st => st
                                                                                     .StopWords("_dutch_") // Or provide your custom list
-                                                                   )
-                                                                  .WordDelimiter("mwd", wd =>
-                                                                                     wd.GenerateWordParts()
-                                                                                        .CatenateWords()
-                                                                                        .SplitOnCaseChange()
-                                                                                        .SplitOnNumerics()
-                                                                                        .PreserveOriginal())
-                                                                  .Shingle("shingle", sd => sd.MinShingleSize(2)
-                                                                              .MaxShingleSize(2)
-                                                                              .OutputUnigrams(true)
-                                                                              .TokenSeparator(""))
-                                                                           .Fingerprint("my_fingerprint_filter", f => f
-                                                                                         // .Separator("")
-                                                                                        .MaxOutputSize(255)
-                                                                   ))))
+                                                                            ).Stop(name: "muni", selector: st => st
+                                                                                        .StopWords("kortrijk", "aarschot") // Or provide your custom list
+                                                                                )
+                                                                               .WordDelimiter("mwd", wd =>
+                                                                                    wd.GenerateWordParts()
+                                                                                      .CatenateWords()
+                                                                                      .SplitOnCaseChange()
+                                                                                      .SplitOnNumerics()
+                                                                                      .PreserveOriginal())
+                                                                               .Shingle("shingle", sd => sd.MinShingleSize(2)
+                                                                                           .MaxShingleSize(2)
+                                                                                           .OutputUnigrams(true)
+                                                                                           .TokenSeparator(""))
+                                                                               .Fingerprint("my_fingerprint_filter", f => f
+                                                                                                // .Separator("")
+                                                                                               .MaxOutputSize(255)
+                                                                                ))))
                           .Map<DuplicateDetectionDocument>(DuplicateDetectionDocumentMapping.Get));
 
     private static AnalyzersDescriptor AddDuplicateDetectionAnalyzer(AnalyzersDescriptor ad)
@@ -89,7 +91,7 @@ public static class ElasticClientExtensions
                          => ca
                            .Tokenizer("whitespace")
                            .CharFilters("underscore_replace", "dot_replace")
-                           .Filters("lowercase", "asciifolding", "dutch_stop", "mwd")
+                           .Filters("lowercase", "asciifolding", "dutch_stop", "muni", "mwd")
         ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
                  selector: ca
                      => ca
