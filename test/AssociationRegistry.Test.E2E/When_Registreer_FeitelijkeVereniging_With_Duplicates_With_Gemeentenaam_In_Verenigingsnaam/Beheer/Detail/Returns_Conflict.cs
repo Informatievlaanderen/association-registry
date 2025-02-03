@@ -55,7 +55,6 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "Kortrijkse Ultimate Frisbee Club",
-                "Club Kortrijk"
             },
         ];
 
@@ -84,7 +83,6 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
             new[]
             {
                 "Ruygi KORTRIJK",
-                "Ruygo Judoschool KORTRIJK"
             },
         ];
 

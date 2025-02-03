@@ -17,6 +17,7 @@ public static class DuplicateDetectionDocumentMapping
                              .Text(
                                   propertyDescriptor => propertyDescriptor
                                        .Name(document => document.Naam)
+                                                       .WithKeyword(DuplicateAnalyzer)
                                        .Fields(fields => fields
                                                         .Text(subField => subField
                                                                          .Name("naam")

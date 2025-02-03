@@ -14,9 +14,14 @@ using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
+using Newtonsoft.Json;
+using Public.Api.Verenigingen.DetailAll;
+using Public.Api.Verenigingen.DetailAll.ResponseModels;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using Xunit.Abstractions;
+using Adres = Vereniging.Adres;
+using Locatie = Vereniging.Locatie;
 
 public class DuplicateDetectionTest
 {
@@ -64,7 +69,10 @@ public class DuplicateDetectionTest
             Naam = x.GeregistreerdeNaam,
             VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
             HoofdactiviteitVerenigingsloket = [],
-            Locaties = [_fixture.Create<DuplicateDetectionDocument.Locatie>() with{ Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode}]
+            Locaties = [_fixture.Create<DuplicateDetectionDocument.Locatie>() with
+            {
+                Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode
+            }]
         });
 
         foreach (var doc in toRegisterDuplicateDetectionDocuments)
@@ -105,7 +113,8 @@ public class DuplicateDetectionTest
 
         _elastic.Indices.CreateDuplicateDetectionIndex(_duplicateDetectionIndex);
 
-        _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(_elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance);
+        _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(
+            _elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance, _helper.WriteLine);
 
         DubbelDetectieData = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
@@ -123,6 +132,8 @@ public class DuplicateDetectionTest
             },
         ], includeScore: true, minimumScoreOverride: new MinimumScore(3));
 }
+record Line(VerenigingLine Vereniging);
+record VerenigingLine(string Naam);
 
 public class TestOutputLogger : ILogger
 {
