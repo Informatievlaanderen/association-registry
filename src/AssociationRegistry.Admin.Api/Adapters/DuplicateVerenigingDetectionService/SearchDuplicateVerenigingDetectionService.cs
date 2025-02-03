@@ -49,12 +49,12 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                             s
                                                                .Explain(includeScore)
                                                                .TrackScores(includeScore)
-                                                               .MinScore(3)
+                                                               .MinScore(6)
                                                                .Query(p => p.Bool(b => b.Should(
                                                                                              // MultiMatchQuery(naam),
-                                                                                             MatchOpFullNaam(naam),
-                                                                                             MatchOpNaam(naam),
-                                                                                             MatchOpNaamOud(naam)
+                                                                                             MatchOpFullNaam(naam),//,
+                                                                                             MatchOpNaam(naam)
+                                                                                             //MatchOpNaamOud(naam)
                                                                                              )
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
