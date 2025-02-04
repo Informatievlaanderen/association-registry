@@ -1,3 +1,22 @@
+# [8.206.0](https://github.com/informatievlaanderen/association-registry/compare/v8.205.2...v8.206.0) (2025-02-04)
+
+
+### Bug Fixes
+
+* or-2350 use vereniging index for search index instead of duplication index ([43dde2b](https://github.com/informatievlaanderen/association-registry/commit/43dde2bc6122e7a33fe716aa7831e6c7081fd059))
+
+
+### Features
+
+* or-2350 allow to set minimumscore for duplicate detection from app defs ([b2461e0](https://github.com/informatievlaanderen/association-registry/commit/b2461e0987cd35c0801286602d3c4946d689ce36))
+* or-2350 general cleanup on dupe detection ([8b1e1dc](https://github.com/informatievlaanderen/association-registry/commit/8b1e1dc2f1bd0be7aa9f757b99a05461a73453b0))
+* or-2350 improve dubbeldetectie ([8e03add](https://github.com/informatievlaanderen/association-registry/commit/8e03add430071d4bf27b93d59066f8154445b97c))
+* or-2350 improve duplicate detection ([462e830](https://github.com/informatievlaanderen/association-registry/commit/462e830e98c142b83282e5572aee300fa407c05a))
+* or-2350 try muni's as stopwords ([f87100c](https://github.com/informatievlaanderen/association-registry/commit/f87100ca2488f989bb69f4c965aa9801b6727110))
+* or-2350 use params in dupe detection ([6d47210](https://github.com/informatievlaanderen/association-registry/commit/6d47210edfc478d12ce9fe4908458582a2b381c4))
+* trial with fingerprinting ([c9ccd63](https://github.com/informatievlaanderen/association-registry/commit/c9ccd63b00d2cb066655a29b4012cf0bcc44a944))
+* trial with less queries ([82abb0a](https://github.com/informatievlaanderen/association-registry/commit/82abb0a5c3da3529dc3b31d962e437c17e213631))
+
 ## [8.205.2](https://github.com/informatievlaanderen/association-registry/compare/v8.205.1...v8.205.2) (2025-01-30)
 
 
