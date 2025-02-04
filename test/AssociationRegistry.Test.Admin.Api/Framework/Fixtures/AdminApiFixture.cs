@@ -104,6 +104,11 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         WaitFor.ElasticSearchToBecomeAvailable(ElasticClient, new NullLogger<AdminApiFixture>())
                .GetAwaiter().GetResult();
 
+        if (ElasticClient.Indices.Exists(DuplicateDetectionIndexName).Exists)
+        {
+            ElasticClient.Indices.Delete(DuplicateDetectionIndexName);
+        }
+
         _projectionHostServer = new WebApplicationFactory<ProjectionHostProgram>()
            .WithWebHostBuilder(
                 builder =>
