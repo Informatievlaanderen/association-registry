@@ -114,7 +114,7 @@ public class DuplicateDetectionTest
         _elastic.Indices.CreateDuplicateDetectionIndex(_duplicateDetectionIndex);
 
         _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(
-            _elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance, _helper.WriteLine);
+            _elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance);
 
         DubbelDetectieData = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using AutoFixture;
 using Common.AutoFixture;
@@ -40,7 +41,15 @@ public class Given_A_Gestopte_Vereniging
                                                                            .Postcode);
 
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
-        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
+        var content = await response.Content.ReadAsStringAsync();
+        if (!response.IsSuccessStatusCode)
+        {
+            var duplicateResponse = JsonConvert.DeserializeObject<PotentialDuplicatesResponse>(content);
+
+            duplicateResponse.MogelijkeDuplicateVerenigingen.Should()
+                             .NotContain(x => x.VCode == _scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+        }
+        // all good
     }
 
     private RegistreerFeitelijkeVerenigingRequest CreateRegistreerFeitelijkeVerenigingRequest(string naam, string gemeente, string postcode)

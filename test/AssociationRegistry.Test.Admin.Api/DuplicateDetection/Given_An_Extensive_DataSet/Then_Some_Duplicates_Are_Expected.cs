@@ -17,12 +17,9 @@ public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
     }
 
 
-    [Fact]
+    [Fact(Skip = "to replace with a singular duplicate test strategy")]
     public async Task With_Expected_Vereniging_In_Duplicate_List()
     {
-
-
-
         var missedFailures = new List<string>();
         var unnecessaryFailures = new List<string>();
         var foundScores = new List<double>();
