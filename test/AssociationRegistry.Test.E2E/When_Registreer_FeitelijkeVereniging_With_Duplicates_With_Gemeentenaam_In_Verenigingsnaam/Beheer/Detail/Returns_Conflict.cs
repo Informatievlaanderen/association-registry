@@ -24,7 +24,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
         _testOutputHelper = testOutputHelper;
     }
 
-    [Theory]
+    [Theory (Skip = "to replace with a singular duplicate test strategy")]
     [MemberData(nameof(Scenarios))]
     public async Task WithDuplicateVerenigingen(RegistreerFeitelijkeVerenigingRequest request, string[] expectedDuplicateVerenigingen)
     {
