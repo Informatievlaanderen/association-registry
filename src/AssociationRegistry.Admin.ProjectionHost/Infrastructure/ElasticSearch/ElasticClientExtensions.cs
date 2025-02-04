@@ -16,7 +16,7 @@ public static class ElasticClientExtensions
     private const string CharFilterUnderscoreReplace = "underscore_replace";
 
     public static CreateIndexResponse CreateVerenigingIndex(this IndicesNamespace indicesNamespace, IndexName index)
-        => CreateDuplicateDetectionIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
+        => CreateVerenigingIndexAsync(indicesNamespace, index).GetAwaiter().GetResult();
 
     public static async Task<CreateIndexResponse> CreateVerenigingIndexAsync(this IndicesNamespace indicesNamespace, IndexName index)
         => await indicesNamespace.CreateAsync(
