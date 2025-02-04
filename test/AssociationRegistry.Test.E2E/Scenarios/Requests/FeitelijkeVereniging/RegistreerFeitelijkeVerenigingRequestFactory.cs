@@ -28,7 +28,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
 
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
-            Naam = autoFixture.Create<string>(),
+            Naam = "Een unieke naam",
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),

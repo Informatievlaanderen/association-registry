@@ -19,13 +19,14 @@ public class V056_VerenigingWerdGeregistreerd_And_Gestopt_For_DuplicateDetection
         FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
         {
             VCode = VCode,
-            Locaties = new[]
-            {
+            Naam = "De vereniging voor duplicate detection",
+            Locaties =
+            [
                 fixture.Create<Registratiedata.Locatie>() with
                 {
                     Adres = fixture.Create<Registratiedata.Adres>(),
                 },
-            },
+            ],
         };
 
         VerenigingWerdGestopt = fixture.Create<VerenigingWerdGestopt>();

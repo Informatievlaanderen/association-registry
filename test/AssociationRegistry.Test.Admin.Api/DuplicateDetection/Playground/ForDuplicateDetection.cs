@@ -70,7 +70,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
 
         var duplicates = await _duplicateDetectionService.GetDuplicates(
             VerenigingsNaam.Create("De Verengiging vn Technologïeënthusiasten: Inováçie & Ëntwikkeling"),
-            Met1MatchendeGemeente());
+            Met1MatchendeGemeente(), minimumScoreOverride: new MinimumScore(0));
 
         duplicates.Should().HaveCount(1);
         duplicates.Single().Naam.Should().Be("Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling");

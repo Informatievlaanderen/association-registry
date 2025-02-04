@@ -2,14 +2,26 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Newtonsoft.Json;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 
 [DataContract]
 public class PotentialDuplicatesResponse
 {
+    public PotentialDuplicatesResponse()
+    {
+
+    }
+
     public PotentialDuplicatesResponse(string hashedRequest, PotentialDuplicatesFound potentialDuplicates, AppSettings appSettings)
     {
+        if (potentialDuplicates == null)
+            throw new ArgumentNullException(nameof(potentialDuplicates));
+
+        if (appSettings == null)
+            throw new ArgumentNullException(nameof(appSettings));
+
         BevestigingsToken = hashedRequest;
         MogelijkeDuplicateVerenigingen = potentialDuplicates.Candidates.Select(c => FromDuplicaatVereniging(c, appSettings)).ToArray();
     }
