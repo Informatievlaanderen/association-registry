@@ -31,7 +31,7 @@ public sealed class When_RegistreerFeitelijkeVereniging_WithAllFields
 
         Request = new RegistreerFeitelijkeVerenigingRequest
         {
-            Naam = autoFixture.Create<string>(),
+            Naam = "De vliegende app",
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
