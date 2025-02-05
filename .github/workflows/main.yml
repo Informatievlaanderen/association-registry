@@ -472,9 +472,9 @@ jobs:
         env:
           NPM_TOKEN: ${{ secrets.VBR_WEBCOMP_NPM_TOKEN }}
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          GITHUB_TOKEN: ${{ secrets.VBR_ACTIONS_TOKEN }}
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.installationToken }}
           GIT_COMMIT: ${{ github.sha }}
-          GIT_USERNAME: ${{ secrets.VBR_ACTIONS_TOKEN }}
+          GIT_USERNAME: ${{ steps.generate_token.outputs.installationToken }}
           GIT_AUTHOR_NAME: ${{ secrets.VBR_GIT_USER }}
           GIT_COMMITTER_NAME: ${{ secrets.VBR_GIT_USER }}
           GIT_EMAIL: ${{ secrets.VBR_GIT_EMAIL }}
