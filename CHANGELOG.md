@@ -1,3 +1,10 @@
+## [8.206.2](https://github.com/informatievlaanderen/association-registry/compare/v8.206.1...v8.206.2) (2025-02-05)
+
+
+### Bug Fixes
+
+* force build ([bf7a2e1](https://github.com/informatievlaanderen/association-registry/commit/bf7a2e1a3b0260a3b025b454fab671019882c1be))
+
 ## [8.206.1](https://github.com/informatievlaanderen/association-registry/compare/v8.206.0...v8.206.1) (2025-02-05)
 
 
