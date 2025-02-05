@@ -1,3 +1,10 @@
+## [8.206.3](https://github.com/informatievlaanderen/association-registry/compare/v8.206.2...v8.206.3) (2025-02-05)
+
+
+### Bug Fixes
+
+* use generated token for semantic release ([d736e49](https://github.com/informatievlaanderen/association-registry/commit/d736e49500ed2b7023ec2114932a8b6876167642))
+
 ## [8.206.2](https://github.com/informatievlaanderen/association-registry/compare/v8.206.1...v8.206.2) (2025-02-05)
 
 
