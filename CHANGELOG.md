@@ -1,3 +1,10 @@
+## [8.206.1](https://github.com/informatievlaanderen/association-registry/compare/v8.206.0...v8.206.1) (2025-02-05)
+
+
+### Bug Fixes
+
+* or-2350 replace hyphen with spaces and fix municipality filter for duplicate detection ([ecdc541](https://github.com/informatievlaanderen/association-registry/commit/ecdc541d6d23346a716d93e9798fb985360556b4))
+
 # [8.206.0](https://github.com/informatievlaanderen/association-registry/compare/v8.205.2...v8.206.0) (2025-02-04)
 
 
