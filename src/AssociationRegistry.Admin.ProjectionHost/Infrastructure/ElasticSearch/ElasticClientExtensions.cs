@@ -25,7 +25,7 @@ public static class ElasticClientExtensions
                 descriptor
                    .Settings(s => s
                                 .Analysis(a => a.CharFilters(cf => cf.RemoveDots()
-                                                                     .ReplaceUnderscoresWithSpaces())
+                                                                     .ReplaceUnderscoresAndHyphenWithSpaces())
                                                 .TokenFilters(FilterDutchStopWords)
                                                 .Normalizers(AddVerenigingZoekNormalizer)))
                    .Map<VerenigingZoekDocument>(VerenigingZoekDocumentMapping.Get));
@@ -45,7 +45,7 @@ public static class ElasticClientExtensions
                           .Settings(s => s
                                        .Analysis(a => a
                                                      .CharFilters(cf => cf.RemoveDots()
-                                                                          .ReplaceUnderscoresWithSpaces())
+                                                                          .ReplaceUnderscoresAndHyphenWithSpaces())
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(tf => tf.FilterDutchStopWords()
                                                                            .FilterMunicipalities(
@@ -106,11 +106,12 @@ public static class ElasticClientExtensions
 
     }
 
-    private static CharFiltersDescriptor ReplaceUnderscoresWithSpaces(this CharFiltersDescriptor cf)
+    private static CharFiltersDescriptor ReplaceUnderscoresAndHyphenWithSpaces(this CharFiltersDescriptor cf)
     {
         return cf.PatternReplace(name: CharFilterUnderscoreReplace,
-                                  selector: prcf
-                                      => prcf.Pattern("_").Replacement(" "));
+                                 selector: prcf => prcf
+                                                  .Pattern("[_-]")
+                                                  .Replacement(" "));
     }
 
     public static TokenFiltersDescriptor CombineNeighbouringWordsWithShingle(this TokenFiltersDescriptor source)
@@ -127,7 +128,6 @@ public static class ElasticClientExtensions
                                         wd.GenerateWordParts()
                                           .CatenateWords()
                                           .PreserveOriginal(false)
-                                          .SplitOnCaseChange()
         );
     }
 

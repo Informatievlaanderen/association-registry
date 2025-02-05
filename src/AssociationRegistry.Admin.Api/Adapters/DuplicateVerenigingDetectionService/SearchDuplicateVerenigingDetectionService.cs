@@ -49,9 +49,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .Query(p => p.Bool(b => b.Should(MatchOpFullNaam(naam), MatchOpNaam(naam))
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
-                                                                                             MatchOpPostcodeOfGemeente(gemeentes, postcodes)
-                                                                                         )
-                                                                                        .Filter(IsNietDubbel,
+                                                                                             MatchOpPostcodeOfGemeente(
+                                                                                                 gemeentes, postcodes),
+                                                                                             IsNietDubbel,
                                                                                              IsNietGestopt,
                                                                                              IsNietVerwijderd)
                                                                       )));
@@ -87,7 +87,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                        fb
                           .Should(MatchOpGemeente(gemeentes)
                                      .Append(MatchOpPostcode(postcodes))
-                               )
+                           )
                           .MinimumShouldMatch(
                                1));
     }
@@ -180,7 +180,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                           )
                       )
                      .MinimumShouldMatch(1)
-                );
+            );
     }
 
     private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)

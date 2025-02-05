@@ -51,6 +51,29 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact]
+    public async Task It_Replaces_Hyphen_And_Underscores_With_Spaces()
+    {
+        var analyzeResponse =
+            await _elasticClient.Indices
+                                .AnalyzeAsync(a => a
+                                                  .Index<DuplicateDetectionDocument>()
+                                                  .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
+                                                  .Text(
+                                                       "Vereniging-van-Technologieenenthousiasten:_Inovatie_ontwikkeling")
+                                 );
+
+        analyzeResponse
+           .Tokens
+           .Select(x => x.Token)
+           .Should()
+           .BeEquivalentTo(
+                "vereniging",
+                "technologieenenthousiasten",
+                "inovatie",
+                "ontwikkeling");
+    }
+
+    [Fact]
     public async Task Stopwords_Everywhere()
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
