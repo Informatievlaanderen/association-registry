@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
 using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Newtonsoft.Json;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
 

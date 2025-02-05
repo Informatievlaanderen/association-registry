@@ -1,9 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Amazon;
 using Amazon.Runtime;
-using Amazon.SQS;
-using Amazon.SQS.Model;
 using EventStore;
 using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;

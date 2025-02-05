@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
 using Adapters.VCodeGeneration;
-using Events;
 using Formats;
-using GrarConsumer;
 using GrarConsumer.Kafka;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;

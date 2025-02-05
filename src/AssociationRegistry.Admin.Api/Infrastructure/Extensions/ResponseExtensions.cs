@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Admin.Api.Infrastructure.Extensions;
 
-using Be.Vlaanderen.Basisregisters.Api;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 

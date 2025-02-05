@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Admin.Api.GrarConsumer.Kafka;
 
-using Infrastructure.AWS;
 using Infrastructure.Extensions;
 using AssociationRegistry.Notifications;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;

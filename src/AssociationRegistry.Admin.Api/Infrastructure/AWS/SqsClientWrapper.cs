@@ -2,11 +2,7 @@ namespace AssociationRegistry.Admin.Api.Infrastructure.AWS;
 
 using Framework;
 using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
-using Hosts.Configuration;
-using Hosts.Configuration.ConfigurationBindings;
 using Kbo;
-using System.Text.Json;
 using Wolverine;
 
 public class SqsClientWrapper : ISqsClientWrapper
