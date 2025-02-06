@@ -1,3 +1,10 @@
+## [8.206.4](https://github.com/informatievlaanderen/association-registry/compare/v8.206.3...v8.206.4) (2025-02-06)
+
+
+### Bug Fixes
+
+* or-2350 dont use stopwords on gemeente for duplicate detection ([e682039](https://github.com/informatievlaanderen/association-registry/commit/e6820391bb828fbc53fc37ec7c055634c52ba648))
+
 ## [8.206.3](https://github.com/informatievlaanderen/association-registry/compare/v8.206.2...v8.206.3) (2025-02-05)
 
 
