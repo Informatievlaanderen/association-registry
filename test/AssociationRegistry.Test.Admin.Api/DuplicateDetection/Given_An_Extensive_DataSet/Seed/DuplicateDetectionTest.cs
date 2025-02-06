@@ -54,13 +54,11 @@ public class DuplicateDetectionTest
         _adres = _fixture.Create<Adres>() with
         {
             Postcode = "8500",
-            Gemeente = Gemeentenaam.Hydrate("Kortrijk"),
+            Gemeente = Gemeentenaam.Hydrate("kortrijk"),
         };
 
         InitializeAsync().GetAwaiter().GetResult();
     }
-
-
 
     public async Task InsertGeregistreerdeVerenigingen(IReadOnlyCollection<DuplicateDetectionSeedLine> readVerwachtDubbels)
     {
@@ -69,10 +67,13 @@ public class DuplicateDetectionTest
             Naam = x.GeregistreerdeNaam,
             VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
             HoofdactiviteitVerenigingsloket = [],
-            Locaties = [_fixture.Create<DuplicateDetectionDocument.Locatie>() with
-            {
-                Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode
-            }]
+            Locaties =
+            [
+                _fixture.Create<DuplicateDetectionDocument.Locatie>() with
+                {
+                    Gemeente = _adres.Gemeente.Naam, Postcode = _adres.Postcode
+                }
+            ]
         });
 
         foreach (var doc in toRegisterDuplicateDetectionDocuments)
@@ -83,16 +84,19 @@ public class DuplicateDetectionTest
         await _elastic.Indices.RefreshAsync(Indices.AllIndices);
     }
 
-    public static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeed(string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
+    public static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeed(
+        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
         => ReadSeedFile(associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv);
 
-    private static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeedFile(string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
+    private static IReadOnlyCollection<DuplicateDetectionSeedLine> ReadSeedFile(
+        string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
     {
         var resourceName = associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv;
         var assembly = typeof(Then_Some_Duplicates_Are_Expected).Assembly;
-        var stream =  assembly.GetResource(resourceName);
+        var stream = assembly.GetResource(resourceName);
 
         using var streamReader = new StreamReader(stream);
+
         using var csvReader = new CsvReader(streamReader, new CsvConfiguration(CultureInfo.InvariantCulture)
         {
             Delimiter = ",",
@@ -108,7 +112,7 @@ public class DuplicateDetectionTest
 
     public async Task InitializeAsync()
     {
-        if(_elastic.Indices.ExistsAsync(_duplicateDetectionIndex).GetAwaiter().GetResult().Exists)
+        if (_elastic.Indices.ExistsAsync(_duplicateDetectionIndex).GetAwaiter().GetResult().Exists)
             _elastic.Indices.DeleteAsync(_duplicateDetectionIndex).GetAwaiter().GetResult();
 
         _elastic.Indices.CreateDuplicateDetectionIndex(_duplicateDetectionIndex);
@@ -116,7 +120,9 @@ public class DuplicateDetectionTest
         _duplicateVerenigingDetectionService = new SearchDuplicateVerenigingDetectionService(
             _elastic, MinimumScore.Default, NullLogger<SearchDuplicateVerenigingDetectionService>.Instance);
 
-        DubbelDetectieData = ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
+        DubbelDetectieData =
+            ReadSeed("AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed.verwachte_dubbels.csv");
+
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
     }
 
@@ -132,6 +138,7 @@ public class DuplicateDetectionTest
             },
         ], includeScore: true, minimumScoreOverride: new MinimumScore(3));
 }
+
 record Line(VerenigingLine Vereniging);
 record VerenigingLine(string Naam);
 
@@ -154,7 +161,12 @@ public class TestOutputLogger : ILogger
     public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel)
         => true;
 
-    public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter)
+    public void Log<TState>(
+        Microsoft.Extensions.Logging.LogLevel logLevel,
+        EventId eventId,
+        TState state,
+        Exception? exception,
+        Func<TState, Exception?, string> formatter)
     {
         if (!IsEnabled(logLevel))
         {
@@ -178,6 +190,7 @@ public class TestOutputLogger : ILogger
         {
             _outputHelper.WriteLine(exception.ToString());
         }
+
         if (!IsEnabled(logLevel))
         {
             return;
