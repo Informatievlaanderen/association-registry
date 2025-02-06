@@ -46,7 +46,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
            .BeEquivalentTo("vereniging", "technologieenthusiasten", "inovacie", "entwikkeling");
     }
 
-    [Fact]//(Skip = "to replace with a singular duplicate test strategy")]
+    [Fact(Skip = "to replace with a singular duplicate test strategy")]
     public async Task It_Replaces_Hyphen_And_Underscores_With_Spaces()
     {
         var analyzeResponse =
