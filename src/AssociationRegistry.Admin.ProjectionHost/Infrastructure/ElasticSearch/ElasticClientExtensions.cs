@@ -74,6 +74,12 @@ public static class ElasticClientExtensions
                        .Tokenizer("standard")
                        .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
                        .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter, TokenFilterShingle)
+        ).Custom(DuplicateDetectionDocumentMapping.DuplicateMunicipalityAnalyzer,
+                 selector: ca
+                     => ca
+                       .Tokenizer("standard")
+                       .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
+                       .Filters("lowercase", "asciifolding", TokenFilterDutchStop)
         );
 
 

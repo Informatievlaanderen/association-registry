@@ -26,11 +26,11 @@ using Locatie = Vereniging.Locatie;
 public class DuplicateDetectionTest
 {
     private readonly Adres? _adres;
-    private readonly Fixture _fixture;
+    protected readonly Fixture _fixture;
     private readonly ElasticClient _elastic;
     private readonly string _duplicateDetectionIndex;
     private readonly ITestOutputHelper _helper;
-    private SearchDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
+    protected SearchDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     public IReadOnlyCollection<DuplicateDetectionSeedLine> DubbelDetectieData { get; private set; }
     public IReadOnlyCollection<DuplicateDetectionSeedLine> VerwachteUnieke { get; private set; }
 

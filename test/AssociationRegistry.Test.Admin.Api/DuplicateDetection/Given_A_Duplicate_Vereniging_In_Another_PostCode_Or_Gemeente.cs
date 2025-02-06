@@ -19,13 +19,13 @@ using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_A_Duplicate_Vereniging_In_Another_PostCode
+public class Given_A_Duplicate_Vereniging_In_Another_PostCode_Or_Gemeente
 {
     private readonly AdminApiClient _adminApiClient;
     private readonly Fixture _fixture;
     private readonly V047_FeitelijkeVerenigingWerdGeregistreerd_WithMinimalFields_ForDuplicateDetection_WithAnalyzer _scenario;
 
-    public Given_A_Duplicate_Vereniging_In_Another_PostCode(EventsInDbScenariosFixture fixture)
+    public Given_A_Duplicate_Vereniging_In_Another_PostCode_Or_Gemeente(EventsInDbScenariosFixture fixture)
     {
         _fixture = new Fixture().CustomizeAdminApi();
         _adminApiClient = fixture.AdminApiClient;
@@ -38,11 +38,7 @@ public class Given_A_Duplicate_Vereniging_In_Another_PostCode
         var request = CreateRegistreerFeitelijkeVerenigingRequest("V9999048", _fixture.Create<string>(), _fixture.Create<string>());
 
         var response = await _adminApiClient.RegistreerFeitelijkeVereniging(JsonConvert.SerializeObject(request));
-        response.StatusCode.Should().Be(HttpStatusCode.Conflict);
-
-        var responseContent = await response.Content.ReadAsStringAsync();
-        var duplicates = ExtractDuplicateVCode(responseContent);
-        duplicates.Should().NotContain("V9999048");
+        response.StatusCode.Should().Be(HttpStatusCode.Accepted);
     }
 
     private RegistreerFeitelijkeVerenigingRequest CreateRegistreerFeitelijkeVerenigingRequest(
