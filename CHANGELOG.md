@@ -1,3 +1,15 @@
+# [8.207.0](https://github.com/informatievlaanderen/association-registry/compare/v8.206.4...v8.207.0) (2025-02-06)
+
+
+### Bug Fixes
+
+* or-2350 use 67 percent in matching on naam and remove naam.full ([a00e2ca](https://github.com/informatievlaanderen/association-registry/commit/a00e2ca8945e0fbad60939dae5a4d3dd2050dd79))
+
+
+### Features
+
+* or-2350 use 67 percent and filter municipality from naam query in duplication detection ([d392876](https://github.com/informatievlaanderen/association-registry/commit/d3928764885bb8ea4e0cc7b1494dfe01d9e0c7e5))
+
 ## [8.206.4](https://github.com/informatievlaanderen/association-registry/compare/v8.206.3...v8.206.4) (2025-02-06)
 
 
