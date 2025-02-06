@@ -48,8 +48,6 @@ public static class ElasticClientExtensions
                                                                           .ReplaceUnderscoresAndHyphenWithSpaces())
                                                      .Analyzers(AddDuplicateDetectionAnalyzer)
                                                      .TokenFilters(tf => tf.FilterDutchStopWords()
-                                                                           .FilterMunicipalities(
-                                                                                ["kortrijk", "aarschot", "oostende", "vzw"])
                                                                            .UseWordDelimiter()
                                                                            .CombineNeighbouringWordsWithShingle()
                                                       )))
@@ -65,15 +63,9 @@ public static class ElasticClientExtensions
         => ad.Custom(DuplicateDetectionDocumentMapping.DuplicateAnalyzer,
                      selector: ca
                          => ca
-                           .Tokenizer("whitespace")
+                           .Tokenizer("standard")
                            .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                           .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterMunicipalities, TokenFilterWordDelimiter)
-        ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
-                 selector: ca
-                     => ca
-                       .Tokenizer("standard")
-                       .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
-                       .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter, TokenFilterShingle)
+                           .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter, TokenFilterShingle)
         ).Custom(DuplicateDetectionDocumentMapping.DuplicateMunicipalityAnalyzer,
                  selector: ca
                      => ca

@@ -46,7 +46,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .Explain(includeScore)
                                                                .TrackScores(includeScore)
                                                                .MinScore(minimumScoreOverride.Value)
-                                                               .Query(p => p.Bool(b => b.Should(MatchOpFullNaam(naam), MatchOpNaam(naam))
+                                                               .Query(p => p.Bool(b =>
+                                                                                      b.Should(MatchOpNaam(naam))
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
                                                                                              MatchOpPostcodeOfGemeente(
@@ -165,22 +166,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                       .Fuzziness(
                            Fuzziness.Auto)
                       .Boost(2)
-                      .MinimumShouldMatch("66%"));
-    }
-
-    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpFullNaam(VerenigingsNaam naam)
-    {
-        return must => must
-           .Bool(b => b
-                     .Should(
-                          bs => bs.Match(m => m
-                                             .Field(f => f.Naam.Suffix("naamFull"))
-                                             .Query(naam)
-                                             .Fuzziness(Fuzziness.Auto)
-                          )
-                      )
-                     .MinimumShouldMatch(1)
-            );
+                      .MinimumShouldMatch("67%"));
     }
 
     private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
