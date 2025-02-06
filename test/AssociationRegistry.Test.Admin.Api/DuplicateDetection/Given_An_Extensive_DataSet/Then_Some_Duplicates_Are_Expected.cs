@@ -16,7 +16,6 @@ public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
         _helper = helper;
     }
 
-
     [Fact(Skip = "to replace with a singular duplicate test strategy")]
     public async Task With_Expected_Vereniging_In_Duplicate_List()
     {

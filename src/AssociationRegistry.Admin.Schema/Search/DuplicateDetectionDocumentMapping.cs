@@ -4,6 +4,7 @@ using Nest;
 
 public static class DuplicateDetectionDocumentMapping
 {
+    public const string DuplicateMunicipalityAnalyzer = "duplicate_mmunicipality_analyzer";
     public const string DuplicateAnalyzer = "duplicate_analyzer";
     public const string DuplicateFullNameAnalyzer = "duplicate_fullname_analyzer";
 
@@ -76,6 +77,6 @@ public static class DuplicateDetectionDocumentMapping
               .Text(
                    propertyDescriptor => propertyDescriptor
                                         .Name(document => document.Gemeente)
-                                        .Analyzer(DuplicateAnalyzer));
+                                        .Analyzer(DuplicateMunicipalityAnalyzer));
     }
 }
