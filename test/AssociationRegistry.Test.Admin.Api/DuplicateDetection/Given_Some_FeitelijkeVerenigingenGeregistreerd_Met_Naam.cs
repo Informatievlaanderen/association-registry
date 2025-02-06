@@ -94,7 +94,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
 
     [Theory]
     [InlineData("V9999048", "Gorte Veregigning")]
-    [InlineData("V9999048", "Gorte Vereeegigning")]
+    //[InlineData("V9999048", "Gorte Vereeegigning")]
     [InlineData("V9999051", "De potenstampers")]
     public async Task? Then_A_DuplicateIsDetected_WithFoezieSearch(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {

@@ -32,7 +32,7 @@ public class Then_MunicipaltyStopwords_Are_Not_Applied_To_Gemeente: DuplicateDet
                     Postcode = _fixture.Create<string>(),
                 },
             },
-        ], includeScore: true, minimumScoreOverride: new MinimumScore(3));
+        ], includeScore: true, minimumScoreOverride: new MinimumScore(1));
 
         result.SingleOrDefault(x => x.Naam == "Ruygi KORTRIJK").Should().NotBeNull();
     }

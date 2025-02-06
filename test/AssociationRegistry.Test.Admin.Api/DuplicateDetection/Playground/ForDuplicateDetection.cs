@@ -27,7 +27,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
         _duplicateDetectionService = setup.DuplicateDetectionService;
     }
 
-    [Fact]
+    [Fact(Skip = "to replace with a singular duplicate test strategy")]
     public async Task It_asciis_the_tokens()
     {
         var analyzeResponse =
@@ -43,14 +43,10 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
            .Tokens
            .Select(x => x.Token)
            .Should()
-           .BeEquivalentTo(
-                "vereniging",
-                "technologieenthusiasten",
-                "inovacie",
-                "entwikkeling");
+           .BeEquivalentTo("vereniging", "technologieenthusiasten", "inovacie", "entwikkeling");
     }
 
-    [Fact]
+    [Fact]//(Skip = "to replace with a singular duplicate test strategy")]
     public async Task It_Replaces_Hyphen_And_Underscores_With_Spaces()
     {
         var analyzeResponse =

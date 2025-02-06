@@ -39,6 +39,22 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente.Naam).ToArray();
 
+        var naamZonderGemeentes = naam.ToString().ToLower();
+
+        foreach (var gemeente in gemeentes.SelectMany(x => x.ToLower().Split('(')).Select(x => x.Trim(')')))
+        {
+            naamZonderGemeentes = naamZonderGemeentes.Replace($" {gemeente} ", string.Empty);
+
+            if (naamZonderGemeentes.StartsWith($"{gemeente} "))
+            {
+                naamZonderGemeentes = naamZonderGemeentes.Replace($"{gemeente} ", string.Empty);
+            }
+            if (naamZonderGemeentes.EndsWith($" {gemeente}"))
+            {
+                naamZonderGemeentes = naamZonderGemeentes.Replace($" {gemeente}", string.Empty);
+            }
+        }
+
         var searchResponse =
             await _client
                .SearchAsync<DuplicateDetectionDocument>(s =>
@@ -47,7 +63,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .TrackScores(includeScore)
                                                                .MinScore(minimumScoreOverride.Value)
                                                                .Query(p => p.Bool(b =>
-                                                                                      b.Should(MatchOpNaam(naam))
+                                                                                      b.Should(
+                                                                                            MatchOpNaam(VerenigingsNaam.Create(naamZonderGemeentes)))
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
                                                                                              MatchOpPostcodeOfGemeente(
