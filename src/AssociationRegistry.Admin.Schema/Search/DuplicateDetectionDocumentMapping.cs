@@ -23,6 +23,9 @@ public static class DuplicateDetectionDocumentMapping
                                                         .Text(subField => subField
                                                                          .Name("naam")
                                                                          .Analyzer(DuplicateAnalyzer)
+                                                         ).Text(subField => subField
+                                                                         .Name("naamexact")
+                                                                         .Analyzer(DuplicateFullNameAnalyzer)
                                                          )))
                              .Text(propertyDescriptor => propertyDescriptor
                                       .Name(document => document.KorteNaam)
