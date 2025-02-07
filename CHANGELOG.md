@@ -1,3 +1,10 @@
+## [8.207.2](https://github.com/informatievlaanderen/association-registry/compare/v8.207.1...v8.207.2) (2025-02-07)
+
+
+### Bug Fixes
+
+* or-2350 dont use fuziness on shingle for duplicate detection ([23e5de6](https://github.com/informatievlaanderen/association-registry/commit/23e5de6d6d0e68aec8f3f452b3fe05af24c6d790))
+
 ## [8.207.1](https://github.com/informatievlaanderen/association-registry/compare/v8.207.0...v8.207.1) (2025-02-07)
 
 
