@@ -2,6 +2,7 @@
 
 using Schema.Search;
 using DuplicateVerenigingDetection;
+using GemeentenaamDecorator;
 using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
@@ -39,23 +40,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
         var postcodes = locatiesMetAdres.Select(l => l.Adres!.Postcode).ToArray();
         var gemeentes = locatiesMetAdres.Select(l => l.Adres!.Gemeente.Naam).ToArray();
 
-        var naamZonderGemeentes = naam.ToString().ToLower();
-
-        foreach (var gemeente in gemeentes.SelectMany(x => x.ToLower().Split('(')).Select(x => x.Trim(')')))
-        {
-            naamZonderGemeentes = naamZonderGemeentes.Replace($" {gemeente} ", string.Empty);
-
-            if (naamZonderGemeentes.StartsWith($"{gemeente} "))
-            {
-                naamZonderGemeentes = naamZonderGemeentes.Replace($"{gemeente} ", string.Empty);
-            }
-            if (naamZonderGemeentes.EndsWith($" {gemeente}"))
-            {
-                naamZonderGemeentes = naamZonderGemeentes.Replace($" {gemeente}", string.Empty);
-            }
-        }
-
-        naamZonderGemeentes = naamZonderGemeentes.Trim();
+        var verrijkteGemeentes = gemeentes.Select(x => VerrijkteGemeentenaam.FromGemeentenaam(new Gemeentenaam(x))).ToArray();
+        var naamZonderGemeentes = RemoveGemeentenaamFromVerenigingsNaam.Remove(naam, verrijkteGemeentes);
 
         var searchResponse =
             await _client

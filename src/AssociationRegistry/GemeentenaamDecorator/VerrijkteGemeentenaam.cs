@@ -1,6 +1,7 @@
 namespace AssociationRegistry.GemeentenaamDecorator;
 
 using AssociationRegistry.Grar.Models.PostalInfo;
+using Vereniging;
 
 public record VerrijkteGemeentenaam
 {
@@ -25,6 +26,7 @@ public record VerrijkteGemeentenaam
     {
         if (string.IsNullOrEmpty(postnaam))
             throw new ArgumentException(nameof(postnaam));
+
         if (string.IsNullOrEmpty(gemeentenaam))
             throw new ArgumentException(nameof(gemeentenaam));
 
@@ -33,9 +35,28 @@ public record VerrijkteGemeentenaam
 
     public string Format()
     {
-        if(Postnaam is not null)
+        if (Postnaam is not null)
             return $"{Postnaam.Value} ({Gemeentenaam})";
 
         return Gemeentenaam;
+    }
+
+    public static VerrijkteGemeentenaam FromGemeentenaam(Gemeentenaam gemeentenaam)
+    {
+        try
+        {
+            var splittedGemeentenaam = gemeentenaam.Naam.Split('(').Select(x => x.Trim().Trim(')').Trim()).ToArray();
+
+            return splittedGemeentenaam.Count() switch
+            {
+                1 => ZonderPostnaam(splittedGemeentenaam.First()),
+                2 => MetPostnaam(Postnaam.FromValue(splittedGemeentenaam[0]), splittedGemeentenaam[1]),
+                _ => ZonderPostnaam(gemeentenaam.Naam),
+            };
+        }
+        catch (Exception e)
+        {
+            return ZonderPostnaam(gemeentenaam.Naam);
+        }
     }
 }
