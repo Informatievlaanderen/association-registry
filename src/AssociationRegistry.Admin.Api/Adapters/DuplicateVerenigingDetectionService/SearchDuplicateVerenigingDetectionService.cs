@@ -52,7 +52,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .MinScore(minimumScoreOverride.Value)
                                                                .Query(p => p.Bool(b =>
                                                                                       b.Should(
-                                                                                            MatchOpNaam(VerenigingsNaam.Create(naamZonderGemeentes)))
+                                                                                            MatchOpNaam(VerenigingsNaam.Create(naamZonderGemeentes)),
+                                                                                            MatchOpFullNaam(VerenigingsNaam.Create(naamZonderGemeentes)))
                                                                                         .MinimumShouldMatch(1)
                                                                                         .Filter(
                                                                                              MatchOpPostcodeOfGemeente(
@@ -168,11 +169,22 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                       .Field(f => f.Naam.Suffix("naam"))
                       .Query(naam)
                       .Analyzer(DuplicateDetectionDocumentMapping.DuplicateAnalyzer)
-                      .Fuzziness(
-                           Fuzziness.Auto)
-                      .Boost(2)
                       .MinimumShouldMatch("67%"));
     }
+
+    private static Func<QueryContainerDescriptor<DuplicateDetectionDocument>, QueryContainer> MatchOpFullNaam(VerenigingsNaam naam)
+    {
+        return must => must
+           .Match(m => m
+                      .Field(f => f.Naam.Suffix("naamexact"))
+                      .Query(naam)
+                      .Analyzer(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer)
+                      .Boost(2)
+                      .Fuzziness(
+                           Fuzziness.Auto)
+                      .MinimumShouldMatch("67%"));
+    }
+
 
     private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
         => new(

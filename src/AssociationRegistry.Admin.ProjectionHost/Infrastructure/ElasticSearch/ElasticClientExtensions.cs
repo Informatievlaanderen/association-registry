@@ -72,6 +72,12 @@ public static class ElasticClientExtensions
                        .Tokenizer("standard")
                        .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
                        .Filters("lowercase", "asciifolding", TokenFilterDutchStop)
+        ).Custom(DuplicateDetectionDocumentMapping.DuplicateFullNameAnalyzer,
+                 selector: ca
+                     => ca
+                       .Tokenizer("standard")
+                       .CharFilters(CharFilterUnderscoreReplace, CharFilterDotReplace)
+                       .Filters("lowercase", "asciifolding", TokenFilterDutchStop, TokenFilterWordDelimiter)
         );
 
 
@@ -116,7 +122,7 @@ public static class ElasticClientExtensions
     {
         return source.Shingle(TokenFilterShingle, sd => sd.MinShingleSize(2)
                                                           .MaxShingleSize(2)
-                                                          .OutputUnigrams()
+                                                          .OutputUnigrams(true)
                                                           .TokenSeparator(""));
     }
 
