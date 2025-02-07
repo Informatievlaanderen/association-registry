@@ -55,6 +55,8 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             }
         }
 
+        naamZonderGemeentes = naamZonderGemeentes.Trim();
+
         var searchResponse =
             await _client
                .SearchAsync<DuplicateDetectionDocument>(s =>
