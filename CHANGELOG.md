@@ -1,3 +1,11 @@
+## [8.207.1](https://github.com/informatievlaanderen/association-registry/compare/v8.207.0...v8.207.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* or-2350 trim spaces on query for duplication detection ([95a2182](https://github.com/informatievlaanderen/association-registry/commit/95a21825a637f2c24d41a8f57307a0881d8238b0))
+* or-2530 remove gemeentenaam from verenigingsnaam on duplicate detection ([a6c51c1](https://github.com/informatievlaanderen/association-registry/commit/a6c51c19accd3db99f2c666d1bc17962039e310e))
+
 # [8.207.0](https://github.com/informatievlaanderen/association-registry/compare/v8.206.4...v8.207.0) (2025-02-06)
 
 
