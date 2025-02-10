@@ -208,5 +208,5 @@ public class Returns_VZER_DetailResponse :
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetailWithHeader(TestContext.VCode);
+        => setup => setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.VCode);
 }
