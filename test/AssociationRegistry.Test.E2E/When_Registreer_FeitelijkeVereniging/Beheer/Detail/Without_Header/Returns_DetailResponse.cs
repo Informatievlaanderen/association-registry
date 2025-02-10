@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Formats;
 using JsonLdContext;
