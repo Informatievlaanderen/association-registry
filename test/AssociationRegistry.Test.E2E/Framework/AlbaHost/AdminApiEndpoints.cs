@@ -1,11 +1,13 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api.Administratie.DubbelControle;
+using Admin.Api.Constants;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
+using System.Net.Http.Json;
 
 public static class AdminApiEndpoints
 {
@@ -18,6 +20,15 @@ public static class AdminApiEndpoints
 
     public static DetailVerenigingResponse GetBeheerDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static DetailVerenigingResponse GetBeheerDetailWithHeader(this IAlbaHost source, string vCode)
+    {
+        var client = source.Server.CreateClient();
+        client.DefaultRequestHeaders.Add(VersionHeader.HeaderName, VersionHeader.V2);
+        var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
+
+        return response.Content.ReadFromJsonAsync<DetailVerenigingResponse>().GetAwaiter().GetResult();
+    }
 
     public static DubbelControleResponse[] PostDubbelControle(this IAlbaHost source, RegistreerFeitelijkeVerenigingRequest registreerFeitelijkeVerenigingRequest)
         => source.PostJson<RegistreerFeitelijkeVerenigingRequest>(registreerFeitelijkeVerenigingRequest,

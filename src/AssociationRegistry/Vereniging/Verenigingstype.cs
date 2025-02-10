@@ -3,6 +3,7 @@
 public class Verenigingstype
 {
     public static readonly Verenigingstype FeitelijkeVereniging = new(code: "FV", naam: "Feitelijke vereniging");
+    public static readonly Verenigingstype VZER = new(code: "VZER", naam: "Vereniging zonder eigen rechtspersoonlijkheid");
     public static readonly Verenigingstype VZW = new(code: "VZW", naam: "Vereniging zonder winstoogmerk");
     public static readonly Verenigingstype IVZW = new(code: "IVZW", naam: "Internationale vereniging zonder winstoogmerk");
     public static readonly Verenigingstype PrivateStichting = new(code: "PS", naam: "Private stichting");
