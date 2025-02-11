@@ -35,6 +35,7 @@ nuget IdentityModel.AspNetCore.OAuth2Introspection
 nuget CompareNETObjects
 
 nuget Marten
+nuget Marten.AspNetCore 7.37.1
 nuget Marten.Commandline
 
 nuget Microsoft.AspNetCore.App.Ref
@@ -114,6 +115,5 @@ nuget System.ServiceModel.Security 6.0.0
 nuget NEST 7.17.4
 
 nuget Npgsql
-
 
 

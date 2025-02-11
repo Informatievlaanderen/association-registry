@@ -32,7 +32,8 @@ public static class ConfigureMartenExtensions
 {
     public static IServiceCollection ConfigureProjectionsWithMarten(
         this IServiceCollection source,
-        ConfigurationManager configurationManager)
+        ConfigurationManager configurationManager,
+        bool isDevelopment)
     {
         source
            .AddTransient<IElasticRepository, ElasticRepository>();
@@ -40,7 +41,7 @@ public static class ConfigureMartenExtensions
         var martenConfiguration = AddMarten(source, configurationManager);
 
         if (configurationManager["ProjectionDaemonDisabled"]?.ToLowerInvariant() != "true")
-            martenConfiguration.AddAsyncDaemon(DaemonMode.HotCold);
+            martenConfiguration.AddAsyncDaemon(isDevelopment ? DaemonMode.Solo : DaemonMode.HotCold);
 
         return source;
     }
