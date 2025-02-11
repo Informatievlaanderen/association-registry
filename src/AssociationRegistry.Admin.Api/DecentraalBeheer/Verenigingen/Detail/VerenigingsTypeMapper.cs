@@ -1,16 +1,20 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
-using ResponseModels;
+using Schema.Detail;
 using Vereniging;
 
 public interface IVerenigingsTypeMapper
 {
-    VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType);
+    TDestination Map<TDestination, TSource>(TSource verenigingsType)
+        where TDestination : IVerenigingsType, new()
+        where TSource : IVerenigingsType, new();
 }
 
 public class VerenigingsTypeMapper : IVerenigingsTypeMapper
 {
-    public VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType)
+    public TDestination Map<TDestination, TSource>(TSource verenigingsType)
+    where TDestination : IVerenigingsType, new()
+    where TSource : IVerenigingsType, new()
     {
         // TODO: uncomment when implementing VZER
         // if (Vereniging.Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code))
@@ -22,28 +26,30 @@ public class VerenigingsTypeMapper : IVerenigingsTypeMapper
         //     };
         // }
 
-        return new VerenigingsType
+        return new TDestination()
         {
             Code = verenigingsType.Code,
-            Naam = verenigingsType.Naam,
+            Naam = verenigingsType.Naam
         };
     }
 }
 
 public class VerenigingsTypeMapperV2 : IVerenigingsTypeMapper
 {
-    public VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType)
+   public TDestination Map<TDestination, TSource>(TSource verenigingsType)
+        where TDestination : IVerenigingsType, new()
+        where TSource : IVerenigingsType, new()
     {
         if (Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code))
         {
-            return new VerenigingsType
+            return new TDestination
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
             };
         }
 
-        return new VerenigingsType
+        return new TDestination()
         {
             Code = verenigingsType.Code,
             Naam = verenigingsType.Naam,
