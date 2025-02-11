@@ -15,7 +15,6 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
-using VerenigingsType = ResponseModels.VerenigingsType;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -24,18 +23,21 @@ public class BeheerVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
     private readonly INamenVoorLidmaatschapMapper _namenVoorLidmaatschapMapper;
+    private readonly string? _version;
+    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
 
-    public BeheerVerenigingDetailMapper(AppSettings appSettings, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper)
+    public BeheerVerenigingDetailMapper(AppSettings appSettings, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper, string? version)
     {
         _appSettings = appSettings;
         _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
+        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
     }
 
-    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging, string? version)
+    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
         => new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
-            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl, version),
+            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl),
             Metadata = MapMetadata(vereniging),
         };
 
@@ -45,18 +47,17 @@ public class BeheerVerenigingDetailMapper
             DatumLaatsteAanpassing = vereniging.DatumLaatsteAanpassing,
         };
 
-    private static VerenigingDetail Map(
+    private VerenigingDetail Map(
         BeheerVerenigingDetailDocument vereniging,
         INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper,
-        string baseUrl,
-        string? version)
+        string baseUrl)
     {
         return new VerenigingDetail
         {
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = Map(vereniging.Verenigingstype, version),
+            Verenigingstype = _verenigingsTypeMapper.Map(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -121,24 +122,6 @@ public class BeheerVerenigingDetailMapper
                 ? $"{baseUrl}/v1/verenigingen/{gerelateerdeVereniging.VCode}"
                 : string.Empty,
         };
-
-    private static VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType, string? version)
-    {
-        if (Vereniging.Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code) && version == WellknownVersions.V2)
-        {
-            return new VerenigingsType
-            {
-                Code = Vereniging.Verenigingstype.VZER.Code,
-                Naam = Vereniging.Verenigingstype.VZER.Naam,
-            };
-        }
-
-        return new VerenigingsType
-        {
-            Code = verenigingsType.Code,
-            Naam = verenigingsType.Naam,
-        };
-    }
 
     private static Sleutel Map(Schema.Detail.Sleutel sleutel)
         => new()

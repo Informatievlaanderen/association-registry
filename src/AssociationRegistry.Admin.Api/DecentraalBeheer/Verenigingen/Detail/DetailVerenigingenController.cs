@@ -86,9 +86,8 @@ public class DetailVerenigingenController : ApiController
         var namesForLidmaatschappen =
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
-        var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen));
-
-        var mappedDetail = mapper.Map(vereniging, version);
+        var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen), version);
+        var mappedDetail = mapper.Map(vereniging);
 
         return Ok(mappedDetail);
     }
