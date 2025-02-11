@@ -15,6 +15,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
+using VerenigingsType = ResponseModels.VerenigingsType;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -57,7 +58,7 @@ public class BeheerVerenigingDetailMapper
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingsTypeMapper.Map(vereniging.Verenigingstype),
+            Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, AssociationRegistry.Admin.Schema.Detail.VerenigingsType>(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
