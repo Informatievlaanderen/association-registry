@@ -2,11 +2,15 @@ namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api.Administratie.DubbelControle;
 using Admin.Api.Constants;
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
+using JasperFx.Core;
+using Newtonsoft.Json;
+using System.Net;
 using System.Net.Http.Json;
 
 public static class AdminApiEndpoints
@@ -21,10 +25,11 @@ public static class AdminApiEndpoints
     public static DetailVerenigingResponse GetBeheerDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
 
-    public static DetailVerenigingResponse GetBeheerDetailWithHeader(
+    public static async  Task<DetailVerenigingResponse> GetBeheerDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        string vCode)
+        string vCode,
+        long? expectedSequence)
     {
         var client = source.Server.CreateClient();
 
@@ -33,11 +38,19 @@ public static class AdminApiEndpoints
             client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
         }
 
-        client.DefaultRequestHeaders.Add(VersionHeader.HeaderName, VersionHeader.V2);
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
 
-        var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
-        var k = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-        return response.Content.ReadFromJsonAsync<DetailVerenigingResponse>().GetAwaiter().GetResult();
+        var response = await client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
+
+        while (response.StatusCode == HttpStatusCode.PreconditionFailed)
+        {
+            await Task.Delay(300);
+            response = await client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
+        }
+
+        var readAsStringAsync = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<DetailVerenigingResponse>(readAsStringAsync);
     }
 
     public static DubbelControleResponse[] PostDubbelControle(this IAlbaHost source, RegistreerFeitelijkeVerenigingRequest registreerFeitelijkeVerenigingRequest)

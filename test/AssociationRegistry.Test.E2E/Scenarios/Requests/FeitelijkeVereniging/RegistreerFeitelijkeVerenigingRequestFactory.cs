@@ -129,7 +129,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
             Werkingsgebieden = ["BE25", "BE25535002"],
         };
 
-        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
@@ -144,10 +144,13 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response.Headers.Location.First().Split('/').Last();
+        })).Context.Response;
 
-        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        var vCode = response.Headers.Location.First().Split('/').Last();
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
+        await apiSetup.AdminProjectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+
+        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request, sequence);
     }
 }
