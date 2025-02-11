@@ -12,6 +12,7 @@ using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -80,11 +81,12 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
 
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
-
-
-
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
+        var lightweightSession = AdminApiHost.DocumentStore().LightweightSession();
+        lightweightSession.Events.Append("force-init", new object());
+        await lightweightSession.SaveChangesAsync();
+        await AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(1));
     }
 
     public IElasticClient ElasticClient { get; set; }
