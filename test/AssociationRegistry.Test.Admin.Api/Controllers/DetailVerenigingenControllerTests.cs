@@ -43,6 +43,7 @@ public class DetailVerenigingenControllerTests
             Mock.Of<IResponseWriter>(),
             detail.VCode,
             null,
+            null,
             CancellationToken.None);
 
         getNamesQuery.Verify(x => x.ExecuteAsync(
