@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
+using Marten.Events.Daemon;
 using TestClasses;
 
 public interface IApiSetup
@@ -11,5 +12,8 @@ public interface IApiSetup
     public IAlbaHost AdminProjectionHost { get; }
     public IAlbaHost PublicProjectionHost { get; }
     public IAlbaHost PublicApiHost { get; }
+
+    public IProjectionDaemon AdminProjectionDaemon { get; }
+
     Task ExecuteGiven(IScenario scenario);
 }

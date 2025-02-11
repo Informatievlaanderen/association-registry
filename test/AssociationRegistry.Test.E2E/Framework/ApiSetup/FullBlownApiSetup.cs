@@ -11,6 +11,8 @@ using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Marten.Events;
+using Marten.Events.Daemon;
+using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
@@ -83,12 +85,28 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
-        var lightweightSession = AdminApiHost.DocumentStore().LightweightSession();
-        lightweightSession.Events.Append("force-init", new object());
-        await lightweightSession.SaveChangesAsync();
-        await AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(1));
+        AdminProjectionDaemon = AdminProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
+
+        var agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
+        {
+            x.Name.Identity, x.Position, x.Status
+        });
+
+
+        while (!agents.Any())
+        {
+            Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
+            await Task.Delay(500);
+            agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
+            {
+                x.Name.Identity, x.Position, x.Status
+            });
+
+        }
+        Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
     }
 
+    public IProjectionDaemon AdminProjectionDaemon { get; private set; }
     public IElasticClient ElasticClient { get; set; }
     public HttpClient SuperAdminHttpClient { get; private set; }
 

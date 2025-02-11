@@ -10,6 +10,7 @@ using Infrastructure.Program;
 using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
+using Marten.Events.Daemon;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -65,13 +66,15 @@ public class Program
 
         builder.Services
                .ConfigureRequestLocalization()
-               .ConfigureProjectionsWithMarten(builder.Configuration)
+               .ConfigureProjectionsWithMarten(builder.Configuration, builder.Environment.IsDevelopment())
                .ConfigureSwagger()
                .ConfigureElasticSearch(elasticSearchOptions)
                .AddMvc()
                .AddDataAnnotationsLocalization();
 
-        builder.Services.AddHealthChecks();
+        builder.Services
+               .AddHealthChecks()
+               .AddMartenAsyncDaemonHealthCheck();
 
         builder.Services.TryAddEnumerable(ServiceDescriptor.Transient<IApiControllerSpecification, ApiControllerSpec>());
 
@@ -88,6 +91,7 @@ public class Program
 
         // app.SetUpSwagger();
         ConfigureHealtChecks(app);
+        ConfigureLifetimeHooks(app);
 
         await app.RunOaktonCommands(args);
     }
@@ -161,6 +165,27 @@ public class Program
 
         app.UseHealthChecks(path: "/health", healthCheckOptions);
     }
+
+    private static void ConfigureLifetimeHooks(WebApplication app)
+    {
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Admin Projections Application started"));
+
+        app.Lifetime.ApplicationStopping.Register(
+            () =>
+            {
+                Log.Information("Admin Projections Application stopping");
+                Log.CloseAndFlush();
+            });
+
+        Console.CancelKeyPress += (_, eventArgs) =>
+        {
+            app.Lifetime.StopApplication();
+
+            // Don't terminate the process immediately, wait for the Main thread to exit gracefully.
+            eventArgs.Cancel = true;
+        };
+    }
+
 }
 
 public static class ResponseExtensions

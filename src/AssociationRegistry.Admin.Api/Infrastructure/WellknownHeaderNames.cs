@@ -7,4 +7,10 @@ public class WellknownHeaderNames
     public const string Initiator = "VR-Initiator";
     public const string IfMatch = "If-Match";
     public const string CorrelationId = "X-Correlation-Id";
+    public const string Version = "VR-Api-Version";
+}
+
+public class WellknownVersions
+{
+    public const string V2 = "v2";
 }
