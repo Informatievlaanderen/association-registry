@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
@@ -20,11 +20,11 @@ using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
+public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_VZER_ZoekResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
         _testContext = testContext;
     }
@@ -51,8 +51,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
             KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZER.Code,
+                Naam = Verenigingstype.VZER.Naam,
             },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
@@ -136,5 +136,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

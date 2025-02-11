@@ -10,6 +10,7 @@ using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;
 using Exceptions;
 using FluentValidation;
+using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using Nest;
 using RequestModels;
@@ -25,13 +26,6 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [SwaggerGroup.Opvragen]
 public class SearchVerenigingenController : ApiController
 {
-    private readonly SearchVerenigingenResponseMapper _responseMapper;
-
-    public SearchVerenigingenController(SearchVerenigingenResponseMapper responseMapper)
-    {
-        _responseMapper = responseMapper;
-    }
-
     /// <summary>
     ///     Zoek verenigingen op.
     /// </summary>
@@ -94,6 +88,8 @@ public class SearchVerenigingenController : ApiController
     /// <param name="query"></param>
     /// <param name="validator"></param>
     /// <param name="logger"></param>
+    /// <param name="appSettings"></param>
+    /// <param name="version">De versie van dit endpoint.</param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -113,6 +109,8 @@ public class SearchVerenigingenController : ApiController
         [FromServices] IBeheerVerenigingenZoekQuery query,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
+        [FromServices] AppSettings appSettings,
+        [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
         CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
@@ -130,7 +128,8 @@ public class SearchVerenigingenController : ApiController
             throw searchResponse.OriginalException;
         }
 
-        var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
+        var responseMapper = new SearchVerenigingenResponseMapper(appSettings, version);
+        var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
 
         return Ok(response);
     }

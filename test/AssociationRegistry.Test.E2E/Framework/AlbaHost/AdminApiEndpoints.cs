@@ -59,4 +59,31 @@ public static class AdminApiEndpoints
 
     public static SearchVerenigingenResponse GetBeheerZoeken(this IAlbaHost source, string query)
         => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+
+    public static async  Task<SearchVerenigingenResponse> GetBeheerZoekenV2(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string query)
+    {
+        var client = source.Server.CreateClient();
+
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+
+        var response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+
+        while (response.StatusCode == HttpStatusCode.PreconditionFailed)
+        {
+            await Task.Delay(300);
+            response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+        }
+
+        var readAsStringAsync = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<SearchVerenigingenResponse>(readAsStringAsync);
+    }
 }

@@ -1,5 +1,7 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
+using Detail;
+
 public class VerenigingZoekDocument
 {
     public string JsonLdMetadataType { get; set; }
@@ -67,7 +69,7 @@ public class VerenigingZoekDocument
         public string Naam { get; init; } = null!;
     }
 
-    public class VerenigingsType
+    public class VerenigingsType : IVerenigingsType
     {
         public string Code { get; init; } = null!;
         public string Naam { get; init; } = null!;
