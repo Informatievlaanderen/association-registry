@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.Formats;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Infrastructure;
 using ResponseModels;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
@@ -30,11 +31,11 @@ public class BeheerVerenigingDetailMapper
         _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
     }
 
-    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
+    public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging, string? version)
         => new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
-            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl),
+            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl, version),
             Metadata = MapMetadata(vereniging),
         };
 
@@ -47,14 +48,15 @@ public class BeheerVerenigingDetailMapper
     private static VerenigingDetail Map(
         BeheerVerenigingDetailDocument vereniging,
         INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper,
-        string baseUrl)
+        string baseUrl,
+        string? version)
     {
         return new VerenigingDetail
         {
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = Map(vereniging.Verenigingstype),
+            Verenigingstype = Map(vereniging.Verenigingstype, version),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -120,12 +122,23 @@ public class BeheerVerenigingDetailMapper
                 : string.Empty,
         };
 
-    private static VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType)
-        => new()
+    private static VerenigingsType Map(Schema.Detail.VerenigingsType verenigingsType, string? version)
+    {
+        if (Vereniging.Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code) && version == WellknownVersions.V2)
+        {
+            return new VerenigingsType
+            {
+                Code = Vereniging.Verenigingstype.VZER.Code,
+                Naam = Vereniging.Verenigingstype.VZER.Naam,
+            };
+        }
+
+        return new VerenigingsType
         {
             Code = verenigingsType.Code,
             Naam = verenigingsType.Naam,
         };
+    }
 
     private static Sleutel Map(Schema.Detail.Sleutel sleutel)
         => new()
