@@ -2,6 +2,8 @@
 
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Detail;
+using Infrastructure;
 using Nest;
 using RequestModels;
 using ResponseModels;
@@ -9,10 +11,13 @@ using ResponseModels;
 public class SearchVerenigingenResponseMapper
 {
     private readonly AppSettings _appSettings;
+    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
 
-    public SearchVerenigingenResponseMapper(AppSettings appSettings)
+    public SearchVerenigingenResponseMapper(AppSettings appSettings,string version)
     {
         _appSettings = appSettings;
+        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
+
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
@@ -29,7 +34,7 @@ public class SearchVerenigingenResponseMapper
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
 
-    private static Vereniging Map(
+    private Vereniging Map(
         ILogger<SearchVerenigingenController> logger,
         VerenigingZoekDocument verenigingZoekDocument,
         AppSettings appSettings)
@@ -41,7 +46,7 @@ public class SearchVerenigingenResponseMapper
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
                 CorresponderendeVCodes = verenigingZoekDocument.CorresponderendeVCodes,
-                Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -116,13 +121,6 @@ public class SearchVerenigingenResponseMapper
             type = wg.JsonLdMetadata.Type,
             Code = wg.Code,
             Naam = wg.Naam,
-        };
-
-    private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
-        => new()
-        {
-            Code = verenigingDocumentType.Code,
-            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)
