@@ -29,4 +29,7 @@ public class Verenigingstype
 
     public static Verenigingstype Parse(string code)
         => All.Single(t => t.Code == code);
+
+    public static bool IsVerenigingZonderEigenRechtspersoonlijkheid(string code)
+        => code == FeitelijkeVereniging.Code || code == VZER.Code;
 }

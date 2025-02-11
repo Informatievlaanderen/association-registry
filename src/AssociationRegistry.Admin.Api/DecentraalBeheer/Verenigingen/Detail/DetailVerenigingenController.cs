@@ -39,6 +39,7 @@ public class DetailVerenigingenController : ApiController
     /// <param name="responseWriter"></param>
     /// <param name="vCode">De vCode van de vereniging</param>
     /// <param name="expectedSequence">Sequentiewaarde verkregen bij creatie of aanpassing vereniging.</param>
+    /// <param name="version">De versie van dit endpoint.</param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
@@ -65,6 +66,7 @@ public class DetailVerenigingenController : ApiController
         [FromServices] IResponseWriter responseWriter,
         [FromRoute] string vCode,
         [FromQuery] long? expectedSequence,
+        [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
         CancellationToken cancellationToken)
     {
         await sequenceGuarder.ThrowIfSequenceNotReached(expectedSequence);
@@ -85,7 +87,8 @@ public class DetailVerenigingenController : ApiController
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
         var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen));
-        var mappedDetail = mapper.Map(vereniging);
+
+        var mappedDetail = mapper.Map(vereniging, version);
 
         return Ok(mappedDetail);
     }
