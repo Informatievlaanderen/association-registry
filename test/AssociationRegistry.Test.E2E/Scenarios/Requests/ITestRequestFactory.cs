@@ -8,4 +8,4 @@ public interface ITestRequestFactory<TRequest>
     Task<RequestResult<TRequest>> ExecuteRequest(IApiSetup apiSetup);
 }
 
-public record RequestResult<TRequest>(VCode VCode, TRequest Request);
+public record RequestResult<TRequest>(VCode VCode, TRequest Request, long? Sequence = null);

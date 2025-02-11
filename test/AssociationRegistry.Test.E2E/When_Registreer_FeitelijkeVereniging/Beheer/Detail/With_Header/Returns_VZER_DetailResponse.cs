@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Detail.With_Header;
 
+using Admin.Api;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
@@ -12,7 +13,10 @@ using Framework.TestClasses;
 using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NodaTime;
+using Serilog;
 using Xunit;
 using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
@@ -208,5 +212,16 @@ public class Returns_VZER_DetailResponse :
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.VCode);
+    {
+        get { return setup =>
+        {
+            var logger = setup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
+
+            logger.LogInformation("EXECUTING GET REQUEST");
+
+            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
+                                                                TestContext.RequestResult.Sequence)
+                        .GetAwaiter().GetResult();
+        }; }
+    }
 }
