@@ -19,7 +19,8 @@ public class Given_A_Null_Adres
         var fixture = new Fixture().CustomizePublicApi();
         var publiekVerenigingDetailDocument = fixture.Create<PubliekVerenigingDetailDocument>();
         publiekVerenigingDetailDocument.Locaties.First().Adres = null;
-        var publiekVerenigingDetailResponse = PubliekVerenigingDetailMapper.Map(publiekVerenigingDetailDocument, new AppSettings(), Mock.Of<INamenVoorLidmaatschapMapper>());
+        var responseMapper = new PubliekVerenigingDetailMapper(new AppSettings(), null);
+        var publiekVerenigingDetailResponse = responseMapper.Map(publiekVerenigingDetailDocument, Mock.Of<INamenVoorLidmaatschapMapper>());
         publiekVerenigingDetailResponse.Vereniging.Locaties.First().Adres.Should().BeNull();
     }
 }

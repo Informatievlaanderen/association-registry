@@ -30,28 +30,7 @@ public static class AdminApiEndpoints
         HttpClient authenticatedClient,
         string vCode,
         long? expectedSequence)
-    {
-        var client = source.Server.CreateClient();
-
-        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
-        {
-            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
-        }
-
-        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
-
-        var response = await client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
-
-        while (response.StatusCode == HttpStatusCode.PreconditionFailed)
-        {
-            await Task.Delay(300);
-            response = await client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
-        }
-
-        var readAsStringAsync = await response.Content.ReadAsStringAsync();
-
-        return JsonConvert.DeserializeObject<DetailVerenigingResponse>(readAsStringAsync);
-    }
+        => await GetResponseFromRequestWithHeader<DetailVerenigingResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
 
     public static DubbelControleResponse[] PostDubbelControle(this IAlbaHost source, RegistreerFeitelijkeVerenigingRequest registreerFeitelijkeVerenigingRequest)
         => source.PostJson<RegistreerFeitelijkeVerenigingRequest>(registreerFeitelijkeVerenigingRequest,
@@ -64,6 +43,12 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query)
+    => await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient, $"/v1/verenigingen/zoeken?q={query}");
+
+    private static async Task<TResponse> GetResponseFromRequestWithHeader<TResponse>(
+        IAlbaHost source,
+        HttpClient authenticatedClient,
+        string requestUri)
     {
         var client = source.Server.CreateClient();
 
@@ -74,16 +59,16 @@ public static class AdminApiEndpoints
 
         client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
 
-        var response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+        var response = await client.GetAsync(requestUri);
 
         while (response.StatusCode == HttpStatusCode.PreconditionFailed)
         {
             await Task.Delay(300);
-            response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+            response = await client.GetAsync(requestUri);
         }
 
         var readAsStringAsync = await response.Content.ReadAsStringAsync();
 
-        return JsonConvert.DeserializeObject<SearchVerenigingenResponse>(readAsStringAsync);
+        return JsonConvert.DeserializeObject<TResponse>(readAsStringAsync);
     }
 }
