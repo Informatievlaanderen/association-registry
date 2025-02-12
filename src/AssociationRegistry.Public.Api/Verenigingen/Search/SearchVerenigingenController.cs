@@ -7,6 +7,8 @@ using Constants;
 using Detail;
 using Exceptions;
 using FluentValidation;
+using Infrastructure;
+using Infrastructure.ConfigurationBindings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -34,13 +36,6 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class SearchVerenigingenController : ApiController
 {
-    private readonly SearchVerenigingenResponseMapper _responseMapper;
-
-    public SearchVerenigingenController(SearchVerenigingenResponseMapper responseMapper)
-    {
-        _responseMapper = responseMapper;
-    }
-
     /// <summary>
     ///     Zoek verenigingen op.
     /// </summary>
@@ -107,6 +102,7 @@ public class SearchVerenigingenController : ApiController
     /// </param>
     /// <param name="paginationQueryParams">De paginatie parameters</param>
     /// <param name="validator"></param>
+    /// <param name="version">De versie van dit endpoint.</param>
     /// <param name="cancellationToken"></param>
     /// <response code="200">Indien de zoekopdracht succesvol was.</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -127,6 +123,8 @@ public class SearchVerenigingenController : ApiController
         [FromServices] IPubliekVerenigingenZoekQuery query,
         [FromServices] IValidator<PaginationQueryParams> validator,
         [FromServices] ILogger<SearchVerenigingenController> logger,
+        [FromServices] AppSettings appsettings,
+        [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
         CancellationToken cancellationToken)
     {
         await validator.ValidateAndThrowAsync(paginationQueryParams, cancellationToken);
@@ -149,7 +147,9 @@ public class SearchVerenigingenController : ApiController
             throw searchResponse.OriginalException;
         }
 
-        var response = _responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
+        var responseMapper = new SearchVerenigingenResponseMapper(appsettings, logger, version);
+
+        var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q, hoofdActiviteitenArray);
 
         return Ok(response);
     }

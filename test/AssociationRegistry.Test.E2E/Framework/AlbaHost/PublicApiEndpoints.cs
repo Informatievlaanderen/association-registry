@@ -1,7 +1,9 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Alba;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Public.Api.Infrastructure;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Public.Api.Werkingsgebieden.ResponseModels;
@@ -22,6 +24,33 @@ public static class PublicApiEndpoints
 
     public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
         => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+
+    public static async  Task<SearchVerenigingenResponse> GetPubliekZoekenV2(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string query)
+    {
+        var client = source.Server.CreateClient();
+
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+
+        var response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+
+        while (response.StatusCode == HttpStatusCode.PreconditionFailed)
+        {
+            await Task.Delay(300);
+            response = await client.GetAsync($"/v1/verenigingen/zoeken?q={query}");
+        }
+
+        var readAsStringAsync = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<SearchVerenigingenResponse>(readAsStringAsync);
+    }
 
     public static WerkingsgebiedenResponse GetWerkingsgebieden(this IAlbaHost source)
         => source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden").GetAwaiter().GetResult()!;

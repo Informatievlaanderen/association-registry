@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail.Projector;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
 using Events;

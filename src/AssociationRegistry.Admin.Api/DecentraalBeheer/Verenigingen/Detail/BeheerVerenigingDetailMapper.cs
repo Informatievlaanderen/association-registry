@@ -58,7 +58,7 @@ public class BeheerVerenigingDetailMapper
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, AssociationRegistry.Admin.Schema.Detail.VerenigingsType>(vereniging.Verenigingstype),
+            Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, Schema.VerenigingsType>(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
