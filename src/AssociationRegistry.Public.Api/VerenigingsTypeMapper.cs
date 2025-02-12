@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
+﻿namespace AssociationRegistry.Public.Api;
 
+using AssociationRegistry.Vereniging;
 using Schema;
-using Vereniging;
 
 public interface IVerenigingsTypeMapper
 {

@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 
-using Schema.Detail;
+using Schema;
 using System.Runtime.Serialization;
 
 [DataContract]

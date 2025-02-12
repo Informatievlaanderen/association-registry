@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search;
 
 using Constants;
+using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Nest;
 using RequestModels;
@@ -14,12 +15,14 @@ using Relatie = ResponseModels.Relatie;
 public class SearchVerenigingenResponseMapper
 {
     private readonly AppSettings _appSettings;
-    private readonly ILogger<SearchVerenigingenResponseMapper> _logger;
+    private readonly ILogger<SearchVerenigingenController> _logger;
+    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
 
-    public SearchVerenigingenResponseMapper(AppSettings appSettings, ILogger<SearchVerenigingenResponseMapper> logger)
+    public SearchVerenigingenResponseMapper(AppSettings appSettings, ILogger<SearchVerenigingenController> logger, string? version)
     {
         _appSettings = appSettings;
         _logger = logger;
+        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
@@ -44,7 +47,7 @@ public class SearchVerenigingenResponseMapper
             HoofdactiviteitenVerenigingsloket = GetHoofdActiviteitFacets(_appSettings, searchResponse, originalQuery, hoofdactiviteiten),
         };
 
-    private static Vereniging Map(
+    private Vereniging Map(
         ILogger<SearchVerenigingenController> logger,
         VerenigingZoekDocument verenigingZoekDocument,
         AppSettings appSettings)
@@ -61,7 +64,7 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
-                Verenigingstype = Map(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType,VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -125,13 +128,6 @@ public class SearchVerenigingenResponseMapper
             type = w.JsonLdMetadata.Type,
             Code = w.Code,
             Naam = w.Naam,
-        };
-
-    private static VerenigingsType Map(VerenigingZoekDocument.VerenigingsType verenigingDocumentType)
-        => new()
-        {
-            Code = verenigingDocumentType.Code,
-            Naam = verenigingDocumentType.Naam,
         };
 
     private static Metadata GetMetadata(ISearchResponse<VerenigingZoekDocument> searchResponse, PaginationQueryParams paginationRequest)

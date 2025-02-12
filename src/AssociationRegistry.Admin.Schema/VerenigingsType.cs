@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Schema.Detail;
+﻿namespace AssociationRegistry.Admin.Schema;
 
 public record VerenigingsType : IVerenigingsType
 {

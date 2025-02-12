@@ -246,7 +246,6 @@ public class Program
                .AddSingleton(appSettings)
                .AddMarten(postgreSqlOptionsSection, builder.Configuration)
                .AddElasticSearch(elasticSearchOptionsSection)
-               .AddSingleton<SearchVerenigingenResponseMapper>()
                .AddTransient<IPubliekVerenigingenDetailAllQuery, PubliekVerenigingenDetailAllQuery>()
                .AddTransient<IPubliekVerenigingenZoekQuery, PubliekVerenigingenZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>()
