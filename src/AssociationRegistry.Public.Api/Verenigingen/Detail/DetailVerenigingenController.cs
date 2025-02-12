@@ -4,6 +4,7 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
+using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Marten;
@@ -21,17 +22,11 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiExplorerSettings(GroupName = "Opvragen van verenigingen")]
 public class DetailVerenigingenController : ApiController
 {
-    private readonly AppSettings _appsettings;
-
-    public DetailVerenigingenController(AppSettings appsettings)
-    {
-        _appsettings = appsettings;
-    }
-
     /// <summary>
     ///     Vraag het detail van een vereniging op.
     /// </summary>
     /// <param name="vCode">De unieke identificatie code van deze vereniging</param>
+    /// <param name="version">De versie van dit endpoint.</param>
     /// <response code="200">Het detail van een vereniging</response>
     /// <response code="404">De gevraagde vereniging is niet gevonden</response>
     /// <response code="500">Er is een interne fout opgetreden.</response>
@@ -44,7 +39,9 @@ public class DetailVerenigingenController : ApiController
     public async Task<IActionResult> Detail(
         [FromServices] IDocumentStore store,
         [FromServices] IGetNamesForVCodesQuery getNamesForVCodesQuery,
+        [FromServices] AppSettings appSettings,
         [FromRoute] string vCode,
+        [FromHeader(Name = WellknownHeaderNames.Version)] string? version,
         CancellationToken cancellationToken)
     {
         await using var session = store.LightweightSession();
@@ -59,8 +56,9 @@ public class DetailVerenigingenController : ApiController
         var namesForLidmaatschappen =
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
-        return Ok(PubliekVerenigingDetailMapper.Map(vereniging, _appsettings,
-                                                    new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
+        var responseMapper = new PubliekVerenigingDetailMapper(appSettings, version);
+
+        return Ok(responseMapper.Map(vereniging, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

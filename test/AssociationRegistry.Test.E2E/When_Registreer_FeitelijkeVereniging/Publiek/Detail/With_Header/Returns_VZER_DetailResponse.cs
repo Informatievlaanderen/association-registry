@@ -1,27 +1,36 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken.With_Header;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Detail.With_Header;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Vereniging;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Formats;
+using JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.TestClasses;
+using Vereniging;
 using KellermanSoftware.CompareNetObjects;
+using NodaTime;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Public.Api.Verenigingen.Search.ResponseModels.Locatie;
-using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
-using Werkingsgebied = Public.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
+using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
+using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using GestructureerdeIdentificator = Public.Api.Verenigingen.Detail.ResponseModels.GestructureerdeIdentificator;
+using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;
+using Locatie = Public.Api.Verenigingen.Detail.ResponseModels.Locatie;
+using Relatie = Public.Api.Verenigingen.Detail.ResponseModels.Relatie;
+using Sleutel = Public.Api.Verenigingen.Detail.ResponseModels.Sleutel;
+using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
+public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_VZER_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
         _testContext = testContext;
     }
@@ -29,12 +38,20 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/detail-vereniging-context.json");
+    }
+
+    [Fact]
+    public void With_Metadata_DatumLaatsteAanpassing()
+    {
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
+                                                               compareConfig: new ComparisonConfig
+                                                                   { MaxMillisecondsDateDifference = 5000 });
     }
 
     [Fact]
     public async Task WithFeitelijkeVereniging()
-        => Response.Verenigingen.Single().ShouldCompare(new Vereniging
+        => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
             Doelgroep = new DoelgroepResponse
@@ -53,17 +70,15 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
                 Naam = Verenigingstype.VZER.Naam,
             },
             Naam = Request.Naam,
+            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            Status = VerenigingStatus.Actief,
+            Contactgegevens = MapContactgegevens(Request.Contactgegevens, _testContext.VCode),
             HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = MapLocaties(Request.Locaties, _testContext.VCode),
-            Relaties = [],
-            Lidmaatschappen = [],
+            Relaties = MapRelaties([], _testContext.VCode),
             Sleutels = MapSleutels(Request, _testContext.VCode),
-            Links = new VerenigingLinks()
-            {
-                Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
-            },
-        }, compareConfig: PubliekZoekenComparisonConfig.Instance);
+        }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
         =>
@@ -83,6 +98,29 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
                 },
             },
         ];
+
+    private static Relatie[] MapRelaties(Relatie[] relaties, string vCode)
+    {
+        return relaties.Select((x, i) => new Relatie
+        {
+            AndereVereniging = x.AndereVereniging,
+            Relatietype = x.Relatietype,
+        }).ToArray();
+    }
+
+    private static Contactgegeven[] MapContactgegevens(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    {
+        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
+        {
+            id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Contactgegeven.Type,
+            Contactgegeventype = x.Contactgegeventype,
+            Waarde = x.Waarde,
+            Beschrijving = x.Beschrijving!,
+            IsPrimair = x.IsPrimair,
+        }).ToArray();
+    }
 
     private static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
     {
@@ -131,6 +169,6 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
         }).ToArray();
     }
 
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.RequestResult.Sequence).GetAwaiter().GetResult();
 }

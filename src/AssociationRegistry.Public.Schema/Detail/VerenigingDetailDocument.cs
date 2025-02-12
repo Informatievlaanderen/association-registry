@@ -36,10 +36,10 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     [Identity] public string VCode { get; set; } = null!;
 
-    public class VerenigingsType
+    public class VerenigingsType : IVerenigingsType
     {
-        public string Code { get; set; } = null!;
-        public string Naam { get; set; } = null!;
+        public string Code { get; init; } = null!;
+        public string Naam { get; init; } = null!;
     }
 
     public class Contactgegeven

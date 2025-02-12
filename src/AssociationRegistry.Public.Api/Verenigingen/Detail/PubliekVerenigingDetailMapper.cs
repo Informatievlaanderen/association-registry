@@ -1,24 +1,34 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail;
 
 using Formats;
+using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
 
-public static class PubliekVerenigingDetailMapper
+public class PubliekVerenigingDetailMapper
 {
-    public static PubliekVerenigingDetailResponse Map(
+    private readonly AppSettings _appSettings;
+    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
+
+    public PubliekVerenigingDetailMapper(AppSettings appSettings, string version)
+    {
+        _appSettings = appSettings;
+        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
+
+    }
+
+    public PubliekVerenigingDetailResponse Map(
         PubliekVerenigingDetailDocument document,
-        AppSettings appSettings,
         INamenVoorLidmaatschapMapper lidmaatschapMapper)
         => new()
         {
-            Context = $"{appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
+            Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
             Vereniging = new Vereniging
             {
                 type = document.JsonLdMetadataType,
                 VCode = document.VCode,
-                Verenigingstype = Map(document.Verenigingstype),
+                Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, PubliekVerenigingDetailDocument.VerenigingsType>(document.Verenigingstype),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,
@@ -37,7 +47,7 @@ public static class PubliekVerenigingDetailMapper
                 HoofdactiviteitenVerenigingsloket = document.HoofdactiviteitenVerenigingsloket.Select(Map).ToArray(),
                 Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
-                Relaties = document.Relaties.Select(r => Map(appSettings, r)).ToArray(),
+                Relaties = document.Relaties.Select(r => Map(_appSettings, r)).ToArray(),
                 Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, lidmaatschapMapper)).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
