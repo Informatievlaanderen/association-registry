@@ -6,12 +6,12 @@ using AssociationRegistry.Admin.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
+using Framework;
 using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Vereniging;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
@@ -30,16 +30,17 @@ public class When_Searching_On_Type
         var elasticClient = fixture.ElasticClient;
         _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
 
-
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
+        _feitelijkeVereniging.Naam = "de kleine vereniging";
         _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
             Code = Verenigingstype.FeitelijkeVereniging.Code,
             Naam = Verenigingstype.FeitelijkeVereniging.Naam,
         };
         _vzer = autoFixture.Create<VerenigingZoekDocument>();
+        _vzer.Naam = "de kleine vereniging";
         _vzer.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
             Code = Verenigingstype.VZER.Code,
@@ -47,45 +48,42 @@ public class When_Searching_On_Type
         };
 
         _elasticClient = elasticClient;
-
     }
 
-    [Fact]
-    public async Task? With_VZER_In_Query_Returns_FV_And_VZER()
-    {
-        var actual = await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter("q=type:VZER", "vCode", new PaginationQueryParams()),
-                                              CancellationToken.None);
-
-        actual.Documents.Should().Contain(_feitelijkeVereniging);
-        actual.Documents.Should().Contain(_vzer);
-    }
-
-    [Fact]
-    public async Task With_FV_In_Query_Returns_FV_And_VZER()
+    [Theory]
+    [InlineData("verenigingstype.code:FV")]
+    [InlineData("verenigingstype.code:fv")]
+    [InlineData("verenigingstype.code: fv ")]
+    [InlineData("verenigingstype.code: fv AND verenigingstype.code: vzer")]
+    [InlineData("verenigingstype.code: fv AND naam:de kleine vereniging AND verenigingstype.code: vzer")]
+    [InlineData("naam:de kleine vereniging AND verenigingstype.code: fv AND verenigingstype.code: vzer")]
+    [InlineData("verenigingstype.code:VZER")]
+    [InlineData("verenigingstype.code:vzer")]
+    [InlineData("verenigingstype.code: vzer ")]
+    [InlineData("verenigingstype.code: vzer AND verenigingstype.code: fv")]
+    [InlineData("verenigingstype.code: vzer AND naam:de kleine vereniging AND verenigingstype.code: fv")]
+    [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
+    public async Task With_FV_In_Query_Returns_FV_And_VZER(string query)
     {
         var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
         var indexVzer = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_vzer);
 
-        indexFeitelijke.IsValid.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexFeitelijke.DebugInformation}'");
-        indexVzer.IsValid.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexVzer.DebugInformation}'");
+        indexFeitelijke.ShouldBeValidIndexResponse();
+        indexVzer.ShouldBeValidIndexResponse();
 
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
         _query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
         var searchResponse = await _query.ExecuteAsync(
-            new BeheerVerenigingenZoekFilter(query: $"verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code} " +
-                                                    $"AND " +
-                                                    $"vCode:{_feitelijkeVereniging.VCode}",
+            new BeheerVerenigingenZoekFilter(query: query,
                                              sort: "vCode",
                                              paginationQueryParams: new PaginationQueryParams()),
             CancellationToken.None);
 
         var actualFV = searchResponse.Documents.SingleOrDefault(x => x.VCode == _feitelijkeVereniging.VCode);
-        actualFV.Should().NotBeNull();
         actualFV.Should().BeEquivalentTo(_feitelijkeVereniging);
 
         var actualVZER = searchResponse.Documents.SingleOrDefault(x => x.VCode == _vzer.VCode);
-        actualVZER.Should().NotBeNull();
         actualVZER.Should().BeEquivalentTo(_vzer);
     }
 }
