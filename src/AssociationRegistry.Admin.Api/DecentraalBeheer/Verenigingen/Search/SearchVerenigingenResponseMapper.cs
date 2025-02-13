@@ -73,7 +73,7 @@ public class SearchVerenigingenResponseMapper
                 Links = Map(verenigingZoekDocument.VCode, appSettings),
             };
         }
-        catch
+        catch (Exception e)
         {
             logger.LogError(message: "Could not map {VCode}: \n{@Doc}", verenigingZoekDocument.VCode, verenigingZoekDocument);
 

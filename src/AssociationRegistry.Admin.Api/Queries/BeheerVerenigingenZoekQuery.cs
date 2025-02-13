@@ -79,7 +79,7 @@ public record BeheerVerenigingenZoekFilter
         PaginationQueryParams = paginationQueryParams;
     }
 
-    private string? ReplaceVerenigingstype(string query)
+    private string ReplaceVerenigingstype(string query)
     {
         var replacement = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
 
