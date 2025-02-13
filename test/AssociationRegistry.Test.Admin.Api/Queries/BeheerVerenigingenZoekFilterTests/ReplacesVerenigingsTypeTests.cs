@@ -1,9 +1,23 @@
 namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingenZoekFilterTests;
 
+using AssociationRegistry.Admin.Api.Queries;
+using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
+using FluentAssertions;
 using Xunit;
 
-public class ReplacesVerenigingsTypeTests
+public class With_Verenigingstype
 {
-    [Fact]
-    public void Wi
+    [Theory]
+    [InlineData("verenigingstype.code:FV", "(verenigingstype.code:VZER OR verenigingstype.code:FV)")]
+    [InlineData("verenigingstype.code:fv", "(verenigingstype.code:VZER OR verenigingstype.code:FV)")]
+    [InlineData("verenigingstype.code: fv ", "(verenigingstype.code:VZER OR verenigingstype.code:FV) ")]
+    [InlineData("verenigingstype.code: fv AND verenigingstype.code: vzer", "(verenigingstype.code:VZER OR verenigingstype.code:FV) AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
+    [InlineData("verenigingstype.code: fv AND naam:de grote vereniging AND verenigingstype.code: vzer", "(verenigingstype.code:VZER OR verenigingstype.code:FV) AND naam:de grote vereniging AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
+    [InlineData("naam:de grote vereniging AND verenigingstype.code: fv AND verenigingstype.code: vzer", "naam:de grote vereniging AND (verenigingstype.code:VZER OR verenigingstype.code:FV) AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
+    public void Replaces_Verenigingstype(string input, string expectedOutput)
+    {
+        var sut = new BeheerVerenigingenZoekFilter(input, null, new PaginationQueryParams());
+
+        sut.Query.Should().Be(expectedOutput);
+    }
 }
