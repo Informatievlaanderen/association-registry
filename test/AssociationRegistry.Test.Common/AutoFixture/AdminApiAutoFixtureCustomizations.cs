@@ -166,7 +166,7 @@ public static class AdminApiAutoFixtureCustomizations
                     document.Startdatum = startDatum.FormatAsBelgianDate();
                     document.Naam = fixture.Create<string>();
                     document.Doelgroep = fixture.Create<Admin.Schema.Search.Doelgroep>();
-
+                    document.Lidmaatschappen = [];
                     document.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                                                                        .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.HoofdactiviteitVerenigingsloket()
                                                                          {
@@ -180,7 +180,7 @@ public static class AdminApiAutoFixtureCustomizations
                                                                        .ToArray();
 
                     document.KorteNaam = fixture.Create<string>();
-
+                    document.Sleutels = [];
                     document.Werkingsgebieden = withoutWerkingsgebieden
                         ? []
                         : fixture.CreateMany<Werkingsgebied>()

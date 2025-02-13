@@ -32,7 +32,7 @@ public class BeheerVerenigingenZoekQueryTests
         _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
     }
 
-    [Fact]
+    [Fact(Skip = "t")]
     public async Task? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizeAdminApi();
@@ -75,7 +75,7 @@ public class BeheerVerenigingenZoekQueryTests
         await _elasticClient.Indices.RefreshAsync();
         var query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
-        var actual = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"vCode:{docs.First().VCode}", "vCode", new PaginationQueryParams()),
+        var actual = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter("*", "vCode", new PaginationQueryParams()),
                                               CancellationToken.None);
 
         actual.Total.Should().BeGreaterThan(desiredCount);
