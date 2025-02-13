@@ -15,7 +15,9 @@ using EventFactories;
 using Events;
 using Formats;
 using global::AutoFixture;
+using JsonLdContext;
 using Primitives;
+using Public.Api.Contexten;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -153,12 +155,13 @@ public static class AdminApiAutoFixtureCustomizations
             composer => composer.FromFactory<int>(
                 _ =>
                 {
+
                     var datum = fixture.Create<Datum>();
                     var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year),
                                                   datum.Value.Month,
                                                   Math.Min(datum.Value.Day, 28));
                     var document = new VerenigingZoekDocument();
-
+                    document.VCode = fixture.Create<VCode>();
                     document.Locaties = fixture.CreateMany<Admin.Schema.Search.VerenigingZoekDocument.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
                     document.Startdatum = startDatum.FormatAsBelgianDate();
                     document.Naam = fixture.Create<string>();
@@ -167,7 +170,9 @@ public static class AdminApiAutoFixtureCustomizations
                     document.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
                                                                        .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.HoofdactiviteitVerenigingsloket()
                                                                          {
-                                                                             JsonLdMetadata = new JsonLdMetadata(),
+                                                                             JsonLdMetadata = new JsonLdMetadata(
+                                                                                 JsonLdType.Hoofdactiviteit.CreateWithIdValues(JsonLdType.Hoofdactiviteit.Type, x.Code),
+                                                                                 JsonLdType.Hoofdactiviteit.Type),
                                                                              Code = x.Code,
                                                                              Naam = x.Naam,
                                                                          })
@@ -182,7 +187,9 @@ public static class AdminApiAutoFixtureCustomizations
                                  .Distinct()
                                  .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.Werkingsgebied()
                                   {
-                                      JsonLdMetadata = new JsonLdMetadata(),
+                                      JsonLdMetadata = new JsonLdMetadata(
+                                          JsonLdType.Werkingsgebied.CreateWithIdValues(JsonLdType.Werkingsgebied.Type, x.Code),
+                                          JsonLdType.Werkingsgebied.Type),
                                       Code = x.Code,
                                       Naam = x.Naam,
                                   }).ToArray();

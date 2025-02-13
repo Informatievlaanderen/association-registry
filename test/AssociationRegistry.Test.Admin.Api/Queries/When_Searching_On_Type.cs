@@ -63,18 +63,29 @@ public class When_Searching_On_Type
     [Fact]
     public async Task With_FV_In_Query_Returns_FV_And_VZER()
     {
-        var k = await _elasticClient.BulkAsync(b => b.IndexMany([_feitelijkeVereniging]));
-        k.IsValid.Should().BeTrue();
-        await _elasticClient.Indices.RefreshAsync();
+        var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
+        var indexVzer = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_vzer);
+
+        indexFeitelijke.IsValid.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexFeitelijke.DebugInformation}'");
+        indexVzer.IsValid.Should().BeTrue(because: $"Did not expect to have invalid response: '{indexVzer.DebugInformation}'");
+
+        await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
         _query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
-        //verenigingstype.code:fv AND
-        var q = $"vCode:{_feitelijkeVereniging.VCode}";
+        var searchResponse = await _query.ExecuteAsync(
+            new BeheerVerenigingenZoekFilter(query: $"verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code} " +
+                                                    $"AND " +
+                                                    $"vCode:{_feitelijkeVereniging.VCode}",
+                                             sort: "vCode",
+                                             paginationQueryParams: new PaginationQueryParams()),
+            CancellationToken.None);
 
-        var actual = await _query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"vCode:{_feitelijkeVereniging.VCode}", "vCode", new PaginationQueryParams()),
-                                              CancellationToken.None);
+        var actualFV = searchResponse.Documents.SingleOrDefault(x => x.VCode == _feitelijkeVereniging.VCode);
+        actualFV.Should().NotBeNull();
+        actualFV.Should().BeEquivalentTo(_feitelijkeVereniging);
 
-        actual.Documents.Should().Contain(_feitelijkeVereniging);
-        //actual.Documents.Should().Contain(_vzer);
+        var actualVZER = searchResponse.Documents.SingleOrDefault(x => x.VCode == _vzer.VCode);
+        actualVZER.Should().NotBeNull();
+        actualVZER.Should().BeEquivalentTo(_vzer);
     }
 }

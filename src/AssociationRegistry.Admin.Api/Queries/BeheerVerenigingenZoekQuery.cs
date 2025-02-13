@@ -3,6 +3,8 @@ namespace AssociationRegistry.Admin.Api.Queries;
 using Framework;
 using Nest;
 using Schema.Search;
+using System.Text.RegularExpressions;
+using Vereniging;
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
 
@@ -38,10 +40,10 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
                 .Size(filter.PaginationQueryParams.Limit)
                 .ParseSort(filter.Sort, DefaultSort, _typeMapping)
                 .Query(query => query
-                          .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                      .Must(MatchWithQuery(filter.Query))
-                                                      .MustNot(BeVerwijderd(), BeDubbel())
-                           )
+                                     .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                                                 .Must(MatchWithQuery(filter.Query))
+                                                                 .MustNot(BeVerwijderd(), BeDubbel())
+                                      )
                  )
                 .TrackTotalHits(),
             cancellationToken
@@ -72,8 +74,17 @@ public record BeheerVerenigingenZoekFilter
 
     public BeheerVerenigingenZoekFilter(string query, string? sort, PaginationQueryParams paginationQueryParams)
     {
-        Query = query;
+        Query = ReplaceVerenigingstype(query);
         Sort = sort;
         PaginationQueryParams = paginationQueryParams;
+    }
+
+    private string? ReplaceVerenigingstype(string query)
+    {
+        var replacement = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
+
+        var pattern = $@"\bverenigingstype.code\s*:\s*({Verenigingstype.VZER.Code}|{Verenigingstype.FeitelijkeVereniging.Code})\b"; // Capture any value after type:
+
+        return Regex.Replace(query, pattern, replacement, RegexOptions.IgnoreCase);
     }
 }
