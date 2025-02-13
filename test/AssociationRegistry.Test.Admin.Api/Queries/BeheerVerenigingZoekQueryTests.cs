@@ -39,10 +39,10 @@ public class BeheerVerenigingenZoekQueryTests
         var totalCount = 0;
         var desiredCount = 10000;
         var batchCount = 500;
+        var docs = new List<VerenigingZoekDocument>();
 
         do
         {
-            var docs = new List<VerenigingZoekDocument>();
 
             for (var i = 0; i < batchCount; i++)
                 docs.Add(new()
@@ -75,7 +75,7 @@ public class BeheerVerenigingenZoekQueryTests
         await _elasticClient.Indices.RefreshAsync();
         var query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
-        var actual = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter("*", "vCode", new PaginationQueryParams()),
+        var actual = await query.ExecuteAsync(new BeheerVerenigingenZoekFilter($"vCode:{docs.First().VCode}", "vCode", new PaginationQueryParams()),
                                               CancellationToken.None);
 
         actual.Total.Should().BeGreaterThan(desiredCount);
