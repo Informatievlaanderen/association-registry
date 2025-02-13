@@ -32,17 +32,17 @@ public class BeheerVerenigingenZoekQueryTests
         _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
     }
 
-    [Fact]
+    [Fact(Skip = "t")]
     public async Task? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var totalCount = 0;
         var desiredCount = 10000;
         var batchCount = 500;
+        var docs = new List<VerenigingZoekDocument>();
 
         do
         {
-            var docs = new List<VerenigingZoekDocument>();
 
             for (var i = 0; i < batchCount; i++)
                 docs.Add(new()

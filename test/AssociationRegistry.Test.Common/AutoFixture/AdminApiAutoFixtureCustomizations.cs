@@ -9,10 +9,15 @@ using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Schema;
+using Admin.Schema.Search;
 using EventFactories;
 using Events;
+using Formats;
 using global::AutoFixture;
+using JsonLdContext;
 using Primitives;
+using Public.Api.Contexten;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
@@ -50,6 +55,8 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeTestEvent(typeof(TestEvent<>));
 
         fixture.CustomizeMagdaResponses();
+
+        fixture.CustomizeVerenigingZoekDocument();
 
         return fixture;
     }
@@ -139,6 +146,55 @@ public static class AdminApiAutoFixtureCustomizations
                                  .Select(x => x.Code).ToArray();
 
                     return request;
+                }).OmitAutoProperties());
+    }
+
+    private static void CustomizeVerenigingZoekDocument(this IFixture fixture, bool withoutWerkingsgebieden = false)
+    {
+        fixture.Customize<VerenigingZoekDocument>(
+            composer => composer.FromFactory<int>(
+                _ =>
+                {
+
+                    var datum = fixture.Create<Datum>();
+                    var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year),
+                                                  datum.Value.Month,
+                                                  Math.Min(datum.Value.Day, 28));
+                    var document = new VerenigingZoekDocument();
+                    document.VCode = fixture.Create<VCode>();
+                    document.Locaties = fixture.CreateMany<Admin.Schema.Search.VerenigingZoekDocument.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
+                    document.Startdatum = startDatum.FormatAsBelgianDate();
+                    document.Naam = fixture.Create<string>();
+                    document.Doelgroep = fixture.Create<Admin.Schema.Search.Doelgroep>();
+                    document.Lidmaatschappen = [];
+                    document.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                                       .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.HoofdactiviteitVerenigingsloket()
+                                                                         {
+                                                                             JsonLdMetadata = new JsonLdMetadata(
+                                                                                 JsonLdType.Hoofdactiviteit.CreateWithIdValues(JsonLdType.Hoofdactiviteit.Type, x.Code),
+                                                                                 JsonLdType.Hoofdactiviteit.Type),
+                                                                             Code = x.Code,
+                                                                             Naam = x.Naam,
+                                                                         })
+                                                                       .Distinct()
+                                                                       .ToArray();
+
+                    document.KorteNaam = fixture.Create<string>();
+                    document.Sleutels = [];
+                    document.Werkingsgebieden = withoutWerkingsgebieden
+                        ? []
+                        : fixture.CreateMany<Werkingsgebied>()
+                                 .Distinct()
+                                 .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.Werkingsgebied()
+                                  {
+                                      JsonLdMetadata = new JsonLdMetadata(
+                                          JsonLdType.Werkingsgebied.CreateWithIdValues(JsonLdType.Werkingsgebied.Type, x.Code),
+                                          JsonLdType.Werkingsgebied.Type),
+                                      Code = x.Code,
+                                      Naam = x.Naam,
+                                  }).ToArray();
+
+                    return document;
                 }).OmitAutoProperties());
     }
 

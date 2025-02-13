@@ -5,11 +5,13 @@ using Framework;
 using Marten.Linq.SoftDeletes;
 using Nest;
 using Schema;
-using Schema.Constants;
 using Schema.Search;
 using System.Text;
+using System.Text.RegularExpressions;
+using Vereniging;
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<VerenigingZoekDocument>, PubliekVerenigingenZoekFilter>;
 
@@ -223,9 +225,18 @@ public record PubliekVerenigingenZoekFilter
 
     public PubliekVerenigingenZoekFilter(string query, string? sort, string[] hoofdactiviteiten, PaginationQueryParams paginationQueryParams)
     {
-        Query = query;
+        Query = ReplaceVerenigingstype(query);
         Sort = sort;
         Hoofdactiviteiten = hoofdactiviteiten;
         PaginationQueryParams = paginationQueryParams;
+    }
+
+    private string? ReplaceVerenigingstype(string query)
+    {
+        var replacement = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
+
+        var pattern = $@"\bverenigingstype.code\s*:\s*({Verenigingstype.VZER.Code}|{Verenigingstype.FeitelijkeVereniging.Code})\b"; // Capture any value after type:
+
+        return Regex.Replace(query, pattern, replacement, RegexOptions.IgnoreCase);
     }
 }
