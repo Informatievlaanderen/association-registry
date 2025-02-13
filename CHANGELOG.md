@@ -1,3 +1,21 @@
+# [8.208.0](https://github.com/informatievlaanderen/association-registry/compare/v8.207.2...v8.208.0) (2025-02-13)
+
+
+### Bug Fixes
+
+* or-2665 add first e2e test ([1815dd7](https://github.com/informatievlaanderen/association-registry/commit/1815dd76c73534139861d4c162633bb20646dde1))
+* or-2665 store an init event so all projections get started (hack) ([72d3e20](https://github.com/informatievlaanderen/association-registry/commit/72d3e20b8793641784df70e7261a03ac7d5b6894))
+* or-2665 update marten, add healtchecks, move version header ([cc83411](https://github.com/informatievlaanderen/association-registry/commit/cc83411172cb1b70e9db20e1583e13c707797593))
+* or-2665 use expectedSequence to make sure projections are ready ([5ae20cc](https://github.com/informatievlaanderen/association-registry/commit/5ae20cc6dd4d31ee9f9675bf5cac26eb9391829a))
+
+
+### Features
+
+* or-2665 return vzer for beheer detail when using v2 api ([80b28c2](https://github.com/informatievlaanderen/association-registry/commit/80b28c23178093ab95c1c8fbcc68ad33e5a76405))
+* or-2665 return vzer in beheer zoek for api version v2Ã ([d828db1](https://github.com/informatievlaanderen/association-registry/commit/d828db1d26f68c538a5b1908ac4564d45514543c))
+* or-2665 return vzer in publiek detail for api version v2 ([218a104](https://github.com/informatievlaanderen/association-registry/commit/218a1047776b67a4931a3d19281399a70022f534))
+* or-2665 return vzer in publiek zoek for api version v2 ([c9d9fa0](https://github.com/informatievlaanderen/association-registry/commit/c9d9fa007aa380d74765b71b24b8d4af4132c938))
+
 ## [8.207.2](https://github.com/informatievlaanderen/association-registry/compare/v8.207.1...v8.207.2) (2025-02-07)
 
 
