@@ -84,7 +84,7 @@ public class When_Searching_On_Type
         _query = new BeheerVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
         var searchResponse = await _query.ExecuteAsync(
-            new BeheerVerenigingenZoekFilter(query: query,
+            new BeheerVerenigingenZoekFilter(query: $"(vCode:{_feitelijkeVereniging.VCode} OR vCode:{_vzer.VCode}) AND {query}",
                                              sort: "vCode",
                                              paginationQueryParams: new PaginationQueryParams()),
             CancellationToken.None);
