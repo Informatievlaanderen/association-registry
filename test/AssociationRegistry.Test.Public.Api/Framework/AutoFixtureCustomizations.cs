@@ -50,6 +50,10 @@ public static class AutoFixtureCustomizations
                     document.Sleutels = [];
                     document.Lidmaatschappen = [];
                     document.Relaties = [];
+                    document.IsDubbel = false;
+                    document.IsVerwijderd = false;
+                    document.IsUitgeschrevenUitPubliekeDatastroom = false;
+                    document.Status = AssociationRegistry.Public.Schema.Constants.VerenigingStatus.Actief;
                     document.KorteBeschrijving = fixture.Create<string>();
                     document.Werkingsgebieden = withoutWerkingsgebieden
                         ? []
