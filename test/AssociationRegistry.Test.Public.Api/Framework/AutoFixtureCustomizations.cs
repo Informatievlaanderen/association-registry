@@ -49,6 +49,8 @@ public static class AutoFixtureCustomizations
                     document.KorteNaam = fixture.Create<string>();
                     document.Sleutels = [];
                     document.Lidmaatschappen = [];
+                    document.Relaties = [];
+                    document.KorteBeschrijving = fixture.Create<string>();
                     document.Werkingsgebieden = withoutWerkingsgebieden
                         ? []
                         : fixture.CreateMany<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Werkingsgebied>()
