@@ -6,7 +6,7 @@ using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class When_Verenigingstype_Is_Non_KBO
+public class When_Verenigingstype_Is_Non_Kbo
 {
     private const string ExpandedVerenigingstype = "(verenigingstype.code:VZER OR verenigingstype.code:FV)";
 
