@@ -15,4 +15,6 @@ public class VerenigingDocument : ISoftDeleted
     public Verenigingstype VerenigingsType { get; set; } = null;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
+
+    public string[] CorresponderendeVCodes { get; set; } = [];
 }
