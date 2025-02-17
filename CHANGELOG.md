@@ -1,3 +1,10 @@
+# [8.209.0](https://github.com/informatievlaanderen/association-registry/compare/v8.208.0...v8.209.0) (2025-02-17)
+
+
+### Features
+
+* or-2665 modify search query to search on vzer and fv when searching for verenigingstype ([55d7c8b](https://github.com/informatievlaanderen/association-registry/commit/55d7c8bf4688ee55bed0a93f2b815cf433331738))
+
 # [8.208.0](https://github.com/informatievlaanderen/association-registry/compare/v8.207.2...v8.208.0) (2025-02-13)
 
 
