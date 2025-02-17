@@ -13,6 +13,7 @@ using Nest;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(PublicApiCollection))]
 [Category("PublicApi")]
@@ -33,6 +34,11 @@ public class When_Searching_On_Type
         var autoFixture = new Fixture().CustomizePublicApi();
 
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
+        _feitelijkeVereniging.IsDubbel = false;
+        _feitelijkeVereniging.IsVerwijderd = false;
+        _feitelijkeVereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
+        _feitelijkeVereniging.Status = VerenigingStatus.Actief;
+
         _feitelijkeVereniging.Naam = "de kleine vereniging";
         _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
@@ -42,6 +48,11 @@ public class When_Searching_On_Type
         _vzer = autoFixture.Create<VerenigingZoekDocument>();
 
         _vzer.Naam = "de kleine vereniging";
+        _vzer.IsDubbel = false;
+        _vzer.IsVerwijderd = false;
+        _vzer.IsUitgeschrevenUitPubliekeDatastroom = false;
+        _vzer.Status = VerenigingStatus.Actief;
+
         _vzer.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
             Code = Verenigingstype.VZER.Code,
