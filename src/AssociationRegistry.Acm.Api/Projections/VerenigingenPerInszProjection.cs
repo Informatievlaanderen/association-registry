@@ -120,23 +120,26 @@ public class VerenigingenPerInszProjection : EventProjection
     {
         var docs = new List<object>();
 
+        docs.Add(await VerenigingDocumentProjector.Apply(verenigingAanvaarddeDubbeleVereniging, ops));
         docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingAanvaarddeDubbeleVereniging, ops));
 
         ops.StoreObjects(docs);
     }
 
     public async Task Project(
-        IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> verenigingAanvaarddeDubbeleVereniging,
+        IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> @event,
         IDocumentOperations ops)
     {
         var docs = new List<object>();
 
-        docs.AddRange(await VerenigingenPerInszProjector.Apply(verenigingAanvaarddeDubbeleVereniging, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(@event, ops));
 
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> markeringDubbeleVerengingWerdGecorrigeerd,
+        IDocumentOperations ops)
     {
         var docs = new List<object>();
 
@@ -145,11 +148,14 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
-    public async Task Project(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> VerenigingAanvaarddeCorrectieDubbeleVereniging, IDocumentOperations ops)
+    public async Task Project(
+        IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event,
+        IDocumentOperations ops)
     {
         var docs = new List<object>();
 
-        docs.AddRange(await VerenigingenPerInszProjector.Apply(VerenigingAanvaarddeCorrectieDubbeleVereniging, ops));
+        docs.Add(await VerenigingDocumentProjector.Apply(@event, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(@event, ops));
 
         ops.StoreObjects(docs);
     }
@@ -235,6 +241,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     KboNummer = vereniging.KboNummer,
                     Verenigingstype = vereniging.VerenigingsType,
                     IsHoofdvertegenwoordigerVan = true,
+                    CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
                 });
 
             return document;
@@ -442,7 +449,6 @@ public class VerenigingenPerInszProjection : EventProjection
 
             return docs;
         }
-
     }
 
     private static class VerenigingDocumentProjector
@@ -510,6 +516,24 @@ public class VerenigingenPerInszProjection : EventProjection
             ops.Delete<VerenigingDocument>(verenigingWerdVerwijderd.StreamKey!);
 
             return await ops.GetVerenigingDocument(verenigingWerdVerwijderd.StreamKey!);
+        }
+
+        public static async Task<VerenigingDocument> Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+            verenigingDocument.CorresponderendeVCodes = verenigingDocument.CorresponderendeVCodes.Append(@event.Data.VCodeDubbeleVereniging).ToArray();
+
+            return verenigingDocument;
+        }
+
+        public static async Task<VerenigingDocument> Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+            verenigingDocument.CorresponderendeVCodes = verenigingDocument.CorresponderendeVCodes.Where(x => !x.Equals(@event.Data.VCodeDubbeleVereniging, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+
+            return verenigingDocument;
         }
     }
 
