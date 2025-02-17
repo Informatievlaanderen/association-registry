@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema.Search;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
@@ -33,16 +34,22 @@ public class When_Searching_On_Type
         var autoFixture = new Fixture().CustomizeAdminApi();
 
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
-        _feitelijkeVereniging.VCode = VCode.Create("V0099001");
         _feitelijkeVereniging.Naam = "de kleine vereniging";
+        _feitelijkeVereniging.Status = VerenigingStatus.Actief;
+        _feitelijkeVereniging.IsDubbel = false;
+        _feitelijkeVereniging.IsVerwijderd = false;
+        _feitelijkeVereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
         _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
             Code = Verenigingstype.FeitelijkeVereniging.Code,
             Naam = Verenigingstype.FeitelijkeVereniging.Naam,
         };
         _vzer = autoFixture.Create<VerenigingZoekDocument>();
-        _vzer.VCode = VCode.Create("V0088001");
         _vzer.Naam = "de kleine vereniging";
+        _vzer.Status = VerenigingStatus.Actief;
+        _vzer.IsDubbel = false;
+        _vzer.IsVerwijderd = false;
+        _vzer.IsUitgeschrevenUitPubliekeDatastroom = false;
         _vzer.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
         {
             Code = Verenigingstype.VZER.Code,

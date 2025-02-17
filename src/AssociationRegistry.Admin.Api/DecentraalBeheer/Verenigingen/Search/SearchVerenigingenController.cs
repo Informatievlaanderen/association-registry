@@ -130,19 +130,8 @@ public class SearchVerenigingenController : ApiController
 
         var responseMapper = new SearchVerenigingenResponseMapper(appSettings, version);
 
-        try
-        {
-            var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
-            return Ok(response);
-
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-
-            throw;
-        }
-
+        var response = responseMapper.ToSearchVereningenResponse(logger, searchResponse, paginationQueryParams, q);
+        return Ok(response);
     }
 
     private IActionResult MapBadRequest(ILogger logger, ISearchResponse<VerenigingZoekDocument> searchResponse)
