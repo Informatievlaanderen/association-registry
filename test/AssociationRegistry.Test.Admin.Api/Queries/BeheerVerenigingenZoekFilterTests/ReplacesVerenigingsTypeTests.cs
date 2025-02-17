@@ -2,22 +2,69 @@ namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingenZoekFilte
 
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
+using AutoFixture;
 using FluentAssertions;
 using Xunit;
 
-public class With_Verenigingstype
+public class When_Verenigingstype_Is_Non_KBO
 {
-    [Theory]
-    [InlineData("verenigingstype.code:FV", "(verenigingstype.code:VZER OR verenigingstype.code:FV)")]
-    [InlineData("verenigingstype.code:fv", "(verenigingstype.code:VZER OR verenigingstype.code:FV)")]
-    [InlineData("verenigingstype.code: fv ", "(verenigingstype.code:VZER OR verenigingstype.code:FV) ")]
-    [InlineData("verenigingstype.code: fv AND verenigingstype.code: vzer", "(verenigingstype.code:VZER OR verenigingstype.code:FV) AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
-    [InlineData("verenigingstype.code: fv AND naam:de grote vereniging AND verenigingstype.code: vzer", "(verenigingstype.code:VZER OR verenigingstype.code:FV) AND naam:de grote vereniging AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
-    [InlineData("naam:de grote vereniging AND verenigingstype.code: fv AND verenigingstype.code: vzer", "naam:de grote vereniging AND (verenigingstype.code:VZER OR verenigingstype.code:FV) AND (verenigingstype.code:VZER OR verenigingstype.code:FV)")]
-    public void Replaces_Verenigingstype(string input, string expectedOutput)
-    {
-        var sut = new BeheerVerenigingenZoekFilter(input, null, new PaginationQueryParams());
+    private const string ExpandedVerenigingstype = "(verenigingstype.code:VZER OR verenigingstype.code:FV)";
 
-        sut.Query.Should().Be(expectedOutput);
+    [Theory]
+    [InlineData("verenigingstype.code:FV")]
+    [InlineData("verenigingstype.code:fv")]
+    [InlineData("verenigingstype.code:Fv")]
+    [InlineData("verenigingstype.code:fV")]
+    public void Expands_VerenigingsType_With_VZERandFV_With_CaseInsensitivity(string queryInput)
+    {
+        var expected = ExpandedVerenigingstype;
+        var sut = new BeheerVerenigingenZoekFilter(queryInput, null, new PaginationQueryParams());
+        sut.Query.Should().Be(expected);
+    }
+
+
+    [Theory]
+    [InlineData("verenigingstype.code: fv")]
+    [InlineData("verenigingstype.code:  fv")]
+    public void Expands_VerenigingsType_With_VZERandFV_TrimsSpacesBeforeCode(string queryInput)
+    {
+        var expected = ExpandedVerenigingstype;
+        var sut = new BeheerVerenigingenZoekFilter(queryInput, null, new PaginationQueryParams());
+        sut.Query.Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("verenigingstype.code:fv ", $"{ExpandedVerenigingstype} ")]
+    [InlineData("verenigingstype.code:fv  ", $"{ExpandedVerenigingstype}  ")]
+    [InlineData("verenigingstype.code:fv  AND x:y", $"{ExpandedVerenigingstype}  AND x:y")]
+    public void Expands_VerenigingsType_With_VZERandFV_DoesNotTrimSpacesAfterCode(string queryInput, string expected)
+    {
+        var sut = new BeheerVerenigingenZoekFilter(queryInput, null, new PaginationQueryParams());
+        sut.Query.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Expands_VerenigingsType_With_VZERandFV_For_Each_Time_It_Occurs()
+    {
+        var input = "verenigingstype.code: fv AND verenigingstype.code: vzer AND verenigingstype.code: fv";
+        var expected = $"{ExpandedVerenigingstype} AND {ExpandedVerenigingstype} AND {ExpandedVerenigingstype}";
+        var sut = new BeheerVerenigingenZoekFilter(input, null, new PaginationQueryParams());
+        sut.Query.Should().Be(expected);
+    }
+
+    [Fact]
+    public void Expands_VerenigingsType_With_VZERandFV_Without_Touching_Other_QueryParts()
+    {
+        var fixture = new Fixture();
+        var prefix = fixture.Create<string>();
+        var postfix = fixture.Create<string>();
+        var infix = fixture.Create<string>();
+        var input = $"{prefix} AND verenigingstype.code: fv AND {infix} AND verenigingstype.code: vzer AND {postfix}";
+
+        var expected =
+            $"{prefix} AND {ExpandedVerenigingstype} AND {infix} AND {ExpandedVerenigingstype} AND {postfix}";
+
+        var sut = new BeheerVerenigingenZoekFilter(input, null, new PaginationQueryParams());
+        sut.Query.Should().Be(expected);
     }
 }
