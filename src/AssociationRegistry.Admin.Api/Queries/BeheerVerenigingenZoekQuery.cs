@@ -68,20 +68,25 @@ public class BeheerVerenigingenZoekQuery : IBeheerVerenigingenZoekQuery
 
 public record BeheerVerenigingenZoekFilter
 {
+    public static readonly string ExpandedVerenigingsType = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
     public string Query { get; }
     public string? Sort { get; }
     public PaginationQueryParams PaginationQueryParams { get; }
 
     public BeheerVerenigingenZoekFilter(string query, string? sort, PaginationQueryParams paginationQueryParams)
     {
-        Query = ReplaceVerenigingstype(query);
+        Query = ExpandVerenigingsTypeForVzerMigration(query);
         Sort = sort;
         PaginationQueryParams = paginationQueryParams;
     }
 
-    private string ReplaceVerenigingstype(string query)
+    static BeheerVerenigingenZoekFilter()
     {
-        var replacement = $"(verenigingstype.code:{Verenigingstype.VZER.Code} OR verenigingstype.code:{Verenigingstype.FeitelijkeVereniging.Code})";
+    }
+
+    private static string ExpandVerenigingsTypeForVzerMigration(string query)
+    {
+        var replacement = ExpandedVerenigingsType;
 
         var pattern = $@"\bverenigingstype.code\s*:\s*({Verenigingstype.VZER.Code}|{Verenigingstype.FeitelijkeVereniging.Code})\b"; // Capture any value after type:
 
