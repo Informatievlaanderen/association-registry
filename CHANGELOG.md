@@ -1,3 +1,10 @@
+## [8.209.2](https://github.com/informatievlaanderen/association-registry/compare/v8.209.1...v8.209.2) (2025-02-18)
+
+
+### Bug Fixes
+
+* or-2685 delete sequence document view on rebuild ([548d247](https://github.com/informatievlaanderen/association-registry/commit/548d24732f85f9b36262de1745ef188bbe28f715))
+
 ## [8.209.1](https://github.com/informatievlaanderen/association-registry/compare/v8.209.0...v8.209.1) (2025-02-18)
 
 
