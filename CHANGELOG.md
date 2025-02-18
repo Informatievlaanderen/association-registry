@@ -1,3 +1,10 @@
+## [8.209.3](https://github.com/informatievlaanderen/association-registry/compare/v8.209.2...v8.209.3) (2025-02-18)
+
+
+### Bug Fixes
+
+* or-2685 use IRevisioned to force numeric revisions ([a493f7e](https://github.com/informatievlaanderen/association-registry/commit/a493f7ec01d672a1b88c1c848c0829602e212c5d))
+
 ## [8.209.2](https://github.com/informatievlaanderen/association-registry/compare/v8.209.1...v8.209.2) (2025-02-18)
 
 
