@@ -111,6 +111,10 @@ public static class ConfigureMartenExtensions
         opts.RegisterDocumentType<PubliekVerenigingDetailDocument>();
         opts.RegisterDocumentType<PubliekVerenigingSequenceDocument>();
 
+        opts.Schema.For<PubliekVerenigingSequenceDocument>()
+            .UseNumericRevisions(true)
+            .UseOptimisticConcurrency(false);
+
         if (isDevelopment)
         {
             opts.GeneratedCodeMode = TypeLoadMode.Dynamic;
