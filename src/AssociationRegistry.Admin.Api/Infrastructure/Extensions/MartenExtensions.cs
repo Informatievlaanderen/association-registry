@@ -84,6 +84,8 @@ public static class MartenExtensions
 
                                           opts.RegisterDocumentType<VerenigingState>();
 
+                                          opts.RegisterDocumentType<SettingOverride>();
+
                                           opts.Schema.For<MagdaCallReference>().Identity(x => x.Reference);
 
                                           if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())
