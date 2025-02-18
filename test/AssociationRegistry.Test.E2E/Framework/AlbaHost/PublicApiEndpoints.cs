@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.Verenigingen.Mutaties;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Public.Api.Werkingsgebieden.ResponseModels;
 using System.Net;
@@ -27,6 +28,11 @@ public static class PublicApiEndpoints
         var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
 
         return response.StatusCode;
+    }
+
+    public static PubliekVerenigingSequenceResponse[] GetVerenigingMutationsSequence(this IAlbaHost source)
+    {
+        return source.GetAsJson<PubliekVerenigingSequenceResponse[]>($"/v1/verenigingen/mutaties").GetAwaiter().GetResult()!;
     }
 
     public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
