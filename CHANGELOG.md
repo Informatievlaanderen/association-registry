@@ -1,3 +1,10 @@
+## [8.209.4](https://github.com/informatievlaanderen/association-registry/compare/v8.209.3...v8.209.4) (2025-02-18)
+
+
+### Bug Fixes
+
+* or-2678 return corresponderende vcodes when adding vertegenwoordiger in acm ([6195536](https://github.com/informatievlaanderen/association-registry/commit/619553692aee05cc185e429cd363fde0d2c68377))
+
 ## [8.209.3](https://github.com/informatievlaanderen/association-registry/compare/v8.209.2...v8.209.3) (2025-02-18)
 
 
