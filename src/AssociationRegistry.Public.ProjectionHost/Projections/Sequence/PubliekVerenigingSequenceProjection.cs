@@ -12,6 +12,8 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
 {
     public PubliekVerenigingSequenceProjection()
     {
+        Options.DeleteViewTypeOnTeardown<PubliekVerenigingSequenceDocument>();
+
         AggregateByStream();
 
         var eventTypes = typeof(IEvent).Assembly
