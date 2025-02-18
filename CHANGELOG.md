@@ -1,3 +1,10 @@
+## [8.209.1](https://github.com/informatievlaanderen/association-registry/compare/v8.209.0...v8.209.1) (2025-02-18)
+
+
+### Bug Fixes
+
+* or-2685 set numeric revision policy for PubliekVerenigingSequenceDocument ([a39479f](https://github.com/informatievlaanderen/association-registry/commit/a39479f95fb42efd7a44d35f39d6868af41c4591))
+
 # [8.209.0](https://github.com/informatievlaanderen/association-registry/compare/v8.208.0...v8.209.0) (2025-02-17)
 
 
