@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
+using Admin.Api.Administratie.Configuratie;
 using Admin.Api.Administratie.DubbelControle;
 using Admin.Api.Constants;
 using Admin.Api.Infrastructure;
@@ -31,6 +32,32 @@ public static class AdminApiEndpoints
         string vCode,
         long? expectedSequence)
         => await GetResponseFromRequestWithHeader<DetailVerenigingResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
+
+    public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
+        this IAlbaHost source,
+        HttpClient authenticatedClient)
+        => await GetResponseFromRequestWithHeader<MinimumScoreDuplicateDetectionOverrideResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/admin/config/minimumScoreDuplicateDetection");
+
+    public static async Task<HttpResponseMessage> PostMinimumScoreDuplicateDetectionOverride(
+        this IAlbaHost source,
+        OverrideMinimumScoreDuplicateDetectionRequest request,
+        HttpClient authenticatedClient)
+    {
+        var client = source.Server.CreateClient();
+
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+
+        var requestUri = new Uri("/v1/admin/config/minimumScoreDuplicateDetection");
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+
+        return await client.PostAsync(requestUri, JsonContent.Create(request));
+    }
 
     public static DubbelControleResponse[] PostDubbelControle(this IAlbaHost source, RegistreerFeitelijkeVerenigingRequest registreerFeitelijkeVerenigingRequest)
         => source.PostJson<RegistreerFeitelijkeVerenigingRequest>(registreerFeitelijkeVerenigingRequest,
