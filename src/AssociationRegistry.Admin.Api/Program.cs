@@ -58,6 +58,7 @@ using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Localization;
@@ -362,6 +363,8 @@ public class Program
                .AddHttpClient<PublicProjectionHostHttpClient>()
                .ConfigureHttpClient(httpClient => httpClient.BaseAddress = new Uri(appSettings.PublicProjectionHostBaseUrl));
 
+        builder.Services.AddMemoryCache();
+
         builder.Services
                .AddHttpClient<GrarHttpClient>()
                .ConfigureHttpClient(httpClient =>
@@ -385,7 +388,11 @@ public class Program
                .AddSingleton<IClock, Clock>()
                .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
                .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
-               .AddSingleton(new MinimumScore(elasticSearchOptionsSection.MinimumScoreDuplicateDetection))
+               .AddScoped(sp => new ElasticSearchOptionsService(
+                              sp.GetRequiredService<ElasticSearchOptionsSection>(),
+                              sp.GetRequiredService<IDocumentSession>(),
+                              sp.GetRequiredService<IMemoryCache>()))
+               .AddScoped(sp => new MinimumScore(sp.GetRequiredService<ElasticSearchOptionsService>().MinimumScoreDuplicateDetection))
                .AddScoped<InitiatorProvider>()
                .AddScoped<IMagdaRegistreerInschrijvingCatchupService, MagdaRegistreerInschrijvingCatchupService>()
                .AddScoped<ICorrelationIdProvider, CorrelationIdProvider>()
