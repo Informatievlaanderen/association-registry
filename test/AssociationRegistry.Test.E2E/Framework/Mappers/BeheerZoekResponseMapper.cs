@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -15,7 +15,7 @@ using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebi
 
 public class BeheerZoekResponseMapper
 {
-    public static HoofdactiviteitVerenigingsloket[] MapRequestHoofdactiviteitenVerenigingsloket(
+    public static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
         string[] hoofdactiviteitenVerenigingsloket)
     {
         return hoofdactiviteitenVerenigingsloket.Select(x =>
@@ -32,41 +32,9 @@ public class BeheerZoekResponseMapper
         }).ToArray();
     }
 
-    public static HoofdactiviteitVerenigingsloket[] MapScenarioHoofdactiviteitenVerenigingsloket(
+    public static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
         Registratiedata.HoofdactiviteitVerenigingsloket[] hoofdactiviteitenVerenigingsloket)
-    {
-        return hoofdactiviteitenVerenigingsloket.Select(x =>
-        {
-            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x.Code);
-
-            return new HoofdactiviteitVerenigingsloket
-            {
-                Code = hoofdactiviteitVerenigingsloket.Code,
-                Naam = hoofdactiviteitVerenigingsloket.Naam,
-                id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
-                type = JsonLdType.Hoofdactiviteit.Type,
-            };
-        }).ToArray();
-    }
-
-    public static Sleutel[] MapSleutels(WijzigBasisgegevensRequest request, string vCode)
-        =>
-        [
-            new Sleutel
-            {
-                Bron = Sleutelbron.VR.Waarde,
-                id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-                type = JsonLdType.Sleutel.Type,
-                Waarde = vCode,
-                CodeerSysteem = CodeerSysteem.VR,
-                GestructureerdeIdentificator = new GestructureerdeIdentificator
-                {
-                    id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-                    type = JsonLdType.GestructureerdeSleutel.Type,
-                    Nummer = vCode,
-                },
-            },
-        ];
+    => MapHoofdactiviteitenVerenigingsloket(hoofdactiviteitenVerenigingsloket.Select(x => x.Code).ToArray());
 
     public static Sleutel[] MapSleutels(string vCode)
         =>
@@ -120,9 +88,9 @@ public class BeheerZoekResponseMapper
             },
         ];
 
-    public static Locatie[] MapRequestLocaties(Registratiedata.Locatie[] locaties, string vCode)
+    public static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
     {
-        return locaties.Select((x, i) => new Locatie
+        return toeTeVoegenLocaties.Select((x, i) => new Locatie
         {
             id = JsonLdType.Locatie.CreateWithIdValues(
                 vCode, $"{i + 1}"),
@@ -133,9 +101,9 @@ public class BeheerZoekResponseMapper
         }).ToArray();
     }
 
-    public static Locatie[] MapScenarioLocaties(Registratiedata.Locatie[] toeTeVoegenLocaties, string vCode)
+    public static Locatie[] MapLocaties(Registratiedata.Locatie[] toeTeVoegenLocaties, string vCode)
     {
-        return toeTeVoegenLocaties.Select((x, i) => new Locatie
+        return toeTeVoegenLocaties.Select(x => new Locatie
         {
             id = JsonLdType.Locatie.CreateWithIdValues(
                 vCode, x.LocatieId.ToString()),
@@ -146,7 +114,7 @@ public class BeheerZoekResponseMapper
         }).ToArray();
     }
 
-    public static Werkingsgebied[] MapRequestWerkingsgebieden(
+    public static Werkingsgebied[] MapWerkingsgebieden(
         string[] werkingsgebieden)
     {
         return werkingsgebieden.Select(x =>
@@ -163,24 +131,11 @@ public class BeheerZoekResponseMapper
         }).ToArray();
     }
 
-    public static Werkingsgebied[] MapScenarioWerkingsgebieden(
+    public static Werkingsgebied[] MapWerkingsgebieden(
         Registratiedata.Werkingsgebied[]? werkingsgebieden)
-    {
-        return werkingsgebieden.Select(x =>
-        {
-            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x.Code);
+    => MapWerkingsgebieden(werkingsgebieden?.Select(x => x.Code).ToArray() ?? []);
 
-            return new Werkingsgebied
-            {
-                Code = werkingsgebied.Code,
-                Naam = werkingsgebied.Naam,
-                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
-                type = JsonLdType.Werkingsgebied.Type,
-            };
-        }).ToArray();
-    }
-
-    public static Lidmaatschap[] MapRequestLidmaatschappen(VoegLidmaatschapToeRequest request, string vCode)
+    public static Lidmaatschap[] MapLidmaatschappen(VoegLidmaatschapToeRequest request, string vCode)
         =>
         [
             new Lidmaatschap()
@@ -196,7 +151,7 @@ public class BeheerZoekResponseMapper
             },
         ];
 
-    public static Lidmaatschap[] MapRequestLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, string andereVereniging, int lidmaatschapId)
+    public static Lidmaatschap[] MapLidmaatschappen(WijzigLidmaatschapRequest request, string vCode, string andereVereniging, int lidmaatschapId)
         =>
         [
             new Lidmaatschap()
