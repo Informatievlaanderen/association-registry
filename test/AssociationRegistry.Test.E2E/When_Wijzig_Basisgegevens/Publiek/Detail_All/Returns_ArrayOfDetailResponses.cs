@@ -75,7 +75,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
             HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, TestContext.VCode),
-            Relaties = PubliekDetailResponseMapper.MapRelaties([], TestContext.VCode),
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
+            Relaties = [],
+            Sleutels = PubliekDetailResponseMapper.MapSleutels( TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

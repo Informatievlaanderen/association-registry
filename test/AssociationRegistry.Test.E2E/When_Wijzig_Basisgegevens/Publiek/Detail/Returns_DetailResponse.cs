@@ -69,8 +69,8 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
             HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
-            Relaties = PubliekDetailResponseMapper.MapRelaties([], _testContext.VCode),
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(Request, _testContext.VCode),
+            Relaties = [],
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
