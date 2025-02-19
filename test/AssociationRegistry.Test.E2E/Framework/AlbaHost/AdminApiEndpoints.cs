@@ -2,14 +2,12 @@ namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Admin.Api.Administratie.Configuratie;
 using Admin.Api.Administratie.DubbelControle;
-using Admin.Api.Constants;
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
-using JasperFx.Core;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
@@ -53,15 +51,11 @@ public static class AdminApiEndpoints
             client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
         }
 
-        var requestUri = new Uri("/v1/admin/config/minimumScoreDuplicateDetection");
+        var requestUri = "/v1/admin/config/minimumScoreDuplicateDetection";
         client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
 
         return await client.PostAsync(requestUri, JsonContent.Create(request));
     }
-
-    public static DubbelControleResponse[] PostDubbelControle(this IAlbaHost source, RegistreerFeitelijkeVerenigingRequest registreerFeitelijkeVerenigingRequest)
-        => source.PostJson<RegistreerFeitelijkeVerenigingRequest>(registreerFeitelijkeVerenigingRequest,
-            "/v1/admin/dubbelcontrole").Receive<DubbelControleResponse[]>().GetAwaiter().GetResult();
 
     public static SearchVerenigingenResponse GetBeheerZoeken(this IAlbaHost source, string query)
         => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;

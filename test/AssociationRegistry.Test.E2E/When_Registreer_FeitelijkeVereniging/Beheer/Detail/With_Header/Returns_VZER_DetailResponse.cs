@@ -16,7 +16,6 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-using Serilog;
 using Xunit;
 using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
