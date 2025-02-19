@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
+using Admin.Api.Verenigingen.Common;
 using Events;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
@@ -13,11 +13,10 @@ using Werkingsgebied = Public.Api.Verenigingen.Detail.ResponseModels.Werkingsgeb
 public class PubliekDetailResponseMapper
 {
     public static Sleutel[] MapSleutels(
-        WijzigBasisgegevensRequest request,
         string vCode)
         =>
         [
-            new Sleutel
+            new()
             {
                 Bron = Sleutelbron.VR.Waarde,
                 id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
@@ -66,15 +65,20 @@ public class PubliekDetailResponseMapper
             },
         ];
 
-    public static Relatie[] MapRelaties(Relatie[] relaties, string vCode)
+
+    public static Contactgegeven[] MapContactgegevens(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
     {
-        return relaties.Select((x, i) => new Relatie
+        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
         {
-            AndereVereniging = x.AndereVereniging,
-            Relatietype = x.Relatietype,
+            id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Contactgegeven.Type,
+            Contactgegeventype = x.Contactgegeventype,
+            Waarde = x.Waarde,
+            Beschrijving = x.Beschrijving!,
+            IsPrimair = x.IsPrimair,
         }).ToArray();
     }
-
     public static Contactgegeven[] MapContactgegevens(Registratiedata.Contactgegeven[] toeTeVoegenContactgegevens, string vCode)
     {
         return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
@@ -85,6 +89,19 @@ public class PubliekDetailResponseMapper
             Contactgegeventype = x.Contactgegeventype,
             Waarde = x.Waarde,
             Beschrijving = x.Beschrijving!,
+            IsPrimair = x.IsPrimair,
+        }).ToArray();
+    }
+
+    public static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
+    {
+        return toeTeVoegenLocaties.Select((x, i) => new Locatie
+        {
+            id = JsonLdType.Locatie.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Locatie.Type,
+            Locatietype = x.Locatietype,
+            Naam = x.Naam,
             IsPrimair = x.IsPrimair,
         }).ToArray();
     }

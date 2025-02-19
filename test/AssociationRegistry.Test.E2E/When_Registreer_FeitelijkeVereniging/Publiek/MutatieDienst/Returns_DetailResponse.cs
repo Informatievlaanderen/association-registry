@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.MutatieDienst;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using FluentAssertions;
 using Public.Api.Verenigingen.Mutaties;
 using Xunit;
@@ -23,7 +23,7 @@ public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<Registree
     {
         var actual = Response.SingleOrDefault(x => x.VCode == _testContext.VCode);
         actual.Should().NotBeNull();
-        actual.Sequence.Should().BeGreaterThan(0);
+        actual!.Sequence.Should().BeGreaterThan(0);
     }
 
     public override Func<IApiSetup, PubliekVerenigingSequenceResponse[]> GetResponse

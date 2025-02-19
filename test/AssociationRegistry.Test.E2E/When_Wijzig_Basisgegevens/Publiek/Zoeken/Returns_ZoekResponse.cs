@@ -1,15 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Zoeken;
 
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using JsonLdContext;
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Search.ResponseModels;
+using Vereniging;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
@@ -55,7 +55,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = PubliekZoekResponseMapper.MapSleutels(Request, _testContext.VCode),
+            Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
             Links = new VerenigingLinks()
             {
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
