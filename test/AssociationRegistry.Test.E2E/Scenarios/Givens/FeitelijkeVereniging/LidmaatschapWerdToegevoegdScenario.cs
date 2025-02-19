@@ -2,7 +2,6 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 
 using Events;
 using EventStore;
-using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;

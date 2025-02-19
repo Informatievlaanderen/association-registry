@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens;
 
-using AssociationRegistry.Framework;
 using Events;
 using Vereniging;
 

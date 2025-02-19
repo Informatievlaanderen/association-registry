@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Publiek.Zoeken;
 
-using Events;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

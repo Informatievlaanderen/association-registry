@@ -14,7 +14,6 @@ using Marten.Events;
 using Marten.Events.Daemon;
 using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -61,6 +60,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
 
         AdminApiHost = adminApiHost.EnsureEachCallIsAuthenticated(clients.Authenticated.HttpClient);
+        AdminHttpClient = clients.Authenticated.HttpClient;
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
@@ -109,6 +109,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public IProjectionDaemon AdminProjectionDaemon { get; private set; }
     public IElasticClient ElasticClient { get; set; }
     public HttpClient SuperAdminHttpClient { get; private set; }
+    public HttpClient AdminHttpClient { get; private set; }
 
     private void SetUpAdminApiConfiguration()
     {
