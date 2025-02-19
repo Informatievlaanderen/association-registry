@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public void WithFeitelijkeVereniging()
     {
         Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AuthentiekeVereniging.VCode)
                 .CorresponderendeVCodes.Should().BeEmpty();

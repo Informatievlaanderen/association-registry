@@ -79,9 +79,9 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
             Locaties = BeheerDetailResponseMapper.MapLocaties(TestContext.RegistratieData.Locaties, TestContext.VCode),
             Vertegenwoordigers =
                 BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
-            Relaties = BeheerDetailResponseMapper.MapRelaties([], TestContext.VCode),
+            Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = BeheerDetailResponseMapper.MapSleutels(Request, TestContext.VCode),
+            Sleutels = BeheerDetailResponseMapper.MapSleutels( TestContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }
