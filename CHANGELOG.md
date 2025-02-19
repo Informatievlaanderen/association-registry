@@ -1,3 +1,10 @@
+# [8.210.0](https://github.com/informatievlaanderen/association-registry/compare/v8.209.5...v8.210.0) (2025-02-19)
+
+
+### Features
+
+* or-2685 add override minimumscore endpoint ([b23b297](https://github.com/informatievlaanderen/association-registry/commit/b23b29781a6b2c428836db38b71a98e4bfeb0d1a))
+
 ## [8.209.5](https://github.com/informatievlaanderen/association-registry/compare/v8.209.4...v8.209.5) (2025-02-19)
 
 
