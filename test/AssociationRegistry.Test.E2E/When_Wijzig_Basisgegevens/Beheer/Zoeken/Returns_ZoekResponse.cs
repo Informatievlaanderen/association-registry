@@ -57,10 +57,10 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapRequestHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerZoekResponseMapper.MapRequestWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = BeheerZoekResponseMapper.MapRequestLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
-            Sleutels = BeheerZoekResponseMapper.MapSleutels(Request, _testContext.VCode),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
+            Sleutels = [],
             Lidmaatschappen = [],
             Links = new VerenigingLinks()
             {

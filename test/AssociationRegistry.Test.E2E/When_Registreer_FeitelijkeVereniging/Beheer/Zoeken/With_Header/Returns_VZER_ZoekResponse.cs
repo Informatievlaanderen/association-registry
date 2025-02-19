@@ -1,23 +1,20 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken.With_Header;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
+using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
+using Vereniging;
 using Xunit;
-using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
-using Locatie = Admin.Api.Verenigingen.Search.ResponseModels.Locatie;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Werkingsgebied = Admin.Api.Verenigingen.Search.ResponseModels.Werkingsgebied;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
@@ -58,10 +55,10 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = MapLocaties(Request.Locaties, _testContext.VCode),
-            Sleutels = MapSleutels(Request, _testContext.VCode),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(Request.Locaties, _testContext.VCode),
+            Sleutels = [],
             Lidmaatschappen = [],
             Links = new VerenigingLinks()
             {
@@ -69,71 +66,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    private static Sleutel[] MapSleutels(RegistreerFeitelijkeVerenigingRequest request, string vCode)
-        =>
-        [
-            new Sleutel
-            {
-                Bron = Sleutelbron.VR.Waarde,
-                id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-                type = JsonLdType.Sleutel.Type,
-                Waarde = vCode,
-                CodeerSysteem = CodeerSysteem.VR,
-                GestructureerdeIdentificator = new GestructureerdeIdentificator
-                {
-                    id = JsonLdType.GestructureerdeSleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
-                    type = JsonLdType.GestructureerdeSleutel.Type,
-                    Nummer = vCode,
-                },
-            },
-        ];
 
-    private static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
-    {
-        return toeTeVoegenLocaties.Select((x, i) => new Locatie
-        {
-            id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
-            type = JsonLdType.Locatie.Type,
-            Locatietype = x.Locatietype,
-            Naam = x.Naam,
-            IsPrimair = x.IsPrimair,
-        }).ToArray();
-    }
-
-    private static HoofdactiviteitVerenigingsloket[] MapHoofdactiviteitenVerenigingsloket(
-        string[] hoofdactiviteitenVerenigingsloket)
-    {
-        return hoofdactiviteitenVerenigingsloket.Select(x =>
-        {
-            var hoofdactiviteitVerenigingsloket = AssociationRegistry.Vereniging.HoofdactiviteitVerenigingsloket.Create(x);
-
-            return new HoofdactiviteitVerenigingsloket
-            {
-                Code = hoofdactiviteitVerenigingsloket.Code,
-                Naam = hoofdactiviteitVerenigingsloket.Naam,
-                id = JsonLdType.Hoofdactiviteit.CreateWithIdValues(hoofdactiviteitVerenigingsloket.Code),
-                type = JsonLdType.Hoofdactiviteit.Type,
-            };
-        }).ToArray();
-    }
-
-    private static Werkingsgebied[] MapWerkingsgebieden(
-        string[] werkingsgebieden)
-    {
-        return werkingsgebieden.Select(x =>
-        {
-            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
-
-            return new Werkingsgebied
-            {
-                Code = werkingsgebied.Code,
-                Naam = werkingsgebied.Naam,
-                id = JsonLdType.Werkingsgebied.CreateWithIdValues(werkingsgebied.Code),
-                type = JsonLdType.Werkingsgebied.Type,
-            };
-        }).ToArray();
-    }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
