@@ -72,7 +72,7 @@ public class Returns_DetailResponse :
             Vertegenwoordigers = BeheerDetailResponseMapper.MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = [],
+            Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 

@@ -60,7 +60,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
-            Sleutels = [],
+            Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = [],
             Links = new VerenigingLinks()
             {
