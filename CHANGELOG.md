@@ -1,3 +1,10 @@
+## [8.209.5](https://github.com/informatievlaanderen/association-registry/compare/v8.209.4...v8.209.5) (2025-02-19)
+
+
+### Bug Fixes
+
+* or-2689 don't count dubbels when calculating facets ([cd95318](https://github.com/informatievlaanderen/association-registry/commit/cd95318f1efd7cd9c90be97a9afaf1f80c997a2e))
+
 ## [8.209.4](https://github.com/informatievlaanderen/association-registry/compare/v8.209.3...v8.209.4) (2025-02-18)
 
 
