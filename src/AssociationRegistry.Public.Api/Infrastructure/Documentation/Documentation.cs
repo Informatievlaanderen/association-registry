@@ -38,6 +38,21 @@ Type | Naam | Voorbeeld                                                    |
 Header    | `vr-api-key` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-key: api-key'`|
 Query parameter | `vr-api-key` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-key=api-key |
 
+## Gebruik API Versies
+
+Om gebruik te kunnen maken van een andere API versie, is het noodzakelijk een API versie mee te geven.
+
+Deze dienen meegestuurd te worden als header, of via de query parameters.
+
+Mogelijke waarden zijn:
+
+* {WellknownVersions.V2}
+
+Type | Naam | Voorbeeld                                                    |
+----------- | ----------------------------------------------------------------- |----|
+Header    | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-version: {WellknownVersions.V2}'`|
+Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-version={WellknownVersions.V2} |
+
 ";
 
     private static string FoutmeldingenText

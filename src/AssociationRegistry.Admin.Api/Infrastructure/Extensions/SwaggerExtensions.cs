@@ -54,7 +54,8 @@ public static class SwaggerExtensions
                            Title = appSettings.ApiDocs.Title,
                            Description = "---\n" +
                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
-                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
+                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>." +
+                                         $"\n\n## Gebruik API Versies\n\nOm gebruik te kunnen maken van een andere API versie, is het noodzakelijk een API versie mee te geven.\n\nDeze dienen meegestuurd te worden als header, of via de query parameters.\n\nMogelijke waarden zijn:\n\n* {WellknownVersions.V2}\n\nType | Naam | Voorbeeld                                                    |\n----------- | ----------------------------------------------------------------- |----|\nHeader    | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-version: {WellknownVersions.V2}'`|\nQuery parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-version={WellknownVersions.V2} |",
                            Contact = new OpenApiContact
                            {
                                Name = appSettings.ApiDocs.Contact.Name,
