@@ -66,45 +66,6 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                       .TrackTotalHits();
             }, cancellationToken);
 
-    private async Task<ISearchResponse<VerenigingZoekDocument>> Search(
-        string q,
-        string? sort,
-        string[] hoofdactiviteiten,
-        PaginationQueryParams paginationQueryParams)
-        => await _client.SearchAsync<VerenigingZoekDocument>(
-            s =>
-            {
-                return s
-                      .From(paginationQueryParams.Offset)
-                      .Size(paginationQueryParams.Limit)
-                      .ParseSort(sort, DefaultSort, _typeMapping)
-                      .Query(query => query
-                                .Bool(boolQueryDescriptor => boolQueryDescriptor
-                                                            .Must(queryContainerDescriptor
-                                                                      => MatchQueryString(
-                                                                          queryContainerDescriptor,
-                                                                          $"{q}{BuildHoofdActiviteiten(hoofdactiviteiten)}"),
-                                                                  BeActief
-                                                             )
-                                                            .MustNot(
-                                                                 BeUitgeschrevenUitPubliekeDatastroom,
-                                                                 BeRemoved)
-                                 )
-                       )
-                      .Aggregations(
-                           agg =>
-                               GlobalAggregation(
-                                   agg,
-                                   aggregations: agg2 =>
-                                       QueryFilterAggregation(
-                                           agg2,
-                                           q,
-                                           HoofdactiviteitCountAggregation
-                                       )
-                               )
-                       );
-            });
-
     private static IAggregationContainer GlobalAggregation<T>(
         AggregationContainerDescriptor<T> agg,
         Func<AggregationContainerDescriptor<T>, AggregationContainerDescriptor<T>> aggregations) where T : class
@@ -123,7 +84,7 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
         AggregationContainerDescriptor<T> aggregationContainerDescriptor,
         string query,
         Func<AggregationContainerDescriptor<T>, IAggregationContainer> aggregations)
-        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable
+        where T : class, ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
     {
         return aggregationContainerDescriptor.Filter(
             WellknownFacets.FilterAggregateName,
@@ -139,7 +100,8 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
                                                 )
                                                .MustNot(
                                                     BeUitgeschrevenUitPubliekeDatastroom,
-                                                    BeRemoved)
+                                                    BeRemoved,
+                                                    BeDubbel)
                                    )
                     )
                    .Aggregations(aggregations)
