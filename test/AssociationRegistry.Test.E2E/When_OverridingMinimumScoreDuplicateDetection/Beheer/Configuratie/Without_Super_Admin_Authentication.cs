@@ -9,10 +9,10 @@ using System.Net;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class When_Not_Authenticated_With_Super_Admin {
+public class Without_Super_Admin_Authentication {
     private readonly FullBlownApiSetup _apiSetup;
 
-    public When_Not_Authenticated_With_Super_Admin(FullBlownApiSetup apiSetup)
+    public Without_Super_Admin_Authentication(FullBlownApiSetup apiSetup)
     {
         _apiSetup = apiSetup;
     }

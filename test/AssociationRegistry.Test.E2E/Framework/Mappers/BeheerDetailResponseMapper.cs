@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
+using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Events;
 using JsonLdContext;
 using Vereniging;
@@ -14,10 +14,11 @@ using Werkingsgebied = Admin.Api.Verenigingen.Detail.ResponseModels.Werkingsgebi
 
 public class BeheerDetailResponseMapper
 {
-    public static Sleutel[] MapSleutels(WijzigBasisgegevensRequest request, string vCode)
+
+    public static Sleutel[] MapSleutels(string vCode)
         =>
         [
-            new Sleutel
+            new()
             {
                 Bron = Sleutelbron.VR.Waarde,
                 id = JsonLdType.Sleutel.CreateWithIdValues(vCode, Sleutelbron.VR.Waarde),
@@ -66,12 +67,36 @@ public class BeheerDetailResponseMapper
             },
         ];
 
-    public static Relatie[] MapRelaties(Relatie[] relaties, string vCode)
+    public static Vertegenwoordiger[] MapVertegenwoordigers(ToeTeVoegenVertegenwoordiger[] vertegenwoordigers, string vCode)
     {
-        return relaties.Select((x, i) => new Relatie
+        return vertegenwoordigers.Select((x, i) => new Vertegenwoordiger
         {
-            AndereVereniging = x.AndereVereniging,
-            Relatietype = x.Relatietype,
+            id = JsonLdType.Vertegenwoordiger.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Vertegenwoordiger.Type,
+            VertegenwoordigerId = i + 1,
+            PrimairContactpersoon = x.IsPrimair,
+            Achternaam = x.Achternaam,
+            Email = x.Email,
+            Insz = x.Insz,
+            Voornaam = x.Voornaam,
+            Roepnaam = x.Roepnaam,
+            Rol = x.Rol,
+            Telefoon = x.Telefoon,
+            Mobiel = x.Mobiel,
+            SocialMedia = x.SocialMedia,
+            VertegenwoordigerContactgegevens = new VertegenwoordigerContactgegevens
+            {
+                id = JsonLdType.VertegenwoordigerContactgegeven.CreateWithIdValues(
+                    vCode, $"{i + 1}"),
+                type = JsonLdType.VertegenwoordigerContactgegeven.Type,
+                IsPrimair = x.IsPrimair,
+                Email = x.Email,
+                Telefoon = x.Telefoon,
+                Mobiel = x.Mobiel,
+                SocialMedia = x.SocialMedia,
+            },
+            Bron = Bron.Initiator,
         }).ToArray();
     }
 
@@ -121,6 +146,37 @@ public class BeheerDetailResponseMapper
             Beschrijving = x.Beschrijving!,
             IsPrimair = x.IsPrimair,
             Bron = Bron.Initiator,
+        }).ToArray();
+    }
+
+    public static Contactgegeven[] MapContactgegevens(ToeTeVoegenContactgegeven[] toeTeVoegenContactgegevens, string vCode)
+    {
+        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
+        {
+            id = JsonLdType.Contactgegeven.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Contactgegeven.Type,
+            ContactgegevenId = i + 1,
+            Contactgegeventype = x.Contactgegeventype,
+            Waarde = x.Waarde,
+            Beschrijving = x.Beschrijving!,
+            IsPrimair = x.IsPrimair,
+            Bron = Bron.Initiator,
+        }).ToArray();
+    }
+
+    public static Locatie[] MapLocaties(ToeTeVoegenLocatie[] toeTeVoegenLocaties, string vCode)
+    {
+        return toeTeVoegenLocaties.Select((x, i) => new Locatie
+        {
+            id = JsonLdType.Locatie.CreateWithIdValues(
+                vCode, $"{i + 1}"),
+            type = JsonLdType.Locatie.Type,
+            LocatieId = i + 1,
+            Locatietype = x.Locatietype,
+            Naam = x.Naam,
+            Bron = Bron.Initiator,
+            IsPrimair = x.IsPrimair,
         }).ToArray();
     }
 
