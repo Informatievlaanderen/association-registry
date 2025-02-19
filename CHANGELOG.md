@@ -1,3 +1,10 @@
+# [8.211.0](https://github.com/informatievlaanderen/association-registry/compare/v8.210.0...v8.211.0) (2025-02-19)
+
+
+### Features
+
+* or-2667 add swagger docs for v2 ([7127ed4](https://github.com/informatievlaanderen/association-registry/commit/7127ed427f5614e7a519b55ff8bdea7b0055aa4a))
+
 # [8.210.0](https://github.com/informatievlaanderen/association-registry/compare/v8.209.5...v8.210.0) (2025-02-19)
 
 
