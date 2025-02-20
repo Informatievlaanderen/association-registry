@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture;
 using DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Vereniging;
 
 public static class CommandCustomizations

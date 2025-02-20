@@ -6,7 +6,6 @@ using Events;
 using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
-using Grar;
 using Grar.Clients;
 using Grar.Exceptions;
 using SocialMedias;
@@ -15,7 +14,7 @@ using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
 
 public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 {
-    public static Vereniging RegistreerFeitelijkeVereniging(
+    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
         VCode vCode,
         VerenigingsNaam naam,
         string? korteNaam,
@@ -39,7 +38,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         var vereniging = new Vereniging();
 
         vereniging.AddEvent(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCode,
                 naam,
                 korteNaam ?? string.Empty,
@@ -301,23 +300,5 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,
                                                              registratieData));
-    }
-
-    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
-        VCode vCode,
-        VerenigingsNaam commandNaam,
-        string? commandKorteNaam,
-        string? commandKorteBeschrijving,
-        Datum? commandStartdatum,
-        Doelgroep commandDoelgroep,
-        bool commandIsUitgeschrevenUitPubliekeDatastroom,
-        Contactgegeven[] commandContactgegevens,
-        Locatie[] commandLocaties,
-        Vertegenwoordiger[] commandVertegenwoordigers,
-        HoofdactiviteitVerenigingsloket[] commandHoofdactiviteitenVerenigingsloket,
-        Werkingsgebied[] commandWerkingsgebieden,
-        IClock clock)
-    {
-        throw new NotImplementedException();
     }
 }

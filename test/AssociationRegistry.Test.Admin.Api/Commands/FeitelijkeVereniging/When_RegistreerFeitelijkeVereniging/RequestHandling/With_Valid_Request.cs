@@ -6,7 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Framework;

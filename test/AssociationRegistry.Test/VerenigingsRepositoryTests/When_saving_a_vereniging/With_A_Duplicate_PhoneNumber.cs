@@ -49,7 +49,7 @@ public class With_A_Duplicate_PhoneNumber
         var naam = VerenigingsNaam.Create("Vereniging 1");
         const string beschrijving = "zelfde beschrijving";
 
-        Assert.Throws<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerFeitelijkeVereniging(
+        Assert.Throws<ContactgegevenIsDuplicaat>(() => Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
                                                      vCode: vCode,
                                                      naam: naam,
                                                      korteNaam: null,

@@ -9,7 +9,7 @@ using Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.AspNetCore.Http;

@@ -1,18 +1,18 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventFactories;
 using Events;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -21,7 +21,7 @@ using Xunit.Categories;
 public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
-    private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
     private readonly IFixture _fixture;
     private readonly VerenigingRepositoryMock _repositoryMock;
     private readonly InMemorySequentialVCodeService _vCodeService;
@@ -46,7 +46,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 
         _vCodeService = new InMemorySequentialVCodeService();
 
-        _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+        _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _repositoryMock,
             _vCodeService,
             new NoDuplicateVerenigingDetectionService(),
@@ -54,7 +54,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
 
     public async Task InitializeAsync()
@@ -72,7 +72,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     public void Then_it_saves_the_event()
     {
         _repositoryMock.ShouldHaveSaved(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,

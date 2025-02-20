@@ -1,18 +1,18 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using Events;
-using FluentAssertions;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using AutoFixture;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -33,7 +33,7 @@ public class With_A_Startdatum_On_Today
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+        var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _verenigingRepositoryMock,
             vCodeService,
             new NoDuplicateVerenigingDetectionService(),
@@ -41,7 +41,7 @@ public class With_A_Startdatum_On_Today
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
@@ -54,7 +54,7 @@ public class With_A_Startdatum_On_Today
     {
         _verenigingRepositoryMock.SaveInvocations
                                  .Single().Vereniging.UncommittedEvents
-                                 .OfType<FeitelijkeVerenigingWerdGeregistreerd>()
+                                 .OfType< VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
                                  .Should().HaveCount(expected: 1);
     }
 }

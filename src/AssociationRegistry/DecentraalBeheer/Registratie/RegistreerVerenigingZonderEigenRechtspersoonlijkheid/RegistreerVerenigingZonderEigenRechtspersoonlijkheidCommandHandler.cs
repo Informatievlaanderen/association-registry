@@ -1,28 +1,28 @@
-﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+﻿namespace AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Messages;
-using AssociationRegistry.Vereniging;
+using DuplicateVerenigingDetection;
 using Events;
+using Framework;
 using Grar.Clients;
+using Messages;
+using Vereniging;
 using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 using Wolverine.Marten;
 
-public class RegistreerFeitelijkeVerenigingCommandHandler
+public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
 {
     private readonly IClock _clock;
     private readonly IGrarClient _grarClient;
-    private readonly ILogger<RegistreerFeitelijkeVerenigingCommandHandler> _logger;
+    private readonly ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> _logger;
     private readonly IDuplicateVerenigingDetectionService _duplicateVerenigingDetectionService;
     private readonly IMartenOutbox _outbox;
     private readonly IDocumentSession _session;
     private readonly IVCodeService _vCodeService;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
-    public RegistreerFeitelijkeVerenigingCommandHandler(
+    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
         IVerenigingsRepository verenigingsRepository,
         IVCodeService vCodeService,
         IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
@@ -30,7 +30,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         IDocumentSession session,
         IClock clock,
         IGrarClient grarClient,
-        ILogger<RegistreerFeitelijkeVerenigingCommandHandler> logger)
+        ILogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
@@ -46,7 +46,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
         CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         CancellationToken cancellationToken = default)
     {
-        _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} start");
+        _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} start");
 
         var command = message.Command;
 
@@ -60,7 +60,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         var vCode = await _vCodeService.GetNext();
 
-        var vereniging = Vereniging.RegistreerFeitelijkeVereniging(
+        var vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             vCode,
             command.Naam,
             command.KorteNaam,
@@ -75,7 +75,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
             command.Werkingsgebieden,
             _clock);
 
-        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<FeitelijkeVerenigingWerdGeregistreerd>()
+        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
                                             .Single().Locaties;
 
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
@@ -85,7 +85,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
 
         var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
 
-        _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} end");
+        _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

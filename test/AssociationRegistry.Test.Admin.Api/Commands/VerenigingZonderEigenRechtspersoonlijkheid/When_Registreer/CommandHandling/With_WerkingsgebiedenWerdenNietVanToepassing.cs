@@ -1,30 +1,28 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventFactories;
 using Events;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-public class With_Required_Fields
+public class With_NietVanToepassing_Werkingsgebieden
 {
     private const string Naam = "naam1";
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public With_Required_Fields()
+    public With_NietVanToepassing_Werkingsgebieden()
     {
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
@@ -45,19 +43,19 @@ public class With_Required_Fields
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
             Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Array.Empty<Werkingsgebied>());
+            Werkingsgebieden.NietVanToepassing);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock,
+            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
                                                              _vCodeService,
                                                              new NoDuplicateVerenigingDetectionService(),
                                                              Mock.Of<IMartenOutbox>(),
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
-                                                             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+                                                             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
@@ -68,9 +66,11 @@ public class With_Required_Fields
     [Fact]
     public void Then_it_saves_the_event()
     {
+        var vCode = _vCodeService.GetLast();
+
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new FeitelijkeVerenigingWerdGeregistreerd(
-                _vCodeService.GetLast(),
+            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+                vCode,
                 Naam,
                 string.Empty,
                 string.Empty,
@@ -81,6 +81,7 @@ public class With_Required_Fields
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
-            ));
+            ),
+            new WerkingsgebiedenWerdenNietVanToepassing(vCode));
     }
 }

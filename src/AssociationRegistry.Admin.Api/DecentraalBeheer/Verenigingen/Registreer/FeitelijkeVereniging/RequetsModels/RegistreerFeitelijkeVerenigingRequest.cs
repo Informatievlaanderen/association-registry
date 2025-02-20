@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 
-using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using Common;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
