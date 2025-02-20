@@ -6,6 +6,7 @@ using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
@@ -17,6 +18,58 @@ public static class HistoriekGebeurtenisMapper
 {
     public static HistoriekGebeurtenisResponse FeitelijkeVerenigingWerdGeregistreerd(
         RegistreerFeitelijkeVerenigingRequest request,
+        string vCode)
+    {
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"Feitelijke vereniging werd geregistreerd met naam '{request.Naam}'.",
+            Gebeurtenis = nameof(Events.FeitelijkeVerenigingWerdGeregistreerd),
+            Data = new FeitelijkeVerenigingWerdGeregistreerdData(
+                vCode,
+                request.Naam,
+                request.KorteNaam!,
+                request.KorteBeschrijving!,
+                Startdatum: request.Startdatum,
+                Doelgroep: new Registratiedata.Doelgroep(
+                    request.Doelgroep!.Minimumleeftijd!.Value,
+                    request.Doelgroep.Maximumleeftijd!.Value),
+                IsUitgeschrevenUitPubliekeDatastroom: request
+                   .IsUitgeschrevenUitPubliekeDatastroom,
+                Contactgegevens: request.Contactgegevens.Select(
+                                             (x, i) => new Registratiedata.Contactgegeven(
+                                                 i + 1,
+                                                 x.Contactgegeventype,
+                                                 x.Waarde,
+                                                 x.Beschrijving!,
+                                                 x.IsPrimair))
+                                        .ToArray(),
+                Locaties: request.Locaties.Select(
+                                      (x, i) => new Registratiedata.Locatie(
+                                          i + 1,
+                                          x.Locatietype,
+                                          x.IsPrimair,
+                                          x.Naam!,
+                                          x.Adres == null
+                                              ? null
+                                              : new Registratiedata.Adres(
+                                                  x.Adres.Straatnaam,
+                                                  x.Adres.Huisnummer,
+                                                  x.Adres.Busnummer!,
+                                                  x.Adres.Postcode,
+                                                  x.Adres.Gemeente,
+                                                  x.Adres.Land
+                                              ),
+                                          x.AdresId == null
+                                              ? null
+                                              : new Registratiedata.AdresId(x.AdresId.Broncode, x.AdresId.Bronwaarde)))
+                                 .ToArray(),
+                Vertegenwoordigers: null,
+                HoofdactiviteitenVerenigingsloket: null),
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+    public static HistoriekGebeurtenisResponse VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+        RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request,
         string vCode)
     {
         return new HistoriekGebeurtenisResponse
