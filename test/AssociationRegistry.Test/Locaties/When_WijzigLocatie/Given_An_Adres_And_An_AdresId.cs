@@ -69,6 +69,15 @@ public class Given_An_Adres_And_An_AdresId
                         }),
                     gewijzigdeLocatie,
                 },
+                new object[]
+                {
+                    new VerenigingState().Apply(
+                        fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                        {
+                            Locaties = new[] { locatie },
+                        }),
+                    gewijzigdeLocatie,
+                },
             };
         }
     }

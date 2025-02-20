@@ -54,6 +54,15 @@ public class Given_A_Second_CorrespondentieLocatie
                         }),
                     gewijzigdeLocatie,
                 },
+                new object[]
+                {
+                    new VerenigingState().Apply(
+                        fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                        {
+                            Locaties = new[] { correspondentieLocatie, teWijzigenLocatie },
+                        }),
+                    gewijzigdeLocatie,
+                },
             };
         }
     }

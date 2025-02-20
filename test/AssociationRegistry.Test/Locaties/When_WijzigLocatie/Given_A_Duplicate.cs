@@ -70,6 +70,15 @@ public class Given_A_Duplicate
                         }),
                     gewijzigdeLocatie,
                 },
+                new object[]
+                {
+                    new VerenigingState().Apply(
+                        fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                        {
+                            Locaties = locaties,
+                        }),
+                    gewijzigdeLocatie,
+                },
             };
         }
     }

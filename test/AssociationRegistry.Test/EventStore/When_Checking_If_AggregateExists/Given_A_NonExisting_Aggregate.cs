@@ -1,12 +1,13 @@
 namespace AssociationRegistry.Test.When_Checking_If_AggregateExists;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.EventStore;
+using Events;
+using EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
@@ -32,20 +33,24 @@ public class Given_A_NonExisting_Aggregate
             ]);
     }
 
-    [Fact]
-    public async Task Then_it_Throws_Exception()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task Then_Returns_False(Type verenigingType)
     {
+        var context = new SpecimenContext(_fixture);
+
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_A_NonExisting_Aggregate));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
-        var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
 
         var nonExistingVCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(feitelijkeVerenigingWerdGeregistreerd.VCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(verenigingWerdGeregistreerd.VCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              feitelijkeVerenigingWerdGeregistreerd);
+                              (dynamic)verenigingWerdGeregistreerd);
 
         (await eventStore.Exists(nonExistingVCode)).Should().BeFalse();
 

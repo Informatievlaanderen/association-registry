@@ -1,9 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_VoegLocatieToe;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;

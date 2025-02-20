@@ -1,29 +1,32 @@
 namespace AssociationRegistry.Test.Locaties.When_VoegLocatieToe;
 
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging;
+using Vereniging.Exceptions;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 public class Given_A_Duplicate
 {
-    [Fact]
-    public void Then_it_throws()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public void Then_it_throws(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
+        var context = new SpecimenContext(fixture);
 
         var vereniging = new VerenigingOfAnyKind();
-        var locatie = fixture.Create<Registratiedata.Locatie>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var locatie = verenigingWerdGeregistreerd.Locaties.First();
+
 
         vereniging.Hydrate(new VerenigingState()
-                              .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-                               {
-                                   Locaties = new[] { locatie },
-                               }));
+                              .Apply((dynamic)verenigingWerdGeregistreerd));
 
         Assert.Throws<LocatieIsNietUniek>(() => vereniging.VoegLocatieToe(
                                               Locatie.Create(

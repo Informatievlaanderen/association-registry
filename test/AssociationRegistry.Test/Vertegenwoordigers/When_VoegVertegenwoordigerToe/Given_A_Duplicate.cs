@@ -5,28 +5,29 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
 public class Given_A_Duplicate
 {
-    [Fact]
-    public void Then_it_throws()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public void Then_it_throws(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
+        var context = new SpecimenContext(fixture);
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
 
         var vereniging = new Vereniging();
         var insz = fixture.Create<Insz>();
-        var vertegenwoordiger = fixture.Create<Registratiedata.Vertegenwoordiger>() with { Insz = insz };
 
         vereniging.Hydrate(new VerenigingState()
-                              .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-                               {
-                                   Vertegenwoordigers = new[] { vertegenwoordiger },
-                               }));
+                              .Apply((dynamic)verenigingWerdGeregistreerd));
 
-        var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(vertegenwoordiger.Insz) };
+        var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { Insz = Insz.Create(verenigingWerdGeregistreerd.Vertegenwoordigers.First().Insz) };
         Assert.Throws<InszMoetUniekZijn>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
     }
 }

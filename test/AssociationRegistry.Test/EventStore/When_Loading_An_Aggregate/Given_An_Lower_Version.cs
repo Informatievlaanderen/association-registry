@@ -35,21 +35,24 @@ public class Given_An_Lower_Version
             });
     }
 
-    [Fact]
-    public async Task Then_it_Throws_Exception()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task Then_it_Throws_Exception(Type verenigingType)
     {
+        var context = new SpecimenContext(_fixture);
+
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
-        var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
-
-        var vCode = _fixture.Create<VCode>();
+        var vCode = VCode.Create(verenigingWerdGeregistreerd.VCode);
 
         await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              feitelijkeVerenigingWerdGeregistreerd, locatieWerdToegevoegd);
+                              (dynamic)verenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
         await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, expectedVersion: 1));
         documentStore.Dispose();
@@ -64,7 +67,7 @@ public class Given_An_Lower_Version
     [InlineData(typeof(AdresWerdOntkoppeldVanAdressenregister))]
     [InlineData(typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch))]
     [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
-    public async Task With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
+    public async Task With_FeitelijkeVereniging_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
         var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
 
@@ -79,6 +82,36 @@ public class Given_An_Lower_Version
         await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, @event);
+
+        var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
+        aggregate.Version.Should().Be(2);
+        documentStore.Dispose();
+    }
+
+    [Theory]
+    [InlineData(typeof(AdresWerdOvergenomenUitAdressenregister))]
+    [InlineData(typeof(AdresKonNietOvergenomenWordenUitAdressenregister))]
+    [InlineData(typeof(AdresWerdNietGevondenInAdressenregister))]
+    [InlineData(typeof(AdresNietUniekInAdressenregister))]
+    [InlineData(typeof(AdresWerdGewijzigdInAdressenregister))]
+    [InlineData(typeof(AdresWerdOntkoppeldVanAdressenregister))]
+    [InlineData(typeof(LocatieDuplicaatWerdVerwijderdNaAdresMatch))]
+    [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
+    public async Task With_VerenigingZonderEigenRechtspersoonlijkheid_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
+    {
+        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
+
+        await using var session = documentStore.LightweightSession();
+        var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = _fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+
+        var @event = (IEvent)new SpecimenContext(_fixture).Resolve(eventType);
+
+        var vCode = _fixture.Create<VCode>();
+
+        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+                              CancellationToken.None,
+                              verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, @event);
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);

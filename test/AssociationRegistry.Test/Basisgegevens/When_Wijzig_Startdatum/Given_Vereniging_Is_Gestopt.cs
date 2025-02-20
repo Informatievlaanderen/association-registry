@@ -6,26 +6,30 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using AutoFixture.Kernel;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
 
 public class Given_Vereniging_Is_Gestopt
 {
-    [Fact]
-    public void Then_It_Throws_If_Startdatum_Is_After_Einddatum()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public void Then_It_Throws_If_Startdatum_Is_After_Einddatum(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
+        var context = new SpecimenContext(fixture);
 
         var vereniging = new Vereniging();
 
         var einddatum = fixture.Create<Datum>();
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
         var verenigingWerdGestopt = EventFactory.VerenigingWerdGestopt(einddatum);
 
         vereniging.Hydrate(
             new VerenigingState()
-               .Apply(feitelijkeVerenigingWerdGeregistreerd)
+               .Apply((dynamic)verenigingWerdGeregistreerd)
                .Apply(verenigingWerdGestopt));
 
         var clock = new ClockStub(einddatum.Value.AddDays(100));
