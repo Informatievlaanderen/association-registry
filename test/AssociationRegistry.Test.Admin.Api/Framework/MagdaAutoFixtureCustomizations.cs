@@ -3,7 +3,6 @@
 using AssociationRegistry.Magda.Constants;
 using AssociationRegistry.Magda.Onderneming.GeefOnderneming;
 using AutoFixture;
-using EventFactories;
 
 public static class MagdaAutoFixtureCustomizations
 {

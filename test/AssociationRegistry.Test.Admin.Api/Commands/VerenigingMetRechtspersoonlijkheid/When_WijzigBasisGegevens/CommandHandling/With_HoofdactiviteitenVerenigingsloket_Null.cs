@@ -4,7 +4,7 @@ using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
-using Common.Scenarios.CommandHandling;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using DecentraalBeheer.Basisgegevens.VerenigingMetRechtspersoonlijkheid;
 using Events;
 using Vereniging;

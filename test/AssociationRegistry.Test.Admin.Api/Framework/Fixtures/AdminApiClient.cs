@@ -53,6 +53,22 @@ public class AdminApiClient : IDisposable
         return httpResponseMessage;
     }
 
+    public async Task<HttpResponseMessage> RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+        string content,
+        string? bevestigingsToken = null,
+        string? initiator = "OVO000001")
+    {
+        AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken, bevestigingsToken);
+        WithHeaders(version: null, initiator);
+
+        var httpResponseMessage =
+            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/verenigingenzondereigenrechtspersoonlijkheid", content.AsJsonContent());
+
+        AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
+
+        return httpResponseMessage;
+    }
+
     public async Task<HttpResponseMessage> RegistreerKboVereniging(string content, string? initiator = "OVO000001")
     {
         WithHeaders(version: null, initiator);

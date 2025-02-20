@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
-using Common.Scenarios.CommandHandling;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using Moq;
 using Vereniging;

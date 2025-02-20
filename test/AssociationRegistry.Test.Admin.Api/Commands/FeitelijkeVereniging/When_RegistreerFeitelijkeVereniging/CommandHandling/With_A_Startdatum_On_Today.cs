@@ -8,7 +8,6 @@ using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using Events;
 using FluentAssertions;
 using Framework.Fakes;
-using Grar;
 using Grar.Clients;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;

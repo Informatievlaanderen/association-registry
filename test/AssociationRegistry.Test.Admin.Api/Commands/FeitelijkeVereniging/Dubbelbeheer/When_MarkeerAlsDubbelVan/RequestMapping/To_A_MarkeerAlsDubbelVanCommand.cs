@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.Dubbe
 
 using AssociationRegistry.Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;

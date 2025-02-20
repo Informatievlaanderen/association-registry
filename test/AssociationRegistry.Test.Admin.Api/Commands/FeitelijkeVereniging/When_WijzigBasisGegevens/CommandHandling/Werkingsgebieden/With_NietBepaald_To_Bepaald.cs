@@ -4,7 +4,6 @@ using AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
 using EventFactories;
-using Events;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

@@ -21,7 +21,7 @@ using Npgsql;
 using Vereniging;
 using Weasel.Core;
 using Xunit;
-using IEvent = AssociationRegistry.Events.IEvent;
+using IEvent = Events.IEvent;
 
 public abstract class MultiStreamTestFixture : IAsyncLifetime
 {
