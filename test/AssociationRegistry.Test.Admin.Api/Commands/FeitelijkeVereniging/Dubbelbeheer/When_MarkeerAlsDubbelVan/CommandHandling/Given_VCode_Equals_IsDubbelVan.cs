@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.Dubbelbeheer.When_MarkeerAlsDubbelVan.CommandHandling;
 
 using AssociationRegistry.Framework;
-using AssociationRegistry.Resources;
+using Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging.Exceptions;
+using Vereniging.Exceptions;
 using AutoFixture;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 using FluentAssertions;
 using Marten;

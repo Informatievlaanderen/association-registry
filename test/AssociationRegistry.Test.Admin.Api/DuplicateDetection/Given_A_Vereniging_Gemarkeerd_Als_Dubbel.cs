@@ -10,7 +10,6 @@ using FluentAssertions;
 using Framework.Fixtures;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using System.Net;
 using Vereniging;
 using Xunit;
 using Xunit.Abstractions;

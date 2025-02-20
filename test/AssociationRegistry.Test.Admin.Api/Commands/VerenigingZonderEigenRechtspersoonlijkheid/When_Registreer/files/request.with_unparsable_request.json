@@ -1,0 +1,11 @@
+{
+  "naam": "De naam van de vereniging",
+  "vertegenwoordigers": [
+    {
+      "insz": "71032512357",
+      "rol": "Ceremoniemeester",
+      "roepnaam": "God",
+      "isPrimair": "ja"
+    }
+  ]
+}

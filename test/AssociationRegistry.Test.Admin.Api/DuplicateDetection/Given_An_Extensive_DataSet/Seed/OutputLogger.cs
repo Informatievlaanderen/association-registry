@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed;
 
-using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using Microsoft.Extensions.Logging;
-using  Microsoft.Extensions.Logging.Abstractions;
 
 public class OutputLogger : ILogger
 {

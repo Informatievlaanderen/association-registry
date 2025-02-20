@@ -6,6 +6,8 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using Moq;
 using Wolverine;

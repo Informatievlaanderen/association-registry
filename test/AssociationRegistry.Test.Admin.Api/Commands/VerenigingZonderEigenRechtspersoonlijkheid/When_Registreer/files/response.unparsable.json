@@ -1,0 +1,7 @@
+{
+  "type": "urn:resharpertestrunner:validation",
+  "title": "Er heeft zich een fout voorgedaan!",
+  "detail": "Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw.",
+  "status": 400,
+  "instance": "http://127.0.0.1:11004/v1/foutmeldingen/31536dd4b11d530da97e8c0be46e9261"
+}

@@ -4,6 +4,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling;
+using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using EventFactories;
 using Events;
 using Grar;

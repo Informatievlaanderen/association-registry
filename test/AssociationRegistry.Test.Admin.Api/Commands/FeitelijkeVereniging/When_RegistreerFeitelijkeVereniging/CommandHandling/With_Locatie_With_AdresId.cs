@@ -8,7 +8,6 @@ using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using EventFactories;
 using Events;
 using Framework.Fakes;
-using Grar;
 using Grar.Clients;
 using Grar.Models;
 using Marten;

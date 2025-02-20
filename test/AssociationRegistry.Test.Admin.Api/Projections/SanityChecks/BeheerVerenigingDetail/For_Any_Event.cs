@@ -12,9 +12,9 @@ public class For_Any_Event
     [Fact]
     public void There_Should_Be_A_Create_Or_Project_Method()
     {
-        var eventTypes = typeof(AssociationRegistry.Events.IEvent).Assembly
+        var eventTypes = typeof(Events.IEvent).Assembly
                                                                      .GetTypes()
-                                                                     .Where(t => typeof(AssociationRegistry.Events.IEvent)
+                                                                     .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
                                                                      .Except([typeof(AfdelingWerdGeregistreerd)]) // because it's obsolete
                                                                      .ToList();

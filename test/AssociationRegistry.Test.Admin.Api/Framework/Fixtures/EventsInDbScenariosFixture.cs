@@ -193,6 +193,12 @@ public class EventsInDbScenariosFixture : AdminApiFixture
     public readonly V080_V081_VerenigingWerdGeregistreerd_And_Gemarkeerd_Als_Dubbel_For_DuplicateDetection
         V080V081VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection = new();
 
+    public readonly V082_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_ForDuplicateForce
+        V082VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdForDuplicateForce = new();
+
+    public readonly V083_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd_WithAllFields_ForDuplicateCheck
+        V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck = new();
+
     protected override async Task Given()
     {
         var scenarios = new IEventsInDbScenario[]
@@ -257,6 +263,8 @@ public class EventsInDbScenariosFixture : AdminApiFixture
             V072FeitelijkeVerenigingWerdGeregistreerdWithLocatiesForWijzigenForAdresKonNietOvergenomenWordenUitAdressenregister,
             V079FeitelijkeVerenigingWerdUitgeschrevenUitPubliekeDatastroomAndNaamGewijzigd,
             V080V081VerenigingWerdGeregistreerdAndGemarkeerdAlsDubbelForDuplicateDetection,
+            V082VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdForDuplicateForce,
+            V083VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithAllFieldsForDuplicateCheck,
         };
 
         using var daemon = await PreAddEvents();

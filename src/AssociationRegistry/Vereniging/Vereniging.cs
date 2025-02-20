@@ -301,4 +301,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                              adresDetailResponse.AdresId,
                                                              registratieData));
     }
+
+    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(VCode vCode, VerenigingsNaam commandNaam, string? commandKorteNaam, string? commandKorteBeschrijving, Datum? commandStartdatum, Doelgroep commandDoelgroep, bool commandIsUitgeschrevenUitPubliekeDatastroom, Contactgegeven[] commandContactgegevens, Locatie[] commandLocaties, Vertegenwoordiger[] commandVertegenwoordigers, HoofdactiviteitVerenigingsloket[] commandHoofdactiviteitenVerenigingsloket, Werkingsgebied[] commandWerkingsgebieden, IClock clock)
+    {
+        throw new NotImplementedException();
+    }
 }
