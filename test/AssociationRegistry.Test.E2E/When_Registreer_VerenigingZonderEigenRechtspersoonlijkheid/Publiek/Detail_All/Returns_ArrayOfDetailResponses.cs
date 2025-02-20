@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Detail_All;
+﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Detail_All;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using Formats;
 using JsonLdContext;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
@@ -19,14 +19,14 @@ using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
+public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingDetailResponse>
 {
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
         setup => setup.PublicApiHost
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_ArrayOfDetailResponses(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
     {
     }
 
