@@ -15,9 +15,9 @@ public static class CommandCustomizations
 
     public static void CustomizeRegistreerFeitelijkeVerenigingCommand(this IFixture fixture, bool withoutWerkingsgebieden = false)
     {
-        fixture.Customize<RegistreerFeitelijkeVerenigingCommand>(
+        fixture.Customize<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(
             composerTransformation: composer => composer.FromFactory(
-                                                             factory: () => new RegistreerFeitelijkeVerenigingCommand(
+                                                             factory: () => new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
                                                                  fixture.Create<VerenigingsNaam>(),
                                                                  fixture.Create<string>(),
                                                                  fixture.Create<string>(),

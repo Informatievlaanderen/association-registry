@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 
 using Common;
+using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
 using Vereniging;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 
 [DataContract]
-public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest
+public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest : IRegistreerVereniging
 {
     /// <summary>Naam van de vereniging</summary>
     [DataMember]

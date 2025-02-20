@@ -4,6 +4,22 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
+public interface IVerenigingWerdGeregistreerd
+{
+    Bron Bron { get; }
+    string VCode { get; init; }
+    string Naam { get; init; }
+    string KorteNaam { get; init; }
+    string KorteBeschrijving { get; init; }
+    DateOnly? Startdatum { get; init; }
+    Registratiedata.Doelgroep Doelgroep { get; init; }
+    bool IsUitgeschrevenUitPubliekeDatastroom { get; init; }
+    Registratiedata.Contactgegeven[] Contactgegevens { get; init; }
+    Registratiedata.Locatie[] Locaties { get; init; }
+    Registratiedata.Vertegenwoordiger[] Vertegenwoordigers { get; init; }
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; init; }
+}
+
 public record FeitelijkeVerenigingWerdGeregistreerd(
     string VCode,
     string Naam,
@@ -15,7 +31,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingWerdGeregistreerd
 {
     [IgnoreDataMember]
     public Bron Bron

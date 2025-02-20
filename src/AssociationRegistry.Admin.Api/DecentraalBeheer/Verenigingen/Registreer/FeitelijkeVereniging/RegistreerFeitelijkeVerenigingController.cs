@@ -96,7 +96,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
             };
 
         var metaData = metadataProvider.GetMetadata();
-        var envelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, metaData);
+        var envelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, metaData);
         var registratieResult = await _bus.InvokeAsync<Result>(envelope);
 
         return registratieResult switch

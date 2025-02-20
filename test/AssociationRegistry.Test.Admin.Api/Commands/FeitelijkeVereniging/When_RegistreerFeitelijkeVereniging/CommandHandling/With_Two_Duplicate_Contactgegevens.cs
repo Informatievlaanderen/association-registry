@@ -20,7 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Two_Duplicate_Contactgegevens
 {
-    private readonly CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> _commandEnvelope;
+    private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
     private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
 
     public With_Two_Duplicate_Contactgegevens()
@@ -32,7 +32,7 @@ public class With_Two_Duplicate_Contactgegevens
             Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
                                                isPrimair: true);
 
-        var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Contactgegevens = new[] { contactgegeven, contactgegeven },
             SkipDuplicateDetection = true,
@@ -50,7 +50,7 @@ public class With_Two_Duplicate_Contactgegevens
             Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
-        _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
     }
 
     [Fact]

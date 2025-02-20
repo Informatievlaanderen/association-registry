@@ -20,7 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
 {
-    private readonly CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> _commandEnvelope;
+    private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
     private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
 
     public With_Two_Primair_Contactgegevens_Of_The_Same_Type()
@@ -36,7 +36,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test2@example.org", fixture.Create<string>(),
                                                isPrimair: true);
 
-        var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Contactgegevens = new[]
             {
@@ -57,7 +57,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
-        _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
     }
 
     [Fact]

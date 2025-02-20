@@ -5,9 +5,10 @@ using AssociationRegistry.Vereniging;
 using Common;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
+using VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 
 [DataContract]
-public class RegistreerFeitelijkeVerenigingRequest
+public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
 {
     /// <summary>Naam van de vereniging</summary>
     [DataMember]
@@ -58,7 +59,7 @@ public class RegistreerFeitelijkeVerenigingRequest
     [DataMember]
     public string[]? Werkingsgebieden { get; set; } = [];
 
-    public RegistreerFeitelijkeVerenigingCommand ToCommand()
+    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand()
         => new(
             VerenigingsNaam.Create(Naam),
             KorteNaam,

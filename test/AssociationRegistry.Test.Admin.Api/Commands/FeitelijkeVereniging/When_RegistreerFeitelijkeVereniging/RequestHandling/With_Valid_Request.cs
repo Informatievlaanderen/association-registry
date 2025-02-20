@@ -38,7 +38,7 @@ public class With_Valid_Request
         var result = Result.Success(_commandResult);
 
         messageBusMock
-           .Setup(mb => mb.InvokeAsync<Result>(It.IsAny<CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>>(), default, null))
+           .Setup(mb => mb.InvokeAsync<Result>(It.IsAny<CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>>(), default, null))
            .ReturnsAsync(result);
 
         _controller = new RegistreerFeitelijkeVerenigingController(

@@ -13,6 +13,7 @@ public static class EventCustomizations
     public static void CustomizeEvents(Fixture fixture)
     {
         fixture.CustomizeFeitelijkeVerenigingWerdGeregistreerd();
+        fixture.CustomizeVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd();
         fixture.CustomizeVerenigingMetRechtspersoonlijkheidWerdGeregistreerd();
         fixture.CustomizeContactgegevenWerdToegevoegd();
         fixture.CustomizeVertegenwoordigerWerdToegevoegd();
@@ -151,6 +152,25 @@ public static class EventCustomizations
         fixture.Customize<FeitelijkeVerenigingWerdGeregistreerd>(
             composer => composer.FromFactory(
                 () => new FeitelijkeVerenigingWerdGeregistreerd(
+                    fixture.Create<VCode>().ToString(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<string>(),
+                    fixture.Create<DateOnly?>(),
+                    fixture.Create<Registratiedata.Doelgroep>(),
+                    IsUitgeschrevenUitPubliekeDatastroom: false,
+                    fixture.CreateMany<Registratiedata.Contactgegeven>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Locatie>().ToArray(),
+                    fixture.CreateMany<Registratiedata.Vertegenwoordiger>().ToArray(),
+                    fixture.CreateMany<Registratiedata.HoofdactiviteitVerenigingsloket>().ToArray()
+                )).OmitAutoProperties());
+    }
+
+    private static void CustomizeVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(this IFixture fixture)
+    {
+        fixture.Customize<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(
+            composer => composer.FromFactory(
+                () => new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                     fixture.Create<VCode>().ToString(),
                     fixture.Create<string>(),
                     fixture.Create<string>(),

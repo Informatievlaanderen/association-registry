@@ -37,7 +37,7 @@ public class With_A_PotentialDuplicate
 
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
 
-        var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
@@ -67,7 +67,7 @@ public class With_A_PotentialDuplicate
             Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
-        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata),
+        _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata),
                                         CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();

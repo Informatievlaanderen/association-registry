@@ -15,7 +15,7 @@ public record VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingWerdGeregistreerd
 {
     [IgnoreDataMember]
     public Bron Bron

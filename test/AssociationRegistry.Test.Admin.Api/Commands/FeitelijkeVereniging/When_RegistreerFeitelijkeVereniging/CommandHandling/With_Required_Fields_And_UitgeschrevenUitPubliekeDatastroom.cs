@@ -34,7 +34,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
 
         var clock = new ClockStub(today);
 
-        var command = new RegistreerFeitelijkeVerenigingCommand(
+        var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
             VerenigingsNaam.Create(Naam),
             KorteNaam: null,
             KorteBeschrijving: null,
@@ -60,7 +60,7 @@ public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }

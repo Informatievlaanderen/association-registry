@@ -24,7 +24,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_A_PotentialDuplicate_And_Force
 {
-    private readonly RegistreerFeitelijkeVerenigingCommand _command;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly Result _result;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -42,7 +42,7 @@ public class With_A_PotentialDuplicate_And_Force
 
         locatie.Adres!.Postcode = scenario.Locatie.Adres!.Postcode;
 
-        _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
@@ -78,7 +78,7 @@ public class With_A_PotentialDuplicate_And_Force
             Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
-        _result = commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+        _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
                                         CancellationToken.None)
                                 .GetAwaiter()
                                 .GetResult();
