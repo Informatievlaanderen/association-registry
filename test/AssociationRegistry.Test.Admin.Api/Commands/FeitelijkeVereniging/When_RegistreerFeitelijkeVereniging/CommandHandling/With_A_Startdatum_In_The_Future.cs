@@ -20,7 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_A_Startdatum_In_The_Future
 {
-    private readonly CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> _commandEnvelope;
+    private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
     private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
 
     public With_A_Startdatum_In_The_Future()
@@ -29,7 +29,7 @@ public class With_A_Startdatum_In_The_Future
         var repositoryMock = new VerenigingRepositoryMock();
         var today = fixture.Create<DateOnly>();
 
-        var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Startdatum = Datum.Create(today.AddDays(value: 1)),
         };
@@ -46,7 +46,7 @@ public class With_A_Startdatum_In_The_Future
             Mock.Of<IGrarClient>(),
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
-        _commandEnvelope = new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata);
+        _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
     }
 
     [Fact]

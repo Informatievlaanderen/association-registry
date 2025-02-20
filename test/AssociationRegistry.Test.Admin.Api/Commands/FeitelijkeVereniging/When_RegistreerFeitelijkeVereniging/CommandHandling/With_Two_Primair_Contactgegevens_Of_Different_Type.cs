@@ -20,7 +20,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
-    private readonly RegistreerFeitelijkeVerenigingCommand _command;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
     private readonly IFixture _fixture;
     private readonly VerenigingRepositoryMock _repositoryMock;
@@ -33,7 +33,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 
         _repositoryMock = new VerenigingRepositoryMock();
 
-        _command = _fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with
+        _command = _fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
             Contactgegevens = new[]
             {
@@ -61,7 +61,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
-        await _commandHandler.Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata),
+        await _commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
                                      CancellationToken.None);
     }
 

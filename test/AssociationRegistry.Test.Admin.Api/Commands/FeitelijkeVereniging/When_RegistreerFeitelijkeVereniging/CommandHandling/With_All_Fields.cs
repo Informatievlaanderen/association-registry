@@ -19,7 +19,7 @@ using Xunit.Categories;
 [UnitTest]
 public class With_All_Fields
 {
-    private readonly RegistreerFeitelijkeVerenigingCommand _command;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
@@ -30,7 +30,7 @@ public class With_All_Fields
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        _command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>();
+        _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>();
         var clock = new ClockStub(_command.Startdatum.Value);
 
         var commandMetadata = fixture.Create<CommandMetadata>();
@@ -46,7 +46,7 @@ public class With_All_Fields
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(_command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata), CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }

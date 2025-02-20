@@ -53,7 +53,7 @@ public class With_Locatie_With_AdresId
         grarClient.Setup(s => s.GetAddressById(locatie.AdresId.ToString(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(adresDetailResponse);
 
-        var command = new RegistreerFeitelijkeVerenigingCommand(
+        var command = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand(
             VerenigingsNaam.Create(naam),
             KorteNaam: null,
             KorteBeschrijving: null,
@@ -82,7 +82,7 @@ public class With_Locatie_With_AdresId
                                                              NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
            .GetAwaiter()
            .GetResult();
 

@@ -30,7 +30,7 @@ public class With_A_Startdatum_On_Today
 
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var command = fixture.Create<RegistreerFeitelijkeVerenigingCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
+        var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with { Naam = VerenigingsNaam.Create(Naam) };
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
@@ -44,7 +44,7 @@ public class With_A_Startdatum_On_Today
             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
 
         commandHandler
-           .Handle(new CommandEnvelope<RegistreerFeitelijkeVerenigingCommand>(command, commandMetadata), CancellationToken.None)
+           .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
            .GetAwaiter()
            .GetResult();
     }

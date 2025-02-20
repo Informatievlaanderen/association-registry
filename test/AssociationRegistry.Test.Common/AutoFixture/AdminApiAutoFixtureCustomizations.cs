@@ -7,6 +7,7 @@ using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
@@ -34,6 +35,7 @@ public static class AdminApiAutoFixtureCustomizations
         fixture.CustomizeDomain();
 
         fixture.CustomizeRegistreerFeitelijkeVerenigingRequest();
+        fixture.CustomizeRegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest();
         fixture.CustomizeRegistreerVerenigingUitKboRequest();
 
         fixture.CustomizeWijzigBasisgegevensRequest();
@@ -116,37 +118,47 @@ public static class AdminApiAutoFixtureCustomizations
     {
         fixture.Customize<RegistreerFeitelijkeVerenigingRequest>(
             composer => composer.FromFactory<int>(
-                _ =>
-                {
-                    var datum = fixture.Create<Datum>();
-                    var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year),
-                                                  datum.Value.Month,
-                                                  Math.Min(datum.Value.Day, 28));
-                    var request = new RegistreerFeitelijkeVerenigingRequest();
+                _ => CustomizeRegistreerVerenigingRequest<RegistreerFeitelijkeVerenigingRequest>(fixture, withoutWerkingsgebieden)).OmitAutoProperties());
+    }
 
-                    request.Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray();
-                    request.Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray();
-                    request.Startdatum = startDatum;
-                    request.Naam = fixture.Create<string>();
-                    request.Doelgroep = fixture.Create<DoelgroepRequest>();
-                    request.Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray();
+    private static void CustomizeRegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest(this IFixture fixture, bool withoutWerkingsgebieden = false)
+    {
+        fixture.Customize<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(
+            composer => composer.FromFactory<int>(
+                _ => CustomizeRegistreerVerenigingRequest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(fixture, withoutWerkingsgebieden)).OmitAutoProperties());
+    }
 
-                    request.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                                       .Select(x => x.Code)
-                                                                       .Distinct()
-                                                                       .ToArray();
+    private static TRequest CustomizeRegistreerVerenigingRequest<TRequest>(IFixture fixture, bool withoutWerkingsgebieden)
+        where TRequest : IRegistreerVereniging, new()
+    {
+        var datum = fixture.Create<Datum>();
+        var startDatum = new DateOnly(new Random().Next(minValue: 1970, DateTime.Now.Year),
+                                      datum.Value.Month,
+                                      Math.Min(datum.Value.Day, 28));
+        var request = new TRequest();
 
-                    request.KorteBeschrijving = fixture.Create<string>();
-                    request.KorteNaam = fixture.Create<string>();
+        request.Contactgegevens = fixture.CreateMany<ToeTeVoegenContactgegeven>().ToArray();
+        request.Locaties = fixture.CreateMany<ToeTeVoegenLocatie>().DistinctBy(l => l.Locatietype).ToArray();
+        request.Startdatum = startDatum;
+        request.Naam = fixture.Create<string>();
+        request.Doelgroep = fixture.Create<DoelgroepRequest>();
+        request.Vertegenwoordigers = fixture.CreateMany<ToeTeVoegenVertegenwoordiger>().ToArray();
 
-                    request.Werkingsgebieden = withoutWerkingsgebieden
-                        ? []
-                        : fixture.CreateMany<Werkingsgebied>()
-                                 .Distinct()
-                                 .Select(x => x.Code).ToArray();
+        request.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
+                                                           .Select(x => x.Code)
+                                                           .Distinct()
+                                                           .ToArray();
 
-                    return request;
-                }).OmitAutoProperties());
+        request.KorteBeschrijving = fixture.Create<string>();
+        request.KorteNaam = fixture.Create<string>();
+
+        request.Werkingsgebieden = withoutWerkingsgebieden
+            ? []
+            : fixture.CreateMany<Werkingsgebied>()
+                     .Distinct()
+                     .Select(x => x.Code).ToArray();
+
+        return request;
     }
 
     private static void CustomizeVerenigingZoekDocument(this IFixture fixture, bool withoutWerkingsgebieden = false)

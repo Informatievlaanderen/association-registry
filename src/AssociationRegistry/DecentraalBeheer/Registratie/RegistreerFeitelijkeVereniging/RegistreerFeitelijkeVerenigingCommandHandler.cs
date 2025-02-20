@@ -43,7 +43,7 @@ public class RegistreerFeitelijkeVerenigingCommandHandler
     }
 
     public async Task<Result> Handle(
-        CommandEnvelope<RegistreerFeitelijkeVerenigingCommand> message,
+        CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> message,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(RegistreerFeitelijkeVerenigingCommandHandler)} start");
