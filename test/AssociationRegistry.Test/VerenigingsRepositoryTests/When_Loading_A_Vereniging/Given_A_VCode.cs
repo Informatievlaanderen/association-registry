@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Framework.Customizations;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Common.AutoFixture;
 using FluentAssertions;
 using Xunit;
@@ -15,24 +16,20 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_VCode
 {
-    private readonly VerenigingsRepository _repo;
-    private readonly VCode _vCode;
-
-    public Given_A_VCode()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task Then_A_FeitelijkeVereniging_Is_Returned(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
-        _vCode = fixture.Create<VCode>();
+        var context = new SpecimenContext(fixture);
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
 
-        var eventStoreMock = new EventStoreMock(
-            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });
+        var eventStoreMock = new EventStoreMock((dynamic)verenigingWerdGeregistreerd);
 
-        _repo = new VerenigingsRepository(eventStoreMock);
-    }
+        var repo = new VerenigingsRepository(eventStoreMock);
 
-    [Fact]
-    public async Task Then_A_FeitelijkeVereniging_Is_Returned()
-    {
-        var feteitelijkeVerenging = await _repo.Load<Vereniging>(_vCode, expectedVersion: null);
+        var feteitelijkeVerenging = await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), expectedVersion: null);
 
         feteitelijkeVerenging
            .Should()

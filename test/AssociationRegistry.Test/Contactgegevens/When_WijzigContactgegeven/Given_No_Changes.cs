@@ -45,6 +45,15 @@ public class Given_No_Changes
                 },
                 new object[]
                 {
+                    new VerenigingState().Apply(
+                        fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                        {
+                            Contactgegevens = new[] { contactgegeven },
+                        }),
+                    gewijzigdeLocatie,
+                },
+                new object[]
+                {
                     new VerenigingState()
                        .Apply(fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>())
                        .Apply(new ContactgegevenWerdToegevoegd(contactgegeven.ContactgegevenId, contactgegeven.Contactgegeventype,

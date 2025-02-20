@@ -3,6 +3,7 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
@@ -21,9 +22,13 @@ public class When_AdresWerdGeheradresseerd
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-    [Fact]
-    public async Task ThenItSavesTheLocation()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task ThenItSavesTheLocation(Type verenigingType)
     {
+        var context = new SpecimenContext(_fixture);
+
         var documentStore = await TestDocumentStoreFactory.Create(nameof(When_AdresWerdGeheradresseerd));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
@@ -36,7 +41,7 @@ public class When_AdresWerdGeheradresseerd
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
-        var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
         var adresWerdGewijzigdInAdressenregister = _fixture.Create<AdresWerdGewijzigdInAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
@@ -44,7 +49,7 @@ public class When_AdresWerdGeheradresseerd
 
         await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              feitelijkeVerenigingWerdGeregistreerd, adresWerdGewijzigdInAdressenregister);
+                              (dynamic)verenigingWerdGeregistreerd, adresWerdGewijzigdInAdressenregister);
 
         var result = await eventStore.Save(vCode, session,
                                            new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid(), ExpectedVersion: 1),

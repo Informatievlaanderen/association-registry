@@ -11,22 +11,46 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_Second_Primaire_Vertegenwoordiger
 {
-    [Fact]
-    public void Then_it_throws()
+    [Theory]
+    [MemberData(nameof(Data))]
+    public void Then_it_throws(VerenigingState givenState)
     {
         var fixture = new Fixture().CustomizeDomain();
 
         var vereniging = new Vereniging();
-        var primaireVertegenwoordiger = fixture.Create<Registratiedata.Vertegenwoordiger>() with { IsPrimair = true };
 
-        vereniging.Hydrate(new VerenigingState()
-                              .Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-                               {
-                                   Vertegenwoordigers = new[] { primaireVertegenwoordiger },
-                               }));
+        vereniging.Hydrate(givenState);
 
         var toeTeVoegenVertegenwoordiger = fixture.Create<Vertegenwoordiger>() with { IsPrimair = true };
 
         Assert.Throws<MeerderePrimaireVertegenwoordigers>(() => vereniging.VoegVertegenwoordigerToe(toeTeVoegenVertegenwoordiger));
+    }
+
+    public static IEnumerable<object[]> Data
+    {
+        get
+        {
+            var fixture = new Fixture().CustomizeDomain();
+            var primaireVertegenwoordiger = fixture.Create<Registratiedata.Vertegenwoordiger>() with { IsPrimair = true };
+
+            return new List<object[]>
+            {
+                new object[]
+                {
+                    new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+                    {
+                        Vertegenwoordigers = new[] { primaireVertegenwoordiger },
+                    }),
+                },
+                new object[]
+                {
+                    new VerenigingState().Apply(fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                    {
+                        Vertegenwoordigers = new[] { primaireVertegenwoordiger },
+                    }),
+                },
+
+            };
+        }
     }
 }

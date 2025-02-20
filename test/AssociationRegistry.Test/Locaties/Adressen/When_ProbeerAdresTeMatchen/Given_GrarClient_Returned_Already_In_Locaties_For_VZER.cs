@@ -13,7 +13,7 @@ using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_Duplicate_Locaties_With_Same_Name
+public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
 {
     [Theory]
     [InlineData(true, false, 1, 0)]
@@ -41,7 +41,7 @@ public class Given_Duplicate_Locaties_With_Same_Name
             IsPrimair = isPrimair2,
         };
 
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             with
             {
                 Locaties = new[]
@@ -56,8 +56,8 @@ public class Given_Duplicate_Locaties_With_Same_Name
         var adresWerdOvergenomen = fixture.Create<AdresWerdOvergenomenUitAdressenregister>()
             with
             {
-                VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
-                LocatieId = feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+                VCode = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                LocatieId = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.First().LocatieId,
                 Adres = fixture.Create<Registratiedata.AdresUitAdressenregister>(),
                 AdresId = adresId,
             };
@@ -80,23 +80,23 @@ public class Given_Duplicate_Locaties_With_Same_Name
 
         vereniging.Hydrate(
             new VerenigingState()
-               .Apply(feitelijkeVerenigingWerdGeregistreerd)
+               .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
                .Apply(adresWerdOvergenomen));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
                                                CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
 
         @event.Should().NotBeNull();
-        @event.VerwijderdeLocatieId.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Locaties[verwijderdeLocatieIndex].LocatieId);
-        @event.BehoudenLocatieId.Should().Be(feitelijkeVerenigingWerdGeregistreerd.Locaties[behoudenLocatieIndex].LocatieId);
-        @event.LocatieNaam.Should().Be((feitelijkeVerenigingWerdGeregistreerd.Locaties[behoudenLocatieIndex].Naam));
+        @event.VerwijderdeLocatieId.Should().Be(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[verwijderdeLocatieIndex].LocatieId);
+        @event.BehoudenLocatieId.Should().Be(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[behoudenLocatieIndex].LocatieId);
+        @event.LocatieNaam.Should().Be((verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties[behoudenLocatieIndex].Naam));
     }
 }
 
 [UnitTest]
-public class Given_Duplicate_Locaties_With_Different_Names
+public class Given_Duplicate_Locaties_With_Different_Names_For_VZER
 {
     [Fact]
     public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
@@ -113,7 +113,7 @@ public class Given_Duplicate_Locaties_With_Different_Names
             Naam = fixture.Create<string>(),
         };
 
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
+        var verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
             with
             {
                 Locaties = new[]
@@ -128,8 +128,8 @@ public class Given_Duplicate_Locaties_With_Different_Names
         var adresWerdOvergenomen = fixture.Create<AdresWerdOvergenomenUitAdressenregister>()
             with
             {
-                VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
-                LocatieId = feitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+                VCode = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                LocatieId = verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.First().LocatieId,
                 Adres = fixture.Create<Registratiedata.AdresUitAdressenregister>(),
                 AdresId = adresId,
             };
@@ -152,10 +152,10 @@ public class Given_Duplicate_Locaties_With_Different_Names
 
         vereniging.Hydrate(
             new VerenigingState()
-               .Apply(feitelijkeVerenigingWerdGeregistreerd)
+               .Apply(verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)
                .Apply(adresWerdOvergenomen));
 
-        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
+        await vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.ToArray()[1].LocatieId,
                                                CancellationToken.None);
 
         var @event = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();

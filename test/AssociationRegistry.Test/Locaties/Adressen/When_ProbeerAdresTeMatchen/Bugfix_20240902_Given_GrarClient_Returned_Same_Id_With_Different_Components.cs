@@ -1,11 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Models;
+using Events;
+using Grar;
+using Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FluentAssertions;
 using Grar.Clients;
 using Moq;
@@ -15,40 +16,7 @@ using Xunit.Categories;
 [UnitTest]
 public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Components
 {
-    private readonly VerenigingOfAnyKind _vereniging;
-
-    public Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Components()
-    {
-        var fixture = new Fixture().CustomizeDomain();
-
-        var locatie = fixture.Create<Registratiedata.Locatie>() with
-        {
-            Adres = fixture.Create<Registratiedata.Adres>(),
-            AdresId = fixture.Create<Registratiedata.AdresId>(),
-        };
-
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>()
-            with
-            {
-                Locaties = new[]
-                {
-                    locatie,
-                },
-            };
-
-        var grarClient = SetupGrarClientMock(fixture, locatie);
-
-        _vereniging = new VerenigingOfAnyKind();
-        _vereniging.Hydrate(
-            new VerenigingState()
-               .Apply(feitelijkeVerenigingWerdGeregistreerd));
-
-        _vereniging.ProbeerAdresTeMatchen(grarClient.Object, feitelijkeVerenigingWerdGeregistreerd.Locaties.ToArray()[0].LocatieId,
-                                          CancellationToken.None)
-                   .GetAwaiter().GetResult();
-    }
-
-    private static Mock<IGrarClient> SetupGrarClientMock(Fixture fixture, Registratiedata.Locatie locatie)
+  private static Mock<IGrarClient> SetupGrarClientMock(Fixture fixture, Registratiedata.Locatie locatie)
     {
         var grarClient = new Mock<IGrarClient>();
 
@@ -73,18 +41,34 @@ public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Co
         return grarClient;
     }
 
-    [Fact]
-    public void Then_AdresWerdOvergenomenUitAdressenregister_IsApplied()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public void Then_AdresWerdOvergenomenUitAdressenregister_IsApplied_And_LocatieDuplicaatWerdVerwijderdNaAdresMatch_IsNeverApplied(Type verenigingType)
     {
-        var overgenomenEvent = _vereniging.UncommittedEvents.OfType<AdresWerdOvergenomenUitAdressenregister>().SingleOrDefault();
+        var fixture = new Fixture().CustomizeDomain();
+        var context = new SpecimenContext(fixture);
+
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+
+        var locatie = verenigingWerdGeregistreerd.Locaties.First();
+
+        var grarClient = SetupGrarClientMock(fixture, locatie);
+
+        var vereniging = new VerenigingOfAnyKind();
+        vereniging.Hydrate(
+            new VerenigingState()
+               .Apply((dynamic)verenigingWerdGeregistreerd));
+
+        vereniging.ProbeerAdresTeMatchen(grarClient.Object, verenigingWerdGeregistreerd.Locaties.ToArray()[0].LocatieId,
+                                          CancellationToken.None)
+                   .GetAwaiter().GetResult();
+
+        var overgenomenEvent = vereniging.UncommittedEvents.OfType<AdresWerdOvergenomenUitAdressenregister>().SingleOrDefault();
 
         overgenomenEvent.Should().NotBeNull();
-    }
 
-    [Fact]
-    public void Then_LocatieDuplicaatWerdVerwijderdNaAdresMatch_IsNeverApplied()
-    {
-        var duplicaatEvent = _vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
+        var duplicaatEvent = vereniging.UncommittedEvents.OfType<LocatieDuplicaatWerdVerwijderdNaAdresMatch>().SingleOrDefault();
 
         duplicaatEvent.Should().BeNull();
     }

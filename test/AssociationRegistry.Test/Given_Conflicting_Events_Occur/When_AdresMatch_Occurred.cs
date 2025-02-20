@@ -3,6 +3,7 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
@@ -21,9 +22,13 @@ public class When_AdresMatch_Occurred
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-    [Fact]
-    public async Task ThenItSavesTheLocation()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task ThenItSavesTheLocation(Type verenigingType)
     {
+        var context = new SpecimenContext(_fixture);
+
         var documentStore = await TestDocumentStoreFactory.Create(nameof(When_AdresMatch_Occurred));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
@@ -36,7 +41,7 @@ public class When_AdresMatch_Occurred
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
-        var feitelijkeVerenigingWerdGeregistreerd = _fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
         var adresWerdOvergenomenUitAdressenregister = _fixture.Create<AdresWerdOvergenomenUitAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 
@@ -44,7 +49,7 @@ public class When_AdresMatch_Occurred
 
         await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
-                              feitelijkeVerenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
+                              (dynamic)verenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
 
         var result = await eventStore.Save(vCode, session,
                                            new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid(), ExpectedVersion: 1),

@@ -4,6 +4,9 @@ using EventFactories;
 using Events;
 using global::AutoFixture;
 using Vereniging;
+using Vereniging.Emails;
+using Vereniging.SocialMedias;
+using Vereniging.TelefoonNummers;
 
 public static class RegistratiedataCustomizations
 {
@@ -15,6 +18,27 @@ public static class RegistratiedataCustomizations
         fixture.CustomizeWerkingsgebieden();
         fixture.CustomizeContactgegeven();
         fixture.CustomizeDoelgroep();
+        fixture.CustomizeVertegenwoordiger();
+    }
+
+    private static void CustomizeVertegenwoordiger(this IFixture fixture)
+    {
+        fixture.Customize<Registratiedata.Vertegenwoordiger>(
+            composer => composer.FromFactory(
+                                     () => new Registratiedata.Vertegenwoordiger(
+                                         fixture.Create<int>(),
+                                         fixture.Create<Insz>(),
+                                         IsPrimair: false,
+                                         fixture.Create<string>(),
+                                         fixture.Create<string>(),
+                                         fixture.Create<Voornaam>(),
+                                         fixture.Create<Achternaam>(),
+                                         fixture.Create<Email>().Waarde,
+                                         fixture.Create<TelefoonNummer>().Waarde,
+                                         fixture.Create<TelefoonNummer>().Waarde,
+                                         fixture.Create<SocialMedia>().Waarde
+                                     ))
+                                .OmitAutoProperties());
     }
 
     private static void CustomizeContactgegeven(this IFixture fixture)

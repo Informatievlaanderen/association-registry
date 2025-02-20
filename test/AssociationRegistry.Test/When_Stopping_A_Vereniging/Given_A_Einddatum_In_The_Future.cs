@@ -12,23 +12,46 @@ using Xunit;
 
 public class Given_A_Einddatum_In_The_Future
 {
-    [Fact]
-    public void Then_It_Throws()
-    {
-        var fixture = new Fixture().CustomizeDomain();
-        var clock = new ClockStub(fixture.Create<DateTime>());
+    private static ClockStub _clock;
+    private static Datum _einddatum;
 
+    [Theory]
+    [MemberData(nameof(Data))]
+    public void Then_It_Throws(VerenigingState state)
+    {
         var vereniging = new Vereniging();
 
-        vereniging.Hydrate(new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
-        {
-            Startdatum = clock.Today.AddDays(-1),
-        }));
+        vereniging.Hydrate(state);
 
-        var einddatum = Datum.Create(clock.Today.AddDays(1));
-
-        var stopVereniging = () => vereniging.Stop(einddatum, clock);
+        var stopVereniging = () => vereniging.Stop(_einddatum, _clock);
 
         stopVereniging.Should().Throw<EinddatumMagNietInToekomstZijn>();
+    }
+
+    public static IEnumerable<object[]> Data
+    {
+        get
+        {
+            var fixture = new Fixture().CustomizeDomain();
+            _clock = new ClockStub(fixture.Create<DateTime>());
+            _einddatum = Datum.Create(_clock.Today.AddDays(1));
+            return new List<object[]>
+            {
+                new object[]
+                {
+                    new VerenigingState().Apply(fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+                    {
+                        Startdatum = _clock.Today.AddDays(-1),
+                    }),
+                },
+                new object[]
+                {
+                    new VerenigingState().Apply(fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                    {
+                        Startdatum = _clock.Today.AddDays(-1),
+                    }),
+                },
+            };
+        }
     }
 }

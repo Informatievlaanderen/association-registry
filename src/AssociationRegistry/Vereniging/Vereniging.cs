@@ -274,7 +274,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(obj.Verenigingstype != Verenigingstype.FeitelijkeVereniging);
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If( !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
         State = obj;
     }
 

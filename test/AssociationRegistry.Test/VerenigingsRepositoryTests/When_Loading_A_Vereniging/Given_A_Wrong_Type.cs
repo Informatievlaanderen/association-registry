@@ -2,6 +2,7 @@
 
 using AssociationRegistry.EventStore;
 using AutoFixture;
+using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Events;
 using EventStore;
@@ -13,25 +14,21 @@ using Xunit;
 
 public class Given_A_Wrong_Type
 {
-    private readonly VerenigingsRepository _repo;
-    private readonly VCode _vCode;
-
-    public Given_A_Wrong_Type()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task Then_It_Throws_A_UnsupportedOperationException(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
-        _vCode = fixture.Create<VCode>();
+        var context = new SpecimenContext(fixture);
+
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
 
         var eventStoreMock = new EventStoreMock(
-            fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = _vCode });
+            (dynamic)verenigingWerdGeregistreerd);
 
-        _repo = new VerenigingsRepository(eventStoreMock);
-    }
-
-
-    [Fact]
-    public async Task Then_It_Throws_A_UnsupportedOperationException()
-    {
-        var loadMethod = () => _repo.Load<VerenigingMetRechtspersoonlijkheid>(_vCode, expectedVersion: null);
+        var repo = new VerenigingsRepository(eventStoreMock);
+        var loadMethod = () => repo.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(verenigingWerdGeregistreerd.VCode), expectedVersion: null);
         await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
     }
 }

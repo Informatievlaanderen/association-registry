@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
-using AssociationRegistry.Grar.Exceptions;
-using AssociationRegistry.Resources;
+using Events;
+using Grar;
+using Grar.Exceptions;
+using Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
+using AutoFixture.Kernel;
 using FluentAssertions;
 using Grar.Clients;
 using Moq;
@@ -17,15 +18,18 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_GrarClient_Returned_BadRequest
 {
-    [Fact]
-    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
+    [Theory]
+    [InlineData(typeof(FeitelijkeVerenigingWerdGeregistreerd))]
+    [InlineData(typeof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd))]
+    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister(Type verenigingType)
     {
         var fixture = new Fixture().CustomizeDomain();
+        var context = new SpecimenContext(fixture);
 
         var grarClient = new Mock<IGrarClient>();
         var vereniging = new VerenigingOfAnyKind();
 
-        var feitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
 
         grarClient.Setup(x => x.GetAddressMatches(
                              It.IsAny<string>(),
@@ -38,9 +42,9 @@ public class Given_GrarClient_Returned_BadRequest
 
         vereniging.Hydrate(
             new VerenigingState()
-               .Apply(feitelijkeVerenigingWerdGeregistreerd));
+               .Apply((dynamic)verenigingWerdGeregistreerd));
 
-        var locatie = feitelijkeVerenigingWerdGeregistreerd.Locaties.First();
+        var locatie = verenigingWerdGeregistreerd.Locaties.First();
 
         await vereniging.ProbeerAdresTeMatchen(grarClient.Object, locatie.LocatieId,
                                                CancellationToken.None);

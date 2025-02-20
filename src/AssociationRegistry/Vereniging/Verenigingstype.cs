@@ -32,4 +32,7 @@ public class Verenigingstype
 
     public static bool IsVerenigingZonderEigenRechtspersoonlijkheid(string code)
         => code == FeitelijkeVereniging.Code || code == VZER.Code;
+
+    public static bool TypeIsVerenigingZonderEigenRechtspersoonlijkheid(Verenigingstype type)
+        => type == FeitelijkeVereniging || type == VZER;
 }

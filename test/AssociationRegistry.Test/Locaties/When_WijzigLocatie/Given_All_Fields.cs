@@ -72,6 +72,15 @@ public class Given_All_Fields
                         }),
                     gewijzigdeLocatie,
                 },
+                new object[]
+                {
+                    new VerenigingState().Apply(
+                        fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+                        {
+                            Locaties = new[] { locatie },
+                        }),
+                    gewijzigdeLocatie,
+                },
             };
         }
     }
