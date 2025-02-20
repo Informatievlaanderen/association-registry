@@ -1,10 +1,10 @@
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Validation;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Vereniging.Exceptions;
+using Infrastructure.Validation;
+using Common;
+using Framework;
+using Vereniging.Exceptions;
 using FluentValidation;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequestValidator : AbstractValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>

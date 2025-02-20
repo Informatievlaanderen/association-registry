@@ -77,9 +77,5 @@
     </EmbeddedResource>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\Examples\" />
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
