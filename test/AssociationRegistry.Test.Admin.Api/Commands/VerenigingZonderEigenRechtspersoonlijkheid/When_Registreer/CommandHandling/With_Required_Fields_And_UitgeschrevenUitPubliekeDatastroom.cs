@@ -1,35 +1,35 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventFactories;
 using Events;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
-public class With_WerkingsgebiedenWerdenNietBepaald
+[UnitTest]
+public class With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom
 {
     private const string Naam = "naam1";
     private readonly InMemorySequentialVCodeService _vCodeService;
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public With_WerkingsgebiedenWerdenNietBepaald()
+    public With_Required_Fields_And_UitgeschrevenUitPubliekeDatastroom()
     {
         _verenigingRepositoryMock = new VerenigingRepositoryMock();
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var fixture = new Fixture().CustomizeAdminApi()
-                                   .WithoutWerkingsgebieden();
-
+        var fixture = new Fixture().CustomizeAdminApi();
         var today = fixture.Create<DateOnly>();
 
         var clock = new ClockStub(today);
@@ -40,24 +40,24 @@ public class With_WerkingsgebiedenWerdenNietBepaald
             KorteBeschrijving: null,
             Startdatum: null,
             Doelgroep.Null,
-            IsUitgeschrevenUitPubliekeDatastroom: false,
+            IsUitgeschrevenUitPubliekeDatastroom: true,
             Array.Empty<Contactgegeven>(),
             Array.Empty<Locatie>(),
             Array.Empty<Vertegenwoordiger>(),
             Array.Empty<HoofdactiviteitVerenigingsloket>(),
-            Werkingsgebieden.NietBepaald);
+            Array.Empty<Werkingsgebied>());
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new RegistreerFeitelijkeVerenigingCommandHandler(_verenigingRepositoryMock,
+            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(_verenigingRepositoryMock,
                                                              _vCodeService,
                                                              new NoDuplicateVerenigingDetectionService(),
                                                              Mock.Of<IMartenOutbox>(),
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              Mock.Of<IGrarClient>(),
-                                                             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+                                                             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
@@ -69,18 +69,17 @@ public class With_WerkingsgebiedenWerdenNietBepaald
     public void Then_it_saves_the_event()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 Naam,
                 string.Empty,
                 string.Empty,
                 Startdatum: null,
                 EventFactory.Doelgroep(Doelgroep.Null),
-                IsUitgeschrevenUitPubliekeDatastroom: false,
+                IsUitgeschrevenUitPubliekeDatastroom: true,
                 Array.Empty<Registratiedata.Contactgegeven>(),
                 Array.Empty<Registratiedata.Locatie>(),
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
-                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()
-            ));
+                Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()));
     }
 }

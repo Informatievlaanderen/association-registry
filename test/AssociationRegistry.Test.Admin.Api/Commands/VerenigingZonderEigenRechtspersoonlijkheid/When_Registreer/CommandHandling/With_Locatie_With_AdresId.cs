@@ -1,20 +1,20 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using EventFactories;
 using Events;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
 using Grar.Models;
-using Marten;
 using Messages;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using AutoFixture;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
@@ -72,14 +72,14 @@ public class With_Locatie_With_AdresId
         var commandMetadata = fixture.Create<CommandMetadata>();
 
         var commandHandler =
-            new RegistreerFeitelijkeVerenigingCommandHandler(verenigingRepositoryMock,
+            new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(verenigingRepositoryMock,
                                                              vCodeService,
                                                              new NoDuplicateVerenigingDetectionService(),
                                                              martenOutbox.Object,
                                                              Mock.Of<IDocumentSession>(),
                                                              clock,
                                                              grarClient.Object,
-                                                             NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+                                                             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         commandHandler
            .Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata), CancellationToken.None)
@@ -87,7 +87,7 @@ public class With_Locatie_With_AdresId
            .GetResult();
 
         verenigingRepositoryMock.ShouldHaveSaved(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 vCodeService.GetLast(),
                 naam,
                 string.Empty,

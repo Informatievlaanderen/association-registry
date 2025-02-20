@@ -1,29 +1,29 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
-using FluentAssertions;
-using Framework.Fakes;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using Vereniging.Exceptions;
+using AutoFixture;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Vereniging.Exceptions;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
+public class With_Two_Duplicate_Contactgegevens
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
-    private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
 
-    public With_Two_Primair_Contactgegevens_Of_The_Same_Type()
+    public With_Two_Duplicate_Contactgegevens()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var repositoryMock = new VerenigingRepositoryMock();
@@ -32,22 +32,15 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test@example.org", fixture.Create<string>(),
                                                isPrimair: true);
 
-        var contactgegeven2 =
-            Contactgegeven.CreateFromInitiator(Contactgegeventype.Email, waarde: "test2@example.org", fixture.Create<string>(),
-                                               isPrimair: true);
-
         var command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Contactgegevens = new[]
-            {
-                contactgegeven,
-                contactgegeven2,
-            },
+            Contactgegevens = new[] { contactgegeven, contactgegeven },
+            SkipDuplicateDetection = true,
         };
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+        _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
@@ -55,7 +48,7 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
             Mock.Of<IDocumentSession>(),
             new ClockStub(command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
     }
@@ -64,6 +57,6 @@ public class With_Two_Primair_Contactgegevens_Of_The_Same_Type
     public async Task Then_The_Result_Contains_The_Potential_Duplicates()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
-        await method.Should().ThrowAsync<MeerderePrimaireContactgegevensZijnNietToegestaan>();
+        await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();
     }
 }

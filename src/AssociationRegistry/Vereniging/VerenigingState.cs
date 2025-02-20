@@ -117,6 +117,76 @@ public record VerenigingState : IHasVersion
             VerenigingStatus = new VerenigingStatus.StatusActief(),
         };
 
+    public VerenigingState Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
+        => new()
+        {
+            Verenigingstype = Verenigingstype.VZER,
+            VCode = VCode.Hydrate(@event.VCode),
+            Naam = VerenigingsNaam.Hydrate(@event.Naam),
+            KorteNaam = @event.KorteNaam,
+            KorteBeschrijving = @event.KorteBeschrijving,
+            Startdatum = Datum.Hydrate(@event.Startdatum),
+            Doelgroep = Doelgroep.Hydrate(@event.Doelgroep.Minimumleeftijd, @event.Doelgroep.Maximumleeftijd),
+            IsUitgeschrevenUitPubliekeDatastroom = @event.IsUitgeschrevenUitPubliekeDatastroom,
+            Contactgegevens = @event.Contactgegevens.Aggregate(
+                Contactgegevens.Empty,
+                func: (lijst, c) => Contactgegevens.Hydrate(
+                    lijst.Append(
+                        Contactgegeven.Hydrate(
+                            c.ContactgegevenId,
+                            Contactgegeventype.Parse(c.Contactgegeventype),
+                            c.Waarde,
+                            c.Beschrijving,
+                            c.IsPrimair,
+                            Bron.Initiator)))),
+            Vertegenwoordigers = @event.Vertegenwoordigers.Aggregate(
+                Vertegenwoordigers.Empty,
+                func: (lijst, v) => Vertegenwoordigers.Hydrate(
+                    lijst.Append(
+                        Vertegenwoordiger.Hydrate(
+                            v.VertegenwoordigerId,
+                            Insz.Hydrate(v.Insz),
+                            v.Rol,
+                            v.Roepnaam,
+                            Voornaam.Hydrate(v.Voornaam),
+                            Achternaam.Hydrate(v.Achternaam),
+                            v.IsPrimair,
+                            Email.Hydrate(v.Email),
+                            TelefoonNummer.Hydrate(v.Telefoon),
+                            TelefoonNummer.Hydrate(v.Mobiel),
+                            SocialMedia.Hydrate(v.SocialMedia)
+                        )))),
+            Locaties = @event.Locaties.Aggregate(
+                Locaties.Empty,
+                func: (lijst, l) => Locaties.Hydrate(
+                    lijst.Append(
+                        Locatie.Hydrate(
+                            l.LocatieId,
+                            l.Naam,
+                            l.IsPrimair,
+                            l.Locatietype,
+                            l.Adres is null
+                                ? null
+                                : Adres.Hydrate(
+                                    l.Adres.Straatnaam,
+                                    l.Adres.Huisnummer,
+                                    l.Adres.Busnummer,
+                                    l.Adres.Postcode,
+                                    l.Adres.Gemeente,
+                                    l.Adres.Land),
+                            l.AdresId is null
+                                ? null
+                                : AdresId.Hydrate(
+                                    Adresbron.Parse(l.AdresId.Broncode),
+                                    l.AdresId.Bronwaarde))))),
+            HoofdactiviteitenVerenigingsloket = HoofdactiviteitenVerenigingsloket.Hydrate(
+                @event.HoofdactiviteitenVerenigingsloket.Select(
+                           h => HoofdactiviteitVerenigingsloket.Create(h.Code))
+                      .ToArray()),
+            Werkingsgebieden = Werkingsgebieden.NietBepaald,
+            VerenigingStatus = new VerenigingStatus.StatusActief(),
+        };
+
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {

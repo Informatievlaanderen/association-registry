@@ -28,7 +28,7 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         _vCode = VCode.Create(1001);
         _naam = VerenigingsNaam.Create("Vereniging 1");
 
-        _vereniging = Vereniging.RegistreerFeitelijkeVereniging(
+        _vereniging = Vereniging.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
             _vCode,
             _naam,
             korteNaam: null,

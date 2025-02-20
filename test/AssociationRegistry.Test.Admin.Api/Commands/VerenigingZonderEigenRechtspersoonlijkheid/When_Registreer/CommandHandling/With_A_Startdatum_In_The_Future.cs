@@ -1,18 +1,18 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
-using FluentAssertions;
-using Framework.Fakes;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using Vereniging;
+using Vereniging.Exceptions;
+using AutoFixture;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging;
-using Vereniging.Exceptions;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -21,7 +21,7 @@ using Xunit.Categories;
 public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
-    private readonly RegistreerFeitelijkeVerenigingCommandHandler _commandHandler;
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler _commandHandler;
 
     public With_A_Startdatum_In_The_Future()
     {
@@ -36,7 +36,7 @@ public class With_A_Startdatum_In_The_Future
 
         var commandMetadata = fixture.Create<CommandMetadata>();
 
-        _commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+        _commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             repositoryMock,
             new InMemorySequentialVCodeService(),
             new NoDuplicateVerenigingDetectionService(),
@@ -44,7 +44,7 @@ public class With_A_Startdatum_In_The_Future
             Mock.Of<IDocumentSession>(),
             new ClockStub(today),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _commandEnvelope = new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(command, commandMetadata);
     }

@@ -1,22 +1,23 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.CommandHandling;
 
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using DecentraalBeheer.Registratie.RegistreerFeitelijkeVereniging;
+using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using DuplicateVerenigingDetection;
 using EventFactories;
 using Events;
-using FluentAssertions;
-using Framework.Fakes;
+using AssociationRegistry.Framework;
 using Grar.Clients;
+using Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using Vereniging;
+using AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using FluentAssertions;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;
@@ -31,7 +32,7 @@ public class With_A_PotentialDuplicate_And_Force
 
     public With_A_PotentialDuplicate_And_Force()
     {
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario();
+        var scenario = new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario();
         var fixture = new Fixture().CustomizeAdminApi()
                                    .WithoutWerkingsgebieden();
 
@@ -44,7 +45,7 @@ public class With_A_PotentialDuplicate_And_Force
 
         _command = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>() with
         {
-            Naam = VerenigingsNaam.Create(FeitelijkeVerenigingWerdGeregistreerdWithLocationScenario.Naam),
+            Naam = VerenigingsNaam.Create( VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdWithLocationScenario.Naam),
             Locaties = new[] { locatie },
             SkipDuplicateDetection = true,
         };
@@ -68,7 +69,7 @@ public class With_A_PotentialDuplicate_And_Force
         _verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
         _vCodeService = new InMemorySequentialVCodeService();
 
-        var commandHandler = new RegistreerFeitelijkeVerenigingCommandHandler(
+        var commandHandler = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler(
             _verenigingRepositoryMock,
             _vCodeService,
             duplicateChecker.Object,
@@ -76,7 +77,7 @@ public class With_A_PotentialDuplicate_And_Force
             Mock.Of<IDocumentSession>(),
             new ClockStub(_command.Startdatum.Value),
             Mock.Of<IGrarClient>(),
-            NullLogger<RegistreerFeitelijkeVerenigingCommandHandler>.Instance);
+            NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
 
         _result = commandHandler.Handle(new CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand>(_command, commandMetadata),
                                         CancellationToken.None)
@@ -94,7 +95,7 @@ public class With_A_PotentialDuplicate_And_Force
     public void Then_it_saves_the_event()
     {
         _verenigingRepositoryMock.ShouldHaveSaved(
-            new FeitelijkeVerenigingWerdGeregistreerd(
+            new  VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
                 _vCodeService.GetLast(),
                 _command.Naam,
                 _command.KorteNaam ?? string.Empty,
