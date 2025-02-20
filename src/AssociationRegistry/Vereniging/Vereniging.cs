@@ -268,6 +268,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             case VerenigingStatus.StatusDubbel statusDubbel:
                 Throw<ApplicationException>.If(!statusDubbel.VCodeAuthentiekeVereniging.Equals(vCodeAuthentiekeVereniging));
                 AddEvent(EventFactory.WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(VCode, statusDubbel));
+
                 break;
         }
     }
@@ -302,7 +303,20 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                              registratieData));
     }
 
-    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(VCode vCode, VerenigingsNaam commandNaam, string? commandKorteNaam, string? commandKorteBeschrijving, Datum? commandStartdatum, Doelgroep commandDoelgroep, bool commandIsUitgeschrevenUitPubliekeDatastroom, Contactgegeven[] commandContactgegevens, Locatie[] commandLocaties, Vertegenwoordiger[] commandVertegenwoordigers, HoofdactiviteitVerenigingsloket[] commandHoofdactiviteitenVerenigingsloket, Werkingsgebied[] commandWerkingsgebieden, IClock clock)
+    public static Vereniging RegistreerVerenigingZonderEigenRechtspersoonlijkheid(
+        VCode vCode,
+        VerenigingsNaam commandNaam,
+        string? commandKorteNaam,
+        string? commandKorteBeschrijving,
+        Datum? commandStartdatum,
+        Doelgroep commandDoelgroep,
+        bool commandIsUitgeschrevenUitPubliekeDatastroom,
+        Contactgegeven[] commandContactgegevens,
+        Locatie[] commandLocaties,
+        Vertegenwoordiger[] commandVertegenwoordigers,
+        HoofdactiviteitVerenigingsloket[] commandHoofdactiviteitenVerenigingsloket,
+        Werkingsgebied[] commandWerkingsgebieden,
+        IClock clock)
     {
         throw new NotImplementedException();
     }

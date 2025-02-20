@@ -75,7 +75,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             command.Werkingsgebieden,
             _clock);
 
-        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<FeitelijkeVerenigingWerdGeregistreerd>()
+        var toegevoegdeLocaties = vereniging.UncommittedEvents.OfType<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>()
                                             .Single().Locaties;
 
         foreach (var teSynchroniserenLocatie in toegevoegdeLocaties)
