@@ -8,7 +8,7 @@ using Vereniging;
 
 public class V024_FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario : IScenario
 {
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd = new(
         VCode: "V0001024",
         Naam: "Feestzaal de vrolijke facets",
         string.Empty,

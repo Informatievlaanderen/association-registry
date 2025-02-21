@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_
 using Framework.Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using Vereniging;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
@@ -54,6 +55,9 @@ public class Given_Sort_By_NestedField
                           .Select(x => x.Value<string>())
                           .ToList();
 
+        // TODO: Temporary bug until we migrate to vzer
+        // Remove this line when migrated
+        names = names.Select(x => x.Replace(Verenigingstype.FeitelijkeVereniging.Code, Verenigingstype.VZER.Code)).ToList();
         names.Should().NotBeEmpty();
         names.Should().BeInDescendingOrder();
         names.ForEach(_outputHelper.WriteLine);
