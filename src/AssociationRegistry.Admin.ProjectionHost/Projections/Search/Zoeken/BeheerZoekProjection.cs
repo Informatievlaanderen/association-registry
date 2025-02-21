@@ -75,6 +75,59 @@ public class BeheerZoekProjectionHandler
                 ],
             }
         );
+    public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
+        => await _elasticRepository.IndexAsync(
+            new VerenigingZoekDocument
+            {
+                JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
+                VCode = message.Data.VCode,
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.VZER.Code,
+                    Naam = Verenigingstype.VZER.Naam,
+                },
+                Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
+                Status = VerenigingStatus.Actief,
+                Locaties = message.Data.Locaties.Select(locatie => Map(locatie, message.VCode)).ToArray(),
+                Startdatum = message.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+                Einddatum = null,
+                Doelgroep = Map(message.Data.Doelgroep, message.VCode),
+                IsUitgeschrevenUitPubliekeDatastroom = message.Data.IsUitgeschrevenUitPubliekeDatastroom,
+                HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
+                                                           .Select(
+                                                                hoofdactiviteitVerenigingsloket =>
+                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    {
+                                                                        JsonLdMetadata =
+                                                                            CreateJsonLdMetadata(
+                                                                                JsonLdType.Hoofdactiviteit,
+                                                                                hoofdactiviteitVerenigingsloket.Code),
+                                                                        Code = hoofdactiviteitVerenigingsloket.Code,
+                                                                        Naam = hoofdactiviteitVerenigingsloket.Naam,
+                                                                    })
+                                                           .ToArray(),
+
+                Werkingsgebieden = [],
+                Lidmaatschappen = [],
+                CorresponderendeVCodes = [],
+                Sleutels =
+                [
+                    new VerenigingZoekDocument.Sleutel
+                    {
+                        JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.VCode, Sleutelbron.VR.Waarde),
+                        Bron = Sleutelbron.VR,
+                        Waarde = message.Data.VCode,
+                        CodeerSysteem = CodeerSysteem.VR,
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                        {
+                            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.VCode, Sleutelbron.VR.Waarde),
+                            Nummer = message.Data.VCode,
+                        },
+                    },
+                ],
+            }
+        );
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
