@@ -61,8 +61,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZo
             KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Verenigingstype.VZER.Code,
+                Naam = Verenigingstype.VZER.Naam,
             },
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
