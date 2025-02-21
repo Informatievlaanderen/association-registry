@@ -24,6 +24,9 @@ public class PubliekVerenigingDetailProjection : EventProjection
     public PubliekVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
 
+    public PubliekVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event, IDocumentOperations ops)
+        => DoCreate(@event, ops, PubliekVerenigingDetailProjector.Create);
+
     public PubliekVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
