@@ -62,7 +62,7 @@ public class AdminApiClient : IDisposable
         WithHeaders(version: null, initiator);
 
         var httpResponseMessage =
-            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/verenigingenzondereigenrechtspersoonlijkheid", content.AsJsonContent());
+            await HttpClient.PostAsync(requestUri: "/v1/verenigingen/vzer", content.AsJsonContent());
 
         AddOrRemoveHeader(WellknownHeaderNames.BevestigingsToken);
 
