@@ -22,7 +22,7 @@ public class Given_AndereVerwijstNaamEigenVereniging
         var context = new SpecimenContext(fixture);
 
         var sut = new VerenigingOfAnyKind();
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         sut.Hydrate(new VerenigingState().Apply((dynamic)verenigingWerdGeregistreerd));
 
         var toeTeVoegenLidmaatschap = fixture.Create<VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap>()

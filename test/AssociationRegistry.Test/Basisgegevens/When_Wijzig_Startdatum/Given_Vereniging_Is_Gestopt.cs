@@ -24,7 +24,7 @@ public class Given_Vereniging_Is_Gestopt
         var vereniging = new Vereniging();
 
         var einddatum = fixture.Create<Datum>();
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var verenigingWerdGestopt = EventFactory.VerenigingWerdGestopt(einddatum);
 
         vereniging.Hydrate(

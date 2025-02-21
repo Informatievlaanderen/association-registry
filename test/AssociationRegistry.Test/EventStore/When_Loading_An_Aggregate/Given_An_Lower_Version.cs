@@ -46,7 +46,7 @@ public class Given_An_Lower_Version
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
         var vCode = VCode.Create(verenigingWerdGeregistreerd.VCode);
 

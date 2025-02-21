@@ -15,7 +15,7 @@ public record VerenigingWerdGeregistreerdData(
     VertegenwoordigerData[] Vertegenwoordigers,
     Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket)
 {
-    public static VerenigingWerdGeregistreerdData Create(IVerenigingWerdGeregistreerd e)
+    public static VerenigingWerdGeregistreerdData Create(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd e)
         => new(
             e.VCode,
             e.Naam,

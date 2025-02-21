@@ -22,7 +22,7 @@ public class Given_A_Dubbele_Vereniging
     {
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         var eventStoreMock = new EventStoreMock(
             (dynamic)verenigingWerdGeregistreerd,

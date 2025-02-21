@@ -54,7 +54,7 @@ public class Given_AdresHeeftGeenVerschillenMetAdressenregister
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
 
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatie = verenigingWerdGeregistreerd.Locaties.First();
 
         var grarClient = SetupGrarClientMock(fixture, locatie);
