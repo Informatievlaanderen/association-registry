@@ -17,6 +17,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[Category(Categories.RefactorAfterVZERMigration)]
 [IntegrationTest]
 public class When_Searching_On_Type
 {

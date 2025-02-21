@@ -26,6 +26,7 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 }
 
 [IntegrationTest]
+[Category(Categories.ReplaceThisQueryWithGetNamesForVCodeForOneUsage)]
 public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDetailQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;
