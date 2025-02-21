@@ -32,7 +32,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
 
         var request = new RegistreerFeitelijkeVerenigingRequest
         {
-            Naam = _potentialDuplicateVerenigingWerdGeregistreerd.Naam, // PUT THIS BACK KOEN
+            Naam = _potentialDuplicateVerenigingWerdGeregistreerd.Naam,
             KorteNaam = autoFixture.Create<string>(),
             KorteBeschrijving = autoFixture.Create<string>(),
             Startdatum = DateOnly.FromDateTime(DateTime.Today),
