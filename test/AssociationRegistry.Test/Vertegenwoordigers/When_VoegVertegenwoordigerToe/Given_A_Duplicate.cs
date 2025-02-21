@@ -19,7 +19,7 @@ public class Given_A_Duplicate
     {
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         var vereniging = new Vereniging();
         var insz = fixture.Create<Insz>();

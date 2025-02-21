@@ -21,16 +21,23 @@ public class PubliekZoekProjectionHandler
     }
 
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGeregistreerd> message)
-        => await _elasticRepository.IndexAsync(
+    {
+        await CreateVerenigingZonderEigenRechtspersoonDocument(message);
+    }
+    public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
+    {
+        await CreateVerenigingZonderEigenRechtspersoonDocument(message);
+    }
+
+    private async Task CreateVerenigingZonderEigenRechtspersoonDocument<TEvent>(EventEnvelope<TEvent> message)
+     where TEvent : IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+    {
+        await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
             {
                 JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
                 VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
-                {
-                    Code = Verenigingstype.FeitelijkeVereniging.Code,
-                    Naam = Verenigingstype.FeitelijkeVereniging.Naam,
-                },
+                Verenigingstype = MapVerenigingstype(message.Data),
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 KorteBeschrijving = message.Data.KorteBeschrijving,
@@ -73,6 +80,25 @@ public class PubliekZoekProjectionHandler
                 Relaties = Array.Empty<Relatie>(),
             }
         );
+    }
+
+    private static VerenigingZoekDocument.VerenigingsType MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
+    {
+        return @event switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerd => new VerenigingZoekDocument.VerenigingsType()
+            {
+                Code = Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+            },
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.VerenigingsType()
+            {
+                Code = Verenigingstype.VZER.Code,
+                Naam = Verenigingstype.VZER.Naam,
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(@event))
+        };
+    }
 
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(

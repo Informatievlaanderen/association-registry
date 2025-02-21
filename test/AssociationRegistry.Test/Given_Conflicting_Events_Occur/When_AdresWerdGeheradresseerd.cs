@@ -41,7 +41,7 @@ public class When_AdresWerdGeheradresseerd
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, eventConflictResolver, NullLogger<EventStore>.Instance);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var adresWerdGewijzigdInAdressenregister = _fixture.Create<AdresWerdGewijzigdInAdressenregister>();
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
 

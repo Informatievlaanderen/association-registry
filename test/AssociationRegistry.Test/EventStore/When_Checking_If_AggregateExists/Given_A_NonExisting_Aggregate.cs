@@ -44,7 +44,7 @@ public class Given_A_NonExisting_Aggregate
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         var nonExistingVCode = _fixture.Create<VCode>();
 

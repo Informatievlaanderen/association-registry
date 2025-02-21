@@ -4,7 +4,7 @@
 using System.Runtime.Serialization;
 using Vereniging.Bronnen;
 
-public interface IVerenigingWerdGeregistreerd
+public interface IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
 {
     Bron Bron { get; }
     string VCode { get; init; }
@@ -31,7 +31,7 @@ public record FeitelijkeVerenigingWerdGeregistreerd(
     Registratiedata.Contactgegeven[] Contactgegevens,
     Registratiedata.Locatie[] Locaties,
     Registratiedata.Vertegenwoordiger[] Vertegenwoordigers,
-    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingWerdGeregistreerd
+    Registratiedata.HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket) : IEvent, IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
 {
     [IgnoreDataMember]
     public Bron Bron

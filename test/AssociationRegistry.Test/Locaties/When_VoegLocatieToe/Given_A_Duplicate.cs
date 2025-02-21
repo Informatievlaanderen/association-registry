@@ -21,7 +21,7 @@ public class Given_A_Duplicate
         var context = new SpecimenContext(fixture);
 
         var vereniging = new VerenigingOfAnyKind();
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
         var locatie = verenigingWerdGeregistreerd.Locaties.First();
 
 

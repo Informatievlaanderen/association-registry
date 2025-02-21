@@ -49,7 +49,7 @@ public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Co
         var fixture = new Fixture().CustomizeDomain();
         var context = new SpecimenContext(fixture);
 
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         var locatie = verenigingWerdGeregistreerd.Locaties.First();
 

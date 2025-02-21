@@ -24,7 +24,7 @@ public static class PubliekVerenigingDetailProjector
         IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
         => CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(@event);
 
-    private static PubliekVerenigingDetailDocument CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(IEvent<IVerenigingWerdGeregistreerd> @event)
+    private static PubliekVerenigingDetailDocument CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(IEvent<IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
     {
         return new()
         {
@@ -88,7 +88,7 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
-    private static PubliekVerenigingDetailDocument.VerenigingsType MapVerenigingstype(IVerenigingWerdGeregistreerd data)
+    private static PubliekVerenigingDetailDocument.VerenigingsType MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd data)
     {
         return data switch
         {

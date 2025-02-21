@@ -29,7 +29,7 @@ public class Given_GrarClient_Returned_InternalServerError
         var grarClient = new Mock<IGrarClient>();
         var vereniging = new VerenigingOfAnyKind();
 
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         grarClient.Setup(x => x.GetAddressMatches(
                              It.IsAny<string>(),

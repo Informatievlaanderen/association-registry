@@ -44,7 +44,7 @@ public class Given_An_Existing_Aggregate
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
-        var verenigingWerdGeregistreerd = (IVerenigingWerdGeregistreerd)context.Resolve(verenigingType);
+        var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
         await eventStore.Save(verenigingWerdGeregistreerd.VCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
