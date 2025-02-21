@@ -40,7 +40,7 @@ public class VerenigingsTypeMapperV2 : IVerenigingsTypeMapper
         where TDestination : IVerenigingsType, new()
         where TSource : IVerenigingsType, new()
     {
-        if (Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code))
+        if (Verenigingstype.IsGeenKboVereniging(verenigingsType.Code))
         {
             return new TDestination
             {

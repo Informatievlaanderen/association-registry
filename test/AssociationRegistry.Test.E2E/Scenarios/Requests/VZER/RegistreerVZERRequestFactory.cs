@@ -132,7 +132,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
-             .ToUrl("/v1/verenigingen/verenigingzondereigenrechtspersoonlijkheid");
+             .ToUrl("/v1/verenigingen/vzer");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
