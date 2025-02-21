@@ -39,7 +39,7 @@ public class Returns_Historiek : End2EndTest<RegistreerVerenigingZonderEigenRech
         var werdGeregistreerd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd));
 
-        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(TestContext.Request, TestContext.VCode),
+        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

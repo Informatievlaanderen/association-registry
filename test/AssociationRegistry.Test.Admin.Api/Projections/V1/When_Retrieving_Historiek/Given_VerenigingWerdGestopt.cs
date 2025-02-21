@@ -65,7 +65,7 @@ public class Given_VerenigingWerdGestopt
                     {{
                         ""beschrijving"": ""Feitelijke vereniging werd geregistreerd met naam '{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
-                        ""data"":{JsonConvert.SerializeObject(FeitelijkeVerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
+                        ""data"":{JsonConvert.SerializeObject(VerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }},

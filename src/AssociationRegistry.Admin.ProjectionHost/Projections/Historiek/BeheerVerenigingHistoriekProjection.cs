@@ -24,6 +24,11 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
         => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
 
     public BeheerVerenigingHistoriekDocument Create(
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event,
+        IDocumentOperations ops)
+        => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
+
+    public BeheerVerenigingHistoriekDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingHistoriekProjector.Create);
