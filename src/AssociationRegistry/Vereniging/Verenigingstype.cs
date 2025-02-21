@@ -31,7 +31,7 @@ public class Verenigingstype
     public static Verenigingstype Parse(string code)
         => All.Single(t => t.Code == code);
 
-    public static bool IsVerenigingZonderEigenRechtspersoonlijkheid(string code)
+    public static bool IsGeenKboVereniging(string code)
         => code == FeitelijkeVereniging.Code || code == VZER.Code;
 
     public static bool TypeIsVerenigingZonderEigenRechtspersoonlijkheid(Verenigingstype type)

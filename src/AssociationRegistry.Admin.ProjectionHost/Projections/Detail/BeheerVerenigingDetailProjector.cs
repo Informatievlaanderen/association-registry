@@ -64,6 +64,49 @@ public class BeheerVerenigingDetailProjector
             Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
         };
 
+    public static BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
+        => new()
+        {
+            JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
+            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER),
+            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
+            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
+            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
+            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep,
+                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
+            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                          .FormatAsBelgianDate(),
+            Status = VerenigingStatus.Actief,
+            IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
+            IsDubbelVan = "",
+            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens
+                                                                   .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(
+                                                                               c, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                               feitelijkeVerenigingWerdGeregistreerd.Data.VCode))
+                                                                   .ToArray(),
+            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties
+                                                            .Select(loc => BeheerVerenigingDetailMapper.MapLocatie(
+                                                                        loc, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                        feitelijkeVerenigingWerdGeregistreerd.Data.VCode)).ToArray(),
+            Vertegenwoordigers = feitelijkeVerenigingWerdGeregistreerd.Data.Vertegenwoordigers
+                                                                      .Select(v => BeheerVerenigingDetailMapper.MapVertegenwoordiger(
+                                                                                  v, feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+                                                                                  feitelijkeVerenigingWerdGeregistreerd.Data.VCode))
+                                                                      .ToArray(),
+            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data
+                                                                                     .HoofdactiviteitenVerenigingsloket
+                                                                                     .Select(BeheerVerenigingDetailMapper
+                                                                                         .MapHoofdactiviteitVerenigingsloket)
+                                                                                     .ToArray(),
+            Werkingsgebieden = [],
+
+            Sleutels = [BeheerVerenigingDetailMapper.MapVrSleutel(feitelijkeVerenigingWerdGeregistreerd.Data.VCode)],
+            Bron = feitelijkeVerenigingWerdGeregistreerd.Data.Bron,
+            Metadata = new Metadata(feitelijkeVerenigingWerdGeregistreerd.Sequence, feitelijkeVerenigingWerdGeregistreerd.Version),
+        };
+
     public static BeheerVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
