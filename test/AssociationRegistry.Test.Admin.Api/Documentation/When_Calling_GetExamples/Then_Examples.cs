@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
+namespace AssociationRegistry.Test.Admin.Api.Documentation.When_Calling_GetExamples;
 
 using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Filters;
 using System.Collections;
@@ -14,7 +14,7 @@ using Xunit.Categories;
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
-public class Given_SwaggerExampleProviders
+public class Then_Examples
 {
     private readonly AdminApiFixture _fixture;
 
@@ -28,13 +28,13 @@ public class Given_SwaggerExampleProviders
         "Verenigingen.Einddatum",
     };
 
-    public Given_SwaggerExampleProviders(EventsInDbScenariosFixture fixture)
+    public Then_Examples(EventsInDbScenariosFixture fixture)
     {
         _fixture = fixture;
     }
 
     [Fact]
-    public void Then_responses_do_not_have_null_values()
+    public void Do_not_have_null_values()
     {
         var types = typeof(Program).Assembly
                                    .GetTypes()

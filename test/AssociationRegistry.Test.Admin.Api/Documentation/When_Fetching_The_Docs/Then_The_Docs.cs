@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.When_fetching_the_documentation;
+namespace AssociationRegistry.Test.Admin.Api.Documentation.When_Fetching_The_Docs;
 
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
-using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
