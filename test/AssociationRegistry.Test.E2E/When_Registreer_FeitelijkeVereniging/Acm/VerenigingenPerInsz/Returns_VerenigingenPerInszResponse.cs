@@ -44,8 +44,8 @@ public class Returns_VerenigingenPerInszResponse :
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype(
-                        Verenigingstype.FeitelijkeVereniging.Code,
-                        Verenigingstype.FeitelijkeVereniging.Naam),
+                        Verenigingstype.VZER.Code,
+                        Verenigingstype.VZER.Naam),
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

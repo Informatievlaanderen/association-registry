@@ -37,6 +37,16 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(VerenigingDocumentProjector.Apply(werdGeregistreerd));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(werdGeregistreerd, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     public void Project(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd, IDocumentOperations ops)
     {
         var docs = new List<object>();
@@ -163,7 +173,7 @@ public class VerenigingenPerInszProjection : EventProjection
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
-            FeitelijkeVerenigingWerdGeregistreerd werdGeregistreerd,
+            IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd,
             IDocumentOperations ops)
         {
             var docs = new List<VerenigingenPerInszDocument>();
@@ -177,7 +187,7 @@ public class VerenigingenPerInszProjection : EventProjection
                     Naam = werdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
+                    Verenigingstype = MapVereniging(werdGeregistreerd),
                     IsHoofdvertegenwoordigerVan = true,
                 };
 
@@ -187,6 +197,24 @@ public class VerenigingenPerInszProjection : EventProjection
             }
 
             return docs;
+        }
+
+        private static Verenigingstype MapVereniging(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+        {
+            return werdGeregistreerd switch
+            {
+                FeitelijkeVerenigingWerdGeregistreerd =>
+                    new(
+                        AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                        AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+
+                VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
+                    new(
+                        AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                        AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
+
+                _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd))
+            };
         }
 
         public static async Task<List<VerenigingenPerInszDocument>> Apply(NaamWerdGewijzigd naamWerdGewijzigd, IDocumentOperations ops)
@@ -331,7 +359,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!)
                                            .Verenigingstype =
-                    MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+                    VerenigingenPerInszProjection.MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
                 docs.Add(verenigingenPerInszDocument);
             }
@@ -460,6 +488,16 @@ public class VerenigingenPerInszProjection : EventProjection
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
                 VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
+                KboNummer = string.Empty,
+            };
+
+        public static VerenigingDocument Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd werdGeregistreerd)
+            => new()
+            {
+                VCode = werdGeregistreerd.VCode,
+                Naam = werdGeregistreerd.Naam,
+                Status = VerenigingStatus.Actief,
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.VZER),
                 KboNummer = string.Empty,
             };
 
