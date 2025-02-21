@@ -28,7 +28,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 new(
                     $"Feitelijke vereniging werd geregistreerd met naam '{feitelijkeVerenigingWerdGeregistreerd.Data.Naam}'.",
                     nameof(FeitelijkeVerenigingWerdGeregistreerd),
-                    FeitelijkeVerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
+                    VerenigingWerdGeregistreerdData.Create(feitelijkeVerenigingWerdGeregistreerd.Data),
                     feitelijkeVerenigingWerdGeregistreerd.Initiator,
                     feitelijkeVerenigingWerdGeregistreerd.Tijdstip.FormatAsZuluTime()),
             }

@@ -37,9 +37,10 @@ public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestC
     public void With_All_Gebeurtenissen()
     {
         var werdGeregistreerd =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(FeitelijkeVerenigingWerdGeregistreerd));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd));
 
-        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.FeitelijkeVerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
+        // Returns now VZER
+        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

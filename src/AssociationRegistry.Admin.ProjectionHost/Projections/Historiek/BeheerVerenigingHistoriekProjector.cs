@@ -21,9 +21,23 @@ public class BeheerVerenigingHistoriekProjector
 
         AddHistoriekEntry(
             @event,
-            FeitelijkeVerenigingWerdGeregistreerdData.Create(@event.Data),
+            VerenigingWerdGeregistreerdData.Create(@event.Data),
             beheerVerenigingHistoriekDocument,
             $"Feitelijke vereniging werd geregistreerd met naam '{@event.Data.Naam}'.");
+
+        return beheerVerenigingHistoriekDocument;
+    }
+
+    public static BeheerVerenigingHistoriekDocument Create(
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
+    {
+        var beheerVerenigingHistoriekDocument = CreateNewDocument(@event.Data.VCode);
+
+        AddHistoriekEntry(
+            @event,
+            VerenigingWerdGeregistreerdData.Create(@event.Data),
+            beheerVerenigingHistoriekDocument,
+            $"Vereniging zonder eigen rechtspersoonlijkheid werd geregistreerd met naam '{@event.Data.Naam}'.");
 
         return beheerVerenigingHistoriekDocument;
     }

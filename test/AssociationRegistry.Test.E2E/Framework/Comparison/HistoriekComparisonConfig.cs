@@ -11,8 +11,8 @@ public class HistoriekComparisonConfig : End2EndComparisonConfig
     public HistoriekComparisonConfig()
     {
         // Ignore specific properties
-        IgnoreProperty<FeitelijkeVerenigingWerdGeregistreerdData>(x => x.Vertegenwoordigers);
-        IgnoreProperty<FeitelijkeVerenigingWerdGeregistreerdData>(x => x.HoofdactiviteitenVerenigingsloket);
+        IgnoreProperty<VerenigingWerdGeregistreerdData>(x => x.Vertegenwoordigers);
+        IgnoreProperty<VerenigingWerdGeregistreerdData>(x => x.HoofdactiviteitenVerenigingsloket);
         IgnoreProperty<HistoriekGebeurtenisResponse>(x => x.Tijdstip);
         IgnoreProperty<HistoriekGebeurtenisResponse>(x => x.Initiator);
 
