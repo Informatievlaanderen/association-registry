@@ -18,6 +18,7 @@ using Doelgroep = AssociationRegistry.Admin.Schema.Search.Doelgroep;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[Category(Categories.RefactorAfterVZERMigration)]
 [IntegrationTest]
 public class BeheerVerenigingenZoekQueryTests
 {
