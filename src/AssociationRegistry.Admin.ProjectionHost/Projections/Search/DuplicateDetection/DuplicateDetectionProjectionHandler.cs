@@ -30,6 +30,22 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+    public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
+        => await _elasticRepository.IndexAsync(
+            new DuplicateDetectionDocument
+            {
+                VCode = message.Data.VCode,
+                VerenigingsTypeCode = Verenigingstype.VZER.Code,
+                Naam = message.Data.Naam,
+                KorteNaam = message.Data.KorteNaam,
+                Locaties = message.Data.Locaties.Select(Map).ToArray(),
+                HoofdactiviteitVerenigingsloket = MapHoofdactiviteitVerenigingsloket(message.Data.HoofdactiviteitenVerenigingsloket),
+                IsGestopt = false,
+                IsVerwijderd = false,
+                IsDubbel = false,
+            }
+        );
+
     public async Task Handle(EventEnvelope<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new DuplicateDetectionDocument

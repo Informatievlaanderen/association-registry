@@ -23,6 +23,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
             switch (@event.EventType.Name)
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
+                case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(KorteNaamWerdGewijzigd):
                 case nameof(LocatieWerdGewijzigd):
