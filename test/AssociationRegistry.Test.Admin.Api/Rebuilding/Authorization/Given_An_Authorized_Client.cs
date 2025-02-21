@@ -2,18 +2,19 @@
 
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using Framework.Fixtures.MinimalApi;
 using System.Net;
 using Xunit;
 using Xunit.Categories;
 
-[Collection(nameof(AdminApiCollection))]
+[Collection(nameof(MinimalAdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
 public class Given_An_Authorized_Client
 {
     private readonly AdminApiClient _client;
 
-    public Given_An_Authorized_Client(EventsInDbScenariosFixture fixture)
+    public Given_An_Authorized_Client(MinimalAdminApiFixture fixture)
     {
         _client = fixture.AdminApiClients.SuperAdmin;
     }

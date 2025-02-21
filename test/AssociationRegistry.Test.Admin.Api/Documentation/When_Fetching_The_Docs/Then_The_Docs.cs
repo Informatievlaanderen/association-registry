@@ -9,6 +9,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("PublicApi")]
+[Category(Categories.MoveToBasicIntegrationCollection)]
 [IntegrationTest]
 public class Then_The_Docs
 {
