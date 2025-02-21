@@ -16,31 +16,36 @@ using VerenigingStatus = Schema.Constants.VerenigingStatus;
 public static class PubliekVerenigingDetailProjector
 {
     public static PubliekVerenigingDetailDocument Create(
-        IEvent<FeitelijkeVerenigingWerdGeregistreerd> feitelijkeVerenigingWerdGeregistreerd)
-        => new()
+        IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event)
+        => CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(@event);
+
+
+    public static PubliekVerenigingDetailDocument Create(
+        IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
+        => CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(@event);
+
+    private static PubliekVerenigingDetailDocument CreateVerenigingZonderEigenRechtspersoonlijkheidDocument(IEvent<IVerenigingWerdGeregistreerd> @event)
+    {
+        return new()
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
-            VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
-            {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
-            },
-            Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
-            KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
-            KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
-            IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
-            Startdatum = feitelijkeVerenigingWerdGeregistreerd.Data.Startdatum,
+            VCode = @event.Data.VCode,
+            Verenigingstype = MapVerenigingstype(@event.Data),
+            Naam = @event.Data.Naam,
+            KorteNaam = @event.Data.KorteNaam,
+            KorteBeschrijving = @event.Data.KorteBeschrijving,
+            IsUitgeschrevenUitPubliekeDatastroom = @event.Data.IsUitgeschrevenUitPubliekeDatastroom,
+            Startdatum = @event.Data.Startdatum,
             Doelgroep =
-                MapDoelgroep(feitelijkeVerenigingWerdGeregistreerd.Data.Doelgroep, feitelijkeVerenigingWerdGeregistreerd.Data.VCode),
-            DatumLaatsteAanpassing = feitelijkeVerenigingWerdGeregistreerd.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                MapDoelgroep(@event.Data.Doelgroep, @event.Data.VCode),
+            DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
                                                                           .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
+            Contactgegevens = @event.Data.Contactgegevens.Select(
                 c => new PubliekVerenigingDetailDocument.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        JsonLdType.Contactgegeven.CreateWithIdValues(@event.Data.VCode,
                                                                      c.ContactgegevenId.ToString()),
                         JsonLdType.Contactgegeven.Type),
                     ContactgegevenId = c.ContactgegevenId,
@@ -49,11 +54,11 @@ public static class PubliekVerenigingDetailProjector
                     Beschrijving = c.Beschrijving,
                     IsPrimair = c.IsPrimair,
                 }).ToArray(),
-            Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties
+            Locaties = @event.Data.Locaties
                                                             .Select(
-                                                                 loc => MapLocatie(feitelijkeVerenigingWerdGeregistreerd.Data.VCode, loc))
+                                                                 loc => MapLocatie(@event.Data.VCode, loc))
                                                             .ToArray(),
-            HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket
+            HoofdactiviteitenVerenigingsloket = @event.Data.HoofdactiviteitenVerenigingsloket
                                                                                      .Select(MapHoofdactiviteit).ToArray(),
 
             Werkingsgebieden = [],
@@ -63,7 +68,7 @@ public static class PubliekVerenigingDetailProjector
                 new()
                 {
                     JsonLdMetadata = new JsonLdMetadata(
-                        JsonLdType.Sleutel.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        JsonLdType.Sleutel.CreateWithIdValues(@event.Data.VCode,
                                                               Sleutelbron.VR.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.VR.Waarde,
@@ -71,16 +76,37 @@ public static class PubliekVerenigingDetailProjector
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
-                                feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                                @event.Data.VCode,
                                 Sleutelbron.VR.Waarde),
                             JsonLdType.GestructureerdeSleutel.Type),
-                        Nummer = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                        Nummer = @event.Data.VCode,
                     },
-                    Waarde = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
+                    Waarde = @event.Data.VCode,
                     CodeerSysteem = CodeerSysteem.VR,
                 },
             ],
         };
+    }
+
+    private static PubliekVerenigingDetailDocument.VerenigingsType MapVerenigingstype(IVerenigingWerdGeregistreerd data)
+    {
+        return data switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerd => new
+                PubliekVerenigingDetailDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.FeitelijkeVereniging.Code,
+                    Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                },
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new
+                PubliekVerenigingDetailDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.VZER.Code,
+                    Naam = Verenigingstype.VZER.Naam,
+                },
+            _ => throw new ArgumentOutOfRangeException(nameof(data))
+        };
+    }
 
     public static PubliekVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)

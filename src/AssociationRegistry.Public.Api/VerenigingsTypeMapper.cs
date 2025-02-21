@@ -16,15 +16,14 @@ public class VerenigingsTypeMapper : IVerenigingsTypeMapper
     where TDestination : IVerenigingsType, new()
     where TSource : IVerenigingsType, new()
     {
-        // TODO: uncomment when implementing VZER
-        // if (Vereniging.Verenigingstype.IsVerenigingZonderEigenRechtspersoonlijkheid(verenigingsType.Code))
-        // {
-        //     return new VerenigingsType
-        //     {
-        //         Code = Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-        //         Naam = Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
-        //     };
-        // }
+        if (Verenigingstype.IsGeenKboVereniging(verenigingsType.Code))
+        {
+            return new TDestination()
+            {
+                Code = Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+            };
+        }
 
         return new TDestination()
         {
