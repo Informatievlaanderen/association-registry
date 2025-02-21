@@ -12,6 +12,7 @@ public class Verenigingstype
     public static readonly Verenigingstype[] All =
     {
         FeitelijkeVereniging,
+        VZER,
         VZW,
         IVZW,
         PrivateStichting,

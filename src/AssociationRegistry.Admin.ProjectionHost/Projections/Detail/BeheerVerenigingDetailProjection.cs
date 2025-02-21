@@ -22,6 +22,11 @@ public class BeheerVerenigingDetailProjection : EventProjection
     public BeheerVerenigingDetailDocument Create(IEvent<FeitelijkeVerenigingWerdGeregistreerd> @event, IDocumentOperations ops)
         => DoCreate(@event, ops, BeheerVerenigingDetailProjector.Create);
 
+    public BeheerVerenigingDetailDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event, IDocumentOperations ops)
+    {
+        return null;
+    }
+
     public BeheerVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> @event,
         IDocumentOperations ops)
