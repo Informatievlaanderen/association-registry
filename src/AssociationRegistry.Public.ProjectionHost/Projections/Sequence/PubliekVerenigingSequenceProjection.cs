@@ -40,6 +40,7 @@ public class PubliekVerenigingSequenceProjection : CustomProjection<PubliekVeren
             {
                 case Event<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>:
                 case Event<FeitelijkeVerenigingWerdGeregistreerd>:
+                case Event<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>:
                     aggregate = new PubliekVerenigingSequenceDocument { VCode = @event.StreamKey, Sequence = @event.Sequence };
 
                     break;
