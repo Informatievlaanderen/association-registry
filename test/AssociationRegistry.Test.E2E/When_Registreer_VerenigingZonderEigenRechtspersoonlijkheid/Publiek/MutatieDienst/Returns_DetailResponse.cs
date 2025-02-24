@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.MutatieDienst;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Public.Api.Verenigingen.Mutaties;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging_With_Potential_Duplicates.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

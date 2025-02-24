@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
+using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging;
-using Common;
-using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
-using VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
+using VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 
 [DataContract]
 public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging

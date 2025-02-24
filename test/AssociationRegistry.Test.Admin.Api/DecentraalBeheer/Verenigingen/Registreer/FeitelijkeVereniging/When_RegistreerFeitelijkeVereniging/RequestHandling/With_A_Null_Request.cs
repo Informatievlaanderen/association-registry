@@ -2,7 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.ExceptionHandlers;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;

@@ -2,7 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereni
 
 using AssociationRegistry.Vereniging;
 using Common;
-using RequetsModels;
+using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = Common.Adres;
 using AdresId = Common.AdresId;

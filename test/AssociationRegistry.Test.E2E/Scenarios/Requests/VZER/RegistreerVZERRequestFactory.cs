@@ -2,7 +2,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
 using Alba;
 using Admin.Api.Infrastructure;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;

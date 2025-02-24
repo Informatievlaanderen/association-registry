@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Contactgegeven;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid;
 
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Scenarios.EventsInDb;
-using Events;
 using FluentAssertions;
-using Framework.Fixtures;
 using Marten;
 using System.Net;
 using Xunit;

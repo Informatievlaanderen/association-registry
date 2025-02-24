@@ -5,7 +5,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using DuplicateVerenigingDetection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]

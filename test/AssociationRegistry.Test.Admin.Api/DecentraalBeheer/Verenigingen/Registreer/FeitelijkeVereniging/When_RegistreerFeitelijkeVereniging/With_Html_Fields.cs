@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Formats;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;

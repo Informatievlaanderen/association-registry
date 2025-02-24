@@ -5,10 +5,10 @@ using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGeg
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
-using Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.RequestModels;
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Admin.Schema;
 using Admin.Schema.Search;

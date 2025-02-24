@@ -1,8 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Acm.VerenigingenPerInsz;
 
+using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AssociationRegistry.Acm.Schema.Constants;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;

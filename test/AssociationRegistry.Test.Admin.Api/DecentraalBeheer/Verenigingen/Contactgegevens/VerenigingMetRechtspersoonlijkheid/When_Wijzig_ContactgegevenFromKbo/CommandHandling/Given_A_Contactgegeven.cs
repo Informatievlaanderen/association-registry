@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.When_Wijzig_ContactgegevenFromKbo.CommandHandling;
 
 using AssociationRegistry.DecentraalBeheer.Contactgegevens.WijzigContactgegevenFromKbo;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Events;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

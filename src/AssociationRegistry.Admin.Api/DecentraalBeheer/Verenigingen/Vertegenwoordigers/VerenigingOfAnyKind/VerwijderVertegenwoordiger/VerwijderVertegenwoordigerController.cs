@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VerwijderVertegenwoordiger;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VerwijderVertegenwoordiger;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;

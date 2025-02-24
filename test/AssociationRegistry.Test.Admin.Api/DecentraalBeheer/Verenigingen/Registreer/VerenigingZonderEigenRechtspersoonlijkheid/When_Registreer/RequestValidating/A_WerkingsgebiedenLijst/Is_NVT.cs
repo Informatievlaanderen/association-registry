@@ -2,7 +2,7 @@
     A_WerkingsgebiedenLijst;
 
 using AssociationRegistry.Admin.Api;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;

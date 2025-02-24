@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe;
 
 using Asp.Versioning;
 using AssociationRegistry.Admin.Api.Infrastructure;
