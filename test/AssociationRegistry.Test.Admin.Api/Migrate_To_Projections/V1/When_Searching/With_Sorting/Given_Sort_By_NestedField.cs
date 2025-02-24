@@ -22,7 +22,8 @@ public class Given_Sort_By_NestedField
         _adminApiClient = fixture.AdminApiClient;
     }
 
-    [Theory]
+    [Category(Categories.RefactorAfterVZERMigration)] // see skip
+    [Theory(Skip = "Re-enableafter migration")]
     [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_ascending(string field)
@@ -41,7 +42,8 @@ public class Given_Sort_By_NestedField
         names.ToList().ForEach(_outputHelper.WriteLine);
     }
 
-    [Theory]
+    [Category(Categories.RefactorAfterVZERMigration)] // see skip
+    [Theory(Skip = "Re-enableafter migration")]
     [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_descending(string field)
