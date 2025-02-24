@@ -1,14 +1,14 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Formats;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Common.AutoFixture;
 using FluentAssertions;
-using Formats;
-using Framework;
-using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Collections;
 using System.Net;

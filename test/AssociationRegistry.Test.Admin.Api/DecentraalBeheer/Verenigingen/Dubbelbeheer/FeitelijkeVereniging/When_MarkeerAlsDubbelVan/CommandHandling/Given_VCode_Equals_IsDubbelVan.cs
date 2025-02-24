@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.Dubbelbeheer.When_MarkeerAlsDubbelVan.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.When_MarkeerAlsDubbelVan.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 using AssociationRegistry.Framework;
-using Resources;
+using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using Vereniging.Exceptions;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using DecentraalBeheer.Dubbelbeheer.MarkeerAlsDubbelVan;
 using FluentAssertions;
 using Marten;
 using Moq;

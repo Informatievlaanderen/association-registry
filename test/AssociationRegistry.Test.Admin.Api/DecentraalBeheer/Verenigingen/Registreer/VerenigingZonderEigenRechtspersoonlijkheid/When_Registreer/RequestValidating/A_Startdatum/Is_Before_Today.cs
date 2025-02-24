@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.
     A_Startdatum;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using AssociationRegistry.Test.Framework;
-using Vereniging.Exceptions;
+using AssociationRegistry.Vereniging.Exceptions;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

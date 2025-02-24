@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail;
+namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_Detail;
 
 using AssociationRegistry.Admin.Api;
-using Framework.Fixtures;
-using Common.Scenarios.EventsInDb;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;

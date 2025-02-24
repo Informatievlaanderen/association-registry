@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingenZoekFilterTests;
+namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery.BeheerVerenigingenZoekFilterTests;
 
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;

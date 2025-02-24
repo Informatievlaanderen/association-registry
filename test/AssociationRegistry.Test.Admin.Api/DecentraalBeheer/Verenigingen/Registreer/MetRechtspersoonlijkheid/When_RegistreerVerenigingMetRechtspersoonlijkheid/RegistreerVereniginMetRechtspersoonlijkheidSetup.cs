@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using Framework;
-using Framework.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 public abstract class RegistreerVereniginMetRechtspersoonlijkheidSetup
 {

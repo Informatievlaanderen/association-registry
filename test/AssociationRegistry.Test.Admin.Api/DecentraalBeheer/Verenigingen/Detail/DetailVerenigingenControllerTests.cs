@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.Controllers;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Detail;
 
 using AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
 using AssociationRegistry.Admin.Api.Infrastructure.Sequence;
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using Common.AutoFixture;
-using Hosts.Configuration.ConfigurationBindings;
 using Moq;
 using Xunit;
 

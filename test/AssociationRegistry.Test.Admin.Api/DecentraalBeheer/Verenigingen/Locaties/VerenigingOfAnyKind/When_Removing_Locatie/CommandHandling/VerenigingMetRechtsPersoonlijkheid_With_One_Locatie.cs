@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Removing_Locatie.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Locaties.VerwijderLocatie;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using DecentraalBeheer.Locaties.VerwijderLocatie;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

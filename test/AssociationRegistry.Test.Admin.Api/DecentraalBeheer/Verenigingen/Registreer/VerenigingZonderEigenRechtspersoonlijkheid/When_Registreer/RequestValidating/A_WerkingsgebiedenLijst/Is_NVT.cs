@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.
     A_WerkingsgebiedenLijst;
 
 using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Test.Framework;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using Xunit.Categories;

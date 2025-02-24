@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Lidmaatschap.RequestValidating;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Wijzig_Lidmaatschap.RequestValidating;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using AssociationRegistry.Primitives;
+using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentValidation.TestHelper;
-using Primitives;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;

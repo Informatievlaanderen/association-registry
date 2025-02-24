@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Contactgegeven.CommandHandling;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Contactgegevens.FeitelijkeVereniging.When_Adding_Contactgegeven.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using DecentraalBeheer.Contactgegevens.VoegContactgegevenToe;
 using FluentAssertions;
-using Vereniging.Exceptions;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.Contactgegevens.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.RequestValidating.Contactgegevens.
     Type;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
 using AssociationRegistry.Test.Framework;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
 using ValidatorTest = Framework.ValidatorTest;

@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Test.Admin.Api.Queries;
+namespace AssociationRegistry.Test.Admin.Api.Queries.GetNamesForVCodesQuery;
 
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
 using FluentAssertions;
 using Marten;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 using GetNamesForVCodesFilter = AssociationRegistry.Admin.Api.Queries.GetNamesForVCodesFilter;

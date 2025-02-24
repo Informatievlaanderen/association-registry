@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid;
 
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Framework.Fixtures;
-using Vereniging;
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
 

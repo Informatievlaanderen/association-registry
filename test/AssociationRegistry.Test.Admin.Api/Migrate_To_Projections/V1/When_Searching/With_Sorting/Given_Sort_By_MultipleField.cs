@@ -1,11 +1,11 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_Sorting;
+namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Searching.With_Sorting;
 
-using Framework.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Vereniging;
 using FluentAssertions;
-using Framework;
 using Nest;
 using Newtonsoft.Json.Linq;
-using Vereniging;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;

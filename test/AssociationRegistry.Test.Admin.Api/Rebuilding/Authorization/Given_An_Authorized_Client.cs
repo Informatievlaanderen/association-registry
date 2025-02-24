@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Rebuilding.When_Rebuilding;
+﻿namespace AssociationRegistry.Test.Admin.Api.Rebuilding.Authorization;
 
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures.MinimalApi;
 using FluentAssertions;
-using Framework.Fixtures.MinimalApi;
 using System.Net;
 using Xunit;
 using Xunit.Categories;

@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_Sorting;
+﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Searching.With_Sorting;
 
-using Framework.Fixtures;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Xunit;

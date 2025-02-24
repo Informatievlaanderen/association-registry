@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     With_Kbo_Nummer_For_Unsupported_Organisaties;
 
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
-using Framework.Fixtures;
 using Xunit;
 using Xunit.Categories;
 

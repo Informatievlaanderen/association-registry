@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Adding_Lidmaatschap.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Adding_Lidmaatschap.CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
-using Events;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,10 +1,10 @@
-namespace AssociationRegistry.Test.Admin.Api.Queries;
+namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingDetailQuery;
 
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
 using FluentAssertions;
 using Marten;
 using Xunit;

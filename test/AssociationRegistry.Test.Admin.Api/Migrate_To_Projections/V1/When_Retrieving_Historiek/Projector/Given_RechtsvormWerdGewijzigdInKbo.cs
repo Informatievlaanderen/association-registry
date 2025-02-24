@@ -1,13 +1,13 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek.Projector;
+﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_Historiek.Projector;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using AssociationRegistry.Admin.Schema.Historiek;
-using Events;
-using Vereniging;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Formats;
 using Xunit;
 using Xunit.Categories;
 
