@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer.Authentication;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.Authentication;
 
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
