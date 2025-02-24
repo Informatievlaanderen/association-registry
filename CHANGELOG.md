@@ -1,3 +1,19 @@
+# [8.212.0](https://github.com/informatievlaanderen/association-registry/compare/v8.211.2...v8.212.0) (2025-02-24)
+
+
+### Features
+
+* or-2669 add vzers to duplicate detections, add vzer to all vereniging types ([ccd8b1c](https://github.com/informatievlaanderen/association-registry/commit/ccd8b1c73130a77c755deaefaee10d128c9802e3))
+* or-2669 handle vzer registration in sequence projection ([ab71a5c](https://github.com/informatievlaanderen/association-registry/commit/ab71a5c48c39a961a69fb1a54b54d3c9470fce15))
+* or-2669 handle vzer was registered for admin detail ([1992d97](https://github.com/informatievlaanderen/association-registry/commit/1992d977058da1ecc7680f848a6071ec3dbf0515))
+* or-2669 implement acm for registreer vzer ([c090332](https://github.com/informatievlaanderen/association-registry/commit/c09033257d3fc729591599a89e176b3ad2a7dd59))
+* or-2669 implement beheer historiek for vzer ([6683cd9](https://github.com/informatievlaanderen/association-registry/commit/6683cd9e9d42f85ee76b2b2bd5e29190df454624))
+* or-2669 implement beheer zoeken for registreer vzer ([051d7d0](https://github.com/informatievlaanderen/association-registry/commit/051d7d09276493ac0b42559ec32cb1707121345f))
+* or-2669 implement publiek detail for registreer vzer ([767a4cb](https://github.com/informatievlaanderen/association-registry/commit/767a4cbe241d5950b2352a1fddc04536eaabcc21))
+* or-2669 implement publiek zoeken for registreer vzer ([7614654](https://github.com/informatievlaanderen/association-registry/commit/76146545d4551ae67954929fa5a1df0a188bb71e))
+* or-2669 implement registration endpoint for vzer ([573381f](https://github.com/informatievlaanderen/association-registry/commit/573381f5fccd73da2d4b4181b9e38e085936c4a3))
+* or-2669 registreer vzer instead of fv when registreer fv or vzer ([83b7411](https://github.com/informatievlaanderen/association-registry/commit/83b7411f343f93764bc0f1d64ec6f99adc5c9ba1))
+
 ## [8.211.2](https://github.com/informatievlaanderen/association-registry/compare/v8.211.1...v8.211.2) (2025-02-24)
 
 
