@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Controllers;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Adding_Lidmaatschap.Controller;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
@@ -6,14 +6,14 @@ using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe;
 using AssociationRegistry.Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using FluentValidation;
-using Hosts.Configuration.ConfigurationBindings;
 using Moq;
-using Vereniging;
 using Wolverine;
 using Xunit;
 

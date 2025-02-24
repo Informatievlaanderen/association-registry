@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.Authentication;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.Authentication;
 
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
-using Framework.Fixtures;
 using System.Net;
 using Xunit;
 using Xunit.Categories;

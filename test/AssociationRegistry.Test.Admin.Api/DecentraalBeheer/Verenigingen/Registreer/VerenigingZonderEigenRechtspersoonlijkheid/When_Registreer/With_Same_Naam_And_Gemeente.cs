@@ -1,17 +1,17 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.When_Registreer;
 
 using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen;
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequetsModels;
-using EventFactories;
-using Events;
-using Formats;
-using Hosts.Configuration.ConfigurationBindings;
-using Framework;
-using Framework.Fixtures;
+using AssociationRegistry.EventFactories;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Marten;

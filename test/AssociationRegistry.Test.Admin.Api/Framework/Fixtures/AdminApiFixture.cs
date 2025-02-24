@@ -31,7 +31,7 @@ using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 {
     private const string RootDatabase = @"postgres";
-    private readonly string _identifier = "adminapifixture";
+    private readonly string _identifier;
     private readonly WebApplicationFactory<Program> _adminApiServer;
     private readonly WebApplicationFactory<ProjectionHostProgram> _projectionHostServer;
     public IConfigurationRoot Configuration { get; }
@@ -57,8 +57,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     private string DuplicateDetectionIndexName
         => GetConfiguration()["ElasticClientOptions:Indices:DuplicateDetection"];
 
-    protected AdminApiFixture()
+    protected AdminApiFixture(string?  identifier = "adminapifixture")
     {
+        _identifier = identifier;
         Configuration = GetConfiguration();
 
         WaitFor.PostGreSQLToBecomeAvailable(

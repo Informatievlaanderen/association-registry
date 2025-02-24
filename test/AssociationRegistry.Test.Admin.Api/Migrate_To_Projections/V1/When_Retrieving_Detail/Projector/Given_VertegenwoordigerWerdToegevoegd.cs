@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Detail.Projector;
+namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_Detail.Projector;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
-using Events;
-using JsonLdContext;
-using Vereniging.Bronnen;
+using AssociationRegistry.Events;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging.Bronnen;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;

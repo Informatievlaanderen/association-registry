@@ -1,9 +1,9 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.RequestValidating.Limit_And_Offset;
+﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Searching.RequestValidating.Limit_And_Offset;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
-using Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
-using Framework;
 using Xunit;
 using Xunit.Categories;
 

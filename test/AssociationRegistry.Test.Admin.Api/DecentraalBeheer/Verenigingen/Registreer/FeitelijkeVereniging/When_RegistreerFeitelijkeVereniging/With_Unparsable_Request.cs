@@ -1,9 +1,9 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging;
 
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
-using Framework;
-using Framework.Fixtures;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;

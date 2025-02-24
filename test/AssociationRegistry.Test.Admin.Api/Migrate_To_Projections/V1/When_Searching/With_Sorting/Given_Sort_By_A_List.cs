@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Searching.With_Sorting;
+namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Searching.With_Sorting;
 
-using Resources;
-using Framework.Fixtures;
+using AssociationRegistry.Resources;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;

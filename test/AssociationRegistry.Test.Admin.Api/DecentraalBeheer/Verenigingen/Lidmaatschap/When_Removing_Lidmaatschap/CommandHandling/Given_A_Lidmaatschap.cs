@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Removing_Lidmaatschap.CommandHandling;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Lidmaatschap.When_Removing_Lidmaatschap.CommandHandling;
 
-using Events;
+using AssociationRegistry.DecentraalBeheer.Lidmaatschappen.VerwijderLidmaatschap;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using Vereniging;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using DecentraalBeheer.Lidmaatschappen.VerwijderLidmaatschap;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingOfAnyKind.When_Wijzig_Locatie;
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Locaties.VerenigingOfAnyKind.When_Wijzig_Locatie;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
-using Common.Scenarios.EventsInDb;
-using Events;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
-using Framework.Fixtures;
 using Marten;
 using Polly;
 using System.Net;

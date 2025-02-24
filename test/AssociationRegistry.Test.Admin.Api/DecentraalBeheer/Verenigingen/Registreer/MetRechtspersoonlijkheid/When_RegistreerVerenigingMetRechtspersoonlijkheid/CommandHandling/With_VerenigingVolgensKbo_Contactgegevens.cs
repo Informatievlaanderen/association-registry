@@ -1,17 +1,17 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Commands.VerenigingMetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
+﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.MetRechtspersoonlijkheid.When_RegistreerVerenigingMetRechtspersoonlijkheid.
     CommandHandling;
 
+using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
+using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Kbo;
+using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using DecentraalBeheer.Registratie.RegistreerVerenigingUitKbo;
-using Events;
-using Framework.Fakes;
-using Kbo;
 using Microsoft.Extensions.Logging;
 using ResultNet;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
 

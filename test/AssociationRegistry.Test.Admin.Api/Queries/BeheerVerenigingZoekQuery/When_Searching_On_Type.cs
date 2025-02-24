@@ -1,19 +1,19 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Queries;
+﻿namespace AssociationRegistry.Test.Admin.Api.Queries.BeheerVerenigingZoekQuery;
 
 using AssociationRegistry.Admin.Api.Queries;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Admin.Schema.Search;
-using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
+using AssociationRegistry.Test.Admin.Api.Framework;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Framework;
-using Framework.Fixtures;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]

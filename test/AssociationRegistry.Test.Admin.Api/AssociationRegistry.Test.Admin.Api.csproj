@@ -47,14 +47,19 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CommandMetadata\" />
-    <Folder Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\" />
-    <Folder Include="Controllers\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Dubbelbeheer\FeitelijkeVereniging\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\KboSync\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Lidmaatschap\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Locaties\VerenigingOfAnyKind\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Stop\FeitelijkeVereniging\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Stop\VerenigingMetRechtspersoonlijkheid\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\VerenigingMetRechtspersoonlijkheid\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Verwijder\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\WijzigBasisgegevens\FeitelijkeVereniging\" />
     <Folder Include="Documentation\" />
     <Folder Include="Rebuilding\" />
   </ItemGroup>

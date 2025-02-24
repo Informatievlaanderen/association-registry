@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek.Formatting;
+namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_Historiek.Formatting;
 
+using AssociationRegistry.Formats;
 using FluentAssertions;
-using Formats;
 using NodaTime;
 using Xunit;
 

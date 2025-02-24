@@ -1,14 +1,14 @@
-namespace AssociationRegistry.Test.Admin.Api.Commands.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestMapping;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Registreer.FeitelijkeVereniging.When_RegistreerFeitelijkeVereniging.RequestMapping;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Emails;
+using AssociationRegistry.Vereniging.SocialMedias;
+using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
-using Common.AutoFixture;
 using FluentAssertions;
-using Vereniging;
-using Vereniging.Emails;
-using Vereniging.SocialMedias;
-using Vereniging.TelefoonNummers;
 using Xunit;
 using Xunit.Categories;
 

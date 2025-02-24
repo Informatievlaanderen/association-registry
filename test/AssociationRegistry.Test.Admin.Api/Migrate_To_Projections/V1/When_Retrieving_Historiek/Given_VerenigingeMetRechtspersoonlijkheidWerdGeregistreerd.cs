@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.Admin.Api.Projections.V1.When_Retrieving_Historiek;
+﻿namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Retrieving_Historiek;
 
 using AssociationRegistry.Admin.Schema.Historiek.EventData;
+using AssociationRegistry.Formats;
 using AssociationRegistry.Framework;
-using Framework.Fixtures;
-using Common.Scenarios.EventsInDb;
-using Common.Extensions;
+using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
+using AssociationRegistry.Test.Common.Extensions;
+using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
-using Formats;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text.RegularExpressions;
