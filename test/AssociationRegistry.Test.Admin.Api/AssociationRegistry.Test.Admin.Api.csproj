@@ -48,7 +48,6 @@
   <ItemGroup>
     <Folder Include="Commands\FeitelijkeVereniging\Dubbelbeheer\" />
     <Folder Include="Documentation\" />
-    <Folder Include="Projections\V1\" />
     <Folder Include="Rebuilding\" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
