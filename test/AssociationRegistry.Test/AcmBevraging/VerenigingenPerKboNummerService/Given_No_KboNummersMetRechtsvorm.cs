@@ -10,7 +10,7 @@ public class Given_No_KboNummersMetRechtsvorm
     [Fact]
     public async Task Returns_No_VerenigingenPerKbo()
     {
-        var store = await TestDocumentStoreFactory.Create(nameof(Given_No_KboNummersMetRechtsvorm));
+        var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_No_KboNummersMetRechtsvorm));
 
         var service = new AssociationRegistry.AcmBevraging.VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
         var result = await service.GetVerenigingenPerKbo([], CancellationToken.None);

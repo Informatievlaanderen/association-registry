@@ -16,7 +16,7 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.Create(nameof(BeheerVerenigingDetailQueryTests));
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(BeheerVerenigingDetailQueryTests));
     }
 
     public async Task DisposeAsync()

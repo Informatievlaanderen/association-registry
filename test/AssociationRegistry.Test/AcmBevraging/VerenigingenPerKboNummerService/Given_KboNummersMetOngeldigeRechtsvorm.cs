@@ -18,7 +18,7 @@ public class Given_KboNummersMetOngeldigeRechtsvorm
         var ongeldigeRechtsvorm = fixture.Create<string>();
         var kboNummer = fixture.Create<KboNummer>();
 
-        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetOngeldigeRechtsvorm));
+        var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetOngeldigeRechtsvorm));
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
 

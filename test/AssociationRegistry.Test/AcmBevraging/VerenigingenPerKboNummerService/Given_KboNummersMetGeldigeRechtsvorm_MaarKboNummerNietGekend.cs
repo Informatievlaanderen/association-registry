@@ -19,7 +19,7 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
         var rechtsvorm = RechtsvormCodes.IVZW;
         var kboNummer = fixture.Create<KboNummer>();
 
-        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend));
+        var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend));
 
         var service = new VerenigingenPerKboNummerService(new RechtsvormCodeService(), store);
 

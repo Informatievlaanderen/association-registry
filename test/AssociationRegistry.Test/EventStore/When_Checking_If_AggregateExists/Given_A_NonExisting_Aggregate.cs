@@ -40,7 +40,8 @@ public class Given_A_NonExisting_Aggregate
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_A_NonExisting_Aggregate));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_A_NonExisting_Aggregate));
+
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);

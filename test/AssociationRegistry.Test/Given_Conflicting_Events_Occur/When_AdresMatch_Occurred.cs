@@ -29,7 +29,7 @@ public class When_AdresMatch_Occurred
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(When_AdresMatch_Occurred));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(When_AdresMatch_Occurred));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 

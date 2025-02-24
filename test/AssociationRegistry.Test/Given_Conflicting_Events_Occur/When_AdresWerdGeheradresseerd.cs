@@ -29,7 +29,7 @@ public class When_AdresWerdGeheradresseerd
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(When_AdresWerdGeheradresseerd));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(When_AdresWerdGeheradresseerd));
 
         documentStore.Storage.ApplyAllConfiguredChangesToDatabaseAsync().GetAwaiter().GetResult();
 

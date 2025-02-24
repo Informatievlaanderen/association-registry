@@ -30,6 +30,7 @@ using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
+using HostedServices.VzerMigratie;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
@@ -648,7 +649,8 @@ public class Program
             return;
 
         builder.Services
-               .AddHostedService<AddressKafkaConsumer>();
+               .AddHostedService<AddressKafkaConsumer>()
+               .AddHostedService<VzerMigratieService>();
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
