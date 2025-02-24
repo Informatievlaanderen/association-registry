@@ -28,12 +28,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class VoegLidmaatschapToeController : ApiController
+public class WhenCreatingAVoegLidmaatschapToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly AppSettings _appSettings;
 
-    public VoegLidmaatschapToeController(IMessageBus messageBus, AppSettings appSettings)
+    public WhenCreatingAVoegLidmaatschapToeController(IMessageBus messageBus, AppSettings appSettings)
     {
         _messageBus = messageBus;
         _appSettings = appSettings;
@@ -89,8 +89,7 @@ public class VoegLidmaatschapToeController : ApiController
     {
         await validator.NullValidateAndThrowAsync(request, cancellationToken: cancellationToken);
 
-        var naam =
-            (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))
+        var naam = (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))
             ?.Naam ?? string.Empty;
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));

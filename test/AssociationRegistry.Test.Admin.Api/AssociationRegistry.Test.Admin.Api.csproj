@@ -15,19 +15,19 @@
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_address_match.json" />
-    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
-    <EmbeddedResource Include="Commands\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
-    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="Commands\VerenigingMetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
-    <EmbeddedResource Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_address_match.json" />
-    <EmbeddedResource Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_all_fields.json" />
-    <EmbeddedResource Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_minimal_fields.json" />
-    <EmbeddedResource Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_unparsable_request.json" />
-    <EmbeddedResource Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\response.unparsable.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_address_match.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\request.with_unparsable_request.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\response.unparsable.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Supported_Rechtsvorm\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\When_RegistreerVerenigingMetRechtspersoonlijkheid\With_Kbo_Nummer_For_Unsupported_Organisaties\files\request.with_kboNummer.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_address_match.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_all_fields.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_minimal_fields.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\request.with_unparsable_request.json" />
+    <EmbeddedResource Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\When_Registreer\files\response.unparsable.json" />
     <EmbeddedResource Include="DuplicateDetection\Given_An_Extensive_DataSet\Seed\verwachte_dubbels.csv" />
     <EmbeddedResource Include="DuplicateDetection\Given_An_Extensive_DataSet\Seed\verwachte_unieke.csv" />
     <EmbeddedResource Include="FeitelijkeVereniging\When_RegistreerFeitelijkeVereniging\files\*.json" />
@@ -47,7 +47,14 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CommandMetadata\" />
-    <Folder Include="Commands\FeitelijkeVereniging\Dubbelbeheer\" />
+    <Folder Include="Commands\VerenigingZonderEigenRechtspersoonlijkheid\" />
+    <Folder Include="Controllers\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Dubbelbeheer\FeitelijkeVereniging\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Lidmaatschap\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Locaties\VerenigingOfAnyKind\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Registreer\FeitelijkeVereniging\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Registreer\VerenigingZonderEigenRechtspersoonlijkheid\" />
     <Folder Include="Documentation\" />
     <Folder Include="Rebuilding\" />
   </ItemGroup>

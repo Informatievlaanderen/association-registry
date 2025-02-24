@@ -14,7 +14,7 @@ using Xunit;
 public class DetailVerenigingenControllerTests
 {
     [Fact]
-    public async Task Uses_Queries()
+    public async Task Uses_GetNamesQuery()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var detail = fixture.Create<BeheerVerenigingDetailDocument>();
@@ -31,8 +31,8 @@ public class DetailVerenigingenControllerTests
 
         var getNamesQuery = new Mock<IGetNamesForVCodesQuery>();
         getNamesQuery
-            .Setup(query => query.ExecuteAsync(It.IsAny<GetNamesForVCodesFilter>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(namenVoorLidmaatschappen);
+           .Setup(query => query.ExecuteAsync(It.IsAny<GetNamesForVCodesFilter>(), It.IsAny<CancellationToken>()))
+           .ReturnsAsync(namenVoorLidmaatschappen);
 
         var sut = new DetailVerenigingenController(new AppSettings());
 
@@ -50,4 +50,5 @@ public class DetailVerenigingenControllerTests
                                  It.Is<GetNamesForVCodesFilter>(filter => filter.VCodes.SequenceEqual(getNamesForVCodesFilter.VCodes)),
                                  It.IsAny<CancellationToken>()), Times.Once);
     }
+
 }

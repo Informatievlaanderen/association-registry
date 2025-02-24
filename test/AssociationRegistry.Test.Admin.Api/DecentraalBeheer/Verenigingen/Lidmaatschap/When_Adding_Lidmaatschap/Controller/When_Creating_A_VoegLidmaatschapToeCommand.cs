@@ -17,10 +17,11 @@ using Vereniging;
 using Wolverine;
 using Xunit;
 
-public class VoegLidmaatschapToeControllerTests
+public class When_Creating_A_VoegLidmaatschapToeCommand
 {
+    // todo: use GetNamesQuery instead
     [Fact]
-    public async Task Sends_Correct_Command()
+    public async Task Fetches_The_Name_AndereVereniging_From_Projections()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = new Mock<IMessageBus>();
@@ -29,7 +30,7 @@ public class VoegLidmaatschapToeControllerTests
            .Setup(x => x.InvokeAsync<EntityCommandResult>(It.IsAny<CommandEnvelope<VoegLidmaatschapToeCommand>>(), default, null))
            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<EntityCommandResult>());
 
-        var sut = new VoegLidmaatschapToeController(messageBus.Object, new AppSettings());
+        var sut = new WhenCreatingAVoegLidmaatschapToeController(messageBus.Object, new AppSettings());
 
         var vCode = fixture.Create<VCode>();
         var andereVerenigingNaam = fixture.Create<string>();
