@@ -17,7 +17,7 @@ public class GetNamesForVCodesQueryFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.Create(nameof(GetNamesForVCodesQueryTests));
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(GetNamesForVCodesQueryTests));
     }
 
     public async Task DisposeAsync()

@@ -10,7 +10,7 @@ using Weasel.Core;
 
 public static class TestDocumentStoreFactory
 {
-    public static async Task<DocumentStore> Create(string schema)
+    public static async Task<DocumentStore> CreateAsync(string schema)
     {
         var documentStore = DocumentStore.For(options =>
         {

@@ -19,7 +19,7 @@ public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend
         var rechtsvorm = RechtsvormCodes.IVZW;
         var kboNummer = fixture.Create<KboNummer>();
 
-        var store = await TestDocumentStoreFactory.Create(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend));
+        var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerGekend));
 
         await using var session = store.LightweightSession();
         var vCode = fixture.Create<VCode>().Value;

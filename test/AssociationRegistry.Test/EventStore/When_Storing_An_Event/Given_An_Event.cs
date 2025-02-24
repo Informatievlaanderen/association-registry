@@ -18,7 +18,7 @@ public class Given_An_Event
     [Fact]
     public async Task Then_it_is_persisted_in_the_database()
     {
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Event));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Event));
         // arrange
         var streamId = Guid.NewGuid().ToString();
         var someEvent = new SomeEvent("some event");

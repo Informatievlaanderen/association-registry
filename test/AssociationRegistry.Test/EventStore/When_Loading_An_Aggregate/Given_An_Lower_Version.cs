@@ -42,7 +42,7 @@ public class Given_An_Lower_Version
     {
         var context = new SpecimenContext(_fixture);
 
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
@@ -69,7 +69,7 @@ public class Given_An_Lower_Version
     [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
     public async Task With_FeitelijkeVereniging_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
@@ -99,7 +99,7 @@ public class Given_An_Lower_Version
     [InlineData(typeof(AdresHeeftGeenVerschillenMetAdressenregister))]
     public async Task With_VerenigingZonderEigenRechtspersoonlijkheid_With_No_Conflicting_Events_Then_it_Loads_The_Latest_Version(Type eventType)
     {
-        var documentStore = await TestDocumentStoreFactory.Create(nameof(Given_An_Lower_Version));
+        var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Lower_Version));
 
         await using var session = documentStore.LightweightSession();
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);

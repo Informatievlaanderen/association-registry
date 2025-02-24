@@ -16,7 +16,7 @@ public class VerenigingenPerInszQueryFixture: IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.Create(nameof(VerenigingenPerInszQueryTests));
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(VerenigingenPerInszQueryTests));
     }
 
     public async Task DisposeAsync()

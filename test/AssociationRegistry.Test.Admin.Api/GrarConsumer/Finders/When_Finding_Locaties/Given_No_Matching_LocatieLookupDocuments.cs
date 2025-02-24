@@ -22,7 +22,7 @@ public class LocatieLookupFixture : IAsyncLifetime
     {
         AutoFixture = new Fixture().CustomizeAdminApi();
 
-        Store = await TestDocumentStoreFactory.Create(nameof(LocatieLookupFixture));
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(LocatieLookupFixture));
         Session = Store.LightweightSession();
     }
 

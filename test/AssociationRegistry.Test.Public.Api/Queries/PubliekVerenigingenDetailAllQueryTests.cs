@@ -19,7 +19,7 @@ public class PubliekVerenigingenDetailAllQueryFixture : IAsyncLifetime
 
     public async Task InitializeAsync()
     {
-        Store = await TestDocumentStoreFactory.Create(nameof(PubliekVerenigingenDetailAllQueryTests));
+        Store = await TestDocumentStoreFactory.CreateAsync(nameof(PubliekVerenigingenDetailAllQueryTests));
     }
 
     public async Task DisposeAsync()

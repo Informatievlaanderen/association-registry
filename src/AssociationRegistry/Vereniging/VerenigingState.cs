@@ -776,6 +776,12 @@ public record VerenigingState : IHasVersion
             VerenigingStatus = VerenigingStatus.ParseVorigeStatus(@event.VorigeStatus),
         };
 
+    public VerenigingState Apply(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid @event)
+        => this with
+        {
+            Verenigingstype = Verenigingstype.VZER,
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
