@@ -17,6 +17,7 @@ using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[Category(Categories.MoveToBasicProjections)] // het enige wat we hier willen testen is dat een MaatschappelijkeZetelWerdOvergenomen, leidt tot een locatie toegevoegd
 [IntegrationTest]
 public class Given_Some_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_Met_KboLocatie
 {

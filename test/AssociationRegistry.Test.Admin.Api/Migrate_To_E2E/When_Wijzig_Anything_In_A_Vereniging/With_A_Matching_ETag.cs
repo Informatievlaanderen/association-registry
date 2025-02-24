@@ -41,6 +41,8 @@ public sealed class When_WijzigBasisgegevens_With_A_Matching_ETag
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[Category(Categories.MoveToBasicE2E)]
+
 [IntegrationTest]
 public class With_A_Matching_ETag
 {

@@ -46,6 +46,7 @@
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CommandMetadata\" />
     <Folder Include="Commands\FeitelijkeVereniging\Dubbelbeheer\" />
     <Folder Include="Documentation\" />
     <Folder Include="Rebuilding\" />

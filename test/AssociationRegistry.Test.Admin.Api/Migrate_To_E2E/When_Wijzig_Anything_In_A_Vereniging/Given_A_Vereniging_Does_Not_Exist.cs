@@ -8,6 +8,7 @@ using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
+[Category(Categories.MoveToBasicE2E)]
 [IntegrationTest]
 public class Given_A_Vereniging_Does_Not_Exist
 {
