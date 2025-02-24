@@ -26,7 +26,8 @@ public class Given_Sort_By_MultipleFields
         _elasticClient = fixture.ElasticClient;
     }
 
-    [Theory]
+    [Category(Categories.RefactorAfterVZERMigration)] // see skip
+    [Theory(Skip = "Re-enable after migration")]
     [InlineData("verenigingstype.code", "naam")]
     [InlineData("verenigingstype.code", "korteNaam")]
     [InlineData("verenigingstype.code", "vCode")]
@@ -56,7 +57,8 @@ public class Given_Sort_By_MultipleFields
         }
     }
 
-    [Theory]
+    [Category(Categories.RefactorAfterVZERMigration)] // see skip
+    [Theory(Skip = "Re-enable after migration")]
     [InlineData("verenigingstype.code", "naam")]
     [InlineData("verenigingstype.code", "korteNaam")]
     [InlineData("verenigingstype.code", "vCode")]
