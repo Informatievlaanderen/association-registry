@@ -23,7 +23,7 @@ public class Given_Sort_By_NestedField
     }
 
     [Category(Categories.RefactorAfterVZERMigration)] // see skip
-    [Theory(Skip = "Re-enableafter migration")]
+    [Theory(Skip = "Re-enable after migration")]
     [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_ascending(string field)
@@ -43,7 +43,7 @@ public class Given_Sort_By_NestedField
     }
 
     [Category(Categories.RefactorAfterVZERMigration)] // see skip
-    [Theory(Skip = "Re-enableafter migration")]
+    [Theory(Skip = "Re-enable after migration")]
     [InlineData("verenigingstype.code")]
     [InlineData("doelgroep.minimumleeftijd")]
     public async Task? Then_it_sorts_descending(string field)
