@@ -46,7 +46,7 @@ Deze dienen meegestuurd te worden als header, of via de query parameters.
 
 Mogelijke waarden zijn:
 
-* {WellknownVersions.V2}
+* {WellknownVersions.V2} - in deze versie wordt het verenigingstype omgezet van FV-feitelijke vereniging naar VZER-vereniging zonder eigen rechtspersoonlijkheid
 
 Type | Naam | Voorbeeld                                                    |
 ----------- | ----------------------------------------------------------------- |----|
