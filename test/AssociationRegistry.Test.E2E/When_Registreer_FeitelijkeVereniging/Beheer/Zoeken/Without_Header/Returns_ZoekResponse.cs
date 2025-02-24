@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
 using JsonLdContext;

@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging;
 
 using Admin.Api;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Microsoft.Extensions.DependencyInjection;

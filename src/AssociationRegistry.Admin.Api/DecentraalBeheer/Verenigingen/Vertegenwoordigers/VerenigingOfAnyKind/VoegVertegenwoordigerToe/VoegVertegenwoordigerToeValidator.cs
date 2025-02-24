@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe;
 
 using AssociationRegistry.Admin.Api.Infrastructure.Validation;
-using Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using FluentValidation;
 using RequestModels;
 

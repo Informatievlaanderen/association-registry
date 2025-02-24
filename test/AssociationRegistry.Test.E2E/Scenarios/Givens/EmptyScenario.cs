@@ -3,7 +3,7 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Givens;
 using Alba;
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Common;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Framework;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;

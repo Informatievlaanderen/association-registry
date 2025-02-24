@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.Examples;
 
 using Common;
+using RequestModels;
 using Vereniging;
-using RequetsModels;
 using Swashbuckle.AspNetCore.Filters;
 using Adres = Common.Adres;
 using AdresId = Common.AdresId;

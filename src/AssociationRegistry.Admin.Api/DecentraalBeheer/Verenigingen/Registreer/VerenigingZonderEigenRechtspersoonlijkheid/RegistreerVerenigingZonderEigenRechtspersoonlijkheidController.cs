@@ -16,7 +16,7 @@ using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonl
 using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using RequetsModels;
+using RequestModels;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
 using Wolverine;

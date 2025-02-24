@@ -1,8 +1,8 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Beheer.Detail.With_Header;
 
 using Admin.Api;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequetsModels;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;

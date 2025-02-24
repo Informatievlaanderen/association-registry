@@ -1,6 +1,6 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.Examples;
 
-using Common;
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 

@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.WijzigVertegenwoordiger.Examples;
+namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;

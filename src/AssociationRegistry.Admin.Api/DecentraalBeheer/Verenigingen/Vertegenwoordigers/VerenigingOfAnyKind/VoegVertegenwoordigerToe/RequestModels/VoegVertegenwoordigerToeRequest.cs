@@ -1,11 +1,11 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.FeitelijkeVereniging.VoegVertegenwoordigerToe.RequestModels;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.DecentraalBeheer.Vertegenwoordigers.VoegVertegenwoordigerToe;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
-using Common;
 using System.Runtime.Serialization;
 
 [DataContract]
