@@ -270,8 +270,8 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         KorteBeschrijving = "Een vrolijke groep van BA'ers die graag BA dingen doen.",
                         Verenigingstype = new VerenigingsType
                         {
-                            Code = Verenigingstype.FeitelijkeVereniging.Code,
-                            Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                            Code = Verenigingstype.VZER.Code,
+                            Naam = Verenigingstype.VZER.Naam,
                         },
                         HoofdactiviteitenVerenigingsloket = new[]
                         {
