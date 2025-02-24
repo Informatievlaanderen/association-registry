@@ -1,3 +1,10 @@
+## [8.211.2](https://github.com/informatievlaanderen/association-registry/compare/v8.211.1...v8.211.2) (2025-02-24)
+
+
+### Bug Fixes
+
+* or-2664 fix api docs for v2 vzer ([a463f64](https://github.com/informatievlaanderen/association-registry/commit/a463f6419658c1fa08d903cd9a969389187863aa))
+
 ## [8.211.1](https://github.com/informatievlaanderen/association-registry/compare/v8.211.0...v8.211.1) (2025-02-20)
 
 # [8.211.0](https://github.com/informatievlaanderen/association-registry/compare/v8.210.0...v8.211.0) (2025-02-19)
