@@ -20,7 +20,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Npgsql;
 using Vereniging;
 using Weasel.Core;
-using IEvent = AssociationRegistry.Events.IEvent;
+using IEvent = Events.IEvent;
 
 public abstract class MultiStreamTestFixture : IAsyncLifetime
 {

@@ -2,6 +2,7 @@
 
 using JsonLdContext;
 using Public.Schema.Detail;
+using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenBepaald(PubliekDetailScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)

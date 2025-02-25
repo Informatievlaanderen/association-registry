@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Vertegenwoordigers;
 
+using Scenario.Vertegenwoordigers;
+
 [Collection(nameof(ProjectionContext))]
 public class Given_Vertegenwoordiger_Toegevoegd_Na_Aanvaarding_Dubbel_Werd_Gecorrigeerd(
     VerenigingenPerInszScenarioFixture<VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbeleVerenigingScenario> fixture)

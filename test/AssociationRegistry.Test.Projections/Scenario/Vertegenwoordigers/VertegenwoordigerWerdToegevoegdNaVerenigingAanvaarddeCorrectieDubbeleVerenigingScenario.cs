@@ -1,7 +1,7 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers;
 
-using AutoFixture;
 using Events;
+using AutoFixture;
 
 public class VertegenwoordigerWerdToegevoegdNaVerenigingAanvaarddeCorrectieDubbeleVerenigingScenario : InszScenarioBase
 {

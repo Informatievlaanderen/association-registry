@@ -3,6 +3,7 @@
 using Admin.ProjectionHost.Projections.Detail;
 using Admin.Schema.Detail;
 using JsonLdContext;
+using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenBepaald(BeheerDetailScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)

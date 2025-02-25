@@ -2,6 +2,7 @@
 
 using Admin.Schema.Historiek;
 using Events;
+using Scenario.Dubbels;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

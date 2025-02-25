@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Dubbels;
 
+using Scenario.Dubbels;
+
 [Collection(nameof(ProjectionContext))]
 public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(
     VerenigingenPerInszScenarioFixture<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario> fixture)

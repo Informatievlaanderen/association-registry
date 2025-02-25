@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Lidmaatschappen;
 
 using Admin.Schema.Detail;
+using Scenario.Lidmaatschappen;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdToegevoegd(BeheerDetailScenarioFixture<LidmaatschapWerdToegevoegdScenario> fixture)

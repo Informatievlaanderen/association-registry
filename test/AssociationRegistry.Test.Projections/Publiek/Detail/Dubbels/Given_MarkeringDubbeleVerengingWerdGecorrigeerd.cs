@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Dubbels;
 
+using Scenario.Dubbels;
+
 [Collection(nameof(ProjectionContext))]
 public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(PubliekDetailScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)
     : PubliekDetailScenarioClassFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario>

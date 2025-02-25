@@ -1,8 +1,8 @@
-namespace AssociationRegistry.Test.Projections.Scenario;
+namespace AssociationRegistry.Test.Projections.Scenario.Migratie;
 
-using AutoFixture;
-using Common.AutoFixture;
 using Events;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AutoFixture;
 
 public class FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario : InszScenarioBase
 {

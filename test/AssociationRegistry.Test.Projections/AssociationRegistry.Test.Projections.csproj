@@ -20,5 +20,8 @@
     <Using Include="FluentAssertions"  />
     <Using Include="Xunit" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Scenario\Registratie\" />
+  </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

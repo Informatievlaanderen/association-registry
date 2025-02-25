@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Detail.Migratie;
 
 using Public.Schema.Detail;
+using Scenario.Migratie;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(PubliekDetailScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)

@@ -3,7 +3,7 @@
 using Scenario.Adressen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AdresHeeftGeenVerschillenMetAdressenregister(
+public class Given_AdresKonNietOvergenomenWordenUitAdressenregister(
     BeheerDetailScenarioFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario> fixture)
     : BeheerDetailScenarioClassFixture<AdresHeeftGeenVerschillenMetAdressenregisterScenario>
 {

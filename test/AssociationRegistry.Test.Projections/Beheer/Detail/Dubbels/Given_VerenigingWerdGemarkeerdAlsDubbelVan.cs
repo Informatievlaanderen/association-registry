@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Dubbels;
 
 using Admin.Schema.Constants;
+using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGemarkeerdAlsDubbelVan(BeheerDetailScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)

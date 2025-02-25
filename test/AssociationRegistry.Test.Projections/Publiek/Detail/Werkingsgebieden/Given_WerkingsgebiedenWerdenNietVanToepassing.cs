@@ -2,6 +2,7 @@
 
 using JsonLdContext;
 using Public.Schema.Detail;
+using Scenario.Werkingsgebieden;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

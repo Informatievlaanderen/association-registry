@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Registratie;
 using Admin.Schema;
 using Admin.Schema.Search;
 using JsonLdContext;
+using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd(BeheerZoekenScenarioFixture<WerkingsgebiedenWerdenBepaaldScenario> fixture)
