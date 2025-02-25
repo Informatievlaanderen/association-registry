@@ -817,4 +817,13 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Status = markeringDubbeleVerengingWerdGecorrigeerd.Data.VorigeStatus;
     }
+
+    public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PubliekVerenigingDetailDocument document)
+    {
+        document.Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+        {
+            Code = Verenigingstype.VZER.Code,
+            Naam = Verenigingstype.VZER.Naam,
+        };
+    }
 }
