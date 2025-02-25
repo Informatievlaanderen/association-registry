@@ -7,6 +7,6 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     : DuplicateDetectionClassFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
 {
     [Fact]
-    public void Status_Is_Dubbel()
+    public void Verenigingtype_Is_Vzer()
         => fixture.Result.VerenigingsTypeCode.Should().Be(Verenigingstype.VZER.Code);
 }

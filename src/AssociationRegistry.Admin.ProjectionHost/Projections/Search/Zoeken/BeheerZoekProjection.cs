@@ -75,6 +75,7 @@ public class BeheerZoekProjectionHandler
                 ],
             }
         );
+
     public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
         => await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
@@ -625,6 +626,20 @@ public class BeheerZoekProjectionHandler
             new VerenigingZoekDocument
             {
                 IsDubbel = false,
+            });
+    }
+
+    public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
+    {
+        await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new VerenigingZoekDocument
+            {
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+                {
+                    Code = Verenigingstype.VZER.Code,
+                    Naam = Verenigingstype.VZER.Naam,
+                }
             });
     }
 
