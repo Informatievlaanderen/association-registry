@@ -227,6 +227,15 @@ public class DuplicateDetectionProjectionHandler
             }
         );
 
+   public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionUpdateDocument
+            {
+                VerenigingsTypeCode = Verenigingstype.VZER.Code,
+            }
+        );
+
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
     {

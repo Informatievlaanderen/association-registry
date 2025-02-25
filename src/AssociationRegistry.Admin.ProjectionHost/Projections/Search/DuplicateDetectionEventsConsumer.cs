@@ -24,6 +24,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(KorteNaamWerdGewijzigd):
                 case nameof(LocatieWerdGewijzigd):
