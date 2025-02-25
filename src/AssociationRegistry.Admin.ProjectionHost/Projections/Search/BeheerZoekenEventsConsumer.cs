@@ -28,6 +28,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(DoelgroepWerdGewijzigd):
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(HoofdactiviteitenVerenigingsloketWerdenGewijzigd):
                 case nameof(WerkingsgebiedenWerdenNietBepaald):
                 case nameof(WerkingsgebiedenWerdenBepaald):
