@@ -27,6 +27,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
             {
                 case nameof(FeitelijkeVerenigingWerdGeregistreerd):
                 case nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd):
+                case nameof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid):
                 case nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd):
                 case nameof(NaamWerdGewijzigd):
                 case nameof(RoepnaamWerdGewijzigd):
