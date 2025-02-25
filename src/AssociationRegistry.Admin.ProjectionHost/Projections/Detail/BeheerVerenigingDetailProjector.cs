@@ -827,4 +827,9 @@ public class BeheerVerenigingDetailProjector
                     .Where(x => x != verenigingAanvaarddeCorrectieDubbeleVereniging.Data.VCodeDubbeleVereniging)
                     .ToArray();
     }
+
+    public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER);
+    }
 }
