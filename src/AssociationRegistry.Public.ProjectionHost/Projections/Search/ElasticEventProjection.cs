@@ -24,13 +24,14 @@ public class PubliekZoekProjectionHandler
     {
         await CreateVerenigingZonderEigenRechtspersoonDocument(message);
     }
+
     public async Task Handle(EventEnvelope<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> message)
     {
         await CreateVerenigingZonderEigenRechtspersoonDocument(message);
     }
 
     private async Task CreateVerenigingZonderEigenRechtspersoonDocument<TEvent>(EventEnvelope<TEvent> message)
-     where TEvent : IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        where TEvent : IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
     {
         await _elasticRepository.IndexAsync(
             new VerenigingZoekDocument
@@ -82,7 +83,8 @@ public class PubliekZoekProjectionHandler
         );
     }
 
-    private static VerenigingZoekDocument.VerenigingsType MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
+    private static VerenigingZoekDocument.VerenigingsType MapVerenigingstype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
     {
         return @event switch
         {
@@ -529,21 +531,34 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument
-                                                 { IsDubbel = true });
+                            { IsDubbel = true });
     }
 
     public async Task Handle(EventEnvelope<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> message)
     {
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument
-                                                 { IsDubbel = false });
+                            { IsDubbel = false });
     }
 
     public async Task Handle(EventEnvelope<MarkeringDubbeleVerengingWerdGecorrigeerd> message)
     {
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument
-                                                 { IsDubbel = false });
+                            { IsDubbel = false });
+    }
+
+    public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekDocument
+            {
+                Verenigingstype = new VerenigingZoekDocument.VerenigingsType()
+                {
+                    Code = Verenigingstype.VZER.Code,
+                    Naam = Verenigingstype.VZER.Naam,
+                },
+            });
     }
 
     private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
