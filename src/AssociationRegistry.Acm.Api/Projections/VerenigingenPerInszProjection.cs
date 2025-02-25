@@ -170,6 +170,18 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(
+        IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
+        IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(@event, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(@event, ops));
+
+        ops.StoreObjects(docs);
+    }
+
     private static class VerenigingenPerInszProjector
     {
         public static async Task<List<VerenigingenPerInszDocument>> Apply(
@@ -477,6 +489,29 @@ public class VerenigingenPerInszProjection : EventProjection
 
             return docs;
         }
+
+        public static async Task<List<VerenigingenPerInszDocument>> Apply(
+            IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event,
+            IDocumentOperations ops)
+        {
+            var docs = new List<VerenigingenPerInszDocument>();
+            var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
+
+            foreach (var verenigingenPerInszDocument in documents)
+            {
+                var vereniging =
+                    verenigingenPerInszDocument.Verenigingen.Single(
+                        vereniging => vereniging.VCode == @event.StreamKey!);
+
+                vereniging.Verenigingstype = new(
+                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
+
+                docs.Add(verenigingenPerInszDocument);
+            }
+
+            return docs;
+        }
     }
 
     private static class VerenigingDocumentProjector
@@ -570,6 +605,15 @@ public class VerenigingenPerInszProjection : EventProjection
             var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
             verenigingDocument.CorresponderendeVCodes = verenigingDocument.CorresponderendeVCodes.Where(x => !x.Equals(@event.Data.VCodeDubbeleVereniging, StringComparison.InvariantCultureIgnoreCase)).ToArray();
+
+            return verenigingDocument;
+        }
+
+        public static async Task<VerenigingDocument> Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, IDocumentOperations ops)
+        {
+            var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+            verenigingDocument.VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.VZER);
 
             return verenigingDocument;
         }
