@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Migratie;
 
+using Scenario.Migratie;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Lidmaatschappen;
 
 using Events;
 

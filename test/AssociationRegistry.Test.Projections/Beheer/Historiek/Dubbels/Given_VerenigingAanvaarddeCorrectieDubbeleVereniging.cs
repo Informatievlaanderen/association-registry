@@ -2,6 +2,7 @@
 
 using Admin.Schema.Historiek;
 using Events;
+using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingAanvaarddeCorrectieDubbeleVereniging(BeheerHistoriekScenarioFixture<VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario> fixture)

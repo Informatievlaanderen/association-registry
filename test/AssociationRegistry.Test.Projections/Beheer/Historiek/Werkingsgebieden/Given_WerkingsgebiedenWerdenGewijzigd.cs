@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Werkingsgebieden
 
 using Admin.Schema.Historiek;
 using Events;
+using Scenario.Werkingsgebieden;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerHistoriekScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)

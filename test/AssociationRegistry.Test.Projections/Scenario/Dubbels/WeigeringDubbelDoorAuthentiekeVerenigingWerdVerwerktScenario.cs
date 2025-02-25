@@ -1,18 +1,19 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Dubbels;
 
-using AutoFixture;
 using Events;
+using Vereniging;
+using AutoFixture;
 
-public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : InszScenarioBase
+public class WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario : InszScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd { get; }
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
-    public VertegenwoordigerWerdToegevoegd VertegenwoordigerWerdToegevoegd { get; set; }
+    public WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt { get; set; }
 
     private string _insz { get; }
-    public VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario()
+    public WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario()
     {
 
         DubbeleVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -23,7 +24,7 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
                 Vertegenwoordigers = DubbeleVerenigingWerdGeregistreerd.Vertegenwoordigers,
             };
 
-
+        _insz = AuthentiekeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
 
         VerenigingWerdGemarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
@@ -37,16 +38,21 @@ public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : I
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
 
-        VertegenwoordigerWerdToegevoegd = AutoFixture.Create<VertegenwoordigerWerdToegevoegd>();
-        _insz = VertegenwoordigerWerdToegevoegd.Insz;
+        WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt =
+            AutoFixture.Create<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt>() with
+            {
+                VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
+                VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
+                VorigeStatus = VerenigingStatus.Actief.StatusNaam,
+            };
     }
 
-    public override string VCode => AuthentiekeVerenigingWerdGeregistreerd.VCode;
+    public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(DubbeleVerenigingWerdGeregistreerd.VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
-        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging, VertegenwoordigerWerdToegevoegd),
+        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt),
+        new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 
     public override string Insz => _insz;

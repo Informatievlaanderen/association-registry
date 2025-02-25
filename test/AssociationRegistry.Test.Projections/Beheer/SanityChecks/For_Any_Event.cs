@@ -1,7 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Beheer.SanityChecks;
 
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
-using AssociationRegistry.Events;
+using Events;
 using Marten.Events;
 using System.Reflection;
 using Xunit;

@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Test.Projections.Scenario;
+namespace AssociationRegistry.Test.Projections.Scenario.Dubbels;
 
-using AutoFixture;
 using Events;
+using AutoFixture;
 
 /// <summary>
 /// This is exactly the same as VerenigingWerdGemarkeerdAlsDubbelVanScenario, but from the POV of the AuthentiekeVereniging

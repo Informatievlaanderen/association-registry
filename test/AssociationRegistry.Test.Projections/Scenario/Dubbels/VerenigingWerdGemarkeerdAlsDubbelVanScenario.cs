@@ -1,18 +1,17 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Dubbels;
 
-using AutoFixture;
 using Events;
+using AutoFixture;
 
-public class MarkeringDubbeleVerengingWerdGecorrigeerdScenario : InszScenarioBase
+public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : InszScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd { get; }
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
-    public MarkeringDubbeleVerengingWerdGecorrigeerd MarkeringDubbeleVerengingWerdGecorrigeerd { get; set; }
 
     private string _insz { get; }
-    public MarkeringDubbeleVerengingWerdGecorrigeerdScenario()
+    public VerenigingWerdGemarkeerdAlsDubbelVanScenario()
     {
 
         DubbeleVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -36,19 +35,13 @@ public class MarkeringDubbeleVerengingWerdGecorrigeerdScenario : InszScenarioBas
             VCode = AuthentiekeVerenigingWerdGeregistreerd.VCode,
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
-
-        MarkeringDubbeleVerengingWerdGecorrigeerd = AutoFixture.Create<MarkeringDubbeleVerengingWerdGecorrigeerd>() with
-        {
-            VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
-            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
-        };
     }
 
     public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, MarkeringDubbeleVerengingWerdGecorrigeerd),
+        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 

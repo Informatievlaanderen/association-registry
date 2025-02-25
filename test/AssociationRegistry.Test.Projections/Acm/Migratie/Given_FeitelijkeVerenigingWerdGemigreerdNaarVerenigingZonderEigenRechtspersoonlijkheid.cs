@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Migratie;
 
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
+using Scenario.Migratie;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(

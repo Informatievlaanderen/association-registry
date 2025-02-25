@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Dubbels;
 
+using Scenario.Dubbels;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

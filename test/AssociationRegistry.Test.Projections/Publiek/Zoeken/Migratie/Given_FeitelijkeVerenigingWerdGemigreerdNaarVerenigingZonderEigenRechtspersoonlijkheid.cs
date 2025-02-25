@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Migratie;
 
 using Public.Schema.Search;
+using Scenario.Migratie;
 using Vereniging;
 
 [Collection(nameof(ProjectionContext))]

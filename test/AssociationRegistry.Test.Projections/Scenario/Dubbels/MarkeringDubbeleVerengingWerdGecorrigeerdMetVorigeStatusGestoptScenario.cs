@@ -1,17 +1,19 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Dubbels;
 
-using AutoFixture;
 using Events;
+using AutoFixture;
 
-public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : InszScenarioBase
+public class MarkeringDubbeleVerengingWerdGecorrigeerdMetVorigeStatusGestoptScenario : InszScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd DubbeleVerenigingWerdGeregistreerd { get; }
     public FeitelijkeVerenigingWerdGeregistreerd AuthentiekeVerenigingWerdGeregistreerd { get; }
     public VerenigingWerdGemarkeerdAlsDubbelVan VerenigingWerdGemarkeerdAlsDubbelVan { get; set; }
     public VerenigingAanvaarddeDubbeleVereniging VerenigingAanvaarddeDubbeleVereniging { get; set; }
+    public VerenigingWerdGestopt VerenigingWerdGestopt { get; set; }
+    public MarkeringDubbeleVerengingWerdGecorrigeerd MarkeringDubbeleVerengingWerdGecorrigeerd { get; set; }
 
     private string _insz { get; }
-    public VerenigingWerdGemarkeerdAlsDubbelVanScenario()
+    public MarkeringDubbeleVerengingWerdGecorrigeerdMetVorigeStatusGestoptScenario()
     {
 
         DubbeleVerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
@@ -27,7 +29,7 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : InszScenarioBase
         VerenigingWerdGemarkeerdAlsDubbelVan = AutoFixture.Create<VerenigingWerdGemarkeerdAlsDubbelVan>() with
         {
             VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
-            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
+            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode
         };
 
         VerenigingAanvaarddeDubbeleVereniging = AutoFixture.Create<VerenigingAanvaarddeDubbeleVereniging>() with
@@ -35,13 +37,21 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : InszScenarioBase
             VCode = AuthentiekeVerenigingWerdGeregistreerd.VCode,
             VCodeDubbeleVereniging = DubbeleVerenigingWerdGeregistreerd.VCode,
         };
+
+        VerenigingWerdGestopt = AutoFixture.Create<VerenigingWerdGestopt>();
+
+        MarkeringDubbeleVerengingWerdGecorrigeerd = AutoFixture.Create<MarkeringDubbeleVerengingWerdGecorrigeerd>() with
+        {
+            VCode = DubbeleVerenigingWerdGeregistreerd.VCode,
+            VCodeAuthentiekeVereniging = AuthentiekeVerenigingWerdGeregistreerd.VCode,
+        };
     }
 
     public override string VCode => DubbeleVerenigingWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan),
+        new(VCode, DubbeleVerenigingWerdGeregistreerd, VerenigingWerdGemarkeerdAlsDubbelVan, VerenigingWerdGestopt, MarkeringDubbeleVerengingWerdGecorrigeerd),
         new(AuthentiekeVerenigingWerdGeregistreerd.VCode, AuthentiekeVerenigingWerdGeregistreerd, VerenigingAanvaarddeDubbeleVereniging),
     ];
 

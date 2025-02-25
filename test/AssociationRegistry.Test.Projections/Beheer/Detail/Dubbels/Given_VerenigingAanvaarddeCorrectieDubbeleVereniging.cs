@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Dubbels;
 
+using Scenario.Dubbels;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingAanvaarddeCorrectieDubbeleVereniging(BeheerDetailScenarioFixture<VerenigingAanvaarddeCorrectieDubbeleVerenigingScenario> fixture)

@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.DuplicateDetection.Dubbels;
 
+using Scenario.Dubbels;
+
 [Collection(nameof(ProjectionContext))]
 public class MarkeringDubbeleVerengingWerdGecorrigeerdVanEenGestopteVereniging(DuplicateDetectionScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdMetVorigeStatusGestoptScenario> fixture)
     : DuplicateDetectionClassFixture<MarkeringDubbeleVerengingWerdGecorrigeerdMetVorigeStatusGestoptScenario>
