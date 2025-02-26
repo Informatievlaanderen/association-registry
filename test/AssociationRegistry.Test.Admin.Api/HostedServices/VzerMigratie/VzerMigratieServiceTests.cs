@@ -1,12 +1,17 @@
 namespace AssociationRegistry.Test.Admin.Api.HostedServices.VzerMigratie;
 
 using AssociationRegistry.Admin.Api.HostedServices.VzerMigratie;
+using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
+using EventStore;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
+using NodaTime;
+using NodaTime.Text;
 using Vereniging;
 using Xunit;
 
@@ -21,6 +26,9 @@ public class VzerMigratieServiceTests
         await using var sessionForSetup = store.LightweightSession();
 
         var vcodeNrs = Enumerable.Range(1001,50);
+
+        SetHeaders(new CommandMetadata(AssociationRegistry.EventStore.EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
+                                       null), sessionForSetup);
 
         foreach (var vcodeNr in vcodeNrs)
         {
@@ -44,6 +52,9 @@ public class VzerMigratieServiceTests
             var stream = await sessionForAssert.Events.FetchStreamAsync(VCode.Create(vcodeNr));
             var lastEvent = stream.Last();
             lastEvent.EventType.Should().Be(GetExpectedEventForStream(vcodeNr));
+            lastEvent.Headers["Tijdstip"].Should().NotBeNull();
+            lastEvent.Headers["Initiator"].Should().Be(EventStore.DigitaalVlaanderenOvoNumber);
+            lastEvent.CorrelationId.Should().NotBeNullOrEmpty();
         }
 
         var m = sessionForAssert.Events.QueryAllRawEvents().Max(x => x.Sequence);
@@ -76,4 +87,10 @@ public class VzerMigratieServiceTests
         };
     }
 
+    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session)
+    {
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        session.CorrelationId = metadata.CorrelationId.ToString();
+    }
 }

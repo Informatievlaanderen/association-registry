@@ -1,7 +1,10 @@
 namespace AssociationRegistry.Admin.Api.HostedServices.VzerMigratie;
 
 using Events;
+using Framework;
 using Marten;
+using NodaTime;
+using NodaTime.Text;
 using Vereniging;
 
 public class VzerMigratieService : BackgroundService
@@ -33,6 +36,10 @@ public class VzerMigratieService : BackgroundService
             registraties.Count(), migraties.Count(), registratiesZonderMigraties.Count());
         var succeededMigrations = 0;
         var failedMigrations = 0;
+
+        SetHeaders(new CommandMetadata(EventStore.EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
+                                       null), session);
+
         foreach (var registratieZonderMigratie in registratiesZonderMigraties)
         {
             try
@@ -59,5 +66,12 @@ public class VzerMigratieService : BackgroundService
         }
 
         await StopAsync(stoppingToken);
+    }
+
+    private static void SetHeaders(CommandMetadata metadata, IDocumentSession session)
+    {
+        session.SetHeader(MetadataHeaderNames.Initiator, metadata.Initiator);
+        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(metadata.Tijdstip));
+        session.CorrelationId = metadata.CorrelationId.ToString();
     }
 }

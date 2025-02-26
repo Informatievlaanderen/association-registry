@@ -640,6 +640,13 @@ public class Program
 
     private static void ConfigureHostedServices(WebApplicationBuilder builder)
     {
+        builder.Services.AddHostedService<VzerMigratieService>();
+
+        ConfigureAddresskafkaConsumer(builder);
+    }
+
+    private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
+    {
         var grarOptions = builder.Configuration.GetGrarOptions();
 
         builder.Services
@@ -648,9 +655,7 @@ public class Program
         if (!grarOptions.Kafka.Enabled)
             return;
 
-        builder.Services
-               .AddHostedService<AddressKafkaConsumer>()
-               .AddHostedService<VzerMigratieService>();
+        builder.Services.AddHostedService<AddressKafkaConsumer>();
     }
 
     private static void ConfigureWebHost(WebApplicationBuilder builder)
