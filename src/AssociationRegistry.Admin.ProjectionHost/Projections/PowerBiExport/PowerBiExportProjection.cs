@@ -70,6 +70,49 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         return document;
     }
 
+    public PowerBiExportDocument Create(IEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> @event)
+    {
+        var document = new PowerBiExportDocument()
+        {
+            VCode = @event.Data.VCode,
+            Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER),
+            Naam = @event.Data.Naam,
+            KorteNaam = @event.Data.KorteNaam,
+            KorteBeschrijving = @event.Data.KorteBeschrijving,
+            Startdatum = @event.Data.Startdatum?.ToString(WellknownFormats.DateOnly),
+            Doelgroep = BeheerVerenigingDetailMapper.MapDoelgroep(@event.Data.Doelgroep,
+                                                                  @event.Data.VCode),
+            Status = VerenigingStatus.Actief,
+            IsUitgeschrevenUitPubliekeDatastroom = @event.Data.IsUitgeschrevenUitPubliekeDatastroom,
+            Contactgegevens = @event.Data.Contactgegevens
+                                                                   .Select(c => BeheerVerenigingDetailMapper.MapContactgegeven(
+                                                                               c, @event.Data.Bron,
+                                                                               @event.Data.VCode))
+                                                                   .ToArray(),
+            Locaties = @event.Data.Locaties
+                                                            .Select(loc => BeheerVerenigingDetailMapper.MapLocatie(
+                                                                        loc, @event.Data.Bron,
+                                                                        @event.Data.VCode)).ToArray(),
+            AantalVertegenwoordigers = @event.Data.Vertegenwoordigers.Length,
+            HoofdactiviteitenVerenigingsloket = @event.Data
+                                                                                     .HoofdactiviteitenVerenigingsloket
+                                                                                     .Select(x => new HoofdactiviteitVerenigingsloket()
+                                                                                      {
+                                                                                          Code = x.Code,
+                                                                                          Naam = x.Naam,
+                                                                                      })
+                                                                                     .ToArray(),
+            Werkingsgebieden = [],
+            Bron = @event.Data.Bron,
+            DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                          .ConvertAndFormatToBelgianDate(),
+        };
+
+        UpdateHistoriek(document, @event);
+
+        return document;
+    }
+
     public PowerBiExportDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
     {
@@ -272,6 +315,16 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
                                                                          .ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, vertegenwoordigerWerdToegevoegd);
+    }
+
+    public void Apply(
+        IEvent<VertegenwoordigerWerdGewijzigd> @event,
+        PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing = @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip)
+                                                                         .ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
     }
 
     public void Apply(
@@ -912,5 +965,111 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
             lidmaatschapWerdVerwijderd.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
 
         UpdateHistoriek(document, lidmaatschapWerdVerwijderd);
+    }
+
+    public void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PowerBiExportDocument document)
+    {
+        document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER);
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<ContactgegevenKonNietOvergenomenWordenUitKBO> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<MaatschappelijkeZetelKonNietOvergenomenWordenUitKbo> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<AdresHeeftGeenVerschillenMetAdressenregister> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<MarkeringDubbeleVerengingWerdGecorrigeerd> @event, PowerBiExportDocument document)
+    {
+        document.Status = @event.Data.VorigeStatus;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingAanvaarddeCorrectieDubbeleVereniging> @event, PowerBiExportDocument document)
+    {
+        document.CorresponderendeVCodes =
+            document.CorresponderendeVCodes
+                    .Where(x => x != @event.Data.VCodeDubbeleVereniging)
+                    .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingWerdGemarkeerdAlsDubbelVan> @event, PowerBiExportDocument document)
+    {
+        document.Status = VerenigingStatus.Dubbel;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingAanvaarddeDubbeleVereniging> @event, PowerBiExportDocument document)
+    {
+        document.CorresponderendeVCodes =
+            document.CorresponderendeVCodes
+                    .Append(@event.Data.VCodeDubbeleVereniging)
+                    .ToArray();
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt> @event, PowerBiExportDocument document)
+    {
+        document.Status = @event.Data.VorigeStatus;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<SynchronisatieMetKboWasSuccesvol> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> @event, PowerBiExportDocument document)
+    {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
     }
 }
