@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Stopzetting;
 
 using Formats;
 using Admin.Schema.Constants;
+using Scenario.Stopzetting;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGestopt(BeheerZoekenScenarioFixture<FeitelijkeVerenigingWerdGestoptScenario> fixture)

@@ -3,9 +3,9 @@
 using Scenario.Adressen;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_AdresKonNietOvergenomenWordenUitAdressenregister(
-    BeheerDetailScenarioFixture<AdresKonNietOvergenomenWordenUitAdressenregisterScenario> fixture)
-    : BeheerDetailScenarioClassFixture<AdresKonNietOvergenomenWordenUitAdressenregisterScenario>
+public class Given_AdresWerdNietGevondenInAdressenregister(
+    BeheerDetailScenarioFixture<AdresWerdNietGevondenInAdressenregisterScenario> fixture)
+    : BeheerDetailScenarioClassFixture<AdresWerdNietGevondenInAdressenregisterScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
@@ -15,7 +15,7 @@ public class Given_AdresKonNietOvergenomenWordenUitAdressenregister(
     [Fact]
     public void AdresId_And_VerwijstNaar_Is_Null()
     {
-        var locatie = fixture.Result.Locaties.Single(x => x.LocatieId == fixture.Scenario.AdresKonNietOvergenomenWordenUitAdressenregister.LocatieId);
+        var locatie = fixture.Result.Locaties.Single(x => x.LocatieId == fixture.Scenario.AdresWerdNietGevondenInAdressenregister.LocatieId);
         locatie.AdresId.Should().BeNull();
         locatie.VerwijstNaar.Should().BeNull();
         locatie.Adres.Should().NotBeNull();
