@@ -13,7 +13,7 @@ public class Given_ContactgegevenWerdGewijzigd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Waarde_Is_Updated()
+    public void Document_Is_Updated()
     {
         var gewijzgidContactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdGewijzigd.ContactgegevenId);
         gewijzgidContactGegeven.Waarde.Should().Be(fixture.Scenario.ContactgegevenWerdGewijzigd.Waarde);

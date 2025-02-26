@@ -16,7 +16,7 @@ public class Given_ContactgegevenWerdToegevoegd(
                   .Metadata.Version.Should().Be(2);
 
     [Fact]
-    public void Waarde_Is_Updated()
+    public void Document_Is_Updated()
     {
         var contactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
 
