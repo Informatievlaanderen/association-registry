@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens.Kbo;
 
-using Scenario.Contactgegevens;
+using Scenario.Contactgegevens.Kbo;
 using Vereniging.Bronnen;
 
 [Collection(nameof(ProjectionContext))]
@@ -16,7 +16,7 @@ public class Given_ContactgegevenWerdInBeheerGenomenDoorKbo(
     [Fact]
     public void Bron_Is_Updated()
     {
-        var gewijzgidContactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.ContactgegevenId);
-        gewijzgidContactGegeven.Bron.Should().Be(Bron.KBO);
+        var contactGegeven = fixture.Result.Contactgegevens.Single(x => x.ContactgegevenId == fixture.Scenario.ContactgegevenWerdInBeheerGenomenDoorKbo.ContactgegevenId);
+        contactGegeven.Bron.Should().Be(Bron.KBO);
     }
 }

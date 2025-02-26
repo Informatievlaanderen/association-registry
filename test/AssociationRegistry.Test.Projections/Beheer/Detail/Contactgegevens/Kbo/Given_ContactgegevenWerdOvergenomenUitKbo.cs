@@ -1,10 +1,11 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens.Kbo;
 
-using Admin.Schema;
-using Admin.Schema.Detail;
-using JsonLdContext;
-using Scenario.Contactgegevens;
-using Vereniging.Bronnen;
+using AssociationRegistry.Admin.Schema;
+using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.Projections.Scenario.Contactgegevens;
+using AssociationRegistry.Vereniging.Bronnen;
+using Scenario.Contactgegevens.Kbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_ContactgegevenWerdOvergenomenUitKbo(
