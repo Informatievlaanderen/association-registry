@@ -1,3 +1,10 @@
+## [8.213.1](https://github.com/informatievlaanderen/association-registry/compare/v8.213.0...v8.213.1) (2025-02-26)
+
+
+### Bug Fixes
+
+* or-2670 set header for migrate to vzer event ([299e9c3](https://github.com/informatievlaanderen/association-registry/commit/299e9c3a340c185cb1e6330f6431a651190d4766))
+
 # [8.213.0](https://github.com/informatievlaanderen/association-registry/compare/v8.212.0...v8.213.0) (2025-02-26)
 
 
