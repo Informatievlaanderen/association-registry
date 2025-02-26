@@ -3,16 +3,17 @@ namespace AssociationRegistry.Test.Projections.Scenario.Adressen;
 using Events;
 using AutoFixture;
 
-public class AdresKonNietOvergenomenWordenUitAdressenregisterScenario : ScenarioBase
+public class AdresWerdGewijzigdInAdressenregisterScenario : ScenarioBase
 {
     public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
-    public AdresKonNietOvergenomenWordenUitAdressenregister AdresKonNietOvergenomenWordenUitAdressenregister { get; }
+    public AdresWerdGewijzigdInAdressenregister AdresWerdGewijzigdInAdressenregister { get; }
 
-    public AdresKonNietOvergenomenWordenUitAdressenregisterScenario()
+    public AdresWerdGewijzigdInAdressenregisterScenario()
     {
         VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
-        AdresKonNietOvergenomenWordenUitAdressenregister = AutoFixture.Create<AdresKonNietOvergenomenWordenUitAdressenregister>() with
+        AdresWerdGewijzigdInAdressenregister = AutoFixture.Create<AdresWerdGewijzigdInAdressenregister>() with
         {
+            VCode = VerenigingWerdGeregistreerd.VCode,
             LocatieId = VerenigingWerdGeregistreerd.Locaties.First().LocatieId,
         };
     }
@@ -21,6 +22,6 @@ public class AdresKonNietOvergenomenWordenUitAdressenregisterScenario : Scenario
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresKonNietOvergenomenWordenUitAdressenregister),
+        new(VCode, VerenigingWerdGeregistreerd, AdresWerdGewijzigdInAdressenregister),
     ];
 }
