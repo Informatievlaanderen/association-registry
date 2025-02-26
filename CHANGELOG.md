@@ -1,3 +1,21 @@
+# [8.213.0](https://github.com/informatievlaanderen/association-registry/compare/v8.212.0...v8.213.0) (2025-02-26)
+
+
+### Bug Fixes
+
+* or-2721 implement missing events to powerbi projections ([d56c38f](https://github.com/informatievlaanderen/association-registry/commit/d56c38f46848d75cc81305b0d724255375ae0bd3))
+
+
+### Features
+
+* implement vzer migratie service ([9eed835](https://github.com/informatievlaanderen/association-registry/commit/9eed8351307cb3efe66e269093d568b2ce12d90d))
+* or-2670 implement vzer migratie for acm ([407eada](https://github.com/informatievlaanderen/association-registry/commit/407eada43802c386620ad194fdbc4f259c840106))
+* or-2670 implement vzer migratie for beheer detail ([f933714](https://github.com/informatievlaanderen/association-registry/commit/f93371452aaddc243db0b04c30ae9ab6ccb6a718))
+* or-2670 implement vzer migratie for beheer historiek ([83278c4](https://github.com/informatievlaanderen/association-registry/commit/83278c4fb408068f25c28749714c6190106b2208))
+* or-2670 implement vzer migratie for beheer zoeken ([9950096](https://github.com/informatievlaanderen/association-registry/commit/99500967e0263e4641d9466a692297cb676c6996))
+* or-2670 implement vzer migratie for publiek detail ([eeb7861](https://github.com/informatievlaanderen/association-registry/commit/eeb7861495872b417b7d82fd4036dc490f635e11))
+* or-2670 implement vzer migratie for publiek zoeken ([940df67](https://github.com/informatievlaanderen/association-registry/commit/940df67af88a838213cdfa6d09c78d4927afada2))
+
 # [8.212.0](https://github.com/informatievlaanderen/association-registry/compare/v8.211.2...v8.212.0) (2025-02-24)
 
 
