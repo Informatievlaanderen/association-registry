@@ -1,6 +1,7 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens.Kbo;
 
-using Scenario.Contactgegevens;
+using AssociationRegistry.Test.Projections.Scenario.Contactgegevens;
+using Scenario.Contactgegevens.Kbo;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_ContactgegevenWerdGewijzigdInKbo(
