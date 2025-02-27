@@ -1,0 +1,28 @@
+namespace AssociationRegistry.Test.Projections.Scenario.KorteNaamWerdGewijzigd.Vzer;
+
+using AssociationRegistry.Events;
+using AutoFixture;
+
+public class KorteNaamWerdGewijzigdScenario : ScenarioBase
+{
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
+    public KorteNaamWerdGewijzigd KorteNaamWerdGewijzigd { get; }
+
+    public KorteNaamWerdGewijzigdScenario()
+    {
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
+            AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
+
+        KorteNaamWerdGewijzigd = AutoFixture.Create<KorteNaamWerdGewijzigd>();
+    }
+
+    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
+
+    public override EventsPerVCode[] Events =>
+    [
+        new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
+            KorteNaamWerdGewijzigd
+        ),
+    ];
+}
