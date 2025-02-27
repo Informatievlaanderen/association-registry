@@ -1,3 +1,10 @@
+## [8.213.3](https://github.com/informatievlaanderen/association-registry/compare/v8.213.2...v8.213.3) (2025-02-27)
+
+
+### Bug Fixes
+
+* or-2669 return fv when registreer fv for duplicate detection ([4083a53](https://github.com/informatievlaanderen/association-registry/commit/4083a53f8db3e937f39ba94641fcca12ac151750))
+
 ## [8.213.2](https://github.com/informatievlaanderen/association-registry/compare/v8.213.1...v8.213.2) (2025-02-27)
 
 
