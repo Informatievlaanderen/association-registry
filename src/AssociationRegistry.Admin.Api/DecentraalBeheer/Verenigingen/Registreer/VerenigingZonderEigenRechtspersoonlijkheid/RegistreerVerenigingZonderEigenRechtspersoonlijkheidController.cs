@@ -13,6 +13,7 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using Detail;
 using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -107,7 +108,8 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
                 new PotentialDuplicatesResponse(
                     _bevestigingsTokenHelper.Calculate(request),
                     potentialDuplicates.Data,
-                    _appSettings)),
+                    _appSettings,
+                    true)),
 
             _ => throw new ArgumentOutOfRangeException(),
         };

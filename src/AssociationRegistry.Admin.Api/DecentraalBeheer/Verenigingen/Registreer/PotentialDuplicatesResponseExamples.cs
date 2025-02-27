@@ -17,7 +17,7 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
     public PotentialDuplicatesResponse GetExamples()
         => new(
             hashedRequest: "AB-CD-12-23-43-98-36-A8",
-            new PotentialDuplicatesFound(
+            potentialDuplicates: new PotentialDuplicatesFound(
                 new[]
                 {
                     new DuplicaatVereniging(
@@ -35,5 +35,6 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                                                             Naam: "Naam", Postcode: "Postcode", Gemeente: "Gemeente")
                         ]),
                 }),
-            _appSettings);
+            appSettings: _appSettings,
+            false);
 }
