@@ -49,7 +49,9 @@ public class VzerMigratieService : BackgroundService
                 if (stream.Aggregate.Verenigingstype != Verenigingstype.FeitelijkeVereniging)
                     continue;
 
-                stream.AppendOne(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(registratieZonderMigratie));
+                await session.Events.AppendOptimistic(
+                    stream.Key, stoppingToken, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(registratieZonderMigratie)
+                );
 
                 await session.SaveChangesAsync(stoppingToken);
                 succeededMigrations++;

@@ -50,6 +50,8 @@ public class VzerMigratieServiceTests
         foreach (var vcodeNr in vcodeNrs)
         {
             var stream = await sessionForAssert.Events.FetchStreamAsync(VCode.Create(vcodeNr));
+            var migratieEvents = stream.Where(x => x.EventType == typeof(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid));
+            migratieEvents.Count().Should().BeLessThan(2);
             var lastEvent = stream.Last();
             lastEvent.EventType.Should().Be(GetExpectedEventForStream(vcodeNr));
             lastEvent.Headers["Tijdstip"].Should().NotBeNull();
