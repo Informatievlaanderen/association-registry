@@ -1,3 +1,10 @@
+## [8.213.2](https://github.com/informatievlaanderen/association-registry/compare/v8.213.1...v8.213.2) (2025-02-27)
+
+
+### Bug Fixes
+
+* or-2670 use append optimistic to fix version behavior for migrating to vzer ([ee126a3](https://github.com/informatievlaanderen/association-registry/commit/ee126a3f54a6006e456a7b0eda4ab07885f65700))
+
 ## [8.213.1](https://github.com/informatievlaanderen/association-registry/compare/v8.213.0...v8.213.1) (2025-02-26)
 
 
