@@ -10,16 +10,16 @@ using ResultNet;
 
 public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<VerenigingState>
 {
-    private static Verenigingstype[] _allowedTypes;
+    private static Verenigingstype.Verenigingstype[] _allowedTypes;
 
     public void Hydrate(VerenigingState obj)
     {
         _allowedTypes = new[]
         {
-            Verenigingstype.VZW,
-            Verenigingstype.IVZW,
-            Verenigingstype.PrivateStichting,
-            Verenigingstype.StichtingVanOpenbaarNut,
+            Verenigingstype.Verenigingstype.VZW,
+            Verenigingstype.Verenigingstype.IVZW,
+            Verenigingstype.Verenigingstype.PrivateStichting,
+            Verenigingstype.Verenigingstype.StichtingVanOpenbaarNut,
         };
 
         Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
@@ -251,7 +251,7 @@ public class VerenigingMetRechtspersoonlijkheid : VerenigingsBase, IHydrate<Vere
         AddEvent(new NaamWerdGewijzigdInKbo(naam));
     }
 
-    public void WijzigRechtsvormUitKbo(Verenigingstype verenigingstype)
+    public void WijzigRechtsvormUitKbo(Verenigingstype.Verenigingstype verenigingstype)
     {
         if (State.Verenigingstype == verenigingstype) return;
         AddEvent(EventFactory.RechtsvormWerdGewijzigdInKBO(verenigingstype));

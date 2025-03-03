@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.When_Hydrating_A_Vereniging;
 using FluentAssertions;
 using Vereniging;
 using Vereniging.Exceptions;
+using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 

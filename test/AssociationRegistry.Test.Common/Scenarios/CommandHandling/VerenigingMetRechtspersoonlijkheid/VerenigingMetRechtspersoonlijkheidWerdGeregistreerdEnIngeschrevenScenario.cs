@@ -5,6 +5,7 @@ using AssociationRegistry.Kbo;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using global::AutoFixture;
+using Vereniging.Verenigingstype;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdEnIngeschrevenScenario : CommandhandlerScenarioBase
 {

@@ -12,6 +12,7 @@ using Formats;
 using Framework;
 using JsonLdContext;
 using Vereniging;
+using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;

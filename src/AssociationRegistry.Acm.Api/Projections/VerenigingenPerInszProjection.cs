@@ -217,13 +217,13 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 FeitelijkeVerenigingWerdGeregistreerd =>
                     new(
-                        AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                        AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+                        AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Code,
+                        AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Naam),
 
                 VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
                     new(
-                        AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                        AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
+                        AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER.Code,
+                        AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER.Naam),
 
                 _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd))
             };
@@ -371,7 +371,7 @@ public class VerenigingenPerInszProjection : EventProjection
             {
                 verenigingenPerInszDocument.Verenigingen.Single(vereniging => vereniging.VCode == rechtsvormWerdGewijzigdInKbo.StreamKey!)
                                            .Verenigingstype =
-                    VerenigingenPerInszProjection.MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+                    VerenigingenPerInszProjection.MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
                 docs.Add(verenigingenPerInszDocument);
             }
@@ -504,8 +504,8 @@ public class VerenigingenPerInszProjection : EventProjection
                         vereniging => vereniging.VCode == @event.StreamKey!);
 
                 vereniging.Verenigingstype = new(
-                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                    AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
+                    AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER.Code,
+                    AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER.Naam);
 
                 docs.Add(verenigingenPerInszDocument);
             }
@@ -522,7 +522,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
-                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging),
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging),
                 KboNummer = string.Empty,
             };
 
@@ -532,7 +532,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
-                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.VZER),
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER),
                 KboNummer = string.Empty,
             };
 
@@ -542,7 +542,7 @@ public class VerenigingenPerInszProjection : EventProjection
                 VCode = werdGeregistreerd.VCode,
                 Naam = werdGeregistreerd.Naam,
                 Status = VerenigingStatus.Actief,
-                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(werdGeregistreerd.Rechtsvorm)),
+                VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(werdGeregistreerd.Rechtsvorm)),
                 KboNummer = werdGeregistreerd.KboNummer,
             };
 
@@ -553,7 +553,7 @@ public class VerenigingenPerInszProjection : EventProjection
             var verenigingDocument = await ops.GetVerenigingDocument(rechtsvormWerdGewijzigdInKbo.StreamKey);
 
             verenigingDocument.VerenigingsType =
-                MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
+                MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm));
 
             return verenigingDocument;
         }
@@ -613,12 +613,12 @@ public class VerenigingenPerInszProjection : EventProjection
         {
             var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-            verenigingDocument.VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.VZER);
+            verenigingDocument.VerenigingsType = MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER);
 
             return verenigingDocument;
         }
     }
 
-    private static Verenigingstype MapVereniging(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
+    private static Verenigingstype MapVereniging(AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype verenigingstype)
         => new(verenigingstype.Code, verenigingstype.Naam);
 }

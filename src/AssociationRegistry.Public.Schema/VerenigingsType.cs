@@ -1,14 +1,10 @@
 ﻿namespace AssociationRegistry.Public.Schema;
 
-public record VerenigingsType : IVerenigingsType
+using Vereniging;
+using Vereniging.Verenigingstype;
+
+public record VerenigingsType : IVerenigingstype
 {
     public string Code { get; init; } = null!;
     public string Naam { get; init; } = null!;
-}
-
-
-public interface IVerenigingsType
-{
-    string Code { get; init; }
-    string Naam { get; init; }
 }

@@ -7,6 +7,7 @@ using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using System;
+using Vereniging.Verenigingstype;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;

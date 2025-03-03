@@ -5,6 +5,7 @@ using GemeentenaamDecorator;
 using Grar.Models;
 using Kbo;
 using Vereniging;
+using Vereniging.Verenigingstype;
 
 public static class EventFactory
 {

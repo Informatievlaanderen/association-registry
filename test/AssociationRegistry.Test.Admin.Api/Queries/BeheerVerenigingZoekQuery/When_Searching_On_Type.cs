@@ -11,6 +11,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;

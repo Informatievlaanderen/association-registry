@@ -20,6 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging.Verenigingstype;
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;
@@ -109,7 +110,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidController : Ap
                     _bevestigingsTokenHelper.Calculate(request),
                     potentialDuplicates.Data,
                     _appSettings,
-                    true)),
+                    new VerenigingstypeMapperV2())),
 
             _ => throw new ArgumentOutOfRangeException(),
         };

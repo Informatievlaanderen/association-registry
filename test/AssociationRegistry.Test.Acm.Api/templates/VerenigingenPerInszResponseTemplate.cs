@@ -4,6 +4,7 @@ using AssociationRegistry.Acm.Schema.Constants;
 using Common.Extensions;
 using Scriban;
 using Vereniging;
+using Vereniging.Verenigingstype;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 
 public class VerenigingenPerInszResponseTemplate

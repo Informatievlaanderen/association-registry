@@ -6,6 +6,7 @@ using Marten;
 using NodaTime;
 using NodaTime.Text;
 using Vereniging;
+using Vereniging.Verenigingstype;
 
 public class VzerMigratieService : BackgroundService
 {

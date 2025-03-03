@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 
-using Schema;
+using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Verenigingstype;
 using System.Runtime.Serialization;
 
 [DataContract]
-public class VerenigingsType : IVerenigingsType
+public class VerenigingsType : IVerenigingstype
 {
     /// <summary>
     /// De code van het type vereniging

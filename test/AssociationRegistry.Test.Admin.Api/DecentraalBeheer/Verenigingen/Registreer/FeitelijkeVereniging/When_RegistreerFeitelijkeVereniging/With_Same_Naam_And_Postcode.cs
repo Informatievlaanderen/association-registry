@@ -19,6 +19,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Net;
+using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 
