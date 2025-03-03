@@ -1,11 +1,15 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Registreer;
 
-using AssociationRegistry.DuplicateVerenigingDetection;
+using DuplicateVerenigingDetection;
 using System.Runtime.Serialization;
+using Vereniging.Verenigingstype;
 
 [DataContract]
-public class VerenigingsType
+public class VerenigingsType : IVerenigingstype
 {
+    public VerenigingsType()
+    { }
+
     public VerenigingsType(
         string code,
         string naam)
@@ -19,9 +23,9 @@ public class VerenigingsType
 
     /// <summary>De code van het type van deze vereniging</summary>
     [DataMember(Name = "Code")]
-    public string Code { get; }
+    public string Code { get; init; }
 
     /// <summary>De beschrijving van het type van deze vereniging</summary>
     [DataMember(Name = "Naam")]
-    public string Naam { get; }
+    public string Naam { get; init; }
 }

@@ -1,13 +1,13 @@
 namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using Asp.Versioning;
-using AssociationRegistry.Admin.Api.Infrastructure;
-using AssociationRegistry.Admin.Api.Infrastructure.ResponseWriter;
-using AssociationRegistry.Admin.Api.Infrastructure.Sequence;
-using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Annotations;
+using Infrastructure;
+using Infrastructure.ResponseWriter;
+using Infrastructure.Sequence;
+using Infrastructure.Swagger.Annotations;
 using AssociationRegistry.Admin.Api.Infrastructure.Swagger.Examples;
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Queries;
+using Hosts.Configuration.ConfigurationBindings;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Examples;

@@ -2,6 +2,7 @@
 
 using Admin.Schema;
 using Scenario.Migratie;
+using Vereniging.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerDetailScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
@@ -17,7 +18,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         => fixture.Result
                   .Verenigingstype.Should().Be(new VerenigingsType()
                    {
-                       Code = Vereniging.Verenigingstype.VZER.Code,
-                       Naam = Vereniging.Verenigingstype.VZER.Naam,
+                       Code = Verenigingstype.VZER.Code,
+                       Naam = Verenigingstype.VZER.Naam,
                    });
 }

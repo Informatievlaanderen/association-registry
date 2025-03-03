@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Migratie;
 
 using Admin.Schema.Search;
 using Scenario.Migratie;
+using Vereniging.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerZoekenScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
@@ -13,7 +14,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         => fixture.Result
                   .Verenigingstype.Should().BeEquivalentTo(new VerenigingZoekDocument.VerenigingsType
                    {
-                       Code = Vereniging.Verenigingstype.VZER.Code,
-                       Naam = Vereniging.Verenigingstype.VZER.Naam,
+                       Code = Verenigingstype.VZER.Code,
+                       Naam = Verenigingstype.VZER.Naam,
                    });
 }

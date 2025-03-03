@@ -1,20 +1,17 @@
-﻿namespace AssociationRegistry.Public.Api;
+﻿namespace AssociationRegistry.Vereniging.Verenigingstype;
 
-using AssociationRegistry.Vereniging;
-using Schema;
-
-public interface IVerenigingsTypeMapper
+public interface IVerenigingstypeMapper
 {
     TDestination Map<TDestination, TSource>(TSource verenigingsType)
-        where TDestination : IVerenigingsType, new()
-        where TSource : IVerenigingsType, new();
+        where TDestination : IVerenigingstype, new()
+        where TSource : IVerenigingstype, new();
 }
 
-public class VerenigingsTypeMapper : IVerenigingsTypeMapper
+public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
 {
     public TDestination Map<TDestination, TSource>(TSource verenigingsType)
-    where TDestination : IVerenigingsType, new()
-    where TSource : IVerenigingsType, new()
+    where TDestination : IVerenigingstype, new()
+    where TSource : IVerenigingstype, new()
     {
         if (Verenigingstype.IsGeenKboVereniging(verenigingsType.Code))
         {
@@ -28,16 +25,16 @@ public class VerenigingsTypeMapper : IVerenigingsTypeMapper
         return new TDestination()
         {
             Code = verenigingsType.Code,
-            Naam = verenigingsType.Naam
+            Naam = verenigingsType.Naam,
         };
     }
 }
 
-public class VerenigingsTypeMapperV2 : IVerenigingsTypeMapper
+public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
 {
    public TDestination Map<TDestination, TSource>(TSource verenigingsType)
-        where TDestination : IVerenigingsType, new()
-        where TSource : IVerenigingsType, new()
+        where TDestination : IVerenigingstype, new()
+        where TSource : IVerenigingstype, new()
     {
         if (Verenigingstype.IsGeenKboVereniging(verenigingsType.Code))
         {

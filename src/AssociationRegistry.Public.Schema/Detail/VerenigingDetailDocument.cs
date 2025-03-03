@@ -2,6 +2,8 @@
 
 using Marten.Metadata;
 using Marten.Schema;
+using Vereniging;
+using Vereniging.Verenigingstype;
 
 public record Doelgroep
 {
@@ -36,7 +38,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     [Identity] public string VCode { get; set; } = null!;
 
-    public class VerenigingsType : IVerenigingsType
+    public class VerenigingsType : IVerenigingstype
     {
         public string Code { get; init; } = null!;
         public string Naam { get; init; } = null!;

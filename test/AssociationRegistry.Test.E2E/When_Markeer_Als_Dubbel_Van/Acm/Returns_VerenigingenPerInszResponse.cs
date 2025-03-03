@@ -46,8 +46,8 @@ public class Returns_VerenigingenPerInszResponse :
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new Verenigingstype(
-                        Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                        Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
+                        Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Code,
+                        Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Naam),
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

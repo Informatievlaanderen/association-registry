@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
 using Detail;
+using Vereniging;
+using Vereniging.Verenigingstype;
 
 public class VerenigingZoekDocument
 {
@@ -69,7 +71,7 @@ public class VerenigingZoekDocument
         public string Naam { get; init; } = null!;
     }
 
-    public class VerenigingsType : IVerenigingsType
+    public class VerenigingsType : IVerenigingstype
     {
         public string Code { get; init; } = null!;
         public string Naam { get; init; } = null!;

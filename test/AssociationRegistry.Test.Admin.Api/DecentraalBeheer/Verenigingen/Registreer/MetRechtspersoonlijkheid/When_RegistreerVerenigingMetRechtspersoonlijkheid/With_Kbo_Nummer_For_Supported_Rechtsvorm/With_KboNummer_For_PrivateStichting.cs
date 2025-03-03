@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Vereniging.Verenigingstype;
 using Xunit;
 
 public class RegistreerPrivateStichtingSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup

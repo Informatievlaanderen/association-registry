@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.DuplicateVerenigingDetection;
 
 using System.Collections.Immutable;
+using Vereniging.Verenigingstype;
 
 public record DuplicaatVereniging(
     string VCode,
@@ -20,7 +21,11 @@ public record DuplicaatVereniging(
         string Postcode,
         string Gemeente);
 
-    public record VerenigingsType(string Code, string Naam);
+    public record VerenigingsType : IVerenigingstype
+    {
+        public string Code { get; init; }
+        public string Naam { get; init; }
+    }
     public record Activiteit(int Id, string Categorie);
     public record HoofdactiviteitVerenigingsloket(string Code, string Naam);
 

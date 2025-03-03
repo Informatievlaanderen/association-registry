@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using Events;
 using NodaTime.Extensions;
 using Vereniging;
+using Vereniging.Verenigingstype;
 
 public class V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd : IScenario
 {

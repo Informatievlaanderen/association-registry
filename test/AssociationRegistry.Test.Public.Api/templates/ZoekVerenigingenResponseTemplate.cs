@@ -7,6 +7,7 @@ using JsonLdContext;
 using Scriban;
 using System.Dynamic;
 using Vereniging;
+using Vereniging.Verenigingstype;
 
 public class ZoekVerenigingenResponseTemplate
 {

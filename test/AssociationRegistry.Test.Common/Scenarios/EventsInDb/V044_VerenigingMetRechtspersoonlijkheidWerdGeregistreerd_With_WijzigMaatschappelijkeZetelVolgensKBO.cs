@@ -6,6 +6,7 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 using Vereniging;
+using Vereniging.Verenigingstype;
 
 public class V044_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetelVolgensKBO : IEventsInDbScenario
 {

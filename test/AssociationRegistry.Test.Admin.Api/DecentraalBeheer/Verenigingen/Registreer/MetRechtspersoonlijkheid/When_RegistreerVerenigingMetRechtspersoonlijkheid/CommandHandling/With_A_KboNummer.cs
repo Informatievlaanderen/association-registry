@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 

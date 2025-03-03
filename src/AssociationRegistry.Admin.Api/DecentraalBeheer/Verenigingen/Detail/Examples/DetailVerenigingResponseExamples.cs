@@ -1,12 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.Examples;
 
-using AssociationRegistry.Formats;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Bronnen;
+using Formats;
+using Hosts.Configuration.ConfigurationBindings;
+using JsonLdContext;
+using Vereniging;
+using Vereniging.Bronnen;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging.Verenigingstype;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;

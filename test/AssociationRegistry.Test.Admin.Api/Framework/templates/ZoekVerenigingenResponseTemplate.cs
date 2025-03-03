@@ -5,6 +5,7 @@ using Formats;
 using JsonLdContext;
 using System.Dynamic;
 using Vereniging;
+using Vereniging.Verenigingstype;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 public class ZoekVerenigingenResponseTemplate : ResponseTemplate

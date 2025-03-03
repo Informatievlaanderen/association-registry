@@ -5,16 +5,17 @@ using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using Vereniging.Verenigingstype;
 
 public class PubliekVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
-    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
+    private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
     public PubliekVerenigingDetailMapper(AppSettings appSettings, string version)
     {
         _appSettings = appSettings;
-        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
+        _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
 
     }
 
@@ -28,7 +29,7 @@ public class PubliekVerenigingDetailMapper
             {
                 type = document.JsonLdMetadataType,
                 VCode = document.VCode,
-                Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, PubliekVerenigingDetailDocument.VerenigingsType>(document.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, PubliekVerenigingDetailDocument.VerenigingsType>(document.Verenigingstype),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,

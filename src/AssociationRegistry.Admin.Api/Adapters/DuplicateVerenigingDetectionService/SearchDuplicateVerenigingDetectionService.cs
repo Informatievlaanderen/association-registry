@@ -7,6 +7,7 @@ using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Collections.Immutable;
+using Vereniging.Verenigingstype;
 using LogLevel = LogLevel;
 
 public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
@@ -189,8 +190,11 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
     private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
         => new(
             document.Source.VCode,
-            new DuplicaatVereniging.VerenigingsType(document.Source.VerenigingsTypeCode,
-                                                    Verenigingstype.Parse(document.Source.VerenigingsTypeCode).Naam),
+            new DuplicaatVereniging.VerenigingsType()
+            {
+                Code = document.Source.VerenigingsTypeCode,
+                Naam = Verenigingstype.Parse(document.Source.VerenigingsTypeCode).Naam,
+            },
             document.Source.Naam,
             document.Source.KorteNaam,
             document.Source.HoofdactiviteitVerenigingsloket?

@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Vereniging;
+﻿namespace AssociationRegistry.Vereniging.Verenigingstype;
 
-public class Verenigingstype
+public class Verenigingstype : IVerenigingstype
 {
     public static readonly Verenigingstype FeitelijkeVereniging = new(code: "FV", naam: "Feitelijke vereniging");
     public static readonly Verenigingstype VZER = new(code: "VZER", naam: "Vereniging zonder eigen rechtspersoonlijkheid");
@@ -25,8 +25,8 @@ public class Verenigingstype
         Naam = naam;
     }
 
-    public string Code { get; }
-    public string Naam { get; }
+    public string Code { get; init; }
+    public string Naam { get; init; }
 
     public static Verenigingstype Parse(string code)
         => All.Single(t => t.Code == code);
@@ -36,4 +36,10 @@ public class Verenigingstype
 
     public static bool TypeIsVerenigingZonderEigenRechtspersoonlijkheid(Verenigingstype type)
         => type == FeitelijkeVereniging || type == VZER;
+}
+
+public interface IVerenigingstype
+{
+    string Code { get; init; }
+    string Naam { get; init; }
 }

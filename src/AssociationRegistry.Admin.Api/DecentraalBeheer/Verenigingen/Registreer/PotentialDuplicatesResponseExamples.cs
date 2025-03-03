@@ -4,6 +4,7 @@ using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging.Verenigingstype;
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
 {
@@ -22,9 +23,11 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                 {
                     new DuplicaatVereniging(
                         VCode: "V0001001",
-                        new DuplicaatVereniging.VerenigingsType(
-                            Verenigingstype.FeitelijkeVereniging.Code,
-                            Verenigingstype.FeitelijkeVereniging.Naam),
+                        new DuplicaatVereniging.VerenigingsType()
+                        {
+                            Code = Verenigingstype.FeitelijkeVereniging.Code,
+                            Naam = Verenigingstype.FeitelijkeVereniging.Naam
+                        },
                         Naam: "Naam",
                         KorteNaam: "Korte naam",
                         [
@@ -36,5 +39,5 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         ]),
                 }),
             appSettings: _appSettings,
-            false);
+            new VerenigingstypeMapperV1());
 }

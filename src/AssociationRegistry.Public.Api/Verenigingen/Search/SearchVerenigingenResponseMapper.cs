@@ -10,19 +10,20 @@ using Schema.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Vereniging.Verenigingstype;
 using Relatie = ResponseModels.Relatie;
 
 public class SearchVerenigingenResponseMapper
 {
     private readonly AppSettings _appSettings;
     private readonly ILogger<SearchVerenigingenController> _logger;
-    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
+    private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
     public SearchVerenigingenResponseMapper(AppSettings appSettings, ILogger<SearchVerenigingenController> logger, string? version)
     {
         _appSettings = appSettings;
         _logger = logger;
-        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
+        _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
     }
 
     public SearchVerenigingenResponse ToSearchVereningenResponse(
@@ -64,7 +65,7 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
-                Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType,VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType,VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,

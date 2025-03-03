@@ -6,6 +6,7 @@ using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Polly;
+using Vereniging.Verenigingstype;
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
 using Xunit.Abstractions;

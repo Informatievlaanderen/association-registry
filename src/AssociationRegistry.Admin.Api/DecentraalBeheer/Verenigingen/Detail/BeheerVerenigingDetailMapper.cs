@@ -1,10 +1,11 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail;
 
 using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.Formats;
-using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
+using Formats;
+using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using ResponseModels;
+using Vereniging.Verenigingstype;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;
@@ -25,13 +26,13 @@ public class BeheerVerenigingDetailMapper
     private readonly AppSettings _appSettings;
     private readonly INamenVoorLidmaatschapMapper _namenVoorLidmaatschapMapper;
     private readonly string? _version;
-    private readonly IVerenigingsTypeMapper _verenigingsTypeMapper;
+    private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
     public BeheerVerenigingDetailMapper(AppSettings appSettings, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper, string? version)
     {
         _appSettings = appSettings;
         _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
-        _verenigingsTypeMapper = version == WellknownVersions.V2 ? new VerenigingsTypeMapperV2() : new VerenigingsTypeMapper();
+        _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
     }
 
     public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
@@ -58,7 +59,7 @@ public class BeheerVerenigingDetailMapper
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingsTypeMapper.Map<VerenigingsType, Schema.VerenigingsType>(vereniging.Verenigingstype),
+            Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, Schema.VerenigingsType>(vereniging.Verenigingstype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,

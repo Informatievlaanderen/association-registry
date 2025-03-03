@@ -2,12 +2,14 @@
 
 using Schema;
 using System.Runtime.Serialization;
+using Vereniging;
+using Vereniging.Verenigingstype;
 
 /// <summary>
 /// Het type van een vereniging
 /// </summary>
 [DataContract]
-public class VerenigingsType : IVerenigingsType
+public class VerenigingsType : IVerenigingstype
 {
     /// <summary>
     /// De code van het type vereniging
