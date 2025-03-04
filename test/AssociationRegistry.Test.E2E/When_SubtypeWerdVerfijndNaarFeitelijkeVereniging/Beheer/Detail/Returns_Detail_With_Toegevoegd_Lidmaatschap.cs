@@ -8,7 +8,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Subtype = Vereniging.Subtype.Subtype;
+using Subtype = Vereniging.Subtype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>

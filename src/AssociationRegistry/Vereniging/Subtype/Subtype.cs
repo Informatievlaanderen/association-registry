@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Vereniging.Subtype;
+﻿namespace AssociationRegistry.Vereniging;
 
 public class Subtype : ISubtype
 {
@@ -24,6 +24,9 @@ public class Subtype : ISubtype
 
     public static Subtype Parse(string code)
         => All.Single(t => t.Code == code);
+
+    public static bool IsGeenSubVereniging(string code)
+        => code != SubVereniging.Code;
 }
 
 public interface ISubtype
