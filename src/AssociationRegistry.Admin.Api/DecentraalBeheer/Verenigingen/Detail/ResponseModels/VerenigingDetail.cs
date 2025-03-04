@@ -96,8 +96,8 @@ public class VerenigingDetail
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
 
     /// <summary>Het subtype van deze vereniging</summary>
-    [DataMember(Name = "Subtype")]
-    public SubtypeData Subtype { get; init; } = null!;
+    [DataMember(Name = "Subtype", EmitDefaultValue = false)]
+    public SubtypeData? Subtype { get; init; } = null!;
 
     /// <summary>De bron die deze vereniging beheert.
     ///      <br />
