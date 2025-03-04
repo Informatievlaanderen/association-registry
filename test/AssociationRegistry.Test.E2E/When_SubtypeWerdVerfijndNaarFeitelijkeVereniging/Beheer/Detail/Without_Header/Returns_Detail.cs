@@ -6,6 +6,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Subtype = Vereniging.Subtype;
@@ -29,18 +30,7 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
     [Fact]
     public void JsonContentMatches()
     {
-        var expected = new SubtypeData
-        {
-            //id = JsonLdType.Subtype.CreateWithIdValues(_context.VCode, "1"),
-            //type = JsonLdType.Subtype.Type,
-            Subtype = new AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
-            {
-                Code = Subtype.FeitelijkeVereniging.Code,
-                Naam = Subtype.FeitelijkeVereniging.Naam
-            },
-        };
-
-        Response.Vereniging.Subtype.Should().BeEquivalentTo(expected);
+        Response.Vereniging.Subtype.Should().BeNull();
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

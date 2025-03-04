@@ -15,6 +15,7 @@ using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
+using Subtype = Vereniging.Subtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Constants.WellknownFormats;
@@ -832,5 +833,10 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER);
+    }
+
+    public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.FeitelijkeVereniging);
     }
 }

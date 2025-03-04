@@ -35,7 +35,7 @@ public class WijzigSubtypeRequestFactory : ITestRequestFactory<WijzigSubtypeRequ
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {
-            s.Post
+            s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/subtype");
 
