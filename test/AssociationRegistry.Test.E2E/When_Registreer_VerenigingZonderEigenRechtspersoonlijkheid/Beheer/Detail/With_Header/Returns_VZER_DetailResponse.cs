@@ -64,6 +64,16 @@ public class Returns_VZER_DetailResponse :
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
             },
+            Subtype = new SubtypeData
+            {
+                id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code),
+                type = JsonLdType.Subtype.Type,
+                Subtype = new Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
+                {
+                    Code = AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code,
+                    Naam = AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Naam
+                },
+            },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,
