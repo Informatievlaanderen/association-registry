@@ -122,6 +122,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.VZER,
+            Subtype = Subtype.NogNietBepaald,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -781,6 +782,7 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingstype = Verenigingstype.VZER,
+            Subtype = Subtype.NogNietBepaald,
         };
 
     public VerenigingState Apply(SubtypeWerdVerfijndNaarFeitelijkeVereniging @event)

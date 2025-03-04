@@ -43,6 +43,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
+                Subtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Subtype.NogNietBepaald),
                 Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
                 KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
                 KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
