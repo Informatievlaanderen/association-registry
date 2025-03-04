@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Kbo;
 
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public record VerenigingVolgensKbo
 {

@@ -28,12 +28,12 @@ using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.Va
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
 [SwaggerGroup.DecentraalBeheer]
-public class WhenCreatingAVoegLidmaatschapToeController : ApiController
+public class VoegLidmaatschapToeController : ApiController
 {
     private readonly IMessageBus _messageBus;
     private readonly AppSettings _appSettings;
 
-    public WhenCreatingAVoegLidmaatschapToeController(IMessageBus messageBus, AppSettings appSettings)
+    public VoegLidmaatschapToeController(IMessageBus messageBus, AppSettings appSettings)
     {
         _messageBus = messageBus;
         _appSettings = appSettings;

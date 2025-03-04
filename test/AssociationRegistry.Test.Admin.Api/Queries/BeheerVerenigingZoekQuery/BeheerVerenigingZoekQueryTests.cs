@@ -11,7 +11,6 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;

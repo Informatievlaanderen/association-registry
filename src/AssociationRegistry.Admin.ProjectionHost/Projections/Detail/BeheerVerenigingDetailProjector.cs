@@ -10,7 +10,6 @@ using Schema;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
-using Vereniging.Verenigingstype;
 using AdresFormatter = Formats.AdresFormatter;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;

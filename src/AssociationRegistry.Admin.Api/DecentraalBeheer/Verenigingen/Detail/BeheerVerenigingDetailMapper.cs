@@ -5,7 +5,7 @@ using Formats;
 using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using ResponseModels;
-using Vereniging.Verenigingstype;
+using Vereniging;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;

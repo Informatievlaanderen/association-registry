@@ -6,7 +6,6 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public class V045_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_ContactgegevenFromKbo_For_Wijzigen : IEventsInDbScenario
 {

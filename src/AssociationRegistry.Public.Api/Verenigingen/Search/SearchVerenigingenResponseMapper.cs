@@ -10,8 +10,14 @@ using Schema.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vereniging.Verenigingstype;
+using Vereniging;
+using Doelgroep = Schema.Search.Doelgroep;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
+using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
+using Vereniging = ResponseModels.Vereniging;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseMapper
 {

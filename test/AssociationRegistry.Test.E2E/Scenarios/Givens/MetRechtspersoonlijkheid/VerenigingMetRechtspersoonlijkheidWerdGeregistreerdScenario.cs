@@ -7,7 +7,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using Requests.VerenigingMetRechtspersoonlijkheid;
-using Vereniging.Verenigingstype;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : IVerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario,
                                                                            Framework.TestClasses.IScenario

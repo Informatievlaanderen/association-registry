@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Schema;
 
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public record VerenigingsType : IVerenigingstype
 {

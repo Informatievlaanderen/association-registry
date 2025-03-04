@@ -5,7 +5,15 @@ using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
-using Vereniging.Verenigingstype;
+using Vereniging;
+using Adres = ResponseModels.Adres;
+using AdresId = ResponseModels.AdresId;
+using Contactgegeven = ResponseModels.Contactgegeven;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
+using Locatie = ResponseModels.Locatie;
+using Vereniging = ResponseModels.Vereniging;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class PubliekVerenigingDetailMapper
 {

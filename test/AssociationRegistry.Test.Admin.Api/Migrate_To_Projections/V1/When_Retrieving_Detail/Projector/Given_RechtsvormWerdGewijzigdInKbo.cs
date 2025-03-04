@@ -8,7 +8,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 

@@ -8,7 +8,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
 using Xunit;
-using Verenigingstype = Vereniging.Verenigingstype.Verenigingstype;
+using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VerenigingenPerInszResponse :

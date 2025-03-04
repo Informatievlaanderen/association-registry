@@ -7,7 +7,6 @@ using Events;
 using EventStore;
 using Framework;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public interface IEventsInDbScenario
 {

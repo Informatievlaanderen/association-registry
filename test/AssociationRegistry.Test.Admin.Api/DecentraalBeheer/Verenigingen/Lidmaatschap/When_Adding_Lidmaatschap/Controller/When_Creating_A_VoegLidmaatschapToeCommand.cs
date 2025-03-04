@@ -30,7 +30,7 @@ public class When_Creating_A_VoegLidmaatschapToeCommand
            .Setup(x => x.InvokeAsync<EntityCommandResult>(It.IsAny<CommandEnvelope<VoegLidmaatschapToeCommand>>(), default, null))
            .ReturnsAsync(new Fixture().CustomizeAdminApi().Create<EntityCommandResult>());
 
-        var sut = new WhenCreatingAVoegLidmaatschapToeController(messageBus.Object, new AppSettings());
+        var sut = new VoegLidmaatschapToeController(messageBus.Object, new AppSettings());
 
         var vCode = fixture.Create<VCode>();
         var andereVerenigingNaam = fixture.Create<string>();

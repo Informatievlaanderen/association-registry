@@ -1,7 +1,7 @@
 ﻿namespace AssociationRegistry.DuplicateVerenigingDetection;
 
 using System.Collections.Immutable;
-using Vereniging.Verenigingstype;
+using Vereniging;
 
 public record DuplicaatVereniging(
     string VCode,

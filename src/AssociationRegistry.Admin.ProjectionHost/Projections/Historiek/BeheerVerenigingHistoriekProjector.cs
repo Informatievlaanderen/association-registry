@@ -9,7 +9,6 @@ using Schema;
 using Schema.Historiek;
 using Schema.Historiek.EventData;
 using Vereniging;
-using Vereniging.Verenigingstype;
 using IEvent = Marten.Events.IEvent;
 using WellknownFormats = Constants.WellknownFormats;
 

@@ -16,7 +16,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
 using Vereniging;
-using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Categories;
 

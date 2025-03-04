@@ -4,7 +4,6 @@ using Events;
 using Formats;
 using Schema.Search;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public class DuplicateDetectionProjectionHandler
 {

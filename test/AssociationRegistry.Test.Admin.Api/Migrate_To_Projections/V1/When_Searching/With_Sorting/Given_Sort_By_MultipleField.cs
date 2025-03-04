@@ -6,7 +6,6 @@ using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using Nest;
 using Newtonsoft.Json.Linq;
-using Vereniging.Verenigingstype;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;

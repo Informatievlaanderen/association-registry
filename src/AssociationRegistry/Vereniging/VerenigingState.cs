@@ -18,7 +18,8 @@ public record VerenigingState : IHasVersion
         set => VCode = VCode.Create(value);
     }
 
-    public Verenigingstype.Verenigingstype Verenigingstype { get; init; } = null!;
+    public Verenigingstype Verenigingstype { get; init; } = null!;
+    public Subtype Subtype { get; init; } = null!;
     public VCode VCode { get; private set; } = null!;
     public KboNummer? KboNummer { get; private init; }
     public VerenigingsNaam Naam { get; private init; } = null!;
@@ -50,7 +51,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging,
+            Verenigingstype = Verenigingstype.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -120,7 +121,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER,
+            Verenigingstype = Verenigingstype.VZER,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -190,7 +191,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(@event.Rechtsvorm),
+            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
             VCode = VCode.Hydrate(@event.VCode),
             KboNummer = KboNummer.Hydrate(@event.KboNummer),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
@@ -554,7 +555,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(RechtsvormWerdGewijzigdInKBO @event)
         => this with
         {
-            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(@event.Rechtsvorm),
+            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
         };
 
     public VerenigingState Apply(KorteNaamWerdGewijzigdInKbo @event)
@@ -779,7 +780,13 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid @event)
         => this with
         {
-            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER,
+            Verenigingstype = Verenigingstype.VZER,
+        };
+
+    public VerenigingState Apply(SubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
+        => this with
+        {
+            Subtype = Subtype.FeitelijkeVereniging,
         };
 
     public void ThrowIfVerwijderd()

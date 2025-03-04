@@ -54,6 +54,7 @@
     <Folder Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Stop\FeitelijkeVereniging\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Stop\VerenigingMetRechtspersoonlijkheid\" />
+    <Folder Include="DecentraalBeheer\Verenigingen\Subtype\RequestValidating\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\VerenigingMetRechtspersoonlijkheid\" />
     <Folder Include="DecentraalBeheer\Verenigingen\Verwijder\" />

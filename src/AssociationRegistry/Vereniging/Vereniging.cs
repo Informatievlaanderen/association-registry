@@ -272,9 +272,17 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         }
     }
 
+    public void WijzigSubtypeNaarFeitelijkeVereniging()
+    {
+        if(State.Subtype == Subtype.FeitelijkeVereniging)
+            return;
+
+        AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode, Subtype.FeitelijkeVereniging));
+    }
+
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If( !Verenigingstype.Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If( !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
         State = obj;
     }
 

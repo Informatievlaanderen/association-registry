@@ -14,7 +14,6 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Reflection;
 using Vereniging;
-using Vereniging.Verenigingstype;
 using Xunit;
 
 public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>

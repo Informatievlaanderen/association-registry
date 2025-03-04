@@ -2,7 +2,6 @@ namespace AssociationRegistry.Admin.Schema.Search;
 
 using Detail;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public class VerenigingZoekDocument
 {

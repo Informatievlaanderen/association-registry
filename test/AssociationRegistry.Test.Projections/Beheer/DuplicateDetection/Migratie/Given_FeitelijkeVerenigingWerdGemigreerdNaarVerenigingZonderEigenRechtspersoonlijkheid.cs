@@ -2,7 +2,6 @@
 
 using Scenario.Migratie;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(DuplicateDetectionScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)

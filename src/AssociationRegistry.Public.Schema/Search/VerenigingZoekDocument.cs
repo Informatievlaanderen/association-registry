@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Schema.Search;
 
 using Detail;
 using Vereniging;
-using Vereniging.Verenigingstype;
 
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
