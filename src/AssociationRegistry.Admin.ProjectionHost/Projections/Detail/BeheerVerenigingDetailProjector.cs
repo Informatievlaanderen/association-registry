@@ -837,4 +837,9 @@ public class BeheerVerenigingDetailProjector
     {
         document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.FeitelijkeVereniging);
     }
+
+    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNogNietBepaald> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald);
+    }
 }

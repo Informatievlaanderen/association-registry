@@ -246,6 +246,8 @@ public class BeheerVerenigingDetailProjection : EventProjection
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
     public async Task Project(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
+    public async Task Project(IEvent<SubtypeWerdTerugGezetNaarNogNietBepaald> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingDetailProjector.Apply);
 
     private async Task SoftDelete(string? streamKey, IDocumentOperations ops)
         => ops.Delete<BeheerVerenigingDetailDocument>(streamKey);

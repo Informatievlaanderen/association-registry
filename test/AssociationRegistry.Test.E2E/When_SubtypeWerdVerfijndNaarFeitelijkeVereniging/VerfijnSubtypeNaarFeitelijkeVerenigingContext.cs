@@ -24,7 +24,7 @@ public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<Wijz
     public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestFactory(Scenario, Subtype.FeitelijkeVereniging.Code).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
