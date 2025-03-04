@@ -280,6 +280,8 @@ public static class EventFactory
 
     public static SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode, Subtype subtype)
         => new(vCode, Subtype(subtype));
+    public static SubtypeWerdTerugGezetNaarNogNietBepaald SubtypeWerdTerugGezetNaarNogNietBepaald(VCode vCode, Subtype subtype)
+        => new(vCode, Subtype(subtype));
 
     public static Registratiedata.Subtype Subtype(Subtype subtype)
         => new(subtype.Code, subtype.Naam);

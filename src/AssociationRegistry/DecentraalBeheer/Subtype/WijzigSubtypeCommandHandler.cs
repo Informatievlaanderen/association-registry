@@ -22,7 +22,7 @@ public class WijzigSubtypeCommandHandler
         switch (envelope.Command.SubtypeData)
         {
             case WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald terugTeZettenNaarNogNietBepaald:
-                // vereniging.ZetTerugNaarNNB
+                vereniging.ZetSubtypeNaarNogNietBepaald();
                 break;
 
             case WijzigSubtypeCommand.TeWijzigenNaarFeitelijkeVereniging teWijzigenNaarFeitelijkeVereniging:

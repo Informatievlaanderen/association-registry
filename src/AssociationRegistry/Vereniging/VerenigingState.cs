@@ -791,6 +791,12 @@ public record VerenigingState : IHasVersion
             Subtype = Subtype.FeitelijkeVereniging,
         };
 
+    public VerenigingState Apply(SubtypeWerdTerugGezetNaarNogNietBepaald @event)
+        => this with
+        {
+            Subtype = Subtype.NogNietBepaald,
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
