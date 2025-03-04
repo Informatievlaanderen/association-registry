@@ -16,4 +16,6 @@ public static class GuidNamespace
     public static Guid AdresVerwijzing => Guid.Parse("56AFF233-CD4F-40E5-8F8E-D7E468F229F9");
     public static Guid Sleutel => Guid.Parse("0D2AAB82-4980-4EDD-95FD-8A4292E765EC");
     public static Guid GestructureerdeIdentificator => Guid.Parse("2832F142-9D7D-47AF-AC8B-FDE9AE077D24");
+    public static Guid Subtype => Guid.Parse("D21E76F1-1FA2-4076-80FA-A727E4A3CD70");
+
 }

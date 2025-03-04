@@ -16,6 +16,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
+using Subtype = ResponseModels.Subtype;
 using VerenigingsType = ResponseModels.VerenigingsType;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
@@ -33,6 +34,7 @@ public class BeheerVerenigingDetailMapper
         _appSettings = appSettings;
         _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
         _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
+        _version = version;
     }
 
     public DetailVerenigingResponse Map(BeheerVerenigingDetailDocument vereniging)
@@ -60,6 +62,7 @@ public class BeheerVerenigingDetailMapper
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, Schema.VerenigingsType>(vereniging.Verenigingstype),
+            Subtype = _version == WellknownVersions.V2 ? Map(vereniging.Subtype) : null,
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -87,6 +90,18 @@ public class BeheerVerenigingDetailMapper
             IsDubbelVan = vereniging.IsDubbelVan,
         };
     }
+
+    private static SubtypeData Map(Schema.Detail.Subtype subtype)
+        => new()
+        {
+            id = subtype.JsonLdMetadata.Id,
+            type = subtype.JsonLdMetadata.Type,
+            Subtype = new Subtype()
+            {
+                Code = subtype.Code,
+                Naam = subtype.Naam,
+            },
+        };
 
     private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)
         => new()

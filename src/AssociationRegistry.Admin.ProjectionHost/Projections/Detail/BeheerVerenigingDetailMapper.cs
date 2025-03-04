@@ -13,6 +13,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Schema.Detail.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
+using Subtype = Schema.Detail.Subtype;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
@@ -153,6 +154,14 @@ public class BeheerVerenigingDetailMapper
         {
             Code = verenigingstype.Code,
             Naam = verenigingstype.Naam,
+        };
+
+    public static Subtype MapSubtype(AssociationRegistry.Vereniging.Subtype subtype)
+        => new()
+        {
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Subtype, subtype.Code),
+            Code = subtype.Code,
+            Naam = subtype.Naam,
         };
 
     public static Sleutel MapKboSleutel(string kboNummer, string vCode)
