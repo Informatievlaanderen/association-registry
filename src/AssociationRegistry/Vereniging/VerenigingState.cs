@@ -50,7 +50,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(FeitelijkeVerenigingWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = Verenigingstype.FeitelijkeVereniging,
+            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -120,7 +120,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = Verenigingstype.VZER,
+            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -190,7 +190,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd @event)
         => new()
         {
-            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
+            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(@event.Rechtsvorm),
             VCode = VCode.Hydrate(@event.VCode),
             KboNummer = KboNummer.Hydrate(@event.KboNummer),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
@@ -554,7 +554,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(RechtsvormWerdGewijzigdInKBO @event)
         => this with
         {
-            Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
+            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.Parse(@event.Rechtsvorm),
         };
 
     public VerenigingState Apply(KorteNaamWerdGewijzigdInKbo @event)
@@ -779,7 +779,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid @event)
         => this with
         {
-            Verenigingstype = Verenigingstype.VZER,
+            Verenigingstype = AssociationRegistry.Vereniging.Verenigingstype.Verenigingstype.VZER,
         };
 
     public void ThrowIfVerwijderd()

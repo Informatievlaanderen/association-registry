@@ -7,7 +7,6 @@ using Framework;
 using System.Net;
 using templates;
 using Vereniging;
-
 using Xunit;
 using Xunit.Categories;
 
