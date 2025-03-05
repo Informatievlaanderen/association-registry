@@ -1,15 +1,13 @@
-﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Subtype;
-using FluentAssertions;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using JsonLdContext;
+using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Subtype = Vereniging.Subtype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>

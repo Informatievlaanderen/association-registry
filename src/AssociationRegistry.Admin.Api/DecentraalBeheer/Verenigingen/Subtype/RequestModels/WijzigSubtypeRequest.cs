@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype;
+﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 
 using DecentraalBeheer.Subtype;
 using System.Runtime.Serialization;
@@ -31,30 +31,24 @@ public class WijzigSubtypeRequest
     [DataMember]
     public string? Beschrijving { get; set; } = string.Empty;
 
-    // TODO: refactor
-    public WijzigSubtypeCommand ToCommand(string vCode, string? andereVerenigingNaam)
+    public WijzigSubtypeCommand ToCommand(string vCodeAsString, string? andereVerenigingNaam)
     {
         var subtype = AssociationRegistry.Vereniging.Subtype.Parse(Subtype);
+        var vCode = VCode.Create(vCodeAsString);
 
         return subtype.Code switch
         {
-            var code when code == AssociationRegistry.Vereniging.Subtype.FeitelijkeVereniging.Code
-                => new WijzigSubtypeCommand(
-                    VCode.Create(vCode),
-                    new WijzigSubtypeCommand.TeWijzigenNaarFeitelijkeVereniging(
-                        AssociationRegistry.Vereniging.Subtype.Parse(Subtype))),
+            var code when IsFeitelijkeVereniging(code)
+                => new WijzigSubtypeCommand(vCode, new WijzigSubtypeCommand.TeWijzigenNaarFeitelijkeVereniging(subtype)),
 
-            var code when code == AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code
-                => new WijzigSubtypeCommand(
-                    VCode.Create(vCode),
-                    new WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald(
-                        AssociationRegistry.Vereniging.Subtype.Parse(Subtype))),
+            var code when IsNogNietBepaald(code)
+                => new WijzigSubtypeCommand(vCode, new WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald(subtype)),
 
-            var code when code == AssociationRegistry.Vereniging.Subtype.SubVereniging.Code
+            var code when IsSubVereniging(code)
                 => new WijzigSubtypeCommand(
-                    VCode.Create(vCode),
+                    vCode,
                     new WijzigSubtypeCommand.TeWijzigenSubtype(
-                        AssociationRegistry.Vereniging.Subtype.Parse(Subtype),
+                        subtype,
                         VCode.Create(AndereVereniging!),
                         andereVerenigingNaam,
                         SubtypeIdentificatie.Create(Identificatie ?? string.Empty),
@@ -63,4 +57,13 @@ public class WijzigSubtypeRequest
             _ => throw new ArgumentException($"Unknown subtype: {Subtype}"),
         };
     }
+
+    private bool IsFeitelijkeVereniging(string code)
+        => code == AssociationRegistry.Vereniging.Subtype.FeitelijkeVereniging.Code;
+
+    private bool IsNogNietBepaald(string code)
+        => code == AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code;
+
+    private bool IsSubVereniging(string code)
+        => code == AssociationRegistry.Vereniging.Subtype.SubVereniging.Code;
 }

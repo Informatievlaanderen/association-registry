@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Admin.Schema.Search;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
-using Detail;
 using Infrastructure;
 using Nest;
 using RequestModels;

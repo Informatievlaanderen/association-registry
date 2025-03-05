@@ -1,6 +1,6 @@
 namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
 
-using Admin.Api.Verenigingen.Subtype;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Marten.Events;

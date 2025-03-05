@@ -13,7 +13,6 @@ using Vereniging;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
-using Detail;
 using Examples;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;

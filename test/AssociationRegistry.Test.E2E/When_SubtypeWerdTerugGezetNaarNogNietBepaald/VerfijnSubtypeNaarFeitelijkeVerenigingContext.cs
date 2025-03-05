@@ -1,11 +1,11 @@
 namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNogNietBepaald;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
-using AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
-using AssociationRegistry.Vereniging;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using Scenarios.Givens.FeitelijkeVereniging;
+using Scenarios.Requests.FeitelijkeVereniging;
+using Vereniging;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
