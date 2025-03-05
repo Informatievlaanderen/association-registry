@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.Projections;
 
 using Marten;
+using Marten.Linq.SoftDeletes;
 using Schema.VerenigingenPerInsz;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,6 +19,7 @@ public static class VerenigingPerInszQueryExtensions
 
     public static async Task<VerenigingDocument> GetVerenigingDocument(this IDocumentOperations source, string vCode)
         => await source.Query<VerenigingDocument>()
+                       .Where(document => document.MaybeDeleted())
                        .Where(v => v.VCode == vCode)
                        .SingleAsync();
 
