@@ -1,3 +1,11 @@
+## [8.213.4](https://github.com/informatievlaanderen/association-registry/compare/v8.213.3...v8.213.4) (2025-03-05)
+
+
+### Bug Fixes
+
+* or-2670 handle migration for deleted verenigingen in insz projection ([e63a465](https://github.com/informatievlaanderen/association-registry/commit/e63a46513bb004d2b63b04b316f44dd7244d2310))
+* use right folder naming ([c633cac](https://github.com/informatievlaanderen/association-registry/commit/c633cace3c9625ae37b27292787ba74df32eda08))
+
 ## [8.213.3](https://github.com/informatievlaanderen/association-registry/compare/v8.213.2...v8.213.3) (2025-02-27)
 
 
