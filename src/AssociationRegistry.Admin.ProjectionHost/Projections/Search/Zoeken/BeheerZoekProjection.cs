@@ -7,7 +7,7 @@ using Schema;
 using Schema.Constants;
 using Schema.Search;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Doelgroep = Schema.Search.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using WellknownFormats = Constants.WellknownFormats;

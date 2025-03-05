@@ -7,7 +7,7 @@ using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Collections.Immutable;
-using Vereniging.Verenigingstype;
+
 using LogLevel = LogLevel;
 
 public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService

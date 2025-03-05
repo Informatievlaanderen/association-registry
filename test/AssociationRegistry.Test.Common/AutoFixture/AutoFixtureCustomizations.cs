@@ -9,7 +9,7 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using Vereniging.Verenigingstype;
+
 using Vereniging.Websites;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Vereniging.Lidmaatschap;

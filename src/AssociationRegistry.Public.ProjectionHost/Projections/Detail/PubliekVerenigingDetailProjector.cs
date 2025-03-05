@@ -8,7 +8,7 @@ using Marten.Events;
 using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using AdresFormatter = Formats.AdresFormatter;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;

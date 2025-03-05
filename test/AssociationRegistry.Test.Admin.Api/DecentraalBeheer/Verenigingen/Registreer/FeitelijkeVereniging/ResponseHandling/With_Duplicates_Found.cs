@@ -16,6 +16,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ResultNet;
+using Vereniging;
 using Wolverine;
 using Xunit;
 
@@ -42,10 +43,10 @@ public class With_Duplicates_Found
 
         actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen.Should()
                                          .AllSatisfy(x => x.Verenigingstype.Code.Should()
-                                                           .Be(Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Code))
+                                                           .Be(Verenigingstype.FeitelijkeVereniging.Code))
                                          .And
                                          .AllSatisfy(x => x.Verenigingstype.Naam.Should()
-                                                           .Be(Vereniging.Verenigingstype.Verenigingstype.FeitelijkeVereniging.Naam));
+                                                           .Be(Verenigingstype.FeitelijkeVereniging.Naam));
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
@@ -55,8 +56,8 @@ public class With_Duplicates_Found
         {
             Verenigingstype = new DuplicaatVereniging.VerenigingsType()
             {
-                Code = Vereniging.Verenigingstype.Verenigingstype.VZER.Code,
-                Naam = Vereniging.Verenigingstype.Verenigingstype.VZER.Naam,
+                Code = Verenigingstype.VZER.Code,
+                Naam = Verenigingstype.VZER.Naam,
             },
         }));
 

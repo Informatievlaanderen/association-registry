@@ -5,7 +5,7 @@ using Kbo;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.TelefoonNummers;
-using Vereniging.Verenigingstype;
+
 using Vereniging.Websites;
 
 public static class KboCustomizations

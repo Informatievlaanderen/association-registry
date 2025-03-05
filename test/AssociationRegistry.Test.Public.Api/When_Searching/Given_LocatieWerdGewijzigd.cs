@@ -8,7 +8,7 @@ using FluentAssertions;
 using Formats;
 using templates;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 

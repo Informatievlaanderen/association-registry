@@ -6,7 +6,7 @@ using JsonLdContext;
 using Schema;
 using Schema.Detail;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Adres = Schema.Detail.Adres;
 using AdresId = Schema.Detail.AdresId;
 using Contactgegeven = Schema.Detail.Contactgegeven;

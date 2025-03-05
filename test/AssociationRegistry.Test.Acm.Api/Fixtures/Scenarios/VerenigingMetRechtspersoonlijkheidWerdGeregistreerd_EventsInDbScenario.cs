@@ -7,7 +7,7 @@ using Events;
 using EventStore;
 using Framework;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_EventsInDbScenario : IEventsInDbScenario
 {

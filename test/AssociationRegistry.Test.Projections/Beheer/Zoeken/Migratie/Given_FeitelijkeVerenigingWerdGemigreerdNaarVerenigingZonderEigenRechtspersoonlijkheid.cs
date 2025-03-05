@@ -2,7 +2,8 @@ namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Migratie;
 
 using Admin.Schema.Search;
 using Scenario.Migratie;
-using Vereniging.Verenigingstype;
+using Vereniging;
+
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerZoekenScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)

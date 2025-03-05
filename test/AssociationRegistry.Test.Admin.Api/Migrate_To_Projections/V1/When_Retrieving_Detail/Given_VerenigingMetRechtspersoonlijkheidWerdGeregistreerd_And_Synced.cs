@@ -10,7 +10,7 @@ using AssociationRegistry.Vereniging.Bronnen;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
 using System.Net;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;

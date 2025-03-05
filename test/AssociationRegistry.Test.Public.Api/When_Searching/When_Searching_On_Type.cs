@@ -11,7 +11,7 @@ using Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;

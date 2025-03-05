@@ -2,7 +2,8 @@
 
 using Public.Schema.Detail;
 using Scenario.Migratie;
-using Vereniging.Verenigingstype;
+using Vereniging;
+
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(PubliekDetailScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)

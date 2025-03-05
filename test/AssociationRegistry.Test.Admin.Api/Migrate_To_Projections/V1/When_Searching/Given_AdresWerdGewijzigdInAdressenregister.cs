@@ -8,7 +8,7 @@ using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 

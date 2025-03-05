@@ -5,7 +5,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Vereniging.Verenigingstype;
+
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
 

@@ -11,7 +11,7 @@ using NodaTime;
 using System.Dynamic;
 using Vereniging;
 using Vereniging.Bronnen;
-using Vereniging.Verenigingstype;
+
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 

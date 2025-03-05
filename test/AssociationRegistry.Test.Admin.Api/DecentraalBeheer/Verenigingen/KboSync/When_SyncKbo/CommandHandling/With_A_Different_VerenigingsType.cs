@@ -14,7 +14,7 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 

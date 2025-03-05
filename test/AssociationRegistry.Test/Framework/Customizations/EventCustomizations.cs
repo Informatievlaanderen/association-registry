@@ -7,7 +7,7 @@ using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;
 using Vereniging.TelefoonNummers;
-using Vereniging.Verenigingstype;
+
 
 public static class EventCustomizations
 {

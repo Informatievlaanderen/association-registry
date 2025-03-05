@@ -4,7 +4,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;

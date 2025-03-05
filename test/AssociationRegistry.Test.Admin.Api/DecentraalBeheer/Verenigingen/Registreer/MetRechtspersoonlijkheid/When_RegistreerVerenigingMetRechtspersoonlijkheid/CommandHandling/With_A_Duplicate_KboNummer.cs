@@ -14,7 +14,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 

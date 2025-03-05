@@ -4,7 +4,7 @@ using AssociationRegistry.DuplicateVerenigingDetection;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.Verenigingstype;
+
 
 public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDuplicatesResponse>
 {

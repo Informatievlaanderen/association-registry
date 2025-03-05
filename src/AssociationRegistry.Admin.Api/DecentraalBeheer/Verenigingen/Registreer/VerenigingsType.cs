@@ -2,7 +2,8 @@
 
 using DuplicateVerenigingDetection;
 using System.Runtime.Serialization;
-using Vereniging.Verenigingstype;
+using Vereniging;
+
 
 [DataContract]
 public class VerenigingsType : IVerenigingstype

@@ -7,7 +7,7 @@ using Vereniging;
 using Vereniging.Bronnen;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.Verenigingstype;
+
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;

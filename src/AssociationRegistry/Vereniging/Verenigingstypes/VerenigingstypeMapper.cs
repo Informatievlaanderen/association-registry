@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Vereniging.Verenigingstype;
+﻿namespace AssociationRegistry.Vereniging;
 
 public interface IVerenigingstypeMapper
 {

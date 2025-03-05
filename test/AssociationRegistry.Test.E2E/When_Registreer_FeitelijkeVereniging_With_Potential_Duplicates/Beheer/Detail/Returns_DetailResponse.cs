@@ -13,7 +13,7 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Vereniging;
 using Vereniging.Bronnen;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 

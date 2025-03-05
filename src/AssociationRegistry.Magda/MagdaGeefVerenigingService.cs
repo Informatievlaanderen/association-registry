@@ -12,7 +12,7 @@ using Models.GeefOnderneming;
 using Onderneming.GeefOnderneming;
 using ResultNet;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 
 public class MagdaGeefVerenigingService : IMagdaGeefVerenigingService
 {
