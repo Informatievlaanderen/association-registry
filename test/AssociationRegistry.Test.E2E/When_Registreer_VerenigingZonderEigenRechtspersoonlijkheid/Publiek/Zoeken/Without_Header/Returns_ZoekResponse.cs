@@ -31,7 +31,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,

@@ -15,17 +15,24 @@ public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequ
     public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 
-    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
+    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+
         RequestResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+    }
+
+    public override async ValueTask Init()    {
+
     }
 }

@@ -5,8 +5,8 @@ using Framework.AlbaHost;
 using System.Net;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Vereniging_Not_Found : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+public class Returns_Vereniging_Not_Found : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;
 
@@ -23,12 +23,12 @@ public class Returns_Vereniging_Not_Found : IClassFixture<MarkeerAlsDubbelVanCon
 
     public HttpStatusCode Response { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = _context.ApiSetup.PublicApiHost.GetPubliekDetailStatusCode(_context.VCode);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

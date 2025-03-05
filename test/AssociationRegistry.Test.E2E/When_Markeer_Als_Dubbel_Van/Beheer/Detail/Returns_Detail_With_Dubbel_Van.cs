@@ -6,8 +6,8 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_With_Dubbel_Van : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+public class Returns_Detail_With_Dubbel_Van : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;
 
@@ -30,12 +30,12 @@ public class Returns_Detail_With_Dubbel_Van : IClassFixture<MarkeerAlsDubbelVanC
 
     public DetailVerenigingResponse Response { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

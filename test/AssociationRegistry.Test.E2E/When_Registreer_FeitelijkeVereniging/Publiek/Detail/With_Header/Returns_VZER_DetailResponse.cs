@@ -44,7 +44,7 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVeren
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,

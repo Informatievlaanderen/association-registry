@@ -84,10 +84,14 @@ nuget WolverineFx.AmazonSqs
 nuget WolverineFx.Marten
 
 nuget Microsoft.NET.Test.Sdk
-nuget xunit
-nuget xunit.assert
 nuget xunit.runner.visualstudio
+nuget xunit.assert
 nuget xunit.categories
+nuget xunit.v3 < 2.0.0
+nuget xunit.analyzers < 2.0.0
+nuget xunit.v3.assert < 2.0.0
+nuget xunit.v3.runner.common  < 2.0.0
+nuget xunit.v3.runner.utility  < 2.0.0
 
 nuget Asp.Versioning.Mvc.ApiExplorer 8.0.0
 

@@ -15,13 +15,17 @@ public class WijzigLidmaatschapContext: TestContextBase<WijzigLidmaatschapReques
     public VCode VCode => RequestResult.VCode;
     public LidmaatschapWerdToegevoegdScenario Scenario { get; }
 
-    public WijzigLidmaatschapContext(FullBlownApiSetup apiSetup)
+    public WijzigLidmaatschapContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
+    {
+    }
+
+    public override async ValueTask Init()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);

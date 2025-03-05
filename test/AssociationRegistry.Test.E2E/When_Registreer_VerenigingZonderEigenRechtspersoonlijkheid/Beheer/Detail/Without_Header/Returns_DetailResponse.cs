@@ -40,7 +40,7 @@ public class Returns_DetailResponse :
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,

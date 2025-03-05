@@ -13,14 +13,17 @@ public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 
-    public StopVerenigingContext(FullBlownApiSetup apiSetup)
+    public StopVerenigingContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         _werdGeregistreerdScenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

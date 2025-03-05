@@ -10,7 +10,6 @@ using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext>, IAsyncLifetime
@@ -26,7 +25,7 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
 
     [Theory (Skip = "to replace with a singular duplicate test strategy")]
     [MemberData(nameof(Scenarios))]
-    public async Task WithDuplicateVerenigingen(RegistreerFeitelijkeVerenigingRequest request, string[] expectedDuplicateVerenigingen)
+    public async ValueTask WithDuplicateVerenigingen(RegistreerFeitelijkeVerenigingRequest request, string[] expectedDuplicateVerenigingen)
     {
         _testOutputHelper.WriteLine(request.Naam);
         var response = await (await _context.ApiSetup.AdminApiHost.Scenario(s =>
@@ -117,9 +116,9 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
         return duplicates;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await Task.CompletedTask;
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
         => await Task.CompletedTask;
 }

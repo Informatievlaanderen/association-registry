@@ -69,14 +69,17 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
     private MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenario _scenario;
 
 
-    public RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext(FullBlownApiSetup apiSetup)
+    public RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         _scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_scenario);
 
         await ApiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));

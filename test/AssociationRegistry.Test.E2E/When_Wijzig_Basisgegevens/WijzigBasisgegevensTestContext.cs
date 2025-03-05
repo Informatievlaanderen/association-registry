@@ -16,13 +16,16 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
     public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
     public VCode VCode => RequestResult.VCode;
 
-    public WijzigBasisgegevensTestContext(FullBlownApiSetup apiSetup)
+    public WijzigBasisgegevensTestContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         _werdGeregistreerdScenario = new(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);

@@ -32,7 +32,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
     }
 
     [Fact]
-    public async Task WithVerenigingMetRechtspersoonlijkheid()
+    public async ValueTask WithVerenigingMetRechtspersoonlijkheid()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,

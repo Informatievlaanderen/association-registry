@@ -22,6 +22,10 @@ using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_DetailResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingDetailResponse>
 {
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.RequestResult.Sequence).GetAwaiter().GetResult();
+
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
     public Returns_VZER_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
@@ -44,7 +48,7 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerVerenigingZonde
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -73,8 +77,4 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerVerenigingZonde
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
-
-
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.RequestResult.Sequence).GetAwaiter().GetResult();
 }

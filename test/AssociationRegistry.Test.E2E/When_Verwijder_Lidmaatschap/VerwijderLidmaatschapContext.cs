@@ -15,14 +15,17 @@ public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
     public VCode VCode => RequestResult.VCode;
     public LidmaatschapWerdToegevoegdScenario Scenario { get; }
 
-    public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup)
+    public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
