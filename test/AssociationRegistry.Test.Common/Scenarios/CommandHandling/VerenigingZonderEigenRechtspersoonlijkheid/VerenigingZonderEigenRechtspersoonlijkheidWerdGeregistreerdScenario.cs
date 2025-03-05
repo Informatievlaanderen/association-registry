@@ -8,36 +8,36 @@ using global::AutoFixture;
 public class VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
 
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
     }
 
     public override IEnumerable<IEvent> Events()
         => new IEvent[]
         {
-            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
         };
 }
 
-public class VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario : CommandhandlerScenarioBase
+public class VerborgenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
 
-    public VerborgenFeitelijkeVerenigingWerdGeregistreerdScenario()
+    public VerborgenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
     }
 
     public override IEnumerable<IEvent> Events()
         => new IEvent[]
         {
-            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
         };
 }
