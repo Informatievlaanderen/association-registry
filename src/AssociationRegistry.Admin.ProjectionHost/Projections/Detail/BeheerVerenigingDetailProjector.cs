@@ -70,6 +70,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER),
+            Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -831,6 +832,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER);
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald);
     }
 
     public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)

@@ -27,6 +27,15 @@ public class Subtype : ISubtype
 
     public static bool IsGeenSubVereniging(string code)
         => code != SubVereniging.Code;
+
+    public bool IsFeitelijkeVereniging
+        => Code == FeitelijkeVereniging.Code;
+
+    public bool IsNogNietBepaald
+        => Code == NogNietBepaald.Code;
+
+    public bool IsSubVereniging
+        => Code == SubVereniging.Code;
 }
 
 public interface ISubtype

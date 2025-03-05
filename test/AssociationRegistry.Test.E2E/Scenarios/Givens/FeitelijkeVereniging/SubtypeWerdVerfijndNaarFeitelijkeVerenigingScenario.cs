@@ -25,17 +25,13 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.Tes
             VCode = await service.GetNext(),
         };
 
-        var subtypeWerdVerfijndNaarFeitelijkeVereniging = new SubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: vzer.VCode,
-            Subtype: new Registratiedata.Subtype(Subtype.FeitelijkeVereniging.Code,Subtype.FeitelijkeVereniging.Naam));
-
         SubtypeWerdVerfijndNaarFeitelijkeVereniging = new SubtypeWerdVerfijndNaarFeitelijkeVereniging(
             VCode: vzer.VCode,
             Subtype: new Registratiedata.Subtype(Subtype.NogNietBepaald.Code,Subtype.NogNietBepaald.Naam));
 
         return
         [
-            new(vzer.VCode, [vzer, subtypeWerdVerfijndNaarFeitelijkeVereniging, SubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(vzer.VCode, [vzer, SubtypeWerdVerfijndNaarFeitelijkeVereniging]),
         ];
     }
 

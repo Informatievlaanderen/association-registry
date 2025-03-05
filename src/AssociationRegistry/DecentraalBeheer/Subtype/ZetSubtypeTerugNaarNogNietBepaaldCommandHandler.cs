@@ -3,26 +3,23 @@
 using Framework;
 using Vereniging;
 
-public class WijzigSubtypeCommandHandler
+public class ZetSubtypeTerugNaarNogNietBepaaldCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingRepository;
 
-    public WijzigSubtypeCommandHandler(IVerenigingsRepository verenigingRepository)
+    public ZetSubtypeTerugNaarNogNietBepaaldCommandHandler(IVerenigingsRepository verenigingRepository)
     {
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<WijzigSubtypeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand> envelope, CancellationToken cancellationToken = default)
     {
         var vereniging =
             await _verenigingRepository.Load<Vereniging>(
                 VCode.Create(envelope.Command.VCode),
                 envelope.Metadata.ExpectedVersion);
 
-            //if (await _verenigingRepository.IsVerwijderd(teWijzigenSubtype.AndereVereniging))
-            //    throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
-            // vereniging.WijzigSubtype
-
+        vereniging.ZetSubtypeNaarNogNietBepaald();
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 

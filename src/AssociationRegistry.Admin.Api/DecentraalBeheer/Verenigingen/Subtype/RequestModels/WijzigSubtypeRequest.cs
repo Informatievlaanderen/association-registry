@@ -31,32 +31,20 @@ public class WijzigSubtypeRequest
     [DataMember]
     public string? Beschrijving { get; set; } = string.Empty;
 
-    public WijzigSubtypeCommand ToCommand(string vCodeAsString, string? andereVerenigingNaam)
-    {
-        var subtype = AssociationRegistry.Vereniging.Subtype.Parse(Subtype);
-        var vCode = VCode.Create(vCodeAsString);
+    public VerfijnSubtypeNaarFeitelijkeVerenigingCommand ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(string vCodeAsString)
+        => new(VCode.Create(vCodeAsString));
 
-        return subtype.Code switch
-        {
-            var code when IsFeitelijkeVereniging(code)
-                => new WijzigSubtypeCommand(vCode, new WijzigSubtypeCommand.TeWijzigenNaarFeitelijkeVereniging(subtype)),
+    public ZetSubtypeTerugNaarNogNietBepaaldCommand ToZetSubtypeTerugNaarNogNietBepaaldCommand(string vCodeAsString)
+        => new(VCode.Create(vCodeAsString));
 
-            var code when IsNogNietBepaald(code)
-                => new WijzigSubtypeCommand(vCode, new WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald(subtype)),
-
-            var code when IsSubVereniging(code)
-                => new WijzigSubtypeCommand(
-                    vCode,
-                    new WijzigSubtypeCommand.TeWijzigenSubtype(
-                        subtype,
-                        VCode.Create(AndereVereniging!),
-                        andereVerenigingNaam,
-                        SubtypeIdentificatie.Create(Identificatie ?? string.Empty),
-                        SubtypeBeschrijving.Create(Beschrijving ?? string.Empty))),
-
-            _ => throw new ArgumentException($"Unknown subtype: {Subtype}"),
-        };
-    }
+    public WijzigSubtypeCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
+        => new(
+            VCode.Create(vCodeAsString),
+            new WijzigSubtypeCommand.TeWijzigenSubtype(
+                VCode.Create(AndereVereniging!),
+                andereVerenigingNaam,
+                SubtypeIdentificatie.Create(Identificatie ?? string.Empty),
+                SubtypeBeschrijving.Create(Beschrijving ?? string.Empty)));
 
     private bool IsFeitelijkeVereniging(string code)
         => code == AssociationRegistry.Vereniging.Subtype.FeitelijkeVereniging.Code;
