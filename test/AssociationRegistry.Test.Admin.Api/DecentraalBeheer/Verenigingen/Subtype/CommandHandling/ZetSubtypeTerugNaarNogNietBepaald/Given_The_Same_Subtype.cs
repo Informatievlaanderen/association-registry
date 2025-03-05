@@ -1,18 +1,17 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.TerugTeZettenNaarNietBepaald;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNogNietBepaald;
 
 using AssociationRegistry.DecentraalBeheer.Subtype;
-using AssociationRegistry.Events;
+using Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;
 
 [UnitTest]
-public class Given_A_Reeds_FeitelijkeVereniging_As_Subtype
+public class Given_The_Same_Subtype
 {
     [Fact]
     public async Task Then_No_Event_Is_Saved()
@@ -23,16 +22,11 @@ public class Given_A_Reeds_FeitelijkeVereniging_As_Subtype
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new WijzigSubtypeCommandHandler(verenigingRepositoryMock);
+        var commandHandler = new ZetSubtypeTerugNaarNogNietBepaaldCommandHandler(verenigingRepositoryMock);
 
-        var command = new WijzigSubtypeCommand(
-            VCode: scenario.VCode,
-            SubtypeData: new WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald(
-                new Subtype(
-                    Subtype.NogNietBepaald.Code,
-                    Subtype.NogNietBepaald.Naam)));
+        var command = new ZetSubtypeTerugNaarNogNietBepaaldCommand(scenario.VCode);
 
-        await commandHandler.Handle(new CommandEnvelope<WijzigSubtypeCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(new CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
 
         verenigingRepositoryMock.ShouldNotHaveSaved<SubtypeWerdTerugGezetNaarNogNietBepaald>();
     }

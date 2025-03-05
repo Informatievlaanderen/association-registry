@@ -272,7 +272,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         }
     }
 
-    public void WijzigSubtypeNaarFeitelijkeVereniging()
+    public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
         if(State.Subtype == Subtype.FeitelijkeVereniging)
             return;

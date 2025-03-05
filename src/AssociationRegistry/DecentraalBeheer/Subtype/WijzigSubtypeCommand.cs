@@ -4,20 +4,11 @@ using Vereniging;
 
 public record WijzigSubtypeCommand(
     VCode VCode,
-    IWijzigSubtypeCommand SubtypeData)
+    WijzigSubtypeCommand.TeWijzigenSubtype SubtypeData): IWijzigSubtypeCommand
 {
     public record TeWijzigenSubtype(
-        Subtype Subtype,
         VCode? AndereVereniging,
         string? AndereVerenigingNaam,
         SubtypeIdentificatie? Identificatie,
-        SubtypeBeschrijving? Beschrijving) : IWijzigSubtypeCommand;
-
-    public record TeWijzigenNaarFeitelijkeVereniging(Subtype Subtype) : IWijzigSubtypeCommand;
-    public record TerugTeZettenNaarNogNietBepaald(Subtype Subtype) : IWijzigSubtypeCommand;
-}
-
-public interface IWijzigSubtypeCommand
-{
-    public Subtype Subtype { get; init; }
+        SubtypeBeschrijving? Beschrijving);
 }

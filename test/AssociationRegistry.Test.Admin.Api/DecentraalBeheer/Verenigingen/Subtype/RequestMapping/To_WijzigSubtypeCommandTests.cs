@@ -14,7 +14,7 @@ using Xunit.Categories;
 public class To_WijzigSubtypeCommandTests
 {
     [Fact]
-    public void With_Subtype_FeitelijkeVereniging_Then_We_Get_A_TeWijzigenNaarFeitelijkeVereniging_As_SubtypeData_Command()
+    public void With_Subtype_FeitelijkeVereniging_Then_We_Get_A_VerfijnSubtypeNaarFeitelijkeVerenigingCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -24,15 +24,14 @@ public class To_WijzigSubtypeCommandTests
         };
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode, null);
+        var command = request.ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(vCode);
 
         command.VCode.Should().Be(vCode);
-        command.SubtypeData.Subtype.Should().Be(Subtype.Parse(request.Subtype));
-        command.SubtypeData.Should().BeOfType(typeof(WijzigSubtypeCommand.TeWijzigenNaarFeitelijkeVereniging));
+        command.Should().BeOfType(typeof(VerfijnSubtypeNaarFeitelijkeVerenigingCommand));
     }
 
     [Fact]
-    public void With_Subtype_NogNietBepaald_Then_We_Get_A_TerugTeZettenNaarNogNietBepaald_As_SubtypeData_Command()
+    public void With_Subtype_NogNietBepaald_Then_We_Get_A_ZetSubtypeTerugNaarNogNietBepaaldCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -42,11 +41,10 @@ public class To_WijzigSubtypeCommandTests
         };
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToCommand(vCode, null);
+        var command = request.ToZetSubtypeTerugNaarNogNietBepaaldCommand(vCode);
 
         command.VCode.Should().Be(vCode);
-        command.SubtypeData.Subtype.Should().Be(Subtype.Parse(request.Subtype));
-        command.SubtypeData.Should().BeOfType(typeof(WijzigSubtypeCommand.TerugTeZettenNaarNogNietBepaald));
+        command.Should().BeOfType(typeof(ZetSubtypeTerugNaarNogNietBepaaldCommand));
     }
 
     [Fact]
@@ -64,15 +62,13 @@ public class To_WijzigSubtypeCommandTests
 
         var vCode = fixture.Create<VCode>();
         var naam = fixture.Create<string>();
-        var command = request.ToCommand(vCode, naam);
-        command.SubtypeData.Should().BeOfType(typeof(WijzigSubtypeCommand.TeWijzigenSubtype));
+        var command = request.ToWijzigSubtypeCommand(vCode, naam);
+        command.Should().BeOfType(typeof(WijzigSubtypeCommand));
 
-        var teWijzigenSubtype = command.SubtypeData as WijzigSubtypeCommand.TeWijzigenSubtype;
         command.VCode.Should().Be(vCode);
-        teWijzigenSubtype!.Subtype.Should().Be(Subtype.Parse(request.Subtype));
-        teWijzigenSubtype.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
-        teWijzigenSubtype.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
-        teWijzigenSubtype.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
-        teWijzigenSubtype.AndereVerenigingNaam.Should().Be(naam);
+        command.SubtypeData.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
+        command.SubtypeData.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
+        command.SubtypeData.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.SubtypeData.AndereVerenigingNaam.Should().Be(naam);
     }
 }

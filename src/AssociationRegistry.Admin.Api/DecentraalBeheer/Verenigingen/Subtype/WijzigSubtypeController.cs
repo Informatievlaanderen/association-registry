@@ -87,8 +87,39 @@ public class WijzigSubtypeController : ApiController
             ? (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))?.Naam
             : string.Empty;
 
-        var envelope = new CommandEnvelope<WijzigSubtypeCommand>(request.ToCommand(vCode, naam), metaData);
+        var gewenstSubtype = Subtype.Parse(request.Subtype);
+        CommandResult? commandResult = null;
+        if (gewenstSubtype.IsFeitelijkeVereniging)
+        {
+            var command = request.ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(vCode);
+            return await Handle(command, metaData, cancellationToken);
+        }
 
+        if (gewenstSubtype.IsNogNietBepaald)
+        {
+            var command = request.ToZetSubtypeTerugNaarNogNietBepaaldCommand(vCode);
+            return await Handle(command, metaData, cancellationToken);
+        }
+
+        if (gewenstSubtype.IsSubVereniging)
+        {
+            var command = request.ToWijzigSubtypeCommand(vCode, naam);
+            var envelope = new CommandEnvelope<WijzigSubtypeCommand>(command, metaData);
+            commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
+        }
+
+        if (!commandResult.HasChanges())
+            return Ok();
+
+        Response.AddSequenceHeader(commandResult.Sequence);
+        Response.AddETagHeader(commandResult.Version);
+
+        return Accepted();
+    }
+
+    public async Task<IActionResult> Handle<TCommand>(TCommand command, CommandMetadata metaData, CancellationToken cancellationToken = default)
+    {
+        var envelope = new CommandEnvelope<TCommand>(command, metaData);
         var commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
 
         if (!commandResult.HasChanges())
