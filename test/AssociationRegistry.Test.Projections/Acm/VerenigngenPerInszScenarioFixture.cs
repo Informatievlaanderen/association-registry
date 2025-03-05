@@ -5,6 +5,7 @@ using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
+using Marten.Linq.SoftDeletes;
 
 public class VerenigingenPerInszScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, VerenigingenPerInszDocument, ProjectionContext>(context)
