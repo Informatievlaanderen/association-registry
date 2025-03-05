@@ -11,12 +11,12 @@ using Scenarios.Requests.FeitelijkeVereniging;
 
 public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {
-    public RegistreerVerenigingMetRechtsperoonlijkheidTestContext(FullBlownApiSetup apiSetup)
+    public RegistreerVerenigingMetRechtsperoonlijkheidTestContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask Init()
     {
         await ApiSetup.ExecuteGiven(new EmptyScenario());
 
@@ -24,5 +24,9 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
 
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+    }
+
+    public override async ValueTask InitializeAsync()
+    {
     }
 }

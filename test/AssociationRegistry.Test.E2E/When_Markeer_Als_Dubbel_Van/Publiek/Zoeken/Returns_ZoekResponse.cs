@@ -10,7 +10,7 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
@@ -29,7 +29,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVa
     }
 
     [Fact]
-    public async Task With_Verenigingen_Empty()
+    public async ValueTask With_Verenigingen_Empty()
     {
         Response.Verenigingen.Should().BeEmpty();
     }

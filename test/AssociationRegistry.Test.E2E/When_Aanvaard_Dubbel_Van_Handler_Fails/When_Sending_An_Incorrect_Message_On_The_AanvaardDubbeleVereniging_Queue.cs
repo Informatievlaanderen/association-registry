@@ -15,7 +15,6 @@ using NodaTime;
 using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
-using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Given_Incorrect_VCode_In_The_Message
@@ -39,7 +38,7 @@ public class Given_Incorrect_VCode_In_The_Message
     /// VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler -> throws exception -> Message comes on dlq
     /// </summary>
     [Fact]
-    public async Task Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
+    public async ValueTask Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
     {
         var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
         var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();
@@ -66,7 +65,7 @@ public class Given_Incorrect_VCode_In_The_Message
     /// AanvaardDubbeleVerenigingMessageHandler -> throws uncaught exception -> puts AanvaardDubbeleVerenigingMessage on DLQ
     /// </summary>
     [Fact (Skip = "This breaks other tests.")]
-    public async Task Then_The_Dlq_Receives_AanvaardDubbeleVerenigingMessage()
+    public async ValueTask Then_The_Dlq_Receives_AanvaardDubbeleVerenigingMessage()
     {
         var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
         var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();

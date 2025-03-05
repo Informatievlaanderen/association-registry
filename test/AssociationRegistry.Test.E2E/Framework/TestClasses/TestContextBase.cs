@@ -7,15 +7,20 @@ using Scenarios.Requests;
 
 public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
 {
-    public abstract Task InitializeAsync();
-    public async Task DisposeAsync()
+    public TestContextBase(FullBlownApiSetup apiSetup)
+    {
+        ApiSetup = apiSetup;
+    }
+
+    public abstract ValueTask InitializeAsync();
+    public async ValueTask DisposeAsync()
     {
     }
 
     public IApiSetup ApiSetup { get; protected init; }
     public TRequest Request => RequestResult.Request;
 
-    public async virtual Task Init()
+    public async virtual ValueTask Init()
     {
     }
 

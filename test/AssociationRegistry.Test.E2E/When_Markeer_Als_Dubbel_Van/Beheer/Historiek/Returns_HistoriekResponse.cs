@@ -11,7 +11,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
 public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse

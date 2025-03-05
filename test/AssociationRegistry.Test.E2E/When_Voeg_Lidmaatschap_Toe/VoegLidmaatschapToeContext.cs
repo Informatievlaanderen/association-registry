@@ -15,14 +15,17 @@ public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequ
     public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 
-    public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup)
+    public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VoegLidmaatschapToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

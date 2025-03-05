@@ -13,14 +13,19 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
     private FeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 
-    public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup)
+    public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         _feitelijkeVerenigingWerdGeregistreerdScenario = new();
+
+        apiSetup.RegisterContext(this);
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
+    }
+
+    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_feitelijkeVerenigingWerdGeregistreerdScenario);
 
         var requestFactory = new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(

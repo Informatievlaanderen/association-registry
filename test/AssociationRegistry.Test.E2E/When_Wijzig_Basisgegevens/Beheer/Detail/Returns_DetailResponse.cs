@@ -43,7 +43,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,

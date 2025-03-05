@@ -9,7 +9,7 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVa
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
     {
         Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)
                 .CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);

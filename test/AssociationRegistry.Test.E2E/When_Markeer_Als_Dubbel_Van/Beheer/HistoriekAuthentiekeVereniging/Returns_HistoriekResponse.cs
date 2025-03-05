@@ -10,9 +10,8 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Xunit.Abstractions;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
 public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
 {
     private readonly ITestOutputHelper _helper;
@@ -26,7 +25,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
     }
 
     [Fact]
-    public async Task With_VCode()
+    public async ValueTask With_VCode()
     {
         var tryCounter = 0;
 
@@ -55,7 +54,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
     }
 
     [Fact]
-    public async Task With_All_Gebeurtenissen()
+    public async ValueTask With_All_Gebeurtenissen()
     {
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeDubbeleVereniging));
