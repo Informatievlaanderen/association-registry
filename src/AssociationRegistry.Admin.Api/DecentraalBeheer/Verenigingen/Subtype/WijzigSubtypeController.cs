@@ -15,6 +15,7 @@ using Infrastructure.Swagger.Examples;
 using Infrastructure.Validation;
 using Microsoft.AspNetCore.Mvc;
 using Queries;
+using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Wolverine;

@@ -1,9 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Verenigingen.Subtype;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Alba;
-using AutoFixture;
-using Common.AutoFixture;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
