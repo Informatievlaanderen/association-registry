@@ -14,21 +14,24 @@ public class WijzigSubtypeRequest
     public string Subtype { get; set; }
 
     /// <summary>
-    /// De vCode van de andere vereniging
+    /// De vCode van de andere vereniging.
+    /// <para>Enkel verplicht bij het verfijnen naar subverenging.</para>
     /// </summary>
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public string? AndereVereniging { get; set; }
 
     /// <summary>
     /// De externe identificatie voor het lidmaatschap
+    /// <para>Enkel verplicht bij het verfijnen naar subverenging.</para>
     /// </summary>
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public string? Identificatie { get; set; } = string.Empty;
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
+    /// <para>Enkel verplicht bij het verfijnen naar subverenging.</para>
     /// </summary>
-    [DataMember]
+    [DataMember(EmitDefaultValue = false)]
     public string? Beschrijving { get; set; } = string.Empty;
 
     public VerfijnSubtypeNaarFeitelijkeVerenigingCommand ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(string vCodeAsString)
