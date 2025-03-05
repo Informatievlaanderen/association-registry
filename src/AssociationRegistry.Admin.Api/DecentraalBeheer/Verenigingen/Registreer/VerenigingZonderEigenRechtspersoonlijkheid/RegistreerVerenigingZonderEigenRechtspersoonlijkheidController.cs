@@ -20,7 +20,7 @@ using Microsoft.AspNetCore.Mvc;
 using RequestModels;
 using ResultNet;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.Verenigingstype;
+
 using Wolverine;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using ValidationProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ValidationProblemDetails;

@@ -11,7 +11,7 @@ using Marten.Events.Aggregation;
 using Schema;
 using Schema.PowerBiExport;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVerenigingsloket;

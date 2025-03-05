@@ -5,7 +5,7 @@ using Nest;
 using Schema.Search;
 using System.Text.RegularExpressions;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
 

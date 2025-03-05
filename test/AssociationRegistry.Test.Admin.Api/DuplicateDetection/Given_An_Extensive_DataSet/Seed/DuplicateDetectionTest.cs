@@ -16,7 +16,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Vereniging.Verenigingstype;
+
 using Xunit.Abstractions;
 using Adres = Vereniging.Adres;
 using Locatie = Vereniging.Locatie;

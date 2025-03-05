@@ -11,7 +11,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Bronnen;
 using AutoFixture;
 using FluentAssertions;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 using Contactgegeven = AssociationRegistry.Admin.Schema.Detail.Contactgegeven;

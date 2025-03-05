@@ -10,7 +10,7 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 

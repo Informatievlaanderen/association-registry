@@ -6,7 +6,7 @@ using Events;
 using EventStore;
 using global::AutoFixture;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 
 public class V029_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data : IEventsInDbScenario
 {

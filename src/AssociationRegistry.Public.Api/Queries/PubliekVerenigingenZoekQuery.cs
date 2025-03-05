@@ -9,7 +9,7 @@ using Schema.Search;
 using System.Text;
 using System.Text.RegularExpressions;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Verenigingen.Search;
 using Verenigingen.Search.RequestModels;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;

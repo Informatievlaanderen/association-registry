@@ -4,7 +4,7 @@ using DuplicateVerenigingDetection;
 using Hosts.Configuration.ConfigurationBindings;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-using Vereniging.Verenigingstype;
+using Vereniging;
 
 [DataContract]
 public class PotentialDuplicatesResponse

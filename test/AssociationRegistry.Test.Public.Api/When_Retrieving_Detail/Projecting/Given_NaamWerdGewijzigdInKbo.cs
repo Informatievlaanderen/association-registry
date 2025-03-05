@@ -7,7 +7,7 @@ using Events;
 using FluentAssertions;
 using Framework;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 using Xunit;
 using Xunit.Categories;
 

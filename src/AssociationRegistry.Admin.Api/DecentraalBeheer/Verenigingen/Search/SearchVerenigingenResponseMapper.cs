@@ -7,7 +7,13 @@ using Infrastructure;
 using Nest;
 using RequestModels;
 using ResponseModels;
-using Vereniging.Verenigingstype;
+using Vereniging;
+using Doelgroep = Schema.Search.Doelgroep;
+using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
+using Lidmaatschap = ResponseModels.Lidmaatschap;
+using Locatie = ResponseModels.Locatie;
+using Vereniging = ResponseModels.Vereniging;
+using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseMapper
 {

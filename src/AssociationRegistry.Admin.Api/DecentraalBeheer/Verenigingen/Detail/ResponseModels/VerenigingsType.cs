@@ -3,7 +3,7 @@
 using Schema;
 using System.Runtime.Serialization;
 using Vereniging;
-using Vereniging.Verenigingstype;
+
 
 /// <summary>
 /// Het type van een vereniging

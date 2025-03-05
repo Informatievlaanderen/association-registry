@@ -12,7 +12,6 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Verenigingstype;
 using AutoFixture;
 using FluentAssertions;
 using Marten;

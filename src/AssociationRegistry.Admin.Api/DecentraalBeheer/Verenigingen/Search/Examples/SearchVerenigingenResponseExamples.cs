@@ -6,7 +6,7 @@ using JsonLdContext;
 using Vereniging;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
-using Vereniging.Verenigingstype;
+
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;

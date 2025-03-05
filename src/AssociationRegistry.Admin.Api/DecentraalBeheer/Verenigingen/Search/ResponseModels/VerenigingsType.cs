@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Verenigingstype;
 using System.Runtime.Serialization;
 
 [DataContract]
