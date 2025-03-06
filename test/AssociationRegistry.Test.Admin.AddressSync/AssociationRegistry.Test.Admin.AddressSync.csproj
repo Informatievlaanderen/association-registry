@@ -7,8 +7,14 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
-
+  <PropertyGroup>
+    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.AddressSync\AssociationRegistry.Admin.AddressSync.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />
@@ -17,10 +23,6 @@
   <ItemGroup>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Using Include="Xunit"/>
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets"/>

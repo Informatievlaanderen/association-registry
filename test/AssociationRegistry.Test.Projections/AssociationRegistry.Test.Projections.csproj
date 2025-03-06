@@ -8,6 +8,9 @@
     <LangVersion>12</LangVersion>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+  </PropertyGroup>
   <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>

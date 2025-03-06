@@ -8,6 +8,12 @@
     <LangVersion>12</LangVersion>
     <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <PropertyGroup>
+    <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+  </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.ProjectionHost\AssociationRegistry.Admin.ProjectionHost.csproj" />
@@ -46,24 +52,6 @@
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="CommandMetadata\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Dubbelbeheer\FeitelijkeVereniging\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\KboSync\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Lidmaatschap\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Locaties\VerenigingOfAnyKind\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Registreer\MetRechtspersoonlijkheid\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Stop\FeitelijkeVereniging\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Stop\VerenigingMetRechtspersoonlijkheid\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\FeitelijkeVereniging\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Vertegenwoordigers\VerenigingMetRechtspersoonlijkheid\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\Verwijder\" />
-    <Folder Include="DecentraalBeheer\Verenigingen\WijzigBasisgegevens\FeitelijkeVereniging\" />
-    <Folder Include="Documentation\" />
-    <Folder Include="Rebuilding\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
