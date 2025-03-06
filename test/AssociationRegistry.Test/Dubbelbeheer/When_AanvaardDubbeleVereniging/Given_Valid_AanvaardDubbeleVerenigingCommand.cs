@@ -10,6 +10,9 @@ using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using Moq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Wolverine;
 using Xunit;
 

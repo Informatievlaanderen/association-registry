@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.Http;
+using System;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;

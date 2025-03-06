@@ -12,7 +12,8 @@ using Vereniging;
 using Framework.Mappers;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;

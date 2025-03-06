@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Framework.Customizations;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
+using System;
+using System.Linq;
 using Vereniging;
 using Vereniging.Emails;
 using Vereniging.SocialMedias;

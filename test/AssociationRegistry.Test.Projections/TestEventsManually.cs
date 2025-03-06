@@ -9,6 +9,9 @@ using Events;
 using FluentAssertions.Extensions;
 using Marten;
 using Npgsql;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 using Vereniging = Public.Api.Verenigingen.DetailAll.ResponseModels.Vereniging;
 

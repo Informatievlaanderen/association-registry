@@ -4,6 +4,7 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

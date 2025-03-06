@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.Scenario.Adressen;
 
 using Events;
 using AutoFixture;
+using System.Linq;
 
 public class AdresWerdGewijzigdInAdressenregisterScenario : ScenarioBase
 {

@@ -3,6 +3,7 @@
 using Admin.ProjectionHost.Projections.Detail;
 using Formats;
 using Scenario.Adressen;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_AdresWerdGewijzigdInAdressenregister(

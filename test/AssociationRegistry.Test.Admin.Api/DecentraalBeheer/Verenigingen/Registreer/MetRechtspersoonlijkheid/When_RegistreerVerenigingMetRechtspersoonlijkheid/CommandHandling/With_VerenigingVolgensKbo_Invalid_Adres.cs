@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using System.Threading;
 using Xunit;
 using Xunit.Categories;
 

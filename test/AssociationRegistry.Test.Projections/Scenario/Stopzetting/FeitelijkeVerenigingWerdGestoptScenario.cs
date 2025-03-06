@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Scenario.Stopzetting;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using System;
 
 public class FeitelijkeVerenigingWerdGestoptScenario : ScenarioBase
 {

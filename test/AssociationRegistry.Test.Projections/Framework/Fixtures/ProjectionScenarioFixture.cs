@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
 using AutoFixture;
 using Common.AutoFixture;
+using System;
+using System.Threading.Tasks;
 
 public abstract class ProjectionScenarioFixture<TProjectionContext> : IDisposable, IAsyncLifetime
     where TProjectionContext : IProjectionContext

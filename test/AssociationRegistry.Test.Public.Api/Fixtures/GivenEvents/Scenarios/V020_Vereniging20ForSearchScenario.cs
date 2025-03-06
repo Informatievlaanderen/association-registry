@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using Events;
 using NodaTime;
+using System;
 using Vereniging;
 
 public class V020_Vereniging20ForSearchScenario : IScenario

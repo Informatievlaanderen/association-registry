@@ -7,6 +7,8 @@ using Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]

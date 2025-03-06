@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Events;
 using JsonLdContext;
+using System.Linq;
 using Vereniging;
 using Vereniging.Bronnen;
 using Contactgegeven = Admin.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;

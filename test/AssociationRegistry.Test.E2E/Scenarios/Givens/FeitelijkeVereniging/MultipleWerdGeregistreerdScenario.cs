@@ -6,6 +6,8 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
 {

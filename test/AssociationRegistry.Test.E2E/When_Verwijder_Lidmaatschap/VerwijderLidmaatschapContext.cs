@@ -8,6 +8,8 @@ using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
+using System;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>

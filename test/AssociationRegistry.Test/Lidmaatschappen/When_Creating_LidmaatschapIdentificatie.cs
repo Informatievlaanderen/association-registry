@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Lidmaatschappen;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using System;
 using Xunit;
 
 public class When_Creating_LidmaatschapIdentificatie

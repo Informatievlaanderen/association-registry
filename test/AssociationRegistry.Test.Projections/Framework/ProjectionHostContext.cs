@@ -4,6 +4,8 @@ using Alba;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using System;
+using System.Threading.Tasks;
 
 public record ProjectionHostContext
 {

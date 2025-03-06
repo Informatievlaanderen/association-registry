@@ -11,6 +11,9 @@ using EventStore;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class When_AdresWerdGeheradresseerd

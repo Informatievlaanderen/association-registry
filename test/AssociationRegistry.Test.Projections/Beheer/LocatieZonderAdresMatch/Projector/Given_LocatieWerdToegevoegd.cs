@@ -6,6 +6,8 @@ using AutoFixture;
 using Events;
 using Framework.Fixtures;
 using Marten;
+using System;
+using System.Threading.Tasks;
 using Vereniging;
 
 [Collection(nameof(MultiStreamTestCollection))]

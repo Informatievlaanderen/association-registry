@@ -8,6 +8,7 @@ using Vereniging;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens.MetRechtspersoonlijkheid;
+using System.Threading.Tasks;
 using WijzigBasisgegevensRequestFactory = Scenarios.Requests.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevensRequestFactory;
 
 public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgegevensRequest>

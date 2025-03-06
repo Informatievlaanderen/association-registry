@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Regis
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

@@ -13,6 +13,8 @@ using Kbo;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

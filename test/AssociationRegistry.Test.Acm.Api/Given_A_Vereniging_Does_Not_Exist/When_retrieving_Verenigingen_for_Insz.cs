@@ -4,6 +4,8 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using templates;
 using Xunit;
 using Xunit.Categories;

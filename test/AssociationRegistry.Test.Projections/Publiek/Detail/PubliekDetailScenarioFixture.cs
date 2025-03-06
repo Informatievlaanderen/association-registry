@@ -5,6 +5,8 @@ using Marten;
 using Marten.Events.Daemon;
 using Public.ProjectionHost.Projections;
 using Public.Schema.Detail;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class PubliekDetailScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, PubliekVerenigingDetailDocument, ProjectionContext>(context)

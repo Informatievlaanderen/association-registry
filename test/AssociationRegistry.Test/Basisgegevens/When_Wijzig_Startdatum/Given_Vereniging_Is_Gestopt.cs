@@ -9,6 +9,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using EventFactories;
 using FluentAssertions;
+using System;
 using Xunit;
 
 public class Given_Vereniging_Is_Gestopt

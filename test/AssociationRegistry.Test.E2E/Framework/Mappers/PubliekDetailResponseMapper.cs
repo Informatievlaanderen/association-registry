@@ -4,6 +4,7 @@ using Admin.Api.Verenigingen.Common;
 using Events;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using System.Linq;
 using Vereniging;
 using Contactgegeven = Public.Api.Verenigingen.Detail.ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = Public.Api.Verenigingen.Detail.ResponseModels.HoofdactiviteitVerenigingsloket;

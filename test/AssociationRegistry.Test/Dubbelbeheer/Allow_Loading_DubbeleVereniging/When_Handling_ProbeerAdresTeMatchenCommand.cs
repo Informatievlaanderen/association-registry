@@ -7,6 +7,8 @@ using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
 using Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class When_Handling_ProbeerAdresTeMatchenCommand : When_Loading_With_Dubbels_TestBase

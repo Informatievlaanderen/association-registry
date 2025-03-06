@@ -12,6 +12,10 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
+using System;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

@@ -10,10 +10,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+
   <ItemGroup>
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />

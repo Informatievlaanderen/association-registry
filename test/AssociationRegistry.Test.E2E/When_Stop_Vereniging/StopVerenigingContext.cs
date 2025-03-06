@@ -7,6 +7,8 @@ using Vereniging;
 using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
+using System;
+using System.Threading.Tasks;
 
 public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {

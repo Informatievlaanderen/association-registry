@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using System.Threading;
 using Xunit;
 
 public class With_A_Einddatum

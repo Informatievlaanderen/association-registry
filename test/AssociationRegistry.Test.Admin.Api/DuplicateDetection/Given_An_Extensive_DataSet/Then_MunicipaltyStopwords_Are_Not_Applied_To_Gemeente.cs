@@ -4,6 +4,8 @@ using AutoFixture;
 using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Seed;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

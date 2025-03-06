@@ -8,7 +8,9 @@ using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
 using Primitives;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaatschapRequest>

@@ -9,6 +9,8 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Requests;
+using System;
+using System.Threading.Tasks;
 
 public class CorrigeerMarkeringAlsDubbelVanContext: TestContextBase<NullRequest>
 {

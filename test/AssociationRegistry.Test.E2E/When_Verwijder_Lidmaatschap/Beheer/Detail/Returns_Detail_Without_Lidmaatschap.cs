@@ -4,6 +4,8 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.VerwijderLidmaatschap)]

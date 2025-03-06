@@ -10,6 +10,9 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
 using Xunit;
 
 public class PubliekGetAllTests

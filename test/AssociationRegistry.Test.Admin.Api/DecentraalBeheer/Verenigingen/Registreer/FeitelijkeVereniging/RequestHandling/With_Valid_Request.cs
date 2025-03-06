@@ -19,6 +19,7 @@ using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
 using ResultNet;
+using System.Threading.Tasks;
 using Wolverine;
 using Xunit;
 

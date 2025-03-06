@@ -12,7 +12,9 @@ using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;

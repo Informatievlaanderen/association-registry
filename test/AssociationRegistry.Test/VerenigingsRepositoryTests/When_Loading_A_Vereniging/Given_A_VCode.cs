@@ -10,6 +10,8 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using FluentAssertions;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

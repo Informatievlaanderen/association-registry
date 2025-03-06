@@ -8,6 +8,8 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.MarkeerAlsDubbelVan)]

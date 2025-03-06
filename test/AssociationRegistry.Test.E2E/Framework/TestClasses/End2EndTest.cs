@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using ApiSetup;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 public abstract class End2EndTest<TContext, TRequest, TResponse>: IAsyncLifetime

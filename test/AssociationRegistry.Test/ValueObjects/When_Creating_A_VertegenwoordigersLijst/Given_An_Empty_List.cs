@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Vertegenwoordige
 
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
+using System;
 using Xunit;
 using Xunit.Categories;
 

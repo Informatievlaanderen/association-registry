@@ -14,9 +14,14 @@ using CsvHelper.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
-
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Xunit;
 using Adres = Vereniging.Adres;
 using Locatie = Vereniging.Locatie;
 

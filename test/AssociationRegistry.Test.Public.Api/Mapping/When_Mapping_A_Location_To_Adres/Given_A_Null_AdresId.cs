@@ -7,6 +7,7 @@ using AutoFixture;
 using FluentAssertions;
 using Framework;
 using Moq;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

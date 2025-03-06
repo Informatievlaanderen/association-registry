@@ -1,6 +1,9 @@
 namespace AssociationRegistry.Test.Admin.Api.DuplicateDetection.Given_An_Extensive_DataSet.Seed;
 
 using CsvHelper.Configuration.Attributes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 public record DuplicateDetectionSeedLine(
     [property: Name("GeregistreerdeNaam")] string GeregistreerdeNaam,

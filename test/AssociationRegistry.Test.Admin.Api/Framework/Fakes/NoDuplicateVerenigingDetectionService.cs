@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
 using DuplicateVerenigingDetection;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class NoDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService

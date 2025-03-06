@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOf
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.WijzigVertegenwoordiger.RequestModels;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using Moq;
+using System.Threading.Tasks;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

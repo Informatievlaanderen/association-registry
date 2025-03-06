@@ -5,6 +5,8 @@ using Marten;
 using Marten.Events.Daemon;
 using NodaTime;
 using NodaTime.Text;
+using System;
+using System.Threading.Tasks;
 
 public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext context) : IAsyncLifetime
     where TScenario : IScenario, new()

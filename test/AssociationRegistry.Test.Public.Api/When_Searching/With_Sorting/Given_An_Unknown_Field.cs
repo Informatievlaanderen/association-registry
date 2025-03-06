@@ -7,6 +7,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Resources;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

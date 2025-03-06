@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using Scenarios;
+using System.Threading.Tasks;
 
 public class EventsInDbScenariosFixture : AcmApiFixture
 {

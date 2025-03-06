@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

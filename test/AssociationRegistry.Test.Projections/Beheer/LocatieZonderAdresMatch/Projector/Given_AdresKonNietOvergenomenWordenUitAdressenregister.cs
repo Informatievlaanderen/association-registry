@@ -8,6 +8,7 @@ using Framework.Fixtures;
 using Grar;
 using Grar.Clients;
 using Marten;
+using System.Threading.Tasks;
 
 [Collection(nameof(MultiStreamTestCollection))]
 public class Given_AdresKonNietOvergenomenWordenUitAdressenregister : IClassFixture<

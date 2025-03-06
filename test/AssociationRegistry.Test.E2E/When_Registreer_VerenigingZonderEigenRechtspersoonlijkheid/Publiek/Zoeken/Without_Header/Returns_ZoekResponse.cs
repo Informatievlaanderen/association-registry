@@ -10,7 +10,9 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
-
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 

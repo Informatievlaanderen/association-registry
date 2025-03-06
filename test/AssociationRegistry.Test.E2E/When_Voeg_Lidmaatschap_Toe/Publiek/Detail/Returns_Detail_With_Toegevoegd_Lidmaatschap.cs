@@ -5,6 +5,9 @@ using Framework.AlbaHost;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 

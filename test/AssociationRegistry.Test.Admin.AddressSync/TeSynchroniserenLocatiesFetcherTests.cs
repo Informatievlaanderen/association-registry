@@ -16,6 +16,7 @@ using Messages;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Vereniging;
+using Xunit;
 
 public class TeSynchroniserenLocatiesFetcherTests
 {

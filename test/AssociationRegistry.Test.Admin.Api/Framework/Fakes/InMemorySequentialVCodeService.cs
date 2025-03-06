@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 
+using System.Threading.Tasks;
 using Vereniging;
 
 public class InMemorySequentialVCodeService : IVCodeService

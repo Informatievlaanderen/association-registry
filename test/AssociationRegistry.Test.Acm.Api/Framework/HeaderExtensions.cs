@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Acm.Api.Framework;
 
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
+using System.Linq;
 using System.Net.Http.Headers;
 
 public static class HeaderExtensions

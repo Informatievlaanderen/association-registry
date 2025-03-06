@@ -6,6 +6,8 @@ using AssociationRegistry.Test.Admin.Api.Framework.templates.kboSyncHistoriek;
 using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

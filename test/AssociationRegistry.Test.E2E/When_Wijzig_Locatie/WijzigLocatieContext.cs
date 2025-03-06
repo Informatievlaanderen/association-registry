@@ -6,6 +6,8 @@ using Vereniging;
 using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 public class WijzigLocatieContext: IAsyncLifetime

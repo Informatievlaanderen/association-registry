@@ -16,7 +16,11 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using NodaTime.Extensions;
 using Npgsql;
+using System;
+using System.IO;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 

@@ -3,7 +3,10 @@ namespace AssociationRegistry.Test.Admin.Api.Documentation.When_Fetching_The_Doc
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using Xunit;
 using Xunit.Categories;
 

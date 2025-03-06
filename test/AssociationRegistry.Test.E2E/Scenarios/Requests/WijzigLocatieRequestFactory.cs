@@ -8,7 +8,10 @@ using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
+using System;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequest>

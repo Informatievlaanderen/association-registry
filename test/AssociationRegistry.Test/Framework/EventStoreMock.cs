@@ -5,6 +5,10 @@ using AssociationRegistry.Framework;
 using Events;
 using EventStore;
 using Marten;
+using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class EventStoreMock : IEventStore

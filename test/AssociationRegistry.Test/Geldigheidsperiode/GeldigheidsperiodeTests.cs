@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test;
 
 using AssociationRegistry.Vereniging.Exceptions;
 using FluentAssertions;
+using System;
 using Xunit;
 using Geldigheidsperiode = AssociationRegistry.Geldigheidsperiode;
 

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Werkingsgebieden
 using Admin.Schema.Historiek;
 using Events;
 using Scenario.Werkingsgebieden;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenNietVanToepassing(

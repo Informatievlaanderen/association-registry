@@ -7,6 +7,8 @@ using Events;
 using FluentAssertions;
 using Framework;
 using Framework.Customizations;
+using System;
+using System.Collections.Generic;
 using Vereniging;
 using Xunit;
 

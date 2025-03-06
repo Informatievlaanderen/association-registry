@@ -10,6 +10,8 @@ using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_Vereniging_Is_Not_Dubbel

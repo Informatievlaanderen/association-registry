@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.templates;
 using Events;
 using Formats;
 using JsonLdContext;
+using System;
+using System.Collections.Generic;
 using System.Dynamic;
 using Vereniging;
 

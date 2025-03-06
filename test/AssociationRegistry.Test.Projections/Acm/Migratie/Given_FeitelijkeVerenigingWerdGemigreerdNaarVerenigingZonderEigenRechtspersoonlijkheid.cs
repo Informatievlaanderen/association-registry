@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using Scenario.Migratie;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(

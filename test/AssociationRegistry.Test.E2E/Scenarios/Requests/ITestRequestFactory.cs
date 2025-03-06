@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
 using Framework.ApiSetup;
+using System.Threading.Tasks;
 using Vereniging;
 
 public interface ITestRequestFactory<TRequest>

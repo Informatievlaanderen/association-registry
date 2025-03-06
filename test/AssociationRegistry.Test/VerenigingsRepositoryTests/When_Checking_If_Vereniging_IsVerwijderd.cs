@@ -8,6 +8,7 @@ using EventStore;
 using FluentAssertions;
 using Framework;
 using Moq;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

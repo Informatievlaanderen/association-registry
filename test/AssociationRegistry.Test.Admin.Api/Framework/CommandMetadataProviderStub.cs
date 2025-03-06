@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Framework;
 using NodaTime;
+using System;
 
 public class CommandMetadataProviderStub : ICommandMetadataProvider
 {

@@ -10,7 +10,10 @@ using Vereniging;
 using AutoFixture;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<RegistreerVerenigingUitKboRequest>
 {

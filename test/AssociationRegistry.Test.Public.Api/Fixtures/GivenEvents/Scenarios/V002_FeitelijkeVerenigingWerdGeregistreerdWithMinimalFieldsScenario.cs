@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using EventFactories;
 using Events;
 using NodaTime;
+using System;
 using Vereniging;
 
 public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario : IScenario

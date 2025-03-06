@@ -8,7 +8,10 @@ using FluentAssertions;
 using Marten;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

@@ -10,6 +10,7 @@ using Vereniging;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Nest;
+using System.Threading.Tasks;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext: TestContextBase<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {

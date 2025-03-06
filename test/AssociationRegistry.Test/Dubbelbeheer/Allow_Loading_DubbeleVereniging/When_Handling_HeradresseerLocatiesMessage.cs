@@ -6,6 +6,8 @@ using AutoFixture;
 using Grar.Clients;
 using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class When_Handling_HeradresseerLocatiesMessage : When_Loading_With_Dubbels_TestBase

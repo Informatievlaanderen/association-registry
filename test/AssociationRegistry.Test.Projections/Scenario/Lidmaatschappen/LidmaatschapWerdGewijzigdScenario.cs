@@ -2,6 +2,7 @@
 
 using Events;
 using AutoFixture;
+using System.Linq;
 
 public class LidmaatschapWerdGewijzigdScenario : ScenarioBase
 {

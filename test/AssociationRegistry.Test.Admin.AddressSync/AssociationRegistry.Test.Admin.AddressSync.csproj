@@ -12,9 +12,7 @@
   <PropertyGroup>
     <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.AddressSync\AssociationRegistry.Admin.AddressSync.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test\AssociationRegistry.Test.csproj" />

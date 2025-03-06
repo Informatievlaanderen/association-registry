@@ -6,6 +6,7 @@ using Events;
 using FluentAssertions;
 using Framework;
 using Framework.Customizations;
+using System.Collections.Generic;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;

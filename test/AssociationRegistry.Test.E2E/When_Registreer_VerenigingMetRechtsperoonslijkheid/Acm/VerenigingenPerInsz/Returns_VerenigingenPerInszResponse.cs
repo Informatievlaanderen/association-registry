@@ -7,6 +7,8 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using System;
+using System.Linq;
 using Xunit;
 
 [Collection(WellKnownCollections.RegistreerVerenigingMetRechtsperoonlijkheid)]

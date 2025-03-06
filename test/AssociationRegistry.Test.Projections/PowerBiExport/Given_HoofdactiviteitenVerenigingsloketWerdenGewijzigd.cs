@@ -2,6 +2,8 @@
 
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
+using System.Linq;
+using System.Threading.Tasks;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(PowerBiScenarioFixture<HoofdactiviteitenWerdenGewijzigdScenario> fixture)

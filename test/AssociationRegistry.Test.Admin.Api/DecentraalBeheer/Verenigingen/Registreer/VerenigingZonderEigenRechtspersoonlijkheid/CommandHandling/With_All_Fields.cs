@@ -12,6 +12,8 @@ using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Linq;
+using System.Threading;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;

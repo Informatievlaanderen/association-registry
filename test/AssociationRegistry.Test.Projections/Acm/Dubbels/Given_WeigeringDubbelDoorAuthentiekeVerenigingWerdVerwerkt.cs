@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Dubbels;
 
 using Scenario.Dubbels;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt(

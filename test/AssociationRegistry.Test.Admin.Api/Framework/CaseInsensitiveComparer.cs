@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Test.Admin.Api.Framework;
 
+using System;
+using System.Collections.Generic;
+
 public class CaseInsensitiveComparer : IComparer<string>
 {
     public int Compare(string? x, string? y)

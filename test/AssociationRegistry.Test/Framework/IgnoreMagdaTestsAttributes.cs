@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Framework;
 
+using System;
 using Xunit;
 
 public class IgnoreMagdaTestsFactAttribute : FactAttribute

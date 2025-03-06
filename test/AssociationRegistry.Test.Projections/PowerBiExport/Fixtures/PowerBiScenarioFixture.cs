@@ -5,6 +5,8 @@ using Admin.Schema.PowerBiExport;
 using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class PowerBiScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, PowerBiExportDocument, ProjectionContext>(context)

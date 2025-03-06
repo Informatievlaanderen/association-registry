@@ -9,6 +9,7 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
+using Xunit;
 
 [Collection(WellKnownCollections.GenericSharedContext)]
 public class GenericSharedContext

@@ -14,6 +14,7 @@ using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

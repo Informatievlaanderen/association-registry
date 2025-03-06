@@ -4,6 +4,10 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using Helpers;
 using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
+using System;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class AdminApiClient : IDisposable
 {

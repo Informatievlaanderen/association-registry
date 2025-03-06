@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Lidmaatschappen;
 
 using Events;
+using System.Linq;
 
 public class LidmaatschapWerdVerwijderdScenario : ScenarioBase
 {

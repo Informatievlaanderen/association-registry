@@ -4,6 +4,7 @@ using Admin.Schema.PowerBiExport;
 using Events;
 using Formats;
 using KellermanSoftware.CompareNetObjects;
+using System.Threading.Tasks;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LidmaatschapWerdGewijzigd(PowerBiScenarioFixture<LidmaatschapWerdGewijzigdScenario> fixture)

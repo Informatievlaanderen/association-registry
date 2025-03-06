@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Acm.Api.templates;
 using AssociationRegistry.Acm.Schema.Constants;
 using Common.Extensions;
 using Scriban;
+using System.Collections.Generic;
 using Vereniging;
 
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;

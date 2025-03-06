@@ -2,6 +2,7 @@
 
 using Fixtures;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

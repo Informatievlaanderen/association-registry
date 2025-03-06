@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer;
 
 using Grar.GrarUpdates.LocatieFinder;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class StubLocatieFinder : ILocatieFinder
 {

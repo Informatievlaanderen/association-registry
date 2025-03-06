@@ -11,6 +11,7 @@ using Moq;
 using Notifications;
 using Vereniging;
 using Wolverine;
+using Xunit;
 
 public class AddressSyncServiceTests
 {

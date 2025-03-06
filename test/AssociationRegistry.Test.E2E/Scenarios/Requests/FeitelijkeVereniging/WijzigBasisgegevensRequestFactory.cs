@@ -10,7 +10,9 @@ using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
 using Marten.Events;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 
 public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
 {

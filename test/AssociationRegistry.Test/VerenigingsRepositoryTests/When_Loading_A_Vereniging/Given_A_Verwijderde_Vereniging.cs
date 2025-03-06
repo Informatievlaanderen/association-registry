@@ -9,6 +9,8 @@ using EventStore;
 using FluentAssertions;
 using Framework;
 using Resources;
+using System;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

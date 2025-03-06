@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.templates;
 using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

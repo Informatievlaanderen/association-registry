@@ -3,6 +3,8 @@
 using AssociationRegistry.Admin.Api.Adapters.DuplicateVerenigingDetectionService;
 using FluentAssertions;
 using GemeentenaamDecorator;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

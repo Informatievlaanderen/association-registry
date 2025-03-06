@@ -7,6 +7,7 @@ using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_No_Locations_Found

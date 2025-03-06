@@ -4,6 +4,8 @@ using AssociationRegistry.Framework;
 using EventFactories;
 using Events;
 using NodaTime;
+using System;
+using System.Linq;
 using Vereniging;
 
 public class V024_FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario : IScenario

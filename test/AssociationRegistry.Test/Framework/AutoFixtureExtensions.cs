@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Framework;
 
 using AutoFixture;
+using System;
 
 public static class AutoFixtureExtensions
 {

@@ -6,6 +6,8 @@ using Marten.Events.Daemon;
 using Nest;
 using Public.ProjectionHost.Projections;
 using Public.Schema.Search;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class PubliekZoekenScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, VerenigingZoekDocument, ProjectionContext>(context)

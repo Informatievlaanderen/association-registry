@@ -8,7 +8,9 @@ using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging.Bronnen;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

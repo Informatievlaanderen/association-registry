@@ -6,7 +6,10 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using FluentAssertions.Execution;
-
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class RegistreerStichtingVanOpenbaarNutSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup

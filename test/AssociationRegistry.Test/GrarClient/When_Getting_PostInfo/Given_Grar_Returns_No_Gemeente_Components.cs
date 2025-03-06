@@ -7,6 +7,9 @@ using Grar.Models.PostalInfo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_Grar_Returns_No_Gemeente_Components

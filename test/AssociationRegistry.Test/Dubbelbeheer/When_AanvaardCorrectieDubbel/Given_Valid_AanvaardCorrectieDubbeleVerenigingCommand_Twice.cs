@@ -6,6 +6,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Dubbelbeheer.AanvaardCorrectieDubbel;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_Valid_AanvaardCorrectieDubbeleVerenigingCommand_Twice

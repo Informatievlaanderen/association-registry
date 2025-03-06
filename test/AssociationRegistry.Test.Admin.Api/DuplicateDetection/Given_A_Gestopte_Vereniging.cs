@@ -9,6 +9,8 @@ using Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Framework.Fixtures;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

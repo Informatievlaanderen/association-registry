@@ -3,6 +3,7 @@
 using AssociationRegistry.Framework;
 using Events;
 using NodaTime.Extensions;
+using System;
 using Vereniging;
 
 public class V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens : IScenario

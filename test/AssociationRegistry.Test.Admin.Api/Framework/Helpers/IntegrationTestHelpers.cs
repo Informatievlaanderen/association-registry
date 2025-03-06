@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.Helpers;
 
+using System.Net.Http;
 using System.Text;
 
 public static class IntegrationTestHelpers

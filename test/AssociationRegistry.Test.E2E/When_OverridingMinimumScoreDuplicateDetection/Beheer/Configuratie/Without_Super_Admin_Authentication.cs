@@ -6,6 +6,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.GenericSharedContext)]

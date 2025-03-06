@@ -9,7 +9,10 @@ using AutoFixture;
 using FluentAssertions;
 using Marten;
 using Newtonsoft.Json;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

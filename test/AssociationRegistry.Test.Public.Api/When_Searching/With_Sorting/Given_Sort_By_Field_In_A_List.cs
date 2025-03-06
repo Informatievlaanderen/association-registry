@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.When_Searching.With_Sorting;
 using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

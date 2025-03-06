@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

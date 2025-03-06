@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
 using Public.Api.Verenigingen.Search.ResponseModels;
+using System;
+using System.Collections.Generic;
 
 public class PubliekZoekenComparisonConfig : End2EndComparisonConfig
 {

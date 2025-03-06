@@ -10,10 +10,9 @@
   </PropertyGroup>
   <PropertyGroup>
     <GenerateTestingPlatformEntryPoint>false</GenerateTestingPlatformEntryPoint>
+    <ImplicitUsings>disable</ImplicitUsings>
   </PropertyGroup>
-  <ItemGroup>
-    <Using Include="Xunit" />
-  </ItemGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.PowerBi.ExportHost\AssociationRegistry.PowerBi.ExportHost.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />

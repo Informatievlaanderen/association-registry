@@ -4,6 +4,8 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

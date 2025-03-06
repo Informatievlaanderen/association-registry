@@ -7,6 +7,11 @@ using AssociationRegistry.Test.Public.Api.Framework;
 using AutoFixture;
 using FluentAssertions;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class DetailAllStreamWriterTests

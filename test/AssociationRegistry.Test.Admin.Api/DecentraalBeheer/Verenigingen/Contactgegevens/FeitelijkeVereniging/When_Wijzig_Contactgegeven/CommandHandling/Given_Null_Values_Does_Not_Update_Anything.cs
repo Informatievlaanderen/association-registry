@@ -9,6 +9,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;
 using AutoFixture;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

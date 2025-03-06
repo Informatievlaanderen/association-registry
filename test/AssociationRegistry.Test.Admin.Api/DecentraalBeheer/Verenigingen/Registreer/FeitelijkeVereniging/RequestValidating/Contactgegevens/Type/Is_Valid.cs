@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
+using System;
 using Xunit;
 using ValidatorTest = Framework.ValidatorTest;
 

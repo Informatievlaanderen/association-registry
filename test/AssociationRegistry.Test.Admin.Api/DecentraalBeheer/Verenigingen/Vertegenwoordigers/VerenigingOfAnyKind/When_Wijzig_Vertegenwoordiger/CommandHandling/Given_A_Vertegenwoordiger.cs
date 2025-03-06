@@ -10,6 +10,7 @@ using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

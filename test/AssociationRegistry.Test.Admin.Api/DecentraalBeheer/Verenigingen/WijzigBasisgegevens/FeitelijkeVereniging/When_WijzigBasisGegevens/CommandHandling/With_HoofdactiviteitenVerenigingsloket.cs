@@ -9,6 +9,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using System;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

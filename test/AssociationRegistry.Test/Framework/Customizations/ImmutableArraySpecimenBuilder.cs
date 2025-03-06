@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.Framework.Customizations;
 
 using AutoFixture.Kernel;
+using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 
 public class ImmutableArraySpecimenBuilder : ISpecimenBuilder

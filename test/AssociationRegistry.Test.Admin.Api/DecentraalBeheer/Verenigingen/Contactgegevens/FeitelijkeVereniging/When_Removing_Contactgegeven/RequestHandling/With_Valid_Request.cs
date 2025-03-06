@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.Primitives;
 using Microsoft.Net.Http.Headers;
 using Moq;
+using System.Threading.Tasks;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;

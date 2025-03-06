@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.Mapping.When_Adding_A_Hoofdactivit
 using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Search;
 using FluentAssertions;
+using System;
 using Xunit;
 using Xunit.Categories;
 

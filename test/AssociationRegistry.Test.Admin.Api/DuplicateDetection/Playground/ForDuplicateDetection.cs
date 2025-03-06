@@ -12,7 +12,12 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
+using System;
+using System.IO;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 
 using Xunit;

@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 
 using Scenarios;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class GivenEventsFixture : PublicApiFixture
 {

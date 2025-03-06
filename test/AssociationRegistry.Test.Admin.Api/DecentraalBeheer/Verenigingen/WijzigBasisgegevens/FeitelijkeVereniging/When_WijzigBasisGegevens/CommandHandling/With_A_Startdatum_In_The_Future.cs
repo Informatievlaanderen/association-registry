@@ -11,6 +11,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

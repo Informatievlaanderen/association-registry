@@ -8,7 +8,10 @@ using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
+using System;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
 {

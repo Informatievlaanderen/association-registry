@@ -4,6 +4,7 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

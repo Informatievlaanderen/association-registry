@@ -10,6 +10,9 @@ using FluentAssertions;
 using Framework;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 
 using Xunit;

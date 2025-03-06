@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Microsoft.Extensions.Logging;
 using ResultNet;
+using System.Threading;
 using Xunit;
 using Xunit.Categories;
 

@@ -7,6 +7,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

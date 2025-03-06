@@ -5,6 +5,8 @@ using Common.Scenarios.CommandHandling;
 using Events;
 using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 

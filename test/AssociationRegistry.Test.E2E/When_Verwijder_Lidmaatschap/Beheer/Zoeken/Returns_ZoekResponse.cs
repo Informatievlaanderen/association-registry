@@ -11,6 +11,9 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 
 using Xunit;

@@ -11,6 +11,7 @@ using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

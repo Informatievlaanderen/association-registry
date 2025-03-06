@@ -6,6 +6,8 @@ using Vereniging;
 using Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
+using System;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

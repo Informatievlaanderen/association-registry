@@ -7,6 +7,7 @@ using Events;
 using FluentAssertions;
 using Framework;
 using JsonLdContext;
+using System.Linq;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

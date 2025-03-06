@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
+using System;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequest>

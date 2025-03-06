@@ -6,6 +6,7 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

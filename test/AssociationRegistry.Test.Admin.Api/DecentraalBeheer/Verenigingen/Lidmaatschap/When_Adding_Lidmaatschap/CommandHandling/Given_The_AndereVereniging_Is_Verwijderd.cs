@@ -8,6 +8,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

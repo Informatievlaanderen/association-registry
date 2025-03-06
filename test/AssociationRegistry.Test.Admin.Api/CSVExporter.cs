@@ -6,6 +6,9 @@ using FluentAssertions;
 using Framework.Fixtures;
 using Marten;
 using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Dubbels;
 
 using Scenario.Dubbels;
+using System;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MarkeringDubbeleVerengingWerdGecorrigeerd(BeheerDetailScenarioFixture<MarkeringDubbeleVerengingWerdGecorrigeerdScenario> fixture)

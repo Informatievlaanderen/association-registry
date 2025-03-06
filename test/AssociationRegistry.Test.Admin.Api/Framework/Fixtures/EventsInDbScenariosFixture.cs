@@ -4,6 +4,8 @@ using EventStore;
 using Common.Scenarios.EventsInDb;
 using Marten.Events.Daemon;
 using Nest;
+using System;
+using System.Threading.Tasks;
 
 public class EventsInDbScenariosFixture : AdminApiFixture
 {

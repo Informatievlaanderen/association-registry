@@ -6,6 +6,7 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Formats;
+using System.Threading.Tasks;
 using templates;
 using Vereniging;
 

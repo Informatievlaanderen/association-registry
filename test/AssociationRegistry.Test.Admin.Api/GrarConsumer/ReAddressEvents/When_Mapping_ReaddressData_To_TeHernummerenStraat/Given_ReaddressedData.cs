@@ -7,6 +7,7 @@ using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.Common;
 using FluentAssertions;
 using Grar.GrarUpdates.Hernummering;
+using System.Collections.Generic;
 using Xunit;
 
 public class Given_ReaddressedData

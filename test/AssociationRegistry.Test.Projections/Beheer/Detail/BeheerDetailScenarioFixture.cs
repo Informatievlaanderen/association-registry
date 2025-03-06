@@ -5,6 +5,8 @@ using Admin.Schema.Detail;
 using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class BeheerDetailScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingDetailDocument, ProjectionContext>(context)

@@ -7,7 +7,10 @@ using Framework.Helpers;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Nest;
+using System;
+using System.IO;
 using System.Reflection;
+using System.Threading.Tasks;
 using Xunit;
 
 public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime

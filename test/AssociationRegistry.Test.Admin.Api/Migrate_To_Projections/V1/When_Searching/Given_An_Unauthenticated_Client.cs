@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Sear
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

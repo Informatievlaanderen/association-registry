@@ -4,6 +4,7 @@ using KellermanSoftware.CompareNetObjects;
 using KellermanSoftware.CompareNetObjects.TypeComparers;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using System;
 
 public class HistoriekDataComparer : BaseTypeComparer
 {

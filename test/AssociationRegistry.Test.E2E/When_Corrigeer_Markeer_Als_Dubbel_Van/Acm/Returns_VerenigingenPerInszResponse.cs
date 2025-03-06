@@ -7,6 +7,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
+using System;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 

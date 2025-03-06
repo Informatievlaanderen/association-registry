@@ -7,6 +7,8 @@ using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_No_Existing_Locatie

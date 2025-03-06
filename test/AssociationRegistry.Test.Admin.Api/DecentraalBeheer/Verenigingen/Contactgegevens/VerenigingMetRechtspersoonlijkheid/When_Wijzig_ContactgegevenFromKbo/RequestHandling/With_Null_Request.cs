@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRe
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

@@ -6,6 +6,8 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Framework;
+using System.Net.Http;
+using System.Threading.Tasks;
 using templates;
 using Xunit;
 using Xunit.Categories;

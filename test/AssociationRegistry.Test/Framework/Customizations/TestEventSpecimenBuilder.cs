@@ -4,6 +4,8 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using Marten.Events;
 using NodaTime;
+using System;
+using System.Linq;
 using Vereniging;
 
 public class TestEventSpecimenBuilder : ISpecimenBuilder

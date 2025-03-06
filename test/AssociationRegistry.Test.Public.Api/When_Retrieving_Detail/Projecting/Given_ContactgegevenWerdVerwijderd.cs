@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

@@ -3,6 +3,7 @@
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http;
 using Xunit;
 using Xunit.Categories;
 

@@ -3,7 +3,10 @@
 using Microsoft.Extensions.Logging;
 using Nest;
 using Npgsql;
+using System;
 using System.Diagnostics;
+using System.Threading;
+using System.Threading.Tasks;
 using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 public static class WaitFor

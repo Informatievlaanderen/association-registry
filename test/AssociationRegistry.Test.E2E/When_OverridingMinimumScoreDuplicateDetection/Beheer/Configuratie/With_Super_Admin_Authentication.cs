@@ -7,6 +7,7 @@ using Framework.ApiSetup;
 using AutoFixture;
 using FluentAssertions;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.GenericSharedContext)]

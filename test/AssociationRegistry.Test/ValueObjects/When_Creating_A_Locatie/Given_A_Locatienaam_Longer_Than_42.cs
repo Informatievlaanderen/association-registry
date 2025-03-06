@@ -7,6 +7,8 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using System;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

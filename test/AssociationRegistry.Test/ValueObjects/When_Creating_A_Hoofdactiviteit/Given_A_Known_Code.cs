@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

@@ -3,6 +3,8 @@ namespace AssociationRegistry.Test.Projections.Beheer.LocatieZonderAdresMatch.Sc
 using AutoFixture;
 using Events;
 using Framework.Fixtures;
+using System.Linq;
+using System.Threading.Tasks;
 
 public class AdresHeeftGeenVerschillenMetAdressenregisterScenario : ProjectionScenarioFixture<ProjectionContext>
 {

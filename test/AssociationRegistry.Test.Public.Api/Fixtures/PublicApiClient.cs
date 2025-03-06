@@ -1,5 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.Fixtures;
 
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+
 public class PublicApiClient : IDisposable
 {
     public readonly HttpClient HttpClient;

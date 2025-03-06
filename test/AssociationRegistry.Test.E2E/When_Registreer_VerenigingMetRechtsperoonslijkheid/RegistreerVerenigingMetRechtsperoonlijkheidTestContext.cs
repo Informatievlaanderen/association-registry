@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens;
 using Scenarios.Requests.FeitelijkeVereniging;
+using System;
+using System.Threading.Tasks;
 
 public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {

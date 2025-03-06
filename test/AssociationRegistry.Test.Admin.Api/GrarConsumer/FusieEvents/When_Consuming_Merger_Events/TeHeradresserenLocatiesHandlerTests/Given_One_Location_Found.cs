@@ -8,6 +8,8 @@ using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_One_Location_Found

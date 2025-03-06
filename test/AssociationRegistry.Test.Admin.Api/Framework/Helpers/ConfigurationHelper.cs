@@ -2,6 +2,8 @@
 
 using AssociationRegistry.Admin.Api;
 using Microsoft.Extensions.Configuration;
+using System;
+using System.IO;
 using System.Reflection;
 
 public class ConfigurationHelper

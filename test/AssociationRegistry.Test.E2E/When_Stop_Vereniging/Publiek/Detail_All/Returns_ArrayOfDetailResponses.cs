@@ -9,6 +9,8 @@ using Formats;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
 using Public.Api.Verenigingen.DetailAll;
+using System;
+using System.Collections.Generic;
 using Xunit;
 
 [Collection(WellKnownCollections.StopVereniging)]

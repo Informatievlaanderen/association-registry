@@ -9,6 +9,8 @@ using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVerenig
 using EventFactories;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_A_Verwijderde_Vereniging

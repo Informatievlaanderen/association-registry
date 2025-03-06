@@ -8,7 +8,12 @@ using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Mutaties;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Public.Api.Werkingsgebieden.ResponseModels;
+using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 public static class PublicApiEndpoints
 {

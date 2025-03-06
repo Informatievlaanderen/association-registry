@@ -4,6 +4,7 @@ using Admin.ProjectionHost.Projections.PowerBiExport;
 using AssociationRegistry.Admin.ProjectionHost.Projections.Detail;
 using Events;
 using Marten.Events;
+using System.Linq;
 using System.Reflection;
 using Xunit;
 

@@ -10,6 +10,9 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 
 using Xunit;

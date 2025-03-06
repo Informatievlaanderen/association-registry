@@ -11,6 +11,8 @@ using Admin.Schema.Historiek.EventData;
 using AlbaHost;
 using Events;
 using EventStore;
+using System;
+using System.Linq;
 using Vereniging;
 
 public static class HistoriekGebeurtenisMapper

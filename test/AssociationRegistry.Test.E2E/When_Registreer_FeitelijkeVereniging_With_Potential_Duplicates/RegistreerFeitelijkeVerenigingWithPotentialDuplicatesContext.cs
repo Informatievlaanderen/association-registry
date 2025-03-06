@@ -7,6 +7,8 @@ using Vereniging;
 using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
+using System;
+using System.Threading.Tasks;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Acm.Vertegenwoordigers;
 
 using Scenario.Vertegenwoordigers;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_Vertegenwoordiger_Toegevoegd_Na_Aanvaarding_Dubbel(

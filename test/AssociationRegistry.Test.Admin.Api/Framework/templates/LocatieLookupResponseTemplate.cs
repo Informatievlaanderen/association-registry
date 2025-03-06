@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework.templates;
 
+using System.Collections.Generic;
 using System.Dynamic;
 
 public class LocatieLookupResponseTemplate : ResponseTemplate

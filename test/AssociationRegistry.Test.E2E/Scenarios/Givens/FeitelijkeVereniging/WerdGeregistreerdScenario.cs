@@ -7,6 +7,9 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using Requests.FeitelijkeVereniging;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigingWerdGeregistreerdScenario, Framework.TestClasses.IScenario
 {

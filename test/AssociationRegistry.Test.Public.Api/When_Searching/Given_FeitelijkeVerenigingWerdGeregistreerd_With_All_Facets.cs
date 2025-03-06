@@ -6,6 +6,7 @@ using Fixtures.GivenEvents;
 using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;

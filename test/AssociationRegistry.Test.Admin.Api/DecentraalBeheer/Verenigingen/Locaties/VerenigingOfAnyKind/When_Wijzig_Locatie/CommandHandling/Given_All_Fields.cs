@@ -12,6 +12,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Marten;
 using Moq;
+using System.Threading.Tasks;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;

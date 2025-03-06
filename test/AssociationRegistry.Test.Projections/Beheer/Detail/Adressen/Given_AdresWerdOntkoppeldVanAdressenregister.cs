@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Adressen;
 
 using Scenario.Adressen;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_AdresWerdOntkoppeldVanAdressenregister(

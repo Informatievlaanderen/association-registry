@@ -6,6 +6,8 @@ using FluentAssertions;
 using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 
 public class Given_Locaties_For_One_VCode

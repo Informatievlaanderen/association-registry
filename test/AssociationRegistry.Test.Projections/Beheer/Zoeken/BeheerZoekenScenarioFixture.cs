@@ -6,6 +6,8 @@ using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
 using Nest;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class BeheerZoekenScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, VerenigingZoekDocument, ProjectionContext>(context)

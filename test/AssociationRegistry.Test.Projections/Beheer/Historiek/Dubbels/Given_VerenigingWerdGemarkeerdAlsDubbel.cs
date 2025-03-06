@@ -3,6 +3,7 @@
 using Admin.Schema.Historiek;
 using Events;
 using Scenario.Dubbels;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGemarkeerdAlsDubbel(BeheerHistoriekScenarioFixture<VerenigingWerdGemarkeerdAlsDubbelVanScenario> fixture)

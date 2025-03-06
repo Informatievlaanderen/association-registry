@@ -8,7 +8,10 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaam)]

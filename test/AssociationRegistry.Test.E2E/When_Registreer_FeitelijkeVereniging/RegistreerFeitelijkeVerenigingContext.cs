@@ -9,6 +9,9 @@ using Microsoft.Extensions.Logging;
 using Nest;
 using Scenarios.Givens;
 using Scenarios.Requests.FeitelijkeVereniging;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>

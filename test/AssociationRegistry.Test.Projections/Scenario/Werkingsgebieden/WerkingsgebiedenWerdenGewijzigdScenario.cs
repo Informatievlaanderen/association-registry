@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Scenario.Werkingsgebieden;
 
 using Events;
+using System.Linq;
 
 public class WerkingsgebiedenWerdenGewijzigdScenario : ScenarioBase
 {

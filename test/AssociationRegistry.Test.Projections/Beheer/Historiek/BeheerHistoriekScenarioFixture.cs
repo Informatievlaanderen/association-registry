@@ -5,6 +5,8 @@ using Admin.Schema.Historiek;
 using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class BeheerHistoriekScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, BeheerVerenigingHistoriekDocument, ProjectionContext>(context)

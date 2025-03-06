@@ -5,6 +5,7 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using System;
 using Xunit;
 using Xunit.Categories;
 

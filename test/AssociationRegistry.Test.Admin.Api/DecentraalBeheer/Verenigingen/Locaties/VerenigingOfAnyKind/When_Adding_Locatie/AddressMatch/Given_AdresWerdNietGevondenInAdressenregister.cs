@@ -7,7 +7,11 @@ using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Marten;
 using Polly;
+using System;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

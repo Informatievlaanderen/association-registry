@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents.Scenarios;
 using AssociationRegistry.Framework;
 using Events;
 using NodaTime;
+using System;
 using Vereniging;
 
 public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario

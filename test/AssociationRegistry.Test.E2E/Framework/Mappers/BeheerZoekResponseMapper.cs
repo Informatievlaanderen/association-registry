@@ -7,6 +7,7 @@ using Admin.Api.Verenigingen.Search.ResponseModels;
 using Events;
 using Formats;
 using JsonLdContext;
+using System.Linq;
 using Vereniging;
 using HoofdactiviteitVerenigingsloket = Admin.Api.Verenigingen.Search.ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Admin.Api.Verenigingen.Search.ResponseModels.Lidmaatschap;

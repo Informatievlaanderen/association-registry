@@ -5,6 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEige
 using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
+using System;
 using Xunit;
 using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;

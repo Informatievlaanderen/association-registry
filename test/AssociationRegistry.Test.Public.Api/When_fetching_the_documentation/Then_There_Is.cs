@@ -3,7 +3,10 @@ namespace AssociationRegistry.Test.Public.Api.When_fetching_the_documentation;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
 using Xunit;
 using Xunit.Categories;
 

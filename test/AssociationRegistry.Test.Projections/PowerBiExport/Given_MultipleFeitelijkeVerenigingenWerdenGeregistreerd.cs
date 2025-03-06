@@ -2,6 +2,7 @@
 
 using Admin.Schema.PowerBiExport;
 using Marten;
+using System.Threading.Tasks;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(PowerBiScenarioFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario> fixture)

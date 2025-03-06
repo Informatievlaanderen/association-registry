@@ -4,6 +4,10 @@ using DuplicateVerenigingDetection;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Seed;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest

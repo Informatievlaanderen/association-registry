@@ -6,6 +6,8 @@ using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
 using Nest;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class DuplicateDetectionScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, DuplicateDetectionDocument, ProjectionContext>(context)

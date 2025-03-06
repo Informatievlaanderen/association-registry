@@ -6,6 +6,7 @@ using Grar.GrarUpdates.Fusies;
 using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_No_Destination_Adres

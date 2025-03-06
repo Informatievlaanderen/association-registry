@@ -6,6 +6,8 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
+using System.Collections.Generic;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

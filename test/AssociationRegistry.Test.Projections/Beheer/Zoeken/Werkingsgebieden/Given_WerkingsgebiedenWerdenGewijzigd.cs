@@ -4,6 +4,7 @@ using Admin.Schema;
 using Admin.Schema.Search;
 using JsonLdContext;
 using Scenario.Werkingsgebieden;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_WerkingsgebiedenWerdenGewijzigd(BeheerZoekenScenarioFixture<WerkingsgebiedenWerdenGewijzigdScenario> fixture)

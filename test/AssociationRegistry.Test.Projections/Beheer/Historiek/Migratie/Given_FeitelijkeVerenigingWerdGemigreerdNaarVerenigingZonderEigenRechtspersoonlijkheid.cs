@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Beheer.Historiek.Migratie;
 using AssociationRegistry.Admin.Schema.Historiek;
 using Events;
 using Scenario.Migratie;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerHistoriekScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)

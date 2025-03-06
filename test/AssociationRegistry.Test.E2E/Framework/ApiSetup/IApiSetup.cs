@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
 using Marten.Events.Daemon;
+using System.Net.Http;
+using System.Threading.Tasks;
 using TestClasses;
 
 public interface IApiSetup

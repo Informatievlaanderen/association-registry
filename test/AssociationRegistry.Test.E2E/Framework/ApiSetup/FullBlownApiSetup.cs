@@ -1,4 +1,6 @@
-﻿[assembly: AssemblyFixture(typeof(AssociationRegistry.Test.E2E.Framework.ApiSetup.FullBlownApiSetup))]
+﻿using Xunit;
+
+[assembly: AssemblyFixture(typeof(AssociationRegistry.Test.E2E.Framework.ApiSetup.FullBlownApiSetup))]
 
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
@@ -25,6 +27,13 @@ using NodaTime;
 using NodaTime.Text;
 using Oakton;
 using Scenarios.Requests;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using TestClasses;
 using Vereniging;
 using Xunit;

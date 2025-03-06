@@ -6,6 +6,7 @@ using AutoFixture;
 using Events;
 using Framework.Fixtures;
 using Marten;
+using System.Threading.Tasks;
 
 [Collection(nameof(MultiStreamTestCollection))]
 public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<GivenAdresWerdOvergenomenUitAdressenregisterFixture>

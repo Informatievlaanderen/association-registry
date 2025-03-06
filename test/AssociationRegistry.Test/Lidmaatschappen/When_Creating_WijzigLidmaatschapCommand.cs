@@ -7,6 +7,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Lidmaatschappen.WijzigLidmaatschap;
 using FluentAssertions;
+using System;
 using Xunit;
 
 public class When_Creating_WijzigLidmaatschapCommand

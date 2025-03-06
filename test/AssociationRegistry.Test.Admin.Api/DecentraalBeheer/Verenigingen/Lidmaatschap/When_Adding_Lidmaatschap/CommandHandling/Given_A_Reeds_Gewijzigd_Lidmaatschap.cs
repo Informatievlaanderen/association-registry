@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

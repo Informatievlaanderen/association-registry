@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.E2E.Framework.Comparison;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using System;
+using System.Collections.Generic;
 
 public class AdminDetailComparisonConfig : End2EndComparisonConfig
 {

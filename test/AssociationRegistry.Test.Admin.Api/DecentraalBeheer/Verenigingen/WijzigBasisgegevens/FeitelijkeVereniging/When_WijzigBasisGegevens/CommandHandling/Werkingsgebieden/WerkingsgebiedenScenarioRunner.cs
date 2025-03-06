@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using System;
 
 public static class WerkingsgebiedenScenarioRunner
 {

@@ -6,6 +6,8 @@ using Framework.Fixtures;
 using Marten;
 using Marten.Events.Daemon;
 using Marten.Linq.SoftDeletes;
+using System.Threading;
+using System.Threading.Tasks;
 
 public class VerenigingenPerInszScenarioFixture<TScenario>(ProjectionContext context)
     : ScenarioFixture<TScenario, VerenigingenPerInszDocument, ProjectionContext>(context)

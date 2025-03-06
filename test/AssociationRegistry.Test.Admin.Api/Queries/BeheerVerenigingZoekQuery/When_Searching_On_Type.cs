@@ -11,7 +11,9 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;

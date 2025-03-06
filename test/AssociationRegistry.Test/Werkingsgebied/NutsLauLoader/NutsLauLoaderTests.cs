@@ -2,6 +2,8 @@
 
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class NutsLauLoaderTests

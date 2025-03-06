@@ -9,6 +9,8 @@ using AutoFixture;
 using DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_Weigering_Reeds_Verwerkt_Door_DubbeleVereniging

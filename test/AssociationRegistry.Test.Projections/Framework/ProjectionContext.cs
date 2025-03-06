@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using Npgsql;
 using Public.ProjectionHost.Projections.Search;
+using System.Threading.Tasks;
 using ElasticRepository = Admin.ProjectionHost.Projections.Search.ElasticRepository;
 
 public class ProjectionContext : IProjectionContext, IAsyncLifetime

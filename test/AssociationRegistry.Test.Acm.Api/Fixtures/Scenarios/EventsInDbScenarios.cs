@@ -6,6 +6,8 @@ using AutoFixture;
 using Events;
 using EventStore;
 using Framework;
+using System;
+using System.Linq;
 using Vereniging;
 
 

@@ -11,7 +11,9 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Admin.Schema.Search.Doelgroep;

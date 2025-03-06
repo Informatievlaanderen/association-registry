@@ -2,6 +2,7 @@
 
 using Admin.Schema.PowerBiExport;
 using KellermanSoftware.CompareNetObjects;
+using System.Linq;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd(PowerBiScenarioFixture<FeitelijkeVerenigingWerdGeregistreerdScenario> fixture)

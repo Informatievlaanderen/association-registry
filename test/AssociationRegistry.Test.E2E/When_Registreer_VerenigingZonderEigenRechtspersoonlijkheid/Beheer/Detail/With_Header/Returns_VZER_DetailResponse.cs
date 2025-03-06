@@ -16,7 +16,8 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using NodaTime;
-
+using System;
+using System.Threading.Tasks;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 

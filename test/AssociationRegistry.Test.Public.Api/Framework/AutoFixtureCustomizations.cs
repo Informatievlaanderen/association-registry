@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Formats;
 using JsonLdContext;
+using System.Linq;
 using Vereniging;
 
 public static class AutoFixtureCustomizations

@@ -8,6 +8,7 @@ using FluentAssertions;
 using Formats;
 using Framework;
 using JsonLdContext;
+using System.Linq;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

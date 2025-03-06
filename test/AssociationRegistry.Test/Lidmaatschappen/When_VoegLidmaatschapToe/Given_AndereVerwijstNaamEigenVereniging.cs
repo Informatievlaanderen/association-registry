@@ -9,6 +9,7 @@ using AutoFixture;
 using AutoFixture.Kernel;
 using DecentraalBeheer.Lidmaatschappen.VoegLidmaatschapToe;
 using FluentAssertions;
+using System;
 using Xunit;
 
 public class Given_AndereVerwijstNaamEigenVereniging

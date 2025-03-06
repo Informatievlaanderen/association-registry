@@ -4,6 +4,7 @@ using AssociationRegistry.Framework;
 using EventFactories;
 using Events;
 using NodaTime.Extensions;
+using System;
 using Vereniging;
 
 public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario

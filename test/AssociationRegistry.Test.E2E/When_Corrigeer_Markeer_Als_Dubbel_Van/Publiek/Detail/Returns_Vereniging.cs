@@ -6,6 +6,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Scenarios.Requests;
+using System;
 using Xunit;
 
 [Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]

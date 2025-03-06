@@ -4,6 +4,9 @@ using Alba;
 using Common.Fixtures;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Linq;
+using System.Net.Http;
 
 public static class AuthenticationSetup
 {

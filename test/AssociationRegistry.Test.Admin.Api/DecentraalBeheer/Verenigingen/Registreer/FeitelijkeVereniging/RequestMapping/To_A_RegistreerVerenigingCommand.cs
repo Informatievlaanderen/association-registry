@@ -9,6 +9,8 @@ using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
+using System;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

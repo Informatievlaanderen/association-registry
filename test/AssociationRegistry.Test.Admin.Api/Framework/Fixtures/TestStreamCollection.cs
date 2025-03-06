@@ -2,7 +2,10 @@
 
 using Events;
 using JasperFx.Core;
+using System;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public sealed record TestStreamCollection : IEnumerable<TestStreamDefinition>
 {

@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
+using System;
 using System.Net;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullRequest>

@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Projections.Scenario.Migratie;
 using Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using System.Linq;
 
 public class Migratie_Na_Verwijderde_Vereniging : InszScenarioBase
 {

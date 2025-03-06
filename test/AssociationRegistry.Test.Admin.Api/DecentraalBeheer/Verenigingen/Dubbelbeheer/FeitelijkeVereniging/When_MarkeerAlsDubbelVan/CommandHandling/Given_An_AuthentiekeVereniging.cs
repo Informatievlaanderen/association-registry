@@ -13,6 +13,7 @@ using AutoFixture;
 using FluentAssertions;
 using Marten;
 using Moq;
+using System.Threading.Tasks;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;

@@ -8,6 +8,8 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using System;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.MarkeerAlsDubbelVan)]

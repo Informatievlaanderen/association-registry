@@ -7,6 +7,7 @@ using Grar.GrarConsumer.Messaging.OntkoppelAdres;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Grar.GrarUpdates.LocatieFinder;
 using Moq;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_No_Locations_Found

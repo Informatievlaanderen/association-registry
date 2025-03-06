@@ -7,6 +7,9 @@ using Framework.ApiSetup;
 using AutoFixture;
 using FluentAssertions;
 using Grar.GrarConsumer.Messaging;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Xunit;
 
 [Collection(WellKnownCollections.GenericSharedContext)]

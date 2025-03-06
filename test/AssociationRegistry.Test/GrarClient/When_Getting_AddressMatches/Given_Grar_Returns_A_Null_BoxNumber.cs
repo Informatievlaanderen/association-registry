@@ -5,7 +5,11 @@ using Grar;
 using Grar.Clients;
 using Microsoft.Extensions.Logging;
 using Moq;
+using System.Linq;
 using System.Net;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 
 public class Given_Grar_Returns_A_Null_BoxNumber

@@ -3,6 +3,8 @@
 using AssociationRegistry.Framework;
 using Marten.Events;
 using NodaTime;
+using System;
+using System.Collections.Generic;
 using System.Text.Json;
 using IEvent = Marten.Events.IEvent;
 

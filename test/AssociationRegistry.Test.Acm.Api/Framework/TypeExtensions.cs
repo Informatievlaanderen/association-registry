@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Framework;
 
+using System;
+
 public static class TypeExtensions
 {
     /// <summary>

@@ -3,6 +3,8 @@
 using AssociationRegistry.Framework;
 using Kbo;
 using ResultNet;
+using System.Threading;
+using System.Threading.Tasks;
 using Vereniging;
 
 public class MagdaGeefVerenigingNumberNotFoundServiceMock : IMagdaGeefVerenigingService

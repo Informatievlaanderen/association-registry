@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using AutoFixture;
 using Events;
+using System.Linq;
 
 public class MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario : ScenarioBase
 {

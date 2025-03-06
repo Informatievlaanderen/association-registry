@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using System;
 using Xunit;
 using Xunit.Categories;
 

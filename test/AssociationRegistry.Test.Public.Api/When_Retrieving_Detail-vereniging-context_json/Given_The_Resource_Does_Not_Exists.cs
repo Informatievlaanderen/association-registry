@@ -3,6 +3,8 @@
 using Fixtures;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

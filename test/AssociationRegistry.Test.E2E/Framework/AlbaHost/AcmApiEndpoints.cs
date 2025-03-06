@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Acm.Api.VerenigingenPerInsz;
 using Alba;
+using System.Threading.Tasks;
 
 public static class AcmApiEndpoints
 {

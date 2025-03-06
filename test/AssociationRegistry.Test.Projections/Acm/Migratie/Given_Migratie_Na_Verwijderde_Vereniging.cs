@@ -4,6 +4,8 @@ using AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 using Marten;
 using Marten.Linq.SoftDeletes;
 using Scenario.Migratie;
+using System.Linq;
+using System.Threading.Tasks;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_Migratie_Na_Verwijderde_Vereniging(

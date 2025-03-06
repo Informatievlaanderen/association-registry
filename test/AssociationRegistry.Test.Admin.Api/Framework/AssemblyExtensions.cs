@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.Framework;
 
+using System;
+using System.IO;
 using System.Reflection;
 using System.Text;
 

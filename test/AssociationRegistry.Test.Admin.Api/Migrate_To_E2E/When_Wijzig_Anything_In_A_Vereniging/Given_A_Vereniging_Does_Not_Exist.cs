@@ -3,6 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.Migrate_To_E2E.When_Wijzig_Anything
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
+using System.Net.Http;
 using Xunit;
 using Xunit.Categories;
 

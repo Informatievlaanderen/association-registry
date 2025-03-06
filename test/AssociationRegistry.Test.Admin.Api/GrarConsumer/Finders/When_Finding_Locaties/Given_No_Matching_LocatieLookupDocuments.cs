@@ -8,6 +8,8 @@ using Common.Framework;
 using FluentAssertions;
 using Grar.GrarUpdates.LocatieFinder;
 using Marten;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Vereniging;
 using Xunit;
 using Xunit.Categories;

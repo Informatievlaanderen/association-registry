@@ -17,6 +17,8 @@ using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
+using System.Linq;
+using System.Threading;
 using Wolverine.Marten;
 using Xunit;
 using Xunit.Categories;

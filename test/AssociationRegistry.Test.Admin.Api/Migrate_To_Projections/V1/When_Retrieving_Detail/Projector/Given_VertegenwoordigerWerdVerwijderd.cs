@@ -6,6 +6,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
+using System.Linq;
 using Xunit;
 using Xunit.Categories;
 

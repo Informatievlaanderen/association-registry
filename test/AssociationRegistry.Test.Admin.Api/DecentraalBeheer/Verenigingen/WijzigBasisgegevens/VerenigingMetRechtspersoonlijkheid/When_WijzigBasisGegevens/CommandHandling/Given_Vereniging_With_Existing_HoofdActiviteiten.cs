@@ -8,6 +8,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Xunit;
 using Xunit.Categories;
 

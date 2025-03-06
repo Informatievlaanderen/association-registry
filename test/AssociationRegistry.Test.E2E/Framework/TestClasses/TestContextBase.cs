@@ -4,6 +4,7 @@ using ApiSetup;
 using Microsoft.Extensions.DependencyInjection;
 using Public.Api.Infrastructure.ConfigurationBindings;
 using Scenarios.Requests;
+using System.Threading.Tasks;
 
 public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
 {
