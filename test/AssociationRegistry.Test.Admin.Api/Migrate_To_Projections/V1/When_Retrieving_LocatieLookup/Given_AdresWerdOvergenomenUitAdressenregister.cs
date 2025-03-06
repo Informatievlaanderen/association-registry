@@ -17,10 +17,10 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetim
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V073AdresWerdOvergenomenUitAdressenregister);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

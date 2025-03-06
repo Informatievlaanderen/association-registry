@@ -17,10 +17,10 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch_Setup : IAsyncLife
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V077LocatieDuplicaatWerdVerwijderdNaAdresMatch);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

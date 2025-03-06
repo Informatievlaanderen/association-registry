@@ -13,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Admin.Schema.Search.Doelgroep;
 

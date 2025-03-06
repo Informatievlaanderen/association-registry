@@ -14,12 +14,12 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(BeheerVerenigingDetailQueryTests));
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await Store.DisposeAsync();
     }

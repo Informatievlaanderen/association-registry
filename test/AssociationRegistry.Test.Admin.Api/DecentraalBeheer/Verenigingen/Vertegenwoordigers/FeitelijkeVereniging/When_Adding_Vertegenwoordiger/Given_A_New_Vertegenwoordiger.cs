@@ -35,13 +35,13 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
         _jsonBody = JsonConvert.SerializeObject(Request);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _classFixture.AdminApiClient.PostVertegenwoordiger(Scenario.VCode, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

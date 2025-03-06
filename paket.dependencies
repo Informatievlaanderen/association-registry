@@ -6,7 +6,6 @@ nuget Alba
 
 nuget AutoBogus
 nuget AutoFixture
-nuget AutoFixture.Xunit2
 
 nuget Amazon.Lambda.SQSEvents
 nuget Amazon.Lambda.RuntimeSupport
@@ -85,13 +84,14 @@ nuget WolverineFx.Marten
 
 nuget Microsoft.NET.Test.Sdk
 nuget xunit.runner.visualstudio
-nuget xunit.assert
-nuget xunit.categories
 nuget xunit.v3 < 2.0.0
 nuget xunit.analyzers < 2.0.0
 nuget xunit.v3.assert < 2.0.0
+nuget xunit.v3.common < 2.0.0
 nuget xunit.v3.runner.common  < 2.0.0
 nuget xunit.v3.runner.utility  < 2.0.0
+nuget xunit.v3.extensibility.core  < 2.0.0
+// nuget Xunit.OpenCategories // when v3 comes out
 
 nuget Asp.Versioning.Mvc.ApiExplorer 8.0.0
 
@@ -119,5 +119,3 @@ nuget System.ServiceModel.Security 6.0.0
 nuget NEST 7.17.4
 
 nuget Npgsql
-
-

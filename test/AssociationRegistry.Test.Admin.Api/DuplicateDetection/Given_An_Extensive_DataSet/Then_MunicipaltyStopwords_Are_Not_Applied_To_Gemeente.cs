@@ -6,7 +6,6 @@ using FluentAssertions;
 using Seed;
 using Vereniging;
 using Xunit;
-using Xunit.Abstractions;
 
 public class Then_MunicipaltyStopwords_Are_Not_Applied_To_Gemeente: DuplicateDetectionTest
 {

@@ -6,7 +6,11 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <LangVersion>12</LangVersion>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.PowerBi.ExportHost\AssociationRegistry.PowerBi.ExportHost.csproj" />
     <ProjectReference Include="..\AssociationRegistry.Test.Common\AssociationRegistry.Test.Common.csproj" />

@@ -1,8 +1,6 @@
 CSVHelper
-Marten
 NodaTime
 AWSSDK.S3
-Serilog
 Serilog.Enrichers.Environment
 Serilog.Enrichers.Thread
 Serilog.Extensions.Logging
@@ -10,10 +8,7 @@ Serilog.Formatting.Compact
 Serilog.Settings.Configuration
 Serilog.Sinks.File
 Serilog.Sinks.Console
-OpenTelemetry
-OpenTelemetry.Api
 OpenTelemetry.Exporter.Console
-OpenTelemetry.Exporter.OpenTelemetryProtocol
 OpenTelemetry.Exporter.OpenTelemetryProtocol.Logs
 OpenTelemetry.Extensions.Hosting
 OpenTelemetry.Instrumentation.Http
@@ -21,6 +16,5 @@ OpenTelemetry.Instrumentation.Runtime
 NpgSql.OpenTelemetry
 Destructurama.JsonNet
 Microsoft.Extensions.Hosting
-Microsoft.Extensions.DependencyInjection
 Microsoft.Extensions.Http
 Marten.AspNetCore

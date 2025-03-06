@@ -5,10 +5,11 @@ AutoFixture
 FluentAssertions.Json
 Marten
 Moq
-Microsoft.AspNetCore.Mvc.Testing
 Microsoft.NET.Test.Sdk
 NEST
 xunit.v3.assert
+xunit.v3.extensibility.core
+xunit.v3.common
 xunit.runner.visualstudio
 Microsoft.AspNetCore.Hosting
 Scriban

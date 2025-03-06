@@ -24,7 +24,7 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteVertegenwoordiger(Scenario.VCode,
                                                                          Scenario.FeitelijkeVerenigingWerdGeregistreerd
@@ -32,8 +32,8 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
                                                                          jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

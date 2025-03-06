@@ -38,7 +38,7 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
         _adminApiClient = fixture.DefaultClient;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _response = await _adminApiClient.GetHistoriek(VCode);
     }
@@ -140,6 +140,6 @@ public class Given_All_BasisGegevensWerdenGewijzigd : IAsyncLifetime
         content.Should().BeEquivalentJson(expected);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

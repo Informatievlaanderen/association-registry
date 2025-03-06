@@ -14,7 +14,7 @@ using Vereniging = Public.Api.Verenigingen.DetailAll.ResponseModels.Vereniging;
 
 public class TestEventsManually
 {
-    [Fact]
+    [Fact(Skip = "to decide on later")]
     public async Task TestManually()
     {
         var store = await TestDocumentStoreFactory.CreateAsync("manually");

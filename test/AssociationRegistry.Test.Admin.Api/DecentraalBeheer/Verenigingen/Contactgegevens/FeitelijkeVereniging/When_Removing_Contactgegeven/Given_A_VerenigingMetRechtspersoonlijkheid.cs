@@ -24,14 +24,14 @@ public class Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoo
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode,
                                                                       Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

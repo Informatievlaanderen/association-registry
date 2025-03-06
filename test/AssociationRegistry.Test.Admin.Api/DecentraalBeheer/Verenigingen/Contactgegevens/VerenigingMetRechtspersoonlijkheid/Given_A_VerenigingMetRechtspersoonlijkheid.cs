@@ -42,14 +42,14 @@ public class Patch_A_New_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkhe
         }}";
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchContactgegevens(Scenario.VCode,
                                                                       Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

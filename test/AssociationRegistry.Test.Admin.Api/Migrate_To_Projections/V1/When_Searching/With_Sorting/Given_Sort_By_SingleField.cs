@@ -5,7 +5,6 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]

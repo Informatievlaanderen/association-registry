@@ -24,13 +24,13 @@ public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLife
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

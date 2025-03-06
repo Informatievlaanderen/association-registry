@@ -19,7 +19,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
 {
     private IHost _host = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>
@@ -87,10 +87,10 @@ public class When_Matching_Http_Methods : IAsyncLifetime
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _host.Dispose();
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

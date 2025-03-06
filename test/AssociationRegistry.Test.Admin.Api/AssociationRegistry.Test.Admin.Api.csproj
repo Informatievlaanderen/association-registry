@@ -6,6 +6,7 @@
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
     <LangVersion>12</LangVersion>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\src\AssociationRegistry.Admin.Api\AssociationRegistry.Admin.Api.csproj" />
@@ -60,6 +61,9 @@
     <Folder Include="DecentraalBeheer\Verenigingen\WijzigBasisgegevens\FeitelijkeVereniging\" />
     <Folder Include="Documentation\" />
     <Folder Include="Rebuilding\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
   </ItemGroup>
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

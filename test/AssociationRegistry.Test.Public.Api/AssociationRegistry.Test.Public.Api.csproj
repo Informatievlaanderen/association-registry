@@ -5,7 +5,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <IsPackable>false</IsPackable>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Given_an_Event_That_Is_Not_Handled\When_Searching_By_Name_Then_we_retrieve_one_vereniging_matching_the_name_searched.json" />
     <EmbeddedResource Include="templates\*.json" />

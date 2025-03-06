@@ -9,7 +9,6 @@ using templates;
 using Vereniging;
 
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]

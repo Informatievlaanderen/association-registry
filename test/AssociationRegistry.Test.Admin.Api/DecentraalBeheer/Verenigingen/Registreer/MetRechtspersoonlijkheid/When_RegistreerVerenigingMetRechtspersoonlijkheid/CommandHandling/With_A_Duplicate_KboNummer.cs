@@ -59,7 +59,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             commandHandlerLogger);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _result = await _commandHandler
            .Handle(_envelope, CancellationToken.None);
@@ -83,6 +83,6 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _magdaGeefVerenigingService.Invocations.Should().BeEmpty();
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
