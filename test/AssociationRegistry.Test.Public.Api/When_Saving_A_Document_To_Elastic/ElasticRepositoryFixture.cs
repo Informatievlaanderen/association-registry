@@ -26,7 +26,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         _configurationRoot = GetConfiguration();
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         ElasticClient = CreateElasticClient(_configurationRoot);
 
@@ -88,8 +88,8 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         return tempConfiguration;
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 
     public void Dispose()
     {

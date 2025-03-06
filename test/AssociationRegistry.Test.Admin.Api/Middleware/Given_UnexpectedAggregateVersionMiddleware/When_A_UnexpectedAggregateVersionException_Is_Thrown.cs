@@ -25,7 +25,7 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
     private IHost _host = null!;
     private const string Route = "/";
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>
@@ -67,10 +67,10 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
         problemDetails.Detail.Should().Be(ValidationMessages.Status412PreconditionFailed);
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _host.Dispose();
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

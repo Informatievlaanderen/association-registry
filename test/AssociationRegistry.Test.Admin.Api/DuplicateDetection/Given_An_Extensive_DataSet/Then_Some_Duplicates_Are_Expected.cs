@@ -5,7 +5,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Seed;
 using Xunit;
-using Xunit.Abstractions;
 
 public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
 {
@@ -17,7 +16,7 @@ public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
     }
 
     [Fact (Skip = "to replace with a singular duplicate test strategy")]
-    public async Task GetDuplicatesFor()
+    public async Task GetDuplicatesForVereniging()
     {
         var actual = await GetDuplicatesFor("vereniging");
         actual.First().Naam.Should().Be("vereniging");

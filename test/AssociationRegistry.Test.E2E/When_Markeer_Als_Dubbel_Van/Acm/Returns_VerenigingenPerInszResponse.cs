@@ -9,7 +9,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.MarkeerAlsDubbelVan)]
 public class Returns_VerenigingenPerInszResponse :
     End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, VerenigingenPerInszResponse>
 {

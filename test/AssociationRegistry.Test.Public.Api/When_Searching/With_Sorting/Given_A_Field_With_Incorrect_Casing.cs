@@ -8,7 +8,6 @@ using Newtonsoft.Json;
 using Resources;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]

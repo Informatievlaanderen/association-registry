@@ -9,7 +9,7 @@ using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, SearchVerenigingenResponse>
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
     }
 
     [Fact]
-    public async Task With_Verenigingen_Empty()
+    public async ValueTask With_Verenigingen_Empty()
     {
         Response.Verenigingen.Should().NotBeEmpty();
     }

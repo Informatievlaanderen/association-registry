@@ -11,7 +11,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.VoegLidmaatschapToe)]
 public class Returns_Historiek : End2EndTest<VoegLidmaatschapToeContext, VoegLidmaatschapToeRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse

@@ -6,7 +6,6 @@ using FluentAssertions;
 using Newtonsoft.Json.Linq;
 
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]

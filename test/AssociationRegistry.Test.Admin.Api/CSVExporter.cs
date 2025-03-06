@@ -7,7 +7,6 @@ using Framework.Fixtures;
 using Marten;
 using System.Globalization;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]

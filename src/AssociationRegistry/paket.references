@@ -1,13 +1,8 @@
 Be.Vlaanderen.Basisregisters.AggregateSource
 Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
-
 Slack.Webhooks
-
 Result.Net
-
 Polly
-
-Marten
 WolverineFx.Marten
 WolverineFx.AmazonSqs
 CompareNETObjects

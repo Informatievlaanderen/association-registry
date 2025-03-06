@@ -1,8 +1,6 @@
 Amazon.Lambda.SQSEvents
 AWSSDK.Core
 NodaTime
-
-OpenTelemetry
 OpenTelemetry.Extensions.Hosting
 OpenTelemetry.Instrumentation.Runtime
 OpenTelemetry.Exporter.OpenTelemetryProtocol

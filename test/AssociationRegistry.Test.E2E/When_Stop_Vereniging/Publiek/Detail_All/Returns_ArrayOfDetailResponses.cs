@@ -11,7 +11,7 @@ using NodaTime.Extensions;
 using Public.Api.Verenigingen.DetailAll;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.StopVereniging)]
 public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext, StopVerenigingRequest, IEnumerable<JObject>>
 {
     public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>

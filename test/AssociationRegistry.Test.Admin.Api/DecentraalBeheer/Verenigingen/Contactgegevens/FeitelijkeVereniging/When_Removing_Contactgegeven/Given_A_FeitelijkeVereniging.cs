@@ -24,15 +24,15 @@ public class Delete_An_Existing_Contactgegeven_Given_A_FeitelijkeVereniging : IA
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode,
                                                                       Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
                                                                               .ContactgegevenId);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

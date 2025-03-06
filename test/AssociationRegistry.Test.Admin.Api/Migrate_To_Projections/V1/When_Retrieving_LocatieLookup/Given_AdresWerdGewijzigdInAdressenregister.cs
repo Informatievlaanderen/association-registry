@@ -17,10 +17,10 @@ public class Given_AdresWerdGewijzigdInAdressenregister_Setup : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V075AdresWerdGewijzigdInAdressenregister);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

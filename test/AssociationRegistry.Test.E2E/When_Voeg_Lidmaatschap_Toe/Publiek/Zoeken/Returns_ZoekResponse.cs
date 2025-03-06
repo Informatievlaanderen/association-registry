@@ -15,7 +15,7 @@ using Vereniging;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.VoegLidmaatschapToe)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<VoegLidmaatschapToeContext, VoegLidmaatschapToeRequest, SearchVerenigingenResponse>
 {
     private readonly VoegLidmaatschapToeContext _testContext;
@@ -34,7 +34,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VoegLidmaatschapTo
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
 
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {

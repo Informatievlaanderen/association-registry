@@ -1,7 +1,6 @@
 NEST
 Be.Vlaanderen.Basisregisters.Converters.TrimString
 Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
-Microsoft.Extensions.Diagnostics.HealthChecks
 Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc
 NodaTime.Serialization.JsonNet
 Serilog.Formatting.Compact

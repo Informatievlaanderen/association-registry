@@ -18,7 +18,7 @@ public class LocatieLookupFixture : IAsyncLifetime
     public DocumentStore Store { get; private set; }
     public IDocumentSession Session { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         AutoFixture = new Fixture().CustomizeAdminApi();
 
@@ -26,7 +26,7 @@ public class LocatieLookupFixture : IAsyncLifetime
         Session = Store.LightweightSession();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

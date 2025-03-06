@@ -25,7 +25,7 @@ public class EmptyScenario : Framework.TestClasses.IScenario
     public Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService requiredService)
         => Task.FromResult(Array.Empty<KeyValuePair<string, IEvent[]>>());
 
-    public async Task WhenCommand(FullBlownApiSetup setup)
+    public async ValueTask WhenCommand(FullBlownApiSetup setup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 

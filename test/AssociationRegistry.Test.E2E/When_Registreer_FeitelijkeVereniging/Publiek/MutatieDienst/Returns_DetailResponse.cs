@@ -8,7 +8,7 @@ using FluentAssertions;
 using Public.Api.Verenigingen.Mutaties;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerFeitelijkeVereniging)]
 public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingSequenceResponse[]>
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;

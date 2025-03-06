@@ -19,12 +19,12 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
 
     public VCode VCode => RequestResult.VCode;
 
-    public WijzigBasisgegevensKboTestContext(FullBlownApiSetup apiSetup)
+    public WijzigBasisgegevensKboTestContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         _werdGeregistreerdScenario = new();
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);

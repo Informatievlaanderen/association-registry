@@ -2,11 +2,7 @@ NEST
 Be.Vlaanderen.Basisregisters.Converters.TrimString
 Be.Vlaanderen.Basisregisters.Utilities.Rfc3339DateTimeOffset
 Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
-Asp.Versioning.Mvc.ApiExplorer
-Microsoft.AspNetCore.Mvc.NewtonsoftJson
 Microsoft.Extensions.Diagnostics.HealthChecks
-Swashbuckle.AspNetCore.SwaggerGen
-Swashbuckle.AspNetCore.SwaggerUI
 Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc
 NodaTime.Serialization.JsonNet
 Serilog.Formatting.Compact

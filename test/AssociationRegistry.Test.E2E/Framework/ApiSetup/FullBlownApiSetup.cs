@@ -1,4 +1,6 @@
-﻿namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
+﻿[assembly: AssemblyFixture(typeof(AssociationRegistry.Test.E2E.Framework.ApiSetup.FullBlownApiSetup))]
+
+namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Admin.Api;
 using Admin.Api.Infrastructure.Extensions;
@@ -42,7 +44,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         SetUpAdminApiConfiguration();
 
@@ -104,6 +106,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         }
         Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
+
+
     }
 
     public IProjectionDaemon AdminProjectionDaemon { get; private set; }
@@ -151,7 +155,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public IConfigurationRoot AdminApiConfiguration { get; set; }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await AdminApiHost.StopAsync();
         await PublicApiHost.StopAsync();
@@ -164,46 +168,48 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AdminProjectionHost.DisposeAsync();
         await AcmApiHost.DisposeAsync();
     }
+    private static readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1, 1);
+    private static readonly TimeSpan LockTimeout = TimeSpan.FromSeconds(30); // Set your timeout
 
     public async Task ExecuteGiven(IScenario scenario)
     {
-        var documentStore = AdminApiHost.DocumentStore();
+        using var cts = new CancellationTokenSource(LockTimeout);
 
-        await using var session = documentStore.LightweightSession();
-        session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
-        session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
-        session.CorrelationId = Guid.NewGuid().ToString();
-
-        var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
-
-        foreach (var eventsPerStream in givenEvents)
+        if (!await _semaphore.WaitAsync(LockTimeout, cts.Token))
         {
-            session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            throw new TimeoutException("Failed to acquire the lock within the specified timeout.");
         }
 
-        if (givenEvents.Length == 0)
-            return;
+        try
+        {
+            var documentStore = AdminApiHost.DocumentStore();
 
-        await session.SaveChangesAsync();
+            await using var session = documentStore.LightweightSession();
+            session.SetHeader(MetadataHeaderNames.Initiator, value: "metadata.Initiator");
+            session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
+            session.CorrelationId = Guid.NewGuid().ToString();
 
-        await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+            var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
+
+            foreach (var eventsPerStream in givenEvents)
+            {
+                session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            }
+
+            if (givenEvents.Length == 0)
+                return;
+
+            await session.SaveChangesAsync();
+
+            await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+            await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+            await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+        }
+        finally
+        {
+            _semaphore.Release();
+        }
     }
 
     private readonly Dictionary<string, object> _ranContexts = new();
-
-    public void RegisterContext<T>(ITestContext<T> context)
-    {
-
-        if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
-        {
-            context.Init().GetAwaiter().GetResult();
-            _ranContexts.Add(context.GetType().Name, context.RequestResult);
-        }
-        else
-        {
-            context.RequestResult = (RequestResult<T>)ranContext;
-        }
-    }
 }

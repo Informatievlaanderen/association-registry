@@ -30,7 +30,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         // DropDatabase(Configuration);
         EnsureDbExists(Configuration);
@@ -177,5 +177,5 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => ValueTask.CompletedTask;
 }

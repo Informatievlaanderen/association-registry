@@ -15,13 +15,13 @@ public class CorrigeerMarkeringAlsDubbelVanContext: TestContextBase<NullRequest>
     public VCode VCode => RequestResult.VCode;
     public VerenigingWerdGemarkeerdAlsDubbelVanScenario Scenario { get; }
 
-    public CorrigeerMarkeringAlsDubbelVanContext(FullBlownApiSetup apiSetup)
+    public CorrigeerMarkeringAlsDubbelVanContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new CorrigeerMarkeringAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);

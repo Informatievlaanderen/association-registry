@@ -36,7 +36,7 @@ public class Without_Changes : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _result = await _controller.Post(
             new StopVerenigingRequest
@@ -64,6 +64,6 @@ public class Without_Changes : IAsyncLifetime
         _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

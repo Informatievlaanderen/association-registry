@@ -185,11 +185,11 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         ProjectionHost.Dispose();
     }
 
-    public virtual Task InitializeAsync()
-        => Task.CompletedTask;
+    public virtual ValueTask InitializeAsync()
+        => ValueTask.CompletedTask;
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    public virtual ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 // Implement IRetryPolicy interface

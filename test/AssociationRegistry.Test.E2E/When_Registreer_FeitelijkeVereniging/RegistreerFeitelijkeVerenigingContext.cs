@@ -17,27 +17,13 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
     private readonly ILogger _logger;
     public VCode VCode => RequestResult.VCode;
 
-    public RegistreerFeitelijkeVerenigingTestContext(FullBlownApiSetup apiSetup)
+    public RegistreerFeitelijkeVerenigingTestContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
         ApiSetup = apiSetup;
         _emptyScenario = new EmptyScenario();
-
-        apiSetup.RegisterContext(this);
     }
 
-    public override async Task InitializeAsync()
-    {
-        // _emptyScenario = new EmptyScenario();e
-        //
-        // var requestFactory = new RegistreerFeitelijkeVerenigingRequestFactory();
-        //
-        // await ApiSetup.ExecuteGiven(_emptyScenario);
-        // RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
-        // await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        // await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-    }
-
-    public override async Task Init()
+    public override async ValueTask InitializeAsync()
     {
         var logger = ApiSetup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 

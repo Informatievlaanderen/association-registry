@@ -24,15 +24,15 @@ public class Delete_An_Existing_Locatie_Given_A_FeitelijkeVereniging : IAsyncLif
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode,
                                                                Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId,
                                                                jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
 [IntegrationTest]

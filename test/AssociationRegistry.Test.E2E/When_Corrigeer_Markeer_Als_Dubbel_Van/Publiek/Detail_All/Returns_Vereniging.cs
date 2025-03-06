@@ -8,7 +8,7 @@ using Public.Api.Verenigingen.Detail.ResponseModels;
 using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]
 public class Returns_Vereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, PubliekVerenigingDetailResponse>
 {
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>

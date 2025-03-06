@@ -17,10 +17,10 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister_Setup : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V078AdresWerdOntkoppeldVanAdressenregister);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

@@ -10,7 +10,7 @@ using Scenarios.Requests;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]
 public class Returns_VerenigingenPerInszResponse :
     End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, VerenigingenPerInszResponse>
 {

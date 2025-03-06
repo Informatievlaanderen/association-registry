@@ -17,7 +17,7 @@ using Vereniging.Bronnen;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerFeitelijkeVerenigingWithPotentialDuplicates)]
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
 {
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
@@ -42,7 +42,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,

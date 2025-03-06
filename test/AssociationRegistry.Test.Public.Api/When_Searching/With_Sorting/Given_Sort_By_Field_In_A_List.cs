@@ -4,7 +4,6 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]

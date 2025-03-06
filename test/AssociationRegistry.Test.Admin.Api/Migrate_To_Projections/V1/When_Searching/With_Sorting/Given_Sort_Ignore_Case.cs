@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using Xunit;
-using Xunit.Abstractions;
 using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]

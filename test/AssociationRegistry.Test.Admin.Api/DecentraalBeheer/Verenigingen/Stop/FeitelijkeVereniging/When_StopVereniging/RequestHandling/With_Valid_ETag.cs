@@ -35,7 +35,7 @@ public class With_Valid_ETag : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await _controller.Post(
             new StopVerenigingRequest
@@ -59,6 +59,6 @@ public class With_Valid_ETag : IAsyncLifetime
             Times.Once);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
