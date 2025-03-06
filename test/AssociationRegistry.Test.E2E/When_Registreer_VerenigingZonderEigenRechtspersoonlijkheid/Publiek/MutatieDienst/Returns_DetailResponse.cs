@@ -8,7 +8,7 @@ using Framework.TestClasses;
 using FluentAssertions;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerVerenigingZonderEigenRechtspersoonlijkheid)]
 public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingSequenceResponse[]>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;

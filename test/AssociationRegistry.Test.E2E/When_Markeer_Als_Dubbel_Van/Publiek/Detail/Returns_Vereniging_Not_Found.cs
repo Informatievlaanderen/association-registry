@@ -5,7 +5,7 @@ using Framework.AlbaHost;
 using System.Net;
 using Xunit;
 
-[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+[Collection(WellKnownCollections.MarkeerAlsDubbelVan)]
 public class Returns_Vereniging_Not_Found : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;

@@ -23,10 +23,6 @@ public class WijzigLidmaatschapContext: TestContextBase<WijzigLidmaatschapReques
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()
-    {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

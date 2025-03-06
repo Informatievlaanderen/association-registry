@@ -6,7 +6,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Xunit;
 
-[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+[Collection(WellKnownCollections.MarkeerAlsDubbelVan)]
 public class Returns_Detail_With_Dubbel_Van : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;

@@ -10,7 +10,7 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerVerenigingZonderEigenRechtspersoonlijkheid)]
 public class Returns_VerenigingenPerInszResponse :
     End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, VerenigingenPerInszResponse>
 {

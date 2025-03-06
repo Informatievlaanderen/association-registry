@@ -11,7 +11,7 @@ using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.WijzigLocatie)]
 public class Returns_Detail_With_Gewijzigde_Locatie : IClassFixture<WijzigLocatieContext>, IAsyncLifetime
 {
     private readonly WijzigLocatieContext _context;

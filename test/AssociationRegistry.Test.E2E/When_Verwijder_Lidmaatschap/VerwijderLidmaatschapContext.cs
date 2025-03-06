@@ -23,9 +23,6 @@ public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

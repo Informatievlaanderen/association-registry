@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaam)]
 public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext _context;

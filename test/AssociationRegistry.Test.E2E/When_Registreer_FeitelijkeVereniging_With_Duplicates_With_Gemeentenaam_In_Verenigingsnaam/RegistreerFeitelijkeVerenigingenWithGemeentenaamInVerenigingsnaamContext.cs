@@ -77,13 +77,11 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_scenario);
 
         await ApiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminProjectionHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.AllIndices);
+
     }
 }

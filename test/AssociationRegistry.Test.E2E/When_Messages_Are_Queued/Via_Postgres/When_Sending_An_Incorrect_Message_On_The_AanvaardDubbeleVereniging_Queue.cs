@@ -11,7 +11,7 @@ using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.GenericSharedContext)]
 public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_Queue
 {
     private readonly FullBlownApiSetup _setup;

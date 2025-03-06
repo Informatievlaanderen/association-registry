@@ -10,7 +10,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+[Collection(WellKnownCollections.MarkeerAlsDubbelVan)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;

@@ -16,7 +16,7 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
         ApiSetup = apiSetup;
     }
 
-    public override async ValueTask Init()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(new EmptyScenario());
 
@@ -24,9 +24,5 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
 
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-    }
-
-    public override async ValueTask InitializeAsync()
-    {
     }
 }

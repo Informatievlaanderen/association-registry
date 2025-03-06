@@ -16,7 +16,7 @@ using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.GenericSharedContext)]
 public class Given_Incorrect_VCode_In_The_Message
 {
     private readonly FullBlownApiSetup _setup;

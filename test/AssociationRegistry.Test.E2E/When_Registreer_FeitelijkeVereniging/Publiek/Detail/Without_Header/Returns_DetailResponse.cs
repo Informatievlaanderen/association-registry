@@ -19,7 +19,7 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerFeitelijkeVereniging)]
 public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;

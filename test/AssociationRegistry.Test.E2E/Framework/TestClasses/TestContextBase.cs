@@ -20,10 +20,6 @@ public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
     public IApiSetup ApiSetup { get; protected init; }
     public TRequest Request => RequestResult.Request;
 
-    public async virtual ValueTask Init()
-    {
-    }
-
     public RequestResult<TRequest> RequestResult { get; set; }
 
     public Hosts.Configuration.ConfigurationBindings.AppSettings AdminApiAppSettings => ApiSetup.AdminApiHost.Services.GetRequiredService<Hosts.Configuration.ConfigurationBindings.AppSettings>();

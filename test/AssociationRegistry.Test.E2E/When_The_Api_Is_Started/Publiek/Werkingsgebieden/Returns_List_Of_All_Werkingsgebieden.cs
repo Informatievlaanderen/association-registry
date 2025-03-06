@@ -5,7 +5,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.GenericSharedContext)]
 public class Returns_List_Of_All_Werkingsgebieden
 {
     private readonly FullBlownApiSetup _apiSetup;

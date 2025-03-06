@@ -17,15 +17,10 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
     {
         ApiSetup = apiSetup;
         _feitelijkeVerenigingWerdGeregistreerdScenario = new();
-
-        apiSetup.RegisterContext(this);
     }
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_feitelijkeVerenigingWerdGeregistreerdScenario);
 
         var requestFactory = new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(
@@ -33,5 +28,6 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
 
         RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+
     }
 }

@@ -23,9 +23,6 @@ public class CorrigeerMarkeringAlsDubbelVanContext: TestContextBase<NullRequest>
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new CorrigeerMarkeringAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

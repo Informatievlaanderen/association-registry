@@ -15,7 +15,7 @@ using Vereniging;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.VerwijderLidmaatschap)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatschapContext, NullRequest, SearchVerenigingenResponse>
 {
     private readonly VerwijderLidmaatschapContext _testContext;

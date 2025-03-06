@@ -17,7 +17,7 @@ using NodaTime;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.WijzigBasisgegevens)]
 public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>,
                                       IAsyncLifetime
 {

@@ -21,9 +21,6 @@ public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

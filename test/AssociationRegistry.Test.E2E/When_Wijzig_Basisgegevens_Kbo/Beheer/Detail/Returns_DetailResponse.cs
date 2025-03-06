@@ -17,7 +17,7 @@ using NodaTime;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.WijzigBasisgegevensKbo)]
 public class Returns_DetailResponse :
     End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
 {

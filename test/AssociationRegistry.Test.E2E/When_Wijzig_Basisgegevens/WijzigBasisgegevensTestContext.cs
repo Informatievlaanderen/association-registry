@@ -23,9 +23,6 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
 
     public override async ValueTask InitializeAsync()
     {
-    }
-
-    public override async ValueTask Init()    {
         _werdGeregistreerdScenario = new(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);

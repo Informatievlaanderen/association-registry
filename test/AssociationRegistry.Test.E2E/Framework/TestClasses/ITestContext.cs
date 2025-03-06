@@ -9,5 +9,4 @@ public interface ITestContext<TRequest>: IAsyncLifetime
     IApiSetup ApiSetup { get; }
     TRequest Request { get; }
     RequestResult<TRequest> RequestResult { get; set; }
-    ValueTask Init();
 }

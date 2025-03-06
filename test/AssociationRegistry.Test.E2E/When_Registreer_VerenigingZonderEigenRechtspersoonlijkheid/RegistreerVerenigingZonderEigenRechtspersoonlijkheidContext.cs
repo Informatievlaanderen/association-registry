@@ -26,18 +26,6 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext: TestCo
 
     public override async ValueTask InitializeAsync()
     {
-        // _emptyScenario = new EmptyScenario();e
-        //
-        // var requestFactory = new RegistreerVZERRequestFactory();
-        //
-        // await ApiSetup.ExecuteGiven(_emptyScenario);
-        // RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
-        // await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        // await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-    }
-
-    public override async ValueTask Init()
-    {
         _emptyScenario = new EmptyScenario();
 
         var requestFactory = new RegistreerVZERRequestFactory();
@@ -47,4 +35,5 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext: TestCo
 
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
+
 }

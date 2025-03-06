@@ -9,7 +9,7 @@ using FluentAssertions;
 using Grar.GrarConsumer.Messaging;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.GenericSharedContext)]
 public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 {
     private readonly FullBlownApiSetup _setup;

@@ -20,7 +20,7 @@ using NodaTime;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.RegistreerVerenigingZonderEigenRechtspersoonlijkheid)]
 public class Returns_VZER_DetailResponse :
     End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, DetailVerenigingResponse>
 {

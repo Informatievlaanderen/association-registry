@@ -21,23 +21,9 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
     {
         ApiSetup = apiSetup;
         _emptyScenario = new EmptyScenario();
-
-        apiSetup.RegisterContext(this);
     }
 
     public override async ValueTask InitializeAsync()
-    {
-        // _emptyScenario = new EmptyScenario();e
-        //
-        // var requestFactory = new RegistreerFeitelijkeVerenigingRequestFactory();
-        //
-        // await ApiSetup.ExecuteGiven(_emptyScenario);
-        // RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
-        // await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        // await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-    }
-
-    public override async ValueTask Init()
     {
         var logger = ApiSetup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
 

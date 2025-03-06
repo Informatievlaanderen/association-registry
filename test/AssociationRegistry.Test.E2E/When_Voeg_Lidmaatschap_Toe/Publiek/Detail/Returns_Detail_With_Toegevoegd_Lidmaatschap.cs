@@ -8,7 +8,7 @@ using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.VoegLidmaatschapToe)]
 public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLidmaatschapToeContext>, IAsyncLifetime
 {
     private readonly VoegLidmaatschapToeContext _context;

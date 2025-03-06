@@ -31,8 +31,4 @@ public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequ
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
-
-    public override async ValueTask Init()    {
-
-    }
 }

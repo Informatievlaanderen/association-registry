@@ -9,7 +9,7 @@ using FluentAssertions;
 using System.Net;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.GenericSharedContext)]
 public class With_Super_Admin_Authentication {
     private readonly FullBlownApiSetup _apiSetup;
 

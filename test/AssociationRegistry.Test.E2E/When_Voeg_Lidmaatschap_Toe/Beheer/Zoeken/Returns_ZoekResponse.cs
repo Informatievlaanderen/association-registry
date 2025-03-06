@@ -17,7 +17,7 @@ using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.VoegLidmaatschapToe)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<VoegLidmaatschapToeContext, VoegLidmaatschapToeRequest, SearchVerenigingenResponse>
 {
     private readonly VoegLidmaatschapToeContext _testContext;

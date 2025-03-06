@@ -11,7 +11,7 @@ using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
 using Xunit;
 
-[Collection(MarkeerAlsDubbelVanContextCollection.Name)]
+[Collection(WellKnownCollections.MarkeerAlsDubbelVan)]
 public class Returns_ArrayOfDetailResponses : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, IEnumerable<JObject>>
 {
     public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>

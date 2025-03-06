@@ -11,7 +11,7 @@ using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.CorrigeerMarkeringAlsDubbelVan)]
 public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, HistoriekResponse>
 {
     private readonly ITestOutputHelper _helper;

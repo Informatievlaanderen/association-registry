@@ -14,7 +14,7 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(WellKnownCollections.WijzigBasisgegevensKbo)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
     SearchVerenigingenResponse>
 {
