@@ -19,6 +19,7 @@ using ResultNet;
 using Vereniging;
 using Wolverine;
 using Xunit;
+using Verenigingstype = Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
 {
@@ -26,7 +27,7 @@ public class With_Duplicates_Found
     public async Task Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        var messageBus = SetupRegistreerVZERCommandHandling(fixture);
+        var messageBus = MockRegistreerVzerCommandHandling(fixture);
         var registreerFeitelijkeVerenigingRequest = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
 
         var sut = new RegistreerFeitelijkeVerenigingController(messageBus.Object,
@@ -41,15 +42,42 @@ public class With_Duplicates_Found
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
 
-        actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen.Should()
-                                         .AllSatisfy(x => x.Verenigingstype.Code.Should()
-                                                           .Be(Verenigingstype.FeitelijkeVereniging.Code))
-                                         .And
-                                         .AllSatisfy(x => x.Verenigingstype.Naam.Should()
-                                                           .Be(Verenigingstype.FeitelijkeVereniging.Naam));
+        var mogelijkeDuplicateVerenigingen = actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen;
+
+        mogelijkeDuplicateVerenigingen.Should()
+                                      .AllSatisfy(x => x.Verenigingstype.Code.Should()
+                                                        .Be(Verenigingstype.FeitelijkeVereniging.Code))
+                                      .And
+                                      .AllSatisfy(x => x.Verenigingstype.Naam.Should()
+                                                        .Be(Verenigingstype.FeitelijkeVereniging.Naam));
     }
 
-    private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
+    [Fact]
+    public async Task Then_Verenigingssubtype_isNull()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var messageBus = MockRegistreerVzerCommandHandling(fixture);
+        var registreerFeitelijkeVerenigingRequest = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+
+        var sut = new RegistreerFeitelijkeVerenigingController(messageBus.Object,
+                                                               Mock.Of<IValidator<RegistreerFeitelijkeVerenigingRequest>>(),
+                                                               new AppSettings()
+                                                               {
+                                                                   BaseUrl = "http://localhost:5000",
+                                                               });
+
+        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), null);
+
+        var result = actual as ConflictObjectResult;
+        var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
+
+        var mogelijkeDuplicateVerenigingen = actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen;
+
+                mogelijkeDuplicateVerenigingen.Should()
+                                              .AllSatisfy(x => x.Verenigingssubtype.Should().BeNull());
+    }
+
+    private static Mock<IMessageBus> MockRegistreerVzerCommandHandling(Fixture fixture)
     {
         var messageBus = new Mock<IMessageBus>();
         var duplicatesFound = new PotentialDuplicatesFound(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
