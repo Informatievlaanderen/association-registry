@@ -16,7 +16,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
         => fixture.Result
                   .Werkingsgebieden
                   .Should().BeEquivalentTo([
-                       new VerenigingZoekDocument.Werkingsgebied
+                       new VerenigingZoekDocument.Types.Werkingsgebied
                        {
                            JsonLdMetadata = new JsonLdMetadata(
                                JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),

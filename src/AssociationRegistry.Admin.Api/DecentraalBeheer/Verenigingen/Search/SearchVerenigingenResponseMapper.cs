@@ -7,11 +7,12 @@ using Nest;
 using RequestModels;
 using ResponseModels;
 using Vereniging;
-using Doelgroep = Schema.Search.Doelgroep;
+using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseMapper
@@ -52,7 +53,8 @@ public class SearchVerenigingenResponseMapper
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
                 CorresponderendeVCodes = verenigingZoekDocument.CorresponderendeVCodes,
-                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, VerenigingZoekDocument.Types.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
+                Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(verenigingZoekDocument.Verenigingssubtype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -87,7 +89,7 @@ public class SearchVerenigingenResponseMapper
         }
     }
 
-    private static Lidmaatschap Map(VerenigingZoekDocument.Lidmaatschap l)
+    private static Lidmaatschap Map(VerenigingZoekDocument.Types.Lidmaatschap l)
         => new()
         {
             id = l.JsonLdMetadata.Id,
@@ -111,7 +113,7 @@ public class SearchVerenigingenResponseMapper
     private static VerenigingLinks Map(string vCode, AppSettings appSettings)
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
-    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
+    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket h)
         => new()
         {
             id = h.JsonLdMetadata.Id,
@@ -120,7 +122,7 @@ public class SearchVerenigingenResponseMapper
             Naam = h.Naam,
         };
 
-    private static Werkingsgebied Map(VerenigingZoekDocument.Werkingsgebied wg)
+    private static Werkingsgebied Map(VerenigingZoekDocument.Types.Werkingsgebied wg)
         => new()
         {
             id = wg.JsonLdMetadata.Id,
@@ -153,7 +155,7 @@ public class SearchVerenigingenResponseMapper
             separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
-    private static Locatie Map(VerenigingZoekDocument.Locatie loc)
+    private static Locatie Map(VerenigingZoekDocument.Types.Locatie loc)
     {
         if (loc == null)
             throw new ArgumentNullException(nameof(loc));
@@ -174,7 +176,7 @@ public class SearchVerenigingenResponseMapper
         };
     }
 
-    private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
+    private static Sleutel Map(VerenigingZoekDocument.Types.Sleutel s)
         => new()
         {
             id = s.JsonLdMetadata.Id,

@@ -21,7 +21,7 @@ public class WijzigSubtypeRequestVoorVerfijnNaarFvFactory : ITestRequestFactory<
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Subtype.FeitelijkeVereniging.Code,
+            Subtype = Verenigingssubtype.FeitelijkeVereniging.Code,
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

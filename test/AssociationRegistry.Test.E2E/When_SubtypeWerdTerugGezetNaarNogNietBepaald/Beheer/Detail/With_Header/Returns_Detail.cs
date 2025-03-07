@@ -11,8 +11,8 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Vereniging;
 using Xunit;
-using Subtype = Vereniging.Subtype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
@@ -35,12 +35,12 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, W
     {
         var expected = new SubtypeData
         {
-            id = JsonLdType.Subtype.CreateWithIdValues(Subtype.NogNietBepaald.Code),
+            id = JsonLdType.Subtype.CreateWithIdValues(Verenigingssubtype.NogNietBepaald.Code),
             type = JsonLdType.Subtype.Type,
             Subtype = new Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
             {
-                Code = Subtype.NogNietBepaald.Code,
-                Naam = Subtype.NogNietBepaald.Naam,
+                Code = Verenigingssubtype.NogNietBepaald.Code,
+                Naam = Verenigingssubtype.NogNietBepaald.Naam,
             },
         };
 

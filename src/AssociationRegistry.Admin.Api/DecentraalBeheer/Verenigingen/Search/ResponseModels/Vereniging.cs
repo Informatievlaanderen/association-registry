@@ -77,4 +77,17 @@ public class Vereniging
     /// <summary>De lidmaatschappen van de vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
+
+    /// <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+    public Verenigingssubtype Verenigingssubtype { get; set; }
+
+
+    /// <summary>
+    /// Extra informatie over het subtype, indien de vereniging een subvereniging is van een andere vereniging.
+    /// </summary>
+    [DataMember(Name = "SubverenigingVan", EmitDefaultValue = false)]
+    public VerenigingssubtypeData SubverenigingVan { get; set; }
 }

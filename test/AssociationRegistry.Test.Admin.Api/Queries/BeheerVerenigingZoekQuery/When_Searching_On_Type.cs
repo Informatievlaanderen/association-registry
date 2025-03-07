@@ -41,7 +41,7 @@ public class When_Searching_On_Type
         _feitelijkeVereniging.IsDubbel = false;
         _feitelijkeVereniging.IsVerwijderd = false;
         _feitelijkeVereniging.IsUitgeschrevenUitPubliekeDatastroom = false;
-        _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+        _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
         {
             Code = Verenigingstype.FeitelijkeVereniging.Code,
             Naam = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -52,7 +52,7 @@ public class When_Searching_On_Type
         _vzer.IsDubbel = false;
         _vzer.IsVerwijderd = false;
         _vzer.IsUitgeschrevenUitPubliekeDatastroom = false;
-        _vzer.Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+        _vzer.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
         {
             Code = Verenigingstype.VZER.Code,
             Naam = Verenigingstype.VZER.Naam,

@@ -11,7 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vereniging;
-using Doelgroep = Schema.Search.Doelgroep;
+using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
@@ -71,7 +71,7 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
-                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType,VerenigingZoekDocument.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType,VerenigingZoekDocument.Types.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -81,8 +81,8 @@ public class SearchVerenigingenResponseMapper
                                                                           .Select(Map)
                                                                           .ToArray(),
                 Werkingsgebieden = verenigingZoekDocument.Werkingsgebieden
-                                                                          .Select(Map)
-                                                                          .ToArray(),
+                                                         .Select(Map)
+                                                         .ToArray(),
                 Locaties = verenigingZoekDocument.Locaties
                                                  .Select(Map)
                                                  .ToArray(),
@@ -119,7 +119,7 @@ public class SearchVerenigingenResponseMapper
     private static VerenigingLinks Map(string vCode, AppSettings appSettings)
         => new() { Detail = new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{vCode}") };
 
-    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.HoofdactiviteitVerenigingsloket h)
+    private static HoofdactiviteitVerenigingsloket Map(VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket h)
         => new()
         {
             id = h.JsonLdMetadata.Id,
@@ -128,7 +128,7 @@ public class SearchVerenigingenResponseMapper
             Naam = h.Naam,
         };
 
-    private static Werkingsgebied Map(VerenigingZoekDocument.Werkingsgebied w)
+    private static Werkingsgebied Map(VerenigingZoekDocument.Types.Werkingsgebied w)
         => new()
         {
             id = w.JsonLdMetadata.Id,
@@ -205,7 +205,7 @@ public class SearchVerenigingenResponseMapper
             separator: ',',
             originalHoofdactiviteiten.Append(hoofdActiviteitCode).Select(x => x.ToUpperInvariant()).Distinct());
 
-    private static Lidmaatschap Map(VerenigingZoekDocument.Lidmaatschap l)
+    private static Lidmaatschap Map(VerenigingZoekDocument.Types.Lidmaatschap l)
         => new()
         {
             id = l.JsonLdMetadata.Id,
@@ -217,7 +217,7 @@ public class SearchVerenigingenResponseMapper
             Identificatie = l.Identificatie,
         };
 
-    private static Locatie Map(VerenigingZoekDocument.Locatie loc)
+    private static Locatie Map(VerenigingZoekDocument.Types.Locatie loc)
         => new()
         {
             id = loc.JsonLdMetadata.Id,
@@ -230,7 +230,7 @@ public class SearchVerenigingenResponseMapper
             Gemeente = loc.Gemeente,
         };
 
-    private static Sleutel Map(VerenigingZoekDocument.Sleutel s)
+    private static Sleutel Map(VerenigingZoekDocument.Types.Sleutel s)
         => new()
         {
             id = s.JsonLdMetadata.Id,
@@ -247,7 +247,7 @@ public class SearchVerenigingenResponseMapper
                 },
         };
 
-    private static Relatie Map(AppSettings appSettings, Schema.Search.Relatie r)
+    private static Relatie Map(AppSettings appSettings, Schema.Search.VerenigingZoekDocument.Types.Relatie r)
         => new()
         {
             Relatietype = r.Relatietype,

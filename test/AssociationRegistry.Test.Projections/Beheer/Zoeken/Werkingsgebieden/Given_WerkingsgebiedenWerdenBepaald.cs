@@ -14,7 +14,7 @@ public class Given_WerkingsgebiedenWerdenBepaald(BeheerZoekenScenarioFixture<Wer
         => fixture.Result
                   .Werkingsgebieden
                   .Should().BeEquivalentTo(fixture.Scenario.WerkingsgebiedenWerdenBepaald.Werkingsgebieden.Select(
-                                               s => new VerenigingZoekDocument.Werkingsgebied
+                                               s => new VerenigingZoekDocument.Types.Werkingsgebied
                                                {
                                                    JsonLdMetadata = new JsonLdMetadata(
                                                        JsonLdType.Werkingsgebied.CreateWithIdValues(s.Code),

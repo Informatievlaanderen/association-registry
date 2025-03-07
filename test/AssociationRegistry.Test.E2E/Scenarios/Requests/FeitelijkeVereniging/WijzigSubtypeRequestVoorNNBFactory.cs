@@ -21,7 +21,7 @@ public class WijzigSubtypeRequestVoorNNBFactory : ITestRequestFactory<WijzigSubt
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Subtype.NogNietBepaald.Code,
+            Subtype = Verenigingssubtype.NogNietBepaald.Code,
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

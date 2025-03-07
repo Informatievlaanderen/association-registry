@@ -157,12 +157,12 @@ public class BeheerVerenigingDetailMapper
             Naam = verenigingstype.Naam,
         };
 
-    public static Subtype MapSubtype(AssociationRegistry.Vereniging.Subtype subtype)
+    public static Subtype MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype verenigingssubtype)
         => new()
         {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Subtype, subtype.Code),
-            Code = subtype.Code,
-            Naam = subtype.Naam,
+            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Subtype, verenigingssubtype.Code),
+            Code = verenigingssubtype.Code,
+            Naam = verenigingssubtype.Naam,
         };
 
     public static Sleutel MapKboSleutel(string kboNummer, string vCode)

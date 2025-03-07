@@ -14,7 +14,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Verfijn subtype naar feitelijke vereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Subtype.FeitelijkeVereniging.Code,
+                Subtype = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
                 Beschrijving = null,
                 Identificatie = null,
                 AndereVereniging = null,
@@ -27,7 +27,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Zet subtype terug naar nog niet bepaald.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Subtype.NogNietBepaald.Code,
+                Subtype = Vereniging.Verenigingssubtype.NogNietBepaald.Code,
                 Beschrijving = null,
                 Identificatie = null,
                 AndereVereniging = null,
@@ -40,7 +40,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Verfijn subtype naar subvereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Subtype.SubVereniging.Code,
+                Subtype = Vereniging.Verenigingssubtype.SubVereniging.Code,
                 AndereVereniging = "V0001002",
                 Beschrijving = "De subvereniging van V0001002",
                 Identificatie = "0012"
@@ -53,7 +53,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Wijzig het subtype subvereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Subtype.SubVereniging.Code,
+                Subtype = Vereniging.Verenigingssubtype.SubVereniging.Code,
                 AndereVereniging = "V0001002",
                 Beschrijving = "De subvereniging van V0001002",
                 Identificatie = "0012"

@@ -28,7 +28,7 @@ public class Given_It_Already_Exists
     public async Task Then_It_Does_Not_Add_It_Again()
     {
         // dochter
-        var locatie = _autofixture.Create<VerenigingZoekDocument.Locatie>();
+        var locatie = _autofixture.Create<VerenigingZoekDocument.Types.Locatie>();
 
         var repository = new ElasticRepository(_fixture.ElasticClient);
 

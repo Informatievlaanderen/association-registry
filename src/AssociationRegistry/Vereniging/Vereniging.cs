@@ -274,18 +274,18 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
-        if(State.Subtype == Subtype.FeitelijkeVereniging)
+        if(State.Verenigingssubtype == Verenigingssubtype.FeitelijkeVereniging)
             return;
 
-        AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode, Subtype.FeitelijkeVereniging));
+        AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode, Verenigingssubtype.FeitelijkeVereniging));
     }
 
     public void ZetSubtypeNaarNogNietBepaald()
     {
-        if(State.Subtype == Subtype.NogNietBepaald)
+        if(State.Verenigingssubtype == Verenigingssubtype.NogNietBepaald)
             return;
 
-        AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNogNietBepaald(VCode, Subtype.NogNietBepaald));
+        AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNogNietBepaald(VCode, Verenigingssubtype.NogNietBepaald));
     }
 
     public void Hydrate(VerenigingState obj)

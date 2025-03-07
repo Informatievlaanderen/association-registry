@@ -15,6 +15,7 @@ using NodaTime;
 
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -51,6 +52,11 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingZonderE
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
+            },
+            Verenigingssubtype = new Verenigingssubtype()
+            {
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
             },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),

@@ -50,11 +50,11 @@ public class WijzigSubtypeRequest
                 SubtypeBeschrijving.Create(Beschrijving ?? string.Empty)));
 
     private bool IsFeitelijkeVereniging(string code)
-        => code == AssociationRegistry.Vereniging.Subtype.FeitelijkeVereniging.Code;
+        => code == AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code;
 
     private bool IsNogNietBepaald(string code)
-        => code == AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code;
+        => code == AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code;
 
     private bool IsSubVereniging(string code)
-        => code == AssociationRegistry.Vereniging.Subtype.SubVereniging.Code;
+        => code == AssociationRegistry.Vereniging.Verenigingssubtype.SubVereniging.Code;
 }

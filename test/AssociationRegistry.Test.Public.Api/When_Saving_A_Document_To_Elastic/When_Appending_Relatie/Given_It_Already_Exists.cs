@@ -28,9 +28,9 @@ public class Given_It_Already_Exists
     public async Task Then_It_Does_Not_Add_It_Again()
     {
         // dochter
-        var relatie = new Relatie
+        var relatie = new VerenigingZoekDocument.Types.Relatie
         {
-            AndereVereniging = _autofixture.Create<GerelateerdeVereniging>(),
+            AndereVereniging = _autofixture.Create<VerenigingZoekDocument.Types.GerelateerdeVereniging>(),
         };
 
         var repository = new ElasticRepository(_fixture.ElasticClient);
