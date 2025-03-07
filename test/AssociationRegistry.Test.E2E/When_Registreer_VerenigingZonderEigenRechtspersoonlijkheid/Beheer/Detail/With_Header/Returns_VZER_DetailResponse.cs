@@ -66,12 +66,12 @@ public class Returns_VZER_DetailResponse :
             },
             Subtype = new SubtypeData
             {
-                id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code),
+                id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code),
                 type = JsonLdType.Subtype.Type,
                 Subtype = new Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
                 {
-                    Code = AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Code,
-                    Naam = AssociationRegistry.Vereniging.Subtype.NogNietBepaald.Naam
+                    Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                    Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam
                 },
             },
             Naam = Request.Naam,

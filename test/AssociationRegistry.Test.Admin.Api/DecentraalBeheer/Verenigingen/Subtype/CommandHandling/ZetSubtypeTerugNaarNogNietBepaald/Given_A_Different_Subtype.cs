@@ -32,7 +32,7 @@ public class Given_A_Different_Subtype
         verenigingRepositoryMock.ShouldHaveSaved(
             new SubtypeWerdTerugGezetNaarNogNietBepaald(
                 scenario.VCode,
-                new Registratiedata.Subtype(Subtype.NogNietBepaald.Code,
-                                            Subtype.NogNietBepaald.Naam)));
+                new Registratiedata.Subtype(Verenigingssubtype.NogNietBepaald.Code,
+                                            Verenigingssubtype.NogNietBepaald.Naam)));
     }
 }

@@ -728,6 +728,17 @@ public class BeheerVerenigingHistoriekProjector
     }
 
 
+    public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            "Vereniging zonder eigen rechtspersoonlijkheid werd verfijnd naar feitelijke vereniging."
+        );
+    }
+
+
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
         {

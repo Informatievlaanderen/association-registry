@@ -19,7 +19,7 @@ public record VerenigingState : IHasVersion
     }
 
     public Verenigingstype Verenigingstype { get; init; } = null!;
-    public Subtype Subtype { get; init; } = null!;
+    public Verenigingssubtype Verenigingssubtype { get; init; } = null!;
     public VCode VCode { get; private set; } = null!;
     public KboNummer? KboNummer { get; private init; }
     public VerenigingsNaam Naam { get; private init; } = null!;
@@ -122,7 +122,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.VZER,
-            Subtype = Subtype.NogNietBepaald,
+            Verenigingssubtype = Verenigingssubtype.NogNietBepaald,
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -782,19 +782,19 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingstype = Verenigingstype.VZER,
-            Subtype = Subtype.NogNietBepaald,
+            Verenigingssubtype = Verenigingssubtype.NogNietBepaald,
         };
 
     public VerenigingState Apply(SubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
         => this with
         {
-            Subtype = Subtype.FeitelijkeVereniging,
+            Verenigingssubtype = Verenigingssubtype.FeitelijkeVereniging,
         };
 
     public VerenigingState Apply(SubtypeWerdTerugGezetNaarNogNietBepaald @event)
         => this with
         {
-            Subtype = Subtype.NogNietBepaald,
+            Verenigingssubtype = Verenigingssubtype.NogNietBepaald,
         };
 
     public void ThrowIfVerwijderd()

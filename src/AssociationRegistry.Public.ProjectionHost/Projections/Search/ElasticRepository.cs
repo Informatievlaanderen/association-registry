@@ -48,7 +48,7 @@ public class ElasticRepository : IElasticRepository
 
 
 
-    public async Task<VerenigingZoekDocument.Locatie> GetLocatie(string id, int locatieId)
+    public async Task<VerenigingZoekDocument.Types.Locatie> GetLocatie(string id, int locatieId)
     {
         var response = await _elasticClient.GetAsync<VerenigingZoekDocument>(id);
 
@@ -56,7 +56,7 @@ public class ElasticRepository : IElasticRepository
         return locatie;
     }
 
-    public async Task AppendLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    public async Task AppendLocatie(string id, VerenigingZoekDocument.Types.Locatie locatie)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
@@ -71,7 +71,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task AppendLidmaatschap(string id, VerenigingZoekDocument.Lidmaatschap lidmaatschap)
+    public async Task AppendLidmaatschap(string id, VerenigingZoekDocument.Types.Lidmaatschap lidmaatschap)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
@@ -86,7 +86,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task UpdateLidmaatschap(string id, VerenigingZoekDocument.Lidmaatschap lidmaatschap)
+    public async Task UpdateLidmaatschap(string id, VerenigingZoekDocument.Types.Lidmaatschap lidmaatschap)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
@@ -123,7 +123,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task UpdateLocatie(string id, VerenigingZoekDocument.Locatie locatie)
+    public async Task UpdateLocatie(string id, VerenigingZoekDocument.Types.Locatie locatie)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
@@ -193,7 +193,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task AppendRelatie(string id, Relatie relatie)
+    public async Task AppendRelatie(string id, VerenigingZoekDocument.Types.Relatie relatie)
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,

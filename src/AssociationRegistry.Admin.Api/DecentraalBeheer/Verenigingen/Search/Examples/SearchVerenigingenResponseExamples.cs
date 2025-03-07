@@ -11,6 +11,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
@@ -90,8 +91,13 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = Verenigingstype.FeitelijkeVereniging.Code,
                             Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                         },
-                        Lidmaatschappen = new[]
-                        {
+                        Verenigingssubtype =  new Verenigingssubtype()
+                            {
+                                Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
+                                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
+                        },
+                        Lidmaatschappen =
+                        [
                             new Lidmaatschap()
                             {
                                 id = JsonLdType.Lidmaatschap.CreateWithIdValues("V0001001", "1"),
@@ -104,7 +110,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                                 Beschrijving = "Tijdelijk lidmaatschap",
                                 Identificatie = "L1234",
                             },
-                        },
+                        ],
                         Sleutels = new[]
                         {
                             new Sleutel

@@ -67,7 +67,7 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task<VerenigingZoekDocument.Locatie> GetLocatie(string id, int locatieId)
+    public async Task<VerenigingZoekDocument.Types.Locatie> GetLocatie(string id, int locatieId)
     {
         var response = await _elasticClient.GetAsync<VerenigingZoekDocument>(id);
 

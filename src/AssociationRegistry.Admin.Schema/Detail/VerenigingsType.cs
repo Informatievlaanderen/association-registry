@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Public.Schema;
+namespace AssociationRegistry.Admin.Schema;
 
 using Vereniging;
 

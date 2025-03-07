@@ -15,7 +15,7 @@ using Nest;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
-using Doelgroep = AssociationRegistry.Admin.Schema.Search.Doelgroep;
+using Doelgroep = AssociationRegistry.Admin.Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 
 [Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
@@ -52,7 +52,7 @@ public class BeheerVerenigingenZoekQueryTests
                     VCode = fixture.Create<VCode>(),
                     Naam = fixture.Create<string>(),
                     KorteNaam = fixture.Create<string>(),
-                    Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+                    Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                     {
                         Code = Verenigingstype.FeitelijkeVereniging.Code,
                         Naam = Verenigingstype.FeitelijkeVereniging.Naam,

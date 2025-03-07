@@ -278,11 +278,11 @@ public static class EventFactory
             adres.Adres.Gemeente);
     }
 
-    public static SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode, Subtype subtype)
-        => new(vCode, Subtype(subtype));
-    public static SubtypeWerdTerugGezetNaarNogNietBepaald SubtypeWerdTerugGezetNaarNogNietBepaald(VCode vCode, Subtype subtype)
-        => new(vCode, Subtype(subtype));
+    public static SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode, Verenigingssubtype verenigingssubtype)
+        => new(vCode, Subtype(verenigingssubtype));
+    public static SubtypeWerdTerugGezetNaarNogNietBepaald SubtypeWerdTerugGezetNaarNogNietBepaald(VCode vCode, Verenigingssubtype verenigingssubtype)
+        => new(vCode, Subtype(verenigingssubtype));
 
-    public static Registratiedata.Subtype Subtype(Subtype subtype)
-        => new(subtype.Code, subtype.Naam);
+    public static Registratiedata.Subtype Subtype(Verenigingssubtype verenigingssubtype)
+        => new(verenigingssubtype.Code, verenigingssubtype.Naam);
 }

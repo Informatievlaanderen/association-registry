@@ -5,6 +5,7 @@ using Formats;
 using Framework;
 using JsonLdContext;
 using Marten.Events;
+using Microsoft.Extensions.Logging.Abstractions;
 using Schema;
 using Schema.Detail;
 using Vereniging;
@@ -12,7 +13,6 @@ using Vereniging;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
-using Subtype = Vereniging.Subtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Constants.WellknownFormats;
@@ -26,7 +26,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.FeitelijkeVereniging),
-            Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald),
+            Subtype = null,
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -70,7 +70,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER),
-            Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald),
+            Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -119,6 +119,7 @@ public class BeheerVerenigingDetailProjector
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
                 Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
+            Subtype = null,
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
@@ -832,16 +833,16 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingsType(Verenigingstype.VZER);
-        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald);
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald);
     }
 
     public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.FeitelijkeVereniging);
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.FeitelijkeVereniging);
     }
 
     public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNogNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Subtype.NogNietBepaald);
+        document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald);
     }
 }

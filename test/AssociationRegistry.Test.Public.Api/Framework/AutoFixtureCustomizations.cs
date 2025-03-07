@@ -30,12 +30,12 @@ public static class AutoFixtureCustomizations
 
                     var document = new VerenigingZoekDocument();
                     document.VCode = fixture.Create<VCode>();
-                    document.Locaties = fixture.CreateMany<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
+                    document.Locaties = fixture.CreateMany<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Types.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
                     document.Naam = fixture.Create<string>();
-                    document.Doelgroep = fixture.Create<AssociationRegistry.Public.Schema.Search.Doelgroep>();
+                    document.Doelgroep = fixture.Create<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Types.Doelgroep>();
 
                     document.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                                       .Select(x => new AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.HoofdactiviteitVerenigingsloket()
+                                                                       .Select(x => new AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket()
                                                                          {
                                                                              JsonLdMetadata = new JsonLdMetadata(
                                                                                  JsonLdType.Hoofdactiviteit.CreateWithIdValues(JsonLdType.Hoofdactiviteit.Type, x.Code),
@@ -57,9 +57,9 @@ public static class AutoFixtureCustomizations
                     document.KorteBeschrijving = fixture.Create<string>();
                     document.Werkingsgebieden = withoutWerkingsgebieden
                         ? []
-                        : fixture.CreateMany<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Werkingsgebied>()
+                        : fixture.CreateMany<AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Types.Werkingsgebied>()
                                  .Distinct()
-                                 .Select(x => new AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Werkingsgebied()
+                                 .Select(x => new AssociationRegistry.Public.Schema.Search.VerenigingZoekDocument.Types.Werkingsgebied()
                                   {
                                       JsonLdMetadata = new JsonLdMetadata(
                                           JsonLdType.Werkingsgebied.CreateWithIdValues(JsonLdType.Werkingsgebied.Type, x.Code),

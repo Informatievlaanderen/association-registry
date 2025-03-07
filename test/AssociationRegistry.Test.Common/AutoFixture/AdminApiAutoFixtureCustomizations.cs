@@ -175,13 +175,13 @@ public static class AdminApiAutoFixtureCustomizations
                                                   Math.Min(datum.Value.Day, 28));
                     var document = new VerenigingZoekDocument();
                     document.VCode = fixture.Create<VCode>();
-                    document.Locaties = fixture.CreateMany<Admin.Schema.Search.VerenigingZoekDocument.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
+                    document.Locaties = fixture.CreateMany<Admin.Schema.Search.VerenigingZoekDocument.Types.Locatie>().DistinctBy(l => l.Locatietype).ToArray();
                     document.Startdatum = startDatum.FormatAsBelgianDate();
                     document.Naam = fixture.Create<string>();
-                    document.Doelgroep = fixture.Create<Admin.Schema.Search.Doelgroep>();
+                    document.Doelgroep = fixture.Create<Admin.Schema.Search.VerenigingZoekDocument.Types.Doelgroep>();
                     document.Lidmaatschappen = [];
                     document.HoofdactiviteitenVerenigingsloket = fixture.CreateMany<HoofdactiviteitVerenigingsloket>()
-                                                                       .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.HoofdactiviteitVerenigingsloket()
+                                                                       .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket()
                                                                          {
                                                                              JsonLdMetadata = new JsonLdMetadata(
                                                                                  JsonLdType.Hoofdactiviteit.CreateWithIdValues(JsonLdType.Hoofdactiviteit.Type, x.Code),
@@ -198,7 +198,7 @@ public static class AdminApiAutoFixtureCustomizations
                         ? []
                         : fixture.CreateMany<Werkingsgebied>()
                                  .Distinct()
-                                 .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.Werkingsgebied()
+                                 .Select(x => new Admin.Schema.Search.VerenigingZoekDocument.Types.Werkingsgebied()
                                   {
                                       JsonLdMetadata = new JsonLdMetadata(
                                           JsonLdType.Werkingsgebied.CreateWithIdValues(JsonLdType.Werkingsgebied.Type, x.Code),

@@ -8,8 +8,7 @@ using Schema.Constants;
 using Schema.Detail;
 using Schema.Search;
 using Vereniging;
-
-using Doelgroep = Schema.Search.Doelgroep;
+using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public class PubliekZoekProjectionHandler
@@ -50,7 +49,7 @@ public class PubliekZoekProjectionHandler
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
                                                                 hoofdactiviteitVerenigingsloket =>
-                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
                                                                     {
                                                                         JsonLdMetadata =
                                                                             CreateJsonLdMetadata(
@@ -65,13 +64,13 @@ public class PubliekZoekProjectionHandler
                 Sleutels =
                     new[]
                     {
-                        new VerenigingZoekDocument.Sleutel
+                        new VerenigingZoekDocument.Types.Sleutel
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.VR),
                             Bron = Sleutelbron.VR,
                             Waarde = message.Data.VCode,
                             CodeerSysteem = CodeerSysteem.VR,
-                            GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                            GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
                             {
                                 JsonLdMetadata =
                                     CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.Data.VCode, Sleutelbron.VR),
@@ -79,22 +78,22 @@ public class PubliekZoekProjectionHandler
                             },
                         },
                     },
-                Relaties = Array.Empty<Relatie>(),
+                Relaties = [],
             }
         );
     }
 
-    private static VerenigingZoekDocument.VerenigingsType MapVerenigingstype(
+    private static VerenigingZoekDocument.Types.VerenigingsType MapVerenigingstype(
         IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
     {
         return @event switch
         {
-            FeitelijkeVerenigingWerdGeregistreerd => new VerenigingZoekDocument.VerenigingsType()
+            FeitelijkeVerenigingWerdGeregistreerd => new VerenigingZoekDocument.Types.VerenigingsType()
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.VerenigingsType()
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.Types.VerenigingsType()
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
@@ -109,7 +108,7 @@ public class PubliekZoekProjectionHandler
             {
                 JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
                 VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
@@ -125,38 +124,38 @@ public class PubliekZoekProjectionHandler
                     Minimumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMinimumleeftijd,
                     Maximumleeftijd = AssociationRegistry.Vereniging.Doelgroep.StandaardMaximumleeftijd,
                 },
-                Locaties = Array.Empty<VerenigingZoekDocument.Locatie>(),
-                HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.HoofdactiviteitVerenigingsloket>(),
-                Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Werkingsgebied>(),
+                Locaties = Array.Empty<VerenigingZoekDocument.Types.Locatie>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket>(),
+                Werkingsgebieden = Array.Empty<VerenigingZoekDocument.Types.Werkingsgebied>(),
                 Lidmaatschappen = [],
                 Sleutels = new[]
                 {
-                    new VerenigingZoekDocument.Sleutel
+                    new VerenigingZoekDocument.Types.Sleutel
                     {
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.VR),
                         Bron = Sleutelbron.VR,
                         Waarde = message.Data.VCode,
                         CodeerSysteem = CodeerSysteem.VR,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.Data.VCode, Sleutelbron.VR),
                             Nummer = message.Data.VCode,
                         },
                     },
-                    new VerenigingZoekDocument.Sleutel
+                    new VerenigingZoekDocument.Types.Sleutel
                     {
                         JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Sleutel, message.Data.VCode, Sleutelbron.KBO),
                         Bron = Sleutelbron.KBO,
                         Waarde = message.Data.KboNummer,
                         CodeerSysteem = CodeerSysteem.KBO,
-                        GestructureerdeIdentificator = new VerenigingZoekDocument.GestructureerdeIdentificator
+                        GestructureerdeIdentificator = new VerenigingZoekDocument.Types.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.GestructureerdeSleutel, message.Data.VCode, Sleutelbron.KBO),
                             Nummer = message.Data.KboNummer,
                         },
                     },
                 },
-                Relaties = Array.Empty<Relatie>(),
+                Relaties = [],
             }
         );
 
@@ -221,7 +220,7 @@ public class PubliekZoekProjectionHandler
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
                                                                 hoofdactiviteitVerenigingsloket =>
-                                                                    new VerenigingZoekDocument.HoofdactiviteitVerenigingsloket
+                                                                    new VerenigingZoekDocument.Types.HoofdactiviteitVerenigingsloket
                                                                     {
                                                                         JsonLdMetadata =
                                                                             CreateJsonLdMetadata(
@@ -254,7 +253,7 @@ public class PubliekZoekProjectionHandler
                 Werkingsgebieden = message.Data.Werkingsgebieden
                                           .Select(
                                                werkingsgebied =>
-                                                   new VerenigingZoekDocument.Werkingsgebied()
+                                                   new VerenigingZoekDocument.Types.Werkingsgebied()
                                                    {
                                                        JsonLdMetadata =
                                                            CreateJsonLdMetadata(
@@ -277,7 +276,7 @@ public class PubliekZoekProjectionHandler
                 Werkingsgebieden = message.Data.Werkingsgebieden
                                           .Select(
                                                werkingsgebied =>
-                                                   new VerenigingZoekDocument.Werkingsgebied()
+                                                   new VerenigingZoekDocument.Types.Werkingsgebied()
                                                    {
                                                        JsonLdMetadata =
                                                            CreateJsonLdMetadata(
@@ -299,7 +298,7 @@ public class PubliekZoekProjectionHandler
             {
                 Werkingsgebieden =
                 [
-                    new VerenigingZoekDocument.Werkingsgebied()
+                    new VerenigingZoekDocument.Types.Werkingsgebied()
                     {
                         JsonLdMetadata =
                             CreateJsonLdMetadata(
@@ -354,7 +353,7 @@ public class PubliekZoekProjectionHandler
             message.Data.Locatie.LocatieId);
     }
 
-    private static VerenigingZoekDocument.Locatie Map(Registratiedata.Locatie locatie, string vCode)
+    private static VerenigingZoekDocument.Types.Locatie Map(Registratiedata.Locatie locatie, string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Locatie, vCode, locatie.LocatieId.ToString()),
@@ -368,8 +367,8 @@ public class PubliekZoekProjectionHandler
             Gemeente = locatie.Adres?.Gemeente ?? string.Empty,
         };
 
-    private static VerenigingZoekDocument.Locatie Map(
-        VerenigingZoekDocument.Locatie locatie,
+    private static VerenigingZoekDocument.Types.Locatie Map(
+        VerenigingZoekDocument.Types.Locatie locatie,
         Registratiedata.AdresUitAdressenregister adresUitAdressenregister,
         string vCode)
         => new()
@@ -403,7 +402,7 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository.UpdateLocatie(
             message.VCode,
-            new VerenigingZoekDocument.Locatie
+            new VerenigingZoekDocument.Types.Locatie
             {
                 LocatieId = message.Data.LocatieId,
                 Naam = message.Data.Naam,
@@ -471,7 +470,7 @@ public class PubliekZoekProjectionHandler
             message.VCode,
             new VerenigingZoekDocument
             {
-                Verenigingstype = new VerenigingZoekDocument.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
@@ -554,7 +553,7 @@ public class PubliekZoekProjectionHandler
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument
             {
-                Verenigingstype = new VerenigingZoekDocument.VerenigingsType()
+                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType()
                 {
                     Code = Verenigingstype.VZER.Code,
                     Naam = Verenigingstype.VZER.Naam,
@@ -562,7 +561,7 @@ public class PubliekZoekProjectionHandler
             });
     }
 
-    private static VerenigingZoekDocument.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
+    private static VerenigingZoekDocument.Types.Lidmaatschap Map(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new()
         {
             JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Lidmaatschap, vCode, lidmaatschap.LidmaatschapId.ToString()),

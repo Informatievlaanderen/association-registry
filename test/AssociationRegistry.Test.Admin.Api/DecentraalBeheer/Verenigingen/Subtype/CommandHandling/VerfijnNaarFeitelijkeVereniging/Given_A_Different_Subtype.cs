@@ -32,7 +32,7 @@ public class Given_A_Different_Subtype
         verenigingRepositoryMock.ShouldHaveSaved(
             new SubtypeWerdVerfijndNaarFeitelijkeVereniging(
                 scenario.VCode,
-                new Registratiedata.Subtype(Subtype.FeitelijkeVereniging.Code,
-                                            Subtype.FeitelijkeVereniging.Naam)));
+                new Registratiedata.Subtype(Verenigingssubtype.FeitelijkeVereniging.Code,
+                                            Verenigingssubtype.FeitelijkeVereniging.Naam)));
     }
 }
