@@ -25,8 +25,8 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         VCode: "V0001001",
                         new DuplicaatVereniging.VerenigingsType()
                         {
-                            Code = Verenigingstype.FeitelijkeVereniging.Code,
-                            Naam = Verenigingstype.FeitelijkeVereniging.Naam
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam
                         },
                         Naam: "Naam",
                         KorteNaam: "Korte naam",

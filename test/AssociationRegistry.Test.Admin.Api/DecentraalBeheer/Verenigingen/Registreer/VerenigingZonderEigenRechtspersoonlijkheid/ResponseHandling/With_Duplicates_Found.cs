@@ -20,6 +20,7 @@ using ResultNet;
 using Vereniging;
 using Wolverine;
 using Xunit;
+using Verenigingstype = Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
 {
@@ -48,6 +49,31 @@ public class With_Duplicates_Found
                                          .And
                                          .AllSatisfy(x => x.Verenigingstype.Naam.Should()
                                                            .Be(Verenigingstype.VZER.Naam));
+    }
+
+    [Fact]
+    public async Task Then_Verenigingssubtype_isNull()
+    {
+        var fixture = new Fixture().CustomizeAdminApi();
+        var messageBus = SetupRegistreerVZERCommandHandling(fixture);
+        var registreerFeitelijkeVerenigingRequest = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+
+        var sut = new RegistreerFeitelijkeVerenigingController(messageBus.Object,
+                                                               Mock.Of<IValidator<RegistreerFeitelijkeVerenigingRequest>>(),
+                                                               new AppSettings()
+                                                               {
+                                                                   BaseUrl = "http://localhost:5000",
+                                                               });
+
+        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), null);
+
+        var result = actual as ConflictObjectResult;
+        var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
+
+        var mogelijkeDuplicateVerenigingen = actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen;
+
+        mogelijkeDuplicateVerenigingen.Should()
+                                      .AllSatisfy(x => x.Verenigingssubtype.Should().BeNull());
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)

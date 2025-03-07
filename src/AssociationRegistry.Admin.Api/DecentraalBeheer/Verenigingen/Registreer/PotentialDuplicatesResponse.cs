@@ -49,7 +49,7 @@ public class PotentialDuplicatesResponse
             document.VCode,
             document.Naam,
             document.KorteNaam,
-            verenigingstypeMapper.Map<VerenigingsType,DuplicaatVereniging.VerenigingsType>(document.Verenigingstype),
+            verenigingstypeMapper.Map<Verenigingstype,DuplicaatVereniging.VerenigingsType>(document.Verenigingstype),
             document.HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.FromDuplicaatVereniging).ToImmutableArray(),
             document.Locaties.Select(Locatie.FromDuplicaatVereniging).ToImmutableArray(),
             new VerenigingLinks(new Uri($"{appSettings.BaseUrl}/v1/verenigingen/{(string?)document.VCode}")));

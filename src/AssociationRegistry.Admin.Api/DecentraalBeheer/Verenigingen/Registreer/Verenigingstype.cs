@@ -6,12 +6,12 @@ using Vereniging;
 
 
 [DataContract]
-public class VerenigingsType : IVerenigingstype
+public class Verenigingstype : IVerenigingstype
 {
-    public VerenigingsType()
+    public Verenigingstype()
     { }
 
-    public VerenigingsType(
+    public Verenigingstype(
         string code,
         string naam)
     {
@@ -19,7 +19,7 @@ public class VerenigingsType : IVerenigingstype
         Naam = naam;
     }
 
-    public static VerenigingsType FromDuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
+    public static Verenigingstype FromDuplicaatVereniging(DuplicaatVereniging duplicaatVereniging)
         => new(duplicaatVereniging.Verenigingstype.Code, duplicaatVereniging.Verenigingstype.Naam);
 
     /// <summary>De code van het type van deze vereniging</summary>
