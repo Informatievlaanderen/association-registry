@@ -28,7 +28,7 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, W
     [Fact]
     public void JsonContentMatches()
     {
-        Response.Vereniging.Subtype.Should().BeNull();
+        Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

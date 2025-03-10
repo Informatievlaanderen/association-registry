@@ -13,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Vereniging;
 using Xunit;
+using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
@@ -33,18 +34,15 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, W
     [Fact]
     public void JsonContentMatches()
     {
-        var expected = new SubtypeData
+        var expected = new Verenigingssubtype()
         {
-            id = JsonLdType.Subtype.CreateWithIdValues(Verenigingssubtype.NogNietBepaald.Code),
+            id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code),
             type = JsonLdType.Subtype.Type,
-            Subtype = new Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
-            {
-                Code = Verenigingssubtype.NogNietBepaald.Code,
-                Naam = Verenigingssubtype.NogNietBepaald.Naam,
-            },
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
         };
 
-        Response.Vereniging.Subtype.Should().BeEquivalentTo(expected);
+        Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

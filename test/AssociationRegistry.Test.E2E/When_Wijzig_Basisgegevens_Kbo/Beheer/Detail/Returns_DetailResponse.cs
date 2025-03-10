@@ -16,6 +16,7 @@ using NodaTime;
 
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse :
@@ -57,10 +58,10 @@ public class Returns_DetailResponse :
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = TestContext.RegistratieData.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZW.Code,
-                Naam = Verenigingstype.VZW.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = TestContext.RegistratieData.Naam,
             Startdatum = Instant.FromDateTimeOffset(
