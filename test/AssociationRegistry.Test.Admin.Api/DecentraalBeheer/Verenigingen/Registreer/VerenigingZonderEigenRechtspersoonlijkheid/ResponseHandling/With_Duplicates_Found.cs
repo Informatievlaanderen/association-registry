@@ -20,6 +20,7 @@ using ResultNet;
 using Vereniging;
 using Wolverine;
 using Xunit;
+using Verenigingssubtype = Vereniging.Verenigingssubtype;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
@@ -56,16 +57,16 @@ public class With_Duplicates_Found
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);
-        var registreerFeitelijkeVerenigingRequest = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
+        var registreerVerenigingZonderEigenRechtspersoonlijkheidRequest = fixture.Create<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>();
 
-        var sut = new RegistreerFeitelijkeVerenigingController(messageBus.Object,
-                                                               Mock.Of<IValidator<RegistreerFeitelijkeVerenigingRequest>>(),
-                                                               new AppSettings()
-                                                               {
-                                                                   BaseUrl = "http://localhost:5000",
-                                                               });
+        var sut = new RegistreerVerenigingZonderEigenRechtspersoonlijkheidController(messageBus.Object,
+                                                                                     Mock.Of<IValidator<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>>(),
+                                                                                     new AppSettings()
+                                                                                     {
+                                                                                         BaseUrl = "http://localhost:5000",
+                                                                                     });
 
-        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), null);
+        var actual = await sut.Post(registreerVerenigingZonderEigenRechtspersoonlijkheidRequest, Mock.Of<ICommandMetadataProvider>(), null);
 
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
@@ -73,7 +74,11 @@ public class With_Duplicates_Found
         var mogelijkeDuplicateVerenigingen = actualPotentialDuplicatesResponse.MogelijkeDuplicateVerenigingen;
 
         mogelijkeDuplicateVerenigingen.Should()
-                                      .AllSatisfy(x => x.Verenigingssubtype.Should().BeNull());
+                                      .AllSatisfy(x => x.Verenigingssubtype.Code.Should()
+                                                        .Be(Verenigingssubtype.NogNietBepaald.Code))
+                                      .And
+                                      .AllSatisfy(x => x.Verenigingssubtype.Naam.Should()
+                                                        .Be(Verenigingssubtype.NogNietBepaald.Naam));
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
