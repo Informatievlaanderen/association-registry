@@ -1,20 +1,13 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
 using System.Runtime.Serialization;
+using Vereniging;
 
 /// <summary>
 /// Het subtype van de vereniging
 /// </summary>
-public class Verenigingssubtype
+public class Verenigingssubtype : IVerenigingssubtype
 {
-    /// <summary>De json-ld id</summary>
-    [DataMember(Name = "@id")]
-    public string id { get; init; }
-
-    /// <summary>Het json-ld type</summary>
-    [DataMember(Name = "@type")]
-    public string type { get; set; }
-
     /// <summary>
     /// De code van het subtype
     /// </summary>

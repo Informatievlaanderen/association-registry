@@ -11,6 +11,7 @@ using Contactgegeven = Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Schema.Detail.Locatie;
+using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 using Vertegenwoordiger = Admin.Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Admin.ProjectionHost.Constants.WellknownFormats;
 
@@ -39,10 +40,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(
         {
             JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code,
-                Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm).Naam,
             },
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             Roepnaam = string.Empty,

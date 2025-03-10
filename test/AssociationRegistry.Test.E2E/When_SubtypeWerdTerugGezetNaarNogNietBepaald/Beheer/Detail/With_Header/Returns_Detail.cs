@@ -36,8 +36,6 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, W
     {
         var expected = new Verenigingssubtype()
         {
-            id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code),
-            type = JsonLdType.Subtype.Type,
             Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
             Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
         };

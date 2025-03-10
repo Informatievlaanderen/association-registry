@@ -61,8 +61,8 @@ public class BeheerVerenigingDetailMapper
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.VerenigingsType>(vereniging.Verenigingstype),
-            Verenigingssubtype = _version == WellknownVersions.V2 ? Map(vereniging.Subtype) : null,
+            Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
+            Verenigingssubtype =_verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -90,15 +90,6 @@ public class BeheerVerenigingDetailMapper
             IsDubbelVan = vereniging.IsDubbelVan,
         };
     }
-
-    private static Verenigingssubtype Map(Schema.Detail.Subtype subtype)
-        => new()
-        {
-            id = subtype.JsonLdMetadata.Id,
-            type = subtype.JsonLdMetadata.Type,
-            Code = subtype.Code,
-            Naam = subtype.Naam,
-        };
 
     private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)
         => new()
