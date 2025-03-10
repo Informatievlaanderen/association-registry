@@ -34,6 +34,9 @@ public static class DuplicateDetectionDocumentMapping
                                       .Name(document => document.VerenigingsTypeCode)
                               )
                              .Text(propertyDescriptor => propertyDescriptor
+                                      .Name(document => document.VerenigingssubtypeCode)
+                              )
+                             .Text(propertyDescriptor => propertyDescriptor
                                       .Name(document => document.HoofdactiviteitVerenigingsloket))
                              .Boolean(
                                   propertyDescriptor => propertyDescriptor

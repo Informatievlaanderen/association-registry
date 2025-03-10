@@ -23,7 +23,7 @@ public class Locatie
         Gemeente = gemeente;
     }
 
-    public static Locatie FromDuplicaatVereniging(DuplicaatVereniging.Locatie locatie)
+    public static Locatie FromDuplicaatVereniging(DuplicaatVereniging.Types.Locatie locatie)
         => new(locatie.Locatietype, locatie.IsPrimair, locatie.Adres, locatie.Naam, locatie.Postcode, locatie.Gemeente);
 
     /// <summary>Het soort locatie dat beschreven wordt</summary>

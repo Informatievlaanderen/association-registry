@@ -104,6 +104,10 @@ public class With_Same_Naam_And_Gemeente
         ""code"": ""{Verenigingstype.VZER.Code}"",
         ""naam"": ""{Verenigingstype.VZER.Naam}"",
       }},
+        ""verenigingssubtype"": {{
+        ""code"": ""{Verenigingssubtype.NogNietBepaald.Code}"",
+        ""naam"": ""{Verenigingssubtype.NogNietBepaald.Naam}"",
+      }},
       ""naam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",
       ""hoofdactiviteitenVerenigingsloket"": [{string.Join(separator: ",",
@@ -115,7 +119,7 @@ public class With_Same_Naam_And_Gemeente
       ],
       ""locaties"": [{string.Join(separator: ",",
                                   VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties
-                                                                       .Select(locatie => $@"{{
+                                     .Select(locatie => $@"{{
           ""locatietype"": ""{locatie.Locatietype}"",
           ""isPrimair"": {(locatie.IsPrimair ? "true" : "false")},
           ""adresvoorstelling"": ""{locatie.Adres.ToAdresString()}"",

@@ -53,7 +53,7 @@ public class With_Duplicates_Found
     }
 
     [Fact]
-    public async Task Then_Verenigingssubtype_isNull()
+    public async Task Then_Verenigingssubtype_isNogNietBepaald()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);
@@ -86,10 +86,15 @@ public class With_Duplicates_Found
         var messageBus = new Mock<IMessageBus>();
         var duplicatesFound = new PotentialDuplicatesFound(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
         {
-            Verenigingstype = new DuplicaatVereniging.VerenigingsType()
+            Verenigingstype = new DuplicaatVereniging.Types.Verenigingstype()
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
+            },
+            Verenigingssubtype = new DuplicaatVereniging.Types.Verenigingssubtype()
+            {
+                Code = Verenigingssubtype.NogNietBepaald.Code,
+                Naam = Verenigingssubtype.NogNietBepaald.Naam,
             },
         }));
 

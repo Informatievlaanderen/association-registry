@@ -11,4 +11,8 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     [Fact]
     public void Verenigingtype_Is_Vzer()
         => fixture.Result.VerenigingsTypeCode.Should().Be(Verenigingstype.VZER.Code);
+
+    [Fact]
+    public void Verenigingsubtype_Is_NogNietBepaald()
+        => fixture.Result.VerenigingssubtypeCode.Should().Be(Verenigingssubtype.NogNietBepaald.Code);
 }

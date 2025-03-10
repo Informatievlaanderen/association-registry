@@ -23,19 +23,20 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                 {
                     new DuplicaatVereniging(
                         VCode: "V0001001",
-                        new DuplicaatVereniging.VerenigingsType()
+                        new DuplicaatVereniging.Types.Verenigingstype()
                         {
                             Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                             Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam
                         },
+                        Verenigingssubtype: null,
                         Naam: "Naam",
                         KorteNaam: "Korte naam",
                         [
-                            new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(Code: "CODE", Naam: "Beschrijving")
+                            new DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket(Code: "CODE", Naam: "Beschrijving")
                         ],
                         [
-                            new DuplicaatVereniging.Locatie(Locatietype: "Locatietype", IsPrimair: true, Adres: "Adresvoorstelling",
-                                                            Naam: "Naam", Postcode: "Postcode", Gemeente: "Gemeente")
+                            new DuplicaatVereniging.Types.Locatie(Locatietype: "Locatietype", IsPrimair: true, Adres: "Adresvoorstelling",
+                                                                  Naam: "Naam", Postcode: "Postcode", Gemeente: "Gemeente")
                         ]),
                 }),
             appSettings: _appSettings,

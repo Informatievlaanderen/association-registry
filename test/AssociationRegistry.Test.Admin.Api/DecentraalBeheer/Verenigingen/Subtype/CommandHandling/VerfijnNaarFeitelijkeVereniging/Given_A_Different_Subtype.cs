@@ -6,7 +6,6 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Vereniging;
 using AutoFixture;
 using Xunit;
 using Xunit.Categories;
@@ -31,8 +30,6 @@ public class Given_A_Different_Subtype
 
         verenigingRepositoryMock.ShouldHaveSaved(
             new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-                scenario.VCode,
-                new Registratiedata.Subtype(Verenigingssubtype.FeitelijkeVereniging.Code,
-                                            Verenigingssubtype.FeitelijkeVereniging.Naam)));
+                scenario.VCode));
     }
 }

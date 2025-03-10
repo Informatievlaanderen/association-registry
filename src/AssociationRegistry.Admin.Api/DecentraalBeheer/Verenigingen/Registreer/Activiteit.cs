@@ -15,7 +15,7 @@ public class Activiteit
         Categorie = categorie;
     }
 
-    public static Activiteit FromDuplicaatVereniging(DuplicaatVereniging.Activiteit locatie)
+    public static Activiteit FromDuplicaatVereniging(DuplicaatVereniging.Types.Activiteit locatie)
         => new(locatie.Id, locatie.Categorie);
 
     /// <summary>De unieke identificatie code van deze activiteit binnen de vereniging</summary>

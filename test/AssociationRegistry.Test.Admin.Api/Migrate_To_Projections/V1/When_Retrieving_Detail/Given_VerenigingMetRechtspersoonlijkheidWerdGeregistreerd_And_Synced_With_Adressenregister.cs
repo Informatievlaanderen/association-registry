@@ -49,6 +49,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
         response.Headers.ETag.Should().NotBeNull();
 
         var etag = response.Headers.GetValues(HeaderNames.ETag).ToList().Should().ContainSingle().Subject;
-        etag.Should().Be("W/\"5\"");
+        etag.Should().Be("W/\"6\"");
     }
 }
