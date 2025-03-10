@@ -43,7 +43,7 @@ public static class PubliekVerenigingDetailProjector
                                                                           .FormatAsBelgianDate(),
             Status = VerenigingStatus.Actief,
             Contactgegevens = @event.Data.Contactgegevens.Select(
-                c => new PubliekVerenigingDetailDocument.Contactgegeven
+                c => new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Contactgegeven.CreateWithIdValues(@event.Data.VCode,
@@ -73,7 +73,7 @@ public static class PubliekVerenigingDetailProjector
                                                               Sleutelbron.VR.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.VR.Waarde,
-                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
@@ -89,18 +89,18 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
-    private static PubliekVerenigingDetailDocument.VerenigingsType MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd data)
+    private static PubliekVerenigingDetailDocument.Types.Verenigingstype MapVerenigingstype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd data)
     {
         return data switch
         {
             FeitelijkeVerenigingWerdGeregistreerd => new
-                PubliekVerenigingDetailDocument.VerenigingsType
+                PubliekVerenigingDetailDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Naam = Verenigingstype.FeitelijkeVereniging.Naam,
                 },
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new
-                PubliekVerenigingDetailDocument.VerenigingsType
+                PubliekVerenigingDetailDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.VZER.Code,
                     Naam = Verenigingstype.VZER.Naam,
@@ -115,7 +115,7 @@ public static class PubliekVerenigingDetailProjector
         {
             JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
             VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
-            Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+            Verenigingstype = new PubliekVerenigingDetailDocument.Types.Verenigingstype
             {
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
                 Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
@@ -150,7 +150,7 @@ public static class PubliekVerenigingDetailProjector
                                                               Sleutelbron.VR.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.VR.Waarde,
-                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
@@ -169,7 +169,7 @@ public static class PubliekVerenigingDetailProjector
                                                               Sleutelbron.KBO.Waarde),
                         JsonLdType.Sleutel.Type),
                     Bron = Sleutelbron.KBO.Waarde,
-                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                    GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
@@ -184,7 +184,7 @@ public static class PubliekVerenigingDetailProjector
             ],
         };
 
-    private static PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(
+    private static PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket MapHoofdactiviteit(
         Registratiedata.HoofdactiviteitVerenigingsloket arg)
         => new()
         {
@@ -195,7 +195,7 @@ public static class PubliekVerenigingDetailProjector
             Naam = arg.Naam,
         };
 
-    private static PubliekVerenigingDetailDocument.Werkingsgebied MapWerkingsgebied(
+    private static PubliekVerenigingDetailDocument.Types.Werkingsgebied MapWerkingsgebied(
         Registratiedata.Werkingsgebied werkingsgebied)
         => new()
         {
@@ -252,7 +252,7 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<ContactgegevenWerdToegevoegd> contactgegevenWerdToegevoegd, PubliekVerenigingDetailDocument document)
     {
-        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Contactgegeven
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Types.Contactgegeven
                                               {
                                                   JsonLdMetadata = new JsonLdMetadata(
                                                       JsonLdType.Contactgegeven.CreateWithIdValues(
@@ -274,7 +274,7 @@ public static class PubliekVerenigingDetailProjector
         document.Contactgegevens = document.Contactgegevens
                                            .Where(c => c.ContactgegevenId != contactgegevenWerdGewijzigd.Data.ContactgegevenId)
                                            .Append(
-                                                new PubliekVerenigingDetailDocument.Contactgegeven
+                                                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                                                 {
                                                     JsonLdMetadata = new JsonLdMetadata(
                                                         JsonLdType.Contactgegeven.CreateWithIdValues(
@@ -329,7 +329,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.HoofdactiviteitenVerenigingsloket = hoofactiviteitenVerenigingloketWerdenGewijzigd.Data.HoofdactiviteitenVerenigingsloket
            .Select(
-                h => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+                h => new PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Hoofdactiviteit.CreateWithIdValues(h.Code),
@@ -352,7 +352,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenBepaald.Data.Werkingsgebieden
                                                                  .Select(
-                                                                      h => new PubliekVerenigingDetailDocument.Werkingsgebied
+                                                                      h => new PubliekVerenigingDetailDocument.Types.Werkingsgebied
                                                                       {
                                                                           JsonLdMetadata = new JsonLdMetadata(
                                                                               JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
@@ -368,7 +368,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Werkingsgebieden = werkingsgebiedenWerdenGewijzigd.Data.Werkingsgebieden
                                                                    .Select(
-                                                                        h => new PubliekVerenigingDetailDocument.Werkingsgebied
+                                                                        h => new PubliekVerenigingDetailDocument.Types.Werkingsgebied
                                                                         {
                                                                             JsonLdMetadata = new JsonLdMetadata(
                                                                                 JsonLdType.Werkingsgebied.CreateWithIdValues(h.Code),
@@ -384,7 +384,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Werkingsgebieden =
         [
-            new PubliekVerenigingDetailDocument.Werkingsgebied
+            new PubliekVerenigingDetailDocument.Types.Werkingsgebied
             {
                 JsonLdMetadata = new JsonLdMetadata(
                     JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),
@@ -461,7 +461,7 @@ public static class PubliekVerenigingDetailProjector
         IEvent<ContactgegevenWerdOvergenomenUitKBO> contactgegevenWerdOvergenomenUitKBO,
         PubliekVerenigingDetailDocument document)
     {
-        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Contactgegeven
+        document.Contactgegevens = Enumerable.Append(document.Contactgegevens, new PubliekVerenigingDetailDocument.Types.Contactgegeven
                                               {
                                                   JsonLdMetadata = new JsonLdMetadata(
                                                       JsonLdType.Contactgegeven.CreateWithIdValues(
@@ -549,7 +549,7 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Rechtsvorm = rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm;
 
-        document.Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+        document.Verenigingstype = new PubliekVerenigingDetailDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
             Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,
@@ -667,7 +667,7 @@ public static class PubliekVerenigingDetailProjector
                                     .ToArray();
     }
 
-    private static PubliekVerenigingDetailDocument.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
+    private static PubliekVerenigingDetailDocument.Types.Locatie MapLocatie(string vCode, Registratiedata.Locatie loc)
         => new()
         {
             JsonLdMetadata = new JsonLdMetadata(
@@ -683,11 +683,11 @@ public static class PubliekVerenigingDetailProjector
             VerwijstNaar = MapVerwijstNaar(loc.AdresId),
         };
 
-    private static PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? MapVerwijstNaar(Registratiedata.AdresId? adresid)
+    private static PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing? MapVerwijstNaar(Registratiedata.AdresId? adresid)
     {
         if (adresid is null) return null;
 
-        return new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+        return new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
         {
             JsonLdMetadata = new JsonLdMetadata(
                 JsonLdType.AdresVerwijzing.CreateWithIdValues(adresid.Bronwaarde.Split('/').Last()),
@@ -695,13 +695,13 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
-    private static PubliekVerenigingDetailDocument.Adres? Map(
+    private static PubliekVerenigingDetailDocument.Types.Adres? Map(
         string vCode,
         int locatieId,
         Registratiedata.AdresUitAdressenregister? adresUitAdressenregister)
         => adresUitAdressenregister is null
             ? null
-            : new PubliekVerenigingDetailDocument.Adres
+            : new PubliekVerenigingDetailDocument.Types.Adres
             {
                 JsonLdMetadata = new JsonLdMetadata(
                     JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
@@ -714,10 +714,10 @@ public static class PubliekVerenigingDetailProjector
                 Land = Adres.België,
             };
 
-    private static PubliekVerenigingDetailDocument.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
+    private static PubliekVerenigingDetailDocument.Types.Adres? Map(string vCode, int locatieId, Registratiedata.Adres? adres)
         => adres is null
             ? null
-            : new PubliekVerenigingDetailDocument.Adres
+            : new PubliekVerenigingDetailDocument.Types.Adres
             {
                 JsonLdMetadata = new JsonLdMetadata(
                     JsonLdType.Adres.CreateWithIdValues(vCode, locatieId.ToString()),
@@ -730,19 +730,19 @@ public static class PubliekVerenigingDetailProjector
                 Land = adres.Land,
             };
 
-    private static PubliekVerenigingDetailDocument.AdresId? Map(Registratiedata.AdresId? locAdresId)
+    private static PubliekVerenigingDetailDocument.Types.AdresId? Map(Registratiedata.AdresId? locAdresId)
         => locAdresId is null
             ? null
-            : new PubliekVerenigingDetailDocument.AdresId
+            : new PubliekVerenigingDetailDocument.Types.AdresId
             {
                 Bronwaarde = locAdresId.Bronwaarde,
                 Broncode = locAdresId.Broncode,
             };
 
-    private static PubliekVerenigingDetailDocument.AdresId? Map(string broncode, string bronwaarde)
+    private static PubliekVerenigingDetailDocument.Types.AdresId? Map(string broncode, string bronwaarde)
         => string.IsNullOrEmpty(bronwaarde)
             ? null
-            : new PubliekVerenigingDetailDocument.AdresId
+            : new PubliekVerenigingDetailDocument.Types.AdresId
             {
                 Bronwaarde = bronwaarde,
                 Broncode = broncode,
@@ -776,7 +776,7 @@ public static class PubliekVerenigingDetailProjector
                                              .ToArray();
     }
 
-    private static PubliekVerenigingDetailDocument.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
+    private static PubliekVerenigingDetailDocument.Types.Lidmaatschap MapLidmaatschap(Registratiedata.Lidmaatschap lidmaatschap, string vCode)
         => new(new JsonLdMetadata(
                    JsonLdType.Lidmaatschap.CreateWithIdValues(vCode, lidmaatschap.LidmaatschapId.ToString()),
                    JsonLdType.Lidmaatschap.Type),
@@ -821,10 +821,20 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PubliekVerenigingDetailDocument document)
     {
-        document.Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+        document.Verenigingstype = new PubliekVerenigingDetailDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.VZER.Code,
             Naam = Verenigingstype.VZER.Naam,
         };
     }
+
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, PubliekVerenigingDetailDocument document)
+         {
+             document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
+             {
+                 Code = Verenigingssubtype.FeitelijkeVereniging.Code,
+                 Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
+             };
+         }
+
 }

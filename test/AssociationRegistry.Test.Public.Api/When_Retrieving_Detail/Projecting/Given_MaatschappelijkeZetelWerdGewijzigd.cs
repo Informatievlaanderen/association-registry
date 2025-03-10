@@ -23,7 +23,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
         doc.VCode = fixture.Create<VCode>();
 
-        var locatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>() with
+        var locatie = fixture.Create<PubliekVerenigingDetailDocument.Types.Locatie>() with
         {
             LocatieId = maatschappelijkeZetelVolgensKboWerdGewijzigd.Data.LocatieId,
             JsonLdMetadata =
@@ -40,7 +40,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigd
         doc.Locaties.Should().HaveCount(4);
 
         doc.Locaties.Should().ContainEquivalentOf(
-            new PubliekVerenigingDetailDocument.Locatie
+            new PubliekVerenigingDetailDocument.Types.Locatie
             {
                 JsonLdMetadata =
                     new JsonLdMetadata(

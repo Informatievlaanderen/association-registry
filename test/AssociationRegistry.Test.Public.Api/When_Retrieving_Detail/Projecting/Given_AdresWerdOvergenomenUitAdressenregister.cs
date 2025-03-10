@@ -36,7 +36,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
         var locatie = doc.Locaties.Should().ContainSingle(locatie => locatie.LocatieId == locatieWerdToegevoegd.Data.Locatie.LocatieId)
                          .Subject;
 
-        locatie.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Locatie
+        locatie.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Locatie
         {
             JsonLdMetadata = new JsonLdMetadata
             {
@@ -47,7 +47,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
             IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
-            Adres = new PubliekVerenigingDetailDocument.Adres
+            Adres = new PubliekVerenigingDetailDocument.Types.Adres
             {
                 JsonLdMetadata = new JsonLdMetadata
                 {
@@ -64,14 +64,14 @@ public class Given_AdresWerdOvergenomenUitAdressenregister
             Adresvoorstelling = adresWerdOvergenomen.Data.Adres.ToAdresString(),
             AdresId = adresWerdOvergenomen.Data.AdresId is null
                 ? null
-                : new PubliekVerenigingDetailDocument.AdresId
+                : new PubliekVerenigingDetailDocument.Types.AdresId
                 {
                     Broncode = adresWerdOvergenomen.Data.AdresId?.Broncode,
                     Bronwaarde = adresWerdOvergenomen.Data.AdresId?.Bronwaarde,
                 },
             VerwijstNaar = adresWerdOvergenomen.Data.AdresId is null
                 ? null
-                : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                 {
                     JsonLdMetadata = new JsonLdMetadata
                     {

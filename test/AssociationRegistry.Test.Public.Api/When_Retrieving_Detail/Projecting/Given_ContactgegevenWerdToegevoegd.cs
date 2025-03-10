@@ -26,7 +26,7 @@ public class Given_ContactgegevenWerdToegevoegd
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdToegevoegd.Data.ContactgegevenId)
            .Which.Should().BeEquivalentTo(
-                new PubliekVerenigingDetailDocument.Contactgegeven
+                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdToegevoegd.StreamKey!,

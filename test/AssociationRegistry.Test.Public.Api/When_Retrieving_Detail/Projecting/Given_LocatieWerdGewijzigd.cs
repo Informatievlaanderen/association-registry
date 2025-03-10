@@ -20,7 +20,7 @@ public class Given_LocatieWerdGewijzigd
         var fixture = new Fixture().CustomizePublicApi();
         var locatieWerdGewijzigd = fixture.Create<TestEvent<LocatieWerdGewijzigd>>();
 
-        var locatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>() with
+        var locatie = fixture.Create<PubliekVerenigingDetailDocument.Types.Locatie>() with
         {
             LocatieId = locatieWerdGewijzigd.Data.Locatie.LocatieId,
         };
@@ -33,7 +33,7 @@ public class Given_LocatieWerdGewijzigd
         doc.Locaties.Should().HaveCount(4);
 
         doc.Locaties.Should().ContainEquivalentOf(
-            new PubliekVerenigingDetailDocument.Locatie
+            new PubliekVerenigingDetailDocument.Types.Locatie
             {
                 JsonLdMetadata =
                     new JsonLdMetadata(
@@ -46,7 +46,7 @@ public class Given_LocatieWerdGewijzigd
                     locatieWerdGewijzigd.Data.Locatie.Locatietype,
                 Adres = locatieWerdGewijzigd.Data.Locatie.Adres is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Adres
+                    : new PubliekVerenigingDetailDocument.Types.Adres
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
@@ -62,14 +62,14 @@ public class Given_LocatieWerdGewijzigd
                 Adresvoorstelling = locatieWerdGewijzigd.Data.Locatie.Adres.ToAdresString(),
                 AdresId = locatieWerdGewijzigd.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.AdresId
+                    : new PubliekVerenigingDetailDocument.Types.AdresId
                     {
                         Broncode = locatieWerdGewijzigd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdGewijzigd.Data.Locatie.AdresId?.Bronwaarde,
                     },
                 VerwijstNaar = locatieWerdGewijzigd.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                    : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {

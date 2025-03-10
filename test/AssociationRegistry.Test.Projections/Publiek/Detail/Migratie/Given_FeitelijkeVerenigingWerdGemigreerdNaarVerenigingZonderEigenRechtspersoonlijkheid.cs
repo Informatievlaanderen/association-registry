@@ -12,7 +12,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
-                  .Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.VerenigingsType()
+                  .Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Verenigingstype()
                    {
                        Code = Verenigingstype.VZER.Code,
                        Naam = Verenigingstype.VZER.Naam,

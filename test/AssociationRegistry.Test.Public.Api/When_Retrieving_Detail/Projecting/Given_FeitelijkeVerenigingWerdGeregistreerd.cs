@@ -37,7 +37,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
             {
                 JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
                 VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
-                Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new PubliekVerenigingDetailDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.FeitelijkeVereniging.Code,
                     Naam = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -59,7 +59,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = feitelijkeVerenigingWerdGeregistreerd.Data.IsUitgeschrevenUitPubliekeDatastroom,
                 Contactgegevens = feitelijkeVerenigingWerdGeregistreerd.Data.Contactgegevens.Select(
-                    c => new PubliekVerenigingDetailDocument.Contactgegeven
+                    c => new PubliekVerenigingDetailDocument.Types.Contactgegeven
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.Contactgegeven.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
@@ -72,7 +72,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         IsPrimair = c.IsPrimair,
                     }).ToArray(),
                 Locaties = feitelijkeVerenigingWerdGeregistreerd.Data.Locaties.Select(
-                    loc => new PubliekVerenigingDetailDocument.Locatie
+                    loc => new PubliekVerenigingDetailDocument.Types.Locatie
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
@@ -85,7 +85,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Locatietype = loc.Locatietype,
                         Adres = loc.Adres is null
                             ? null
-                            : new PubliekVerenigingDetailDocument.Adres
+                            : new PubliekVerenigingDetailDocument.Types.Adres
                             {
                                 JsonLdMetadata =
                                     new JsonLdMetadata(
@@ -102,14 +102,14 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         Adresvoorstelling = loc.Adres.ToAdresString(),
                         AdresId = loc.AdresId is null
                             ? null
-                            : new PubliekVerenigingDetailDocument.AdresId
+                            : new PubliekVerenigingDetailDocument.Types.AdresId
                             {
                                 Broncode = loc.AdresId?.Broncode,
                                 Bronwaarde = loc.AdresId?.Bronwaarde,
                             },
                         VerwijstNaar = loc.AdresId is null
                             ? null
-                            : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                            : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                             {
                                 JsonLdMetadata = new JsonLdMetadata
                                 {
@@ -119,7 +119,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                             },
                     }).ToArray(),
                 HoofdactiviteitenVerenigingsloket = feitelijkeVerenigingWerdGeregistreerd.Data.HoofdactiviteitenVerenigingsloket.Select(
-                    arg => new PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket
+                    arg => new PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.Hoofdactiviteit.CreateWithIdValues(arg.Code),
@@ -130,14 +130,14 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                 Werkingsgebieden = [],
                 Sleutels = new[]
                 {
-                    new PubliekVerenigingDetailDocument.Sleutel
+                    new PubliekVerenigingDetailDocument.Types.Sleutel
                     {
                         JsonLdMetadata = new JsonLdMetadata(
                             JsonLdType.Sleutel.CreateWithIdValues(feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
                                                                   Sleutelbron.VR.Waarde),
                             JsonLdType.Sleutel.Type),
                         Bron = Sleutelbron.VR.Waarde,
-                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata(
                                 JsonLdType.GestructureerdeSleutel.CreateWithIdValues(

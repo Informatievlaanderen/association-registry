@@ -17,7 +17,7 @@ public class Given_WerkingsgebiedenWerdenGewijzigd(PubliekDetailScenarioFixture<
                        fixture.Scenario
                               .WerkingsgebiedenWerdenGewijzigd
                               .Werkingsgebieden
-                              .Select(wg => new PubliekVerenigingDetailDocument.Werkingsgebied
+                              .Select(wg => new PubliekVerenigingDetailDocument.Types.Werkingsgebied
                                {
                                    JsonLdMetadata = new JsonLdMetadata(
                                        JsonLdType.Werkingsgebied.CreateWithIdValues(wg.Code),

@@ -26,7 +26,7 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId)
            .Which.Should().BeEquivalentTo(
-                new PubliekVerenigingDetailDocument.Contactgegeven
+                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdOvergenomenUitKbo.StreamKey!,
@@ -54,7 +54,7 @@ public class Given_ContactgegevenWerdGewijzigdUitKBO
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
-        var contactgegevenBeforeEdit = new PubliekVerenigingDetailDocument.Contactgegeven
+        var contactgegevenBeforeEdit = new PubliekVerenigingDetailDocument.Types.Contactgegeven
         {
             JsonLdMetadata = new JsonLdMetadata
             {
@@ -79,7 +79,7 @@ public class Given_ContactgegevenWerdGewijzigdUitKBO
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdGewijzigdUitKbo.Data.ContactgegevenId)
            .Which.Should().BeEquivalentTo(
-                new PubliekVerenigingDetailDocument.Contactgegeven
+                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = contactgegevenBeforeEdit.JsonLdMetadata,
                     ContactgegevenId = contactgegevenBeforeEdit.ContactgegevenId,

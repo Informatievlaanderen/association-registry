@@ -17,7 +17,7 @@ public class Given_WerkingsgebiedenWerdenNietVanToepassing(
                   .Should()
                   .BeEquivalentTo(
                    [
-                       new PubliekVerenigingDetailDocument.Werkingsgebied
+                       new PubliekVerenigingDetailDocument.Types.Werkingsgebied
                        {
                            JsonLdMetadata = new JsonLdMetadata(
                                JsonLdType.Werkingsgebied.CreateWithIdValues(Werkingsgebied.NietVanToepassing.Code),

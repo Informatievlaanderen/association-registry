@@ -39,7 +39,7 @@ public class Given_ContactgegevenUitKBOWerdGewijzigd
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdOvergenomenUitKbo.Data.ContactgegevenId)
            .Which.Should().BeEquivalentTo(
-                new PubliekVerenigingDetailDocument.Contactgegeven
+                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdOvergenomenUitKbo.StreamKey!,

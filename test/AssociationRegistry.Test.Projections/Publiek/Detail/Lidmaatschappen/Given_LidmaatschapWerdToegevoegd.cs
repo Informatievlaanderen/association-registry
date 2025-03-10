@@ -13,7 +13,7 @@ public class Given_LidmaatschapWerdToegevoegd(PubliekDetailScenarioFixture<Lidma
                   .Lidmaatschappen[0]
                   .Should()
                   .BeEquivalentTo(
-                       new PubliekVerenigingDetailDocument.Lidmaatschap(
+                       new PubliekVerenigingDetailDocument.Types.Lidmaatschap(
                            JsonLdMetadata: null,
                            fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
                            fixture.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,

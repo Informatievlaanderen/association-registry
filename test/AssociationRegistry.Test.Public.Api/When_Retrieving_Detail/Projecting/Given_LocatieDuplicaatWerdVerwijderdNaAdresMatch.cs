@@ -18,7 +18,7 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
         var fixture = new Fixture().CustomizePublicApi();
         var locatieWerdVerwijderd = fixture.Create<TestEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>>();
 
-        var teVerwijderenLocatie = fixture.Create<PubliekVerenigingDetailDocument.Locatie>();
+        var teVerwijderenLocatie = fixture.Create<PubliekVerenigingDetailDocument.Types.Locatie>();
         teVerwijderenLocatie.LocatieId = locatieWerdVerwijderd.Data.VerwijderdeLocatieId;
 
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
