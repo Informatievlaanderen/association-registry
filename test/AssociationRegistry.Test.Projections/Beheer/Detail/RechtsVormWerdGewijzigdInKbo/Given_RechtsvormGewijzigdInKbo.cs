@@ -20,7 +20,7 @@ public class Given_RechtsvormWerdGewijzigdInKBO(
         fixture.Result.Rechtsvorm.Should()
                .BeEquivalentTo(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm);
 
-        fixture.Result.Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.VerenigingsType
+        fixture.Result.Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.Parse(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm).Code,
             Naam = Verenigingstype.Parse(fixture.Scenario.RechtsvormWerdGewijzigdInKBO.Rechtsvorm).Naam,

@@ -21,7 +21,7 @@ public class Given_ContactgegevenWerdVerwijderdUitKbo
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
         doc.Contactgegevens = doc.Contactgegevens.Append(
-            new PubliekVerenigingDetailDocument.Contactgegeven
+            new PubliekVerenigingDetailDocument.Types.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdVerwijderd.Data.ContactgegevenId,
                 Contactgegeventype = fixture.Create<string>(),

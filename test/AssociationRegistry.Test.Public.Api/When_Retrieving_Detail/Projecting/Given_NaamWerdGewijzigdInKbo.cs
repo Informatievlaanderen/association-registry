@@ -41,7 +41,7 @@ public class Given_RechtsvormWerdGewijzigdInKbo
 
         PubliekVerenigingDetailProjector.Apply(rechtsvormWerdGewijzigdInKbo, doc);
 
-        doc.Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.VerenigingsType
+        doc.Verenigingstype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Code,
             Naam = Verenigingstype.Parse(rechtsvormWerdGewijzigdInKbo.Data.Rechtsvorm).Naam,

@@ -40,7 +40,7 @@ public static class PubliekVerenigingDetailAllMapper
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
 
-    private static Lidmaatschap Map(PubliekVerenigingDetailDocument.Lidmaatschap l)
+    private static Lidmaatschap Map(PubliekVerenigingDetailDocument.Types.Lidmaatschap l)
         => new()
         {
             id = l.JsonLdMetadata.Id,
@@ -52,7 +52,7 @@ public static class PubliekVerenigingDetailAllMapper
             Tot = l.Tot.FormatAsBelgianDate(),
         };
 
-    private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Relatie r)
+    private static Relatie Map(AppSettings appSettings, PubliekVerenigingDetailDocument.Types.Relatie r)
         => new()
         {
             Relatietype = r.Relatietype,
@@ -67,7 +67,7 @@ public static class PubliekVerenigingDetailAllMapper
             },
         };
 
-    private static Contactgegeven Map(PubliekVerenigingDetailDocument.Contactgegeven info)
+    private static Contactgegeven Map(PubliekVerenigingDetailDocument.Types.Contactgegeven info)
         => new()
         {
             id = info.JsonLdMetadata.Id,
@@ -78,14 +78,14 @@ public static class PubliekVerenigingDetailAllMapper
             IsPrimair = info.IsPrimair,
         };
 
-    private static VerenigingsType Map(PubliekVerenigingDetailDocument.VerenigingsType verenigingsType)
+    private static VerenigingsType Map(PubliekVerenigingDetailDocument.Types.Verenigingstype verenigingstype)
         => new()
         {
-            Code = verenigingsType.Code,
-            Naam = verenigingsType.Naam,
+            Code = verenigingstype.Code,
+            Naam = verenigingstype.Naam,
         };
 
-    private static Sleutel Map(PubliekVerenigingDetailDocument.Sleutel s)
+    private static Sleutel Map(PubliekVerenigingDetailDocument.Types.Sleutel s)
         => new()
         {
             id = s.JsonLdMetadata.Id,
@@ -103,7 +103,7 @@ public static class PubliekVerenigingDetailAllMapper
             Waarde = s.Waarde,
         };
 
-    private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket ha)
+    private static HoofdactiviteitVerenigingsloket Map(PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket ha)
         => new()
         {
             id = ha.JsonLdMetadata.Id,
@@ -112,7 +112,7 @@ public static class PubliekVerenigingDetailAllMapper
             Naam = ha.Naam,
         };
 
-    private static Werkingsgebied Map(PubliekVerenigingDetailDocument.Werkingsgebied wg)
+    private static Werkingsgebied Map(PubliekVerenigingDetailDocument.Types.Werkingsgebied wg)
         => new()
         {
             id = wg.JsonLdMetadata.Id,
@@ -121,7 +121,7 @@ public static class PubliekVerenigingDetailAllMapper
             Naam = wg.Naam,
         };
 
-    private static Locatie Map(PubliekVerenigingDetailDocument.Locatie loc)
+    private static Locatie Map(PubliekVerenigingDetailDocument.Types.Locatie loc)
         => new()
         {
             id = loc.JsonLdMetadata.Id,
@@ -135,7 +135,7 @@ public static class PubliekVerenigingDetailAllMapper
             VerwijstNaar = Map(loc.VerwijstNaar),
         };
 
-    private static AdresVerwijzing? Map(PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing? verwijzing)
+    private static AdresVerwijzing? Map(PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing? verwijzing)
     {
         if (verwijzing is null) return null;
 
@@ -146,7 +146,7 @@ public static class PubliekVerenigingDetailAllMapper
         };
     }
 
-    private static AdresId? Map(PubliekVerenigingDetailDocument.AdresId? adresId)
+    private static AdresId? Map(PubliekVerenigingDetailDocument.Types.AdresId? adresId)
         => adresId is not null
             ? new AdresId
             {
@@ -155,7 +155,7 @@ public static class PubliekVerenigingDetailAllMapper
             }
             : null;
 
-    private static Adres? Map(PubliekVerenigingDetailDocument.Adres? adres)
+    private static Adres? Map(PubliekVerenigingDetailDocument.Types.Adres? adres)
         => adres is not null
             ? new Adres
             {

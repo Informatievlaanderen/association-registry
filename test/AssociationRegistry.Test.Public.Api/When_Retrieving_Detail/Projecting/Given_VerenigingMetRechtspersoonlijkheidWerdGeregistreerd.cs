@@ -37,7 +37,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             {
                 VCode = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                 JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
-                Verenigingstype = new PubliekVerenigingDetailDocument.VerenigingsType
+                Verenigingstype = new PubliekVerenigingDetailDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
@@ -61,10 +61,10 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                    .FormatAsBelgianDate(),
                 Status = VerenigingStatus.Actief,
                 IsUitgeschrevenUitPubliekeDatastroom = false,
-                Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Contactgegeven>(),
-                Locaties = Array.Empty<PubliekVerenigingDetailDocument.Locatie>(),
-                HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.HoofdactiviteitVerenigingsloket>(),
-                Sleutels = new PubliekVerenigingDetailDocument.Sleutel[]
+                Contactgegevens = Array.Empty<PubliekVerenigingDetailDocument.Types.Contactgegeven>(),
+                Locaties = Array.Empty<PubliekVerenigingDetailDocument.Types.Locatie>(),
+                HoofdactiviteitenVerenigingsloket = Array.Empty<PubliekVerenigingDetailDocument.Types.HoofdactiviteitVerenigingsloket>(),
+                Sleutels = new PubliekVerenigingDetailDocument.Types.Sleutel[]
                 {
                     new()
                     {
@@ -73,7 +73,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                                                                   Sleutelbron.VR.Waarde),
                             JsonLdType.Sleutel.Type),
                         Bron = Sleutelbron.VR.Waarde,
-                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata(
                                 JsonLdType.GestructureerdeSleutel.CreateWithIdValues(
@@ -91,7 +91,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
                             JsonLdType.Sleutel.CreateWithIdValues(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.VCode,
                                                                   Sleutelbron.KBO.Waarde),
                             JsonLdType.Sleutel.Type),
-                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.GestructureerdeIdentificator
+                        GestructureerdeIdentificator = new PubliekVerenigingDetailDocument.Types.GestructureerdeIdentificator
                         {
                             JsonLdMetadata = new JsonLdMetadata(
                                 JsonLdType.GestructureerdeSleutel.CreateWithIdValues(

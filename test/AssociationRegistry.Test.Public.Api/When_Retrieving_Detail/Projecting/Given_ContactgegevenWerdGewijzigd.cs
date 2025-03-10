@@ -22,7 +22,7 @@ public class Given_ContactgegevenWerdGewijzigd
         var doc = fixture.Create<PubliekVerenigingDetailDocument>();
 
         doc.Contactgegevens = doc.Contactgegevens.Append(
-            new PubliekVerenigingDetailDocument.Contactgegeven
+            new PubliekVerenigingDetailDocument.Types.Contactgegeven
             {
                 ContactgegevenId = contactgegevenWerdGewijzigd.Data.ContactgegevenId,
                 Contactgegeventype = contactgegevenWerdGewijzigd.Data.Contactgegeventype,
@@ -36,7 +36,7 @@ public class Given_ContactgegevenWerdGewijzigd
         doc.Contactgegevens.Should()
            .ContainSingle(c => c.ContactgegevenId == contactgegevenWerdGewijzigd.Data.ContactgegevenId)
            .Which.Should().BeEquivalentTo(
-                new PubliekVerenigingDetailDocument.Contactgegeven
+                new PubliekVerenigingDetailDocument.Types.Contactgegeven
                 {
                     JsonLdMetadata = new JsonLdMetadata(
                         JsonLdType.Contactgegeven.CreateWithIdValues(contactgegevenWerdGewijzigd.StreamKey!,

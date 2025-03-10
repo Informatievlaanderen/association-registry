@@ -27,7 +27,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
         doc.Locaties.Should().HaveCount(4);
 
         doc.Locaties.Should().ContainEquivalentOf(
-            new PubliekVerenigingDetailDocument.Locatie
+            new PubliekVerenigingDetailDocument.Types.Locatie
             {
                 JsonLdMetadata =
                     new JsonLdMetadata(
@@ -41,7 +41,7 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                     maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Locatietype,
                 Adres = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Adres
+                    : new PubliekVerenigingDetailDocument.Types.Adres
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
@@ -58,14 +58,14 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
                 Adresvoorstelling = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.Adres.ToAdresString(),
                 AdresId = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.AdresId
+                    : new PubliekVerenigingDetailDocument.Types.AdresId
                     {
                         Broncode = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId?.Bronwaarde,
                     },
                 VerwijstNaar = maatschappelijkeZetelWerdOvergenomenUitKbo.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                    : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
@@ -104,7 +104,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
         doc.Locaties.Should().HaveCount(4);
 
         doc.Locaties.Should().ContainEquivalentOf(
-            new PubliekVerenigingDetailDocument.Locatie
+            new PubliekVerenigingDetailDocument.Types.Locatie
             {
                 JsonLdMetadata =
                     new JsonLdMetadata(
@@ -118,7 +118,7 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
                     maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Locatietype,
                 Adres = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Adres
+                    : new PubliekVerenigingDetailDocument.Types.Adres
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
@@ -135,14 +135,14 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
                 Adresvoorstelling = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.Adres.ToAdresString(),
                 AdresId = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.AdresId
+                    : new PubliekVerenigingDetailDocument.Types.AdresId
                     {
                         Broncode = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId?.Bronwaarde,
                     },
                 VerwijstNaar = maatschappelijkeZetelWerdGewijzigdInKbo.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                    : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {

@@ -37,7 +37,7 @@ public class Given_AdresNietUniekInAdressenregister
         var locatie = doc.Locaties.Should().ContainSingle(locatie => locatie.LocatieId == locatieWerdToegevoegd.Data.Locatie.LocatieId)
                          .Subject;
 
-        locatie.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Locatie
+        locatie.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Locatie
         {
             JsonLdMetadata = new JsonLdMetadata
             {
@@ -48,7 +48,7 @@ public class Given_AdresNietUniekInAdressenregister
             IsPrimair = locatieWerdToegevoegd.Data.Locatie.IsPrimair,
             Naam = locatieWerdToegevoegd.Data.Locatie.Naam,
             Locatietype = locatieWerdToegevoegd.Data.Locatie.Locatietype,
-            Adres = new PubliekVerenigingDetailDocument.Adres
+            Adres = new PubliekVerenigingDetailDocument.Types.Adres
             {
                 JsonLdMetadata = new JsonLdMetadata
                 {

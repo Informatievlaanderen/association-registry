@@ -27,7 +27,7 @@ public class Given_LocatieWerdToegevoegd
         doc.Locaties.Should().HaveCount(4);
 
         doc.Locaties.Should().ContainEquivalentOf(
-            new PubliekVerenigingDetailDocument.Locatie
+            new PubliekVerenigingDetailDocument.Types.Locatie
             {
                 JsonLdMetadata =
                     new JsonLdMetadata(
@@ -40,7 +40,7 @@ public class Given_LocatieWerdToegevoegd
                     locatieWerdToegevoegd.Data.Locatie.Locatietype,
                 Adres = locatieWerdToegevoegd.Data.Locatie.Adres is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Adres
+                    : new PubliekVerenigingDetailDocument.Types.Adres
                     {
                         JsonLdMetadata =
                             new JsonLdMetadata(
@@ -56,14 +56,14 @@ public class Given_LocatieWerdToegevoegd
                 Adresvoorstelling = locatieWerdToegevoegd.Data.Locatie.Adres.ToAdresString(),
                 AdresId = locatieWerdToegevoegd.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.AdresId
+                    : new PubliekVerenigingDetailDocument.Types.AdresId
                     {
                         Broncode = locatieWerdToegevoegd.Data.Locatie.AdresId?.Broncode,
                         Bronwaarde = locatieWerdToegevoegd.Data.Locatie.AdresId?.Bronwaarde,
                     },
                 VerwijstNaar = locatieWerdToegevoegd.Data.Locatie.AdresId is null
                     ? null
-                    : new PubliekVerenigingDetailDocument.Locatie.AdresVerwijzing
+                    : new PubliekVerenigingDetailDocument.Types.Locatie.AdresVerwijzing
                     {
                         JsonLdMetadata = new JsonLdMetadata
                         {
