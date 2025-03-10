@@ -16,8 +16,8 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
-using Subtype = ResponseModels.Subtype;
-using VerenigingsType = ResponseModels.VerenigingsType;
+using Verenigingssubtype = ResponseModels.Verenigingssubtype;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using VertegenwoordigerContactgegevens = ResponseModels.VertegenwoordigerContactgegevens;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -61,8 +61,8 @@ public class BeheerVerenigingDetailMapper
             type = vereniging.JsonLdMetadataType,
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
-            Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, Schema.VerenigingsType>(vereniging.Verenigingstype),
-            Subtype = _version == WellknownVersions.V2 ? Map(vereniging.Subtype) : null,
+            Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.VerenigingsType>(vereniging.Verenigingstype),
+            Verenigingssubtype = _version == WellknownVersions.V2 ? Map(vereniging.Subtype) : null,
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -91,16 +91,13 @@ public class BeheerVerenigingDetailMapper
         };
     }
 
-    private static SubtypeData Map(Schema.Detail.Subtype subtype)
+    private static Verenigingssubtype Map(Schema.Detail.Subtype subtype)
         => new()
         {
             id = subtype.JsonLdMetadata.Id,
             type = subtype.JsonLdMetadata.Type,
-            Subtype = new Subtype()
-            {
-                Code = subtype.Code,
-                Naam = subtype.Naam,
-            },
+            Code = subtype.Code,
+            Naam = subtype.Naam,
         };
 
     private static Relatie Map(Schema.Detail.Relatie relatie, string baseUrl)

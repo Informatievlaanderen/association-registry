@@ -8,7 +8,7 @@ using Vereniging;
 /// Het type van een vereniging
 /// </summary>
 [DataContract]
-public class VerenigingsType : IVerenigingstype
+public class Verenigingstype : IVerenigingstype
 {
     /// <summary>
     /// De code van het type vereniging

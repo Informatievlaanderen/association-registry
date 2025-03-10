@@ -18,7 +18,9 @@ using Microsoft.Extensions.Logging;
 using NodaTime;
 
 using Xunit;
+using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_DetailResponse :
@@ -59,20 +61,17 @@ public class Returns_VZER_DetailResponse :
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZER.Code,
-                Naam = Verenigingstype.VZER.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Subtype = new SubtypeData
+            Verenigingssubtype = new Verenigingssubtype
             {
                 id = JsonLdType.Subtype.CreateWithIdValues(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code),
                 type = JsonLdType.Subtype.Type,
-                Subtype = new Admin.Api.Verenigingen.Detail.ResponseModels.Subtype()
-                {
-                    Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                    Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam
-                },
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam
             },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
@@ -80,7 +79,8 @@ public class Returns_VZER_DetailResponse :
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,
             Contactgegevens = BeheerDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, TestContext.VCode),
-            HoofdactiviteitenVerenigingsloket = BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            HoofdactiviteitenVerenigingsloket =
+                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = BeheerDetailResponseMapper.MapLocaties(Request.Locaties, TestContext.VCode),
             Vertegenwoordigers = BeheerDetailResponseMapper.MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),

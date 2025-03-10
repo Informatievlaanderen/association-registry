@@ -19,7 +19,16 @@ public class VerenigingDetail
 
     /// <summary>Het type van deze vereniging</summary>
     [DataMember(Name = "Verenigingstype")]
-    public VerenigingsType Verenigingstype { get; init; } = null!;
+    public Verenigingstype Verenigingstype { get; init; } = null!;
+
+    /// <summary>Het subtype van deze vereniging</summary>
+    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+    public Verenigingssubtype? Verenigingssubtype { get; init; } = null!;
+
+    /// <summary>Extra informatie over het subtype van deze vereniging</summary>
+    [DataMember(Name = "SubVerenigingVan", EmitDefaultValue = false)]
+    public SubverenigingVan? SubVerenigingVan { get; init; } = null!;
+
 
     /// <summary>Naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -94,10 +103,6 @@ public class VerenigingDetail
     /// <summary>De lidmaatschappen van deze vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
-
-    /// <summary>Het subtype van deze vereniging</summary>
-    [DataMember(Name = "Subtype", EmitDefaultValue = false)]
-    public SubtypeData? Subtype { get; init; } = null!;
 
     /// <summary>De bron die deze vereniging beheert.
     ///      <br />

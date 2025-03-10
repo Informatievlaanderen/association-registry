@@ -26,6 +26,8 @@ public class Then_Examples
         "Vereniging.Locaties.AdresId",
         "Vereniging.Einddatum",
         "Verenigingen.Einddatum",
+        "Verenigingen.Verenigingssubtype",
+        "MogelijkeDuplicateVerenigingen.Verenigingssubtype",
     };
 
     public Then_Examples(EventsInDbScenariosFixture fixture)

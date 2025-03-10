@@ -17,7 +17,6 @@ using Vereniging;
 using Weasel.Postgresql.Tables.Partitioning;
 using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
-using Subtype = Admin.Api.Verenigingen.Detail.ResponseModels.Subtype;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 

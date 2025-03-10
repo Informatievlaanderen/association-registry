@@ -15,6 +15,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
@@ -38,10 +39,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 {
                     type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001001",
-                    Verenigingstype = new VerenigingsType
+                    Verenigingstype = new Verenigingstype
                     {
-                        Naam = Verenigingstype.FeitelijkeVereniging.Naam,
-                        Code = Verenigingstype.FeitelijkeVereniging.Code,
+                        Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                        Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
@@ -209,10 +210,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 {
                     type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001001",
-                    Verenigingstype = new VerenigingsType
+                    Verenigingstype = new Verenigingstype
                     {
-                        Naam = Verenigingstype.VZER.Naam,
-                        Code = Verenigingstype.VZER.Code,
+                        Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                        Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
@@ -380,10 +381,10 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                 {
                     type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001002",
-                    Verenigingstype = new VerenigingsType
+                    Verenigingstype = new Verenigingstype
                     {
-                        Naam = Verenigingstype.VZW.Naam,
-                        Code = Verenigingstype.VZW.Code,
+                        Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
+                        Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
                     },
                     Naam = "Vissen achter het net",
                     KorteNaam = "VAN",
