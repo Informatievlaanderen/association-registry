@@ -728,7 +728,7 @@ public class BeheerVerenigingHistoriekProjector
     }
 
 
-    public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,

@@ -39,7 +39,7 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenig
     public void With_All_Gebeurtenissen()
     {
         var werdVerfijnd =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubtypeWerdVerfijndNaarFeitelijkeVereniging));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging));
 
         werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarFeitelijkeVereniging(TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);

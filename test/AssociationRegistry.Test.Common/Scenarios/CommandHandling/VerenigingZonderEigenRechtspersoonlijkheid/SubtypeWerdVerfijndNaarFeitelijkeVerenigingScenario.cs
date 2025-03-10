@@ -9,13 +9,13 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Commandhandle
 {
     public override VCode VCode => VCode.Create("V0009008");
     public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
-    public readonly SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging;
+    public readonly VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging;
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
-        SubtypeWerdVerfijndNaarFeitelijkeVereniging = fixture.Create<SubtypeWerdVerfijndNaarFeitelijkeVereniging>() with
+        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = fixture.Create<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging>() with
         {
             VCode = VCode,
             Subtype = new Registratiedata.Subtype(Verenigingssubtype.FeitelijkeVereniging.Code, Verenigingssubtype.FeitelijkeVereniging.Naam)
@@ -25,6 +25,6 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Commandhandle
     public override IEnumerable<IEvent> Events()
         => new IEvent[]
         {
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,SubtypeWerdVerfijndNaarFeitelijkeVereniging
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging
         };
 }

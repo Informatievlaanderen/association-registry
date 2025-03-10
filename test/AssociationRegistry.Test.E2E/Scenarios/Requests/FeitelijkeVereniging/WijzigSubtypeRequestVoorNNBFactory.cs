@@ -28,7 +28,7 @@ public class WijzigSubtypeRequestVoorNNBFactory : ITestRequestFactory<WijzigSubt
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.SubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode}/subtype");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode}/subtype");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });
@@ -36,6 +36,6 @@ public class WijzigSubtypeRequestVoorNNBFactory : ITestRequestFactory<WijzigSubt
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.SubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode), request);
+        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode), request);
     }
 }

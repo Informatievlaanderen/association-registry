@@ -568,7 +568,7 @@ public static class HistoriekGebeurtenisMapper
         => new()
         {
             Beschrijving = $"Vereniging zonder eigen rechtspersoonlijkheid werd verfijnd naar feitelijke vereniging.",
-            Gebeurtenis = nameof(SubtypeWerdVerfijndNaarFeitelijkeVereniging),
+            Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),
             Data = new
             {
                 VCode = vCode,

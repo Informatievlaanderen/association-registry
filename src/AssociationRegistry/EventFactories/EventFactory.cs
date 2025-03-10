@@ -278,7 +278,7 @@ public static class EventFactory
             adres.Adres.Gemeente);
     }
 
-    public static SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode, Verenigingssubtype verenigingssubtype)
+    public static VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode, Verenigingssubtype verenigingssubtype)
         => new(vCode, Subtype(verenigingssubtype));
     public static SubtypeWerdTerugGezetNaarNogNietBepaald SubtypeWerdTerugGezetNaarNogNietBepaald(VCode vCode, Verenigingssubtype verenigingssubtype)
         => new(vCode, Subtype(verenigingssubtype));
