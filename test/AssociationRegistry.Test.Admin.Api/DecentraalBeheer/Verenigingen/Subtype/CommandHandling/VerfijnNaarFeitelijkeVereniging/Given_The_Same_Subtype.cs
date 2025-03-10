@@ -28,6 +28,6 @@ public class Given_The_Same_Subtype
 
         await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarFeitelijkeVerenigingCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldNotHaveSaved<SubtypeWerdVerfijndNaarFeitelijkeVereniging>();
+        verenigingRepositoryMock.ShouldNotHaveSaved<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging>();
     }
 }

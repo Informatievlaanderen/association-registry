@@ -67,7 +67,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
                 case nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging):
-                case nameof(SubtypeWerdVerfijndNaarFeitelijkeVereniging):
+                case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
                     try
                     {
                         await _zoekProjectionHandler.Handle(eventEnvelope);

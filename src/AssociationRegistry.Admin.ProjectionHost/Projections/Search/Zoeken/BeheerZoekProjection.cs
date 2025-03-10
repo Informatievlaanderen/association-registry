@@ -660,7 +660,7 @@ public class BeheerZoekProjectionHandler
             });
     }
 
-    public async Task Handle(EventEnvelope<SubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
+    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,

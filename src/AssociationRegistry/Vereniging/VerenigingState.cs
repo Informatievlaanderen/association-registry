@@ -785,7 +785,7 @@ public record VerenigingState : IHasVersion
             Verenigingssubtype = Verenigingssubtype.NogNietBepaald,
         };
 
-    public VerenigingState Apply(SubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
+    public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
         => this with
         {
             Verenigingssubtype = Verenigingssubtype.FeitelijkeVereniging,

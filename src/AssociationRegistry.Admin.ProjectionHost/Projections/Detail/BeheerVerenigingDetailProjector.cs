@@ -836,7 +836,7 @@ public class BeheerVerenigingDetailProjector
         document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald);
     }
 
-    public static void Apply(IEvent<SubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
     {
         document.Subtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.FeitelijkeVereniging);
     }

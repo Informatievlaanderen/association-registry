@@ -10,7 +10,7 @@ using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkhei
 public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.TestClasses.IScenario
 {
     public string NaamVereniging { get; set; }
-    public SubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging { get; set; }
+    public VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging { get; set; }
 
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario()
     {
@@ -25,13 +25,13 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.Tes
             VCode = await service.GetNext(),
         };
 
-        SubtypeWerdVerfijndNaarFeitelijkeVereniging = new SubtypeWerdVerfijndNaarFeitelijkeVereniging(
+        VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
             VCode: vzer.VCode,
             Subtype: new Registratiedata.Subtype(Verenigingssubtype.NogNietBepaald.Code,Verenigingssubtype.NogNietBepaald.Naam));
 
         return
         [
-            new(vzer.VCode, [vzer, SubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(vzer.VCode, [vzer, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
         ];
     }
 
