@@ -14,6 +14,7 @@ using Contactgegeven = Admin.Schema.Detail.Contactgegeven;
 using Doelgroep = Admin.Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Admin.Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Locatie = Admin.Schema.Detail.Locatie;
+using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 using Vertegenwoordiger = Admin.Schema.Detail.Vertegenwoordiger;
 using WellknownFormats = Admin.ProjectionHost.Constants.WellknownFormats;
 
@@ -41,10 +42,10 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd(
         {
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.VCode,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = feitelijkeVerenigingWerdGeregistreerd.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.KorteNaam,

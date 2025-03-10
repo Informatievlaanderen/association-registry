@@ -14,7 +14,8 @@ using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Schema.Detail.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
-using Subtype = Schema.Detail.Subtype;
+using Verenigingssubtype = Schema.Detail.Verenigingssubtype;
+using Verenigingstype = Schema.Detail.Verenigingstype;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;
 
@@ -150,17 +151,16 @@ public class BeheerVerenigingDetailMapper
             Naam = w.Naam,
         };
 
-    public static VerenigingsType MapVerenigingsType(Verenigingstype verenigingstype)
+    public static Verenigingstype MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
         => new()
         {
             Code = verenigingstype.Code,
             Naam = verenigingstype.Naam,
         };
 
-    public static Subtype MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype verenigingssubtype)
+    public static Verenigingssubtype MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype verenigingssubtype)
         => new()
         {
-            JsonLdMetadata = CreateJsonLdMetadata(JsonLdType.Subtype, verenigingssubtype.Code),
             Code = verenigingssubtype.Code,
             Naam = verenigingssubtype.Naam,
         };

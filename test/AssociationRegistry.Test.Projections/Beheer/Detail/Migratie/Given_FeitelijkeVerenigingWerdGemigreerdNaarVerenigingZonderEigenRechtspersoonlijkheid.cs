@@ -1,9 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Migratie;
 
 using Admin.Schema;
+using Admin.Schema.Detail;
 using Scenario.Migratie;
 using Vereniging;
-
+using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(BeheerDetailScenarioFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario> fixture)
@@ -17,9 +18,9 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
-                  .Verenigingstype.Should().Be(new VerenigingsType()
+                  .Verenigingstype.Should().Be(new Verenigingstype()
                    {
-                       Code = Verenigingstype.VZER.Code,
-                       Naam = Verenigingstype.VZER.Naam,
+                       Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                       Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
                    });
 }
