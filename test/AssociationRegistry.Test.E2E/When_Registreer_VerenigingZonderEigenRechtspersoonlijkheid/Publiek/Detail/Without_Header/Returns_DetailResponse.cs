@@ -17,7 +17,7 @@ using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingDetailResponse>
@@ -58,11 +58,12 @@ public class Returns_DetailResponse : End2EndTest<RegistreerVerenigingZonderEige
             VCode = _testContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
+            Verenigingssubtype = null,
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,

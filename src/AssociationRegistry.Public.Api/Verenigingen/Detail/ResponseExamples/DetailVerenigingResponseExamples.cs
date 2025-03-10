@@ -14,6 +14,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<PubliekVerenigingDetailResponse>
@@ -36,7 +37,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                 {
                     type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001001",
-                    Verenigingstype = new VerenigingsType
+                    Verenigingstype = new Verenigingstype
                     {
                         Code = "FV",
                         Naam = "Feitelijke vereniging",
@@ -166,7 +167,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                 {
                     type = JsonLdType.FeitelijkeVereniging.Type,
                     VCode = "V0001001",
-                    Verenigingstype = new VerenigingsType
+                    Verenigingstype = new Verenigingstype
                     {
                         Code = "VZER",
                         Naam = "Vereniging zonder eigen rechtspersoonlijkheid",
