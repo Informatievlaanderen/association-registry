@@ -16,8 +16,9 @@ using NodaTime;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
@@ -58,12 +59,16 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVeren
             VCode = _testContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZER.Code,
-                Naam = Verenigingstype.VZER.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Naam = Request.Naam,
+            Verenigingssubtype = new Verenigingssubtype
+            {
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+            },            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, _testContext.VCode),

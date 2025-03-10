@@ -62,6 +62,7 @@ public class Returns_DetailResponse :
                 Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
+            Verenigingssubtype = null,
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,

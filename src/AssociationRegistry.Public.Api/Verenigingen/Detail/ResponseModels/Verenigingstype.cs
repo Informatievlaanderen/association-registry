@@ -4,7 +4,7 @@ using AssociationRegistry.Vereniging;
 using System.Runtime.Serialization;
 
 [DataContract]
-public class VerenigingsType : IVerenigingstype
+public class Verenigingstype : IVerenigingstype
 {
     /// <summary>
     ///     Code van het type vereniging

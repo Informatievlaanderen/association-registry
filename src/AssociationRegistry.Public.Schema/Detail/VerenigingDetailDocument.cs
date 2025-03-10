@@ -15,7 +15,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 {
     public string JsonLdMetadataType { get; set; } = null!;
     public Types.Verenigingstype Verenigingstype { get; set; } = null!;
-    public Types.Verenigingssubtype Verenigingssubtype { get; set; } = null!;
+    public Types.Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;

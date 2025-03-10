@@ -14,6 +14,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class PubliekVerenigingDetailMapper
@@ -39,7 +40,7 @@ public class PubliekVerenigingDetailMapper
             {
                 type = document.JsonLdMetadataType,
                 VCode = document.VCode,
-                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, PubliekVerenigingDetailDocument.Types.Verenigingstype>(document.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, PubliekVerenigingDetailDocument.Types.Verenigingstype>(document.Verenigingstype),
                 Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype,  PubliekVerenigingDetailDocument.Types.Verenigingssubtype>(document.Verenigingssubtype),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
@@ -111,7 +112,7 @@ public class PubliekVerenigingDetailMapper
             IsPrimair = info.IsPrimair,
         };
 
-    private static VerenigingsType Map(PubliekVerenigingDetailDocument.Types.Verenigingstype verenigingstype)
+    private static Verenigingstype Map(PubliekVerenigingDetailDocument.Types.Verenigingstype verenigingstype)
         => new()
         {
             Code = verenigingstype.Code,

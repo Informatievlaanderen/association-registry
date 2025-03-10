@@ -32,6 +32,7 @@ public static class PubliekVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = @event.Data.VCode,
             Verenigingstype = MapVerenigingstype(@event.Data),
+            Verenigingssubtype = MapVerenigingssubtype(@event.Data),
             Naam = @event.Data.Naam,
             KorteNaam = @event.Data.KorteNaam,
             KorteBeschrijving = @event.Data.KorteBeschrijving,
@@ -109,6 +110,21 @@ public static class PubliekVerenigingDetailProjector
         };
     }
 
+    private static PubliekVerenigingDetailDocument.Types.Verenigingssubtype? MapVerenigingssubtype(IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd data)
+    {
+        return data switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerd => null,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new
+                PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
+                {
+                    Code = Verenigingssubtype.NogNietBepaald.Code,
+                    Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                },
+            _ => throw new ArgumentOutOfRangeException(nameof(data)),
+        };
+    }
+
     public static PubliekVerenigingDetailDocument Create(
         IEvent<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd> verenigingMetRechtspersoonlijkheidWerdGeregistreerd)
         => new()
@@ -120,6 +136,7 @@ public static class PubliekVerenigingDetailProjector
                 Code = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Code,
                 Naam = Verenigingstype.Parse(verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Rechtsvorm).Naam,
             },
+            Verenigingssubtype = null,
             Naam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.Naam,
             Roepnaam = string.Empty,
             KorteNaam = verenigingMetRechtspersoonlijkheidWerdGeregistreerd.Data.KorteNaam,
@@ -826,6 +843,13 @@ public static class PubliekVerenigingDetailProjector
             Code = Verenigingstype.VZER.Code,
             Naam = Verenigingstype.VZER.Naam,
         };
+
+        document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
+        {
+            Code = Verenigingssubtype.NogNietBepaald.Code,
+            Naam = Verenigingssubtype.NogNietBepaald.Naam,
+        };
+
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, PubliekVerenigingDetailDocument document)

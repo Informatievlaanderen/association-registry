@@ -16,6 +16,7 @@ using NodaTime;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
@@ -57,10 +58,10 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
             VCode = _testContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = _testContext.RegistratieData.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZW.Code,
-                Naam = Verenigingstype.VZW.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
             Roepnaam = Request.Roepnaam,

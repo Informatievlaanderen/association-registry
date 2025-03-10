@@ -17,7 +17,7 @@ using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using VerenigingsType = Public.Api.Verenigingen.Detail.ResponseModels.VerenigingsType;
+using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, PubliekVerenigingDetailResponse>
@@ -63,10 +63,10 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
             VCode = TestContext.VCode,
             KorteBeschrijving = Request.KorteBeschrijving,
             KorteNaam = TestContext.RegistratieData.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZW.Code,
-                Naam = Verenigingstype.VZW.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = TestContext.RegistratieData.Naam,
             Roepnaam = Request.Roepnaam,
