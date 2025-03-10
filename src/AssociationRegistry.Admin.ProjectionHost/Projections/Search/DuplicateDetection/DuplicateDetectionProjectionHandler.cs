@@ -21,6 +21,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
+                VerenigingssubtypeCode = null,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -37,6 +38,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
+                VerenigingssubtypeCode = Verenigingssubtype.NogNietBepaald.Code,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -53,6 +55,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
+                VerenigingssubtypeCode = null,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
@@ -234,6 +237,16 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionUpdateDocument
             {
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
+                VerenigingssubtypeCode = Verenigingssubtype.NogNietBepaald.Code,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionUpdateDocument
+            {
+                VerenigingssubtypeCode = Verenigingssubtype.FeitelijkeVereniging.Code,
             }
         );
 

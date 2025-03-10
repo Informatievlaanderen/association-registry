@@ -82,7 +82,7 @@ public class With_Duplicates_Found
         var messageBus = new Mock<IMessageBus>();
         var duplicatesFound = new PotentialDuplicatesFound(fixture.CreateMany<DuplicaatVereniging>().Select(x => x with
         {
-            Verenigingstype = new DuplicaatVereniging.VerenigingsType()
+            Verenigingstype = new DuplicaatVereniging.Types.Verenigingstype()
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,

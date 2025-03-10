@@ -26,8 +26,7 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.Tes
         };
 
         VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: vzer.VCode,
-            Subtype: new Registratiedata.Subtype(Verenigingssubtype.NogNietBepaald.Code,Verenigingssubtype.NogNietBepaald.Naam));
+            VCode: vzer.VCode);
 
         return
         [

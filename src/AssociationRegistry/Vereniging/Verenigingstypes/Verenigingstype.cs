@@ -34,6 +34,9 @@ public class Verenigingstype : IVerenigingstype
     public static bool IsGeenKboVereniging(string code)
         => code == FeitelijkeVereniging.Code || code == VZER.Code;
 
+    public static bool IsKboVereniging(string code)
+        => !IsGeenKboVereniging(code);
+
     public static bool TypeIsVerenigingZonderEigenRechtspersoonlijkheid(Verenigingstype type)
         => type == FeitelijkeVereniging || type == VZER;
 }

@@ -15,7 +15,7 @@ public class HoofdactiviteitVerenigingsloket
     }
 
     public static HoofdactiviteitVerenigingsloket FromDuplicaatVereniging(
-        DuplicaatVereniging.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
+        DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket hoofdactiviteitVerenigingsloket)
         => new(hoofdactiviteitVerenigingsloket.Code, hoofdactiviteitVerenigingsloket.Naam);
 
     /// <summary>De code van de hoofdactivititeit</summary>

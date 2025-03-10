@@ -2,6 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 
 using EventStore;
 using Common.Scenarios.EventsInDb;
+using Events;
+using JasperFx.Core;
 using Marten.Events.Daemon;
 using Nest;
 
@@ -271,13 +273,18 @@ public class EventsInDbScenariosFixture : AdminApiFixture
 
         foreach (var scenario in scenarios)
         {
-            scenario.Result = await AddEvents(scenario.VCode, scenario.GetEvents(), scenario.GetCommandMetadata());
+            var originalEvents = scenario.GetEvents();
+            var eventsWithMigration = originalEvents
+                                     .Where(x => x is FeitelijkeVerenigingWerdGeregistreerd).Cast<FeitelijkeVerenigingWerdGeregistreerd>()
+                                     .Select(eventToAdd => new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(@eventToAdd.VCode)).ToList();
+
+            scenario.Result = await AddEvents(scenario.VCode, originalEvents.Append(eventsWithMigration), scenario.GetCommandMetadata());
         }
 
         foreach (var (vCode, events) in V047FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsForDuplicateDetectionWithAnalyzer
                     .EventsPerVCode)
         {
-            await AddEvents(vCode, events);
+            await AddEvents(vCode, events.Append(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(vCode)));
         }
 
         await PostAddEvents(daemon);

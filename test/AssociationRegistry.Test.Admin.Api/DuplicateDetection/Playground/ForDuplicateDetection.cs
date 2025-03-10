@@ -159,6 +159,7 @@ public class DuplicateDetectionSetup
             VCode = "V0001001",
             Naam = "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling",
             VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
+            VerenigingssubtypeCode = Verenigingssubtype.NogNietBepaald.Code,
             Locaties = new[]
             {
                 new DuplicateDetectionDocument.Locatie

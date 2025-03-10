@@ -7,6 +7,7 @@ public record DuplicateDetectionUpdateDocument
     public string Naam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public string VerenigingsTypeCode { get; set; } = null!;
+    public string? VerenigingssubtypeCode { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public string[] HoofdactiviteitVerenigingsloket { get; set; } = null!;
     public bool? IsGestopt { get; set; } = null!;
@@ -31,6 +32,7 @@ public record DuplicateDetectionDocument
     public string Naam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
     public string VerenigingsTypeCode { get; set; } = null!;
+    public string? VerenigingssubtypeCode { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
     public string[] HoofdactiviteitVerenigingsloket { get; set; } = null!;
     public bool IsGestopt { get; set; }

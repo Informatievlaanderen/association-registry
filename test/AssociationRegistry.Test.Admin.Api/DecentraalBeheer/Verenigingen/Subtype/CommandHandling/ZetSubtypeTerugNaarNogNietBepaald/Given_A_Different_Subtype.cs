@@ -27,12 +27,9 @@ public class Given_A_Different_Subtype
 
         var command = new ZetSubtypeTerugNaarNogNietBepaaldCommand(scenario.VCode);
 
-        await commandHandler.Handle(new CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(
+            new CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(
-            new SubtypeWerdTerugGezetNaarNogNietBepaald(
-                scenario.VCode,
-                new Registratiedata.Subtype(Verenigingssubtype.NogNietBepaald.Code,
-                                            Verenigingssubtype.NogNietBepaald.Naam)));
+        verenigingRepositoryMock.ShouldHaveSaved(new SubtypeWerdTerugGezetNaarNogNietBepaald(scenario.VCode));
     }
 }

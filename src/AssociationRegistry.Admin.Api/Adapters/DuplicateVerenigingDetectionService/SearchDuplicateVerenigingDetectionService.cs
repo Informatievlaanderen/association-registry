@@ -7,7 +7,6 @@ using Vereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nest;
 using System.Collections.Immutable;
-
 using LogLevel = LogLevel;
 
 public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDetectionService
@@ -53,15 +52,19 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                                                                .MinScore(minimumScoreOverride.Value)
                                                                .Query(p => p.Bool(b =>
                                                                                       b.Should(
-                                                                                            MatchOpNaam(VerenigingsNaam.Create(naamZonderGemeentes)),
-                                                                                            MatchOpFullNaam(VerenigingsNaam.Create(naamZonderGemeentes)))
-                                                                                        .MinimumShouldMatch(1)
-                                                                                        .Filter(
-                                                                                             MatchOpPostcodeOfGemeente(
-                                                                                                 gemeentes, postcodes),
-                                                                                             IsNietDubbel,
-                                                                                             IsNietGestopt,
-                                                                                             IsNietVerwijderd)
+                                                                                            MatchOpNaam(
+                                                                                                VerenigingsNaam.Create(
+                                                                                                    naamZonderGemeentes)),
+                                                                                            MatchOpFullNaam(
+                                                                                                VerenigingsNaam.Create(
+                                                                                                    naamZonderGemeentes)))
+                                                                                       .MinimumShouldMatch(1)
+                                                                                       .Filter(
+                                                                                            MatchOpPostcodeOfGemeente(
+                                                                                                gemeentes, postcodes),
+                                                                                            IsNietDubbel,
+                                                                                            IsNietGestopt,
+                                                                                            IsNietVerwijderd)
                                                                       )));
 
         if (_logger.IsEnabled(LogLevel.Debug))
@@ -186,30 +189,36 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                       .MinimumShouldMatch("67%"));
     }
 
-
     private static DuplicaatVereniging ToDuplicateVereniging(IHit<DuplicateDetectionDocument> document)
         => new(
             document.Source.VCode,
-            new DuplicaatVereniging.VerenigingsType()
+            new DuplicaatVereniging.Types.Verenigingstype()
             {
                 Code = document.Source.VerenigingsTypeCode,
                 Naam = Verenigingstype.Parse(document.Source.VerenigingsTypeCode).Naam,
             },
+            Verenigingstype.IsKboVereniging(document.Source.VerenigingsTypeCode)
+                ? null
+                : new DuplicaatVereniging.Types.Verenigingssubtype()
+                {
+                    Code = document.Source.VerenigingssubtypeCode,
+                    Naam = Verenigingssubtype.Parse(document.Source.VerenigingssubtypeCode).Naam,
+                },
             document.Source.Naam,
             document.Source.KorteNaam,
             document.Source.HoofdactiviteitVerenigingsloket?
-               .Select(h => new DuplicaatVereniging.HoofdactiviteitVerenigingsloket(
+               .Select(h => new DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket(
                            h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray() ?? [],
             document.Source.Locaties.Select(ToLocatie).ToImmutableArray(),
             IncludesScore(document)
-                ? new DuplicaatVereniging.ScoringInfo(document.Explanation.Description, document.Score)
-                : DuplicaatVereniging.ScoringInfo.NotApplicable
+                ? new DuplicaatVereniging.Types.ScoringInfo(document.Explanation.Description, document.Score)
+                : DuplicaatVereniging.Types.ScoringInfo.NotApplicable
         );
 
     private static bool IncludesScore(IHit<DuplicateDetectionDocument> document)
         => document.Explanation is not null && document.Score is not null;
 
-    private static DuplicaatVereniging.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)
+    private static DuplicaatVereniging.Types.Locatie ToLocatie(DuplicateDetectionDocument.Locatie loc)
         => new(
             loc.Locatietype,
             loc.IsPrimair,

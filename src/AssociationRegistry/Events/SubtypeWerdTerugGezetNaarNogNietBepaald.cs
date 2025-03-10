@@ -1,4 +1,4 @@
 ﻿namespace AssociationRegistry.Events;
 
-public record SubtypeWerdTerugGezetNaarNogNietBepaald(string VCode, Registratiedata.Subtype Subtype) : IEvent
+public record SubtypeWerdTerugGezetNaarNogNietBepaald(string VCode) : IEvent
 { }

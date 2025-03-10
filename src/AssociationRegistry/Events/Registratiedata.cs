@@ -103,11 +103,6 @@ public static class Registratiedata
     {
 
     }
-
-    public record Subtype(
-        string Code,
-        string Naam)
-    { }
 }
 
 public interface IAdresId

@@ -7,6 +7,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
+using Events;
 using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
@@ -66,6 +67,13 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd
                         ""beschrijving"": ""Feitelijke vereniging werd geregistreerd met naam '{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam}'."",
                         ""gebeurtenis"":""FeitelijkeVerenigingWerdGeregistreerd"",
                         ""data"":{JsonConvert.SerializeObject(VerenigingWerdGeregistreerdData.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd))},
+                        ""initiator"":""{_metadata.Initiator}"",
+                        ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
+                    }},
+                    {{
+                        ""beschrijving"": ""Feitelijke vereniging werd gemigreerd naar vereniging zonder eigen rechtspersoonlijkheid."",
+                        ""gebeurtenis"":""FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid"",
+                        ""data"":{JsonConvert.SerializeObject(new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(_scenario.VCode))},
                         ""initiator"":""{_metadata.Initiator}"",
                         ""tijdstip"":""{_metadata.Tijdstip.FormatAsZuluTime()}""
                     }}

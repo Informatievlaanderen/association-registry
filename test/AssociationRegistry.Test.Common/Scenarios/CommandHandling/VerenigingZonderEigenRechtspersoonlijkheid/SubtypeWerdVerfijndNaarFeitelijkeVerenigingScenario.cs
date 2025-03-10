@@ -17,8 +17,7 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Commandhandle
 
         VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = fixture.Create<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging>() with
         {
-            VCode = VCode,
-            Subtype = new Registratiedata.Subtype(Verenigingssubtype.FeitelijkeVereniging.Code, Verenigingssubtype.FeitelijkeVereniging.Naam)
+            VCode = VCode
         };
     }
 

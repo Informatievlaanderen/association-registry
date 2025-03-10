@@ -12,6 +12,7 @@ public class DuplicaatVerenigingContract
         string naam,
         string korteNaam,
         Verenigingstype verenigingstype,
+        Verenigingssubtype verenigingssubtype,
         ImmutableArray<HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket,
         ImmutableArray<Locatie> locaties,
         VerenigingLinks links)
@@ -20,6 +21,7 @@ public class DuplicaatVerenigingContract
         Naam = naam;
         KorteNaam = korteNaam;
         Verenigingstype = verenigingstype;
+        Verenigingssubtype = verenigingssubtype;
         HoofdactiviteitenVerenigingsloket = hoofdactiviteitenVerenigingsloket;
         Locaties = locaties;
         Links = links;
@@ -41,6 +43,12 @@ public class DuplicaatVerenigingContract
     [DataMember(Name = "Verenigingstype")]
     public Verenigingstype Verenigingstype { get; init; }
 
+    /// <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+    public Verenigingssubtype Verenigingssubtype { get; set; }
+
     /// <summary>De hoofdactivititeiten van deze vereniging volgens het verenigingsloket</summary>
     [DataMember(Name = "HoofdactiviteitenVerenigingsloket")]
     public ImmutableArray<HoofdactiviteitVerenigingsloket> HoofdactiviteitenVerenigingsloket { get; init; }
@@ -52,9 +60,4 @@ public class DuplicaatVerenigingContract
     /// <summary>Weblinks i.v.m. deze vereniging</summary>
     [DataMember(Name = "Links")]
     public VerenigingLinks Links { get; init; }
-
-    /// <summary>
-    /// Het subtype van de vereniging
-    /// </summary>
-    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
-    public Verenigingssubtype Verenigingssubtype { get; set; }}
+}
