@@ -72,7 +72,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
-            Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald),
+            Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NietBepaald),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -835,7 +835,7 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
-        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald);
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NietBepaald);
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
@@ -843,8 +843,8 @@ public class BeheerVerenigingDetailProjector
         document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.FeitelijkeVereniging);
     }
 
-    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNogNietBepaald> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NogNietBepaald);
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NietBepaald);
     }
 }

@@ -53,8 +53,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
             },
             Naam = Request.Naam,
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),

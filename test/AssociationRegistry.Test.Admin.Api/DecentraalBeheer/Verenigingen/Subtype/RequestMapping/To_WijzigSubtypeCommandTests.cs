@@ -31,20 +31,20 @@ public class To_WijzigSubtypeCommandTests
     }
 
     [Fact]
-    public void With_Subtype_NogNietBepaald_Then_We_Get_A_ZetSubtypeTerugNaarNogNietBepaaldCommand()
+    public void With_Subtype_NietBepaald_Then_We_Get_A_ZetSubtypeTerugNaarNietBepaaldCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.NogNietBepaald.Code,
+            Subtype = Verenigingssubtype.NietBepaald.Code,
         };
 
         var vCode = fixture.Create<VCode>();
-        var command = request.ToZetSubtypeTerugNaarNogNietBepaaldCommand(vCode);
+        var command = request.ToZetSubtypeTerugNaarNietBepaaldCommand(vCode);
 
         command.VCode.Should().Be(vCode);
-        command.Should().BeOfType(typeof(ZetSubtypeTerugNaarNogNietBepaaldCommand));
+        command.Should().BeOfType(typeof(ZetSubtypeTerugNaarNietBepaaldCommand));
     }
 
     [Fact]

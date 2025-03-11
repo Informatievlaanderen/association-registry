@@ -111,8 +111,8 @@ public class PubliekZoekProjectionHandler
             FeitelijkeVerenigingWerdGeregistreerd => null,
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.Types.Verenigingssubtype()
             {
-                Code = Verenigingssubtype.NogNietBepaald.Code,
-                Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                Code = Verenigingssubtype.NietBepaald.Code,
+                Naam = Verenigingssubtype.NietBepaald.Naam,
             },
             _ => throw new ArgumentOutOfRangeException(nameof(@event))
         };
@@ -590,8 +590,8 @@ public class PubliekZoekProjectionHandler
                 },
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype()
                 {
-                    Code = Verenigingssubtype.NogNietBepaald.Code,
-                    Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                    Code = Verenigingssubtype.NietBepaald.Code,
+                    Naam = Verenigingssubtype.NietBepaald.Naam,
                 },
             });
     }

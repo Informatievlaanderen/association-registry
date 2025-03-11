@@ -53,7 +53,7 @@ public class With_Duplicates_Found
     }
 
     [Fact]
-    public async Task Then_Verenigingssubtype_isNogNietBepaald()
+    public async Task Then_Verenigingssubtype_isNietBepaald()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);
@@ -75,10 +75,10 @@ public class With_Duplicates_Found
 
         mogelijkeDuplicateVerenigingen.Should()
                                       .AllSatisfy(x => x.Verenigingssubtype.Code.Should()
-                                                        .Be(Verenigingssubtype.NogNietBepaald.Code))
+                                                        .Be(Verenigingssubtype.NietBepaald.Code))
                                       .And
                                       .AllSatisfy(x => x.Verenigingssubtype.Naam.Should()
-                                                        .Be(Verenigingssubtype.NogNietBepaald.Naam));
+                                                        .Be(Verenigingssubtype.NietBepaald.Naam));
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
@@ -93,8 +93,8 @@ public class With_Duplicates_Found
             },
             Verenigingssubtype = new DuplicaatVereniging.Types.Verenigingssubtype()
             {
-                Code = Verenigingssubtype.NogNietBepaald.Code,
-                Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                Code = Verenigingssubtype.NietBepaald.Code,
+                Naam = Verenigingssubtype.NietBepaald.Naam,
             },
         }));
 

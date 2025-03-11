@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNogNietBepaald.Beheer.Detail.With_Header;
+﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Detail.With_Header;
 
 using Admin.Api;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
@@ -16,11 +16,11 @@ using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
+public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly ZetSubtypeNaarNogNietBepaaldContext _context;
+    private readonly ZetSubtypeNaarNietBepaaldContext _context;
 
-    public Returns_Detail(ZetSubtypeNaarNogNietBepaaldContext context): base(context)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context): base(context)
     {
         _context = context;
     }
@@ -36,8 +36,8 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, W
     {
         var expected = new Verenigingssubtype()
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

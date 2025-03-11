@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNogNietBepaald;
+namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald;
 
 using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
@@ -10,12 +10,12 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 
-public class ZetSubtypeNaarNogNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
+public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
 {
     public VCode VCode => RequestResult.VCode;
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario Scenario { get; }
 
-    public ZetSubtypeNaarNogNietBepaaldContext(FullBlownApiSetup apiSetup)
+    public ZetSubtypeNaarNietBepaaldContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
@@ -24,7 +24,7 @@ public class ZetSubtypeNaarNogNietBepaaldContext: TestContextBase<WijzigSubtypeR
     public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestVoorNNBFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

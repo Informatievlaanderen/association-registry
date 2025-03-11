@@ -68,8 +68,8 @@ public class Returns_VZER_DetailResponse :
             },
             Verenigingssubtype = new Verenigingssubtype()
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam
             },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),

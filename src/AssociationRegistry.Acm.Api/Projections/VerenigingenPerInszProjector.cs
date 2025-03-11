@@ -63,8 +63,8 @@ public static class VerenigingenPerInszProjector
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
                 new Verenigingssubtype
                 {
-                    Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                    Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+                    Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                    Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
 
                 },
 
@@ -356,8 +356,8 @@ public static class VerenigingenPerInszProjector
 
             vereniging.Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
             };
 
             docs.Add(verenigingenPerInszDocument);

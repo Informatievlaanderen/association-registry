@@ -95,9 +95,9 @@ public class WijzigSubtypeController : ApiController
             return await Handle(command, metaData, cancellationToken);
         }
 
-        if (gewenstSubtype.IsNogNietBepaald)
+        if (gewenstSubtype.IsNietBepaald)
         {
-            var command = request.ToZetSubtypeTerugNaarNogNietBepaaldCommand(vCode);
+            var command = request.ToZetSubtypeTerugNaarNietBepaaldCommand(vCode);
             return await Handle(command, metaData, cancellationToken);
         }
 
