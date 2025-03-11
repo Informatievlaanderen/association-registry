@@ -1,13 +1,14 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Acm;
 
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
-using AssociationRegistry.Acm.Schema.Constants;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
+using Vereniging;
 using Xunit;
+using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -48,8 +49,13 @@ public class Returns_VerenigingenPerInszResponse :
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
-                        Verenigingstype.FeitelijkeVereniging.Code,
-                        Verenigingstype.FeitelijkeVereniging.Naam),
+                        Verenigingstype.VZER.Code,
+                        Verenigingstype.VZER.Naam),
+                    Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
+                    {
+                        Code = Verenigingssubtype.NogNietBepaald.Code,
+                        Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                    },
                     IsHoofdvertegenwoordigerVan = true,
                 },
 
@@ -63,8 +69,13 @@ public class Returns_VerenigingenPerInszResponse :
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
-                        Verenigingstype.FeitelijkeVereniging.Code,
-                        Verenigingstype.FeitelijkeVereniging.Naam),
+                        Verenigingstype.VZER.Code,
+                        Verenigingstype.VZER.Naam),
+                    Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
+                    {
+                        Code = Verenigingssubtype.NogNietBepaald.Code,
+                        Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                    },
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

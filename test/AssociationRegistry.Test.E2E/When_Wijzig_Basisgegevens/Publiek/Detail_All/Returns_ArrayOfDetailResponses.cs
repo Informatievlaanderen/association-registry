@@ -50,7 +50,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
     }
 
     [Fact]
-    public void WithFeitelijkeVereniging()
+    public void WithVerenigingZonderEigenRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -66,8 +66,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
             KorteNaam = Request.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
