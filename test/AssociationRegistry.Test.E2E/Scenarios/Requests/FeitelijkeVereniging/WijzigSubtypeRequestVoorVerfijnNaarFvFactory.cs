@@ -4,15 +4,16 @@ using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Alba;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
+using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Marten.Events;
 using System.Net;
 using Vereniging;
 
 public class WijzigSubtypeRequestVoorVerfijnNaarFvFactory : ITestRequestFactory<WijzigSubtypeRequest>
 {
-    private readonly MultipleWerdGeregistreerdScenario _scenario;
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
 
-    public WijzigSubtypeRequestVoorVerfijnNaarFvFactory(MultipleWerdGeregistreerdScenario scenario)
+    public WijzigSubtypeRequestVoorVerfijnNaarFvFactory(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
         _scenario = scenario;
     }
@@ -28,7 +29,7 @@ public class WijzigSubtypeRequestVoorVerfijnNaarFvFactory : ITestRequestFactory<
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
-             .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/subtype");
+             .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/subtype");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });
@@ -36,6 +37,6 @@ public class WijzigSubtypeRequestVoorVerfijnNaarFvFactory : ITestRequestFactory<
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

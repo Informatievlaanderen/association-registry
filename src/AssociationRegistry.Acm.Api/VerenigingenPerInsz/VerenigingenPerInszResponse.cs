@@ -118,26 +118,28 @@ public class VerenigingenPerInszResponse
         [DataMember]
         public bool IsHoofdVertegenwoordiger { get; set; }
     }
-}
 
-[DataContract]
-public class Verenigingstype
-{
-    public Verenigingstype(string code, string naam)
+    [DataContract]
+    public class Verenigingstype
     {
-        Code = code;
-        Naam = naam;
+        public Verenigingstype(string code, string naam)
+        {
+            Code = code;
+            Naam = naam;
+        }
+
+        /// <summary>
+        /// De code van het type van de vereniging
+        /// </summary>
+        [DataMember]
+        public string Code { get; set; }
+
+        /// <summary>
+        /// De naam van het type van de vereniging
+        /// </summary>
+        [DataMember]
+        public string Naam { get; set; }
     }
-
-    /// <summary>
-    /// De code van het type van de vereniging
-    /// </summary>
-    [DataMember]
-    public string Code { get; set; }
-
-    /// <summary>
-    /// De naam van het type van de vereniging
-    /// </summary>
-    [DataMember]
-    public string Naam { get; set; }
 }
+
+

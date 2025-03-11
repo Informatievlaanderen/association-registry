@@ -45,7 +45,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Naam = TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new Verenigingstype(
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
                         Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                         Vereniging.Verenigingstype.FeitelijkeVereniging.Naam),
                     IsHoofdvertegenwoordigerVan = true,

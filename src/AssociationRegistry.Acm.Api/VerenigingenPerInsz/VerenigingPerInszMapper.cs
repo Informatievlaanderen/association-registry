@@ -25,7 +25,7 @@ public static class VerenigingPerInszMapper
             Status = vereniging.Status,
             KboNummer = vereniging.KboNummer,
             VCode = vereniging.VCode,
-            Verenigingstype = new Verenigingstype(vereniging.Verenigingstype.Code, vereniging.Verenigingstype.Naam),
+            Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(vereniging.Verenigingstype.Code, vereniging.Verenigingstype.Naam),
             Verenigingssubtype =
                 new VerenigingstypeMapperV2()
                    .MapSubtype<VerenigingenPerInszResponse.Verenigingssubtype,
