@@ -148,11 +148,7 @@ public class BeheerZoekProjectionHandler
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
                 },
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
-                {
-                    Code = Verenigingssubtype.NogNietBepaald.Code,
-                    Naam = Verenigingssubtype.NogNietBepaald.Naam,
-                },
+                Verenigingssubtype = null,
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
