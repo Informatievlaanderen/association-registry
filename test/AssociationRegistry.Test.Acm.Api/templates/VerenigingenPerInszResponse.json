@@ -13,10 +13,16 @@
         "code": "{{vereniging.verenigingstype.code}}",
         "naam": "{{vereniging.verenigingstype.naam}}"
       },
+      {{ if vereniging.verenigingssubtype }}
+      "verenigingssubtype": {
+        "code": "{{vereniging.verenigingssubtype.code}}",
+        "naam": "{{vereniging.verenigingssubtype.naam}}"
+      },
+      {{ end }}
       "kboNummer": "{{vereniging.kbonummer}}",
       "isHoofdvertegenwoordigerVan": {{vereniging.ishoofdvertegenwoordigervan}}
     }
     {{ end }}
   ],
-  "kboNummers": [],
+  "kboNummers": []
 }

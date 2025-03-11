@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Acm.Schema.VerenigingenPerInsz;
 
+using AssociationRegistry.Vereniging;
 using Marten.Schema;
 
 public class VerenigingenPerInszDocument
@@ -48,9 +49,14 @@ public class Vereniging
     public string KboNummer { get; set; } = null!;
 
     // <summary>
-    /// Het kbo nummer van de vereniging
+    /// Het type van de vereniging
     /// </summary>
     public Verenigingstype Verenigingstype { get; set; } = null!;
+
+    // <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    public Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
 
     public bool IsHoofdvertegenwoordigerVan { get; set; }
     public bool IsDubbel { get; set; }
@@ -74,3 +80,19 @@ public class Verenigingstype
     /// </summary>
     public string Naam { get; set; } = null!;
 }
+
+public class Verenigingssubtype : IVerenigingssubtype
+{
+
+    /// <summary>
+    /// De code van het subtype van de vereniging
+    /// </summary>
+    public string Code { get; init; } = null!;
+
+    /// <summary>
+    /// De naam van het subtype van de vereniging
+    /// </summary>
+    public string Naam { get; init; } = null!;
+}
+
+

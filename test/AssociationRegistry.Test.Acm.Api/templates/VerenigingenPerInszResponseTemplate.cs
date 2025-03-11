@@ -24,6 +24,7 @@ public class VerenigingenPerInszResponseTemplate
         int vertegenwoordigerId,
         string naam,
         Verenigingstype verenigingstype,
+        Verenigingssubtype? verenigingssubtype,
         string status = VerenigingStatus.Actief,
         string[] corresponderendeVCodes = null,
         string kboNummer = "",
@@ -42,6 +43,11 @@ public class VerenigingenPerInszResponseTemplate
                 naam = verenigingstype.Naam,
                 code = verenigingstype.Code,
             },
+            verenigingssubtype = verenigingssubtype is not null ? new
+            {
+                naam = verenigingssubtype.Naam,
+                code = verenigingssubtype.Code,
+            } : null,
             ishoofdvertegenwoordigervan = isHoofdvertegenwoordigerVan,
         });
 

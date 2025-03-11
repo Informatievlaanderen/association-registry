@@ -6,6 +6,7 @@ using FluentAssertions;
 using Framework;
 using System.Net;
 using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Abstractions;
 using Xunit.Categories;
@@ -52,7 +53,8 @@ public class When_Retrieving_Verenigingen_For_Insz
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Single(s => s.Insz == _scenario.Insz)
                              .VertegenwoordigerId,
                     _scenario.NaamWerdGewijzigd.Naam,
-                    _scenario.Verenigingstype
+                    Verenigingstype.VZER,
+                    Verenigingssubtype.NogNietBepaald
                 );
 
         content.Should().BeEquivalentJson(expected);

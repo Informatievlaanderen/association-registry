@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using System.Runtime.Serialization;
+using Vereniging;
 
 /// <summary>De lijst van alle verenigingen voor een specifiek INSZ</summary>
 [DataContract]
@@ -66,11 +67,36 @@ public class VerenigingenPerInszResponse
         public Verenigingstype Verenigingstype { get; set; } = null!;
 
         /// <summary>
+        /// Het subtype van deze vereniging
+        /// </summary>
+        [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+        public Verenigingssubtype? Verenigingssubtype { get; init; }
+
+        /// <summary>
         /// Is True als deze persoon een hoofdvertegenwoordiger is van deze vereniging
         /// </summary>
         [DataMember]
         public bool IsHoofdvertegenwoordigerVan { get; init; }
     }
+
+    /// <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    public class Verenigingssubtype : IVerenigingssubtype
+    {
+        /// <summary>
+        /// De code van het subtype
+        /// </summary>
+        [DataMember(Name = "Code")]
+        public string Code { get; init; } = null!;
+
+        /// <summary>
+        /// De beschrijving van het subtype
+        /// </summary>
+        [DataMember(Name = "Naam")]
+        public string Naam { get; init; } = null!;
+    }
+
 
     public class VerenigingenPerKbo
     {

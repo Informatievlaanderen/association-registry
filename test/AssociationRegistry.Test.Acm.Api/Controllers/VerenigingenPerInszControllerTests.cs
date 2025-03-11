@@ -88,7 +88,13 @@ public class VerenigingenPerInszControllerTests
         var verenigingenPerInsz = new VerenigingenPerInszDocument()
         {
             Insz = "123",
-            Verenigingen = fixture.CreateMany<Vereniging>().ToList(),
+            Verenigingen = fixture.CreateMany<Vereniging>()
+                                  .Select(x =>
+                                   {
+                                       x.Verenigingssubtype = null;
+
+                                       return x;
+                                   }).ToList(),
         };
 
         VerenigingenPerKbo[] kboNummerInfos = [];

@@ -42,6 +42,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                     _scenario.VertegenwoordigerWerdOvergenomenUitKBO.VertegenwoordigerId,
                     _scenario.NaamWerdGewijzigdInKbo.Naam,
                     Verenigingstype.Parse(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Rechtsvorm),
+                    null,
                     kboNummer: _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer
                 );
 

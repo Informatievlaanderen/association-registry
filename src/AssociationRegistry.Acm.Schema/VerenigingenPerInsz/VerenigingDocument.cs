@@ -13,6 +13,7 @@ public class VerenigingDocument : ISoftDeleted
     public string KboNummer { get; set; } = null!;
 
     public Verenigingstype VerenigingsType { get; set; } = null;
+    public Verenigingssubtype? Verenigingssubtype { get; set; } = null;
     public bool Deleted { get; set; }
     public DateTimeOffset? DeletedAt { get; set; }
 
