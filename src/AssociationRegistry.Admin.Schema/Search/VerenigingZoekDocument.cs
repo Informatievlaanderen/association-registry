@@ -11,7 +11,7 @@ public class VerenigingZoekDocument
 
     public string[] CorresponderendeVCodes { get; set; } = null!;
     public Types.VerenigingsType Verenigingstype { get; set; } = null!;
-    public Types.Verenigingssubtype Verenigingssubtype { get; set; } = null!;
+    public Types.Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;

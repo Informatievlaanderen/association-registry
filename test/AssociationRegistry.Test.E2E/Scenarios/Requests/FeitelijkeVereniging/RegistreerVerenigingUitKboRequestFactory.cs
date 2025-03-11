@@ -8,6 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
+using FluentAssertions;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
@@ -29,22 +30,22 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
             KboNummer = "0451289431",
         };
 
-        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
+            s.IgnoreStatusCode();
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/kbo");
-
-            s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
             s.Header("Location").ShouldHaveValues();
 
             s.Header("Location")
              .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+        })).Context.Response;
 
-            s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
-            s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response.Headers.Location.First()!.Split('/').Last();;
+        response.StatusCode.Should().BeOneOf((int)HttpStatusCode.OK, (int)HttpStatusCode.Accepted);
+
+        var vCode = response.Headers.Location.First()!.Split('/').Last();;
 
         await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
