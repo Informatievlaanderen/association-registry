@@ -45,12 +45,13 @@ public class VerenigingWerdGemarkeerdAlsDubbelVanScenario : Framework.TestClasse
             VCodeDubbeleVereniging = DubbeleVerenging.VCode,
         };
 
+
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return
         [
-            new(DubbeleVerenging.VCode, [DubbeleVerenging, VerenigingWerdGemarkeerdAlsDubbelVan]),
-            new(AuthentiekeVereniging.VCode, [AuthentiekeVereniging, VerenigingAanvaarddeDubbeleVereniging]),
+            new(DubbeleVerenging.VCode, [DubbeleVerenging, VerenigingWerdGemarkeerdAlsDubbelVan, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(DubbeleVerenging.VCode)]),
+            new(AuthentiekeVereniging.VCode, [AuthentiekeVereniging, VerenigingAanvaarddeDubbeleVereniging,new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(AuthentiekeVereniging.VCode)]),
         ];
     }
 

@@ -12,6 +12,7 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
 {
     private readonly bool _isUitgeschreven;
     public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
+    public FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid { get; set; }
     private CommandMetadata Metadata;
     public VCode VCode { get; private set; }
 
@@ -98,10 +99,12 @@ public class FeitelijkeVerenigingWerdGeregistreerdScenario : IFeitelijkeVerenigi
                 new(HoofdactiviteitVerenigingsloket.All()[0].Code, Naam: "Buitengewoon Leuke Afkortingen"),
             });
 
+        FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid = new(VCode);
+
                 Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
         return [
-           new(VCode, [FeitelijkeVerenigingWerdGeregistreerd]),
+           new(VCode, [FeitelijkeVerenigingWerdGeregistreerd, FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid]),
         ];
     }
 
