@@ -39,6 +39,7 @@ public class PubliekZoekProjectionHandler
                 JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
                 VCode = message.Data.VCode,
                 Verenigingstype = MapVerenigingstype(message.Data),
+                Verenigingssubtype = MapVerenigingssubtype(message.Data),
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 KorteBeschrijving = message.Data.KorteBeschrijving,
@@ -83,20 +84,35 @@ public class PubliekZoekProjectionHandler
         );
     }
 
-    private static VerenigingZoekDocument.Types.VerenigingsType MapVerenigingstype(
+    private static VerenigingZoekDocument.Types.Verenigingstype MapVerenigingstype(
         IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
     {
         return @event switch
         {
-            FeitelijkeVerenigingWerdGeregistreerd => new VerenigingZoekDocument.Types.VerenigingsType()
+            FeitelijkeVerenigingWerdGeregistreerd => new VerenigingZoekDocument.Types.Verenigingstype()
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.Types.VerenigingsType()
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.Types.Verenigingstype()
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
+            },
+            _ => throw new ArgumentOutOfRangeException(nameof(@event))
+        };
+    }
+
+    private static VerenigingZoekDocument.Types.Verenigingssubtype MapVerenigingssubtype(
+        IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd @event)
+    {
+        return @event switch
+        {
+            FeitelijkeVerenigingWerdGeregistreerd => null,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new VerenigingZoekDocument.Types.Verenigingssubtype()
+            {
+                Code = Verenigingssubtype.NogNietBepaald.Code,
+                Naam = Verenigingssubtype.NogNietBepaald.Naam,
             },
             _ => throw new ArgumentOutOfRangeException(nameof(@event))
         };
@@ -108,11 +124,12 @@ public class PubliekZoekProjectionHandler
             {
                 JsonLdMetadataType = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
                 VCode = message.Data.VCode,
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
                 },
+                Verenigingssubtype = null,
                 Naam = message.Data.Naam,
                 Roepnaam = string.Empty,
                 KorteNaam = message.Data.KorteNaam,
@@ -470,7 +487,7 @@ public class PubliekZoekProjectionHandler
             message.VCode,
             new VerenigingZoekDocument
             {
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+                Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype
                 {
                     Code = Verenigingstype.Parse(message.Data.Rechtsvorm).Code,
                     Naam = Verenigingstype.Parse(message.Data.Rechtsvorm).Naam,
@@ -557,7 +574,7 @@ public class PubliekZoekProjectionHandler
                 {
                     Code = Verenigingssubtype.FeitelijkeVereniging.Code,
                     Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
-                }
+                },
             });
     }
 
@@ -566,10 +583,15 @@ public class PubliekZoekProjectionHandler
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument
             {
-                Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType()
+                Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype()
                 {
                     Code = Verenigingstype.VZER.Code,
                     Naam = Verenigingstype.VZER.Naam,
+                },
+                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype()
+                {
+                    Code = Verenigingssubtype.NogNietBepaald.Code,
+                    Naam = Verenigingssubtype.NogNietBepaald.Naam,
                 },
             });
     }

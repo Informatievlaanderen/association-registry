@@ -12,18 +12,18 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     [Fact]
     public void Document_Is_Updated()
         => fixture.Result
-                  .Verenigingstype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.VerenigingsType()
+                  .Verenigingstype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingstype()
                    {
                        Code = Verenigingstype.VZER.Code,
                        Naam = Verenigingstype.VZER.Naam,
                    });
 
-    // [Fact]
-    // public void Verenigingssubtype_Is_NNB()
-    //     => fixture.Result
-    //               .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype()
-    //                {
-    //                    Code = Verenigingssubtype.NogNietBepaald.Code,
-    //                    Naam = Verenigingssubtype.NogNietBepaald.Naam,
-    //                });
+    [Fact]
+    public void Verenigingssubtype_Is_NNB()
+        => fixture.Result
+                  .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype()
+                   {
+                       Code = Verenigingssubtype.NogNietBepaald.Code,
+                       Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                   });
 }

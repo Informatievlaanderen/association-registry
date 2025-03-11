@@ -49,7 +49,7 @@ public static class VerenigingZoekDocumentMapping
                          .Boolean(
                               propertyDescriptor => propertyDescriptor
                                  .Name(document => document.IsVerwijderd))
-                         .Nested<VerenigingZoekDocument.Types.VerenigingsType>(
+                         .Nested<VerenigingZoekDocument.Types.Verenigingstype>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Verenigingstype)
                                                    .IncludeInRoot()
@@ -191,7 +191,7 @@ public static class VerenigingZoekDocumentMapping
 
     private static class VerenigingsTypeMapping
     {
-        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.VerenigingsType> map)
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Verenigingstype> map)
             => map
               .Keyword(
                    propertiesDescriptor => propertiesDescriptor
