@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Acm.VerenigingenPerInsz;
+﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Acm.VerenigingenPerInsz;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -13,14 +13,14 @@ using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VerenigingenPerInszResponse :
-    End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, VerenigingenPerInszResponse>
+    End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, VerenigingenPerInszResponse>
 {
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_VerenigingenPerInszResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
     {
-        _inszToCompare = TestContext.Request.Vertegenwoordigers[0].Insz;
+        _inszToCompare = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
@@ -40,8 +40,8 @@ public class Returns_VerenigingenPerInszResponse :
                 {
                     VCode = TestContext.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = 1,
-                    Naam = TestContext.Request.Naam,
+                    VertegenwoordigerId = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
@@ -49,8 +49,8 @@ public class Returns_VerenigingenPerInszResponse :
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
                     {
-                        Code = Verenigingssubtype.NogNietBepaald.Code,
-                        Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                        Code = Verenigingssubtype.FeitelijkeVereniging.Code,
+                        Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,
                 },

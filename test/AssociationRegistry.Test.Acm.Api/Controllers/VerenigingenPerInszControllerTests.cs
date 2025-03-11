@@ -11,7 +11,7 @@ using Framework;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;
-using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype;
+using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype;
 
 public class VerenigingenPerInszControllerTests
 {

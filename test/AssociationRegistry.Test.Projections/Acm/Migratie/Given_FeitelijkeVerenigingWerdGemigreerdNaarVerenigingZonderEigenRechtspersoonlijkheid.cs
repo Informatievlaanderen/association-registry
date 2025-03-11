@@ -23,6 +23,6 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-        vzer.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code, AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam));
+        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code, AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam));
     }
 }

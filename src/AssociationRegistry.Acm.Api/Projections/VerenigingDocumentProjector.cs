@@ -128,4 +128,17 @@ public static class VerenigingDocumentProjector
 
         return verenigingDocument;
     }
+
+    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, IDocumentOperations ops)
+    {
+        var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        {
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
+        };
+
+        return verenigingDocument;
+    }
 }

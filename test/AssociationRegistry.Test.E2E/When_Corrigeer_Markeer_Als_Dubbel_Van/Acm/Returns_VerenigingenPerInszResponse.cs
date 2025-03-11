@@ -47,7 +47,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Naam = _context.Scenario.DubbeleVerenging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype(
+                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.FeitelijkeVereniging.Code,
                         Verenigingstype.FeitelijkeVereniging.Naam),
                     IsHoofdvertegenwoordigerVan = true,
@@ -62,7 +62,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Naam = _context.Scenario.AuthentiekeVereniging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigingstype(
+                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.FeitelijkeVereniging.Code,
                         Verenigingstype.FeitelijkeVereniging.Naam),
                     IsHoofdvertegenwoordigerVan = true,

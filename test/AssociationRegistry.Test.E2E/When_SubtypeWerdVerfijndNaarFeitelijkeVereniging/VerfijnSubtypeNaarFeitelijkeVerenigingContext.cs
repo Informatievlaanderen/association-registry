@@ -7,13 +7,14 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
+using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
 
 public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
     public VCode VCode => RequestResult.VCode;
-    public MultipleWerdGeregistreerdScenario Scenario { get; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 
     public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
     {
