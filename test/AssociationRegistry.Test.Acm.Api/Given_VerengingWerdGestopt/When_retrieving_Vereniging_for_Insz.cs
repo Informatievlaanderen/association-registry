@@ -1,14 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Given_VerengingWerdGestopt;
 
-using AssociationRegistry.Acm.Schema.Constants;
 using Common.Extensions;
 using Fixtures;
 using Fixtures.Scenarios;
 using FluentAssertions;
 using System.Net;
 using templates;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
+using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AcmApiCollection))]
 [Category("AcmApi")]
@@ -41,7 +42,8 @@ public class When_retrieving_Vereniging_for_Insz
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers.Single(s => s.Insz == _scenario.Insz)
                              .VertegenwoordigerId,
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
-                    _scenario.Verenigingstype,
+                    Verenigingstype.VZER,
+                    Verenigingssubtype.NogNietBepaald,
                     VerenigingStatus.Gestopt
                 );
 

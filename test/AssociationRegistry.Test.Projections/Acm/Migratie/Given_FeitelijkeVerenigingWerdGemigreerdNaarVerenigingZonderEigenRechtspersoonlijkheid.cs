@@ -9,11 +9,20 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     : VerenigingenPerInszScenarioClassFixture<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheidScenario>
 {
     [Fact]
-    public void Then_VerenigingsType_Is_Vzer()
+    public void Then_Verenigingstype_Is_Vzer()
     {
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
         vzer.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam));
+    }
+
+    [Fact]
+    public void Then_Verenigingssubtype_Is_NogNietBepaald()
+    {
+        var vzer =
+            fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+        vzer.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code, AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam));
     }
 }

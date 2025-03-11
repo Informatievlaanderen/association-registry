@@ -3,6 +3,8 @@
 using AcmBevraging;
 using Schema.VerenigingenPerInsz;
 using System.Linq;
+using Vereniging;
+using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 
 public static class VerenigingPerInszMapper
 {
@@ -24,6 +26,10 @@ public static class VerenigingPerInszMapper
             KboNummer = vereniging.KboNummer,
             VCode = vereniging.VCode,
             Verenigingstype = new Verenigingstype(vereniging.Verenigingstype.Code, vereniging.Verenigingstype.Naam),
+            Verenigingssubtype =
+                new VerenigingstypeMapperV2()
+                   .MapSubtype<VerenigingenPerInszResponse.Verenigingssubtype,
+                        AssociationRegistry.Acm.Schema.VerenigingenPerInsz.Verenigingssubtype>(vereniging.Verenigingssubtype),
             IsHoofdvertegenwoordigerVan = vereniging.IsHoofdvertegenwoordigerVan,
         };
 
