@@ -13,6 +13,7 @@ using KellermanSoftware.CompareNetObjects;
 
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Verenigingssubtype = Public.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, SearchVerenigingenResponse>
@@ -49,6 +50,11 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingZonderE
             {
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
+            },
+            Verenigingssubtype = new Verenigingssubtype
+            {
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
             },
             Naam = Request.Naam,
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),

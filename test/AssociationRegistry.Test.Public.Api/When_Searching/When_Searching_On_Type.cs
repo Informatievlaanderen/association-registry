@@ -37,7 +37,7 @@ public class When_Searching_On_Type
         _feitelijkeVereniging = autoFixture.Create<VerenigingZoekDocument>();
 
         _feitelijkeVereniging.Naam = "de kleine vereniging";
-        _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        _feitelijkeVereniging.Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.FeitelijkeVereniging.Code,
             Naam = Verenigingstype.FeitelijkeVereniging.Naam,
@@ -46,7 +46,7 @@ public class When_Searching_On_Type
 
         _vzer.Naam = "de kleine vereniging";
 
-        _vzer.Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
+        _vzer.Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype
         {
             Code = Verenigingstype.VZER.Code,
             Naam = Verenigingstype.VZER.Naam,
