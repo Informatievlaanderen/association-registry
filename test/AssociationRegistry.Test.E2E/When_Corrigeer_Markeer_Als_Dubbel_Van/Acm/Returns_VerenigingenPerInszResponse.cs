@@ -53,8 +53,8 @@ public class Returns_VerenigingenPerInszResponse :
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
                     {
-                        Code = Verenigingssubtype.NogNietBepaald.Code,
-                        Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                        Code = Verenigingssubtype.NietBepaald.Code,
+                        Naam = Verenigingssubtype.NietBepaald.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,
                 },
@@ -73,8 +73,8 @@ public class Returns_VerenigingenPerInszResponse :
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
                     {
-                        Code = Verenigingssubtype.NogNietBepaald.Code,
-                        Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                        Code = Verenigingssubtype.NietBepaald.Code,
+                        Naam = Verenigingssubtype.NietBepaald.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,
                 },

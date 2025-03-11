@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNogNietBepaald;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNietBepaald;
 
 using AssociationRegistry.DecentraalBeheer.Subtype;
 using Events;
@@ -15,7 +15,7 @@ using Xunit.Categories;
 public class Given_A_Different_Subtype
 {
     [Fact]
-    public async Task Then_It_Saves_A_SubtypeWerdTerugGezetNaarNogNietBepaald()
+    public async Task Then_It_Saves_A_SubtypeWerdTerugGezetNaarNietBepaald()
     {
         var fixture = new Fixture().CustomizeDomain();
 
@@ -23,13 +23,13 @@ public class Given_A_Different_Subtype
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new ZetSubtypeTerugNaarNogNietBepaaldCommandHandler(verenigingRepositoryMock);
+        var commandHandler = new ZetSubtypeTerugNaarNietBepaaldCommandHandler(verenigingRepositoryMock);
 
-        var command = new ZetSubtypeTerugNaarNogNietBepaaldCommand(scenario.VCode);
+        var command = new ZetSubtypeTerugNaarNietBepaaldCommand(scenario.VCode);
 
         await commandHandler.Handle(
-            new CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
+            new CommandEnvelope<ZetSubtypeTerugNaarNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldHaveSaved(new SubtypeWerdTerugGezetNaarNogNietBepaald(scenario.VCode));
+        verenigingRepositoryMock.ShouldHaveSaved(new SubtypeWerdTerugGezetNaarNietBepaald(scenario.VCode));
     }
 }

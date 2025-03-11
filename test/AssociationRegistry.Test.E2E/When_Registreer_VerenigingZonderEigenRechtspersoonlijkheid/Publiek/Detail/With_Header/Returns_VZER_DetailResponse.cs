@@ -66,8 +66,8 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerVerenigingZonde
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
             },
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),

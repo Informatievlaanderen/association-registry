@@ -280,12 +280,12 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode));
     }
 
-    public void ZetSubtypeNaarNogNietBepaald()
+    public void ZetSubtypeNaarNietBepaald()
     {
-        if(State.Verenigingssubtype == Verenigingssubtype.NogNietBepaald)
+        if(State.Verenigingssubtype == Verenigingssubtype.NietBepaald)
             return;
 
-        AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNogNietBepaald(VCode));
+        AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(VCode));
     }
 
     public void Hydrate(VerenigingState obj)

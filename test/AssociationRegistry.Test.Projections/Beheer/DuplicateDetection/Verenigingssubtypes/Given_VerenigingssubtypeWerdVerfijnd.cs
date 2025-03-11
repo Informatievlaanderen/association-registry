@@ -8,6 +8,6 @@ public class Given_VerenigingZonderRechtspersoonlijkheidWerdRegistreerd(Duplicat
     : DuplicateDetectionClassFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario>
 {
     [Fact]
-    public void Verenigingsubtype_Is_NogNietBepaald()
+    public void Verenigingsubtype_Is_NietBepaald()
         => fixture.Result.VerenigingssubtypeCode.Should().Be(Verenigingssubtype.FeitelijkeVereniging.Code);
 }

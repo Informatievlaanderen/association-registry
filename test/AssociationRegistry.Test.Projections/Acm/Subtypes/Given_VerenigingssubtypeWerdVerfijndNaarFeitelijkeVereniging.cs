@@ -9,7 +9,7 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
     : VerenigingenPerInszScenarioClassFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario>
 {
     [Fact]
-    public void Then_Verenigingssubtype_Is_NogNietBepaald()
+    public void Then_Verenigingssubtype_Is_NietBepaald()
     {
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);

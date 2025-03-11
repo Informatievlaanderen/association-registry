@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNogNietBepaald.Beheer.Detail.Without_Header;
+﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Detail.Without_Header;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Subtype.RequestModels;
@@ -10,11 +10,11 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<ZetSubtypeNaarNogNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
+public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly ZetSubtypeNaarNogNietBepaaldContext _context;
+    private readonly ZetSubtypeNaarNietBepaaldContext _context;
 
-    public Returns_Detail(ZetSubtypeNaarNogNietBepaaldContext context): base(context)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context): base(context)
     {
         _context = context;
     }

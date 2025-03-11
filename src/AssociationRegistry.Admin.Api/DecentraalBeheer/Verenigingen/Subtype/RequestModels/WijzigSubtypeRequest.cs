@@ -37,7 +37,7 @@ public class WijzigSubtypeRequest
     public VerfijnSubtypeNaarFeitelijkeVerenigingCommand ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(string vCodeAsString)
         => new(VCode.Create(vCodeAsString));
 
-    public ZetSubtypeTerugNaarNogNietBepaaldCommand ToZetSubtypeTerugNaarNogNietBepaaldCommand(string vCodeAsString)
+    public ZetSubtypeTerugNaarNietBepaaldCommand ToZetSubtypeTerugNaarNietBepaaldCommand(string vCodeAsString)
         => new(VCode.Create(vCodeAsString));
 
     public WijzigSubtypeCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
@@ -52,8 +52,8 @@ public class WijzigSubtypeRequest
     private bool IsFeitelijkeVereniging(string code)
         => code == AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code;
 
-    private bool IsNogNietBepaald(string code)
-        => code == AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code;
+    private bool IsNietBepaald(string code)
+        => code == AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code;
 
     private bool IsSubVereniging(string code)
         => code == AssociationRegistry.Vereniging.Verenigingssubtype.SubVereniging.Code;

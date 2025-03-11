@@ -19,11 +19,11 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
                    });
 
     [Fact]
-    public void Verenigingssubtype_Is_NNB()
+    public void Verenigingssubtype_Is_NB()
         => fixture.Result
                   .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype()
                    {
-                       Code = Verenigingssubtype.NogNietBepaald.Code,
-                       Naam = Verenigingssubtype.NogNietBepaald.Naam,
+                       Code = Verenigingssubtype.NietBepaald.Code,
+                       Naam = Verenigingssubtype.NietBepaald.Naam,
                    });
 }

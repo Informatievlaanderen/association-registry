@@ -38,7 +38,7 @@ public class DuplicateDetectionProjectionHandler
             {
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = Verenigingssubtype.NogNietBepaald.Code,
+                VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -237,7 +237,7 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionUpdateDocument
             {
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = Verenigingssubtype.NogNietBepaald.Code,
+                VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
             }
         );
 

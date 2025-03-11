@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNogNietBepaald;
+namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.CommandHandling.ZetSubtypeTerugNaarNietBepaald;
 
 using AssociationRegistry.DecentraalBeheer.Subtype;
 using Events;
@@ -22,12 +22,12 @@ public class Given_The_Same_Subtype
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
-        var commandHandler = new ZetSubtypeTerugNaarNogNietBepaaldCommandHandler(verenigingRepositoryMock);
+        var commandHandler = new ZetSubtypeTerugNaarNietBepaaldCommandHandler(verenigingRepositoryMock);
 
-        var command = new ZetSubtypeTerugNaarNogNietBepaaldCommand(scenario.VCode);
+        var command = new ZetSubtypeTerugNaarNietBepaaldCommand(scenario.VCode);
 
-        await commandHandler.Handle(new CommandEnvelope<ZetSubtypeTerugNaarNogNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
+        await commandHandler.Handle(new CommandEnvelope<ZetSubtypeTerugNaarNietBepaaldCommand>(command, fixture.Create<CommandMetadata>()));
 
-        verenigingRepositoryMock.ShouldNotHaveSaved<SubtypeWerdTerugGezetNaarNogNietBepaald>();
+        verenigingRepositoryMock.ShouldNotHaveSaved<SubtypeWerdTerugGezetNaarNietBepaald>();
     }
 }

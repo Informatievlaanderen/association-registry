@@ -40,7 +40,7 @@ public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
                            _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                            _scenario.NaamWerdGewijzigd.Naam,
                            Verenigingstype.VZER,
-                           Verenigingssubtype.NogNietBepaald
+                           Verenigingssubtype.NietBepaald
                        );
 
         content.Should().BeEquivalentJson(expected);

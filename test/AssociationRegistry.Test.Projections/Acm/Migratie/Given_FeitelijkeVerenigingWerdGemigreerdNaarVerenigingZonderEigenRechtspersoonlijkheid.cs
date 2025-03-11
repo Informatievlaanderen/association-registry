@@ -18,11 +18,11 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     }
 
     [Fact]
-    public void Then_Verenigingssubtype_Is_NogNietBepaald()
+    public void Then_Verenigingssubtype_Is_NietBepaald()
     {
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Code, AssociationRegistry.Vereniging.Verenigingssubtype.NogNietBepaald.Naam));
+        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code, AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam));
     }
 }

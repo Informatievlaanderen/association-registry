@@ -23,11 +23,11 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
 
         yield return new SwaggerExample<WijzigSubtypeRequest>
         {
-            Name = "Zet subtype terug naar nog niet bepaald.",
-            Summary = "Zet subtype terug naar nog niet bepaald.",
+            Name = "Zet subtype terug naar niet bepaald.",
+            Summary = "Zet subtype terug naar niet bepaald.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Verenigingssubtype.NogNietBepaald.Code,
+                Subtype = Vereniging.Verenigingssubtype.NietBepaald.Code,
                 Beschrijving = null,
                 Identificatie = null,
                 AndereVereniging = null,

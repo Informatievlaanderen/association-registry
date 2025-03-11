@@ -8,11 +8,11 @@ using Marten.Events;
 using System.Net;
 using Vereniging;
 
-public class WijzigSubtypeRequestVoorNNBFactory : ITestRequestFactory<WijzigSubtypeRequest>
+public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<WijzigSubtypeRequest>
 {
     private readonly SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario _scenario;
 
-    public WijzigSubtypeRequestVoorNNBFactory(SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario scenario)
+    public WijzigSubtypeRequestVoorNietBepaaldFactory(SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario scenario)
     {
         _scenario = scenario;
     }
@@ -21,7 +21,7 @@ public class WijzigSubtypeRequestVoorNNBFactory : ITestRequestFactory<WijzigSubt
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Verenigingssubtype.NogNietBepaald.Code,
+            Subtype = Verenigingssubtype.NietBepaald.Code,
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>
