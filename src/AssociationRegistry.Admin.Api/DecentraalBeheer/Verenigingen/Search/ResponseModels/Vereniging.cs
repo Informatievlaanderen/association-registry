@@ -19,7 +19,13 @@ public class Vereniging
 
     /// <summary>Het type van de vereniging</summary>
     [DataMember(Name = "Verenigingstype")]
-    public VerenigingsType Verenigingstype { get; init; } = null!;
+    public Verenigingstype Verenigingstype { get; init; } = null!;
+
+    /// <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+    public Verenigingssubtype Verenigingssubtype { get; set; }
 
     /// <summary>De naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
@@ -77,13 +83,6 @@ public class Vereniging
     /// <summary>De lidmaatschappen van de vereniging</summary>
     [DataMember(Name = "Lidmaatschappen")]
     public Lidmaatschap[] Lidmaatschappen { get; init; } = null!;
-
-    /// <summary>
-    /// Het subtype van de vereniging
-    /// </summary>
-    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
-    public Verenigingssubtype Verenigingssubtype { get; set; }
-
 
     /// <summary>
     /// Extra informatie over het subtype, indien de vereniging een subvereniging is van een andere vereniging.

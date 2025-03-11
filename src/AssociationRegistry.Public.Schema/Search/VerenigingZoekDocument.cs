@@ -9,6 +9,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
     public Types.VerenigingsType Verenigingstype { get; set; } = null!;
+    public Types.Verenigingssubtype Verenigingssubtype { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
@@ -27,6 +28,11 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public static class Types
     {
+        public class Verenigingssubtype : IVerenigingssubtype
+        {
+            public string Code { get; init; } = null!;
+            public string Naam { get; init; } = null!;
+        }
 
         public class Locatie
         {

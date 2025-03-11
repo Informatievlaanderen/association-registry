@@ -13,6 +13,7 @@ using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<SearchVerenigingenResponse>
@@ -86,10 +87,10 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                                 Gemeente = "Liedekerke",
                             },
                         },
-                        Verenigingstype = new VerenigingsType
+                        Verenigingstype = new Verenigingstype
                         {
-                            Code = Verenigingstype.FeitelijkeVereniging.Code,
-                            Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
                         },
                         Verenigingssubtype =  new Verenigingssubtype()
                             {
@@ -163,10 +164,10 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                                 Naam = "Provincie West-Vlaanderen",
                             },
                         ],
-                        Verenigingstype = new VerenigingsType
+                        Verenigingstype = new Verenigingstype
                         {
-                            Code = Verenigingstype.VZW.Code,
-                            Naam = Verenigingstype.VZW.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
                         },
                         Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1))
                                              .ToString(WellknownFormats.DateOnly),
@@ -326,10 +327,10 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                                 Gemeente = "Liedekerke",
                             },
                         },
-                        Verenigingstype = new VerenigingsType
+                        Verenigingstype = new Verenigingstype
                         {
-                            Code = Verenigingstype.VZER.Code,
-                            Naam = Verenigingstype.VZER.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
                         },
                         Lidmaatschappen = new[]
                         {
@@ -398,10 +399,10 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                                 Naam = "Provincie West-Vlaanderen",
                             },
                         ],
-                        Verenigingstype = new VerenigingsType
+                        Verenigingstype = new Verenigingstype
                         {
-                            Code = Verenigingstype.VZW.Code,
-                            Naam = Verenigingstype.VZW.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
                         },
                         Startdatum = DateOnly.FromDateTime(DateTime.Today.AddYears(-1))
                                              .ToString(WellknownFormats.DateOnly),

@@ -18,6 +18,12 @@ public class Vereniging
     [DataMember(Name = "Verenigingstype")]
     public VerenigingsType Verenigingstype { get; init; } = null!;
 
+    /// <summary>
+    /// Het subtype van de vereniging
+    /// </summary>
+    [DataMember(Name = "Verenigingssubtype", EmitDefaultValue = false)]
+    public Verenigingssubtype? Verenigingssubtype { get; set; }
+
     /// <summary>De naam van de vereniging</summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
