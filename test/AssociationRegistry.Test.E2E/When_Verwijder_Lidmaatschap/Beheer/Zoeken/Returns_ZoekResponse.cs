@@ -16,6 +16,7 @@ using Vereniging;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatschapContext, NullRequest, SearchVerenigingenResponse>
@@ -50,10 +51,10 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatsc
             },
             VCode = _testContext.VCode,
             KorteNaam = FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
             Startdatum = FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),

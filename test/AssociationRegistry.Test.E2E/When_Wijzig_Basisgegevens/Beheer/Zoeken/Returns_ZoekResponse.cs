@@ -16,6 +16,7 @@ using NodaTime;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, SearchVerenigingenResponse>
@@ -47,10 +48,10 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             },
             VCode = _testContext.VCode,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(

@@ -13,6 +13,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
+using Verenigingstype = ResponseModels.Verenigingstype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseMapper
@@ -53,7 +54,7 @@ public class SearchVerenigingenResponseMapper
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
                 CorresponderendeVCodes = verenigingZoekDocument.CorresponderendeVCodes,
-                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType, VerenigingZoekDocument.Types.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
+                Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, VerenigingZoekDocument.Types.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
                 Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(verenigingZoekDocument.Verenigingssubtype),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,

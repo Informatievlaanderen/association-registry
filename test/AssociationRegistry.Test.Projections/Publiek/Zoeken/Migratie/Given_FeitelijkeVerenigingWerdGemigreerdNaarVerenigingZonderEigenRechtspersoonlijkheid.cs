@@ -21,7 +21,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     // [Fact]
     // public void Verenigingssubtype_Is_NNB()
     //     => fixture.Result
-    //               .Verenigingssubtype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
+    //               .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype()
     //                {
     //                    Code = Verenigingssubtype.NogNietBepaald.Code,
     //                    Naam = Verenigingssubtype.NogNietBepaald.Naam,

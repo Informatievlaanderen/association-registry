@@ -63,6 +63,7 @@ public class MartenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingWerdGemarkeerdAlsDubbelVan):
                 case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
+                case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
                     try
                     {
                         await _handler.Handle(eventEnvelope);

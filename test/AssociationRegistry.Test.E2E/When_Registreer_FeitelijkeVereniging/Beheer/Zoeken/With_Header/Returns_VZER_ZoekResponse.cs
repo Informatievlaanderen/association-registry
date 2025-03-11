@@ -17,6 +17,7 @@ using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
+using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
@@ -48,10 +49,10 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
             },
             VCode = _testContext.VCode,
             KorteNaam = Request.KorteNaam,
-            Verenigingstype = new VerenigingsType
+            Verenigingstype = new Verenigingstype
             {
-                Code = Verenigingstype.VZER.Code,
-                Naam = Verenigingstype.VZER.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype
             {
