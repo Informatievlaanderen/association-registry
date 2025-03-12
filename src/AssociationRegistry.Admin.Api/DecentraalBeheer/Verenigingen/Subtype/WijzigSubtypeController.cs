@@ -39,6 +39,13 @@ public class WijzigSubtypeController : ApiController
     ///     Wijzig het subtype van een vereniging.
     /// </summary>
     /// <remarks>
+    ///     Met deze actie kan het subtype van de vereniging worden verfijnd naar feitelijke vereniging,
+    ///     subvereniging, of niet bepaald.
+    ///
+    ///     Bij het verfijnen naar subvereniging is het meegeven van aanvullende gegevens verplicht.
+    ///     Deze aanvullende gegevens kunnen gewijzigd worden via dit endpoint, door opnieuw te
+    ///     verfijnen naar subvereniging met de gewijzigde aanvullende gegevens.
+    ///
     ///     Na het uitvoeren van deze actie wordt een sequentie teruggegeven via de `VR-Sequence` header.
     ///     Deze waarde kan gebruikt worden in andere endpoints om op te volgen of de aanpassing
     ///     al is doorgestroomd naar deze endpoints.
