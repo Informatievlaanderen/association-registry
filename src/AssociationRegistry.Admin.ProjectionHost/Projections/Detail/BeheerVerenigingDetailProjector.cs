@@ -861,4 +861,22 @@ public class BeheerVerenigingDetailProjector
             Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
         };
     }
+
+    public static void Apply(IEvent<SubverenigingRelatieWerdGewijzigd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.SubverenigingVan = document.SubverenigingVan! with
+        {
+            AndereVereniging = @event.Data.AndereVereniging,
+            AndereVerenigingNaam = @event.Data.AndereVerenigingNaam,
+        };
+    }
+
+    public static void Apply(IEvent<DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.SubverenigingVan = document.SubverenigingVan! with
+        {
+            Identificatie = @event.Data.Identificatie,
+            Beschrijving = @event.Data.Beschrijving,
+        };
+    }
 }
