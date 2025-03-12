@@ -26,7 +26,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
     public IEnumerable<SwaggerExample<SearchVerenigingenResponse>> GetExamples()
     {
         yield return SwaggerExample.Create(
-            name: "Feitelijke Vereniging",
+            "Zonder versie header",
             new SearchVerenigingenResponse()
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
@@ -257,7 +257,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
             });
 
         yield return SwaggerExample.Create(
-            name: "Vereniging Zonder Eigen Rechtspersoonlijkheid (V2)",
+            name: "Versie 'v2'",
             new SearchVerenigingenResponse()
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",

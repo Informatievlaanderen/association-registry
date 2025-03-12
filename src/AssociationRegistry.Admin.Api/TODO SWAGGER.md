@@ -64,4 +64,4 @@ GEEN
 - [x] type is nog FV
 
 # Algemeen
-- [ ] Voorbeeldnamen veranderen naar 'Zonder versie header (ofzoiets)' en 'Met versie header ofzoiets'
+- [x] Voorbeeldnamen veranderen naar 'Zonder versie header (ofzoiets)' en 'Met versie header ofzoiets'

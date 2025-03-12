@@ -29,7 +29,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
     public IEnumerable<SwaggerExample<PubliekVerenigingDetailResponse>> GetExamples()
     {
         yield return SwaggerExample.Create(
-            name: "Feitelijke Vereniging",
+            "Zonder versie header",
             new PubliekVerenigingDetailResponse()
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
@@ -159,7 +159,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
             });
 
         yield return SwaggerExample.Create(
-            name: "Vereniging Zonder Eigen Rechtspersoonlijkheid (V2)",
+            name: "Versie 'v2'",
             new PubliekVerenigingDetailResponse()
             {
                 Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
