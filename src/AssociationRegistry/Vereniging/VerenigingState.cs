@@ -807,6 +807,18 @@ public record VerenigingState : IHasVersion
             SubverenigingVan = SubverenigingVan.Hydrate(@event),
         };
 
+    public VerenigingState Apply(SubverenigingRelatieWerdGewijzigd @event)
+        => this with
+        {
+            SubverenigingVan = SubverenigingVan.Hydrate(@event),
+        };
+
+    public VerenigingState Apply(DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd @event)
+        => this with
+        {
+            SubverenigingVan = SubverenigingVan.Hydrate(@event),
+        };
+
     public void ThrowIfVerwijderd()
     {
         if (IsVerwijderd)
