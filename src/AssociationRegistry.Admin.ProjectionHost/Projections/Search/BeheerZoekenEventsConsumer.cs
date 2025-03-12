@@ -69,6 +69,7 @@ public class BeheerZoekenEventsConsumer : IMartenEventsConsumer
                 case nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging):
                 case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
                 case nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald):
+                case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
                     try
                     {
                         await _zoekProjectionHandler.Handle(eventEnvelope);

@@ -15,7 +15,10 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
 {
     public string JsonLdMetadataType { get; set; } = null!;
     public Types.Verenigingstype Verenigingstype { get; set; } = null!;
-    public Types.Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
+    public Types.Verenigingssubtype? Verenigingssubtype { get; set; }
+
+    public Types.SubverenigingVan? SubverenigingVan { get; set; }
+
     public string Naam { get; set; } = null!;
     public string? Roepnaam { get; set; }
     public string KorteNaam { get; set; } = null!;
@@ -47,6 +50,14 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
         {
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;
+        }
+
+        public record SubverenigingVan
+        {
+            public string AndereVereniging { get; init; } = null!;
+            public string AndereVerenigingNaam { get; init; } = null!;
+            public string Identificatie { get; init; } = null!;
+            public string Beschrijving { get; init; } = null!;
         }
 
         public class Contactgegeven

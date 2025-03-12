@@ -9,6 +9,7 @@ using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -37,9 +38,16 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingCont
     public void With_All_Gebeurtenissen()
     {
         var werdVerfijnd =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging));
 
-        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarSubvereniging(TestContext.VCode),
+        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarSubvereniging(new VerenigingssubtypeWerdVerfijndNaarSubvereniging(
+                                                                                                       VCode: TestContext.VCode,
+                                                                                                       new Registratiedata.SubverenigingVan(
+                                                                                                           TestContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                                                                                                           TestContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+                                                                                                           TestContext.Request.Identificatie ?? "",
+                                                                                                           TestContext.Request.Beschrijving ?? ""
+                                                                                                       ))),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

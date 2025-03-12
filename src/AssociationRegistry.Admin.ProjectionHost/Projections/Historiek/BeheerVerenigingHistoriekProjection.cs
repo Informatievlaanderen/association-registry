@@ -225,6 +225,9 @@ public class BeheerVerenigingHistoriekProjection : EventProjection
     public async Task Project(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
         => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
 
+    public async Task Project(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, IDocumentOperations ops)
+        => await Update(@event, ops, BeheerVerenigingHistoriekProjector.Apply);
+
     public async Task Project(
         IEvent<VertegenwoordigerWerdOvergenomenUitKBO> @event,
         IDocumentOperations ops)

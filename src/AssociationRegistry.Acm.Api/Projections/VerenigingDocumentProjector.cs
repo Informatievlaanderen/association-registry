@@ -154,4 +154,17 @@ public static class VerenigingDocumentProjector
 
         return verenigingDocument;
     }
+
+    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, IDocumentOperations ops)
+    {
+        var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
+
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        {
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
+        };
+
+        return verenigingDocument;
+    }
 }

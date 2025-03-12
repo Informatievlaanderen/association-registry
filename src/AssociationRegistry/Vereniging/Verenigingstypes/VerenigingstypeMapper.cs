@@ -9,6 +9,10 @@ public interface IVerenigingstypeMapper
     TDestination? MapSubtype<TDestination, TSource>(TSource? subtype)
         where TDestination : IVerenigingssubtype, new()
         where TSource : IVerenigingssubtype, new();
+
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map)
+        where TSource : IVerenigingssubtype, new();
+
 }
 
 public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
@@ -34,6 +38,9 @@ public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
     }
 
     public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IVerenigingssubtype, new() where TSource : IVerenigingssubtype, new()
+        => default;
+
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtype, new()
         => default;
 }
 
@@ -71,5 +78,14 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
             Code = subtype.Code,
             Naam = subtype.Naam,
         };
+    }
+
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtype, new()
+    {
+        if (subtype is null || subtype.Code != Verenigingssubtype.Subvereniging.Code)
+        {
+            return default;
+        }
+        return map();
     }
 }

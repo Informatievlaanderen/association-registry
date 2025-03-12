@@ -9,6 +9,7 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
+using SubverenigingVan = Admin.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -40,7 +41,6 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
 
         vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
-            Naam = _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             AndereVereniging = _testContext.Request.AndereVereniging!,
             Beschrijving = _testContext.Request.Beschrijving!,
             Identificatie = _testContext.Request.Identificatie!,

@@ -734,7 +734,18 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            "Subtype werd verfijnd naar Feitelijke vereniging."
+            "Subtype werd verfijnd naar feitelijke vereniging."
+        );
+    }
+
+
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            "Subtype werd verfijnd naar subvereniging."
         );
     }
 
