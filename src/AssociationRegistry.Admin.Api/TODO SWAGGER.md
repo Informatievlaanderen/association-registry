@@ -7,13 +7,13 @@
 ### Response
 - [x] beschrijving aangevuld
 - [x] nested verenigingstype beschrijving aangevuld
-- [ ] nested verenigingssubtype beschrijving aangevuld
+- [x] nested verenigingssubtype beschrijving aangevuld
   - + vereniging op het einde
 ### Response Examples
 
 #### VZER
 
-- [ ] verenigingssubtype
+- [x] verenigingssubtype
 
 ## Historiek
 
