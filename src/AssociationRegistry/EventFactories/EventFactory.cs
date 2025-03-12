@@ -6,7 +6,7 @@ using GemeentenaamDecorator;
 using Grar.Models;
 using Kbo;
 using Vereniging;
-using SubverenigingVan = DecentraalBeheer.Subtype.SubverenigingVan;
+using SubverenigingVan = Vereniging.SubverenigingVan;
 
 public static class EventFactory
 {
@@ -340,10 +340,26 @@ public static class EventFactory
     public static VerenigingssubtypeWerdTerugGezetNaarNietBepaald SubtypeWerdTerugGezetNaarNietBepaald(VCode vCode)
         => new(vCode);
 
-    public static VerenigingssubtypeWerdVerfijndNaarSubvereniging VerenigingssubtypeWerdVerfijndNaarSubvereniging(VCode vCode, SubverenigingVan subverenigingVan)
+    public static VerenigingssubtypeWerdVerfijndNaarSubvereniging VerenigingssubtypeWerdVerfijndNaarSubvereniging(
+        VCode vCode,
+        SubverenigingVan subverenigingVan)
         => new(vCode,
                new Registratiedata.SubverenigingVan(subverenigingVan.AndereVereniging,
                                                     subverenigingVan.AndereVerenigingNaam,
                                                     subverenigingVan.Identificatie,
                                                     subverenigingVan.Beschrijving));
+
+    public static SubverenigingRelatieWerdGewijzigd SubverenigingRelatieWerdGewijzigd(
+        VCode vCode,
+        SubverenigingVan subverenigingVan)
+        => new(vCode,
+               subverenigingVan.AndereVereniging,
+               subverenigingVan.AndereVerenigingNaam);
+
+    public static DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(
+        VCode vCode,
+        SubverenigingVan subverenigingVan)
+        => new(vCode,
+               subverenigingVan.Identificatie,
+               subverenigingVan.Beschrijving);
 }
