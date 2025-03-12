@@ -21,7 +21,7 @@ public class Given_A_Null_AdresId
         beheerVerenigingDetailDocument.Locaties.First().AdresId = null;
 
         var beheerVerenigingDetailResponse = new BeheerVerenigingDetailMapper(new AppSettings(),
-                                                                              Mock.Of<INamenVoorLidmaatschapMapper>(), null)
+                                                                              Mock.Of<IVerplichteNamenVoorVCodesMapper>(), null)
            .Map(beheerVerenigingDetailDocument);
 
         beheerVerenigingDetailResponse.Vereniging.Locaties.First().AdresId.Should().BeNull();
