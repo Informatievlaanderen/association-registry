@@ -29,6 +29,7 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
     public void JsonContentMatches()
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
+        Response.Vereniging.SubVerenigingVan.Should().BeNull();
     }
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse

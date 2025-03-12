@@ -39,7 +39,7 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingCont
         var werdVerfijnd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging));
 
-        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarFeitelijkeVereniging(TestContext.VCode),
+        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarSubvereniging(TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

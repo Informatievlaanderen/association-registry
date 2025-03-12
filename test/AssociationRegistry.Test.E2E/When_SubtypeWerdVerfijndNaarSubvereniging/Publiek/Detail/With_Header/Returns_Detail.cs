@@ -11,6 +11,7 @@ using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Xunit;
+using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -39,6 +40,14 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
+
+        Response.Vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        {
+            Naam = _context.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            AndereVereniging = _context.Request.AndereVereniging!,
+            Beschrijving = _context.Request.Beschrijving!,
+            Identificatie = _context.Request.Identificatie!,
+        });
     }
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse

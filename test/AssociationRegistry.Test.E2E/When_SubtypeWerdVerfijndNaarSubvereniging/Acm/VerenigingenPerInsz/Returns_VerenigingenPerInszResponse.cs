@@ -47,7 +47,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
-                    Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
+                    Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype
                     {
                         Code = Verenigingssubtype.Subvereniging.Code,
                         Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
