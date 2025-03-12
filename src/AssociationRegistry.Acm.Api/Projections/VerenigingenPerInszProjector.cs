@@ -391,6 +391,31 @@ public static class VerenigingenPerInszProjector
         return docs;
     }
 
+    public static async Task<List<VerenigingenPerInszDocument>> Apply(
+        IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event,
+        IDocumentOperations ops)
+    {
+        var docs = new List<VerenigingenPerInszDocument>();
+        var documents = await ops.GetVerenigingenPerInszDocuments(@event.Data.VCode);
+
+        foreach (var verenigingenPerInszDocument in documents)
+        {
+            var vereniging =
+                verenigingenPerInszDocument.Verenigingen.Single(
+                    vereniging => vereniging.VCode == @event.StreamKey!);
+
+            vereniging.Verenigingssubtype = new Verenigingssubtype
+            {
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+            };
+
+            docs.Add(verenigingenPerInszDocument);
+        }
+
+        return docs;
+    }
+
     private static Verenigingstype MapVereniging(AssociationRegistry.Vereniging.Verenigingstype verenigingstype)
         => new(verenigingstype.Code, verenigingstype.Naam);
 
