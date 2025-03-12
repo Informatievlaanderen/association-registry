@@ -8,7 +8,7 @@ using Vereniging;
 public class WijzigSubtypeRequest
 {
     /// <summary>
-    /// De code van het subtype
+    /// De code van het subtype vereniging
     /// </summary>
     [DataMember]
     public string Subtype { get; set; }
