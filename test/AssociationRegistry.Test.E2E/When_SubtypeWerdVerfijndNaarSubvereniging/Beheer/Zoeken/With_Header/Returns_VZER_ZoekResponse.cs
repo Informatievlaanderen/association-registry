@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Beheer.Zoeken.With_Header;
 
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
@@ -35,6 +36,14 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
         {
             Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
             Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
+        });
+
+        vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        {
+            Naam = _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            AndereVereniging = _testContext.Request.AndereVereniging!,
+            Beschrijving = _testContext.Request.Beschrijving!,
+            Identificatie = _testContext.Request.Identificatie!,
         });
     }
 

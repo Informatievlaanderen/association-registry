@@ -589,4 +589,17 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? SubTypeWerdVerfijndNaarSubvereniging(string vCode)
+        => new()
+        {
+            Beschrijving = $"Subtype werd verfijnd naar Feitelijke vereniging.",
+            Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging),
+            Data = new
+            {
+                VCode = vCode,
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
