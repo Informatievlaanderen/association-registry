@@ -249,6 +249,14 @@ public class DuplicateDetectionProjectionHandler
                 VerenigingssubtypeCode = Verenigingssubtype.FeitelijkeVereniging.Code,
             }
         );
+    public async Task Handle(EventEnvelope<SubtypeWerdTerugGezetNaarNietBepaald> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionUpdateDocument
+            {
+                VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
+            }
+        );
 
     private static string[] MapHoofdactiviteitVerenigingsloket(
         IEnumerable<Registratiedata.HoofdactiviteitVerenigingsloket> hoofdactiviteitenVerenigingsloket)
