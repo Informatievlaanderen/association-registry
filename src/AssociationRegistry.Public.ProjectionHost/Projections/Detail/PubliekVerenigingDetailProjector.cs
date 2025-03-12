@@ -861,4 +861,13 @@ public static class PubliekVerenigingDetailProjector
              };
          }
 
+    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, PubliekVerenigingDetailDocument document)
+         {
+             document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
+             {
+                 Code = Verenigingssubtype.NietBepaald.Code,
+                 Naam = Verenigingssubtype.NietBepaald.Naam,
+             };
+         }
+
 }
