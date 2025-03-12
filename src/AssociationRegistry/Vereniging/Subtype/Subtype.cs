@@ -2,9 +2,16 @@
 
 public class Verenigingssubtype : IVerenigingssubtype
 {
-    public static readonly Verenigingssubtype FeitelijkeVereniging = new(code: "FV", naam: "Feitelijke vereniging");
-    public static readonly Verenigingssubtype SubVereniging = new(code: "SUB", naam: "Subvereniging");
-    public static readonly Verenigingssubtype NietBepaald = new(code: "NB", naam: "Niet bepaald");
+    public static class Codes
+    {
+        public const string FV = "FV";
+        public const string Sub = "SUB";
+        public const string NB = "NB";
+
+    }
+    public static readonly Verenigingssubtype FeitelijkeVereniging = new(code: Codes.FV, naam: "Feitelijke vereniging");
+    public static readonly Verenigingssubtype SubVereniging = new(code: Codes.Sub, naam: "Subvereniging");
+    public static readonly Verenigingssubtype NietBepaald = new(code: Codes.NB, naam: "Niet bepaald");
 
     public static readonly Verenigingssubtype[] All =
     {

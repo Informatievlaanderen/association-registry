@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 
 using DecentraalBeheer.Subtype;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
 
@@ -9,6 +10,11 @@ public class WijzigSubtypeRequest
 {
     /// <summary>
     /// De code van het subtype vereniging
+    ///     <br />
+    ///     Mogelijke waarden:<br />
+    ///     - FV<br />
+    ///     - NB<br />
+    ///     - SUB<br />
     /// </summary>
     [DataMember]
     public string Subtype { get; set; }
