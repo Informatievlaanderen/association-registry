@@ -38,7 +38,7 @@ public class Returns_Historiek : End2EndTest<ZetSubtypeNaarNietBepaaldContext, W
     public void With_All_Gebeurtenissen()
     {
         var werdVerfijnd =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubtypeWerdTerugGezetNaarNietBepaald));
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald));
 
         werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubtypeWerdTerugGezetNaarNietBepaald(TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);

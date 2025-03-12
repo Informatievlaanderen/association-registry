@@ -861,7 +861,7 @@ public static class PubliekVerenigingDetailProjector
              };
          }
 
-    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, PubliekVerenigingDetailDocument document)
+    public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, PubliekVerenigingDetailDocument document)
          {
              document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
              {

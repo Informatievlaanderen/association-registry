@@ -142,7 +142,7 @@ public static class VerenigingDocumentProjector
         return verenigingDocument;
     }
 
-    public static async Task<VerenigingDocument> Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
+    public static async Task<VerenigingDocument> Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 

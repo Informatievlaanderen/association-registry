@@ -392,7 +392,7 @@ public static class VerenigingenPerInszProjector
     }
 
     public static async Task<List<VerenigingenPerInszDocument>> Apply(
-        IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event,
+        IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event,
         IDocumentOperations ops)
     {
         var docs = new List<VerenigingenPerInszDocument>();
