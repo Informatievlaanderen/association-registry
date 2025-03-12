@@ -738,6 +738,16 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            "Het subtype terug gezet naar niet bepaald."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()
