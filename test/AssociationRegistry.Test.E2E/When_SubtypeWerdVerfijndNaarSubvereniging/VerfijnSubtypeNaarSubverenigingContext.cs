@@ -9,13 +9,14 @@ using AssociationRegistry.Vereniging;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Scenarios.Requests.VZER;
 
-public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
+public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
     public VCode VCode => RequestResult.VCode;
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
+    public VzerAndKboVerenigingWerdenGeregistreerdScenario Scenario { get; }
 
-    public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
+    public VerfijnSubtypeNaarSubverenigingContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
         Scenario = new();
@@ -24,7 +25,7 @@ public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<Wijz
     public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

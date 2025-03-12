@@ -14,11 +14,11 @@ using Xunit;
 using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
+public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context): base(context)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context): base(context)
     {
         _context = context;
     }
@@ -34,8 +34,8 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
     {
         var expected = new Verenigingssubtype()
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

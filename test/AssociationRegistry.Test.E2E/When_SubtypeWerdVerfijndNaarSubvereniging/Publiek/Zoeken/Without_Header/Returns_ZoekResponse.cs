@@ -10,11 +10,11 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
         _testContext = testContext;
     }

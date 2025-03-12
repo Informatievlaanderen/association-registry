@@ -9,6 +9,7 @@ using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
+using Scenarios.Requests.VZER;
 using Vereniging;
 
 public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
