@@ -13,6 +13,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = ResponseModels.Verenigingstype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -171,6 +172,11 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                     {
                         Code = "VZER",
                         Naam = "Vereniging zonder eigen rechtspersoonlijkheid",
+                    },
+                    Verenigingssubtype = new Verenigingssubtype
+                    {
+                        Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                        Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
                     },
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
