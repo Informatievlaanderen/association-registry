@@ -3,16 +3,16 @@
 using Framework;
 using Vereniging;
 
-public class WijzigSubtypeCommandHandler
+public class VerfijnSubtypeNaarSubverenigingCommandHandler
 {
     private readonly IVerenigingsRepository _verenigingRepository;
 
-    public WijzigSubtypeCommandHandler(IVerenigingsRepository verenigingRepository)
+    public VerfijnSubtypeNaarSubverenigingCommandHandler(IVerenigingsRepository verenigingRepository)
     {
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<WijzigSubtypeCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand> envelope, CancellationToken cancellationToken = default)
     {
          var vereniging =
             await _verenigingRepository.Load<Vereniging>(
@@ -33,7 +33,7 @@ public class WijzigSubtypeCommandHandler
             // verfijn naar subverening
             // if not empty pak beschrijfing & identificatie over
 
-
+            vereniging.VerfijnNaarSubvereniging(envelope.Command.SubverenigingVan);
 
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);

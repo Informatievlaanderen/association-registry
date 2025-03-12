@@ -46,21 +46,12 @@ public class WijzigSubtypeRequest
     public ZetSubtypeTerugNaarNietBepaaldCommand ToZetSubtypeTerugNaarNietBepaaldCommand(string vCodeAsString)
         => new(VCode.Create(vCodeAsString));
 
-    public WijzigSubtypeCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
+    public VerfijnSubtypeNaarSubverenigingCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
         => new(
             VCode.Create(vCodeAsString),
-            new WijzigSubtypeCommand.TeWijzigenSubtype(
+            new DecentraalBeheer.Subtype.SubverenigingVan(
                 VCode.Create(AndereVereniging!),
                 andereVerenigingNaam,
                 SubtypeIdentificatie.Create(Identificatie ?? string.Empty),
                 SubtypeBeschrijving.Create(Beschrijving ?? string.Empty)));
-
-    private bool IsFeitelijkeVereniging(string code)
-        => code == AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code;
-
-    private bool IsNietBepaald(string code)
-        => code == AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code;
-
-    private bool IsSubVereniging(string code)
-        => code == AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code;
 }
