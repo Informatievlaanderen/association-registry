@@ -578,6 +578,19 @@ public class PubliekZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<SubtypeWerdTerugGezetNaarNietBepaald> message)
+    {
+        await _elasticRepository
+           .UpdateAsync(message.VCode, new VerenigingZoekDocument
+            {
+                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype()
+                {
+                    Code = Verenigingssubtype.NietBepaald.Code,
+                    Naam = Verenigingssubtype.NietBepaald.Naam,
+                },
+            });
+    }
+
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
     {
         await _elasticRepository
