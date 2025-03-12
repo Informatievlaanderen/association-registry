@@ -13,6 +13,7 @@ using Vereniging;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
+using SubverenigingVan = Schema.Detail.SubverenigingVan;
 using Verenigingssubtype = Vereniging.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
@@ -846,5 +847,18 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NietBepaald);
+    }
+
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, BeheerVerenigingDetailDocument document)
+    {
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.Subvereniging);
+
+        document.SubverenigingVan = new SubverenigingVan()
+        {
+            AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
+            AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
+            Identificatie = @event.Data.SubverenigingVan.Identificatie,
+            Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
+        };
     }
 }
