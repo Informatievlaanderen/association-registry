@@ -1,3 +1,59 @@
+# [8.214.0](https://github.com/informatievlaanderen/association-registry/compare/v8.213.5...v8.214.0) (2025-03-12)
+
+
+### Bug Fixes
+
+* or-2671 correct reponse texts for wijzigSubtype ([e4032ce](https://github.com/informatievlaanderen/association-registry/commit/e4032cec4eec269adb2f91285390ae896bfa490f))
+* or-2671 remove location header for changing subtype ([419e454](https://github.com/informatievlaanderen/association-registry/commit/419e4541fba7a2045ffb1d55838b436299e267ee))
+* or-2671 remove subtype for feitelijke vereniging in admin search example ([d54dba9](https://github.com/informatievlaanderen/association-registry/commit/d54dba9a69a9e12ae6498935cc8a5e1c3ea8b74d))
+* or-2671 remove verenigingstype json ld in beheer detail ([3f980d2](https://github.com/informatievlaanderen/association-registry/commit/3f980d229546b2c3b98a1d8c49b974303aface5c))
+* or-2671 set subtype to null for registreer kbo in beheer zoeken ([9edb283](https://github.com/informatievlaanderen/association-registry/commit/9edb283427e5dcfe914a20e4967705bf4a998cc9))
+* or-2671 use vzer with subtype for duplicate example ([999c95e](https://github.com/informatievlaanderen/association-registry/commit/999c95ee0dff1432bca37a6604c49e303138737c))
+
+
+### Features
+
+* or-2671 adapt beheer detail to new subtype/subtypedata split ([cdcc64f](https://github.com/informatievlaanderen/association-registry/commit/cdcc64f9788c7c34e6b5bbfa3504a87830ace5e4))
+* or-2671 add more info for changing subtypes ([a26d759](https://github.com/informatievlaanderen/association-registry/commit/a26d7594229070000a8c0d789335d090de6ae9f8))
+* or-2671 add possible values for subtype ([7804d21](https://github.com/informatievlaanderen/association-registry/commit/7804d21ea1e5e3d77e18aded80af856f451fd050))
+* or-2671 add subtype for acm api ([4b5e513](https://github.com/informatievlaanderen/association-registry/commit/4b5e5131b33dbfce9312710cb6306ec3d0e50650))
+* or-2671 add subtype for public detail and search examples ([3abcc9a](https://github.com/informatievlaanderen/association-registry/commit/3abcc9a9fa529232970da75a9a2b9aa9cc4e4d23))
+* or-2671 add subtype in admin detail vzer example ([348248a](https://github.com/informatievlaanderen/association-registry/commit/348248a7fe45962fdcbc3fa09b61e77bfc186893))
+* or-2671 add subtype in admin search vzer example ([1e02ad9](https://github.com/informatievlaanderen/association-registry/commit/1e02ad92bff13f2c669785d85f89868091e96266))
+* or-2671 add swagger docs for wijzig subtype ([f9a8531](https://github.com/informatievlaanderen/association-registry/commit/f9a8531bf2dd35a2e0cced9339c13a1c5e2b04d4))
+* or-2671 differentiate between with and without version header in examples ([29443e7](https://github.com/informatievlaanderen/association-registry/commit/29443e781a8a6cd17494cabc7f6dd623a08a8f01))
+* or-2671 fix typo in swagger docsÃ ([6b4bdc1](https://github.com/informatievlaanderen/association-registry/commit/6b4bdc17f6eb0e01f67e2a376083a0bedb117caf))
+* or-2671 implement nog niet bepaald subtype ([02f0b0d](https://github.com/informatievlaanderen/association-registry/commit/02f0b0d3fbaf4155d3159b3e717fb005feb1a2f2))
+* or-2671 implement subtype for migration and registration for public search ([4ecf5f8](https://github.com/informatievlaanderen/association-registry/commit/4ecf5f8c75c61d5fcfdea4dc65fde47e570ae7f0))
+* or-2671 implement verenigingssubtype for migration, registration ([0c99f43](https://github.com/informatievlaanderen/association-registry/commit/0c99f438037cfb7888c6933c6e384c8d5a9461e8))
+* or-2671 implement VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging for acm ([be58010](https://github.com/informatievlaanderen/association-registry/commit/be580107c4909c1fa40c5f2ff941eabde3b6993a))
+* or-2671 implement VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging for public search ([0dd6fb3](https://github.com/informatievlaanderen/association-registry/commit/0dd6fb3d9c5706b19e795531940b003d26b43d52))
+* or-2671 implement VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging in duplicate detection" ([c4abc08](https://github.com/informatievlaanderen/association-registry/commit/c4abc081c1de86327353591212d0bb3a74b8e6c6))
+* or-2671 implement VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging in publiek detail ([80b2aca](https://github.com/informatievlaanderen/association-registry/commit/80b2aca4ed8d5826a8ad2c70aa44b1244c7d1081))
+* or-2671 implement verfijn subtype naar feitelijke vereniging ([11da976](https://github.com/informatievlaanderen/association-registry/commit/11da976f6d042eccaed1b626949dd53e3ad1bb7d))
+* or-2671 implement verfijn subtype naar feitelijke vereniging in beheer detail ([f88bd59](https://github.com/informatievlaanderen/association-registry/commit/f88bd598739963edbc8e54ad3ec178581d6764f6))
+* or-2671 reduce subtype to code and name, implement beheer zoek ([3e31ee8](https://github.com/informatievlaanderen/association-registry/commit/3e31ee8ae3c122b3bf90136f1489ecd35dac0eaf))
+* or-2671 rename event properly to VerenigingssubtypeWerd... ([78d3d2b](https://github.com/informatievlaanderen/association-registry/commit/78d3d2bf083a06164ef8d8bcbc2927d681b796d5))
+* or-2671 rename event to fullest ([694672b](https://github.com/informatievlaanderen/association-registry/commit/694672b9b3174c5488c25ba0c163c37917acc12d))
+* or-2671 rename events, adjust description beheer historiek ([5bb3ef6](https://github.com/informatievlaanderen/association-registry/commit/5bb3ef6fa9ea4eb257f570b15e5c6c4aad141d5c))
+* or-2671 rename NogNietBepaald naar NietBepaald ([4845949](https://github.com/informatievlaanderen/association-registry/commit/48459492c05e6ca444404c228aa6fef3aca0cec0))
+* or-2671 set nog niet bepaald to subtype for registratie ([ef1c454](https://github.com/informatievlaanderen/association-registry/commit/ef1c454bc3ba083b82c781e8da5e3ea9e8a4fe12))
+* or-2671 set subtype for migration and registration events for publiek detail ([6448232](https://github.com/informatievlaanderen/association-registry/commit/644823297d06dcd79ca561c3380d266e467517be))
+* or-2671 use naming consistent with type vereniging ([4f4876e](https://github.com/informatievlaanderen/association-registry/commit/4f4876e5fd1b7721a89021659a162b357af246ee))
+* or-2671 use subtype in potential duplicate response ([7d0ba4b](https://github.com/informatievlaanderen/association-registry/commit/7d0ba4b5025a3c5621942afcf1b59b92b44f1a65))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for acm ([0f9d6d8](https://github.com/informatievlaanderen/association-registry/commit/0f9d6d834e453611d48901aaf77438a0788db703))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for beheer historiek ([3142850](https://github.com/informatievlaanderen/association-registry/commit/3142850ff6dfe613a4937d18969bcbab8e62f499))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for beheer zoeken ([c793507](https://github.com/informatievlaanderen/association-registry/commit/c793507b166fee12cc68cfaa6b72e87ef91f3730))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for duplicate detection ([de36794](https://github.com/informatievlaanderen/association-registry/commit/de3679498d5f5f65c6267b12a507cedddf92c7ec))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for publiek detail ([dcdf564](https://github.com/informatievlaanderen/association-registry/commit/dcdf5647ad591cd715f294c14ea57c71bfd67502))
+* or-2673 implement SubtypeWerdTerugGezetNaarNietBepaald for publiek zoeken ([30e4973](https://github.com/informatievlaanderen/association-registry/commit/30e49737598f71c33fa560c8ecbdd2c893cb0744))
+* or-2673 implement zet subtype terug naar nog niet bepaald in beheer detail ([36ab5e0](https://github.com/informatievlaanderen/association-registry/commit/36ab5e0856a590acfb3fe333f2806ac37f015851))
+
+
+### Reverts
+
+* Revert "feat: or-2671 rename event to fullest" ([facd720](https://github.com/informatievlaanderen/association-registry/commit/facd720488ab10f0f17bf0a13e164c55dcc2f4a0))
+
 ## [8.213.5](https://github.com/informatievlaanderen/association-registry/compare/v8.213.4...v8.213.5) (2025-03-05)
 
 ## [8.213.4](https://github.com/informatievlaanderen/association-registry/compare/v8.213.3...v8.213.4) (2025-03-05)
