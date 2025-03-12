@@ -50,7 +50,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype
                     {
                         Code = Verenigingssubtype.Subvereniging.Code,
-                        Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
+                        Naam = Verenigingssubtype.Subvereniging.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,
                 },

@@ -53,12 +53,17 @@ public class DetailVerenigingenController : ApiController
 
         var andereVerenigingen = vereniging.Lidmaatschappen.Select(x => x.AndereVereniging).ToArray();
 
-        var namesForLidmaatschappen =
+        var maybeSubvereniging = vereniging.SubverenigingVan?.AndereVereniging;
+
+        if (maybeSubvereniging is not null && !andereVerenigingen.Contains(maybeSubvereniging))
+            andereVerenigingen = andereVerenigingen.Append(maybeSubvereniging).ToArray();
+
+        var andereVerenigingNamen =
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
         var responseMapper = new PubliekVerenigingDetailMapper(appSettings, version);
 
-        return Ok(responseMapper.Map(vereniging, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen)));
+        return Ok(responseMapper.Map(vereniging, new VerplichteVerplichteNamenVoorVCodesMapper(andereVerenigingNamen)));
     }
 
     private static async Task<PubliekVerenigingDetailDocument?> GetDetail(IQuerySession session, string vCode)

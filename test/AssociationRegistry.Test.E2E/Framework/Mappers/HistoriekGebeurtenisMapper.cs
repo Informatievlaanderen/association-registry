@@ -12,6 +12,7 @@ using AlbaHost;
 using Events;
 using EventStore;
 using Vereniging;
+using SubverenigingVan = Public.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 
 public static class HistoriekGebeurtenisMapper
 {
@@ -567,7 +568,7 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? SubTypeWerdVerfijndNaarFeitelijkeVereniging(string vCode)
         => new()
         {
-            Beschrijving = $"Subtype werd verfijnd naar Feitelijke vereniging.",
+            Beschrijving = $"Subtype werd verfijnd naar feitelijke vereniging.",
             Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),
             Data = new
             {
@@ -590,15 +591,12 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse? SubTypeWerdVerfijndNaarSubvereniging(string vCode)
+    public static HistoriekGebeurtenisResponse? SubTypeWerdVerfijndNaarSubvereniging(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
         => new()
         {
-            Beschrijving = $"Subtype werd verfijnd naar Feitelijke vereniging.",
+            Beschrijving = $"Subtype werd verfijnd naar subvereniging.",
             Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging),
-            Data = new
-            {
-                VCode = vCode,
-            },
+            Data = @event,
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };

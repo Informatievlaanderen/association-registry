@@ -63,8 +63,18 @@ public class BeheerVerenigingDetailMapper
             VCode = vereniging.VCode,
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
-            Verenigingssubtype =_verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
-            SubVerenigingVan = MapSubverenigingVan(vereniging.SubverenigingVan),
+            Verenigingssubtype =
+                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
+            SubVerenigingVan =
+                _verenigingstypeMapper.MapSubverenigingVan(
+                    vereniging.Verenigingssubtype,
+                    () => new SubverenigingVan
+                    {
+                        AndereVereniging = vereniging.SubverenigingVan.AndereVereniging,
+                        Naam = _verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(vereniging.SubverenigingVan.AndereVereniging),
+                        Identificatie = vereniging.SubverenigingVan.Identificatie,
+                        Beschrijving = vereniging.SubverenigingVan.Beschrijving,
+                    }),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -87,23 +97,10 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
-            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, verplichteNamenVoorVCodesMapper)).ToArray(),
+            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, verplichteNamenVoorVCodesMapper))
+                                        .ToArray(),
             Bron = vereniging.Bron,
             IsDubbelVan = vereniging.IsDubbelVan,
-        };
-    }
-
-    private SubverenigingVan? MapSubverenigingVan(Schema.Detail.SubverenigingVan? subverenigingVan)
-    {
-        if(_version != WellknownVersions.V2 || subverenigingVan is null)
-            return null;
-
-        return new SubverenigingVan()
-        {
-            AndereVereniging = subverenigingVan.AndereVereniging,
-            Naam = _verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(subverenigingVan.AndereVereniging),
-            Identificatie = subverenigingVan.Identificatie,
-            Beschrijving = subverenigingVan.Beschrijving,
         };
     }
 

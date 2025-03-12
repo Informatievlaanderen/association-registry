@@ -11,6 +11,7 @@ using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
+using SubverenigingVan = ResponseModels.SubverenigingVan;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Verenigingstype = ResponseModels.Verenigingstype;
@@ -54,8 +55,19 @@ public class SearchVerenigingenResponseMapper
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
                 CorresponderendeVCodes = verenigingZoekDocument.CorresponderendeVCodes,
-                Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, VerenigingZoekDocument.Types.VerenigingsType>(verenigingZoekDocument.Verenigingstype),
-                Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(verenigingZoekDocument.Verenigingssubtype),
+                Verenigingstype =
+                    _verenigingstypeMapper.Map<Verenigingstype, VerenigingZoekDocument.Types.VerenigingsType>(
+                        verenigingZoekDocument.Verenigingstype),
+                Verenigingssubtype =
+                    _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(
+                        verenigingZoekDocument.Verenigingssubtype),
+                SubverenigingVan = _verenigingstypeMapper.MapSubverenigingVan(verenigingZoekDocument.Verenigingssubtype,
+                    () => new SubverenigingVan
+                    {
+                        AndereVereniging = verenigingZoekDocument.SubverenigingVan.AndereVereniging,
+                        Identificatie = verenigingZoekDocument.SubverenigingVan.Identificatie,
+                        Beschrijving = verenigingZoekDocument.SubverenigingVan.Beschrijving,
+                    }),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,

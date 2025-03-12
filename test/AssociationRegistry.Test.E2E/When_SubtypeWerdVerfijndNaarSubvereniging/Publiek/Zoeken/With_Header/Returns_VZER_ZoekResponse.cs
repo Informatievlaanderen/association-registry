@@ -37,9 +37,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
             Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
         });
 
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(new SubverenigingVan()
+        vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan
         {
-            Naam = _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             AndereVereniging = _testContext.Request.AndereVereniging!,
             Beschrijving = _testContext.Request.Beschrijving!,
             Identificatie = _testContext.Request.Identificatie!,

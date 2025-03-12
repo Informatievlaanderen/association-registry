@@ -670,6 +670,27 @@ public class BeheerZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event)
+    {
+        await _elasticRepository.UpdateAsync(
+            @event.VCode,
+            new VerenigingZoekDocument
+            {
+                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
+                {
+                    Code = Verenigingssubtype.Subvereniging.Code,
+                    Naam = Verenigingssubtype.Subvereniging.Naam,
+                },
+                SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+                {
+                    AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
+                    AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
+                    Identificatie = @event.Data.SubverenigingVan.Identificatie,
+                    Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
+                }
+            });
+    }
+
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
     {
         await _elasticRepository.UpdateAsync(

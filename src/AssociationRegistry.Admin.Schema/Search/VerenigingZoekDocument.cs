@@ -12,6 +12,7 @@ public class VerenigingZoekDocument
     public string[] CorresponderendeVCodes { get; set; } = null!;
     public Types.VerenigingsType Verenigingstype { get; set; } = null!;
     public Types.Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
+    public Types.SubverenigingVan? SubverenigingVan { get; set; }
     public string Naam { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string KorteNaam { get; set; } = null!;
@@ -24,7 +25,6 @@ public class VerenigingZoekDocument
     public Types.Werkingsgebied[] Werkingsgebieden { get; set; } = null!;
     public Types.Sleutel[] Sleutels { get; set; } = null!;
     public Types.Lidmaatschap[] Lidmaatschappen { get; set; } = null!;
-
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }
@@ -84,6 +84,14 @@ public class VerenigingZoekDocument
         {
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;
+        }
+
+        public record SubverenigingVan
+        {
+            public string AndereVereniging { get; init; } = null!;
+            public string AndereVerenigingNaam { get; init; } = null!;
+            public string Identificatie { get; init; } = null!;
+            public string Beschrijving { get; init; } = null!;
         }
 
         public class Sleutel
