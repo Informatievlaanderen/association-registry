@@ -10,13 +10,13 @@ public class Verenigingssubtype : IVerenigingssubtype
 
     }
     public static readonly Verenigingssubtype FeitelijkeVereniging = new(code: Codes.FV, naam: "Feitelijke vereniging");
-    public static readonly Verenigingssubtype SubVereniging = new(code: Codes.Sub, naam: "Subvereniging");
+    public static readonly Verenigingssubtype Subvereniging = new(code: Codes.Sub, naam: "Subvereniging");
     public static readonly Verenigingssubtype NietBepaald = new(code: Codes.NB, naam: "Niet bepaald");
 
     public static readonly Verenigingssubtype[] All =
     {
         FeitelijkeVereniging,
-        SubVereniging,
+        Subvereniging,
         NietBepaald,
     };
 
@@ -33,7 +33,7 @@ public class Verenigingssubtype : IVerenigingssubtype
         => All.Single(t => t.Code == code);
 
     public static bool IsGeenSubVereniging(string code)
-        => code != SubVereniging.Code;
+        => code != Subvereniging.Code;
 
     public bool IsFeitelijkeVereniging
         => Code == FeitelijkeVereniging.Code;
@@ -42,7 +42,7 @@ public class Verenigingssubtype : IVerenigingssubtype
         => Code == NietBepaald.Code;
 
     public bool IsSubVereniging
-        => Code == SubVereniging.Code;
+        => Code == Subvereniging.Code;
 }
 
 public interface IVerenigingssubtype

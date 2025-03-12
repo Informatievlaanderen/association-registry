@@ -9,6 +9,7 @@ using Vereniging;
 using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
+using Scenarios.Requests.VZER;
 
 public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
 {

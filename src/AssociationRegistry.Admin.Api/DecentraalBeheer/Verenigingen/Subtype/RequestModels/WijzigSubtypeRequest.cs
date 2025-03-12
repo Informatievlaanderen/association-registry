@@ -62,5 +62,5 @@ public class WijzigSubtypeRequest
         => code == AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code;
 
     private bool IsSubVereniging(string code)
-        => code == AssociationRegistry.Vereniging.Verenigingssubtype.SubVereniging.Code;
+        => code == AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code;
 }

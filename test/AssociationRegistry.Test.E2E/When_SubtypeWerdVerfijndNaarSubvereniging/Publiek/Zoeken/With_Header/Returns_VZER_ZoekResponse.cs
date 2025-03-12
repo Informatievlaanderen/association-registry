@@ -11,11 +11,11 @@ using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
+    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
         _testContext = testContext;
     }
@@ -33,8 +33,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype
         {
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
         });
     }
 
