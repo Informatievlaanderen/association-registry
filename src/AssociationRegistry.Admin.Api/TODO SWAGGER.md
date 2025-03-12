@@ -47,9 +47,9 @@ GEEN
 
 ### Request Examples
 ### Response
-- [ ] 200 response tekst niet ok
-- [ ] 200 response etag tekst niet ok
-- [ ] 200 response Location header tekst niet ok
+- [x] 200 response tekst niet ok
+- [x] 200 response etag tekst niet ok
+- [x] 200 response Location header tekst niet ok
 ### Response Examples
 
 ## Registreer (bij duplicaten) van vzers
