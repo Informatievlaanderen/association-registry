@@ -25,10 +25,14 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                         VCode: "V0001001",
                         new DuplicaatVereniging.Types.Verenigingstype()
                         {
-                            Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                            Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam
+                            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+                            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam
                         },
-                        Verenigingssubtype: null,
+                        Verenigingssubtype: new DuplicaatVereniging.Types.Verenigingssubtype
+                        {
+                            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
+                        },
                         Naam: "Naam",
                         KorteNaam: "Korte naam",
                         [

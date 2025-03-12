@@ -58,10 +58,10 @@ GEEN
 
 ### Request Examples
 ### Response
-- [ ] De code van het subtype vereniging + vereniging
+- [x] De code van het subtype vereniging + vereniging
 ### Response Examples
-- [ ] subtype ontbreekt
-- [ ] type is nog FV
+- [x] subtype ontbreekt
+- [x] type is nog FV
 
 # Algemeen
 - [ ] Voorbeeldnamen veranderen naar 'Zonder versie header (ofzoiets)' en 'Met versie header ofzoiets'
