@@ -92,11 +92,6 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                             Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
                         },
-                        Verenigingssubtype =  new Verenigingssubtype()
-                            {
-                                Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-                                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
-                        },
                         Lidmaatschappen =
                         [
                             new Lidmaatschap()
