@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Vereniging;
 
+using DecentraalBeheer.Subtype;
 using Emails;
 using EventFactories;
 using Events;
@@ -274,7 +275,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
-        if(State.Verenigingssubtype == Verenigingssubtype.FeitelijkeVereniging)
+        if (State.Verenigingssubtype == Verenigingssubtype.FeitelijkeVereniging)
             return;
 
         AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode));
@@ -282,7 +283,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void ZetSubtypeNaarNietBepaald()
     {
-        if(State.Verenigingssubtype == Verenigingssubtype.NietBepaald)
+        if (State.Verenigingssubtype == Verenigingssubtype.NietBepaald)
             return;
 
         AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(VCode));
@@ -290,7 +291,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void Hydrate(VerenigingState obj)
     {
-        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If( !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
+        Throw<ActieIsNietToegestaanVoorVerenigingstype>.If(
+            !Verenigingstype.TypeIsVerenigingZonderEigenRechtspersoonlijkheid(obj.Verenigingstype));
+
         State = obj;
     }
 
@@ -316,5 +319,10 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, teSynchroniserenLocatie.LocatieId,
                                                              adresDetailResponse.AdresId,
                                                              registratieData));
+    }
+
+    public void VerfijnNaarSubvereniging(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
+    {
+        AddEvent(EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(VCode, subverenigingVan));
     }
 }

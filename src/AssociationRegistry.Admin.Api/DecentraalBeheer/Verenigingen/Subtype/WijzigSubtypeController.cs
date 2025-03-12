@@ -109,7 +109,7 @@ public class WijzigSubtypeController : ApiController
         if (gewenstSubtype.IsSubVereniging)
         {
             var command = request.ToWijzigSubtypeCommand(vCode, naam);
-            var envelope = new CommandEnvelope<WijzigSubtypeCommand>(command, metaData);
+            var envelope = new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, metaData);
             commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
         }
 

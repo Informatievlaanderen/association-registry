@@ -63,12 +63,12 @@ public class To_WijzigSubtypeCommandTests
         var vCode = fixture.Create<VCode>();
         var naam = fixture.Create<string>();
         var command = request.ToWijzigSubtypeCommand(vCode, naam);
-        command.Should().BeOfType(typeof(WijzigSubtypeCommand));
+        command.Should().BeOfType(typeof(VerfijnSubtypeNaarSubverenigingCommand));
 
         command.VCode.Should().Be(vCode);
-        command.SubtypeData.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
-        command.SubtypeData.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
-        command.SubtypeData.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
-        command.SubtypeData.AndereVerenigingNaam.Should().Be(naam);
+        command.SubverenigingVan.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
+        command.SubverenigingVan.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
+        command.SubverenigingVan.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
+        command.SubverenigingVan.AndereVerenigingNaam.Should().Be(naam);
     }
 }
