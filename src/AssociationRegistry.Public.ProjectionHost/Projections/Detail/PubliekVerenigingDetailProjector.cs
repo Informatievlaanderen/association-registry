@@ -861,6 +861,23 @@ public static class PubliekVerenigingDetailProjector
              };
          }
 
+    public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, PubliekVerenigingDetailDocument document)
+    {
+        document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
+        {
+            Code = Verenigingssubtype.Subvereniging.Code,
+            Naam = Verenigingssubtype.Subvereniging.Naam,
+        };
+
+        document.SubverenigingVan = new PubliekVerenigingDetailDocument.Types.SubverenigingVan
+        {
+            AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
+            AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
+            Identificatie = @event.Data.SubverenigingVan.Identificatie,
+            Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
+        };
+    }
+
     public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, PubliekVerenigingDetailDocument document)
          {
              document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
@@ -869,5 +886,4 @@ public static class PubliekVerenigingDetailProjector
                  Naam = Verenigingssubtype.NietBepaald.Naam,
              };
          }
-
 }

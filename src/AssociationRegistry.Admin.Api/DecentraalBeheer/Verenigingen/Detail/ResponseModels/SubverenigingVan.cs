@@ -29,3 +29,4 @@ public class SubverenigingVan
     [DataMember(Name = "Beschrijving", EmitDefaultValue = false)]
     public string Beschrijving { get; set; } = string.Empty;
 }
+

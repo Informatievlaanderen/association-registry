@@ -203,5 +203,17 @@ public class VerenigingenPerInszProjection : EventProjection
         ops.StoreObjects(docs);
     }
 
+    public async Task Project(
+        IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event,
+        IDocumentOperations ops)
+    {
+        var docs = new List<object>();
+
+        docs.Add(await VerenigingDocumentProjector.Apply(@event, ops));
+        docs.AddRange(await VerenigingenPerInszProjector.Apply(@event, ops));
+
+        ops.StoreObjects(docs);
+    }
+
 
 }

@@ -12,6 +12,7 @@ using Contactgegeven = ResponseModels.Contactgegeven;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
+using SubverenigingVan = ResponseModels.SubverenigingVan;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Verenigingstype = ResponseModels.Verenigingstype;
@@ -32,7 +33,7 @@ public class PubliekVerenigingDetailMapper
 
     public PubliekVerenigingDetailResponse Map(
         PubliekVerenigingDetailDocument document,
-        INamenVoorLidmaatschapMapper lidmaatschapMapper)
+        INamenVoorLidmaatschapMapper verplichteNamenMapper)
         => new()
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/detail-vereniging-context.json",
@@ -42,6 +43,15 @@ public class PubliekVerenigingDetailMapper
                 VCode = document.VCode,
                 Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, PubliekVerenigingDetailDocument.Types.Verenigingstype>(document.Verenigingstype),
                 Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype,  PubliekVerenigingDetailDocument.Types.Verenigingssubtype>(document.Verenigingssubtype),
+                SubVerenigingVan = _verenigingstypeMapper.MapSubverenigingVan(document.Verenigingssubtype, () =>
+                new SubverenigingVan()
+                {
+                   AndereVereniging = document.SubverenigingVan.AndereVereniging,
+                   Naam = verplichteNamenMapper.MapNaamVoorVCode(document.SubverenigingVan.AndereVereniging),
+                   Identificatie = document.SubverenigingVan.Identificatie,
+                   Beschrijving = document.SubverenigingVan.Beschrijving,
+
+                }),
                 Naam = document.Naam,
                 Roepnaam = document.Roepnaam,
                 KorteNaam = document.KorteNaam,
@@ -61,7 +71,7 @@ public class PubliekVerenigingDetailMapper
                 Werkingsgebieden = document.Werkingsgebieden.Select(Map).ToArray(),
                 Sleutels = document.Sleutels.Select(Map).ToArray(),
                 Relaties = document.Relaties.Select(r => Map(_appSettings, r)).ToArray(),
-                Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, lidmaatschapMapper)).ToArray(),
+                Lidmaatschappen = document.Lidmaatschappen.Select(l => Map(l, verplichteNamenMapper)).ToArray(),
             },
             Metadata = new Metadata { DatumLaatsteAanpassing = document.DatumLaatsteAanpassing },
         };
@@ -79,7 +89,7 @@ public class PubliekVerenigingDetailMapper
             id = l.JsonLdMetadata.Id,
             type = l.JsonLdMetadata.Type,
             Beschrijving = l.Beschrijving,
-            Naam = namenVoorLidmaatschapMapper.MapNaamVoorLidmaatschap(l.AndereVereniging),
+            Naam = namenVoorLidmaatschapMapper.MapNaamVoorVCode(l.AndereVereniging),
             AndereVereniging = l.AndereVereniging,
             Identificatie = l.Identificatie,
             Van = l.Van.FormatAsBelgianDate(),
@@ -207,19 +217,19 @@ public class PubliekVerenigingDetailMapper
 
 public interface INamenVoorLidmaatschapMapper
 {
-    string MapNaamVoorLidmaatschap(string vCode);
+    string MapNaamVoorVCode(string vCode);
 }
 
-public class VerplichteNamenVoorLidmaatschapMapper : INamenVoorLidmaatschapMapper
+public class VerplichteVerplichteNamenVoorVCodesMapper : INamenVoorLidmaatschapMapper
 {
     private readonly Dictionary<string, string> _namenVoorLidmaatschap;
 
-    public VerplichteNamenVoorLidmaatschapMapper(Dictionary<string, string> namenVoorLidmaatschap)
+    public VerplichteVerplichteNamenVoorVCodesMapper(Dictionary<string, string> namenVoorLidmaatschap)
     {
         _namenVoorLidmaatschap = namenVoorLidmaatschap;
     }
 
-    public string MapNaamVoorLidmaatschap(string vCode)
+    public string MapNaamVoorVCode(string vCode)
         => _namenVoorLidmaatschap[vCode];
 }
 

@@ -20,3 +20,4 @@ public class Verenigingssubtype : IVerenigingssubtype
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;
 }
+
