@@ -567,7 +567,7 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? SubTypeWerdVerfijndNaarFeitelijkeVereniging(string vCode)
         => new()
         {
-            Beschrijving = $"Vereniging zonder eigen rechtspersoonlijkheid werd verfijnd naar feitelijke vereniging.",
+            Beschrijving = $"Subtype werd verfijnd naar Feitelijke vereniging.",
             Gebeurtenis = nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging),
             Data = new
             {
@@ -580,8 +580,8 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse? SubtypeWerdTerugGezetNaarNietBepaald(string vCode)
         => new()
         {
-            Beschrijving = $"Het subtype terug gezet naar niet bepaald.",
-            Gebeurtenis = nameof(Events.SubtypeWerdTerugGezetNaarNietBepaald),
+            Beschrijving = $"Subtype werd teruggezet naar niet bepaald.",
+            Gebeurtenis = nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald),
             Data = new
             {
                 VCode = vCode,

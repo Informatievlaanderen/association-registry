@@ -578,7 +578,7 @@ public class PubliekZoekProjectionHandler
             });
     }
 
-    public async Task Handle(EventEnvelope<SubtypeWerdTerugGezetNaarNietBepaald> message)
+    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
     {
         await _elasticRepository
            .UpdateAsync(message.VCode, new VerenigingZoekDocument

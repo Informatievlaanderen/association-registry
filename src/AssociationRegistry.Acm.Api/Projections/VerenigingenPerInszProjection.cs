@@ -192,7 +192,7 @@ public class VerenigingenPerInszProjection : EventProjection
     }
 
     public async Task Project(
-        IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event,
+        IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event,
         IDocumentOperations ops)
     {
         var docs = new List<object>();

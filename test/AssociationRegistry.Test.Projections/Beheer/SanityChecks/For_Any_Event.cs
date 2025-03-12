@@ -46,6 +46,7 @@ public class For_Any_Event
                                                                      .Where(t => typeof(Events.IEvent)
                                                                                .IsAssignableFrom(t) && !t.IsAbstract && t.IsClass)
                                                                      .Except([typeof(AfdelingWerdGeregistreerd)]) // because it's obsolete
+                                                                     .Except([typeof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging), typeof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald)]) // TODO: fix this later. or-2745
                                                                      .ToList();
 
         var projectionType = typeof(PowerBiExportProjection);

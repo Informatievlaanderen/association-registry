@@ -7,7 +7,7 @@ public class SubtypeWerdTerugGezetNaarNietBepaaldScenario : InszScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     private VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging { get; }
-    public SubtypeWerdTerugGezetNaarNietBepaald SubtypeWerdTerugGezetNaarNietBepaald { get; }
+    public VerenigingssubtypeWerdTerugGezetNaarNietBepaald VerenigingssubtypeWerdTerugGezetNaarNietBepaald { get; }
 
     public SubtypeWerdTerugGezetNaarNietBepaaldScenario()
     {
@@ -17,7 +17,7 @@ public class SubtypeWerdTerugGezetNaarNietBepaaldScenario : InszScenarioBase
         VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging =
             new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
-        SubtypeWerdTerugGezetNaarNietBepaald = new SubtypeWerdTerugGezetNaarNietBepaald(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode);
+        VerenigingssubtypeWerdTerugGezetNaarNietBepaald = new VerenigingssubtypeWerdTerugGezetNaarNietBepaald(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode);
     }
 
     public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
@@ -28,6 +28,6 @@ public class SubtypeWerdTerugGezetNaarNietBepaaldScenario : InszScenarioBase
         new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging,
-            SubtypeWerdTerugGezetNaarNietBepaald),
+            VerenigingssubtypeWerdTerugGezetNaarNietBepaald),
     ];
 }

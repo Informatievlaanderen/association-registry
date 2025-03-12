@@ -280,6 +280,6 @@ public static class EventFactory
 
     public static VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode vCode)
         => new(vCode);
-    public static SubtypeWerdTerugGezetNaarNietBepaald SubtypeWerdTerugGezetNaarNietBepaald(VCode vCode)
+    public static VerenigingssubtypeWerdTerugGezetNaarNietBepaald SubtypeWerdTerugGezetNaarNietBepaald(VCode vCode)
         => new(vCode);
 }

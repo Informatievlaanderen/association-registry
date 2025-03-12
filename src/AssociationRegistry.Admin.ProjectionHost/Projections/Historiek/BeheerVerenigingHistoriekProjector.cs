@@ -734,17 +734,17 @@ public class BeheerVerenigingHistoriekProjector
             @event,
             @event.Data,
             document,
-            "Vereniging zonder eigen rechtspersoonlijkheid werd verfijnd naar feitelijke vereniging."
+            "Subtype werd verfijnd naar Feitelijke vereniging."
         );
     }
 
-    public static void Apply(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingHistoriekDocument document)
+    public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingHistoriekDocument document)
     {
         AddHistoriekEntry(
             @event,
             @event.Data,
             document,
-            "Het subtype terug gezet naar niet bepaald."
+            "Subtype werd teruggezet naar niet bepaald."
         );
     }
 

@@ -226,7 +226,7 @@ public class PubliekVerenigingDetailProjection : EventProjection
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
     public async Task Project(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
-    public async Task Project(IEvent<SubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
+    public async Task Project(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, IDocumentOperations ops)
         => await Update(@event, ops, PubliekVerenigingDetailProjector.Apply);
 
     private static async Task Update<T>(
