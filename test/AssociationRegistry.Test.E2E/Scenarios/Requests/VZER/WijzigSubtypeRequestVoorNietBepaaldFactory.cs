@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
+namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
-using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Alba;
-using Framework.ApiSetup;
-using Givens.FeitelijkeVereniging;
+using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
+using AssociationRegistry.Vereniging;
 using Marten.Events;
 using System.Net;
-using Vereniging;
 
 public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<WijzigSubtypeRequest>
 {

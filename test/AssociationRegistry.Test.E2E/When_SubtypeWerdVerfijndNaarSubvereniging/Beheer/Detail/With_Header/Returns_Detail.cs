@@ -14,11 +14,11 @@ using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>
+public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context): base(context)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context): base(context)
     {
         _context = context;
     }
@@ -30,15 +30,23 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
     }
 
     [Fact]
-    public void JsonContentMatches()
+    public void Subtype_Is_Subvereniging()
     {
         var expected = new Verenigingssubtype()
         {
-            Code = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-            Naam = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam
+            Code = Vereniging.Verenigingssubtype.Subvereniging.Code,
+            Naam = Vereniging.Verenigingssubtype.Subvereniging.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
+
+        Response.Vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        {
+            Naam = _context.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            AndereVereniging = _context.Request.AndereVereniging!,
+            Beschrijving = _context.Request.Beschrijving!,
+            Identificatie = _context.Request.Identificatie!,
+        });
     }
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse

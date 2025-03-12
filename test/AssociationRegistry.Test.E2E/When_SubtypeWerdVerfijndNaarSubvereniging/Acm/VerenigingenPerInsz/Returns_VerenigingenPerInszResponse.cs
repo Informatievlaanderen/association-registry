@@ -13,12 +13,12 @@ using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_VerenigingenPerInszResponse :
-    End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, VerenigingenPerInszResponse>
+    End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, VerenigingenPerInszResponse>
 {
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
+    public Returns_VerenigingenPerInszResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
         _inszToCompare = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].Insz;
         _request = new VerenigingenPerInszRequest()
@@ -49,7 +49,7 @@ public class Returns_VerenigingenPerInszResponse :
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
                     {
-                        Code = Verenigingssubtype.FeitelijkeVereniging.Code,
+                        Code = Verenigingssubtype.Subvereniging.Code,
                         Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,

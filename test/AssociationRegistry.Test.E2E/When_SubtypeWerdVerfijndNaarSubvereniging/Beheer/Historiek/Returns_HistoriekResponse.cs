@@ -12,12 +12,12 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, HistoriekResponse>
+public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
+    public Returns_Historiek(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
     }
 
