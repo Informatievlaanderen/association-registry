@@ -83,10 +83,15 @@ public class DetailVerenigingenController : ApiController
 
         var andereVerenigingen = vereniging.Lidmaatschappen.Select(x => x.AndereVereniging).ToArray();
 
-        var namesForLidmaatschappen =
+        var maybeSubvereniging = maybeVereniging.SubverenigingVan?.AndereVereniging;
+
+        if (maybeSubvereniging is not null && !andereVerenigingen.Contains(maybeSubvereniging))
+            andereVerenigingen = andereVerenigingen.Append(maybeSubvereniging).ToArray();
+
+        var namenVoorVCodes =
             await getNamesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(andereVerenigingen), cancellationToken);
 
-        var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteNamenVoorLidmaatschapMapper(namesForLidmaatschappen), version);
+        var mapper = new BeheerVerenigingDetailMapper(_appSettings, new VerplichteVerplichteNamenVoorVCodesMapper(namenVoorVCodes), version);
         var mappedDetail = mapper.Map(vereniging);
 
         return Ok(mappedDetail);

@@ -16,6 +16,7 @@ using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
 using Sleutel = ResponseModels.Sleutel;
+using SubverenigingVan = ResponseModels.SubverenigingVan;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Verenigingstype = ResponseModels.Verenigingstype;
 using Vertegenwoordiger = ResponseModels.Vertegenwoordiger;
@@ -25,14 +26,14 @@ using Werkingsgebied = ResponseModels.Werkingsgebied;
 public class BeheerVerenigingDetailMapper
 {
     private readonly AppSettings _appSettings;
-    private readonly INamenVoorLidmaatschapMapper _namenVoorLidmaatschapMapper;
+    private readonly IVerplichteNamenVoorVCodesMapper _verplichteNamenVoorVCodesMapper;
     private readonly string? _version;
     private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
-    public BeheerVerenigingDetailMapper(AppSettings appSettings, INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper, string? version)
+    public BeheerVerenigingDetailMapper(AppSettings appSettings, IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper, string? version)
     {
         _appSettings = appSettings;
-        _namenVoorLidmaatschapMapper = namenVoorLidmaatschapMapper;
+        _verplichteNamenVoorVCodesMapper = verplichteNamenVoorVCodesMapper;
         _verenigingstypeMapper = version == WellknownVersions.V2 ? new VerenigingstypeMapperV2() : new VerenigingstypeMapperV1();
         _version = version;
     }
@@ -41,7 +42,7 @@ public class BeheerVerenigingDetailMapper
         => new()
         {
             Context = $"{_appSettings.PublicApiBaseUrl}/v1/contexten/beheer/detail-vereniging-context.json",
-            Vereniging = Map(vereniging, _namenVoorLidmaatschapMapper, _appSettings.BaseUrl),
+            Vereniging = Map(vereniging, _verplichteNamenVoorVCodesMapper, _appSettings.BaseUrl),
             Metadata = MapMetadata(vereniging),
         };
 
@@ -53,7 +54,7 @@ public class BeheerVerenigingDetailMapper
 
     private VerenigingDetail Map(
         BeheerVerenigingDetailDocument vereniging,
-        INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper,
+        IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper,
         string baseUrl)
     {
         return new VerenigingDetail
@@ -63,6 +64,7 @@ public class BeheerVerenigingDetailMapper
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
             Verenigingssubtype =_verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
+            SubVerenigingVan = MapSubverenigingVan(vereniging.SubverenigingVan),
             Naam = vereniging.Naam,
             Roepnaam = vereniging.Roepnaam,
             KorteNaam = vereniging.KorteNaam,
@@ -85,9 +87,23 @@ public class BeheerVerenigingDetailMapper
             Werkingsgebieden = vereniging.Werkingsgebieden.Select(Map).ToArray(),
             Sleutels = vereniging.Sleutels.Select(Map).ToArray(),
             Relaties = vereniging.Relaties.Select(relatie => Map(relatie, baseUrl)).ToArray(),
-            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, namenVoorLidmaatschapMapper)).ToArray(),
+            Lidmaatschappen = vereniging.Lidmaatschappen.Select(lidmaatschap => Map(lidmaatschap, verplichteNamenVoorVCodesMapper)).ToArray(),
             Bron = vereniging.Bron,
             IsDubbelVan = vereniging.IsDubbelVan,
+        };
+    }
+
+    private SubverenigingVan? MapSubverenigingVan(Schema.Detail.SubverenigingVan? subverenigingVan)
+    {
+        if(_version != WellknownVersions.V2 || subverenigingVan is null)
+            return null;
+
+        return new SubverenigingVan()
+        {
+            AndereVereniging = subverenigingVan.AndereVereniging,
+            Naam = _verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(subverenigingVan.AndereVereniging),
+            Identificatie = subverenigingVan.Identificatie,
+            Beschrijving = subverenigingVan.Beschrijving,
         };
     }
 
@@ -100,7 +116,7 @@ public class BeheerVerenigingDetailMapper
 
     private static Lidmaatschap Map(
         Schema.Detail.Lidmaatschap lidmaatschap,
-        INamenVoorLidmaatschapMapper namenVoorLidmaatschapMapper
+        IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper
     )
         => new()
         {
@@ -109,7 +125,7 @@ public class BeheerVerenigingDetailMapper
             AndereVereniging = lidmaatschap.AndereVereniging,
             Beschrijving = lidmaatschap.Beschrijving,
             Identificatie = lidmaatschap.Identificatie,
-            Naam = namenVoorLidmaatschapMapper.MapNaamVoorLidmaatschap(lidmaatschap.AndereVereniging),
+            Naam = verplichteNamenVoorVCodesMapper.MapNaamVoorVCode(lidmaatschap.AndereVereniging),
             Van = lidmaatschap.Van.FormatAsBelgianDate(),
             Tot = lidmaatschap.Tot.FormatAsBelgianDate(),
             LidmaatschapId = lidmaatschap.LidmaatschapId,
@@ -261,20 +277,20 @@ public class BeheerVerenigingDetailMapper
             : null;
 }
 
-public interface INamenVoorLidmaatschapMapper
+public interface IVerplichteNamenVoorVCodesMapper
 {
-    string MapNaamVoorLidmaatschap(string vCode);
+    string MapNaamVoorVCode(string vCode);
 }
 
-public class VerplichteNamenVoorLidmaatschapMapper : INamenVoorLidmaatschapMapper
+public class VerplichteVerplichteNamenVoorVCodesMapper : IVerplichteNamenVoorVCodesMapper
 {
     private readonly Dictionary<string, string> _namenVoorLidmaatschap;
 
-    public VerplichteNamenVoorLidmaatschapMapper(Dictionary<string, string> namenVoorLidmaatschap)
+    public VerplichteVerplichteNamenVoorVCodesMapper(Dictionary<string, string> namenVoorLidmaatschap)
     {
         _namenVoorLidmaatschap = namenVoorLidmaatschap;
     }
 
-    public string MapNaamVoorLidmaatschap(string vCode)
+    public string MapNaamVoorVCode(string vCode)
         => _namenVoorLidmaatschap[vCode];
 }

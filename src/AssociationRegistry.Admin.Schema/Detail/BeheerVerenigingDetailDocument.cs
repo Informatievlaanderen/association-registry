@@ -10,6 +10,7 @@ public record BeheerVerenigingDetailDocument : IVCode, ISoftDeleted, IMetadata
     public string Naam { get; set; } = null!;
     public Verenigingstype Verenigingstype { get; set; } = null!;
     public Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
+    public SubverenigingVan? SubverenigingVan { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }
