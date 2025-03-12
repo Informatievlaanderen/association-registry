@@ -124,6 +124,7 @@ public record VerenigingState : IHasVersion
         {
             Verenigingstype = Verenigingstype.VZER,
             Verenigingssubtype = Verenigingssubtype.NietBepaald,
+            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -784,6 +785,7 @@ public record VerenigingState : IHasVersion
         {
             Verenigingstype = Verenigingstype.VZER,
             Verenigingssubtype = Verenigingssubtype.NietBepaald,
+            SubverenigingVan = SubverenigingVan.Create(VCode),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
@@ -802,12 +804,7 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingssubtype = Verenigingssubtype.Subvereniging,
-            SubverenigingVan = new SubverenigingVan()
-            {
-                AndereVereniging = @event.SubverenigingVan.AndereVereniging,
-                Beschrijving = @event.SubverenigingVan.Beschrijving,
-                Identificatie = @event.SubverenigingVan.Identificatie,
-            },
+            SubverenigingVan = SubverenigingVan.Hydrate(@event),
         };
 
     public void ThrowIfVerwijderd()

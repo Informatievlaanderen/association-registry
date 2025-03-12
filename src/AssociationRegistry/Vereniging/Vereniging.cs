@@ -323,6 +323,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnNaarSubvereniging(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
     {
+        State.SubverenigingVan.Wijzig(subverenigingVan);
+
         AddEvent(EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(VCode, subverenigingVan));
     }
 }
