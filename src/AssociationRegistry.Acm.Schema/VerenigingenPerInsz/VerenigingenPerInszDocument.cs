@@ -85,7 +85,7 @@ public class Verenigingssubtype : IVerenigingssubtype
 {
 
     /// <summary>
-    /// De code van het subtype van de vereniging
+    /// De code van het subtype vereniging van de vereniging
     /// </summary>
     public string Code { get; init; } = null!;
 

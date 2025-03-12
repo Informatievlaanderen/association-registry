@@ -9,13 +9,13 @@ using System.Runtime.Serialization;
 public class Verenigingssubtype: IVerenigingssubtype
 {
     /// <summary>
-    /// De code van het subtype
+    /// De code van het subtype vereniging
     /// </summary>
     [DataMember(Name = "Code")]
     public string Code { get; init; } = null!;
 
     /// <summary>
-    /// De beschrijving van het subtype
+    /// De beschrijving van het subtype vereniging
     /// </summary>
     [DataMember(Name = "Naam")]
     public string Naam { get; init; } = null!;

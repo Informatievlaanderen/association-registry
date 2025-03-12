@@ -30,7 +30,7 @@ public class VerenigingssubtypeData
     public string Identificatie { get; set; } = string.Empty;
 
     /// <summary>
-    /// De beschrijving van het subtype
+    /// De beschrijving van het subtype vereniging
     /// </summary>
     [DataMember(Name = "Beschrijving", EmitDefaultValue = false)]
     public string Beschrijving { get; set; } = string.Empty;

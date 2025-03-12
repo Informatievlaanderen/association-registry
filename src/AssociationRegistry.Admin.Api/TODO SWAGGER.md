@@ -58,7 +58,7 @@ GEEN
 
 ### Request Examples
 ### Response
-- [ ] De code van het subtype + vereniging
+- [ ] De code van het subtype vereniging + vereniging
 ### Response Examples
 - [ ] subtype ontbreekt
 - [ ] type is nog FV
