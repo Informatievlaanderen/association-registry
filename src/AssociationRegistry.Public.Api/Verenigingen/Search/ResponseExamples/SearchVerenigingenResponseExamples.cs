@@ -12,6 +12,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Vereniging = ResponseModels.Vereniging;
+using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<SearchVerenigingenResponse>
@@ -273,6 +274,11 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                         {
                             Code = Verenigingstype.VZER.Code,
                             Naam = Verenigingstype.VZER.Naam,
+                        },
+                        Verenigingssubtype = new Verenigingssubtype
+                        {
+                            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
                         },
                         HoofdactiviteitenVerenigingsloket = new[]
                         {

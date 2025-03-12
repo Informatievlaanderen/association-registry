@@ -4,16 +4,16 @@
 
 ### Request
 ### Response
-- [ ] nested verenigingssubtype beschrijving aangevuld
+- [x] nested verenigingssubtype beschrijving aangevuld
   - + vereniging op het einde
 ### Response Examples
-- [ ] subtype ontbreekt bij vzer
+- [x] subtype ontbreekt bij vzer
 
 ## Zoek
 
 ### Request
 ### Response
-- [ ] nested verenigingssubtype beschrijving aangevuld
+- [x] nested verenigingssubtype beschrijving aangevuld
   - + vereniging op het einde
 ### Response Examples
-- [ ] subtype ontbreekt bij vzer
+- [x] subtype ontbreekt bij vzer
