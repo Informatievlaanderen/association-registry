@@ -575,4 +575,18 @@ public static class HistoriekGebeurtenisMapper
             },
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
-        };}
+        };
+
+    public static HistoriekGebeurtenisResponse? SubtypeWerdTerugGezetNaarNietBepaald(string vCode)
+        => new()
+        {
+            Beschrijving = $"Het subtype terug gezet naar niet bepaald.",
+            Gebeurtenis = nameof(Events.SubtypeWerdTerugGezetNaarNietBepaald),
+            Data = new
+            {
+                VCode = vCode,
+            },
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+}

@@ -1,15 +1,18 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 
+using AutoFixture;
+using Common.AutoFixture;
 using Events;
 using EventStore;
-using AssociationRegistry.Test.Common.AutoFixture;
+using Framework.TestClasses;
 using Vereniging;
-using AutoFixture;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 
-public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.TestClasses.IScenario
+public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : IScenario
 {
     public string NaamVereniging { get; set; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get;
+        set;
+    }
     public VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging { get; set; }
 
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario()
@@ -20,19 +23,20 @@ public class SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario : Framework.Tes
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
-        var vzer = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = await service.GetNext(),
         };
 
         VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging = new VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
-            VCode: vzer.VCode);
+            VCode: VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
         return
         [
-            new(vzer.VCode, [vzer, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
+            new(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, [VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging]),
         ];
     }
 
     public StreamActionResult Result { get; set; } = null!;
+
 }
