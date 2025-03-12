@@ -20,6 +20,7 @@ public record VerenigingState : IHasVersion
 
     public Verenigingstype Verenigingstype { get; init; } = null!;
     public Verenigingssubtype Verenigingssubtype { get; init; } = null!;
+    public SubverenigingVan SubverenigingVan { get; init; } = null!;
     public VCode VCode { get; private set; } = null!;
     public KboNummer? KboNummer { get; private init; }
     public VerenigingsNaam Naam { get; private init; } = null!;
@@ -795,6 +796,18 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingssubtype = Verenigingssubtype.NietBepaald,
+        };
+
+    public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
+        => this with
+        {
+            Verenigingssubtype = Verenigingssubtype.Subvereniging,
+            SubverenigingVan = new SubverenigingVan()
+            {
+                AndereVereniging = @event.SubverenigingVan.AndereVereniging,
+                Beschrijving = @event.SubverenigingVan.Beschrijving,
+                Identificatie = @event.SubverenigingVan.Identificatie,
+            },
         };
 
     public void ThrowIfVerwijderd()

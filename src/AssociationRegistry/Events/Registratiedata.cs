@@ -7,10 +7,7 @@ public static class Registratiedata
         string Contactgegeventype,
         string Waarde,
         string Beschrijving,
-        bool IsPrimair)
-    {
-
-    }
+        bool IsPrimair);
 
     public record Locatie(
         int LocatieId,
@@ -18,9 +15,7 @@ public static class Registratiedata
         bool IsPrimair,
         string Naam,
         Adres? Adres,
-        AdresId? AdresId)
-    {
-    }
+        AdresId? AdresId);
 
     public record Adres(
         string Straatnaam,
@@ -28,10 +23,7 @@ public static class Registratiedata
         string Busnummer,
         string Postcode,
         string Gemeente,
-        string Land)
-    {
-
-    }
+        string Land);
 
     public record AdresId(string Broncode, string Bronwaarde)
     {
@@ -52,15 +44,9 @@ public static class Registratiedata
         string Huisnummer,
         string Busnummer,
         string Postcode,
-        string Gemeente)
-    {
+        string Gemeente);
 
-    }
-
-    public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd)
-    {
-
-    }
+    public record Doelgroep(int Minimumleeftijd, int Maximumleeftijd);
 
     public record Vertegenwoordiger(
         int VertegenwoordigerId,
@@ -73,24 +59,15 @@ public static class Registratiedata
         string Email,
         string Telefoon,
         string Mobiel,
-        string SocialMedia)
-    {
-
-    }
+        string SocialMedia);
 
     public record HoofdactiviteitVerenigingsloket(
         string Code,
-        string Naam)
-    {
-
-    }
+        string Naam);
 
     public record Werkingsgebied(
         string Code,
-        string Naam)
-    {
-
-    }
+        string Naam);
 
     public record Lidmaatschap(
         int LidmaatschapId,
@@ -99,10 +76,13 @@ public static class Registratiedata
         DateOnly? DatumVan,
         DateOnly? DatumTot,
         string Identificatie,
-        string Beschrijving)
-    {
+        string Beschrijving);
 
-    }
+    public record SubverenigingVan(
+        string AndereVereniging,
+        string AndereVerenigingNaam,
+        string Identificatie,
+        string Beschrijving);
 }
 
 public interface IAdresId
