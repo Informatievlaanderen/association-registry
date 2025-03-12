@@ -47,6 +47,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt):
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
                 case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
+                case nameof(SubtypeWerdTerugGezetNaarNietBepaald):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
 
                     break;
