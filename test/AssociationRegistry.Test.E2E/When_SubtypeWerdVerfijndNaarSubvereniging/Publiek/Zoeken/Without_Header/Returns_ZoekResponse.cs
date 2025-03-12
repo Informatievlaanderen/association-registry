@@ -31,6 +31,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaar
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeNull();
+        vereniging.SubVerenigingVan.Should().BeNull();
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

@@ -3,7 +3,7 @@ namespace AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 using System.Runtime.Serialization;
 
 [DataContract]
-public class VerenigingssubtypeData
+public class SubverenigingVan
 {
     /// <summary>
     /// Het subtype van de vereniging
