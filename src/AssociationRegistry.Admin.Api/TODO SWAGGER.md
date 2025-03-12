@@ -30,8 +30,8 @@ GEEN
 - [x] nested verenigingssubtype beschrijving aangevuld
   - + vereniging op het einde
 ### Response Examples
-- [ ] subtype ontbreekt bij vzer
-- [ ] subtype moet weg bij FV 
+- [x] subtype ontbreekt bij vzer
+- [x] subtype moet weg bij FV 
 #### VZER
 
 - [ ] verenigingssubtype
