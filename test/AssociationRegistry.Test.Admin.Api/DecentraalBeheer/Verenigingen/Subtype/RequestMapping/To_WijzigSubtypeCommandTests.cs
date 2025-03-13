@@ -68,6 +68,6 @@ public class To_WijzigSubtypeCommandTests
         command.SubverenigingVan.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
         command.SubverenigingVan.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
         command.SubverenigingVan.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
-        command.SubverenigingVan.AndereVerenigingNaam.Should().BeNull();
+        command.SubverenigingVan.AndereVerenigingNaam.Should().BeEmpty();
     }
 }
