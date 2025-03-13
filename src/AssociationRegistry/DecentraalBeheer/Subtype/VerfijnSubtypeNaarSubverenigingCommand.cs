@@ -4,12 +4,16 @@ using Vereniging;
 
 public record VerfijnSubtypeNaarSubverenigingCommand(
     VCode VCode,
-    SubverenigingVan SubverenigingVan): IWijzigSubtypeCommand
+    VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan SubverenigingVan): IWijzigSubtypeCommand
 {
+    public static class Data
+    {
+        public record SubverenigingVan(
+            VCode? AndereVereniging,
+            string? AndereVerenigingNaam,
+            SubtypeIdentificatie? Identificatie,
+            SubtypeBeschrijving? Beschrijving);
+    }
 }
 
-public record SubverenigingVan(
-    VCode? AndereVereniging,
-    string? AndereVerenigingNaam,
-    SubtypeIdentificatie? Identificatie,
-    SubtypeBeschrijving? Beschrijving);
+
