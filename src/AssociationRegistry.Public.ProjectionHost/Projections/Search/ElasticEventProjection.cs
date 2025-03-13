@@ -612,6 +612,33 @@ public class PubliekZoekProjectionHandler
             });
     }
 
+    public async Task Handle(EventEnvelope<SubverenigingRelatieWerdGewijzigd> @event)
+    {
+        await _elasticRepository.UpdateAsync(
+            @event.VCode,
+            new VerenigingZoekDocument
+            {
+                SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+                {
+                    AndereVereniging = @event.Data.AndereVereniging,
+                },
+            });
+    }
+
+    public async Task Handle(EventEnvelope<SubverenigingDetailsWerdenGewijzigd> @event)
+    {
+        await _elasticRepository.UpdateAsync(
+            @event.VCode,
+            new VerenigingZoekDocument
+            {
+                SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+                {
+                    Identificatie = @event.Data.Identificatie,
+                    Beschrijving = @event.Data.Beschrijving,
+                },
+            });
+    }
+
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
     {
         await _elasticRepository

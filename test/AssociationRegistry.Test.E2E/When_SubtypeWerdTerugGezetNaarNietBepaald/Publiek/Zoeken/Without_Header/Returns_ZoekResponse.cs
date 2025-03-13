@@ -23,7 +23,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<ZetSubtypeNaarNiet
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json");
     }
 
     [Fact]
@@ -35,5 +35,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<ZetSubtypeNaarNiet
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
+        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }
