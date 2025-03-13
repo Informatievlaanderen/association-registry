@@ -39,6 +39,14 @@ public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wijzi
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
+
+        Response.Vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        {
+            Naam = _context.Scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            AndereVereniging = _context.Request.AndereVereniging!,
+            Beschrijving = _context.Request.Beschrijving!,
+            Identificatie = _context.Request.Identificatie!,
+        });
     }
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
