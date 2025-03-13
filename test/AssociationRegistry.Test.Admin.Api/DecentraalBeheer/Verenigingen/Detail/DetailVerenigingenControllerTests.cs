@@ -47,7 +47,8 @@ public class DetailVerenigingenControllerTests
             CancellationToken.None);
 
         getNamesQuery.Verify(x => x.ExecuteAsync(
-                                 It.Is<GetNamesForVCodesFilter>(filter => filter.VCodes.SequenceEqual(getNamesForVCodesFilter.VCodes)),
+                                 It.Is<GetNamesForVCodesFilter>(filter => filter.VCodes.SequenceEqual(getNamesForVCodesFilter.VCodes
+                                                                   .Append(detail.SubverenigingVan.AndereVereniging))),
                                  It.IsAny<CancellationToken>()), Times.Once);
     }
 
