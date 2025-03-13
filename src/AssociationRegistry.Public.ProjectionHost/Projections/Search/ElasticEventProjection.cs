@@ -568,27 +568,17 @@ public class PubliekZoekProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
     {
         await _elasticRepository
-           .UpdateAsync(message.VCode, new VerenigingZoekDocument
-            {
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype()
-                {
-                    Code = Verenigingssubtype.FeitelijkeVereniging.Code,
-                    Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
-                },
-            });
+           .UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(message.VCode, Verenigingssubtype.FeitelijkeVereniging.Code,
+                                                                                  Verenigingssubtype.FeitelijkeVereniging.Naam
+            );
     }
 
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
     {
         await _elasticRepository
-           .UpdateAsync(message.VCode, new VerenigingZoekDocument
-            {
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype()
-                {
-                    Code = Verenigingssubtype.NietBepaald.Code,
-                    Naam = Verenigingssubtype.NietBepaald.Naam,
-                },
-            });
+           .UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(message.VCode, Verenigingssubtype.NietBepaald.Code,
+                                                                                  Verenigingssubtype.NietBepaald.Naam
+            );
     }
 
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event)

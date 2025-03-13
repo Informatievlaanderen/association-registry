@@ -859,6 +859,8 @@ public static class PubliekVerenigingDetailProjector
                  Code = Verenigingssubtype.FeitelijkeVereniging.Code,
                  Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
              };
+
+             document.SubverenigingVan = null;
          }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, PubliekVerenigingDetailDocument document)
@@ -903,5 +905,7 @@ public static class PubliekVerenigingDetailProjector
                  Code = Verenigingssubtype.NietBepaald.Code,
                  Naam = Verenigingssubtype.NietBepaald.Naam,
              };
+
+             document.SubverenigingVan = null;
          }
 }

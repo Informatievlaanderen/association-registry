@@ -7,7 +7,6 @@ using Schema;
 using Schema.Constants;
 using Schema.Search;
 using Vereniging;
-
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using WellknownFormats = Constants.WellknownFormats;
@@ -658,16 +657,11 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> message)
     {
-        await _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
-            new VerenigingZoekDocument
-            {
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
-                {
-                    Code = Verenigingssubtype.FeitelijkeVereniging.Code,
-                    Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
-                },
-            });
+            Verenigingssubtype.FeitelijkeVereniging.Code,
+            Verenigingssubtype.FeitelijkeVereniging.Naam
+        );
     }
 
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event)
@@ -692,16 +686,11 @@ public class BeheerZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
     {
-        await _elasticRepository.UpdateAsync(
+        await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
-            new VerenigingZoekDocument
-            {
-                Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
-                {
-                    Code = Verenigingssubtype.NietBepaald.Code,
-                    Naam = Verenigingssubtype.NietBepaald.Naam,
-                },
-            });
+            Verenigingssubtype.NietBepaald.Code,
+            Verenigingssubtype.NietBepaald.Naam
+        );
     }
 
     public async Task Handle(EventEnvelope<SubverenigingRelatieWerdGewijzigd> @event)
