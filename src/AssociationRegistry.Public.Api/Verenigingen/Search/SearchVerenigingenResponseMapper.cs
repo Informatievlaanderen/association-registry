@@ -16,6 +16,7 @@ using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVereniging
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
 using Relatie = ResponseModels.Relatie;
+using SubverenigingVan = ResponseModels.SubverenigingVan;
 using Vereniging = ResponseModels.Vereniging;
 using Verenigingssubtype = ResponseModels.Verenigingssubtype;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
@@ -72,8 +73,20 @@ public class SearchVerenigingenResponseMapper
             {
                 type = verenigingZoekDocument.JsonLdMetadataType,
                 VCode = verenigingZoekDocument.VCode,
-                Verenigingstype = _verenigingstypeMapper.Map<VerenigingsType,VerenigingZoekDocument.Types.Verenigingstype>(verenigingZoekDocument.Verenigingstype),
-                Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(verenigingZoekDocument.Verenigingssubtype),
+                Verenigingstype =
+                    _verenigingstypeMapper.Map<VerenigingsType, VerenigingZoekDocument.Types.Verenigingstype>(
+                        verenigingZoekDocument.Verenigingstype),
+                Verenigingssubtype =
+                    _verenigingstypeMapper.MapSubtype<Verenigingssubtype, VerenigingZoekDocument.Types.Verenigingssubtype>(
+                        verenigingZoekDocument.Verenigingssubtype),
+                SubverenigingVan = _verenigingstypeMapper
+                   .MapSubverenigingVan(verenigingZoekDocument.Verenigingssubtype, () =>
+                                            new SubverenigingVan()
+                                            {
+                                                AndereVereniging = verenigingZoekDocument.SubverenigingVan.AndereVereniging,
+                                                Identificatie = verenigingZoekDocument.SubverenigingVan.Identificatie,
+                                                Beschrijving = verenigingZoekDocument.SubverenigingVan.Beschrijving,
+                                            }),
                 Naam = verenigingZoekDocument.Naam,
                 Roepnaam = verenigingZoekDocument.Roepnaam,
                 KorteNaam = verenigingZoekDocument.KorteNaam,
@@ -99,7 +112,6 @@ public class SearchVerenigingenResponseMapper
                                                  .ToArray(),
                 Links = Map(verenigingZoekDocument.VCode, appSettings),
             };
-
         }
         catch (Exception e)
         {
