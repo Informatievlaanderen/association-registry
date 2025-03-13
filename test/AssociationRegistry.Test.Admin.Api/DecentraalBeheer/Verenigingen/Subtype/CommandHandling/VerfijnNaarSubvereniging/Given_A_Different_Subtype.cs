@@ -29,7 +29,6 @@ public class Given_A_Different_Subtype
             scenario.VCode,
             new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 fixture.Create<VCode>(),
-                fixture.Create<string>(),
                 SubtypeIdentificatie.Create(fixture.Create<string>()),
                 SubtypeBeschrijving.Create(fixture.Create<string>())
             ));
