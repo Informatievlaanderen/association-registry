@@ -1,3 +1,26 @@
+# [8.215.0](https://github.com/informatievlaanderen/association-registry/compare/v8.214.0...v8.215.0) (2025-03-13)
+
+
+### Bug Fixes
+
+* or-2674 move get name from andere vereniging to commandhandler ([f892688](https://github.com/informatievlaanderen/association-registry/commit/f8926880f7e5ce378ea5321b40aa01da4b944af4))
+
+
+### Features
+
+* or-2671 implement request validation for verfijn subtype naar feitelijke vereniging ([e317244](https://github.com/informatievlaanderen/association-registry/commit/e3172447cde3d4e5c591689425602b4cc18ff565))
+* or-2672 implement all projections for verfijn naar Subvereniging ([4a11584](https://github.com/informatievlaanderen/association-registry/commit/4a115847ca025b8e70d9ce29f2a99df0a82a0ea6))
+* or-2672 implement VerenigingssubtypeWerdVerfijndNaarSubvereniging for beheer detail ([e21d9f2](https://github.com/informatievlaanderen/association-registry/commit/e21d9f2f5eeb4a020d29bfaa572c8b49a5a015c3))
+* or-2672 implement VerenigingssubtypeWerdVerfijndNaarSubvereniging in duplicate detection ([693c8cf](https://github.com/informatievlaanderen/association-registry/commit/693c8cf58f5df13f43a71306d5c09f242160bc97))
+* or-2672 implement verfijn subtype naar subvereniging ([ee08e08](https://github.com/informatievlaanderen/association-registry/commit/ee08e0853dfdb8bca233b85983f730bdb2b51d7c))
+* or-2672 set up e2e test for verfijn naar sub ([eecddf9](https://github.com/informatievlaanderen/association-registry/commit/eecddf9523bd15de66b6b704154d5283c48a29b0))
+* or-2673 clear SubverenigingVan in projections when changing subtype to nb or fv ([57c0bf9](https://github.com/informatievlaanderen/association-registry/commit/57c0bf9d827ece6be93241b6c687ae41cfcfe3ef))
+* or-2674 implement wijzig subtype for beheer historiek ([c6c2e7b](https://github.com/informatievlaanderen/association-registry/commit/c6c2e7babcf569014fde85fe9e8324569ed3f63d))
+* or-2674 implement wijzig subtype for beheer zoeken ([48b5d73](https://github.com/informatievlaanderen/association-registry/commit/48b5d73151ccd249aaf1057de06821a1723053b6))
+* or-2674 implement wijzig subtype in publiek detail ([17a1318](https://github.com/informatievlaanderen/association-registry/commit/17a1318f652f13ddfecf8c0b6ee7ecb8f8542274))
+* or-2674 implement wijzig subtype in publiek zoeken ([5df71ae](https://github.com/informatievlaanderen/association-registry/commit/5df71aee9029cb5bcb8316386e2386cd188d017d))
+* or-2674 implement wijzigen sub voor beheer detail ([922610e](https://github.com/informatievlaanderen/association-registry/commit/922610ee599d65c559b53d82c3c1eb7d1d0e209e))
+
 # [8.214.0](https://github.com/informatievlaanderen/association-registry/compare/v8.213.5...v8.214.0) (2025-03-12)
 
 
