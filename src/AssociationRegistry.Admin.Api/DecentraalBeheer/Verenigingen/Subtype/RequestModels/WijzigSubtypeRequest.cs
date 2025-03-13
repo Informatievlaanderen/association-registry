@@ -31,14 +31,14 @@ public class WijzigSubtypeRequest
     /// <para>Enkel verplicht bij het verfijnen naar subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
-    public string? Identificatie { get; set; } = string.Empty;
+    public string? Identificatie { get; set; }
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
     /// <para>Enkel verplicht bij het verfijnen naar subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
-    public string? Beschrijving { get; set; } = string.Empty;
+    public string? Beschrijving { get; set; }
 
     public VerfijnSubtypeNaarFeitelijkeVerenigingCommand ToVerfijnSubtypeNaarFeitelijkeVerenigingCommand(string vCodeAsString)
         => new(VCode.Create(vCodeAsString));
@@ -52,6 +52,6 @@ public class WijzigSubtypeRequest
             new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 VCode.Create(AndereVereniging!),
                 andereVerenigingNaam,
-                SubtypeIdentificatie.Create(Identificatie ?? string.Empty),
-                SubtypeBeschrijving.Create(Beschrijving ?? string.Empty)));
+                Identificatie is null ? null : SubtypeIdentificatie.Create(Identificatie),
+                Beschrijving is null ? null : SubtypeBeschrijving.Create(Beschrijving)));
 }
