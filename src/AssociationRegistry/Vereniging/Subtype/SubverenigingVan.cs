@@ -21,7 +21,7 @@ public record SubverenigingVan(VCode vCode)
             Identificatie = @event.SubverenigingVan.Identificatie,
         };
 
-    public SubverenigingVan Hydrate(DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd @event)
+    public SubverenigingVan Hydrate(SubverenigingDetailsWerdenGewijzigd @event)
         => new(VCode)
         {
             Beschrijving = @event.Beschrijving,

@@ -27,8 +27,8 @@ public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<
         {
             Subtype = Verenigingssubtype.Subvereniging.Code,
             AndereVereniging = _scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-            Beschrijving = _fixture.Create<string>(),
-            Identificatie = _fixture.Create<string>(),
+            Identificatie = "andere identificatie",
+            Beschrijving = "andere beschrijving",
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

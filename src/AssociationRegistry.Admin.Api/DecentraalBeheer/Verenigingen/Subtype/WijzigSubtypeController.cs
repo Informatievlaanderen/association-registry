@@ -77,7 +77,7 @@ public class WijzigSubtypeController : ApiController
     public async Task<IActionResult> WijzigSubtype(
         [FromRoute] string vCode,
         [FromBody] WijzigSubtypeRequest request,
-        [FromServices] IBeheerVerenigingDetailQuery detailQuery,
+        [FromServices] IGetNamesForVCodesQuery namesForVCodesQuery,
         [FromServices] IValidator<WijzigSubtypeRequest> validator,
         [FromServices] ICommandMetadataProvider metadataProvider,
         [FromHeader(Name = "If-Match")] string? ifMatch = null,
@@ -89,7 +89,7 @@ public class WijzigSubtypeController : ApiController
 
         // TODO: refactor and write test
         var naam = request.AndereVereniging is not null && request.Subtype == Verenigingssubtype.Subvereniging.Code
-            ? (await detailQuery.ExecuteAsync(new BeheerVerenigingDetailFilter(request.AndereVereniging), cancellationToken))?.Naam
+            ? (await namesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(request.AndereVereniging), cancellationToken))[request.AndereVereniging]
             : string.Empty;
 
         var gewenstSubtype = Verenigingssubtype.Parse(request.Subtype);

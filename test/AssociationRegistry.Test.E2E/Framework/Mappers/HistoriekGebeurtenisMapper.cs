@@ -600,4 +600,24 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? SubverenigingRelatieWerdGewijzigd(SubverenigingRelatieWerdGewijzigd @event)
+        => new()
+        {
+            Beschrijving = $"De relatie van het subtype werd gewijzigd.",
+            Gebeurtenis = nameof(SubverenigingRelatieWerdGewijzigd),
+            Data = @event,
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? SubverenigingDetailsWerdenGewijzigd(SubverenigingDetailsWerdenGewijzigd @event)
+        => new()
+        {
+            Beschrijving = $"De details van het subtype werden gewijzigd.",
+            Gebeurtenis = nameof(SubverenigingDetailsWerdenGewijzigd),
+            Data = @event,
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }

@@ -36,10 +36,15 @@ public class Returns_Historiek : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wi
     [Fact]
     public void With_All_Gebeurtenissen()
     {
-        var werdVerfijnd =
-            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging));
+        var relatieWerdGewijzigd =
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubverenigingRelatieWerdGewijzigd));
+        relatieWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.SubverenigingRelatieWerdGewijzigd(
+                                               new SubverenigingRelatieWerdGewijzigd(TestContext.VCode, TestContext.Request.AndereVereniging, TestContext.Scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam)),
+                                           compareConfig: HistoriekComparisonConfig.Instance);
 
-        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarFeitelijkeVereniging(TestContext.VCode),
+        var detailWerdGewijzigd =
+            Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubverenigingDetailsWerdenGewijzigd));
+        detailWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.SubverenigingDetailsWerdenGewijzigd(new SubverenigingDetailsWerdenGewijzigd(TestContext.VCode, TestContext.Request.Identificatie, TestContext.Request.Beschrijving)),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

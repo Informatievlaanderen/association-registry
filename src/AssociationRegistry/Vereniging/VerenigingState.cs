@@ -813,7 +813,7 @@ public record VerenigingState : IHasVersion
             SubverenigingVan = SubverenigingVan.Hydrate(@event),
         };
 
-    public VerenigingState Apply(DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd @event)
+    public VerenigingState Apply(SubverenigingDetailsWerdenGewijzigd @event)
         => this with
         {
             SubverenigingVan = SubverenigingVan.Hydrate(@event),

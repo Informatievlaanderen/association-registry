@@ -871,7 +871,7 @@ public class BeheerVerenigingDetailProjector
         };
     }
 
-    public static void Apply(IEvent<DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd> @event, BeheerVerenigingDetailDocument document)
+    public static void Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, BeheerVerenigingDetailDocument document)
     {
         document.SubverenigingVan = document.SubverenigingVan! with
         {
