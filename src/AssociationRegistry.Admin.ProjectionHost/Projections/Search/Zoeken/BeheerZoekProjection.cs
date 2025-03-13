@@ -684,7 +684,6 @@ public class BeheerZoekProjectionHandler
                 SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
                 {
                     AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
-                    AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
                     Identificatie = @event.Data.SubverenigingVan.Identificatie,
                     Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
                 }
@@ -701,6 +700,33 @@ public class BeheerZoekProjectionHandler
                 {
                     Code = Verenigingssubtype.NietBepaald.Code,
                     Naam = Verenigingssubtype.NietBepaald.Naam,
+                },
+            });
+    }
+
+    public async Task Handle(EventEnvelope<SubverenigingRelatieWerdGewijzigd> @event)
+    {
+        await _elasticRepository.UpdateAsync(
+            @event.VCode,
+            new VerenigingZoekDocument
+            {
+                SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+                {
+                    AndereVereniging = @event.Data.AndereVereniging,
+                },
+            });
+    }
+
+    public async Task Handle(EventEnvelope<SubverenigingDetailsWerdenGewijzigd> @event)
+    {
+        await _elasticRepository.UpdateAsync(
+            @event.VCode,
+            new VerenigingZoekDocument
+            {
+                SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
+                {
+                    Identificatie = @event.Data.Identificatie,
+                    Beschrijving = @event.Data.Beschrijving,
                 },
             });
     }
