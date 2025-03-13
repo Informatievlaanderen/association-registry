@@ -842,11 +842,13 @@ public class BeheerVerenigingDetailProjector
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.FeitelijkeVereniging);
+        document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
         document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(Verenigingssubtype.NietBepaald);
+        document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, BeheerVerenigingDetailDocument document)

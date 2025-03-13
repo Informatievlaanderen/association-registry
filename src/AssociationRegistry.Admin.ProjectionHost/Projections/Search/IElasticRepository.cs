@@ -12,6 +12,7 @@ public interface IElasticRepository
 
     void Update<TDocument>(string id, TDocument update) where TDocument : class;
     Task UpdateAsync<TDocument>(string id, TDocument update) where TDocument : class;
+    Task UpdateVerenigingsTypeAndClearSubverenigingVan<TDocument>(string id, string code, string naam) where TDocument : class;
     Task UpdateStartdatum<TDocument>(string id, DateOnly? startdatum) where TDocument : class;
     Task<VerenigingZoekDocument.Types.Locatie> GetLocatie(string id, int locatieId);
     Task AppendLocatie<TDocument>(string id, ILocatie locatie) where TDocument : class;
