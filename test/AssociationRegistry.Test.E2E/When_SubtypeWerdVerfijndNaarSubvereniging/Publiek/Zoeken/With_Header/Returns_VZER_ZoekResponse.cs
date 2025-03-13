@@ -23,7 +23,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
     [Fact]
     public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json");
     }
 
     [Fact]
@@ -37,7 +37,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
             Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
         });
 
-        vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan
+        vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan
         {
             AndereVereniging = _testContext.Request.AndereVereniging!,
             Beschrijving = _testContext.Request.Beschrijving!,
@@ -46,5 +46,5 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
+        => setup => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }
