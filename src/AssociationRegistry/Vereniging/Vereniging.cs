@@ -321,7 +321,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                              registratieData));
     }
 
-    public void VerfijnNaarSubvereniging(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
+    public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
         IEvent[] events;
 
