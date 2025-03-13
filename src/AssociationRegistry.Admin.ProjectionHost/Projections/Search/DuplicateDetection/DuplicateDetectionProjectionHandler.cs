@@ -249,12 +249,22 @@ public class DuplicateDetectionProjectionHandler
                 VerenigingssubtypeCode = Verenigingssubtype.FeitelijkeVereniging.Code,
             }
         );
+
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
             new DuplicateDetectionUpdateDocument
             {
                 VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
+            }
+        );
+
+    public async Task Handle(EventEnvelope<VerenigingssubtypeWerdVerfijndNaarSubvereniging> message)
+        => await _elasticRepository.UpdateAsync(
+            message.VCode,
+            new DuplicateDetectionUpdateDocument
+            {
+                VerenigingssubtypeCode = Verenigingssubtype.Subvereniging.Code,
             }
         );
 

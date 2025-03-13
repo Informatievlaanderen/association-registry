@@ -48,6 +48,7 @@ public class DuplicateDetectionEventsConsumer : IMartenEventsConsumer
                 case nameof(MarkeringDubbeleVerengingWerdGecorrigeerd):
                 case nameof(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging):
                 case nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald):
+                case nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging):
                     await _duplicateDetectionProjectionHandler.Handle(eventEnvelope);
 
                     break;
