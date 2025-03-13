@@ -27,7 +27,7 @@ public class Given_A_Different_Subtype
 
         var command = new VerfijnSubtypeNaarSubverenigingCommand(
             scenario.VCode,
-            new AssociationRegistry.DecentraalBeheer.Subtype.SubverenigingVan(
+            new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 fixture.Create<VCode>(),
                 fixture.Create<string>(),
                 SubtypeIdentificatie.Create(fixture.Create<string>()),

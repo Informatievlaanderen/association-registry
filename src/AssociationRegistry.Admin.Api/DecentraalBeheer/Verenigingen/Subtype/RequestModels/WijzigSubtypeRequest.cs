@@ -49,7 +49,7 @@ public class WijzigSubtypeRequest
     public VerfijnSubtypeNaarSubverenigingCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
         => new(
             VCode.Create(vCodeAsString),
-            new DecentraalBeheer.Subtype.SubverenigingVan(
+            new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 VCode.Create(AndereVereniging!),
                 andereVerenigingNaam,
                 SubtypeIdentificatie.Create(Identificatie ?? string.Empty),

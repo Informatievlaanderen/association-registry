@@ -52,6 +52,7 @@ public class Returns_VerenigingenPerInszResponse :
                         Code = Verenigingssubtype.Subvereniging.Code,
                         Naam = Verenigingssubtype.Subvereniging.Naam,
                     },
+                    
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

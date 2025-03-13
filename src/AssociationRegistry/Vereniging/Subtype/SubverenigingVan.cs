@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
+using DecentraalBeheer.Subtype;
 using EventFactories;
 using Events;
 
@@ -15,6 +16,7 @@ public record SubverenigingVan(VCode vCode)
         => new(VCode)
         {
             AndereVereniging = @event.SubverenigingVan.AndereVereniging,
+            AndereVerenigingNaam = @event.SubverenigingVan.AndereVerenigingNaam,
             Beschrijving = @event.SubverenigingVan.Beschrijving,
             Identificatie = @event.SubverenigingVan.Identificatie,
         };
@@ -36,55 +38,39 @@ public record SubverenigingVan(VCode vCode)
     public static SubverenigingVan Create(VCode vCode)
         => new(vCode);
 
-    public IEvent[] Verfijn(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => [EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(VCode, ToAndereVerenging(subverenigingVan))];
+    public IEvent[] Verfijn(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+        =>
+        [
+            EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(
+                VCode,
+                subverenigingVan.AndereVereniging!,
+                subverenigingVan.AndereVerenigingNaam!,
+                subverenigingVan.Identificatie!,
+                subverenigingVan.Beschrijving!),
+        ];
 
-    public IEvent[] Wijzig(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
+    public IEvent[] Wijzig(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
     {
         IEvent[] events = [];
 
-        if (HasRelatieChanges(subverenigingVan))
-        {
-            var teWijzigen = ToWijzigRelatie(subverenigingVan);
-            events = events.Append(EventFactory.SubverenigingRelatieWerdGewijzigd(VCode,teWijzigen)).ToArray();
-        }
+        if (HasRelatieChanges(commandSubverenigingVan))
+            events = events.Append(EventFactory.SubverenigingRelatieWerdGewijzigd(VCode, commandSubverenigingVan.AndereVereniging!, commandSubverenigingVan.AndereVerenigingNaam!)).ToArray();
 
-        if (HasDetailChanges(subverenigingVan))
+        if (HasDetailChanges(commandSubverenigingVan))
         {
-            var teWijzigen = ToWijzigDetail(subverenigingVan);
-            events = events.Append(EventFactory.DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(VCode,teWijzigen)).ToArray();
+            var identificatie = commandSubverenigingVan.Identificatie ?? Identificatie;
+            var beschrijving = commandSubverenigingVan.Beschrijving ?? Beschrijving;
+
+            events = events.Append(EventFactory.DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(VCode, identificatie, beschrijving)).ToArray();
         }
 
         return events;
     }
 
-    public SubverenigingVan ToAndereVerenging(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => this with
-        {
-            AndereVereniging =  subverenigingVan.AndereVereniging!,
-            AndereVerenigingNaam = subverenigingVan.AndereVerenigingNaam!,
-            Identificatie =  subverenigingVan.Identificatie!,
-            Beschrijving = subverenigingVan.Beschrijving!,
-        };
+    private bool HasRelatieChanges(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
+        => commandSubverenigingVan.AndereVereniging is not null && AndereVereniging != commandSubverenigingVan.AndereVereniging;
 
-    public SubverenigingVan ToWijzigRelatie(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => this with
-        {
-            AndereVereniging =  subverenigingVan.AndereVereniging ?? AndereVereniging,
-            AndereVerenigingNaam = subverenigingVan.AndereVerenigingNaam ?? AndereVerenigingNaam,
-        };
-
-    public SubverenigingVan ToWijzigDetail(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => this with
-        {
-            Identificatie =  subverenigingVan.Identificatie ?? Identificatie,
-            Beschrijving = subverenigingVan.Beschrijving ?? Beschrijving,
-        };
-
-    private bool HasRelatieChanges(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => subverenigingVan.AndereVereniging is not null && AndereVereniging != subverenigingVan.AndereVereniging;
-
-    private bool HasDetailChanges(DecentraalBeheer.Subtype.SubverenigingVan subverenigingVan)
-        => subverenigingVan.Beschrijving is not null && Beschrijving != subverenigingVan.Beschrijving ||
-           subverenigingVan.Identificatie is not null && Identificatie != subverenigingVan.Identificatie;
+    private bool HasDetailChanges(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
+        => commandSubverenigingVan.Beschrijving is not null && Beschrijving != commandSubverenigingVan.Beschrijving ||
+           commandSubverenigingVan.Identificatie is not null && Identificatie != commandSubverenigingVan.Identificatie;
 }

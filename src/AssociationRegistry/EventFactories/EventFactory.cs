@@ -6,7 +6,6 @@ using GemeentenaamDecorator;
 using Grar.Models;
 using Kbo;
 using Vereniging;
-using SubverenigingVan = Vereniging.SubverenigingVan;
 
 public static class EventFactory
 {
@@ -342,24 +341,29 @@ public static class EventFactory
 
     public static VerenigingssubtypeWerdVerfijndNaarSubvereniging VerenigingssubtypeWerdVerfijndNaarSubvereniging(
         VCode vCode,
-        SubverenigingVan subverenigingVan)
+        string andereVereniging,
+        string andereVerenigingNaam,
+        string identificatie,
+        string beschrijving)
         => new(vCode,
-               new Registratiedata.SubverenigingVan(subverenigingVan.AndereVereniging,
-                                                    subverenigingVan.AndereVerenigingNaam,
-                                                    subverenigingVan.Identificatie,
-                                                    subverenigingVan.Beschrijving));
+               new Registratiedata.SubverenigingVan(andereVereniging,
+                                                    andereVerenigingNaam,
+                                                    identificatie,
+                                                    beschrijving));
 
     public static SubverenigingRelatieWerdGewijzigd SubverenigingRelatieWerdGewijzigd(
         VCode vCode,
-        SubverenigingVan subverenigingVan)
+        string andereVereniging,
+        string andereVerenigingNaam)
         => new(vCode,
-               subverenigingVan.AndereVereniging,
-               subverenigingVan.AndereVerenigingNaam);
+               andereVereniging,
+               andereVerenigingNaam);
 
     public static DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(
         VCode vCode,
-        SubverenigingVan subverenigingVan)
+        string identificatie,
+        string beschrijving)
         => new(vCode,
-               subverenigingVan.Identificatie,
-               subverenigingVan.Beschrijving);
+               identificatie,
+               beschrijving);
 }
