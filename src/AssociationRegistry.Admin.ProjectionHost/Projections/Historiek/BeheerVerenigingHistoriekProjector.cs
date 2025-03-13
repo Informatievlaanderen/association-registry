@@ -759,6 +759,26 @@ public class BeheerVerenigingHistoriekProjector
         );
     }
 
+    public static void Apply(IEvent<SubverenigingRelatieWerdGewijzigd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            "De relatie van het subtype werd gewijzigd."
+        );
+    }
+
+    public static void Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, BeheerVerenigingHistoriekDocument document)
+    {
+        AddHistoriekEntry(
+            @event,
+            @event.Data,
+            document,
+            "De details van het subtype werden gewijzigd."
+        );
+    }
+
 
     private static BeheerVerenigingHistoriekDocument CreateNewDocument(string vCode)
         => new()

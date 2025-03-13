@@ -359,7 +359,7 @@ public static class EventFactory
                andereVereniging,
                andereVerenigingNaam);
 
-    public static DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(
+    public static SubverenigingDetailsWerdenGewijzigd DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(
         VCode vCode,
         string identificatie,
         string beschrijving)

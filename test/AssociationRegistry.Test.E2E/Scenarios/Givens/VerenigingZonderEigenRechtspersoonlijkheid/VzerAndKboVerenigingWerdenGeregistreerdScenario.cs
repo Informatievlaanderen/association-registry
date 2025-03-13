@@ -30,6 +30,7 @@ public class VzerAndKboVerenigingWerdenGeregistreerdScenario : IScenario
         VerenigingMetRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingMetRechtspersoonlijkheidWerdGeregistreerd>() with
         {
             VCode = await service.GetNext(),
+            Naam = "Vereniging met rechtspersoonlijkheid",
         };
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
