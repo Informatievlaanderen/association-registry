@@ -880,15 +880,16 @@ public static class PubliekVerenigingDetailProjector
 
     public static void Apply(IEvent<SubverenigingRelatieWerdGewijzigd> @event, PubliekVerenigingDetailDocument document)
     {
-        document.SubverenigingVan = new PubliekVerenigingDetailDocument.Types.SubverenigingVan
+        document.SubverenigingVan = document.SubverenigingVan! with
         {
             AndereVereniging = @event.Data.AndereVereniging,
+            AndereVerenigingNaam = @event.Data.AndereVerenigingNaam,
         };
     }
 
     public static void Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, PubliekVerenigingDetailDocument document)
     {
-        document.SubverenigingVan = new PubliekVerenigingDetailDocument.Types.SubverenigingVan
+        document.SubverenigingVan = document.SubverenigingVan! with
         {
             Identificatie = @event.Data.Identificatie,
             Beschrijving = @event.Data.Beschrijving,

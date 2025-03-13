@@ -46,12 +46,11 @@ public class WijzigSubtypeRequest
     public ZetSubtypeTerugNaarNietBepaaldCommand ToZetSubtypeTerugNaarNietBepaaldCommand(string vCodeAsString)
         => new(VCode.Create(vCodeAsString));
 
-    public VerfijnSubtypeNaarSubverenigingCommand ToWijzigSubtypeCommand(string vCodeAsString, string? andereVerenigingNaam)
+    public VerfijnSubtypeNaarSubverenigingCommand ToWijzigSubtypeCommand(string vCodeAsString)
         => new(
             VCode.Create(vCodeAsString),
             new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 VCode.Create(AndereVereniging!),
-                andereVerenigingNaam,
                 Identificatie is null ? null : SubtypeIdentificatie.Create(Identificatie),
                 Beschrijving is null ? null : SubtypeBeschrijving.Create(Beschrijving)));
 }

@@ -87,11 +87,6 @@ public class WijzigSubtypeController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
 
-        // TODO: refactor and write test
-        var naam = request.AndereVereniging is not null && request.Subtype == Verenigingssubtype.Subvereniging.Code
-            ? (await namesForVCodesQuery.ExecuteAsync(new GetNamesForVCodesFilter(request.AndereVereniging), cancellationToken))[request.AndereVereniging]
-            : string.Empty;
-
         var gewenstSubtype = Verenigingssubtype.Parse(request.Subtype);
         CommandResult? commandResult = null;
         if (gewenstSubtype.IsFeitelijkeVereniging)
@@ -108,7 +103,7 @@ public class WijzigSubtypeController : ApiController
 
         if (gewenstSubtype.IsSubVereniging)
         {
-            var command = request.ToWijzigSubtypeCommand(vCode, naam);
+            var command = request.ToWijzigSubtypeCommand(vCode);
             var envelope = new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, metaData);
             commandResult = await _messageBus.InvokeAsync<CommandResult>(envelope, cancellationToken);
         }
