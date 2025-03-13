@@ -4,7 +4,7 @@ using AssociationRegistry.Test.Projections.Scenario.Verenigingssubtypes;
 using AssociationRegistry.Vereniging;
 
 [Collection(nameof(ProjectionContext))]
-public class Given_VerenigingZonderRechtspersoonlijkheidWerdRegistreerd(DuplicateDetectionScenarioFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario> fixture)
+public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(DuplicateDetectionScenarioFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario> fixture)
     : DuplicateDetectionClassFixture<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario>
 {
     [Fact]
