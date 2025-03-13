@@ -27,7 +27,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async Task WithVereniging()
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
@@ -35,6 +35,12 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
         {
             Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
             Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
+        });
+        vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        {
+            AndereVereniging = _testContext.Request.AndereVereniging!,
+            Beschrijving = _testContext.Request.Beschrijving!,
+            Identificatie = _testContext.Request.Identificatie!,
         });
     }
 
