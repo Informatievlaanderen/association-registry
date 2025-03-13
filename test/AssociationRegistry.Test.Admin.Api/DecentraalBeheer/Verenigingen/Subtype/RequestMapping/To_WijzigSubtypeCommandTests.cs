@@ -61,14 +61,13 @@ public class To_WijzigSubtypeCommandTests
         };
 
         var vCode = fixture.Create<VCode>();
-        var naam = fixture.Create<string>();
-        var command = request.ToWijzigSubtypeCommand(vCode, naam);
+        var command = request.ToWijzigSubtypeCommand(vCode);
         command.Should().BeOfType(typeof(VerfijnSubtypeNaarSubverenigingCommand));
 
         command.VCode.Should().Be(vCode);
         command.SubverenigingVan.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
         command.SubverenigingVan.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
         command.SubverenigingVan.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
-        command.SubverenigingVan.AndereVerenigingNaam.Should().Be(naam);
+        command.SubverenigingVan.AndereVerenigingNaam.Should().BeNull();
     }
 }
