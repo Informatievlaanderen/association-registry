@@ -51,6 +51,27 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
+    public async Task UpdateVerenigingsTypeAndClearSubverenigingVan<TDocument>(string id, string code, string naam) where TDocument : class
+    {
+        var response = await _elasticClient.UpdateAsync<TDocument>(
+            id,
+            u => u.Script(s => s
+                              .Source(
+                                   "ctx._source.subverenigingVan = null;" +
+                                   "ctx._source.verenigingssubtype.code = params.code;" +
+                                   "ctx._source.verenigingssubtype.naam = params.naam;")
+                              .Params(p => p
+                                          .Add("code", code)
+                                          .Add("naam", naam)
+                               )
+            )
+        );
+
+        if (!response.IsValid)
+            throw new IndexDocumentFailed(response.DebugInformation);
+    }
+
+
     public async Task UpdateStartdatum<TDocument>(string id, DateOnly? startdatum) where TDocument : class
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
@@ -72,6 +93,7 @@ public class ElasticRepository : IElasticRepository
         var response = await _elasticClient.GetAsync<VerenigingZoekDocument>(id);
 
         var locatie = response.Source.Locaties.SingleOrDefault(sod => sod.LocatieId == locatieId);
+
         return locatie;
     }
 
@@ -118,7 +140,7 @@ public class ElasticRepository : IElasticRepository
 
     public async Task UpdateAdres<T>(string id, int locatieId, string adresVoorstelling, string postcode, string gemeente) where T : class
     {
-       var response = await _elasticClient.UpdateAsync<T>(
+        var response = await _elasticClient.UpdateAsync<T>(
             id,
             selector: u => u.Script(
                 s => s
