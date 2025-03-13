@@ -19,6 +19,14 @@ public class VerfijnSubtypeNaarSubverenigingCommandHandler
                 VCode.Create(envelope.Command.VCode),
                 envelope.Metadata.ExpectedVersion);
 
+         if (envelope.Command.SubverenigingVan.AndereVereniging is not null)
+         {
+             var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
+                 VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
+
+             envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
+         }
+
             //if (await _verenigingRepository.IsVerwijderd(teWijzigenSubtype.AndereVereniging))
             //    throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
             // vereniging.WijzigSubtype

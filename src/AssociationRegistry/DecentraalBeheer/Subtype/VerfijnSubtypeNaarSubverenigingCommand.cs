@@ -10,9 +10,11 @@ public record VerfijnSubtypeNaarSubverenigingCommand(
     {
         public record SubverenigingVan(
             VCode? AndereVereniging,
-            string? AndereVerenigingNaam,
             SubtypeIdentificatie? Identificatie,
-            SubtypeBeschrijving? Beschrijving);
+            SubtypeBeschrijving? Beschrijving)
+        {
+            public string AndereVerenigingNaam { get; set; } = string.Empty;
+        };
     }
 }
 

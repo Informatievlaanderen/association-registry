@@ -9,6 +9,7 @@ public abstract class VerenigingsBase
 
     public VCode VCode
         => State.VCode;
+    public string Naam => State.Naam;
 
     public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
 
