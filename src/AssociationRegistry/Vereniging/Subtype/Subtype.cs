@@ -32,6 +32,9 @@ public class Verenigingssubtype : IVerenigingssubtype
     public static Verenigingssubtype Parse(string code)
         => All.Single(t => t.Code == code);
 
+    public static bool IsValidSubtypeCode(string code)
+        => All.Any(t => t.Code == code);
+
     public static bool IsGeenSubVereniging(string code)
         => code != Subvereniging.Code;
 
