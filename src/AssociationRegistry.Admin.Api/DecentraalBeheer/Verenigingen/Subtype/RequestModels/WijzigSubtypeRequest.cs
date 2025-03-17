@@ -21,7 +21,7 @@ public class WijzigSubtypeRequest
 
     /// <summary>
     /// De vCode van de andere vereniging.
-    /// <para>Enkel relevant bij verfijnen naar of wijzigen van een subvereniging.</para>
+    /// <para>Verplicht bij het verfijnen naar een subvereniging en verder enkel relevant bij het wijzigen van een subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
     public string? AndereVereniging { get; set; }
