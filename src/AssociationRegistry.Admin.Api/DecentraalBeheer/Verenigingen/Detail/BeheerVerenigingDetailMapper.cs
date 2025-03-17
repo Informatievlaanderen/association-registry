@@ -65,7 +65,7 @@ public class BeheerVerenigingDetailMapper
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
             Verenigingssubtype =
                 _verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
-            SubVerenigingVan =
+            SubverenigingVan =
                 _verenigingstypeMapper.MapSubverenigingVan(
                     vereniging.Verenigingssubtype,
                     () => new SubverenigingVan
