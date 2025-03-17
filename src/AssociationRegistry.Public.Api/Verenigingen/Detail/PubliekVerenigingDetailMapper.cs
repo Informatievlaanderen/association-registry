@@ -43,7 +43,7 @@ public class PubliekVerenigingDetailMapper
                 VCode = document.VCode,
                 Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, PubliekVerenigingDetailDocument.Types.Verenigingstype>(document.Verenigingstype),
                 Verenigingssubtype = _verenigingstypeMapper.MapSubtype<Verenigingssubtype,  PubliekVerenigingDetailDocument.Types.Verenigingssubtype>(document.Verenigingssubtype),
-                SubVerenigingVan = _verenigingstypeMapper.MapSubverenigingVan(document.Verenigingssubtype, () =>
+                SubverenigingVan = _verenigingstypeMapper.MapSubverenigingVan(document.Verenigingssubtype, () =>
                 new SubverenigingVan()
                 {
                    AndereVereniging = document.SubverenigingVan.AndereVereniging,

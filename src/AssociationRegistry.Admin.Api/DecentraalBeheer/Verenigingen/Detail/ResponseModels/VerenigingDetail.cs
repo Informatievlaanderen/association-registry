@@ -26,8 +26,8 @@ public class VerenigingDetail
     public Verenigingssubtype? Verenigingssubtype { get; init; } = null!;
 
     /// <summary>Extra informatie over het subtype van deze vereniging</summary>
-    [DataMember(Name = "SubVerenigingVan", EmitDefaultValue = false)]
-    public SubverenigingVan? SubVerenigingVan { get; init; } = null!;
+    [DataMember(Name = "SubverenigingVan", EmitDefaultValue = false)]
+    public SubverenigingVan? SubverenigingVan { get; init; } = null!;
 
 
     /// <summary>Naam van de vereniging</summary>

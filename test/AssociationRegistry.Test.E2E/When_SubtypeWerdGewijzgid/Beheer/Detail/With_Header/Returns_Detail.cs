@@ -40,7 +40,7 @@ public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wijzi
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
 
-        Response.Vereniging.SubVerenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
+        Response.Vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
             Naam = _context.Scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
             AndereVereniging = _context.Request.AndereVereniging!,
