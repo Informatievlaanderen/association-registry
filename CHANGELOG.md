@@ -1,3 +1,12 @@
+# [8.216.0](https://github.com/informatievlaanderen/association-registry/compare/v8.215.0...v8.216.0) (2025-03-17)
+
+
+### Features
+
+* or-2672 choose other wording for id and beschrijving subvereniging ([71bcfa2](https://github.com/informatievlaanderen/association-registry/commit/71bcfa2efc44e07609a06cc21dd236b25ecf4cc1))
+* or-2672 clarify AndereVerening property in docs ([c19b500](https://github.com/informatievlaanderen/association-registry/commit/c19b500d99cdc82599d228f086c8c461c1d77ff1))
+* or-2672 correct casing in subvereningVan properties in adm/pub api ([e524352](https://github.com/informatievlaanderen/association-registry/commit/e52435224bec1e516eb23a3585e96e60f0a3e20a))
+
 # [8.215.0](https://github.com/informatievlaanderen/association-registry/compare/v8.214.0...v8.215.0) (2025-03-13)
 
 
