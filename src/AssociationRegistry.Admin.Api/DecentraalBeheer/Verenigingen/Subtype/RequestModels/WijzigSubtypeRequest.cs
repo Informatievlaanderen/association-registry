@@ -21,21 +21,21 @@ public class WijzigSubtypeRequest
 
     /// <summary>
     /// De vCode van de andere vereniging.
-    /// <para>Enkel verplicht bij het verfijnen naar subvereniging.</para>
+    /// <para>Enkel relevant bij verfijnen naar of wijzigen van een subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
     public string? AndereVereniging { get; set; }
 
     /// <summary>
     /// De externe identificatie voor het lidmaatschap
-    /// <para>Enkel verplicht bij het verfijnen naar subvereniging.</para>
+    /// <para>Enkel relevant bij verfijnen naar of wijzigen van een subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
     public string? Identificatie { get; set; }
 
     /// <summary>
     /// De externe beschrijving van het lidmaatschap
-    /// <para>Enkel verplicht bij het verfijnen naar subvereniging.</para>
+    /// <para>Enkel relevant bij verfijnen naar of wijzigen van een subvereniging.</para>
     /// </summary>
     [DataMember(EmitDefaultValue = false)]
     public string? Beschrijving { get; set; }
