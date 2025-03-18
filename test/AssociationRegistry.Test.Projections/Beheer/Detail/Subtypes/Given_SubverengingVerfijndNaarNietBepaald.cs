@@ -5,8 +5,8 @@ using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_SubverengingVerfijndNaarNietBepaald(
-    BeheerDetailScenarioFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario> fixture)
-    : BeheerDetailScenarioClassFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario>
+    BeheerDetailScenarioFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario> fixture)
+    : BeheerDetailScenarioClassFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario>
 {
     [Fact]
     public void Metadata_Is_Updated()
