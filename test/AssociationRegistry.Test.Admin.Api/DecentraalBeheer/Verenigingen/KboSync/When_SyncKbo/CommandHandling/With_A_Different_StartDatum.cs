@@ -22,7 +22,7 @@ public class With_A_Different_StartDatum
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
     private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
-    private readonly DateOnly _newStartdatum;
+    private DateOnly _newStartdatum;
     private readonly Mock<INotifier> _notifierMock;
 
     public With_A_Different_StartDatum()
@@ -32,7 +32,7 @@ public class With_A_Different_StartDatum
         _notifierMock = new Mock<INotifier>();
 
         var fixture = new Fixture().CustomizeAdminApi();
-        _newStartdatum = fixture.Create<DateOnly>();
+        _newStartdatum = _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value.AddDays(fixture.Create<int>());
 
         var verenigingVolgensKbo = _scenario.VerenigingVolgensKbo;
         verenigingVolgensKbo.Startdatum = _newStartdatum;
