@@ -1,3 +1,10 @@
+## [8.216.1](https://github.com/informatievlaanderen/association-registry/compare/v8.216.0...v8.216.1) (2025-03-18)
+
+
+### Bug Fixes
+
+* or-2693 only use 100 percent score for AdresWerdOvergenomenUitAdressenregister ([86e8566](https://github.com/informatievlaanderen/association-registry/commit/86e856683a0d24b0cb0e38d302f062da51ebc1fa))
+
 # [8.216.0](https://github.com/informatievlaanderen/association-registry/compare/v8.215.0...v8.216.0) (2025-03-17)
 
 
