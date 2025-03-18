@@ -11,7 +11,10 @@ public record AddressMatchResponse(
     string Busnummer,
     string Postcode,
     string Gemeente
-): IAddressResponse;
+) : IAddressResponse
+{
+    public const double PerfectScore = 100;
+};
 
 public record AddressDetailResponse(
     Registratiedata.AdresId AdresId,

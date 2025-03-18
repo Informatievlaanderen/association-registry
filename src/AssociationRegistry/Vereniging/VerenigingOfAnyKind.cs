@@ -9,6 +9,7 @@ using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
 using Grar;
+using Grar.AdresMatch;
 using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;
@@ -218,7 +219,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
         try
         {
-            var @event = await GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken);
+            var @event = await AdresMatchService.GetAdresMatchEvent(locatieId, locatie, grarClient, cancellationToken, VCode);
 
             if (@event is not AdresWerdOvergenomenUitAdressenregister adresWerdOvergenomen)
             {
@@ -301,53 +302,6 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         AddEvent(new AdresWerdOvergenomenUitAdressenregister(VCode, locatie.LocatieId,
                                                              adresDetailResponse.AdresId,
                                                              registratieData));
-    }
-
-    private async Task<IEvent> GetAdresMatchEvent(
-        int locatieId,
-        Locatie locatie,
-        IGrarClient grarClient,
-        CancellationToken cancellationToken)
-    {
-        if (locatie is null)
-        {
-            return new AdresKonNietOvergenomenWordenUitAdressenregister(VCode,
-                                                                        locatieId,
-                                                                        string.Empty,
-                                                                        AdresKonNietOvergenomenWordenUitAdressenregister
-                                                                           .RedenLocatieWerdVerwijderd);
-        }
-
-        var adresMatches = await grarClient.GetAddressMatches(
-            locatie.Adres.Straatnaam,
-            locatie.Adres.Huisnummer,
-            locatie.Adres.Busnummer,
-            locatie.Adres.Postcode,
-            locatie.Adres.Gemeente.Naam,
-            cancellationToken);
-
-        var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
-
-        if (adresMatches.HasNoResponse)
-            return EventFactory.AdresWerdNietGevondenInAdressenregister(VCode, locatie);
-
-        if (!adresMatches.HasSingularResponse)
-            return new AdresNietUniekInAdressenregister(VCode, locatieId,
-                                                        adresMatches.Select(EventFactory.NietUniekeAdresMatchUitAdressenregister)
-                                                                    .ToArray());
-
-        var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
-            locatie.Adres.Gemeente,
-            postalInformation,
-            adresMatches.SingularResponse.Gemeente);
-
-        var registratieData =
-            EventFactory.AdresUitAdressenregister(
-                adresMatches.SingularResponse, verrijkteGemeentenaam);
-
-        return new AdresWerdOvergenomenUitAdressenregister(VCode, locatieId,
-                                                           adresMatches.SingularResponse.AdresId!,
-                                                           registratieData);
     }
 
     private IEvent GetAdresMatchExceptionEvent(
