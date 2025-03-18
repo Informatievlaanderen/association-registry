@@ -19,6 +19,7 @@ using HoofdactiviteitVerenigingsloket = Schema.PowerBiExport.HoofdactiviteitVere
 using IEvent = Marten.Events.IEvent;
 using Lidmaatschap = Schema.PowerBiExport.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
+using SubverenigingVan = Schema.Detail.SubverenigingVan;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
@@ -79,6 +80,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         {
             VCode = @event.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
+            Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald),
             Naam = @event.Data.Naam,
             KorteNaam = @event.Data.KorteNaam,
             KorteBeschrijving = @event.Data.KorteBeschrijving,
@@ -973,6 +975,7 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PowerBiExportDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald);
 
         document.DatumLaatsteAanpassing =
             @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
@@ -1070,6 +1073,72 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
 
     public void Apply(IEvent<VerenigingWerdIngeschrevenOpWijzigingenUitKbo> @event, PowerBiExportDocument document)
     {
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, PowerBiExportDocument document)
+    {
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging);
+        document.SubverenigingVan = null;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, PowerBiExportDocument document)
+    {
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald);
+        document.SubverenigingVan = null;
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, PowerBiExportDocument document)
+    {
+        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging);
+        document.SubverenigingVan = new SubverenigingVan()
+        {
+            AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
+           // AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
+            Identificatie = @event.Data.SubverenigingVan.Identificatie,
+            Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
+        };
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<SubverenigingRelatieWerdGewijzigd> @event, PowerBiExportDocument document)
+    {
+        document.SubverenigingVan = document.SubverenigingVan! with
+        {
+            AndereVereniging = @event.Data.AndereVereniging,
+        };
+
+        document.DatumLaatsteAanpassing =
+            @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
+
+        UpdateHistoriek(document, @event);
+    }
+
+    public void Apply(IEvent<SubverenigingDetailsWerdenGewijzigd> @event, PowerBiExportDocument document)
+    {
+        document.SubverenigingVan = document.SubverenigingVan! with
+        {
+            Identificatie = @event.Data.Identificatie,
+            Beschrijving = @event.Data.Beschrijving,
+        };
+
         document.DatumLaatsteAanpassing =
             @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();
 

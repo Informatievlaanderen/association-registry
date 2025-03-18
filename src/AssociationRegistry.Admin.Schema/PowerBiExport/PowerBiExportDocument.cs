@@ -9,6 +9,9 @@ public record PowerBiExportDocument : IVCode
     public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
     public string Naam { get; set; } = null!;
     public Verenigingstype Verenigingstype { get; set; } = null!;
+    public Verenigingssubtype Verenigingssubtype { get; set; } = null!;
+
+    public SubverenigingVan? SubverenigingVan { get; set; } = null!;
     public string Roepnaam { get; set; } = null!;
     public string? KorteNaam { get; set; }
     public string? KorteBeschrijving { get; set; }

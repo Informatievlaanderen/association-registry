@@ -31,7 +31,12 @@ public class BasisgegevensRecordWriter : IRecordWriter
                                        vereniging.KboNummer,
                                        string.Join(", ", vereniging.CorresponderendeVCodes),
                                        vereniging.AantalVertegenwoordigers,
-                                       vereniging.DatumLaatsteAanpassing));
+                                       vereniging.DatumLaatsteAanpassing,
+                                       vereniging.Verenigingssubtype.Code,
+                                       vereniging.Verenigingssubtype.Naam,
+                                       vereniging.SubverenigingVan?.AndereVereniging ?? string.Empty,
+                                       vereniging.SubverenigingVan?.Identificatie ?? string.Empty,
+                                       vereniging.SubverenigingVan?.Beschrijving ?? string.Empty));
 
             await csvWriter.NextRecordAsync();
         }

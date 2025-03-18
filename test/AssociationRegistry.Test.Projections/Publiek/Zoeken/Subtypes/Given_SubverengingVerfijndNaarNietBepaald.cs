@@ -4,8 +4,8 @@ using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_SubverengingVerfijndNaarNietBepaald(
-    PubliekZoekenScenarioFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario> fixture)
-    : PubliekZoekenScenarioClassFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario>
+    PubliekZoekenScenarioFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario> fixture)
+    : PubliekZoekenScenarioClassFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario>
 {
     [Fact]
     public void SubverenigingVan_Is_Cleared()

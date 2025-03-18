@@ -4,8 +4,8 @@ using AssociationRegistry.Test.Projections.Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_SubverengingVerfijndNaarNietBepaald(
-    BeheerZoekenScenarioFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario> fixture)
-    : BeheerZoekenScenarioClassFixture<SubverenigingWerdVerfijndNaarNietBepaaldScenario>
+    BeheerZoekenScenarioFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario> fixture)
+    : BeheerZoekenScenarioClassFixture<SubverenigingWerdTerugGezetNaarNietBepaaldScenario>
 {
     [Fact]
     public void SubverenigingVan_Is_Cleared()

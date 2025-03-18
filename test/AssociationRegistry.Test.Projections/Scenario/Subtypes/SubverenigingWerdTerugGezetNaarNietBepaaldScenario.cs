@@ -3,7 +3,7 @@
 using AutoFixture;
 using Events;
 
-public class SubverenigingWerdVerfijndNaarNietBepaaldScenario : ScenarioBase
+public class SubverenigingWerdTerugGezetNaarNietBepaaldScenario : ScenarioBase
 {
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public VerenigingssubtypeWerdVerfijndNaarSubvereniging VerenigingssubtypeWerdVerfijndNaarSubvereniging { get; set; }
@@ -11,7 +11,7 @@ public class SubverenigingWerdVerfijndNaarNietBepaaldScenario : ScenarioBase
 
 
 
-    public SubverenigingWerdVerfijndNaarNietBepaaldScenario()
+    public SubverenigingWerdTerugGezetNaarNietBepaaldScenario()
     {
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
