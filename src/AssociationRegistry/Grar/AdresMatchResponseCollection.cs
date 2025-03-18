@@ -5,21 +5,12 @@ using System.Collections.ObjectModel;
 
 public class AdresMatchResponseCollection : ReadOnlyCollection<AddressMatchResponse>
 {
-    public bool HasSingularResponse => this.Count == 1 || this.Count(c => c.Score == 100) == 1;
-    public bool HasNoResponse => this.Count == 0;
+    public static bool HasPerfectScore(AddressMatchResponse response)
+        => response.Score == AddressMatchResponse.PerfectScore;
 
-    public AddressMatchResponse SingularResponse {
-        get
-        {
-            if (this.Count == 1)
-                return this.Single();
+    public bool HasNoResponse => Count == 0;
 
-            if (this.Count(c => c.Score == 100) == 1)
-                return this.Single(c => c.Score == 100);
-
-            throw new NotSupportedException();
-        }
-    }
+    public AddressMatchResponse? Singular100ScoreResponse => this.Count(HasPerfectScore) == 1 ? this.Single(HasPerfectScore) : null;
 
     public AdresMatchResponseCollection(IList<AddressMatchResponse> list) : base(list)
     {
