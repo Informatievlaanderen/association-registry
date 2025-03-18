@@ -10,7 +10,8 @@ public static class ElasticSearchExtensions
 {
     public static IServiceCollection AddElasticSearch(
         this IServiceCollection services,
-        ElasticSearchOptionsSection elasticSearchOptions, ILogger<IElasticClient> logger)
+        ElasticSearchOptionsSection elasticSearchOptions,
+        ILogger<IElasticClient> logger)
     {
         var elasticClient = CreateElasticClient(elasticSearchOptions, logger);
 
@@ -71,9 +72,12 @@ public static class ElasticSearchExtensions
     public static ConnectionSettings MapVerenigingDocument(this ConnectionSettings settings, string indexName)
     {
         return settings.DefaultMappingFor(
-            typeof(VerenigingZoekDocument),
-            selector: descriptor => descriptor.IndexName(indexName)
-                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)));
+                            typeof(VerenigingZoekDocument),
+                            selector: descriptor => descriptor.IndexName(indexName)
+                                                              .IdProperty(nameof(VerenigingZoekDocument.VCode)))
+                       .DefaultMappingFor(typeof(VerenigingZoekUpdateDocument),
+                                          selector: descriptor => descriptor.IndexName(indexName)
+                                                                            .IdProperty(nameof(VerenigingZoekUpdateDocument.VCode)));
     }
 
     public static ConnectionSettings MapDuplicateDetectionDocument(this ConnectionSettings settings, string indexName)

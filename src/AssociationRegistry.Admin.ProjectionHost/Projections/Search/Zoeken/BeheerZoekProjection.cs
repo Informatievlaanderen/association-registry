@@ -514,7 +514,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsVerwijderd = true,
             });
@@ -640,7 +640,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {

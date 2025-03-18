@@ -26,4 +26,12 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
                        Code = Verenigingssubtype.NietBepaald.Code,
                        Naam = Verenigingssubtype.NietBepaald.Naam,
                    });
+
+    /// <summary>
+    /// See bug or-2749: properties should not be accidentally reset to default
+    /// when updating other properties.
+    /// </summary>
+    [Fact]
+    public void Heeft_Hoofdactiviteiten()
+        => fixture.Result.HoofdactiviteitenVerenigingsloket.Should().NotBeNullOrEmpty();
 }

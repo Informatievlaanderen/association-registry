@@ -3,7 +3,6 @@ namespace AssociationRegistry.Public.Schema.Search;
 using Detail;
 using Vereniging;
 
-
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
     public string JsonLdMetadataType { get; set; }

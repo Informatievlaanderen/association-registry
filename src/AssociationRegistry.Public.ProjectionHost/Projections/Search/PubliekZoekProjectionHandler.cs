@@ -455,7 +455,7 @@ public class PubliekZoekProjectionHandler
 
     public async Task Handle(EventEnvelope<VerenigingWerdVerwijderd> message)
     {
-        await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekDocument
+        await _elasticRepository.UpdateAsync(message.VCode, new VerenigingZoekUpdateDocument()
                                                  { IsVerwijderd = true });
     }
 
@@ -632,7 +632,7 @@ public class PubliekZoekProjectionHandler
     public async Task Handle(EventEnvelope<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> message)
     {
         await _elasticRepository
-           .UpdateAsync(message.VCode, new VerenigingZoekDocument
+           .UpdateAsync(message.VCode, new VerenigingZoekUpdateDocument()
             {
                 Verenigingstype = new VerenigingZoekDocument.Types.Verenigingstype()
                 {
