@@ -45,8 +45,8 @@ public record SubverenigingVan(VCode vCode)
                 VCode,
                 subverenigingVan.AndereVereniging!,
                 subverenigingVan.AndereVerenigingNaam!,
-                subverenigingVan.Identificatie!,
-                subverenigingVan.Beschrijving!),
+                subverenigingVan.Identificatie ?? string.Empty,
+                subverenigingVan.Beschrijving ?? string.Empty),
         ];
 
     public IEvent[] Wijzig(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
