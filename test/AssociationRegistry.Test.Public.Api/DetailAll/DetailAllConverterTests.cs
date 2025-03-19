@@ -125,7 +125,7 @@ public class DetailAllConverterTests
         document.Deleted = false;
 
         var actual = converter.SerializeToJson(document);
-        var expected = JsonConvert.SerializeObject(PubliekVerenigingDetailAllMapper.Map(document, appSettings), _serializerSettings);
+        var expected = JsonConvert.SerializeObject(new PubliekVerenigingDetailAllMapper().Map(document, appSettings), _serializerSettings);
 
         actual.Should().BeEquivalentTo(expected);
     }

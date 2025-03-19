@@ -79,12 +79,13 @@ public class PubliekDetailResponseMapper
             IsPrimair = x.IsPrimair,
         }).ToArray();
     }
-    public static Contactgegeven[] MapContactgegevens(Registratiedata.Contactgegeven[] toeTeVoegenContactgegevens, string vCode)
+
+    public static Contactgegeven[] MapContactgegevens(Registratiedata.Contactgegeven[] contactgegevens, string vCode)
     {
-        return toeTeVoegenContactgegevens.Select((x, i) => new Contactgegeven
+        return contactgegevens.Select((x, i) => new Contactgegeven
         {
             id = JsonLdType.Contactgegeven.CreateWithIdValues(
-                vCode, $"{i + 1}"),
+                vCode, contactgegevens[i].ContactgegevenId.ToString()),
             type = JsonLdType.Contactgegeven.Type,
             Contactgegeventype = x.Contactgegeventype,
             Waarde = x.Waarde,
@@ -111,7 +112,7 @@ public class PubliekDetailResponseMapper
         return locaties.Select((x, i) => new Locatie
         {
             id = JsonLdType.Locatie.CreateWithIdValues(
-                vCode, $"{i + 1}"),
+                vCode, locaties[i].LocatieId.ToString()),
             type = JsonLdType.Locatie.Type,
             Locatietype = x.Locatietype,
             Naam = x.Naam,

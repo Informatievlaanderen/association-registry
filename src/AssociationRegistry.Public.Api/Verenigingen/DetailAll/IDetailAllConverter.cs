@@ -39,7 +39,7 @@ public class DetailAllConverter : IDetailAllConverter
                     },
                     _serializerSettings);
 
-        var mappedVereniging = PubliekVerenigingDetailAllMapper.Map(vereniging, _appSettings);
+        var mappedVereniging = new PubliekVerenigingDetailAllMapper().Map(vereniging, _appSettings);
 
         return JsonConvert.SerializeObject(mappedVereniging, _serializerSettings);
     }

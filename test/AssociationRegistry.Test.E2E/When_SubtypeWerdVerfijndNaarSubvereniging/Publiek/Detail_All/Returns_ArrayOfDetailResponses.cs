@@ -1,19 +1,16 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Detail_All;
+﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail_All;
 
-using Admin.Api;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Formats;
-using JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
@@ -22,15 +19,18 @@ using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingDetailResponse>
+public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
 {
+    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
+
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
         setup => setup.PublicApiHost
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_ArrayOfDetailResponses(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
+        _context = testContext;
     }
 
     [Fact]
@@ -56,12 +56,12 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZo
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
-                Minimumleeftijd = 1,
-                Maximumleeftijd = 149,
+                Minimumleeftijd = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Maximumleeftijd,
             },
             VCode = TestContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            KorteBeschrijving = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteBeschrijving,
+            KorteNaam = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
@@ -69,17 +69,22 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZo
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
             },
-            SubverenigingVan = null,
-            Naam = Request.Naam,
-            Startdatum = DateOnly.FromDateTime(DateTime.Now),
+            SubverenigingVan = new SubverenigingVan()
+            {
+                AndereVereniging = _context.Request.AndereVereniging!,
+                Beschrijving = _context.Request.Beschrijving!,
+                Identificatie = _context.Request.Identificatie!,
+            },
+            Naam = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            Startdatum = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value,
             Status = VerenigingStatus.Actief,
-            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, TestContext.VCode),
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = PubliekDetailResponseMapper.MapLocaties(Request.Locaties, TestContext.VCode),
+            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Contactgegevens, TestContext.VCode),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => x.Code).ToArray()),
+            Werkingsgebieden = [],
+            Locaties = PubliekDetailResponseMapper.MapLocaties(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties, TestContext.VCode),
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
