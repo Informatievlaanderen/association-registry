@@ -3,7 +3,7 @@
 using System.Runtime.Serialization;
 
 [DataContract]
-public class VerenigingsType
+public class Verenigingstype
 {
     /// <summary>
     ///     Code van het type vereniging

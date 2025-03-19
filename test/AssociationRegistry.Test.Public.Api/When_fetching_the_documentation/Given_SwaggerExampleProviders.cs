@@ -24,6 +24,7 @@ public class Given_SwaggerExampleProviders
         "Verenigingen.Roepnaam",
         "Vereniging.Locaties.Adres.Busnummer",
         "Vereniging.Locaties.AdresId",
+        "Vereniging.SubverenigingVan",
         "Vereniging.Einddatum",
     };
 
