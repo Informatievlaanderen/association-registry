@@ -325,9 +325,15 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
     {
         IEvent[] events;
 
-        events = State.Verenigingssubtype.IsSubVereniging
-            ? State.SubverenigingVan.Wijzig(subverenigingVan)
-            : State.SubverenigingVan.Verfijn(subverenigingVan);
+        if (State.Verenigingssubtype.IsSubVereniging)
+        {
+            events = State.SubverenigingVan.Wijzig(subverenigingVan);
+        }
+        else
+        {
+            VCode.ValidateVCode(subverenigingVan.AndereVereniging ?? string.Empty);
+            events = State.SubverenigingVan.Verfijn(subverenigingVan);
+        }
 
         foreach (var @event in events)
         {
