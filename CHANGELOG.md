@@ -1,3 +1,16 @@
+# [8.217.0](https://github.com/informatievlaanderen/association-registry/compare/v8.216.1...v8.217.0) (2025-03-19)
+
+
+### Bug Fixes
+
+* or-2749 make sure primitives don't get reset when updating other properties in search docs ([4e343dd](https://github.com/informatievlaanderen/association-registry/commit/4e343dd0038f9f8b7e48f8af0e26a090390a12f2))
+
+
+### Features
+
+* or-2676 implement subverenigingen for publiek detail all ([d539f96](https://github.com/informatievlaanderen/association-registry/commit/d539f960e08cf7eef6bcdfe53319b0e332c29e12))
+* or-2756 implement powerbi for subverengingen ([ade0898](https://github.com/informatievlaanderen/association-registry/commit/ade0898e86dfa8e561ced7dbd1ca686211f18ba3))
+
 ## [8.216.1](https://github.com/informatievlaanderen/association-registry/compare/v8.216.0...v8.216.1) (2025-03-18)
 
 
