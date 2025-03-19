@@ -19,11 +19,16 @@ public class VCode : ValueObject<VCode>
 
     public static VCode Create(string vCode)
     {
+        ValidateVCode(vCode);
+
+        return Create(int.Parse(vCode[1..]));
+    }
+
+    public static void ValidateVCode(string vCode)
+    {
         Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeHasLengthEight(vCode));
         Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeStartsWith_V(vCode));
         Throw<VCodeFormaatIsOngeldig>.IfNot(VCodeAfterV_IsNumeric(vCode));
-
-        return Create(int.Parse(vCode[1..]));
     }
 
     public static VCode Create(int vCode)

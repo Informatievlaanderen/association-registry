@@ -50,7 +50,7 @@ public class WijzigSubtypeRequest
         => new(
             VCode.Create(vCodeAsString),
             new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
-                VCode.Create(AndereVereniging!),
+                AndereVereniging is null ? null : VCode.Create(AndereVereniging!),
                 Identificatie is null ? null : SubtypeIdentificatie.Create(Identificatie),
                 Beschrijving is null ? null : SubtypeBeschrijving.Create(Beschrijving)));
 }
