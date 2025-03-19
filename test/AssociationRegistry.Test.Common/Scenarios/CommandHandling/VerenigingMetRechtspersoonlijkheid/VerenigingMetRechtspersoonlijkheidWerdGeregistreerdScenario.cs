@@ -9,7 +9,7 @@ using global::AutoFixture;
 
 public class VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario : CommandhandlerScenarioBase
 {
-    public override VCode VCode => VCode.Create("V0009002");
+    public override VCode VCode => VCode.Create("V0019002");
     public KboNummer KboNummer => KboNummer.Create(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.KboNummer);
     public readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerd VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
