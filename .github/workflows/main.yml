@@ -257,7 +257,7 @@ jobs:
         shell: bash
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ inputs.semver }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
           docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile
 
@@ -266,19 +266,19 @@ jobs:
         run: docker images
 
       - name: Save Api Image
-        if: inputs.semver != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         shell: bash
-        run: docker image save $BUILD_DOCKER_REGISTRY/${{ inputs.image-name }}:$SEMVER -o ~/${{ inputs.image-file}}
+        run: docker image save $BUILD_DOCKER_REGISTRY/verenigingsregister-adminapi:$SEMVER -o ~/${{ inputs.image-file}}
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ inputs.semver }}
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
 
       - name: Upload Api artifact
-        if: inputs.semver != 'none'
+        if: needs.set-release-version.outputs.version != 'none'
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.image-name }}
-          path: ~/${{ inputs.image-file }}
+          name: verenigingsregister-adminapi
+          path: ~/ar-admin-api-image.tar
 
       - name: Shows logs ACM container
         if: ${{ failure() }}
