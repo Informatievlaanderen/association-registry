@@ -188,7 +188,8 @@ jobs:
       - name: Build
         shell: bash
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
+          --tag $BUILD_DOCKER_REGISTRY/verenigingsregister-adminapi:$SEMVER
 
       - name: Show images
         shell: bash
