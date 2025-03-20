@@ -6,7 +6,6 @@ WORKDIR /
 
 COPY paket.* .
 COPY *.sln .
-COPY packages .
 COPY .config .
 
 RUN dotnet tool restore
