@@ -144,7 +144,7 @@ jobs:
 
   build-with-docker:
     if: github.repository_owner == 'Informatievlaanderen'
-    name: Run Tests
+    name: Build with docker
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
