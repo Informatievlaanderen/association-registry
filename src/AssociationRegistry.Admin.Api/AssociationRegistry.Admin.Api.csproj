@@ -45,7 +45,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="Dockerfile" CopyToOutputDirectory="Always" />
+    <None Include="Dockerfile" />
     <Content Include="appsettings.json" CopyToOutputDirectory="Always" />
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
     <Content Include="paket.template" CopyToOutputDirectory="Always" />

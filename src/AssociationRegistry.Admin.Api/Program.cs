@@ -120,6 +120,13 @@ public class Program
         builder.AddWolverine();
 
         var app = builder.Build();
+
+        if (args.Contains("codegen", StringComparer.InvariantCultureIgnoreCase))
+        {
+            await app.RunOaktonCommands(args);
+            return;
+        }
+
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);

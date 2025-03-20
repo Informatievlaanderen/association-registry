@@ -1,0 +1,40 @@
+services:
+  admin-api:
+    build:
+      context: .
+      dockerfile: src/AssociationRegistry.Admin.Api/Dockerfile
+
+    container_name: vr_admin_api
+    ports:
+      - "11004:11004"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ElasticClientOptions__Uri: "http://elasticsearch:9200"
+
+      PostgreSQLOptions__Host: "db"
+
+      OAuth2IntrospectionOptions__Authority: "http://acm:5051"
+      OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm:5051/connect/introspect"
+
+      GrarOptions__Sqs__GrarSyncQueueUrl: "https://localstack:4566/000000000000/grar-sync"
+      GrarOptions__Sqs__UseLocalStack: "true"
+
+      GrarOptions__Wolverine__TransportServiceUrl: "http://localstack:4566"
+      GrarOptions__HttpClient__BaseUrl: "http://wiremock:8080"
+      MagdaOptions__GeefOndernemingVkboEndpoint: "http://wiremock:8080/GeefOndernemingVkboDienst-02.00/soap/WebService"
+      MagdaOptions__GeefOndernemingEndpoint: "http://wiremock:8080/GeefOndernemingDienst-02.00/soap/WebService"
+      MagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
+
+      LiveMagdaOptions__GeefOndernemingVkboEndpoint: "http://wiremock:8080/GeefOndernemingVkboDienst-02.00/soap/WebService"
+      LiveMagdaOptions__GeefOndernemingEndpoint: "http://wiremock:8080/GeefOndernemingDienst-02.00/soap/WebService"
+      LiveMagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
+    depends_on:
+      - db
+      - elasticsearch
+      - acm
+      - localstack
+      - wiremock
+    networks:
+      - vr-net
+
