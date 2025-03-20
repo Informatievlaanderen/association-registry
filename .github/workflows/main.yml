@@ -268,7 +268,7 @@ jobs:
       - name: Save Api Image
         if: needs.set-release-version.outputs.version != 'none'
         shell: bash
-        run: docker image save $BUILD_DOCKER_REGISTRY/verenigingsregister-adminapi:$SEMVER -o ~/ar-admin-api-image.tar
+        run: docker image save ${{secrets.BUILD_DOCKER_REGISTRY_IK4}}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }} -o ~/ar-admin-api-image.tar
         env:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
