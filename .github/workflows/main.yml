@@ -210,7 +210,7 @@ jobs:
 
   build-admin-api:
     name: Build Admin Api
-    uses: ./.github/workflows/build-image.yml
+    runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
     steps:
