@@ -29,8 +29,8 @@ WORKDIR /
 RUN dotnet test test/${TEST_PROJECT} --logger html
 
 FROM base AS src-build
-RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 RUN dotnet run -c Release --project src/${BUILD_PROJECT} -- codegen write
+RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
 RUN /bin/sh .github/build-scripts/set-solution-info.sh
 
