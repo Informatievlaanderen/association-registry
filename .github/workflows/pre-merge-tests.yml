@@ -146,6 +146,8 @@ jobs:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Build with docker
     runs-on: ubuntu-latest
+    env:
+      SEMVER: local
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
