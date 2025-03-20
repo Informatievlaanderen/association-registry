@@ -36,7 +36,6 @@ RUN /bin/sh .github/build-scripts/set-solution-info.sh
 
 RUN dotnet publish -c Release -o /app/publish --no-build --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
-
 RUN if [ -n "$ELASTIC_HOST" ]; then \
       echo "ELASTIC_HOST is set to $ELASTIC_HOST, retrieving certificate..."; \
       openssl s_client -showcerts -servername "$ELASTIC_HOST" -connect "$ELASTIC_HOST":9243 </dev/null 2>/dev/null | openssl x509 -outform PEM > mycert.crt && \
