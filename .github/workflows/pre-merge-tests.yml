@@ -190,6 +190,61 @@ jobs:
         run: |
           docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile
 
+      - name: Show images
+        shell: bash
+        run: docker images
+
+      - name: Save Api Image
+        if: inputs.semver != 'none'
+        shell: bash
+        run: docker image save $BUILD_DOCKER_REGISTRY/verenigingsregister-adminapi:$SEMVER -o ~/ar-admin-api-image.tar
+        env:
+          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
+          SEMVER: ${{ inputs.semver }}
+
+      - name: Upload Api artifact
+        if: inputs.semver != 'none'
+        uses: actions/upload-artifact@v4
+        with:
+          name: verenigingsregister-adminapi
+          path: ~/ar-admin-api-image.tar
+
+
+      - name: Shows logs ACM container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs acm
+
+      - name: Shows logs elasticsearch container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs elasticsearch
+
+      - name: Shows logs localstack container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs localstack
+
+      - name: Shows logs wiremock container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs wiremock
+
+      - name: Shows logs db container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs db
+
+      - name: Shows logs otelcollector container
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          docker logs otel-collector
 
   build:
     if: github.repository_owner == 'Informatievlaanderen'
