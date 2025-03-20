@@ -800,6 +800,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Er moet minstens een veld opgegeven worden om een subvereniging te wijzigen..
+        /// </summary>
+        public static string WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben {
+            get {
+                return ResourceManager.GetString("WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}.
         /// </summary>
         public static string ZoekOpdrachtBevatOnbekendeSorteerVelden {

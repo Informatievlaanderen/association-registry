@@ -327,6 +327,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
         if (State.Verenigingssubtype.IsSubVereniging)
         {
+            Throw<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>.If(TeWijzigenSubverenigingHeeftGeenVeldenTeWijzigen(subverenigingVan));
             events = State.SubverenigingVan.Wijzig(subverenigingVan);
         }
         else
@@ -340,4 +341,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             AddEvent(@event);
         }
     }
+
+    private bool TeWijzigenSubverenigingHeeftGeenVeldenTeWijzigen(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+        => subverenigingVan.AndereVereniging is null && subverenigingVan.Identificatie is null && subverenigingVan.Beschrijving is null;
 }
