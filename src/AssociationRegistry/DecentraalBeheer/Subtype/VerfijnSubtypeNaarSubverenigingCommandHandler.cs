@@ -12,37 +12,28 @@ public class VerfijnSubtypeNaarSubverenigingCommandHandler
         _verenigingRepository = verenigingRepository;
     }
 
-    public async Task<CommandResult> Handle(CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand> envelope, CancellationToken cancellationToken = default)
+    public async Task<CommandResult> Handle(
+        CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand> envelope,
+        CancellationToken cancellationToken = default)
     {
-         var vereniging =
+        var vereniging =
             await _verenigingRepository.Load<Vereniging>(
                 VCode.Create(envelope.Command.VCode),
                 envelope.Metadata.ExpectedVersion);
 
-         if (envelope.Command.SubverenigingVan.AndereVereniging is not null)
-         {
-             var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
-                 VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
+        if (envelope.Command.SubverenigingVan.AndereVereniging is not null)
+        {
+            var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
+                VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
 
-             envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
-         }
+            envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
+        }
 
-            //if (await _verenigingRepository.IsVerwijderd(teWijzigenSubtype.AndereVereniging))
-            //    throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
-            // vereniging.WijzigSubtype
+        //if (await _verenigingRepository.IsVerwijderd(teWijzigenSubtype.AndereVereniging))
+        //    throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
+        // vereniging.WijzigSubtype
 
-
-            // if state.subtype is subvereniging
-            // -> wijzigSubtype
-            // -> validate rond welke velden mogen (minstens 1 ingevuld)
-            // if not empty pak beschrijfing & identificatie over
-
-            // else
-            // verfijn naar subverening
-            // if not empty pak beschrijfing & identificatie over
-
-            vereniging.VerfijnNaarSubvereniging(envelope.Command.SubverenigingVan);
-
+        vereniging.VerfijnNaarSubvereniging(envelope.Command.SubverenigingVan);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);
 

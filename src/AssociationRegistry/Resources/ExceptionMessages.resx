@@ -220,6 +220,9 @@
   <data name="VerenigingIsDubbel">
     <value>Deze vereniging is dubbel en kan niet geladen worden.</value>
   </data>
+  <data name="WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben">
+    <value>Er moet minstens een veld opgegeven worden om een subvereniging te wijzigen.</value>
+  </data>
   <data name="UnsupportedOperationForLocatietype">
     <value>Deze actie kan niet uitgevoerd worden op deze locatie.</value>
   </data>
