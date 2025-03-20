@@ -9,14 +9,14 @@ using Vereniging;
 public class LidmaatschapWerdGewijzigdScenario : CommandhandlerScenarioBase
 {
     public override VCode VCode => VCode.Create("V0009002");
-    public readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd;
     public LidmaatschapWerdToegevoegd LidmaatschapWerdToegevoegd { get; }
     public LidmaatschapWerdGewijzigd LidmaatschapWerdGewijzigd { get; set; }
 
     public LidmaatschapWerdGewijzigdScenario()
     {
         var fixture = new Fixture().CustomizeAdminApi();
-        FeitelijkeVerenigingWerdGeregistreerd = fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = VCode };
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with { VCode = VCode };
 
         var lidmaatschap = fixture.Create<Registratiedata.Lidmaatschap>()
             with
@@ -25,10 +25,10 @@ public class LidmaatschapWerdGewijzigdScenario : CommandhandlerScenarioBase
             };
 
         LidmaatschapWerdToegevoegd =
-            new LidmaatschapWerdToegevoegd(FeitelijkeVerenigingWerdGeregistreerd.VCode, lidmaatschap);
+            new LidmaatschapWerdToegevoegd(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, lidmaatschap);
 
         LidmaatschapWerdGewijzigd =
-            new LidmaatschapWerdGewijzigd(FeitelijkeVerenigingWerdGeregistreerd.VCode, lidmaatschap with
+            new LidmaatschapWerdGewijzigd(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode, lidmaatschap with
             {
                 Identificatie = fixture.Create<LidmaatschapIdentificatie>(),
             });
@@ -37,7 +37,7 @@ public class LidmaatschapWerdGewijzigdScenario : CommandhandlerScenarioBase
     public override IEnumerable<IEvent> Events()
         =>
         [
-            FeitelijkeVerenigingWerdGeregistreerd,
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd,
             LidmaatschapWerdToegevoegd,
             LidmaatschapWerdGewijzigd,
         ];

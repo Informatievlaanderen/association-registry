@@ -7,6 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
+using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
 using Xunit.Categories;
 
@@ -18,7 +19,7 @@ public class Given_A_Lidmaatschap
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
+        var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
