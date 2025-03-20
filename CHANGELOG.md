@@ -1,3 +1,20 @@
+# [8.218.0](https://github.com/informatievlaanderen/association-registry/compare/v8.217.0...v8.218.0) (2025-03-20)
+
+
+### Bug Fixes
+
+* or-2672 save beschrijving and identificatie subvereniging as empty string instead of null ([cb7403f](https://github.com/informatievlaanderen/association-registry/commit/cb7403fcdace6dc62a8131b597b7fe4335a72eef))
+* or-2748 don't pass secrets ([1665277](https://github.com/informatievlaanderen/association-registry/commit/1665277205162e410253ad219d88186ad71d117c))
+* or-2748 don't use inputs ([47c2214](https://github.com/informatievlaanderen/association-registry/commit/47c2214143cc5e9302b39907b0c646220be7bd0c))
+* or-2748 run on ubuntu, don't use image ([2c8ccf8](https://github.com/informatievlaanderen/association-registry/commit/2c8ccf876efc33c63dff1cb2a88ad321da92142d))
+
+
+### Features
+
+* or-2674 ensure at least one field is given for wijzigen subvereniging ([e787017](https://github.com/informatievlaanderen/association-registry/commit/e787017389fa895df56840b8fb0f00d9a953cc09))
+* or-2748 build admin api using docker, allow local build ([c0f7377](https://github.com/informatievlaanderen/association-registry/commit/c0f73779ee7d5ed932c611c647c26e5caff31888))
+* or-2757 implement validaties for verfijn naar subvereniging ([24ec63f](https://github.com/informatievlaanderen/association-registry/commit/24ec63f05dbeaf4b148607b325d28f55b7259c09))
+
 # [8.217.0](https://github.com/informatievlaanderen/association-registry/compare/v8.216.1...v8.217.0) (2025-03-19)
 
 
