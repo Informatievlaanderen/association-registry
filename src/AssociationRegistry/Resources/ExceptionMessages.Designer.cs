@@ -719,6 +719,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vereniging kan geen subvereniging worden waarvan hij al reeds lid is..
+        /// </summary>
+        public static string VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs {
+            get {
+                return ResourceManager.GetString("VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Deze vereniging kan niet verwijderd worden..
         /// </summary>
         public static string VerenigingKanNietVerwijderdWorden {

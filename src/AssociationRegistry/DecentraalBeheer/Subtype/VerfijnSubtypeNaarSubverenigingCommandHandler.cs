@@ -29,10 +29,6 @@ public class VerfijnSubtypeNaarSubverenigingCommandHandler
             envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
         }
 
-        //if (await _verenigingRepository.IsVerwijderd(teWijzigenSubtype.AndereVereniging))
-        //    throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();
-        // vereniging.WijzigSubtype
-
         vereniging.VerfijnNaarSubvereniging(envelope.Command.SubverenigingVan);
 
         var result = await _verenigingRepository.Save(vereniging, envelope.Metadata, cancellationToken);

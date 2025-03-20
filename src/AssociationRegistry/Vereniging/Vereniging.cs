@@ -323,6 +323,8 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
+        Throw<VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
+
         IEvent[] events;
 
         if (State.Verenigingssubtype.IsSubVereniging)
@@ -341,6 +343,9 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
             AddEvent(@event);
         }
     }
+
+    private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)
+        => State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
 
     private bool TeWijzigenSubverenigingHeeftGeenVeldenTeWijzigen(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
         => subverenigingVan.AndereVereniging is null && subverenigingVan.Identificatie is null && subverenigingVan.Beschrijving is null;

@@ -19,7 +19,7 @@ public class Given_A_Lidmaatschap
     {
         var fixture = new Fixture().CustomizeDomain();
 
-        var scenario = new LidmaatschapWerdGeregistreerdScenario();
+        var scenario = new LidmaatschapWerdToegevoegdScenario();
 
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 

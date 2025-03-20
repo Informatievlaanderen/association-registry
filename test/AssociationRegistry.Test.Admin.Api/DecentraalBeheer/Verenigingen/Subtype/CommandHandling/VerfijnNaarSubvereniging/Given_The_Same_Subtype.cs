@@ -19,7 +19,7 @@ using Xunit.Categories;
 /// This will result in a te wijzigen subtype
 /// </summary>
 [UnitTest]
-public class Given_A_The_Same_Subtype
+public class Given_The_Same_Subtype
 {
     private readonly Fixture _fixture;
     private readonly VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario _scenario;
@@ -27,7 +27,7 @@ public class Given_A_The_Same_Subtype
     private readonly VerfijnSubtypeNaarSubverenigingCommandHandler _commandHandler;
     private readonly MultipleVerenigingRepositoryMock _verenigingRepositoryMock;
 
-    public Given_A_The_Same_Subtype()
+    public Given_The_Same_Subtype()
     {
         _fixture = new Fixture().CustomizeDomain();
         _scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
