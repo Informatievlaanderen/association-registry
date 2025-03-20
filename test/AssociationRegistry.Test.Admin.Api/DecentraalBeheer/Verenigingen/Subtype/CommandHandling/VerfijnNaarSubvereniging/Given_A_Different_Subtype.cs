@@ -18,43 +18,40 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_Different_Subtype
 {
+    private readonly Fixture _fixture;
+    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;
+    private readonly MultipleVerenigingRepositoryMock _verenigingRepositoryMock;
+    private readonly VerfijnSubtypeNaarSubverenigingCommandHandler _commandHandler;
+    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _rechtspersoonScenario;
+
+    public Given_A_Different_Subtype()
+    {
+        _fixture = new Fixture().CustomizeDomain();
+        _scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
+        _verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock);
+        _rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+
+        _verenigingRepositoryMock.WithVereniging(_rechtspersoonScenario.GetVerenigingState());
+    }
+
     [Fact]
     public async Task Then_It_Saves_A_VerenigingssubtypeWerdVerfijndNaarSubvereniging()
     {
-        var fixture = new Fixture().CustomizeDomain();
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
 
-        var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
-
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(rechtspersoonScenario.VCode, null, null));
-
-        await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>()));
-
-        verenigingRepositoryMock.ShouldHaveSaved(scenario.VCode,
+        _verenigingRepositoryMock.ShouldHaveSaved(_scenario.VCode,
             new VerenigingssubtypeWerdVerfijndNaarSubvereniging(
-                scenario.VCode, new Registratiedata.SubverenigingVan(rechtspersoonScenario.VCode, rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam, string.Empty, string.Empty)));
+                _scenario.VCode, new Registratiedata.SubverenigingVan(_rechtspersoonScenario.VCode, _rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam, string.Empty, string.Empty)));
     }
 
     [Fact]
     public async Task With_Invalid_VCode_Then_Throws_VCodeFormaatIsOngeldig()
     {
-        var fixture = new Fixture().CustomizeDomain();
+       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
 
-        var scenario = new VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
-
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
-
-        await Assert.ThrowsAsync<VCodeFormaatIsOngeldig>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        await Assert.ThrowsAsync<VCodeFormaatIsOngeldig>(() => _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));
     }
 }
