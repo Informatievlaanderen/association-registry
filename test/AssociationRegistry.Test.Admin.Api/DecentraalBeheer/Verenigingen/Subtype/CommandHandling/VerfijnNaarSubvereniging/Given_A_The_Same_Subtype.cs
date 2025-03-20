@@ -21,89 +21,65 @@ using Xunit.Categories;
 [UnitTest]
 public class Given_A_The_Same_Subtype
 {
+    private readonly Fixture _fixture;
+    private readonly VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario _scenario;
+    private readonly VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _rechtspersoonScenario;
+    private readonly VerfijnSubtypeNaarSubverenigingCommandHandler _commandHandler;
+    private readonly MultipleVerenigingRepositoryMock _verenigingRepositoryMock;
+
+    public Given_A_The_Same_Subtype()
+    {
+        _fixture = new Fixture().CustomizeDomain();
+        _scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
+        _rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+        _verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(_scenario.GetVerenigingState());
+        _verenigingRepositoryMock.WithVereniging(_rechtspersoonScenario.GetVerenigingState());
+        _commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock);
+    }
+
     [Fact]
     public async Task With_Relatie_Changes_Then_SubverenigingRelatieWerdGewijzigd()
     {
-        var fixture = new Fixture().CustomizeDomain();
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
 
-        var scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
-
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(rechtspersoonScenario.VCode, null, null));
-
-        await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>()));
-
-        verenigingRepositoryMock.ShouldHaveSaved(scenario.VCode,
+        _verenigingRepositoryMock.ShouldHaveSaved(_scenario.VCode,
                                                  new SubverenigingRelatieWerdGewijzigd(
-                                                     scenario.VCode, rechtspersoonScenario.VCode, rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam));
+                                                     _scenario.VCode, _rechtspersoonScenario.VCode, _rechtspersoonScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam));
     }
 
     [Fact]
     public async Task With_Detail_Changes_Then_SubverenigingDetailsWerdenGewijzigd()
     {
-        var fixture = new Fixture().CustomizeDomain();
+        var subtypeIdentificatie = SubtypeIdentificatie.Create(_fixture.Create<string>());
+        var subtypeBeschrijving = SubtypeBeschrijving.Create(_fixture.Create<string>());
 
-        var scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, subtypeIdentificatie, subtypeBeschrijving));
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
+        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var subtypeIdentificatie = SubtypeIdentificatie.Create(fixture.Create<string>());
-        var subtypeBeschrijving = SubtypeBeschrijving.Create(fixture.Create<string>());
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, subtypeIdentificatie, subtypeBeschrijving));
-
-        await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>()));
-
-        verenigingRepositoryMock.ShouldHaveSaved(scenario.VCode,
+        _verenigingRepositoryMock.ShouldHaveSaved(_scenario.VCode,
                                                  new SubverenigingDetailsWerdenGewijzigd(
-                                                     scenario.VCode, subtypeIdentificatie, subtypeBeschrijving));
+                                                     _scenario.VCode, subtypeIdentificatie, subtypeBeschrijving));
     }
 
     [Fact]
     public async Task With_No_Changes_Then_Nothing()
     {
-        var fixture = new Fixture().CustomizeDomain();
+       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubtypeIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
 
-        var scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
+        await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
-
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubtypeIdentificatie.Create(scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
-
-        await commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>()));
-
-        verenigingRepositoryMock.ShouldNotHaveAnySaves(scenario.VCode);
+        _verenigingRepositoryMock.ShouldNotHaveAnySaves(_scenario.VCode);
     }
 
     [Fact]
     public async Task With_All_Null_Values_Then_Throw_WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben()
     {
-        var fixture = new Fixture().CustomizeDomain();
+        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
 
-        var scenario = new VerenigingssubtypeWerdVerfijndNaarSubverenigingScenario();
-        var rechtspersoonScenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario();
-
-        var verenigingRepositoryMock = new MultipleVerenigingRepositoryMock(scenario.GetVerenigingState());
-        verenigingRepositoryMock.WithVereniging(rechtspersoonScenario.GetVerenigingState());
-
-        var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(verenigingRepositoryMock);
-
-        var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
-
-        var exception = await Assert.ThrowsAsync<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAsync<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>(() => _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>())));
         exception.Message.Should().Be(ExceptionMessages.WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben);
     }
 }
