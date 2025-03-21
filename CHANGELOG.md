@@ -1,3 +1,11 @@
+# [8.219.0](https://github.com/informatievlaanderen/association-registry/compare/v8.218.1...v8.219.0) (2025-03-21)
+
+
+### Features
+
+* or-2672 prevent setting subvereniging to an existing lidmaatschap ([5493d77](https://github.com/informatievlaanderen/association-registry/commit/5493d77f86892f105dd0fbc76ef0dd81b86f9d86))
+* or-2762 prevent adding lidmaatschap of an already existing subvereniging ([942154d](https://github.com/informatievlaanderen/association-registry/commit/942154d5c08b398bbec265b17c119b757d5ec12f))
+
 ## [8.218.1](https://github.com/informatievlaanderen/association-registry/compare/v8.218.0...v8.218.1) (2025-03-20)
 
 
