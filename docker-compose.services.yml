@@ -1,4 +1,5 @@
 services:
+
   admin-api:
     build:
       context: .
@@ -14,8 +15,13 @@ services:
 
       PostgreSQLOptions__Host: "db"
 
-      OAuth2IntrospectionOptions__Authority: "http://acm:5051"
-      OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm:5051/connect/introspect"
+      COLLECTOR_URL: "http://otel-collector:4317"
+
+      OAuth2IntrospectionOptions__Authority: "http://acm"
+      OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm/connect/introspect"
+
+      OAuth2IntrospectionOptions__ClientId: "association-registry-local-dev-admin"
+      OAuth2IntrospectionOptions__ClientSecret: "a_very=Secr3t*Key"
 
       GrarOptions__Sqs__GrarSyncQueueUrl: "https://localstack:4566/000000000000/grar-sync"
       GrarOptions__Sqs__UseLocalStack: "true"
@@ -38,3 +44,44 @@ services:
     networks:
       - vr-net
 
+  token-fetcher:
+    image: curlimages/curl
+    command: >
+      -X POST "http://acm/connect/token"
+      -u "vloketClient:secret"
+      -H "Content-Type: application/x-www-form-urlencoded"
+      -d "grant_type=client_credentials&scope=vo_info dv_verenigingsregister_beheer"
+    depends_on:
+      - acm
+    networks:
+      - vr-net
+
+  admin-projections:
+    build:
+      context: .
+      dockerfile: src/AssociationRegistry.Admin.ProjectionHost/Dockerfile
+
+    container_name: vr_admin_projections
+    ports:
+      - "11006:11006"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+
+      ElasticClientOptions__Uri: "http://elasticsearch:9200"
+      COLLECTOR_URL: "http://otel-collector:4317"
+
+      PostgreSQLOptions__Host: "db"
+
+      OAuth2IntrospectionOptions__Authority: "http://acm"
+      OAuth2IntrospectionOptions__IntrospectionEndpoint: "http://acm/connect/introspect"
+
+    depends_on:
+      - db
+      - elasticsearch
+      - acm
+      - localstack
+      - wiremock
+    networks:
+      - vr-net
+networks:
+  vr-net:

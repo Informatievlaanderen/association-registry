@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.ProjectionHost;
 
 using Asp.Versioning.ApplicationModels;
 using Extensions;
+using Hosts;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
 using Infrastructure.Json;
@@ -81,6 +82,12 @@ public class Program
         builder.Host.UseConsoleLifetime();
 
         var app = builder.Build();
+
+        if (ProgramArguments.IsCodeGen(args))
+        {
+            await app.RunOaktonCommands(args);
+            return;
+        }
 
         ElasticSearchExtensions.EnsureIndexExists(app.Services.GetRequiredService<IElasticClient>(),
                                                   elasticSearchOptions.Indices!.Verenigingen!,

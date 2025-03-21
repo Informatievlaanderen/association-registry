@@ -36,7 +36,7 @@ jobs:
 
       - name: Parse repository name
         run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
-        shell: bash
+        shell: bashAdresWerdNietGevondenInAdressenregister
 
       - name: Setup .NET Core
         uses: actions/setup-dotnet@v4
@@ -259,8 +259,8 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }} 
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }}
 
       - name: Show images
         shell: bash
