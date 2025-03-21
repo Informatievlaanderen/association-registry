@@ -32,8 +32,8 @@ public class BasisgegevensRecordWriter : IRecordWriter
                                        string.Join(", ", vereniging.CorresponderendeVCodes),
                                        vereniging.AantalVertegenwoordigers,
                                        vereniging.DatumLaatsteAanpassing,
-                                       vereniging.Verenigingssubtype.Code,
-                                       vereniging.Verenigingssubtype.Naam,
+                                       vereniging.Verenigingssubtype?.Code ?? string.Empty,
+                                       vereniging.Verenigingssubtype?.Naam ?? string.Empty,
                                        vereniging.SubverenigingVan?.AndereVereniging ?? string.Empty,
                                        vereniging.SubverenigingVan?.Identificatie ?? string.Empty,
                                        vereniging.SubverenigingVan?.Beschrijving ?? string.Empty));
