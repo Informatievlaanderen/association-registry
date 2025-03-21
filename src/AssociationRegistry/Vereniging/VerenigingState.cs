@@ -195,6 +195,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
+            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
             VCode = VCode.Hydrate(@event.VCode),
             KboNummer = KboNummer.Hydrate(@event.KboNummer),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
