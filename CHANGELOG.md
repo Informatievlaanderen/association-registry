@@ -1,3 +1,10 @@
+## [8.219.1](https://github.com/informatievlaanderen/association-registry/compare/v8.219.0...v8.219.1) (2025-03-21)
+
+
+### Bug Fixes
+
+* or-2672 set nullvalues to empty string in powerbi ([e8be895](https://github.com/informatievlaanderen/association-registry/commit/e8be8952bac3ba9eed2f74133078e1aede81fc77))
+
 # [8.219.0](https://github.com/informatievlaanderen/association-registry/compare/v8.218.1...v8.219.0) (2025-03-21)
 
 
