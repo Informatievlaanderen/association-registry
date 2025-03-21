@@ -11,7 +11,8 @@
   ],
   "apiScopes": [
     "dv_verenigingsregister_beheer",
-    "vo_info"
+    "vo_info",
+    "dv_verenigingsregister_hoofdvertegenwoordigers"
   ],
   "apiResources": [
     {
@@ -21,7 +22,8 @@
       ],
       "scopes": [
         "vo_info",
-        "dv_verenigingsregister_beheer"
+        "dv_verenigingsregister_beheer",
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
       ]
     }
   ],
@@ -63,7 +65,8 @@
       "allowedGrantTypes": "clientCredentials",
       "allowedScopes": [
         "vo_info",
-        "dv_verenigingsregister_beheer"
+        "dv_verenigingsregister_beheer",
+        "dv_verenigingsregister_hoofdvertegenwoordigers"
       ],
       "accessTokenLifetime": -1,
       "identityTokenLifetime": -1,
