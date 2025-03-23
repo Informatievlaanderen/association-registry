@@ -2,6 +2,7 @@
 
 using Framework;
 using Vereniging;
+using Vereniging.Exceptions;
 
 public class VerfijnSubtypeNaarSubverenigingCommandHandler
 {
@@ -23,10 +24,21 @@ public class VerfijnSubtypeNaarSubverenigingCommandHandler
 
         if (envelope.Command.SubverenigingVan.AndereVereniging is not null)
         {
-            var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
-                VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
+            try
+            {
+                var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
+                    VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
 
-            envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
+                envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
+            }
+            catch (VerenigingIsVerwijderd)
+            {
+                throw new AndereVerenigingIsVerwijderd();
+            }
+            catch (ActieIsNietToegestaanVoorVerenigingstype e)
+            {
+                throw new ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype();
+            }
         }
 
         vereniging.VerfijnNaarSubvereniging(envelope.Command.SubverenigingVan);

@@ -217,6 +217,12 @@
   <data name="VerenigingIsVerwijderd">
     <value>Deze vereniging is verwijderd en kan niet geladen worden.</value>
   </data>
+  <data name="AndereVerenigingIsVerwijderd">
+    <value>De andere vereniging is verwijderd en kan niet geladen worden.</value>
+  </data>
+  <data name="ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype">
+    <value>Deze actie kan niet uitgevoerd worden op dit type van de andere vereniging.</value>
+  </data>
   <data name="VerenigingIsDubbel">
     <value>Deze vereniging is dubbel en kan niet geladen worden.</value>
   </data>
