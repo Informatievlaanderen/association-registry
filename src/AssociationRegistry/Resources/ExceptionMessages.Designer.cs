@@ -78,6 +78,15 @@ namespace AssociationRegistry.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit type van de andere vereniging..
+        /// </summary>
+        public static string ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype {
+            get {
+                return ResourceManager.GetString("ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dit adres is niet meer actief in het adressenregister..
         /// </summary>
         public static string AdresInactief {
@@ -119,6 +128,15 @@ namespace AssociationRegistry.Resources {
         public static string AdresVerwijderd {
             get {
                 return ResourceManager.GetString("AdresVerwijderd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to De andere vereniging is verwijderd en kan niet geladen worden..
+        /// </summary>
+        public static string AndereVerenigingIsVerwijderd {
+            get {
+                return ResourceManager.GetString("AndereVerenigingIsVerwijderd", resourceCulture);
             }
         }
         
