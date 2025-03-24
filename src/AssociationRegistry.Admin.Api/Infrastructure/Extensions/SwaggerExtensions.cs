@@ -47,15 +47,29 @@ public static class SwaggerExtensions
                    options.CustomSchemaIds(type => type.FullName);
 
                    options.SwaggerDoc(
-                       name: "v1",
+                       "v1",
                        new OpenApiInfo
                        {
                            Version = "v1",
                            Title = appSettings.ApiDocs.Title,
-                           Description = "---\n" +
-                                         "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
-                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>." +
-                                         $"\n\n## Gebruik API Versies\n\nOm gebruik te kunnen maken van een andere API versie, is het noodzakelijk een API versie mee te geven.\n\nDeze dienen meegestuurd te worden als header, of via de query parameters.\n\nMogelijke waarden zijn:\n\n* {WellknownVersions.V2} - in deze versie wordt het verenigingstype omgezet van FV-feitelijke vereniging naar VZER-vereniging zonder eigen rechtspersoonlijkheid\n\nType | Naam | Voorbeeld                                                    |\n----------- | ----------------------------------------------------------------- |----|\nHeader    | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-version: {WellknownVersions.V2}'`|\nQuery parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-version={WellknownVersions.V2} |",
+                           Description = @$"
+Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie).
+
+## Gebruik API versies
+
+Om een andere API-versie te gebruiken, dient u de gewenste versie mee te sturen via een header of als queryparameter.
+
+U kunt bepalen of een endpoint meerdere versies ondersteunt door de aanwezigheid van de request header `vr-api-key` bij de documentatie van dat endpoint.
+Voor gebruik van versie `v1` hoeft u **geen** API-versie op te geven.
+
+Mogelijke waarden zijn:
+* {WellknownVersions.V2} – in deze versie wordt het verenigingstype omgezet van `FV - Feitelijke vereniging` naar `VZER - Vereniging zonder eigen rechtspersoonlijkheid`.
+
+| Type            | Naam             | Voorbeeld                                                                                                                                                       |
+|-----------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Header          | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-version: {WellknownVersions.V2}'`                      |
+| Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-version={WellknownVersions.V2}                                                                   |
+",
                            Contact = new OpenApiContact
                            {
                                Name = appSettings.ApiDocs.Contact.Name,
