@@ -265,7 +265,7 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ inputs.semver }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Projections/Dockerfile
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile
 
       - name: Shows logs ACM container
         if: ${{ failure() }}
