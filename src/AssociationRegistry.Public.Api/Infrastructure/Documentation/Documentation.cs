@@ -39,20 +39,31 @@ Header    | `vr-api-key` | `curl --request GET --url '{appSettings.BaseUrl}/v1/h
 Query parameter | `vr-api-key` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-key=api-key |
 
 ## Gebruik API Versies
-
 Om gebruik te kunnen maken van een andere API versie, is het noodzakelijk een API versie mee te geven.
 
 Deze dienen meegestuurd te worden als header, of via de query parameters.
 
+Om gebruik te maken van de v1, geef je geen api versie mee.
+
+Je kan bepalen of een endpoint meerdere versies ondersteunt, door de aanwezigheid van de request header `vr-api-key` bij de documentatie van dat endpoint.
+
 Mogelijke waarden zijn:
+* {WellknownVersions.V2} – in deze versie wordt het verenigingstype omgezet van `FV - Feitelijke vereniging` naar `VZER - Vereniging zonder eigen rechtspersoonlijkheid`.
 
-* {WellknownVersions.V2} - in deze versie wordt het verenigingstype omgezet van FV-feitelijke vereniging naar VZER-vereniging zonder eigen rechtspersoonlijkheid
+| Type            | Naam             | Voorbeeld                                                                                                                                                       |
+|-----------------|------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| Header          | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/verenigingen' --header 'vr-api-version: {WellknownVersions.V2}'`                      |
+| Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/verenigingen?vr-api-version={WellknownVersions.V2}                                                                   |
 
-Type | Naam | Voorbeeld                                                    |
------------ | ----------------------------------------------------------------- |----|
-Header    | `vr-api-version` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-version: {WellknownVersions.V2}'`|
-Query parameter | `vr-api-version` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-version={WellknownVersions.V2} |
+### Wijzigingen in v2
 
+Sinds de release van v2 werden bestaande verenigingen van het type FV-feitelijke vereniging omgezet naar VZER-vereniging zonder eigen rechtspersoonlijkheid.
+De verenigingen krijgen door deze migratie 2 extra velden, namelijk `subverenigingVan` en `verenigingssubtype`.
+
+Verenigingen zonder eigen rechtspersoonlijkheid die na deze migratie aangemaakt zijn, zullen automatisch dit nieuwe type toegewezen krijgen,
+en krijgen als verenigingssubtype standaard de waarde `Niet bepaald`.
+
+Bij het opvragen van deze verenigingen zonder de v2-header, worden echter nog steeds de velden en semantiek van v1 gehanteerd.
 ";
 
     private static string FoutmeldingenText
