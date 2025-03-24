@@ -1,3 +1,11 @@
+## [8.219.2](https://github.com/informatievlaanderen/association-registry/compare/v8.219.1...v8.219.2) (2025-03-24)
+
+
+### Bug Fixes
+
+* or-2672 clarify vereniging loaded exception to mention andere vereniging ([3e6b0c6](https://github.com/informatievlaanderen/association-registry/commit/3e6b0c64e240fb6ef1d702ddbdf409caf29da327))
+* or-2762 fix NullReferenceException when verifying lidmaatschap already a subvereniging ([37b023e](https://github.com/informatievlaanderen/association-registry/commit/37b023eb0f36d665cc588d387ae95bfa7a4cc21c))
+
 ## [8.219.1](https://github.com/informatievlaanderen/association-registry/compare/v8.219.0...v8.219.1) (2025-03-21)
 
 
