@@ -410,13 +410,13 @@ jobs:
       build-powerbi-exporthost,
       build-sync-lambda ]
     runs-on: ubuntu-latest
-    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
     steps:
       - name: Download Lambda
         uses: actions/download-artifact@v4
         continue-on-error: false
         with:
-          name: lambda-sync-${{ needs.release.outputs.version }}
+          name: lambda-sync-${{ needs.set-release-version.outputs.version }}
           path: ~/
 
       - name: Configure AWS credentials
@@ -435,7 +435,7 @@ jobs:
         run: |
           aws s3 cp ~/AssociationRegistry.KboMutations.SyncLambda.zip s3://$S3_LAMBDA_BUCKETNAME/$S3_LAMBDA/$VERSION/lambda.zip --copy-props none
         env:
-          VERSION: ${{ needs.release.outputs.version }}
+          VERSION: ${{ needs.set-release-version.outputs.version }}
           S3_LAMBDA_BUCKETNAME: ${{ vars.S3_LAMBDA_BUCKETNAME }}
           S3_LAMBDA: 'kbo-sync'
 
