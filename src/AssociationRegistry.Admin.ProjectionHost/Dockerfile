@@ -19,6 +19,7 @@ ARG GIT_HASH
 COPY . .
 
 RUN dotnet restore
+RUN dotnet dotnet-script .github/build-scripts/SetSolutionInfo.csx 
 
 FROM base AS src-build
 

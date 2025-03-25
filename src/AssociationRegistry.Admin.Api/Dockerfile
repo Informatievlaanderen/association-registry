@@ -19,12 +19,14 @@ ARG GIT_HASH
 COPY . .
 
 RUN dotnet restore
+RUN dotnet dotnet-script .github/build-scripts/SetSolutionInfo.csx 
+
 
 FROM base AS src-build
+
 RUN dotnet run -c Release --project src/${BUILD_PROJECT} -- codegen write
 RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
-RUN /bin/sh .github/build-scripts/set-solution-info.sh
 
 RUN dotnet publish -c Release -o /app/publish --no-build --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
