@@ -142,95 +142,7 @@ jobs:
         shell: bash
         run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package AssociationRegistry.KboMutations.SyncLambda.csproj --region ${{ secrets.VBR_AWS_REGION }}
 
-  build-with-docker:
-    if: github.repository_owner == 'Informatievlaanderen'
-    name: Build with docker
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-
-      - name: Run es container
-        shell: bash
-        run: |
-          docker run -d --name elasticsearch -p 9200:9200 -m 2g -e ELASTIC_PASSWORD=local_development -e discovery.type=single-node -e xpack.security.transport.ssl.enabled=false docker.elastic.co/elasticsearch/elasticsearch:8.4.3
-
-      - name: Run localstack container
-        shell: bash
-        run: |
-          docker run -d --name localstack -v ${{ github.workspace }}/.localstack/init:/etc/localstack/init -p 4566:4566 -p 4510-4559:4510-4559 -e SERVICES=sqs,s3 -e DOCKER_HOST=unix:///var/run/docker.sock -e DEFAULT_REGION=us-east-1 -e DEBUG=1 -e PORT_WEB_UI=8080 localstack/localstack
-
-      - name: Run wiremock container
-        shell: bash
-        run: |
-          docker run -d --name wiremock -v ${{ github.workspace }}/wiremock:/home/wiremock -p 8080:8080 wiremock/wiremock:2.35.0-1 --global-response-templating --verbose
-
-      - name: Run ACM container
-        shell: bash
-        run: |
-          docker run -d --name acm -p 5051:80 -v ${{ github.workspace }}/identityserver:/home/identityserver ghcr.io/informatievlaanderen/identity-server-fake:1284967
-
-      - name: Run db container
-        shell: bash
-        run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=verenigingsregister postgres:15.0
-
-      - name: Run OpenTelemetry container
-        shell: bash
-        run: |
-          docker run -d --name otel-collector -p 4317:4317 -v ${{ github.workspace }}./otel-collector-config.yaml:/etc/otel-collector-config.yaml otel/opentelemetry-collector-contrib
-
-      - name: Wait for db container
-        shell: bash
-        run: |
-          timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
-
-      - name: Build
-        shell: bash
-        env:
-          BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
-          SEMVER: ${{ inputs.semver }}
-        run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile
-
-      - name: Shows logs ACM container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs acm
-
-      - name: Shows logs elasticsearch container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs elasticsearch
-
-      - name: Shows logs localstack container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs localstack
-
-      - name: Shows logs wiremock container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs wiremock
-
-      - name: Shows logs db container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs db
-
-      - name: Shows logs otelcollector container
-        if: ${{ failure() }}
-        shell: bash
-        run: |
-          docker logs otel-collector
-
-  build:
+  run-tests:
     if: github.repository_owner == 'Informatievlaanderen'
     name: Run Tests
     runs-on: ubuntu-latest
@@ -240,8 +152,8 @@ jobs:
           [
             "test/AssociationRegistry.Test",
             "test/AssociationRegistry.Test.Acm.Api",
-            "test/AssociationRegistry.Test.Admin.AddressSync",
             "test/AssociationRegistry.Test.Admin.Api",
+            "test/AssociationRegistry.Test.Admin.AddressSync",
             "test/AssociationRegistry.Test.E2E",
             "test/AssociationRegistry.Test.PowerBi.ExportHost",
             "test/AssociationRegistry.Test.Public.Api",
@@ -410,7 +322,7 @@ jobs:
     name: Notify slack
     runs-on: ubuntu-latest
 
-    needs: [ build ]
+    needs: [ run-tests ]
 
     steps:
       - name: Post to a Slack channel

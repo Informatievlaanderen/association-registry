@@ -46,6 +46,7 @@ using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Infrastructure.ResponseWriter;
 using Infrastructure.Sequence;
+using JasperFx.Core;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
@@ -121,13 +122,15 @@ public class Program
 
         var app = builder.Build();
 
-        if (args.Contains("codegen", StringComparer.InvariantCultureIgnoreCase))
+        if (ProgramArguments.IsCodeGen(args))
         {
             await app.RunOaktonCommands(args);
             return;
         }
 
         var logger = app.Services.GetRequiredService<ILogger<Program>>();
+
+        await WaitFor.PostGreSQLToBecomeAvailable(logger, app.Configuration.GetPostgreSqlOptionsSection().GetConnectionString());
 
         GlobalStringLocalizer.Instance = new GlobalStringLocalizer(app.Services);
 
