@@ -259,7 +259,7 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH=${{ GIT_HASH }} --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
           --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }}
 
       - name: Show images
@@ -367,7 +367,7 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH=${{ GIT_HASH }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
           --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:${{ needs.set-release-version.outputs.version }}
 
       - name: Show images
