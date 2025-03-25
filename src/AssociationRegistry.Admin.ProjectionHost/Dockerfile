@@ -11,7 +11,6 @@ COPY .config .
 RUN dotnet tool restore
 RUN dotnet paket restore
 
-ARG TEST_PROJECT=AssociationRegistry.Admin.ProjectionHost.Tests
 ARG BUILD_PROJECT=AssociationRegistry.Admin.ProjectionHost
 ARG ELASTIC_HOST
 ARG CI_BUILD_NUMBER
@@ -21,14 +20,8 @@ COPY . .
 
 RUN dotnet restore
 
-FROM base AS tests-build
-RUN dotnet build --no-restore --runtime "linux-x64" test/${TEST_PROJECT}
-
-FROM tests-build AS tests-run
-WORKDIR /
-RUN dotnet test test/${TEST_PROJECT} --logger html
-
 FROM base AS src-build
+
 RUN dotnet run -c Release --project src/${BUILD_PROJECT} -- codegen write
 RUN dotnet build -c Release --no-restore --runtime "linux-x64" --self-contained -f net8.0 src/${BUILD_PROJECT}/${BUILD_PROJECT}.csproj
 
