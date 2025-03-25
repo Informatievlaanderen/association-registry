@@ -6,6 +6,8 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using FluentAssertions;
+using Resources;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;
@@ -32,6 +34,7 @@ public class Given_AndereVereniging_Is_Already_Subvereniging
             },
         };
 
-        await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs>(() => commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs>(() => commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenLidWordenWaarvanZijSubverenigingIs);
     }
 }

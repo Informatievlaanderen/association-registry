@@ -8,7 +8,7 @@ using System.Runtime.Serialization;
 public class VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs : DomainException
 {
 
-    public VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs() : base(ExceptionMessages.VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs)
+    public VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs() : base(ExceptionMessages.VerenigingKanGeenLidWordenWaarvanZijSubverenigingIs)
     {
     }
 
