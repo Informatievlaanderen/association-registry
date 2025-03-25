@@ -1,3 +1,10 @@
+# [8.222.0](https://github.com/informatievlaanderen/association-registry/compare/v8.221.0...v8.222.0) (2025-03-25)
+
+
+### Features
+
+* or-2675 set solution info ([fdbe196](https://github.com/informatievlaanderen/association-registry/commit/fdbe19679eb42436a3201d35524f902a8ec53b5c))
+
 # [8.221.0](https://github.com/informatievlaanderen/association-registry/compare/v8.220.0...v8.221.0) (2025-03-25)
 
 
