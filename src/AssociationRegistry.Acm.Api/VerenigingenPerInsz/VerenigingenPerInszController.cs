@@ -20,7 +20,7 @@ using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetai
 [ApiVersion("1.0")]
 [AdvertiseApiVersions("1.0")]
 [ApiRoute("verenigingen")]
-[ApiExplorerSettings(GroupName = "Decentraal beheer van feitelijke verenigingen")]
+[ApiExplorerSettings(GroupName = "Decentraal beheer van verenigingen")]
 public class VerenigingenPerInszController : ApiController
 {
     /// <summary>
