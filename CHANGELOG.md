@@ -1,3 +1,17 @@
+# [8.221.0](https://github.com/informatievlaanderen/association-registry/compare/v8.220.0...v8.221.0) (2025-03-25)
+
+
+### Bug Fixes
+
+* or-2672 fix error message when adding lidmaatschap and already subvereniging van ([0482839](https://github.com/informatievlaanderen/association-registry/commit/0482839c5d8dfd8e382e6c84b3313c2e107a4b71))
+* or-2748 make authentication work for docker built services ([#1094](https://github.com/informatievlaanderen/association-registry/issues/1094)) ([488aa29](https://github.com/informatievlaanderen/association-registry/commit/488aa29bd21e8e48f58f63d83301ee6d5ed7059a))
+
+
+### Features
+
+* or-2675 don't use build-image.yml for admin projections ([9386b30](https://github.com/informatievlaanderen/association-registry/commit/9386b30fd7ce2f3b59d6e707dd8310e0ee49e61d))
+* or-2675 use correct image name ([770ca20](https://github.com/informatievlaanderen/association-registry/commit/770ca2030526a39fdf06ddd6a01af4aaf7bf5b2e))
+
 # [8.220.0](https://github.com/informatievlaanderen/association-registry/compare/v8.219.2...v8.220.0) (2025-03-25)
 
 
