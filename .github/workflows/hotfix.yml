@@ -398,6 +398,47 @@ jobs:
           name: lambda-sync-${{ needs.set-release-version.outputs.version }}
           path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
 
+  upload-sync-lambda:
+    name: Upload Sync Lambda
+    needs: [ set-release-version,
+      build-acm-api,
+      build-public-api,
+      build-public-projections,
+      build-admin-api,
+      build-admin-projections,
+      build-admin-address-sync,
+      build-powerbi-exporthost,
+      build-sync-lambda ]
+    runs-on: ubuntu-latest
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.release.outputs.version != 'none') }}
+    steps:
+      - name: Download Lambda
+        uses: actions/download-artifact@v4
+        continue-on-error: false
+        with:
+          name: lambda-sync-${{ needs.release.outputs.version }}
+          path: ~/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
+          aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          aws-region: ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Show AWS CLI version
+        shell: bash
+        run: aws --version
+
+      - name: Upload Lambda function
+        shell: bash
+        run: |
+          aws s3 cp ~/AssociationRegistry.KboMutations.SyncLambda.zip s3://$S3_LAMBDA_BUCKETNAME/$S3_LAMBDA/$VERSION/lambda.zip --copy-props none
+        env:
+          VERSION: ${{ needs.release.outputs.version }}
+          S3_LAMBDA_BUCKETNAME: ${{ vars.S3_LAMBDA_BUCKETNAME }}
+          S3_LAMBDA: 'kbo-sync'
+
   push_images_to_ik4_devops:
     if: needs.set-release-version.outputs.version != 'none'
     needs: [
