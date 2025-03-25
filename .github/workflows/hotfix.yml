@@ -164,6 +164,58 @@ jobs:
       pre-gen-marten: false
     secrets: inherit
 
+  build-sync-lambda:
+    name: Build Sync Lambda
+    needs: [ set-release-version ]
+    runs-on: ubuntu-latest
+
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    steps:
+      - name: Check version
+        shell: bash
+        run: echo $SEMVER
+        env:
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Paket restore
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore --runtime linux-x64
+
+      - name: Package lambda
+        shell: bash
+        run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Upload Lambda as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-sync-${{ needs.set-release-version.outputs.version }}
+          path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
+
   push_images_to_ik4_devops:
     if: needs.set-release-version.outputs.version != 'none'
     needs: [
@@ -174,7 +226,8 @@ jobs:
       build-admin-api,
       build-admin-projections,
       build-admin-address-sync,
-      build-powerbi-exporthost
+      build-powerbi-exporthost,
+      build-sync-lambda
     ]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
