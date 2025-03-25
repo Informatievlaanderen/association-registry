@@ -1,10 +1,14 @@
+# Use workflow from: Branch 'your current hotfix branch'
+# Version: 'use the version you branch off from and add a .1 e.g. 1.221.1.1' 
+# Once this workflow has completed, go to manual deploy to 'environment'
+# Use the same version e.g. 1.221.1.1 and use workflow from main
 name: Hotfix
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version (format: x.xxx.x, ie: 1.221.1)'
+        description: 'Version (format: x.xxx.x.x, ie: 1.221.1.1) where 1.221.1 is the version you branch off from'
         required: true
 
 concurrency: CI
