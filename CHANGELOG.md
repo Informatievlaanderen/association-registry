@@ -1,3 +1,16 @@
+# [8.220.0](https://github.com/informatievlaanderen/association-registry/compare/v8.219.2...v8.220.0) (2025-03-25)
+
+
+### Bug Fixes
+
+* or-2675 remove feitelijke vereniging from documentation acm ([1ea59c2](https://github.com/informatievlaanderen/association-registry/commit/1ea59c2785eee4b9a818f25c81df84adcaafaa7c))
+
+
+### Features
+
+* or-2675 improve documentation around use of versions ([ed23281](https://github.com/informatievlaanderen/association-registry/commit/ed23281192baae8720cbeead314a5675257ba1f7))
+* or-2675 improve documentation around use of versions for public api ([c7eaa47](https://github.com/informatievlaanderen/association-registry/commit/c7eaa47b9240a2e1fc44aba03931954303b5e934))
+
 ## [8.219.2](https://github.com/informatievlaanderen/association-registry/compare/v8.219.1...v8.219.2) (2025-03-24)
 
 
