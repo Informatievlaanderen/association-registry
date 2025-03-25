@@ -322,7 +322,7 @@ jobs:
     name: Notify slack
     runs-on: ubuntu-latest
 
-    needs: [ build ]
+    needs: [ run-tests ]
 
     steps:
       - name: Post to a Slack channel
