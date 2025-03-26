@@ -164,6 +164,99 @@ jobs:
       pre-gen-marten: false
     secrets: inherit
 
+  build-sync-lambda:
+    name: Build Sync Lambda
+    needs: [ set-release-version ]
+    runs-on: ubuntu-latest
+
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    steps:
+      - name: Check version
+        shell: bash
+        run: echo $SEMVER
+        env:
+          SEMVER: ${{ needs.set-release-version.outputs.version }}
+
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Parse repository name
+        run: echo REPOSITORY_NAME=$(echo "$GITHUB_REPOSITORY" | awk -F / '{print $2}' | sed -e "s/:refs//") >> $GITHUB_ENV
+        shell: bash
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ vars.VBR_DOTNET_VERSION_8 }}
+
+      - name: .NET version
+        shell: bash
+        run: dotnet --info
+
+      - name: Restore dotnet tools
+        shell: bash
+        run: |
+          dotnet tool restore
+
+      - name: Paket restore
+        shell: bash
+        run: dotnet paket restore
+
+      - name: Dotnet restore
+        shell: bash
+        run: dotnet restore --runtime linux-x64
+
+      - name: Package lambda
+        shell: bash
+        run: cd src/AssociationRegistry.KboMutations.SyncLambda && dotnet lambda package --region ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Upload Lambda as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-sync-${{ needs.set-release-version.outputs.version }}
+          path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
+
+  upload-sync-lambda:
+    name: Upload Sync Lambda
+    needs: [ set-release-version,
+      build-acm-api,
+      build-public-api,
+      build-public-projections,
+      build-admin-api,
+      build-admin-projections,
+      build-admin-address-sync,
+      build-powerbi-exporthost,
+      build-sync-lambda ]
+    runs-on: ubuntu-latest
+    if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
+    steps:
+      - name: Download Lambda
+        uses: actions/download-artifact@v4
+        continue-on-error: false
+        with:
+          name: lambda-sync-${{ needs.set-release-version.outputs.version }}
+          path: ~/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.VBR_AWS_BUILD_USER_ACCESS_KEY_ID_IK4 }}
+          aws-secret-access-key: ${{ secrets.VBR_AWS_BUILD_USER_SECRET_ACCESS_KEY_IK4 }}
+          aws-region: ${{ secrets.VBR_AWS_REGION }}
+
+      - name: Show AWS CLI version
+        shell: bash
+        run: aws --version
+
+      - name: Upload Lambda function
+        shell: bash
+        run: |
+          aws s3 cp ~/AssociationRegistry.KboMutations.SyncLambda.zip s3://$S3_LAMBDA_BUCKETNAME/$S3_LAMBDA/$VERSION/lambda.zip --copy-props none
+        env:
+          VERSION: ${{ needs.set-release-version.outputs.version }}
+          S3_LAMBDA_BUCKETNAME: ${{ vars.S3_LAMBDA_BUCKETNAME }}
+          S3_LAMBDA: 'kbo-sync'
+
   push_images_to_ik4_devops:
     if: needs.set-release-version.outputs.version != 'none'
     needs: [
@@ -174,7 +267,8 @@ jobs:
       build-admin-api,
       build-admin-projections,
       build-admin-address-sync,
-      build-powerbi-exporthost
+      build-powerbi-exporthost,
+      build-sync-lambda
     ]
     name: Push images IK4 (DevOps)
     runs-on: ubuntu-latest
