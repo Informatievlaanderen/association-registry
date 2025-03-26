@@ -156,4 +156,12 @@ public class EventStore : IEventStore
 
         return streamState != null;
     }
+
+    public async Task<bool> Exists(KboNummer kboNummer)
+    {
+        await using var session = _documentStore.LightweightSession();
+        var streamState = await session.Events.FetchStreamStateAsync(kboNummer);
+
+        return streamState != null;
+    }
 }

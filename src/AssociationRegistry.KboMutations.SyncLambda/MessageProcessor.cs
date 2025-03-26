@@ -65,6 +65,11 @@ public class MessageProcessor
 
             var commandResult = await handler.Handle(commandEnvelope, repository, cancellationToken);
 
+            if (commandResult is null)
+            {
+                return;
+            }
+
             contextLogger.LogInformation($"Sync resulted in sequence '{commandResult.Sequence}'. HasChanges? {commandResult.HasChanges()}");
         }
         catch(Exception ex)

@@ -83,4 +83,7 @@ public class VerenigingsRepository : IVerenigingsRepository
 
     public async Task<bool> Exists(VCode vCode)
         => await _eventStore.Exists(vCode);
+
+    public async Task<bool> Exists(KboNummer kboNummer)
+        => await _eventStore.Exists(kboNummer);
 }

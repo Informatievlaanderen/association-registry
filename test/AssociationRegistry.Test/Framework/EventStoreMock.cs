@@ -57,4 +57,7 @@ public class EventStoreMock : IEventStore
 
     public async Task<bool> Exists(VCode vCode)
         => true;
+
+    public async Task<bool> Exists(KboNummer kboNummer)
+        => throw new NotImplementedException();
 }

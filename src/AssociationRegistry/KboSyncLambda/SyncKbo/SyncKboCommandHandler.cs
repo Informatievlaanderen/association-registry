@@ -29,12 +29,17 @@ public class SyncKboCommandHandler
         _logger = logger;
     }
 
-    public async Task<CommandResult> Handle(
+    public async Task<CommandResult?> Handle(
         CommandEnvelope<SyncKboCommand> message,
         IVerenigingsRepository repository,
         CancellationToken cancellationToken = default)
     {
         _logger.LogInformation($"Handle {nameof(SyncKboCommandHandler)} start");
+
+        if (!await repository.Exists(message.Command.KboNummer))
+        {
+            return null;
+        }
 
         var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
 

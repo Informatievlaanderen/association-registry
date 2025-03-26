@@ -13,4 +13,5 @@ public interface IVerenigingsRepository
     Task<bool> IsVerwijderd(VCode vCode);
     Task<bool> IsDubbel(VCode vCode);
     Task<bool> Exists(VCode vCode);
+    Task<bool> Exists(KboNummer kboNummer);
 }
