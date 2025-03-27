@@ -50,6 +50,7 @@ public class MessageProcessor
         }
     }
 
+    // record processor.cs
     private static async Task TryProcessRecord(ILogger contextLogger, IVerenigingsRepository repository,
         INotifier notifier, CancellationToken cancellationToken, SQSEvent.SQSMessage record, SyncKboCommandHandler handler)
     {
@@ -67,6 +68,7 @@ public class MessageProcessor
 
             if (commandResult is null)
             {
+                // todo log
                 return;
             }
 
