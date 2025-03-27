@@ -1,3 +1,15 @@
+# [8.223.0](https://github.com/informatievlaanderen/association-registry/compare/v8.222.0...v8.223.0) (2025-03-27)
+
+
+### Bug Fixes
+
+* or-2672 set subverenigingVan to default when changing from subtype subvereniging ([9d1026d](https://github.com/informatievlaanderen/association-registry/commit/9d1026d16de3b6cbd3cc1b29abe1098806f1cd9d))
+
+
+### Features
+
+* or-2675 pass git hash ([1cc4764](https://github.com/informatievlaanderen/association-registry/commit/1cc4764019a9d1f1d47d52b8a582417717d51b0b))
+
 # [8.222.0](https://github.com/informatievlaanderen/association-registry/compare/v8.221.0...v8.222.0) (2025-03-25)
 
 
