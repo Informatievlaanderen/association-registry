@@ -1,3 +1,10 @@
+## [8.223.1](https://github.com/informatievlaanderen/association-registry/compare/v8.223.0...v8.223.1) (2025-03-27)
+
+
+### Bug Fixes
+
+* or-2748 use superAdminClient for local docker; restart services on failure ([94caa2d](https://github.com/informatievlaanderen/association-registry/commit/94caa2d9af85daba0883d185f25d12e5521a72b4))
+
 # [8.223.0](https://github.com/informatievlaanderen/association-registry/compare/v8.222.0...v8.223.0) (2025-03-27)
 
 
