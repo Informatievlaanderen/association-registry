@@ -1,6 +1,7 @@
 services:
 
   admin-api:
+    restart: on-failure
     build:
       context: .
       dockerfile: src/AssociationRegistry.Admin.Api/Dockerfile
@@ -12,6 +13,11 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
 
       ElasticClientOptions__Uri: "http://elasticsearch:9200"
+      ElasticClientOptions__Username: "elastic"
+      ElasticClientOptions__Password: "local_development"
+      ElasticClientOptions__Indices__Verenigingen: "verenigingsregister-verenigingen-admin"
+      ElasticClientOptions__Indices__DuplicateDetection: "verenigingsregister-duplicate-detection"
+      ElasticClientOptions__EnableDevelopmentLogs: true
 
       PostgreSQLOptions__Host: "db"
 
@@ -35,12 +41,14 @@ services:
       LiveMagdaOptions__GeefOndernemingVkboEndpoint: "http://wiremock:8080/GeefOndernemingVkboDienst-02.00/soap/WebService"
       LiveMagdaOptions__GeefOndernemingEndpoint: "http://wiremock:8080/GeefOndernemingDienst-02.00/soap/WebService"
       LiveMagdaOptions__RegistreerInschrijvingEndpoint: "http://wiremock:8080/RegistreerInschrijvingDienst-02.01/soap/WebService"
+      SuperAdminClientIds: "vloketClient,superAdminClient"
     depends_on:
       - db
       - elasticsearch
       - acm
       - localstack
       - wiremock
+      - admin-projections
     networks:
       - vr-net
 
@@ -48,7 +56,7 @@ services:
     image: curlimages/curl
     command: >
       -X POST "http://acm/connect/token"
-      -u "vloketClient:secret"
+      -u "superAdminClient:secret"
       -H "Content-Type: application/x-www-form-urlencoded"
       -d "grant_type=client_credentials&scope=vo_info dv_verenigingsregister_beheer"
     depends_on:
@@ -57,6 +65,7 @@ services:
       - vr-net
 
   admin-projections:
+    restart: on-failure
     build:
       context: .
       dockerfile: src/AssociationRegistry.Admin.ProjectionHost/Dockerfile
@@ -68,6 +77,12 @@ services:
       ASPNETCORE_ENVIRONMENT: Development
 
       ElasticClientOptions__Uri: "http://elasticsearch:9200"
+      ElasticClientOptions__Username: "elastic"
+      ElasticClientOptions__Password: "local_development"
+      ElasticClientOptions__Indices__Verenigingen: "verenigingsregister-verenigingen-admin"
+      ElasticClientOptions__Indices__DuplicateDetection: "verenigingsregister-duplicate-detection"
+      ElasticClientOptions__EnableDevelopmentLogs: true
+
       COLLECTOR_URL: "http://otel-collector:4317"
 
       PostgreSQLOptions__Host: "db"
