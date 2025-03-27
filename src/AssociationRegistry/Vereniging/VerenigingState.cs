@@ -793,12 +793,14 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingssubtype = Verenigingssubtype.FeitelijkeVereniging,
+            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdTerugGezetNaarNietBepaald @event)
         => this with
         {
             Verenigingssubtype = Verenigingssubtype.NietBepaald,
+            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
