@@ -72,6 +72,9 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
             LogScoreAndExplanation(naam, searchResponse);
         }
 
+        if (!searchResponse.IsValid)
+            throw searchResponse.OriginalException;
+
         return searchResponse.Hits
                              .Select(ToDuplicateVereniging)
                              .ToArray();
