@@ -1,0 +1,17 @@
+﻿namespace AssociationRegistry.Test.KboSync;
+
+using FluentAssertions;
+using Xunit;
+
+public class Given_Vereniging_Niet_Gekend_In_Verenigingsregister
+{
+    [Fact]
+    public async Task Then_Returns_Null()
+    {
+        var actual = await new SyncKboCommandHandlerBuilder()
+                 .MetNietBestaandeVereniging()
+                 .Handle();
+
+        actual.Should().BeNull();
+    }
+}

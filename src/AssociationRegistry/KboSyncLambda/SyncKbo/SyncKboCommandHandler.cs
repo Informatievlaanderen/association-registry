@@ -1,14 +1,14 @@
 ﻿namespace AssociationRegistry.KboSyncLambda.SyncKbo;
 
-using AssociationRegistry.Framework;
-using AssociationRegistry.Kbo;
-using AssociationRegistry.Notifications;
-using AssociationRegistry.Notifications.Messages;
-using AssociationRegistry.Resources;
-using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
+using Framework;
+using Kbo;
 using Microsoft.Extensions.Logging;
+using Notifications;
+using Notifications.Messages;
+using Resources;
 using ResultNet;
+using Vereniging;
+using Vereniging.Exceptions;
 
 public class SyncKboCommandHandler
 {
@@ -41,10 +41,6 @@ public class SyncKboCommandHandler
             return null;
         }
 
-        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
-
-        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
-
         var verenigingVolgensMagda =
             await _magdaGeefVerenigingService.GeefSyncVereniging(message.Command.KboNummer, message.Metadata, cancellationToken);
 
@@ -54,6 +50,10 @@ public class SyncKboCommandHandler
 
             throw new GeenGeldigeVerenigingInKbo();
         }
+
+        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
+
+        await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 
         vereniging.NeemGegevensOverUitKboSync(verenigingVolgensMagda);
 
