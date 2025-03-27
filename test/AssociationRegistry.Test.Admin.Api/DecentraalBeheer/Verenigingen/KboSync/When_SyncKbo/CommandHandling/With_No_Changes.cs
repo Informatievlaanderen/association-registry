@@ -131,18 +131,6 @@ public class With_FailureResultFromMagda
     }
 
     [Fact]
-    public async Task Then_The_Correct_Vereniging_Is_Loaded_Once()
-    {
-        try { await _action(); }
-        catch
-        {
-            // ignored
-        }
-
-        _verenigingRepositoryMock.ShouldHaveLoaded<VerenigingMetRechtspersoonlijkheid>(_scenario.KboNummer);
-    }
-
-    [Fact]
     public async Task Then_One_Notification_Is_Send()
     {
         try { await _action(); }

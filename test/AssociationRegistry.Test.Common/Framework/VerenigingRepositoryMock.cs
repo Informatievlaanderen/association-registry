@@ -91,7 +91,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         => true;
 
     public async Task<bool> Exists(KboNummer kboNummer)
-        => throw new NotImplementedException();
+        => true;
 
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
