@@ -181,6 +181,19 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse VerenigingWerdGestopt(DateOnly eindDatum)
+    {
+        var @event = new VerenigingWerdGestopt(eindDatum);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"De vereniging werd gestopt met einddatum '{eindDatum.ToString(WellknownFormats.DateOnly)}'.",
+            Gebeurtenis = nameof(Events.VerenigingWerdGestopt),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     public static HistoriekGebeurtenisResponse RoepnaamWerdGewijzigd(
         string roepnaam)
     {
