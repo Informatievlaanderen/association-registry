@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Common;
+using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
@@ -637,6 +638,16 @@ public static class HistoriekGebeurtenisMapper
             Beschrijving = $"De details van het subtype werden gewijzigd.",
             Gebeurtenis = nameof(SubverenigingDetailsWerdenGewijzigd),
             Data = @event,
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
+
+    public static HistoriekGebeurtenisResponse? ContactgegevenWerdToegevoegd(int nextContactgegevenId, VoegContactgegevenToeRequest request)
+        => new()
+        {
+            Beschrijving = $"{request.Contactgegeven.Contactgegeventype} '{request.Contactgegeven.Waarde}' werd toegevoegd.",
+            Gebeurtenis = nameof(Events.ContactgegevenWerdToegevoegd),
+            Data = new ContactgegevenWerdToegevoegd(nextContactgegevenId, request.Contactgegeven.Contactgegeventype, request.Contactgegeven.Waarde, request.Contactgegeven.Beschrijving, request.Contactgegeven.IsPrimair),
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
