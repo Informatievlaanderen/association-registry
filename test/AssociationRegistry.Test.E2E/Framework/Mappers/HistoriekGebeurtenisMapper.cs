@@ -180,6 +180,19 @@ public static class HistoriekGebeurtenisMapper
         };
     }
 
+    public static HistoriekGebeurtenisResponse VerenigingWerdGestopt(DateOnly eindDatum)
+    {
+        var @event = new VerenigingWerdGestopt(eindDatum);
+
+        return new HistoriekGebeurtenisResponse
+        {
+            Beschrijving = $"De vereniging werd gestopt met einddatum '{eindDatum.ToString(WellknownFormats.DateOnly)}'.",
+            Gebeurtenis = nameof(Events.VerenigingWerdGestopt),
+            Data = @event,
+            Initiator = AuthenticationSetup.Initiator,
+        };
+    }
+
     public static HistoriekGebeurtenisResponse RoepnaamWerdGewijzigd(
         string roepnaam)
     {
@@ -261,9 +274,9 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenBepaald(string vCode, string[] werkingsgebieden)
     {
         var @event = new WerkingsgebiedenWerdenBepaald(vCode, werkingsgebieden
-                                                               .Select(Werkingsgebied.Create)
-                                                               .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
-                                                               .ToArray());
+                                                             .Select(Werkingsgebied.Create)
+                                                             .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+                                                             .ToArray());
 
         return new HistoriekGebeurtenisResponse
         {
@@ -277,9 +290,9 @@ public static class HistoriekGebeurtenisMapper
     public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenGewijzigd(string vCode, string[] werkingsgebieden)
     {
         var @event = new WerkingsgebiedenWerdenGewijzigd(vCode, werkingsgebieden
-                                                        .Select(Werkingsgebied.Create)
-                                                        .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
-                                                        .ToArray());
+                                                               .Select(Werkingsgebied.Create)
+                                                               .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
+                                                               .ToArray());
 
         return new HistoriekGebeurtenisResponse
         {
@@ -455,7 +468,7 @@ public static class HistoriekGebeurtenisMapper
     }
 
     public static HistoriekGebeurtenisResponse LidmaatschapWerdToegevoegd(VoegLidmaatschapToeRequest request, string andereVerenigingNaam)
-    => new()
+        => new()
         {
             Beschrijving = "Lidmaatschap werd toegevoegd.",
             Gebeurtenis = nameof(Events.LidmaatschapWerdToegevoegd),
@@ -472,8 +485,12 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse LidmaatschapWerdGewijzigd(WijzigLidmaatschapRequest request, int lidmaatschapId, string andereVereniging, string andereVerenigingNaam)
-    => new()
+    public static HistoriekGebeurtenisResponse LidmaatschapWerdGewijzigd(
+        WijzigLidmaatschapRequest request,
+        int lidmaatschapId,
+        string andereVereniging,
+        string andereVerenigingNaam)
+        => new()
         {
             Beschrijving = "Lidmaatschap werd gewijzigd.",
             Gebeurtenis = nameof(Events.LidmaatschapWerdGewijzigd),
@@ -540,7 +557,8 @@ public static class HistoriekGebeurtenisMapper
         VerenigingWerdGemarkeerdAlsDubbelVan verenigingWerdGemarkeerdAlsDubbelVan)
         => new()
         {
-            Beschrijving = $"Markering als dubbel van vereniging {verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging} werd gecorrigeerd.",
+            Beschrijving =
+                $"Markering als dubbel van vereniging {verenigingWerdGemarkeerdAlsDubbelVan.VCodeAuthentiekeVereniging} werd gecorrigeerd.",
             Gebeurtenis = nameof(Events.MarkeringDubbeleVerengingWerdGecorrigeerd),
             Data = new
             {
@@ -551,10 +569,12 @@ public static class HistoriekGebeurtenisMapper
             Tijdstip = "2024-07-30T11:08:05Z",
         };
 
-    public static HistoriekGebeurtenisResponse? AanvaardingDubbeleVerenigingWerdGecorrigeerd(VerenigingAanvaarddeDubbeleVereniging scenarioVerenigingAanvaarddeDubbeleVereniging)
+    public static HistoriekGebeurtenisResponse? AanvaardingDubbeleVerenigingWerdGecorrigeerd(
+        VerenigingAanvaarddeDubbeleVereniging scenarioVerenigingAanvaarddeDubbeleVereniging)
         => new()
         {
-            Beschrijving = $"Vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging} werd verwijderd als dubbel door correctie.",
+            Beschrijving =
+                $"Vereniging {scenarioVerenigingAanvaarddeDubbeleVereniging.VCodeDubbeleVereniging} werd verwijderd als dubbel door correctie.",
             Gebeurtenis = nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging),
             Data = new
             {
