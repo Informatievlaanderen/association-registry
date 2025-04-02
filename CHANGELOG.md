@@ -1,3 +1,16 @@
+# [8.224.0](https://github.com/informatievlaanderen/association-registry/compare/v8.223.1...v8.224.0) (2025-04-02)
+
+
+### Bug Fixes
+
+* or-2680 change order of syncing with magda ([f0884be](https://github.com/informatievlaanderen/association-registry/commit/f0884be6c493183c0d7215d3d1e35626f851a1c8))
+* or-2680 dont throw error when vereniging is not known for kbo sync ([b983f6c](https://github.com/informatievlaanderen/association-registry/commit/b983f6cbf45640b6cc3df84b93fd3cba2bc0a03a))
+
+
+### Features
+
+* or-2778 unify log levels ([817116d](https://github.com/informatievlaanderen/association-registry/commit/817116ddb267e805a9a03e90ce3f41fcef31c8b1))
+
 ## [8.223.1](https://github.com/informatievlaanderen/association-registry/compare/v8.223.0...v8.223.1) (2025-03-27)
 
 
