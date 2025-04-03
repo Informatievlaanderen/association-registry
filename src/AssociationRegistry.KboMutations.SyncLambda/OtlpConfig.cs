@@ -3,6 +3,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 public class OtlpConfig
 {
     public string AuthHeader { get; set; }
+    public string OrgId { get; set; }
     public string MetricsUri { get; set; }
     public string TracingUri { get; set; }
     public string LogsUri { get; set; }

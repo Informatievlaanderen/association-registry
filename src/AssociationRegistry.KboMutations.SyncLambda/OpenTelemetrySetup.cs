@@ -54,6 +54,7 @@ public class OpenTelemetrySetup : IDisposable
                     options.Endpoint =
                         new Uri(otlpConfig.Value.MetricsUri);
                     AddAuth(options, otlpConfig.Value.AuthHeader);
+                    AddOrgScope(options, otlpConfig.Value.OrgId);
                 });
         }
 
@@ -142,10 +143,16 @@ public class OpenTelemetrySetup : IDisposable
         TracerProvider.Dispose();
     }
 
-    private void AddAuth(OtlpExporterOptions options, string authHeader)
+    private static void AddAuth(OtlpExporterOptions options, string authHeader)
     {
         if (!string.IsNullOrEmpty(authHeader))
             options.Headers = $"Authorization={authHeader}";
+    }
+
+    private static void AddOrgScope(OtlpExporterOptions options, string orgScope)
+    {
+        if (!string.IsNullOrEmpty(orgScope))
+            options.Headers = $"X-Scope-OrgID={orgScope}";
     }
 }
 public record OpenTelemetryResources(string ServiceName, Action<ResourceBuilder> ConfigureResourceBuilder);
