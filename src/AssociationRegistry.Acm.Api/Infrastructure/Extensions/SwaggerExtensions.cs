@@ -6,9 +6,11 @@ using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using ConfigurationBindings;
 using Documentation;
+using Hosts;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -44,6 +46,12 @@ public static class SwaggerExtensions
                        {
                            Version = "v1",
                            Title = appSettings.ApiDocs.Title,
+                           Extensions = new Dictionary<string, IOpenApiExtension>
+                           {
+                               {
+                                   WellknownOpenApiExtensions.XAssemblyversion, new Microsoft.OpenApi.Any.OpenApiString(Assembly.GetAssembly(typeof(Program)).GetVersionText())
+                               },
+                           },
                            Description = "---\n" +
                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
                                          "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",

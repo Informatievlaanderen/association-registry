@@ -5,7 +5,9 @@ using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger;
 using Be.Vlaanderen.Basisregisters.AspNetCore.Swagger.ReDoc;
 using Documentation;
+using Hosts;
 using Hosts.Configuration.ConfigurationBindings;
+using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;
 using Primitives;
 using Swagger;
@@ -51,6 +53,12 @@ public static class SwaggerExtensions
                        new OpenApiInfo
                        {
                            Version = "v1",
+                           Extensions = new Dictionary<string, IOpenApiExtension>
+                           {
+                               {
+                                   WellknownOpenApiExtensions.XAssemblyversion, new Microsoft.OpenApi.Any.OpenApiString(Assembly.GetAssembly(typeof(Program)).GetVersionText())
+                               },
+                           },
                            Title = appSettings.ApiDocs.Title,
                            Description = @$"
 Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie).
