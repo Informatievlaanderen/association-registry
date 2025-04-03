@@ -1,3 +1,11 @@
+## [8.225.2](https://github.com/informatievlaanderen/association-registry/compare/v8.225.1...v8.225.2) (2025-04-03)
+
+
+### Bug Fixes
+
+* or-2653 add assembly version to swagger json ([6d87591](https://github.com/informatievlaanderen/association-registry/commit/6d875917b4ec633ff0d15edd0b122240b29b24d6))
+* or-2653 add constant for open api extensions ([e95a309](https://github.com/informatievlaanderen/association-registry/commit/e95a30930cab86452d6d3fe034a22ec5fd702466))
+
 ## [8.225.1](https://github.com/informatievlaanderen/association-registry/compare/v8.225.0...v8.225.1) (2025-04-03)
 
 
