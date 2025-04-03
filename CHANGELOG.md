@@ -1,3 +1,10 @@
+# [8.226.0](https://github.com/informatievlaanderen/association-registry/compare/v8.225.2...v8.226.0) (2025-04-03)
+
+
+### Features
+
+* or-2778 add org scope id directly from env vars ([068843b](https://github.com/informatievlaanderen/association-registry/commit/068843b378a99fe806074942caf8f929a1decdd7))
+
 ## [8.225.2](https://github.com/informatievlaanderen/association-registry/compare/v8.225.1...v8.225.2) (2025-04-03)
 
 
