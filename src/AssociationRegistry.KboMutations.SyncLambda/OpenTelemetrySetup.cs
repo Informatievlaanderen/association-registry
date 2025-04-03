@@ -54,7 +54,7 @@ public class OpenTelemetrySetup : IDisposable
                     options.Endpoint =
                         new Uri(otlpConfig.Value.MetricsUri);
                     AddAuth(options, otlpConfig.Value.AuthHeader);
-                    AddOrgScope(options, otlpConfig.Value.OrgId);
+                    AddOrgScope(options, Environment.GetEnvironmentVariable("OTLP_1__OrgId"));
                 });
         }
 
