@@ -1,3 +1,10 @@
+# [8.225.0](https://github.com/informatievlaanderen/association-registry/compare/v8.224.0...v8.225.0) (2025-04-03)
+
+
+### Features
+
+* or-2778 add org scope id for grafana auth ([df56aa6](https://github.com/informatievlaanderen/association-registry/commit/df56aa65c009ebcde156b5be953ed43befb2508b))
+
 # [8.224.0](https://github.com/informatievlaanderen/association-registry/compare/v8.223.1...v8.224.0) (2025-04-02)
 
 
