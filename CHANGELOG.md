@@ -1,3 +1,10 @@
+## [8.225.1](https://github.com/informatievlaanderen/association-registry/compare/v8.225.0...v8.225.1) (2025-04-03)
+
+
+### Bug Fixes
+
+* or-2778 rename build-arg for git hash in swagger ([00973e5](https://github.com/informatievlaanderen/association-registry/commit/00973e5633cbceb581d12e9519b03d9fd3b95067))
+
 # [8.225.0](https://github.com/informatievlaanderen/association-registry/compare/v8.224.0...v8.225.0) (2025-04-03)
 
 
