@@ -22,7 +22,7 @@ public static class AdminApiEndpoints
     public static DetailVerenigingResponse GetBeheerDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
 
-    public static HttpResponseMessage GetBeheerDetail(this IAlbaHost source,
+    public static HttpResponseMessage GetBeheerDetailHttpResponse(this IAlbaHost source,
                                                       HttpClient authenticatedClient,
                                                       string vCode, long expectedSequence)
     {
@@ -33,7 +33,7 @@ public static class AdminApiEndpoints
             client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
         }
 
-        return client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}").Result;
+        return client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}").GetAwaiter().GetResult()!;
     }
 
     public static async  Task<DetailVerenigingResponse> GetBeheerDetailWithHeader(
