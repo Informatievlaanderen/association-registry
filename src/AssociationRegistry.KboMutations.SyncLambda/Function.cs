@@ -26,6 +26,7 @@ namespace AssociationRegistry.KboMutations.SyncLambda;
 
 using KboMutations.Configuration;
 using Notifications;
+using Serilog;
 
 public class Function
 {
@@ -87,16 +88,25 @@ public class Function
         var notifier = await new NotifierFactory(ssmClientWrapper, paramNamesConfiguration, context.Logger)
             .Create();
 
-        context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
-        await processor!.ProcessMessage(
-            @event,
-            loggerFactory,
-            registreerinschrijvingService,
-            geefOndernemingService,
-            repository,
-            notifier,
-            CancellationToken.None);
-        context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
+        try
+        {
+            context.Logger.LogInformation($"{@event.Records.Count} RECORDS RECEIVED INSIDE SQS EVENT");
+            await processor!.ProcessMessage(
+                @event,
+                loggerFactory,
+                registreerinschrijvingService,
+                geefOndernemingService,
+                repository,
+                notifier,
+                CancellationToken.None);
+            context.Logger.LogInformation($"{@event.Records.Count} RECORDS PROCESSED BY THE MESSAGE PROCESSOR");
+        }
+        catch (Exception e)
+        {
+            context.Logger.LogError(e, e.Message);
+            await Log.CloseAndFlushAsync();
+            throw;
+        }
     }
 
     private static async Task<MagdaOptionsSection> GetMagdaOptions(IConfiguration config,
