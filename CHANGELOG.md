@@ -1,3 +1,10 @@
+## [8.227.1](https://github.com/informatievlaanderen/association-registry/compare/v8.227.0...v8.227.1) (2025-04-04)
+
+
+### Bug Fixes
+
+* or-2776 throw exception when duplicate elastic response is not valid ([64981b9](https://github.com/informatievlaanderen/association-registry/commit/64981b90a239bfeb62f0275e58f1894ea50b9aa8))
+
 # [8.227.0](https://github.com/informatievlaanderen/association-registry/compare/v8.226.0...v8.227.0) (2025-04-04)
 
 
