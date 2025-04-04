@@ -651,4 +651,16 @@ public static class HistoriekGebeurtenisMapper
             Initiator = "OVO002949",
             Tijdstip = "2024-07-30T11:08:05Z",
         };
+
+    public static HistoriekGebeurtenisResponse? VerenigingWerdVerwijderd(string reden)
+        => new()
+        {
+            Beschrijving = "Deze vereniging werd verwijderd.",
+            Gebeurtenis = nameof(Events.VerenigingWerdVerwijderd),
+            Data = new VerenigingWerdVerwijderdData(
+               reden
+            ),
+            Initiator = "OVO002949",
+            Tijdstip = "2024-07-30T11:08:05Z",
+        };
 }
