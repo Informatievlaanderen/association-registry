@@ -1,3 +1,10 @@
+# [8.227.0](https://github.com/informatievlaanderen/association-registry/compare/v8.226.0...v8.227.0) (2025-04-04)
+
+
+### Features
+
+* or-2778 catch, log, throw kbo sync lambda exceptions ([027ae08](https://github.com/informatievlaanderen/association-registry/commit/027ae0881f6c7133145bf95a47e509073c4f9190))
+
 # [8.226.0](https://github.com/informatievlaanderen/association-registry/compare/v8.225.2...v8.226.0) (2025-04-03)
 
 
