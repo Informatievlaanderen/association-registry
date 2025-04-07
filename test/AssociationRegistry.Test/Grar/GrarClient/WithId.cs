@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.GrarClient;
+﻿namespace AssociationRegistry.Test.Grar.GrarClient;
 
-using Events;
+using AssociationRegistry.Events;
+using AssociationRegistry.Grar.Models;
 using FluentAssertions;
-using Grar.Models;
 using Locaties.When_Heradresseren_Locaties.Fixtures;
 using Xunit;
 using Xunit.Categories;

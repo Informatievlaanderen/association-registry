@@ -4,8 +4,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using Events;
 using FluentAssertions;
-using Grar.AdresMatch;
-using Vereniging;
+using AssociationRegistry.Grar.AdresMatch;using Vereniging;
 using Xunit;
 
 public class Returns_Single_Response_With_Score100

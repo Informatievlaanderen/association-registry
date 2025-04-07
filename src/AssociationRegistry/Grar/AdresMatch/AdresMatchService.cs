@@ -32,7 +32,7 @@ public class AdresMatchService
             locatie.Adres.Gemeente.Naam,
             cancellationToken);
 
-        var postalInformation = await grarClient.GetPostalInformation(locatie.Adres.Postcode);
+        var postalInformation = await grarClient.GetPostalInformationDetail(locatie.Adres.Postcode);
 
         if (adresMatches.HasNoResponse)
             return EventFactory.AdresWerdNietGevondenInAdressenregister(vCode, locatie);

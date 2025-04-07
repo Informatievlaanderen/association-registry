@@ -1,19 +1,17 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
-using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Grar.Models.PostalInfo;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
-using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.AutoFixture;
+using Common.Framework;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using Grar.Clients;
-using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using Events;
 using Moq;
+using Vereniging;
 using Xunit;
 
 public class With_DecoratingWithPostalInformation
@@ -39,7 +37,7 @@ public class With_DecoratingWithPostalInformation
 
         var mockedAdresDetail = fixture.Create<AddressDetailResponse>();
 
-        var mockedPostalInformation = new PostalInformationResponse(mockedAdresDetail.Postcode,
+        var mockedPostalInformation = new PostalInfoDetailResponse(mockedAdresDetail.Postcode,
                                                                     Gemeentenaam: "Affligem",
                                                                     Postnamen.FromValues("Hekelgem"));
 
@@ -48,7 +46,7 @@ public class With_DecoratingWithPostalInformation
         grarClientMock.Setup(x => x.GetAddressById("123", CancellationToken.None))
                       .ReturnsAsync(mockedAdresDetail);
 
-        grarClientMock.Setup(x => x.GetPostalInformation(mockedAdresDetail.Postcode))
+        grarClientMock.Setup(x => x.GetPostalInformationDetail(mockedAdresDetail.Postcode))
                       .ReturnsAsync(mockedPostalInformation);
 
         var locatieId = scenario.Locaties.First().LocatieId;

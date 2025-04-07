@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.Clients;
 
+using Microsoft.AspNetCore.WebUtilities;
+
 public class GrarHttpClient : IGrarHttpClient
 {
     private readonly HttpClient _httpClient;
@@ -35,17 +37,34 @@ public class GrarHttpClient : IGrarHttpClient
         return response;
     }
 
-    public async Task<HttpResponseMessage> GetPostInfo(string postcode, CancellationToken cancellationToken)
+    public async Task<HttpResponseMessage> GetPostInfoDetail(string postcode, CancellationToken cancellationToken)
+        => await _httpClient.GetAsync($"/v2/postinfo/{postcode}", cancellationToken);
+
+    public async Task<HttpResponseMessage> GetPostInfoList(string? offset, string? limit, CancellationToken cancellationToken)
     {
-        var requestUri = $"/v2/postinfo/{postcode}";
+        var url = UrlBuilder.Build("/v2/postinfo", offset, limit);
 
-        var response = await _httpClient.GetAsync(requestUri, cancellationToken);
-
-        return response;
+        return await _httpClient.GetAsync(url, cancellationToken);
     }
 
     public void Dispose()
     {
         _httpClient.Dispose();
+    }
+}
+
+public static class UrlBuilder
+{
+    public static string Build(string baseUrl, string? offset, string? limit)
+    {
+        var queryParams = new Dictionary<string, string?>();
+
+        if (!string.IsNullOrEmpty(offset))
+            queryParams["offset"] = offset;
+
+        if (!string.IsNullOrEmpty(limit))
+            queryParams["limit"] = limit;
+
+        return QueryHelpers.AddQueryString(baseUrl, queryParams);
     }
 }

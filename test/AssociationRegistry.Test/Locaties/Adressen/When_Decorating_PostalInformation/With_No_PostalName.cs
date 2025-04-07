@@ -32,7 +32,7 @@ public class With_No_PostalName
 
     private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, Gemeentenaam locatieGemeentenaam)
     {
-        var postalInformationResponse = new PostalInformationResponse(
+        var postalInformationResponse = new PostalInfoDetailResponse(
             Postcode: _fixture.Create<string>(),
             Gemeentenaam: gemeentenaam,
             Postnamen.FromValues(postnamen));

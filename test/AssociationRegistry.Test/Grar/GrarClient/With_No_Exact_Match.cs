@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.GrarClient;
+﻿namespace AssociationRegistry.Test.Grar.GrarClient;
 
 using Fixtures;
 using FluentAssertions;

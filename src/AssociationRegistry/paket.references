@@ -3,6 +3,8 @@ Be.Vlaanderen.Basisregisters.Generators.Guid.Deterministic
 
 Slack.Webhooks
 
+Microsoft.AspNetCore.WebUtilities
+
 Result.Net
 
 Polly

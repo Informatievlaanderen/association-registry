@@ -9,8 +9,7 @@ using Exceptions;
 using Framework;
 using GemeentenaamDecorator;
 using Grar;
-using Grar.AdresMatch;
-using Grar.Clients;
+using AssociationRegistry.Grar.AdresMatch;using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;
 using SocialMedias;
@@ -147,7 +146,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
 
             var locatie = State.Locaties[locatieId];
 
-            var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
+            var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
 
             var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
                 locatie.Adres.Gemeente,
@@ -191,7 +190,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
                 continue;
             }
 
-            var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
+            var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
 
             var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
                 locatie.Adres.Gemeente,
@@ -288,7 +287,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
         if (!adresDetailResponse.IsActief)
             throw new AdressenregisterReturnedInactiefAdres();
 
-        var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
+        var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             postalInformation,

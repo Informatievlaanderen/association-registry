@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressData_To_TeHernummerenStraat;
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Kafka.StraatHernummering;
+using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.Common;
 using FluentAssertions;
-using Grar.GrarUpdates.Hernummering;
 using Xunit;
 
 public class Given_ReaddressedData

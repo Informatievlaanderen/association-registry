@@ -1,12 +1,10 @@
-﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
+﻿namespace AssociationRegistry.Test.Grar.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
+using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
+using AssociationRegistry.Test.Common.AutoFixture;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
-using Common.AutoFixture;
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
-using Grar.GrarConsumer.Messaging.OntkoppelAdres;
-using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Xunit;
 
 public class Given_No_Existing_Locatie

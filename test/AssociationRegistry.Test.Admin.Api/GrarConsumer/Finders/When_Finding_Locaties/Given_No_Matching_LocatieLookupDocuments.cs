@@ -2,11 +2,11 @@ namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.Finders.When_Finding_L
 
 using AssociationRegistry.Admin.Api.GrarConsumer.Finders;
 using AssociationRegistry.Admin.Schema.Detail;
+using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
-using Grar.GrarUpdates.LocatieFinder;
 using Marten;
 using Vereniging;
 using Xunit;

@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
-using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using DecentraalBeheer.Administratie.ProbeerAdresTeMatchen;
-using Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;

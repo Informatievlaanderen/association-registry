@@ -1,18 +1,15 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
-using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Grar.Models;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using FluentAssertions;
-using Grar.Clients;
-using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using Moq;
 using Xunit;
 

@@ -1,11 +1,8 @@
-﻿namespace AssociationRegistry.Test.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
+﻿namespace AssociationRegistry.Test.Grar.GrarUpdates.TeOntkoppelenLocatiesHandlerTests;
 
-using Common.Framework;
-using Common.Scenarios.CommandHandling;
-using Events;
-using Grar.GrarConsumer.Messaging.OntkoppelAdres;
-using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
-using Vereniging;
+using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
+using AssociationRegistry.Test.Common.Framework;
+using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using Xunit;
 
 public class Given_Already_Ontkoppelde_Locatie
