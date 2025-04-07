@@ -1,3 +1,10 @@
+# [8.228.0](https://github.com/informatievlaanderen/association-registry/compare/v8.227.1...v8.228.0) (2025-04-07)
+
+
+### Features
+
+* or-2731 add documentation for expected sequences and etag in swagger ([ea69da2](https://github.com/informatievlaanderen/association-registry/commit/ea69da2300abc7e6d87cd7596e24bff48c00a99c))
+
 ## [8.227.1](https://github.com/informatievlaanderen/association-registry/compare/v8.227.0...v8.227.1) (2025-04-04)
 
 
