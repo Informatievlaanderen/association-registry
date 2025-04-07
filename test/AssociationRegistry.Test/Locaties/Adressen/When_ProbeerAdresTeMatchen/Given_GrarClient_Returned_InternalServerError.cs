@@ -1,15 +1,14 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_ProbeerAdresTeMatchen;
 
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Exceptions;
 using Events;
-using Grar;
-using Grar.Exceptions;
 using Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
-using Grar.Clients;
 using Moq;
 using System.Net;
 using Xunit;

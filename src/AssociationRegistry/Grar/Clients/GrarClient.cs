@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Models;
 using Newtonsoft.Json;
 using System.Net;
+using System.Web;
+using Weasel.Postgresql.Tables.Partitioning;
 
 public class GrarClient : IGrarClient
 {
@@ -160,11 +162,11 @@ public class GrarClient : IGrarClient
         }
     }
 
-    public async Task<PostalInformationResponse?> GetPostalInformation(string postcode)
+    public async Task<PostalInfoDetailResponse?> GetPostalInformationDetail(string postcode)
     {
         try
         {
-            var response = await _grarHttpClient.GetPostInfo(postcode, CancellationToken.None);
+            var response = await _grarHttpClient.GetPostInfoDetail(postcode, CancellationToken.None);
 
             switch (response.StatusCode)
             {
@@ -177,7 +179,7 @@ public class GrarClient : IGrarClient
                     var postnamen = Postnamen.FromPostalInfo(result.Postnamen);
 
 
-                    var postalInformationResponse = new PostalInformationResponse(postcode,
+                    var postalInformationResponse = new PostalInfoDetailResponse(postcode,
                                                                                   gemeentenaam ?? postnamen[0],
                                                                                   postnamen);
                     return postalInformationResponse;
@@ -200,5 +202,58 @@ public class GrarClient : IGrarClient
 
             throw new Exception(ex.Message, ex);
         }
+    }
+
+    public async Task<PostcodesLijstResponse?> GetPostalInformationList(string offset, string limit)
+    {
+        try
+        {
+            var response = await _grarHttpClient.GetPostInfoList(offset, limit,CancellationToken.None);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<PostalInformationListOsloResponse>(jsonContent);
+
+                    if(result is null)
+                        return null;
+
+                    var (nextOffset, nextLimit) = GetOffsetAndLimitFromUri(result.Volgende);
+
+                    return new PostcodesLijstResponse()
+                    {
+                        Postcodes = result.PostInfoObjecten.Select(x => x.Identificator.ObjectId).ToArray(),
+                        VolgendeOffset = nextOffset,
+                        VolgendeLimit = nextLimit,
+                    };
+                }
+
+                case HttpStatusCode.NotFound:
+                default:
+                    return null;
+            }
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, message: "{Message}", ex.Message);
+
+            throw new Exception(message: "A timeout occurred when calling the postal information endpoint", ex);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, message: "An error occurred when calling the postal information endpoint: {Message}", ex.Message);
+
+            throw new Exception(ex.Message, ex);
+        }
+    }
+
+    private static (string? offset, string? limit) GetOffsetAndLimitFromUri(Uri? uri)
+    {
+        if (uri == null) return (null, null);
+
+        var query = HttpUtility.ParseQueryString(uri.Query);
+        return (query["offset"], query["limit"]);
     }
 }

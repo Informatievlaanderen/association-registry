@@ -1,12 +1,12 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.ReAddressEvents.When_Mapping_ReaddressedData;
 
+using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
+using AssociationRegistry.Grar.GrarUpdates.Hernummering;
+using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;
 using Be.Vlaanderen.Basisregisters.GrAr.Contracts.AddressRegistry;
 using Common.AutoFixture;
 using FluentAssertions;
-using Grar.GrarConsumer.Messaging.HeradresseerLocaties;
-using Grar.GrarUpdates.Hernummering;
-using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
 

@@ -2,12 +2,11 @@
 
 using AssociationRegistry.Events;
 using AssociationRegistry.Grar.Models.PostalInfo;
-using AssociationRegistry.Vereniging;
+using Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using GemeentenaamDecorator;
 using Xunit;
-using Postnaam = Grar.Models.PostalInfo.Postnaam;
 
 public class With_Several_PostalNames
 {
@@ -46,7 +45,7 @@ public class With_Several_PostalNames
 
     private static VerrijkteGemeentenaam DecorateWithOnePostalName(string gemeentenaam, string[] postnamen, Gemeentenaam locatieGemeentenaam)
     {
-        var postalInformationResponse = new PostalInformationResponse(
+        var postalInformationResponse = new PostalInfoDetailResponse(
             Postcode: _fixture.Create<string>(),
             Gemeentenaam: gemeentenaam,
             Postnamen.FromValues(postnamen));

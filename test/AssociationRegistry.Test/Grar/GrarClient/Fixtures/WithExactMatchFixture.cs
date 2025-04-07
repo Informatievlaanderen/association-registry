@@ -1,8 +1,7 @@
-﻿namespace AssociationRegistry.Test.GrarClient.Fixtures;
+﻿namespace AssociationRegistry.Test.Grar.GrarClient.Fixtures;
 
-using AssociationRegistry.Grar;
+using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models;
-using Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
 

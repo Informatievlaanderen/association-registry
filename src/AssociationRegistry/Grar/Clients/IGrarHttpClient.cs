@@ -12,5 +12,6 @@ public interface IGrarHttpClient : IDisposable
         string gemeentenaam,
         CancellationToken cancellationToken);
 
-    Task<HttpResponseMessage> GetPostInfo(string postcode, CancellationToken cancellationToken);
+    Task<HttpResponseMessage> GetPostInfoDetail(string postcode, CancellationToken cancellationToken);
+    Task<HttpResponseMessage> GetPostInfoList(string offset, string limit, CancellationToken cancellationToken);
 }

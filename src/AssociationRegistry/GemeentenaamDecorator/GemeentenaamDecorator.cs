@@ -8,7 +8,7 @@ public static class GemeentenaamDecorator
 {
     public static VerrijkteGemeentenaam VerrijkGemeentenaam(
         Gemeentenaam gemeentenaam,
-        PostalInformationResponse? postalInformationResponse,
+        PostalInfoDetailResponse? postalInformationResponse,
         string gemeentenaamUitGrar)
     {
         if (postalInformationResponse is null) return VerrijkteGemeentenaam.ZonderPostnaam(gemeentenaamUitGrar);
@@ -29,7 +29,7 @@ public static class GemeentenaamDecorator
     }
 
     public static VerrijkteGemeentenaam VerrijkGemeentenaam(
-        PostalInformationResponse? postalInformationResponse,
+        PostalInfoDetailResponse? postalInformationResponse,
         string gemeentenaamUitGrar)
     {
         if (postalInformationResponse is null) return VerrijkteGemeentenaam.ZonderPostnaam(gemeentenaamUitGrar);

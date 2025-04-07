@@ -307,7 +307,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
         if (!adresDetailResponse.IsActief)
             throw new AdressenregisterReturnedInactiefAdres();
 
-        var postalInformation = await grarClient.GetPostalInformation(adresDetailResponse.Postcode);
+        var postalInformation = await grarClient.GetPostalInformationDetail(adresDetailResponse.Postcode);
 
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             postalInformation,

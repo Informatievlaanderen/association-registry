@@ -1,13 +1,13 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.AdresMatchService.Given_GrarClient;
 
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
-using FluentAssertions;
-using Grar.AdresMatch;
-using Grar.Models;
 using Vereniging;
 using Xunit;
+using AssociationRegistry.Grar.AdresMatch;
+using FluentAssertions;
 
 public class Returns_Multiple_100Score_Responses
 {

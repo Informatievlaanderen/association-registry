@@ -1,6 +1,6 @@
 ﻿namespace AssociationRegistry.Grar.Models.PostalInfo;
 
-public record PostalInformationResponse(
+public record PostalInfoDetailResponse(
     string Postcode,
     string Gemeentenaam,
     Postnamen Postnamen);

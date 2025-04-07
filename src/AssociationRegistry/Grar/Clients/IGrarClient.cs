@@ -7,5 +7,6 @@ public interface IGrarClient
 {
     Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken);
     Task<AdresMatchResponseCollection> GetAddressMatches(string straatnaam, string huisnummer, string busnummer, string postcode, string gemeentenaam, CancellationToken cancellationToken);
-    Task<PostalInformationResponse> GetPostalInformation(string postcode);
+    Task<PostalInfoDetailResponse> GetPostalInformationDetail(string postcode);
+    Task<PostcodesLijstResponse?> GetPostalInformationList(string offset, string limit);
 }

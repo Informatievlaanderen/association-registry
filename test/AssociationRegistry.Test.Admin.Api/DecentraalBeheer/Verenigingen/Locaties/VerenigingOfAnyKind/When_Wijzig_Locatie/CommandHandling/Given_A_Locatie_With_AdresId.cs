@@ -62,8 +62,8 @@ public class Given_A_Locatie_With_Adres_id
         grarClient.Setup(s => s.GetAddressById(adresId.ToString(), It.IsAny<CancellationToken>()))
                   .ReturnsAsync(adresDetailResponse);
 
-        grarClient.Setup(s => s.GetPostalInformation(It.IsAny<string>()))
-                  .ReturnsAsync(fixture.Create<PostalInformationResponse>() with
+        grarClient.Setup(s => s.GetPostalInformationDetail(It.IsAny<string>()))
+                  .ReturnsAsync(fixture.Create<PostalInfoDetailResponse>() with
                    {
                        Gemeentenaam = adresDetailResponse.Gemeente,
                        Postcode = adresDetailResponse.Postcode,

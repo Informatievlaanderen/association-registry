@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.GrarConsumer.FusieEvents.When_Consuming_Merger_Events.TeOntkoppelenHandlerTests;
 
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
+using AssociationRegistry.Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
+using AssociationRegistry.Grar.GrarUpdates.LocatieFinder;
 using AutoFixture;
 using Common.AutoFixture;
-using Grar.GrarConsumer.Messaging.OntkoppelAdres;
-using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
-using Grar.GrarUpdates.LocatieFinder;
 using Moq;
 using Xunit;
 

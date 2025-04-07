@@ -1,11 +1,11 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.AdresMatchService.Given_GrarClient;
 
+using AssociationRegistry.Grar.Models;
 using AutoFixture;
 using Common.AutoFixture;
 using Events;
 using FluentAssertions;
-using Grar.AdresMatch;
-using Grar.Models;
+using AssociationRegistry.Grar.AdresMatch;
 using Vereniging;
 using Xunit;
 

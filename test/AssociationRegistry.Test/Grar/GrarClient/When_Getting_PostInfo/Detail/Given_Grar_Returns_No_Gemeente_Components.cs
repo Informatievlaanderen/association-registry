@@ -1,9 +1,8 @@
-﻿namespace AssociationRegistry.Test.GrarClient.When_Getting_PostInfo;
+﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.Detail;
 
+using AssociationRegistry.Grar.Clients;
+using AssociationRegistry.Grar.Models.PostalInfo;
 using FluentAssertions;
-using Grar;
-using Grar.Clients;
-using Grar.Models.PostalInfo;
 using Microsoft.Extensions.Logging;
 using Moq;
 using System.Net;
@@ -16,7 +15,7 @@ public class Given_Grar_Returns_No_Gemeente_Components
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 
-        grarHttpClient.Setup(x => x.GetPostInfo(It.IsAny<string>(), It.IsAny<CancellationToken>()))
+        grarHttpClient.Setup(x => x.GetPostInfoDetail(It.IsAny<string>(), It.IsAny<CancellationToken>()))
                       .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.OK)
                        {
                            Content = new StringContent(PostInfoResponseWithoutGemeenteComponents),
@@ -24,9 +23,9 @@ public class Given_Grar_Returns_No_Gemeente_Components
 
         var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
-        var result = await sut.GetPostalInformation("0612");
+        var result = await sut.GetPostalInformationDetail("0612");
 
-        result.Should().BeEquivalentTo(new PostalInformationResponse("0612", "Sinterklaas", Postnamen.FromValues("Sinterklaas")));
+        result.Should().BeEquivalentTo(new PostalInfoDetailResponse("0612", "Sinterklaas", Postnamen.FromValues("Sinterklaas")));
     }
 
     private const string PostInfoResponseWithoutGemeenteComponents =
