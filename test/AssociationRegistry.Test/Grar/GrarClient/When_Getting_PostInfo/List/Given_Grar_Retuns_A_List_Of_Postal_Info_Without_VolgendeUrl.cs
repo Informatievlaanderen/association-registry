@@ -19,8 +19,6 @@ public class Given_Grar_Retuns_A_List_Of_Postal_Info_Without_VolgendeUrl
         var httpClient = new Mock<IGrarHttpClient>();
         var offset = "100";
         var limit = "50";
-        var volgendeOffset = "100";
-        var volgendeLimit = "50";
 
         var postalInfoResponse = new PostalInformationListOsloResponseBuilder()
                           .WithPostInfo("1500", "Halle", "Buizingen")

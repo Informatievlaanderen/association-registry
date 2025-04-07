@@ -133,7 +133,8 @@ public class GrarClient : IGrarClient
                                                                                               Adresbron.AR.Code,
                                                                                               s.Identificator.Id
                                                                                           ),
-                                                                                          Adresvoorstelling: s.VolledigAdres.GeografischeNaam.Spelling,
+                                                                                          Adresvoorstelling: s.VolledigAdres
+                                                                                             .GeografischeNaam.Spelling,
                                                                                           s.Straatnaam.Straatnaam.GeografischeNaam.Spelling,
                                                                                           s.Huisnummer,
                                                                                           s.Busnummer ?? string.Empty,
@@ -178,10 +179,56 @@ public class GrarClient : IGrarClient
                     var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
                     var postnamen = Postnamen.FromPostalInfo(result.Postnamen);
 
-
                     var postalInformationResponse = new PostalInfoDetailResponse(postcode,
-                                                                                  gemeentenaam ?? postnamen[0],
-                                                                                  postnamen);
+                                                                                 gemeentenaam ?? postnamen[0],
+                                                                                 postnamen);
+
+                    return postalInformationResponse;
+                }
+
+                case HttpStatusCode.NotFound:
+                default:
+                    return null;
+            }
+        }
+        catch (TaskCanceledException ex)
+        {
+            _logger.LogError(ex, message: "{Message}", ex.Message);
+
+            throw new Exception(message: "A timeout occurred when calling the postal information endpoint", ex);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, message: "An error occurred when calling the postal information endpoint: {Message}", ex.Message);
+
+            throw new Exception(ex.Message, ex);
+        }
+    }
+
+    public async Task<PostalNutsLauInfoResponse?> GetPostalNutsLauInformation(string postcode)
+    {
+        try
+        {
+            var response = await _grarHttpClient.GetPostInfoDetail(postcode, CancellationToken.None);
+
+            switch (response.StatusCode)
+            {
+                case HttpStatusCode.OK:
+                {
+                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
+
+                    var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
+                    var nuts = result.Nuts3Code;
+                    var lau = result.Gemeente?.ObjectId;
+
+                    if (gemeentenaam == null || nuts == null || lau is null)
+                    {
+                        return null;
+                    }
+
+                    var postalInformationResponse = new PostalNutsLauInfoResponse(postcode, gemeentenaam, nuts, lau);
+
                     return postalInformationResponse;
                 }
 
@@ -208,7 +255,7 @@ public class GrarClient : IGrarClient
     {
         try
         {
-            var response = await _grarHttpClient.GetPostInfoList(offset, limit,CancellationToken.None);
+            var response = await _grarHttpClient.GetPostInfoList(offset, limit, CancellationToken.None);
 
             switch (response.StatusCode)
             {
@@ -217,7 +264,7 @@ public class GrarClient : IGrarClient
                     var jsonContent = await response.Content.ReadAsStringAsync();
                     var result = JsonConvert.DeserializeObject<PostalInformationListOsloResponse>(jsonContent);
 
-                    if(result is null)
+                    if (result is null)
                         return null;
 
                     var (nextOffset, nextLimit) = GetOffsetAndLimitFromUri(result.Volgende);
@@ -254,6 +301,7 @@ public class GrarClient : IGrarClient
         if (uri == null) return (null, null);
 
         var query = HttpUtility.ParseQueryString(uri.Query);
+
         return (query["offset"], query["limit"]);
     }
 }

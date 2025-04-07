@@ -1,4 +1,6 @@
-﻿using AssociationRegistry.Grar.Clients.Contracts;
+﻿namespace AssociationRegistry.Test.Grar.GrarClient.When_Getting_PostInfo.List;
+
+using AssociationRegistry.Grar.Clients.Contracts;
 
 public class PostalInformationListOsloResponseBuilder
 {
