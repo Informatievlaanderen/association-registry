@@ -28,6 +28,7 @@ using Grar.GrarUpdates.Fusies.TeHeradresserenLocaties;
 using Grar.GrarUpdates.Fusies.TeOntkoppelenLocaties;
 using Grar.GrarUpdates.Hernummering;
 using Grar.GrarUpdates.LocatieFinder;
+using Grar.NutsLau;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
 using HostedServices.VzerMigratie;
@@ -427,6 +428,9 @@ public class Program
                .AddTransient<ITeOntkoppelenLocatiesProcessor, TeOntkoppelenLocatiesProcessor>()
                .AddTransient<IFusieEventProcessor, FusieEventProcessor>()
                .AddTransient<ITeHernummerenStraatEventProcessor, TeHernummerenStraatEventProcessor>()
+               .AddTransient<IPostcodesFromGrarFetcher, PostcodesFromGrarFetcher>()
+               .AddTransient<INutsLauFromGrarFetcher, NutsLauFromGrarFetcher>()
+               .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()
