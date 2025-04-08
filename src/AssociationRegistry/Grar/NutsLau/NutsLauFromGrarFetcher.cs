@@ -1,7 +1,6 @@
-﻿namespace AssociationRegistry.Test.Grar.NutsLau;
+﻿namespace AssociationRegistry.Grar.NutsLau;
 
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.NutsLau;
 
 public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 {

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Grar.NutsLau.When_Syncing_NutsAndLauInfo;
 
+using AssociationRegistry.Grar.NutsLau;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using Marten;

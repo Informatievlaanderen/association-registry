@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.Grar.NutsLau;
+﻿namespace AssociationRegistry.Grar.NutsLau;
 
 using Marten;
 using Microsoft.Extensions.Logging;

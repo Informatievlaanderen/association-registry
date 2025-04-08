@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Models.PostalInfo;
+using AssociationRegistry.Grar.NutsLau;
 using FluentAssertions;
 using Moq;
 using Xunit;
