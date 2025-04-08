@@ -15,8 +15,8 @@ public class Given_A_Non_Flemish_PostalCodes
 
         var sut = new NutsLauFromGrarFetcher(client.Object);
 
-        await sut.GetFlemishNutsAndLauByPostcode(postcodes);
+        await sut.GetFlemishNutsAndLauByPostcode(postcodes, CancellationToken.None);
 
-        client.Verify(x => x.GetPostalNutsLauInformation(It.IsAny<string>()), Times.Never);
+        client.Verify(x => x.GetPostalNutsLauInformation(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }
 }

@@ -23,7 +23,7 @@ public class Given_Grar_Returns_PostInfo_With_Minimal_Fields
 
         var sut = new GrarClient(httpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
-        var actual = await sut.GetPostalNutsLauInformation(postcode);
+        var actual = await sut.GetPostalNutsLauInformation(postcode, CancellationToken.None);
 
         actual.Should().BeNull();
     }

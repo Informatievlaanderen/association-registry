@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Grar.NutsLau;
 
-using AssociationRegistry.Grar.Clients;
+using Clients;
+using Marten.Schema;
 
 public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 {
@@ -12,7 +13,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
         _client = client;
     }
 
-    public async Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postcodes)
+    public async Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postcodes, CancellationToken cancellationToken)
     {
         var nutsLauInfos = new List<PostalNutsLauInfo>();
 
@@ -21,9 +22,16 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             if (!Postcode.IsVlaamsePostcode(postcode))
                 continue;
 
-            var postInfo = await _client.GetPostalNutsLauInformation(postcode);
+            var postInfo = await _client.GetPostalNutsLauInformation(postcode, cancellationToken);
+
             if (postInfo is not null)
-                nutsLauInfos.Add(new PostalNutsLauInfo(postInfo.Postcode, postInfo.Gemeentenaam, postInfo.Nuts, postInfo.Lau));
+                nutsLauInfos.Add(new PostalNutsLauInfo()
+                {
+                    Postcode = postInfo.Postcode,
+                    Gemeentenaam = postInfo.Gemeentenaam,
+                    Nuts = postInfo.Nuts,
+                    Lau = postInfo.Lau,
+                });
         }
 
         return nutsLauInfos.ToArray();
@@ -32,11 +40,14 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 
 public interface INutsLauFromGrarFetcher
 {
-    Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postalInformationList);
+    Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postalInformationList, CancellationToken cancellationToken);
 }
 
-public record PostalNutsLauInfo(
-    string Postcode,
-    string Gemeentenaam,
-    string Nuts,
-    string Lau);
+public record PostalNutsLauInfo
+{
+    [Identity]
+    public string Postcode { get; set; }
+    public string Gemeentenaam { get; set; }
+    public string Nuts { get; set; }
+    public string Lau { get; set; }
+};

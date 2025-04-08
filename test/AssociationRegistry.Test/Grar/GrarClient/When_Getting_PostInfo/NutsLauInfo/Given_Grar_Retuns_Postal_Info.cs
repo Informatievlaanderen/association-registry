@@ -35,7 +35,7 @@ public class Given_Grar_Retuns_Postal_Info
 
         var expected = new PostalNutsLauInfoResponse(postcode, lauCode, nutsCode, gemeentenaam);
 
-        var actual = await sut.GetPostalNutsLauInformation(postcode);
+        var actual = await sut.GetPostalNutsLauInformation(postcode, CancellationToken.None);
 
         actual.Should().BeEquivalentTo(expected);
     }

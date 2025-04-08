@@ -205,17 +205,17 @@ public class GrarClient : IGrarClient
         }
     }
 
-    public async Task<PostalNutsLauInfoResponse?> GetPostalNutsLauInformation(string postcode)
+    public async Task<PostalNutsLauInfoResponse?> GetPostalNutsLauInformation(string postcode, CancellationToken cancellationToken)
     {
         try
         {
-            var response = await _grarHttpClient.GetPostInfoDetail(postcode, CancellationToken.None);
+            var response = await _grarHttpClient.GetPostInfoDetail(postcode, cancellationToken);
 
             switch (response.StatusCode)
             {
                 case HttpStatusCode.OK:
                 {
-                    var jsonContent = await response.Content.ReadAsStringAsync();
+                    var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
                     var result = JsonConvert.DeserializeObject<PostalInformationOsloResponse>(jsonContent);
 
                     var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
@@ -251,11 +251,11 @@ public class GrarClient : IGrarClient
         }
     }
 
-    public async Task<PostcodesLijstResponse?> GetPostalInformationList(string offset, string limit)
+    public async Task<PostcodesLijstResponse?> GetPostalInformationList(string offset, string limit, CancellationToken cancellationToken)
     {
         try
         {
-            var response = await _grarHttpClient.GetPostInfoList(offset, limit, CancellationToken.None);
+            var response = await _grarHttpClient.GetPostInfoList(offset, limit, cancellationToken);
 
             switch (response.StatusCode)
             {

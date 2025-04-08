@@ -18,18 +18,25 @@ public class Given_A_Set_Of_PostalCodes
         var client = new Mock<IGrarClient>();
         string[] postcodes = ["1500", "1501"];
         var nutsLauResponses = fixture.CreateMany<PostalNutsLauInfoResponse>(2).ToArray();
-        SetupGrarClient(client,postcodes[0], nutsLauResponses[0]);
-        SetupGrarClient(client,postcodes[1], nutsLauResponses[1]);
+        SetupGrarClient(client, postcodes[0], nutsLauResponses[0]);
+        SetupGrarClient(client, postcodes[1], nutsLauResponses[1]);
 
         var sut = new NutsLauFromGrarFetcher(client.Object);
 
-        var actual = await sut.GetFlemishNutsAndLauByPostcode(postcodes);
-        actual.Should().BeEquivalentTo(nutsLauResponses.Select(x => new PostalNutsLauInfo(x.Postcode, x.Gemeentenaam, x.Nuts, x.Lau)));
+        var actual = await sut.GetFlemishNutsAndLauByPostcode(postcodes, CancellationToken.None);
+
+        actual.Should().BeEquivalentTo(nutsLauResponses.Select(x => new PostalNutsLauInfo()
+        {
+            Postcode = x.Postcode,
+            Gemeentenaam = x.Gemeentenaam,
+            Nuts = x.Nuts,
+            Lau = x.Lau,
+        }));
     }
 
     private void SetupGrarClient(Mock<IGrarClient> client, string postalcode, PostalNutsLauInfoResponse response)
     {
-        client.Setup(x => x.GetPostalNutsLauInformation(postalcode))
+        client.Setup(x => x.GetPostalNutsLauInformation(postalcode, It.IsAny<CancellationToken>()))
               .ReturnsAsync(response);
     }
 }
