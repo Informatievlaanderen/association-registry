@@ -54,6 +54,7 @@ public class WijzigLidmaatschapController : ApiController
     /// <param name="validator">De validator voor het wijzigen van het lidmaatschap.</param>
     /// <param name="metadataProvider"></param>
     /// <param name="ifMatch">If-Match header met ETag van de laatst gekende versie van de vereniging.</param>
+    /// <response code="200">Er waren geen wijzigingen.</response>
     /// <response code="202">Het lidmaatschap werd gewijzigd.</response>
     /// <response code="400">Er was een probleem met de doorgestuurde waarden.</response>
     /// <response code="412">De gevraagde vereniging heeft niet de verwachte sequentiewaarde.</response>
@@ -71,6 +72,7 @@ public class WijzigLidmaatschapController : ApiController
                            description: "De versie van de geregistreerde vereniging.")]
     [SwaggerResponseHeader(StatusCodes.Status202Accepted, name: "Location", type: "string",
                            description: "De locatie van het gewijzigde lidmaatschap.")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status202Accepted)]
     [ProducesResponseType(typeof(ValidationProblemDetails), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ProblemDetails), StatusCodes.Status412PreconditionFailed)]
