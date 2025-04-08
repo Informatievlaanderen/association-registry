@@ -37,7 +37,7 @@ public class Given_Grar_Retuns_A_List_Of_Postal_Info_Without_VolgendeUrl
             VolgendeLimit = null,
         };
 
-        var actual = await sut.GetPostalInformationList(offset, limit);
+        var actual = await sut.GetPostalInformationList(offset, limit, CancellationToken.None);
 
         actual.Should().BeEquivalentTo(expected);
     }

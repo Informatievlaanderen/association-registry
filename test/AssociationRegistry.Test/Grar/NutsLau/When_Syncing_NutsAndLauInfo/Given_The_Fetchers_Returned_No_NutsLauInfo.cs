@@ -22,7 +22,7 @@ public class Given_The_Fetchers_Returned_No_NutsLauInfo
         var documentSession = new Mock<IDocumentSession>();
         var sut = new NutsAndLauSyncService(nutsLauFromGrarFetcher.Object, postcodesFromGrarFetcher.Object, documentSession.Object, NullLogger<NutsAndLauSyncService>.Instance);
 
-        await sut.SyncNutsLauInfo();
+        await sut.SyncNutsLauInfo(CancellationToken.None);
 
         documentSession.Verify(x => x.Store(It.IsAny<PostalNutsLauInfo>()), Times.Never);
         documentSession.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Never);
@@ -34,9 +34,9 @@ public class Given_The_Fetchers_Returned_No_NutsLauInfo
     {
         var fixture = new Fixture().CustomizeDomain();
         var postalCodes = fixture.CreateMany<string>().ToArray();
-        postcodesFromGrarFetcher.Setup(x => x.FetchPostalCodes())
+        postcodesFromGrarFetcher.Setup(x => x.FetchPostalCodes(It.IsAny<CancellationToken>()))
                                 .ReturnsAsync(postalCodes);
-        nutsLauFromGrarFetcher.Setup(x => x.GetFlemishNutsAndLauByPostcode(postalCodes))
+        nutsLauFromGrarFetcher.Setup(x => x.GetFlemishNutsAndLauByPostcode(postalCodes, It.IsAny<CancellationToken>()))
                               .ReturnsAsync(Array.Empty<PostalNutsLauInfo>());
     }
 }

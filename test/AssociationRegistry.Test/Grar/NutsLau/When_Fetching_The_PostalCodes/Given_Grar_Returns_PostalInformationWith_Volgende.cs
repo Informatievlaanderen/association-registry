@@ -26,14 +26,14 @@ public class Given_Grar_Returns_PostalInformationWith_Volgende
         SetupGrarClient(grarClient, nextBatchOffset, nextBatchLimit, null, null, nextBatchPostcodes);
 
         var sut = new PostcodesFromGrarFetcher(grarClient.Object);
-        var actual = await sut.FetchPostalCodes();
+        var actual = await sut.FetchPostalCodes(CancellationToken.None);
 
         actual.Should().BeEquivalentTo(firstBatchPostcodes.Concat(nextBatchPostcodes));
     }
 
     private static void SetupGrarClient(Mock<IGrarClient> grarClient, string offset, string limit, string nextOffset, string nextLimit, string[] batchPostcodes)
     {
-        grarClient.Setup(x => x.GetPostalInformationList(offset, limit))
+        grarClient.Setup(x => x.GetPostalInformationList(offset, limit, It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new PostcodesLijstResponse()
                    {
                        Postcodes = batchPostcodes,

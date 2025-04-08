@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 public interface INutsAndLauSyncService
 {
-    Task SyncNutsLauInfo();
+    Task SyncNutsLauInfo(CancellationToken cancellationToken);
 }
 
 public class NutsAndLauSyncService : INutsAndLauSyncService
@@ -23,19 +23,19 @@ public class NutsAndLauSyncService : INutsAndLauSyncService
         _logger = logger;
     }
 
-    public async Task SyncNutsLauInfo()
+    public async Task SyncNutsLauInfo(CancellationToken cancellationToken)
     {
         _logger.LogInformation("Start syncing nuts lau info");
-        var postcodes = await _postcodesFromGrarFetcher.FetchPostalCodes();
+        var postcodes = await _postcodesFromGrarFetcher.FetchPostalCodes(cancellationToken);
         _logger.LogInformation($"PostcodesFromGrarFetcher returned {postcodes.Length} postcodes.");
-        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishNutsAndLauByPostcode(postcodes);
+        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishNutsAndLauByPostcode(postcodes, cancellationToken);
         _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau info.");
 
         if (nutsLauInfo.Length == 0)
             return;
 
         _session.Store(nutsLauInfo);
-        await _session.SaveChangesAsync();
+        await _session.SaveChangesAsync(cancellationToken);
         _logger.LogInformation("Stopped syncing nuts lau info.");
     }
 }

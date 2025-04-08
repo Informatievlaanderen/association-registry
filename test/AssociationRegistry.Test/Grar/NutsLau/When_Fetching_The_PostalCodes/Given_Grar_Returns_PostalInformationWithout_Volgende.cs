@@ -16,7 +16,7 @@ public class Given_Grar_Returns_PostalInformationWithout_Volgende
 
         string[] postcodes = ["8000", "9000"];
 
-        grarClient.Setup(x => x.GetPostalInformationList("0", "100"))
+        grarClient.Setup(x => x.GetPostalInformationList("0", "100", It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new PostcodesLijstResponse()
                    {
                        Postcodes = postcodes,
@@ -25,7 +25,7 @@ public class Given_Grar_Returns_PostalInformationWithout_Volgende
                    });
 
         var sut = new PostcodesFromGrarFetcher(grarClient.Object);
-        var actual = await sut.FetchPostalCodes();
+        var actual = await sut.FetchPostalCodes(CancellationToken.None);
         actual.Should().BeEquivalentTo(postcodes);
     }
 }

@@ -12,9 +12,9 @@ public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
         _client = client;
     }
 
-    public async Task<string[]> FetchPostalCodes()
+    public async Task<string[]> FetchPostalCodes(CancellationToken cancellationToken)
     {
-        var postalInformationList = await _client.GetPostalInformationList("0", "100");
+        var postalInformationList = await _client.GetPostalInformationList("0", "100", cancellationToken);
 
         if (postalInformationList is null)
             return Array.Empty<string>();
@@ -24,7 +24,7 @@ public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
         while (HasVolgende(postalInformationList))
         {
             postalInformationList =
-                await _client.GetPostalInformationList(postalInformationList!.VolgendeOffset!, postalInformationList!.VolgendeLimit!);
+                await _client.GetPostalInformationList(postalInformationList!.VolgendeOffset!, postalInformationList!.VolgendeLimit!, cancellationToken);
 
             if (postalInformationList is not null)
                 postcodes.AddRange(postalInformationList.Postcodes);
@@ -39,5 +39,5 @@ public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
 
 public interface IPostcodesFromGrarFetcher
 {
-    Task<string[]> FetchPostalCodes();
+    Task<string[]> FetchPostalCodes(CancellationToken cancellationToken);
 }
