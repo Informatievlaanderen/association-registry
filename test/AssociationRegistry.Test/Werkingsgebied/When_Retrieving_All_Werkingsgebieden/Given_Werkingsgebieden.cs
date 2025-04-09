@@ -14,7 +14,7 @@ public class Given_Werkingsgebieden
     public Given_Werkingsgebieden()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(When_Creating_A_Werkingsgebied)).GetAwaiter().GetResult();
+        var documentstore = TestDocumentStoreFactory.CreateAsync(nameof(Given_Werkingsgebieden)).GetAwaiter().GetResult();
         using var session = documentstore.LightweightSession();
         var postalInfo = fixture.Create<PostalNutsLauInfo>();
 

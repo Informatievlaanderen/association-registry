@@ -15,7 +15,7 @@ public class Given_An_Non_Existing_WerkingsgebiedCode
     public async Task Then_Throws_WerkingsgebiedCodeIsNietGekend()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(When_Creating_A_Werkingsgebied));
+        var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Non_Existing_WerkingsgebiedCode));
         await using var session = documentstore.LightweightSession();
         var postalInfo = fixture.Create<PostalNutsLauInfo>();
         session.Store(postalInfo);
