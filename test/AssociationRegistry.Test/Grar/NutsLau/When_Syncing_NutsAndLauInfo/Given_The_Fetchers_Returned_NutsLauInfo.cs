@@ -6,6 +6,7 @@ using AutoFixture;
 using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using System.Linq.Expressions;
 using Xunit;
 
 public class Given_The_Fetchers_Returned_NutsLauInfo
@@ -24,6 +25,7 @@ public class Given_The_Fetchers_Returned_NutsLauInfo
 
         await sut.SyncNutsLauInfo(CancellationToken.None);
 
+        documentSession.Verify(x => x.DeleteWhere(It.IsAny<Expression<Func<PostalNutsLauInfo, bool>>>()), Times.Once);
         documentSession.Verify(x => x.Store(postalNutslauInfos), Times.Once);
         documentSession.Verify(x => x.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }
