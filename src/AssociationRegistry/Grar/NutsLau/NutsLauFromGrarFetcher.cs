@@ -19,7 +19,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 
         foreach (var postcode in postcodes)
         {
-            if (!Postcode.IsVlaamsePostcode(postcode))
+            if (Postcode.IsWaalsePostcode(postcode))
                 continue;
 
             var postInfo = await _client.GetPostalNutsLauInformation(postcode, cancellationToken);

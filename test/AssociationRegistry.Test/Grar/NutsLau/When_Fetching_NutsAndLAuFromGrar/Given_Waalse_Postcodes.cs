@@ -5,13 +5,13 @@ using AssociationRegistry.Grar.NutsLau;
 using Moq;
 using Xunit;
 
-public class Given_A_Non_Flemish_PostalCodes
+public class Given_Waalse_Postcodes
 {
     [Fact]
     public async Task Then_We_Fetch_The_Nuts_And_Lau_Information_For_Each_Postcode()
     {
         var client = new Mock<IGrarClient>();
-        string[] postcodes = ["1000", "4720"];
+        string[] postcodes = ["1300", "4720", "7520"];
 
         var sut = new NutsLauFromGrarFetcher(client.Object);
 
