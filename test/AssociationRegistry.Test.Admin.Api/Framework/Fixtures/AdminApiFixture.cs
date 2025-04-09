@@ -151,30 +151,6 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         await session.SaveChangesAsync();
     }
 
-
-    public static string GeneratePostalNutsLauSql()
-    {
-        var builder = new StringBuilder();
-        builder.AppendLine("INSERT INTO postal_nuts_lau_info (postcode, gemeentenaam, nuts, lau) VALUES");
-
-        var items = WerkingsgebiedenServiceMock.All
-                                               .Where(w => w.Code.Length > 8) // skip regional-only codes like BE10, BE21, etc.
-                                               .Select((w, index) =>
-                                                {
-                                                    var nuts = w.Code.Substring(0, 5);
-                                                    var lau = w.Code.Substring(5);
-                                                    var postcode = (1000 + index).ToString();
-                                                    var gemeente = w.Naam.Replace("'", "''"); // escape single quotes for SQL
-
-                                                    return $"    ('{postcode}', '{gemeente}', '{nuts}', '{lau}')";
-                                                })
-                                               .ToList();
-
-        builder.AppendLine(string.Join(",\n", items) + ";");
-
-        return builder.ToString();
-    }
-
     public IAmazonSQS AmazonSqs { get; set; }
     public ISqsClientWrapper SqsClientWrapper { get; set; }
 

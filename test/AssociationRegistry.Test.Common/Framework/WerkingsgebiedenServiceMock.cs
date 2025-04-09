@@ -42,8 +42,5 @@ public class WerkingsgebiedenServiceMock : IWerkingsgebiedenService
         return match ?? throw new WerkingsgebiedCodeIsNietGekend(code);
     }
 
-    public void CacheWerkingsgebieden()
-    {
-        throw new NotImplementedException();
-    }
+    public IReadOnlyList<Werkingsgebied> AllWithNVT() => All.Append(Werkingsgebied.NietVanToepassing).ToArray();
 }
