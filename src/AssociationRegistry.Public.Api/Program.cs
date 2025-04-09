@@ -45,6 +45,7 @@ using System.Net;
 using System.Net.Mime;
 using System.Reflection;
 using System.Text;
+using Vereniging;
 using Verenigingen.Detail;
 using Verenigingen.DetailAll;
 using Verenigingen.Search;
@@ -259,6 +260,7 @@ public class Program
                                              ForcePathStyle = true,
                                          })
                                          : new AmazonS3Client())
+               .AddTransient<WerkingsgebiedenService>()
                .AddHttpContextAccessor()
                .AddControllers();
 

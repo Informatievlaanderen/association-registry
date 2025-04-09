@@ -3,6 +3,7 @@
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Common.Framework;
 using Events;
 using Formats;
 using JsonLdContext;
@@ -99,9 +100,11 @@ public class PubliekZoekResponseMapper
     public static Werkingsgebied[] MapWerkingsgebieden(
         string[] werkingsgebieden)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         return werkingsgebieden.Select(x =>
         {
-            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+            var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
 
             return new Werkingsgebied
             {

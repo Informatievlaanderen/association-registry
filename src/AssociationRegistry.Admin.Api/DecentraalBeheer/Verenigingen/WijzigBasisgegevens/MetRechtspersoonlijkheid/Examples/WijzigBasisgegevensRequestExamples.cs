@@ -21,6 +21,6 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
             {
                 HoofdactiviteitVerenigingsloket.All().First().Code,
             },
-            Werkingsgebieden = Werkingsgebied.All.Skip(10).Take(5).Select(h => h.Code).ToArray(),
+            Werkingsgebieden = Werkingsgebied.AllExamples.Skip(10).Take(5).Select(h => h.Code).ToArray(),
         };
 }

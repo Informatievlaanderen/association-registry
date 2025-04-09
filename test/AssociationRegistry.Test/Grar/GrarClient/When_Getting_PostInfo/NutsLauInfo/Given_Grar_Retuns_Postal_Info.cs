@@ -33,7 +33,7 @@ public class Given_Grar_Retuns_Postal_Info
 
         var sut = new GrarClient(httpClient.Object, Mock.Of<ILogger<GrarClient>>());
 
-        var expected = new PostalNutsLauInfoResponse(postcode, lauCode, nutsCode, gemeentenaam);
+        var expected = new PostalNutsLauInfoResponse(postcode, gemeentenaam, nutsCode, lauCode);
 
         var actual = await sut.GetPostalNutsLauInformation(postcode, CancellationToken.None);
 

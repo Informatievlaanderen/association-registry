@@ -8,7 +8,9 @@ using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
+using Common.Framework;
 using FluentAssertions;
+using Moq;
 using Xunit;
 using Xunit.Categories;
 
@@ -22,7 +24,7 @@ public class To_A_RegistreerFeitelijkeVerenigingCommand
 
         var request = fixture.Create<RegistreerFeitelijkeVerenigingRequest>();
 
-        var actual = request.ToCommand();
+        var actual = request.ToCommand(new WerkingsgebiedenServiceMock());
 
         actual.Deconstruct(
             out var naam,

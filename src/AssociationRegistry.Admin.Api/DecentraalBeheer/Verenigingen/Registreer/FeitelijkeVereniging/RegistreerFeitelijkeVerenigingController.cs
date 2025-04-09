@@ -82,6 +82,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
     public async Task<IActionResult> Post(
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
         [FromServices] ICommandMetadataProvider metadataProvider,
+        [FromServices] IWerkingsgebiedenService werkingsgebiedenService,
         [FromHeader(Name = WellknownHeaderNames.BevestigingsToken)]
         string? bevestigingsToken = null)
     {
@@ -90,7 +91,7 @@ public class RegistreerFeitelijkeVerenigingController : ApiController
         var skipDuplicateDetection = _bevestigingsTokenHelper.IsValid(bevestigingsToken, request);
         Throw<InvalidBevestigingstokenProvided>.If(!string.IsNullOrWhiteSpace(bevestigingsToken) && !skipDuplicateDetection);
 
-        var command = request.ToCommand()
+        var command = request.ToCommand(werkingsgebiedenService)
             with
             {
                 SkipDuplicateDetection = skipDuplicateDetection,

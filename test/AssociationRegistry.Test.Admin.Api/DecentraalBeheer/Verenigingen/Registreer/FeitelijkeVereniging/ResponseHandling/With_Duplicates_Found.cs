@@ -9,6 +9,7 @@ using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonde
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Common.AutoFixture;
+using Common.Framework;
 using DuplicateVerenigingDetection;
 using FluentAssertions;
 using FluentValidation;
@@ -37,7 +38,7 @@ public class With_Duplicates_Found
                                                                    BaseUrl = "http://localhost:5000",
                                                                });
 
-        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), null);
+        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), new WerkingsgebiedenServiceMock());
 
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
@@ -66,7 +67,7 @@ public class With_Duplicates_Found
                                                                    BaseUrl = "http://localhost:5000",
                                                                });
 
-        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), null);
+        var actual = await sut.Post(registreerFeitelijkeVerenigingRequest, Mock.Of<ICommandMetadataProvider>(), new WerkingsgebiedenServiceMock());
 
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;

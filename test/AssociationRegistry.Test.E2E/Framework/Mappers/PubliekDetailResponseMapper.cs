@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.Framework.Mappers;
 
 using Admin.Api.Verenigingen.Common;
+using Common.Framework;
 using Events;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
@@ -140,9 +141,11 @@ public class PubliekDetailResponseMapper
     public static Werkingsgebied[] MapWerkingsgebieden(
         string[] werkingsgebieden)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         return werkingsgebieden.Select(x =>
         {
-            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+            var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
 
             return new Werkingsgebied
             {

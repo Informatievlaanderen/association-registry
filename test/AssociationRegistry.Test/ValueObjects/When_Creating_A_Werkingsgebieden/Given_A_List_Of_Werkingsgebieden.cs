@@ -14,7 +14,7 @@ public class Given_A_List_Of_Werkingsgebieden
     {
         var fixture = new Fixture();
 
-        var werkingsgebieden = Werkingsgebied.All
+        var werkingsgebieden = Werkingsgebied.AllExamples
                                                                .OrderBy(_ => fixture.Create<int>())
                                                                .Take(2)
                                                                .ToArray();

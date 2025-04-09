@@ -9,6 +9,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Vereniging;
 using Wolverine;
 using Xunit;
 using Xunit.Categories;
@@ -37,6 +38,7 @@ public class With_Invalid_ETag
                 new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
                 vCode: "V0001001",
                 new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+                Mock.Of<IWerkingsgebiedenService>(),
                 eTagValue);
         };
 

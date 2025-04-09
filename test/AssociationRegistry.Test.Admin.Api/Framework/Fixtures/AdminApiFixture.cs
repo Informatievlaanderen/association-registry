@@ -5,6 +5,8 @@ using AssociationRegistry.Admin.Api;
 using AssociationRegistry.Admin.Api.Constants;
 using EventStore;
 using AssociationRegistry.Framework;
+using AssociationRegistry.Grar.NutsLau;
+using Common.Framework;
 using Events;
 using Helpers;
 using Hosts.Configuration;
@@ -25,6 +27,7 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
+using System.Text;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
@@ -82,6 +85,8 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
 
+        InsertWerkingsGebieden().GetAwaiter().GetResult();
+
         _adminApiServer.CreateClient();
 
         SqsClientWrapper = _adminApiServer.Services.GetRequiredService<ISqsClientWrapper>();
@@ -119,6 +124,55 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
                     builder.UseConfiguration(Configuration);
                     builder.UseSetting(key: "ElasticClientOptions:Indices:Verenigingen", _identifier);
                 });
+    }
+
+    private async Task InsertWerkingsGebieden()
+    {
+        await using var session = DocumentStore.LightweightSession();
+
+        var werkingsgebieden = WerkingsgebiedenServiceMock.All
+                                                          .Where(w => w.Code.Length > 8) // only detailed werkingsgebieden
+                                                          .Select((w, index) =>
+                                                           {
+                                                               var nuts = w.Code.Substring(0, 5);
+                                                               var lau = w.Code.Substring(5);
+                                                               var postcode = (1000 + index).ToString();
+
+                                                               return new PostalNutsLauInfo
+                                                               {
+                                                                   Postcode = postcode,
+                                                                   Gemeentenaam = w.Naam,
+                                                                   Nuts = nuts,
+                                                                   Lau = lau
+                                                               };
+                                                           });
+
+        session.StoreObjects(werkingsgebieden);
+        await session.SaveChangesAsync();
+    }
+
+
+    public static string GeneratePostalNutsLauSql()
+    {
+        var builder = new StringBuilder();
+        builder.AppendLine("INSERT INTO postal_nuts_lau_info (postcode, gemeentenaam, nuts, lau) VALUES");
+
+        var items = WerkingsgebiedenServiceMock.All
+                                               .Where(w => w.Code.Length > 8) // skip regional-only codes like BE10, BE21, etc.
+                                               .Select((w, index) =>
+                                                {
+                                                    var nuts = w.Code.Substring(0, 5);
+                                                    var lau = w.Code.Substring(5);
+                                                    var postcode = (1000 + index).ToString();
+                                                    var gemeente = w.Naam.Replace("'", "''"); // escape single quotes for SQL
+
+                                                    return $"    ('{postcode}', '{gemeente}', '{nuts}', '{lau}')";
+                                                })
+                                               .ToList();
+
+        builder.AppendLine(string.Join(",\n", items) + ";");
+
+        return builder.ToString();
     }
 
     public IAmazonSQS AmazonSqs { get; set; }

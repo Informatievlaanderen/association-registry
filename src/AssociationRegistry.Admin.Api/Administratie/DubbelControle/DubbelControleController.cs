@@ -5,6 +5,7 @@ using Be.Vlaanderen.Basisregisters.Api;
 using DuplicateVerenigingDetection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Vereniging;
 using Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 
 [ApiVersion("1.0")]
@@ -19,10 +20,11 @@ public class DubbelControleController : ApiController
         [FromBody] RegistreerFeitelijkeVerenigingRequest? request,
         [FromQuery] double? minimumScoreOverride,
         [FromServices] MinimumScore defaultMinimumScore,
-        [FromServices] IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService
+        [FromServices] IDuplicateVerenigingDetectionService duplicateVerenigingDetectionService,
+        [FromServices] IWerkingsgebiedenService werkingsgebiedenService
     )
     {
-        var command = request.ToCommand();
+        var command = request.ToCommand(werkingsgebiedenService);
 
         var result = await duplicateVerenigingDetectionService.GetDuplicates(
             command.Naam, command.Locaties,

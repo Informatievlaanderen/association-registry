@@ -49,7 +49,7 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public bool? IsUitgeschrevenUitPubliekeDatastroom { get; set; }
 
-    public WijzigBasisgegevensCommand ToCommand(string vCode)
+    public WijzigBasisgegevensCommand ToCommand(string vCode, IWerkingsgebiedenService werkingsgebiedenService)
         => new(
             VCode.Create(vCode),
             Naam is null ? null : VerenigingsNaam.Create(Naam),
@@ -58,7 +58,7 @@ public class WijzigBasisgegevensRequest
             Startdatum is { IsNull: false } ? Startdatum.Map(Datum.Create) : NullOrEmpty<Datum>.Null,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray(),
+            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom
         );
 }

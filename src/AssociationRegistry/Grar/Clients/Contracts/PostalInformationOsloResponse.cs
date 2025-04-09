@@ -8,7 +8,7 @@ public class PostalInformationOsloResponse
 {
     [DataMember(Name = "@context", Order = 0)]
     [JsonProperty(Required = Required.DisallowNull)]
-    public string Context { get; }
+    public string Context { get; set; }
 
     [DataMember(Name = "@type", Order = 1)]
     [JsonProperty(Required = Required.DisallowNull)]

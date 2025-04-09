@@ -56,7 +56,7 @@ public class With_Valid_Request
     {
         var response = await _controller.Post(
             _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>());
+            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
 
         using (new AssertionScope())
         {
@@ -70,7 +70,7 @@ public class With_Valid_Request
     {
         await _controller.Post(
             _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>());
+            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
 
         using (new AssertionScope())
         {
@@ -83,7 +83,7 @@ public class With_Valid_Request
     {
         await _controller.Post(
             _fixture.Create<RegistreerFeitelijkeVerenigingRequest>(),
-            _fixture.Create<CommandMetadataProviderStub>());
+            _fixture.Create<CommandMetadataProviderStub>(), Mock.Of<IWerkingsgebiedenService>());
 
         using (new AssertionScope())
         {

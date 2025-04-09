@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Schema.PowerBiExport;
 using Events;
+using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;
 using NodaTime;
@@ -173,7 +174,7 @@ public static class AutoFixtureCustomizations
             composerTransformation: composer => composer.FromFactory<int>(
                 factory: value =>
                 {
-                    var werkingsgebieden = Werkingsgebied.All;
+                    var werkingsgebieden = WerkingsgebiedenServiceMock.All;
 
                     return werkingsgebieden[value % werkingsgebieden.Length];
                 }).OmitAutoProperties());
