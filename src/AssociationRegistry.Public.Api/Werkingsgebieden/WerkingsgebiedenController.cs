@@ -32,7 +32,7 @@ public class WerkingsgebiedenController : ApiController
     public IActionResult GetWerkingsgebieden([FromServices] WerkingsgebiedenService werkingsgebiedenService)
     {
         var werkingsgebieden = werkingsgebiedenService
-                              .All
+                              .AllWithNVT
                               .Select(wg => new Werkingsgebied
                                {
                                    Code = wg.Code,

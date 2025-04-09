@@ -26,7 +26,7 @@ public class Given_Vlaamse_Postcodes
     public void IsFlemishPostcode_ShouldWorkCorrectly(string postcode, bool expected)
     {
         var result = Postcode.IsVlaamsePostcode(postcode);
-        
+
         Assert.Equal(expected, result);
     }
 }
