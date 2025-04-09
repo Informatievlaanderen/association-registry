@@ -14,7 +14,7 @@ public class Given_Duplicate_Werkingsgebieden
     public async Task Then_We_Only_Return_One_Werkingsgebied()
     {
         var fixture = new Fixture().CustomizeDomain();
-        var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(When_Creating_A_Werkingsgebied));
+        var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_Duplicate_Werkingsgebieden));
         await using var session = documentstore.LightweightSession();
         var postalInfo = fixture.Create<PostalNutsLauInfo>();
         var duplicateWerkingsgebied = fixture.Create<PostalNutsLauInfo>() with

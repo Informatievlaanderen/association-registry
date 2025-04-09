@@ -45,7 +45,7 @@
       <LastGenOutput>LoggerMessages.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <None Remove="Vereniging\Werkingsgebieden\Werkingsgebieden.csv" />
-    <EmbeddedResource Include="Vereniging\Werkingsgebieden\Werkingsgebieden.csv">
+    <EmbeddedResource Include="Vereniging\Werkingsgebieden\WerkingsgebiedenExamples.csv">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
