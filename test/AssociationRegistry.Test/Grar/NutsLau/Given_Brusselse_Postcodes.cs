@@ -3,19 +3,13 @@
 using AssociationRegistry.Grar.NutsLau;
 using Xunit;
 
-public class FlemishPostcodeTests
+public class Given_Brusselse_Postcodes
 {
     [Theory]
-    // Valid Flemish postcodes
-    [InlineData("1500", true)]
-    [InlineData("1999", true)]
-    [InlineData("2000", true)]
-    [InlineData("3999", true)]
-    [InlineData("8000", true)]
-    [InlineData("9999", true)]
+    [InlineData("1000", true)]
+    [InlineData("1200", true)]
+    [InlineData("1299", true)]
 
-    // Invalid (Walloon, Brussels, or malformed)
-    [InlineData("1000", false)]
     [InlineData("1400", false)]
     [InlineData("4000", false)]
     [InlineData("7000", false)]
@@ -25,10 +19,8 @@ public class FlemishPostcodeTests
     [InlineData(null, false)]
     public void IsFlemishPostcode_ShouldWorkCorrectly(string postcode, bool expected)
     {
-        // Arrange
-        var result = Postcode.IsVlaamsePostcode(postcode);
+        var result = Postcode.IsBrusselPostcode(postcode);
 
-        // Assert
         Assert.Equal(expected, result);
     }
 }
