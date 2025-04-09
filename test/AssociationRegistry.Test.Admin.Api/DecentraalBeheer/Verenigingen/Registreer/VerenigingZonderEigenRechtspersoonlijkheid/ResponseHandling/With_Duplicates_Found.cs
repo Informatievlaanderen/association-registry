@@ -12,6 +12,7 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
+using Common.Framework;
 using FluentAssertions;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
@@ -39,7 +40,7 @@ public class With_Duplicates_Found
                                                                                          BaseUrl = "http://localhost:5000",
                                                                                      });
 
-        var actual = await sut.Post(registreerVerenigingZonderEigenRechtspersoonlijkheidRequest, Mock.Of<ICommandMetadataProvider>(), null);
+        var actual = await sut.Post(registreerVerenigingZonderEigenRechtspersoonlijkheidRequest, Mock.Of<ICommandMetadataProvider>(), new WerkingsgebiedenServiceMock());
 
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;
@@ -66,7 +67,7 @@ public class With_Duplicates_Found
                                                                                          BaseUrl = "http://localhost:5000",
                                                                                      });
 
-        var actual = await sut.Post(registreerVerenigingZonderEigenRechtspersoonlijkheidRequest, Mock.Of<ICommandMetadataProvider>(), null);
+        var actual = await sut.Post(registreerVerenigingZonderEigenRechtspersoonlijkheidRequest, Mock.Of<ICommandMetadataProvider>(), new WerkingsgebiedenServiceMock());
 
         var result = actual as ConflictObjectResult;
         var actualPotentialDuplicatesResponse = result!.Value as PotentialDuplicatesResponse;

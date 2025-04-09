@@ -431,6 +431,7 @@ public class Program
                .AddTransient<IPostcodesFromGrarFetcher, PostcodesFromGrarFetcher>()
                .AddTransient<INutsLauFromGrarFetcher, NutsLauFromGrarFetcher>()
                .AddTransient<INutsAndLauSyncService, NutsAndLauSyncService>()
+               .AddTransient<IWerkingsgebiedenService, WerkingsgebiedenService>()
                .AddMarten(builder.Configuration, postgreSqlOptionsSection, builder.Environment.IsDevelopment())
                .AddElasticSearch(elasticSearchOptionsSection)
                .AddHttpContextAccessor()

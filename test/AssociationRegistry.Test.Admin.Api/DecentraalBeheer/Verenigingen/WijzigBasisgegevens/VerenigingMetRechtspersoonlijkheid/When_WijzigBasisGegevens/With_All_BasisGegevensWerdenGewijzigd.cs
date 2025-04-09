@@ -10,6 +10,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Framework;
 using FluentAssertions;
 using JasperFx.Core;
 using Marten;
@@ -71,6 +72,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     [Fact]
     public void Then_it_saves_the_events()
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
         using var session = _documentStore
            .LightweightSession();
 
@@ -105,7 +107,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
         werkingsgebiedenWerdenGewijzigd.Data.Should().BeEquivalentTo(
             EventFactory.WerkingsgebiedenWerdenGewijzigd(
                 VCode.Create(_vCode),
-                _request.Werkingsgebieden!.Select(Werkingsgebied.Create).ToArray())
+                _request.Werkingsgebieden!.Select(werkingsgebiedenServiceMock.Create).ToArray())
         );
     }
 

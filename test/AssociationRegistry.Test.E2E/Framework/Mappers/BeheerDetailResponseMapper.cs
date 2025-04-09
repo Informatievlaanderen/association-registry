@@ -2,6 +2,7 @@
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Common.Framework;
 using Events;
 using JsonLdContext;
 using Vereniging;
@@ -214,9 +215,10 @@ public class BeheerDetailResponseMapper
 
     public static Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebieden)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
         return werkingsgebieden.Select(x =>
         {
-            var werkingsgebied = AssociationRegistry.Vereniging.Werkingsgebied.Create(x);
+            var werkingsgebied = werkingsgebiedenServiceMock.Create(x);
 
             return new Werkingsgebied
             {

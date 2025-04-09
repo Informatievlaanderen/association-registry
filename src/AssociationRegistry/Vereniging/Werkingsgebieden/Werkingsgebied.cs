@@ -4,27 +4,29 @@ using Exceptions;
 
 public record Werkingsgebied
 {
+    public static readonly Werkingsgebied[] ProvincieWerkingsgebieden = new[]
+    {
+        new Werkingsgebied("BE10", "Brussels Hoofdstedelijk Gewest"),
+        new Werkingsgebied("BE21", "Provincie Antwerpen"),
+        new Werkingsgebied("BE22", "Provincie Limburg"),
+        new Werkingsgebied("BE23", "Provincie Oost-Vlaanderen"),
+        new Werkingsgebied("BE24", "Provincie Vlaams-Brabant"),
+        new Werkingsgebied("BE25", "Provincie West-Vlaanderen"),
+    };
+
     static Werkingsgebied()
     {
-        All = new[]
-              {
-                  new Werkingsgebied("BE10", "Brussels Hoofdstedelijk Gewest"),
-                  new Werkingsgebied("BE21", "Provincie Antwerpen"),
-                  new Werkingsgebied("BE22", "Provincie Limburg"),
-                  new Werkingsgebied("BE23", "Provincie Oost-Vlaanderen"),
-                  new Werkingsgebied("BE24", "Provincie Vlaams-Brabant"),
-                  new Werkingsgebied("BE25", "Provincie West-Vlaanderen"),
-              }
+        AllExamples = ProvincieWerkingsgebieden
              .Union(NutsLauReader
                    .Read()
                    .Select(x => new Werkingsgebied($"{x.Nuts}{x.Lau}", x.Gemeente)))
              .ToArray();
 
-        AllWithNVT = new[]
+        AllWithNVTExamples = new[]
                      {
                          NietVanToepassing,
                      }
-                    .Union(All)
+                    .Union(AllExamples)
                     .ToArray();
     }
 
@@ -39,16 +41,11 @@ public record Werkingsgebied
     public string Naam { get; }
     public string Code { get; }
 
-    public static Werkingsgebied Create(string code)
-    {
-        var value = AllWithNVT.SingleOrDefault(p => string.Equals(p.Code, code, StringComparison.InvariantCultureIgnoreCase));
 
-        return value ?? throw new WerkingsgebiedCodeIsNietGekend(code);
-    }
 
     public static Werkingsgebied Hydrate(string code, string naam)
         => new Werkingsgebied(code, naam);
 
-    public static Werkingsgebied[] AllWithNVT { get; }
-    public static Werkingsgebied[] All { get; }
+    public static Werkingsgebied[] AllWithNVTExamples { get; }
+    public static Werkingsgebied[] AllExamples { get; }
 }

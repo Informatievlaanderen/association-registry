@@ -22,7 +22,7 @@ public class WijzigBasisgegevensRequestExamples : IExamplesProvider<WijzigBasisg
             },
             HoofdactiviteitenVerenigingsloket = HoofdactiviteitVerenigingsloket
                                                .All().Take(5).Select(h => h.Code).ToArray(),
-            Werkingsgebieden = Werkingsgebied.All.Take(5).Select(h => h.Code).ToArray(),
+            Werkingsgebieden = Werkingsgebied.AllExamples.Take(5).Select(h => h.Code).ToArray(),
             IsUitgeschrevenUitPubliekeDatastroom = true,
         };
 }

@@ -7,6 +7,8 @@ using AlbaHost;
 using Amazon.SQS;
 using AssociationRegistry.Framework;
 using Common.Clients;
+using Common.Framework;
+using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
@@ -64,6 +66,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
+        InsertWerkingsgebieden();
+
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting("adminproj"));
 
@@ -104,6 +108,33 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         }
         Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
+    }
+
+    private async Task InsertWerkingsgebieden()
+    {
+        var documentStore = AdminApiHost.DocumentStore();
+
+        await using var session = documentStore.LightweightSession();
+
+        var werkingsgebieden = WerkingsgebiedenServiceMock.All
+                                                          .Where(w => w.Code.Length > 8) // only detailed werkingsgebieden
+                                                          .Select((w, index) =>
+                                                           {
+                                                               var nuts = w.Code.Substring(0, 5);
+                                                               var lau = w.Code.Substring(5);
+                                                               var postcode = (1000 + index).ToString();
+
+                                                               return new PostalNutsLauInfo
+                                                               {
+                                                                   Postcode = postcode,
+                                                                   Gemeentenaam = w.Naam,
+                                                                   Nuts = nuts,
+                                                                   Lau = lau
+                                                               };
+                                                           });
+
+        session.StoreObjects(werkingsgebieden);
+        await session.SaveChangesAsync();
     }
 
     public IProjectionDaemon AdminProjectionDaemon { get; private set; }

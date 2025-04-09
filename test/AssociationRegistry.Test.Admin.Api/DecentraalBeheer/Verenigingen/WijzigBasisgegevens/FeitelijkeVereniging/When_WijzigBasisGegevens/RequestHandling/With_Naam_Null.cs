@@ -6,6 +6,8 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using FluentValidation;
+using Moq;
+using Vereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -31,6 +33,7 @@ public class With_Naam_Null
                 _requestWithNaamNull,
                 VCode,
                 new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+                Mock.Of<IWerkingsgebiedenService>(),
                 ifMatch: "M/\"1\""));
     }
 }

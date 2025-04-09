@@ -42,6 +42,7 @@ public class With_Valid_ETag : IAsyncLifetime
             new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
             vCode: "V0001001",
             new CommandMetadataProviderStub { Initiator = "OVO0001000" },
+            Mock.Of<IWerkingsgebiedenService>(),
             $"W/\"{ETagNumber}\"");
     }
 

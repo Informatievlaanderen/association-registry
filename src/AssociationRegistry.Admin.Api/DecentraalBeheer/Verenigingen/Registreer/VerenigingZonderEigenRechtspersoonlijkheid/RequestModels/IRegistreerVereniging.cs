@@ -2,6 +2,7 @@
 
 using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
+using Vereniging;
 
 public interface IRegistreerVereniging
 {
@@ -42,5 +43,5 @@ public interface IRegistreerVereniging
     /// <summary>De codes van de werkingsgebieden</summary>
     string[]? Werkingsgebieden { get; set; }
 
-    RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand();
+    RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(IWerkingsgebiedenService werkingsgebiedenService);
 }

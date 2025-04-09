@@ -36,6 +36,7 @@ public class PostalInformationOsloResponseBuilder
     public PostalInformationOsloResponse Build()
         => new()
         {
+            Context = "DefaultContext",
             Identificator = new PostinfoIdentificator
             {
                 ObjectId = _postcode,

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using ResponseExamples;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 using ProblemDetails = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetails;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
@@ -28,16 +29,16 @@ public class WerkingsgebiedenController : ApiController
     [SwaggerResponseExample(StatusCodes.Status200OK, typeof(WerkingsgebiedenResponseExamples))]
     [SwaggerResponseExample(StatusCodes.Status500InternalServerError, typeof(InternalServerErrorResponseExamples))]
     [Produces(WellknownMediaTypes.JsonLd)]
-    public IActionResult GetWerkingsgebieden()
+    public IActionResult GetWerkingsgebieden([FromServices] WerkingsgebiedenService werkingsgebiedenService)
     {
-        var werkingsgebieden = Vereniging.Werkingsgebied
-                                         .AllWithNVT
-                                         .Select(wg => new Werkingsgebied
-                                          {
-                                              Code = wg.Code,
-                                              Naam = wg.Naam,
-                                          })
-                                         .ToArray();
+        var werkingsgebieden = werkingsgebiedenService
+                              .All
+                              .Select(wg => new Werkingsgebied
+                               {
+                                   Code = wg.Code,
+                                   Naam = wg.Naam,
+                               })
+                              .ToArray();
 
         return Ok(new WerkingsgebiedenResponse { Werkingsgebieden = werkingsgebieden });
     }

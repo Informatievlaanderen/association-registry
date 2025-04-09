@@ -9,6 +9,7 @@ using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkhe
 using Admin.ProjectionHost.Constants;
 using Admin.Schema.Historiek.EventData;
 using AlbaHost;
+using Common.Framework;
 using Events;
 using EventStore;
 using Vereniging;
@@ -260,8 +261,10 @@ public static class HistoriekGebeurtenisMapper
 
     public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenBepaald(string vCode, string[] werkingsgebieden)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         var @event = new WerkingsgebiedenWerdenBepaald(vCode, werkingsgebieden
-                                                               .Select(Werkingsgebied.Create)
+                                                               .Select(werkingsgebiedenServiceMock.Create)
                                                                .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                                                                .ToArray());
 
@@ -276,8 +279,10 @@ public static class HistoriekGebeurtenisMapper
 
     public static HistoriekGebeurtenisResponse WerkingsgebiedenWerdenGewijzigd(string vCode, string[] werkingsgebieden)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         var @event = new WerkingsgebiedenWerdenGewijzigd(vCode, werkingsgebieden
-                                                        .Select(Werkingsgebied.Create)
+                                                        .Select(werkingsgebiedenServiceMock.Create)
                                                         .Select(wg => new Registratiedata.Werkingsgebied(wg.Code, wg.Naam))
                                                         .ToArray());
 
@@ -305,8 +310,10 @@ public static class HistoriekGebeurtenisMapper
 
     private static Registratiedata.Werkingsgebied[] MapWerkingsgebieden(string[] werkingsgebiedenCodes)
     {
+        var werkingsgebiedenServiceMock = new WerkingsgebiedenServiceMock();
+
         return werkingsgebiedenCodes
-              .Select(code => Werkingsgebied.Create(code))
+              .Select(code => werkingsgebiedenServiceMock.Create(code))
               .Select(werkingsgebied => new Registratiedata.Werkingsgebied(werkingsgebied.Code, werkingsgebied.Naam))
               .ToArray();
     }

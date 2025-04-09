@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspe
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Common.Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -16,11 +17,12 @@ public class To_A_WijzigBasisgegevensCommand
     public void Then_We_Get_A_WijzigBasisgegevensCommand()
     {
         var fixture = new Fixture().CustomizeAdminApi();
+        var werkingsgebiedenService = new WerkingsgebiedenServiceMock();
 
         var request = fixture.Create<WijzigBasisgegevensRequest>();
 
         var actualVCode = fixture.Create<VCode>();
-        var actual = request.ToCommand(actualVCode);
+        var actual = request.ToCommand(actualVCode, werkingsgebiedenService);
 
         actual.Deconstruct(out var vCode, out var roepnaam, out var korteBeschrijving, out var doelgroep,
                            out var hoofdactiviteitenVerenigingsloket, out var werkingsgebieden);
@@ -36,6 +38,6 @@ public class To_A_WijzigBasisgegevensCommand
 
         werkingsgebieden.Should()
                         .BeEquivalentTo(
-                             request.Werkingsgebieden!.Select(Werkingsgebied.Create));
+                             request.Werkingsgebieden!.Select(werkingsgebiedenService.Create));
     }
 }

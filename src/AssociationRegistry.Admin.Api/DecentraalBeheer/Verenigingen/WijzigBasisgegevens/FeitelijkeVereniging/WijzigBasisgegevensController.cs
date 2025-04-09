@@ -81,11 +81,12 @@ public class WijzigBasisgegevensController : ApiController
         [FromBody] WijzigBasisgegevensRequest? request,
         [FromRoute] string vCode,
         [FromServices] ICommandMetadataProvider metadataProvider,
+        [FromServices] IWerkingsgebiedenService werkingsgebiedenService,
         [FromHeader(Name = "If-Match")] string? ifMatch = null)
     {
         await validator.NullValidateAndThrowAsync(request);
 
-        var command = request.ToCommand(vCode);
+        var command = request.ToCommand(vCode, werkingsgebiedenService);
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
         var envelope = new CommandEnvelope<WijzigBasisgegevensCommand>(command, metaData);

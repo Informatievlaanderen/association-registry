@@ -43,6 +43,7 @@ public class Without_Changes : IAsyncLifetime
             new WijzigBasisgegevensRequest { KorteNaam = "Korte naam" },
             vCode: "V0001001",
             new CommandMetadataProviderStub { Initiator = "OVO0001001" },
+            Mock.Of<IWerkingsgebiedenService>(),
             ifMatch: "W/\"1\"");
     }
 

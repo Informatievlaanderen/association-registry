@@ -36,13 +36,13 @@ public class WijzigBasisgegevensRequest
     [DataMember]
     public string? Roepnaam { get; set; }
 
-    public WijzigBasisgegevensCommand ToCommand(string vCode)
+    public WijzigBasisgegevensCommand ToCommand(string vCode, IWerkingsgebiedenService werkingsgebiedenService)
         => new(
             VCode.Create(vCode),
             Roepnaam,
             KorteBeschrijving,
             Doelgroep is null ? null : DoelgroepRequest.Map(Doelgroep),
             HoofdactiviteitenVerenigingsloket?.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray()
+            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray()
         );
 }

@@ -13,7 +13,7 @@ public class WerkingsgebiedenResponseExamples : IExamplesProvider<Werkingsgebied
             new()
             {
                 Werkingsgebieden =
-                    AssociationRegistry.Vereniging.Werkingsgebied.AllWithNVT
+                    AssociationRegistry.Vereniging.Werkingsgebied.AllWithNVTExamples
                                                               .Take(3)
                                                               .Select(wg => new Werkingsgebied
                                                                {
@@ -21,7 +21,7 @@ public class WerkingsgebiedenResponseExamples : IExamplesProvider<Werkingsgebied
                                                                    Naam = wg.Naam,
                                                                })
                                                               .ToArray()
-                                    .Union(AssociationRegistry.Vereniging.Werkingsgebied.All
+                                    .Union(AssociationRegistry.Vereniging.Werkingsgebied.AllExamples
                                                               .Skip(7)
                                                               .Take(3)
                                                               .Select(wg => new Werkingsgebied

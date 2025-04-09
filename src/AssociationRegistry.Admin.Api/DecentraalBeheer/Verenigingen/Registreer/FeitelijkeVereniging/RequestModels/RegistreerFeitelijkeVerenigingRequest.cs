@@ -59,7 +59,7 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
     [DataMember]
     public string[]? Werkingsgebieden { get; set; } = [];
 
-    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand()
+    public RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand ToCommand(IWerkingsgebiedenService werkingsgebiedenService)
         => new(
             VerenigingsNaam.Create(Naam),
             KorteNaam,
@@ -71,5 +71,5 @@ public class RegistreerFeitelijkeVerenigingRequest : IRegistreerVereniging
             Locaties.Select(ToeTeVoegenLocatie.Map).ToArray(),
             Vertegenwoordigers.Select(ToeTeVoegenVertegenwoordiger.Map).ToArray(),
             HoofdactiviteitenVerenigingsloket.Select(HoofdactiviteitVerenigingsloket.Create).ToArray(),
-            Werkingsgebieden?.Select(Werkingsgebied.Create).ToArray() ?? AssociationRegistry.Vereniging.Werkingsgebieden.NietBepaald);
+            Werkingsgebieden?.Select(werkingsgebiedenService.Create).ToArray() ?? AssociationRegistry.Vereniging.Werkingsgebieden.NietBepaald);
 }
