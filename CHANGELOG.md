@@ -1,3 +1,24 @@
+# [8.229.0](https://github.com/informatievlaanderen/association-registry/compare/v8.228.0...v8.229.0) (2025-04-10)
+
+
+### Bug Fixes
+
+* or-2711 add nvt to list of available werkingsgebieden ([4889de1](https://github.com/informatievlaanderen/association-registry/commit/4889de1a4453c438b0e722c997b5cb4813b56a63))
+* or-2788 add 200 responses to swagger docs ([99ebedf](https://github.com/informatievlaanderen/association-registry/commit/99ebedfa06fd1b90f6902af3a2b9536962654db1))
+
+
+### Features
+
+* or-2711 allow also postalcodes from brussel when fetching nuts and lau info ([41109b3](https://github.com/informatievlaanderen/association-registry/commit/41109b36b131fe4f03919d04f32005c9e8b11638))
+* or-2711 expand grarclient to fetch nuts and lau information ([df32bb8](https://github.com/informatievlaanderen/association-registry/commit/df32bb8377d6b4708fcab98c785ad775e104678a))
+* or-2711 fetch all postcodes from grar ([f6155d7](https://github.com/informatievlaanderen/association-registry/commit/f6155d7ea9821e0806bef7b4d214859bef366661))
+* or-2711 fetch list of postal codes from grar ([cb52710](https://github.com/informatievlaanderen/association-registry/commit/cb527103adab4c14f1f894b20ce22caa0105a1de))
+* or-2711 implement endpoint to sync nuts and lau info ([db26859](https://github.com/informatievlaanderen/association-registry/commit/db26859f389d20f9e362cbd205e01ca601146d8d))
+* or-2711 implement Nuts lau from grar fetcher ([bfec460](https://github.com/informatievlaanderen/association-registry/commit/bfec460d9979d9b8b1dab4c761e5726fbef76e74))
+* or-2711 modify getting a list of available werkingsgebieden ([c8ed13b](https://github.com/informatievlaanderen/association-registry/commit/c8ed13b3dced73ce7364f1c1ab895587580a34dd))
+* or-2711 move services to domain and register them ([2ce9a6e](https://github.com/informatievlaanderen/association-registry/commit/2ce9a6e65d756e5839ee5879699947a48d1addfd))
+* or-2711 remove old nuts lau info on sync ([9e10321](https://github.com/informatievlaanderen/association-registry/commit/9e1032163f0b38fe50af568eefd3ab3ce0a1b148))
+
 # [8.228.0](https://github.com/informatievlaanderen/association-registry/compare/v8.227.1...v8.228.0) (2025-04-07)
 
 
