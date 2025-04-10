@@ -1,3 +1,10 @@
+# [8.230.0](https://github.com/informatievlaanderen/association-registry/compare/v8.229.1...v8.230.0) (2025-04-10)
+
+
+### Features
+
+* or-2775 add link to public confluence on swagger docs ([9a47064](https://github.com/informatievlaanderen/association-registry/commit/9a47064884511b89ba386484cadabf29d0737db1))
+
 ## [8.229.1](https://github.com/informatievlaanderen/association-registry/compare/v8.229.0...v8.229.1) (2025-04-10)
 
 
