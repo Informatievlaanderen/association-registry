@@ -20,12 +20,11 @@ public class SyncNutsLauInfoController : ApiController
     [HttpPost("syncnutslauinfo")]
     public async Task<IActionResult> QueueAdressenForAdresMatch(
         [FromServices] INutsAndLauSyncService nutsAndLauSyncService,
-        [FromServices] ILogger<SyncNutsLauInfoController> logger,
-        CancellationToken cancellationToken)
+        [FromServices] ILogger<SyncNutsLauInfoController> logger)
     {
         logger.LogInformation("Start SyncNutsLauInfoController");
 
-        await nutsAndLauSyncService.SyncNutsLauInfo(cancellationToken);
+        await nutsAndLauSyncService.SyncNutsLauInfo(CancellationToken.None);
 
         return Ok();
     }
