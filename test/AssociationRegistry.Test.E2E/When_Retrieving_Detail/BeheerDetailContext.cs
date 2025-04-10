@@ -34,7 +34,7 @@ public class BeheerDetailContext: TestContextBase<RegistreerVerenigingZonderEige
 
         _emptyScenario = new EmptyScenario();
 
-        var requestFactory = new RegistreerVZERRequestFactory();
+        var requestFactory = new BeheerdetailRequestFactory();
 
         var daemon = ApiSetup.AdminProjectionDaemon;
 

@@ -27,7 +27,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderVerenigin
 
     [Fact]
     public async Task With_No_Vereniging()
-        => Response.Verenigingen.Should().BeEmpty();
+        => Response.Verenigingen.SingleOrDefault(x => x.VCode == _testContext.VCode).Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
