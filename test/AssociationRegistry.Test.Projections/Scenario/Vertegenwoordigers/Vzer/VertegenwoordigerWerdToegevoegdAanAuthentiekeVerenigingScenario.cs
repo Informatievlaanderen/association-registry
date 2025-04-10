@@ -1,6 +1,6 @@
-﻿namespace AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers;
+﻿namespace AssociationRegistry.Test.Projections.Scenario.Vertegenwoordigers.Vzer;
 
-using Events;
+using AssociationRegistry.Events;
 using AutoFixture;
 
 public class VertegenwoordigerWerdToegevoegdAanAuthentiekeVerenigingScenario : InszScenarioBase

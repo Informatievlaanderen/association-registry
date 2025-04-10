@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Stopzetting;
+﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Stopzetting.Vzer;
 
-using Admin.Schema.Constants;
+using AssociationRegistry.Admin.Schema.Constants;
+using AssociationRegistry.Formats;
 using AssociationRegistry.Test.Projections.Scenario.Stopzetting;
-using Formats;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingWerdGestopt(
