@@ -18,7 +18,7 @@ using Microsoft.AspNetCore.Mvc;
 public class SyncNutsLauInfoController : ApiController
 {
     [HttpPost("syncnutslauinfo")]
-    public async Task<IActionResult> QueueAdressenForAdresMatch(
+    public async Task<IActionResult> Sync(
         [FromServices] INutsAndLauSyncService nutsAndLauSyncService,
         [FromServices] ILogger<SyncNutsLauInfoController> logger)
     {

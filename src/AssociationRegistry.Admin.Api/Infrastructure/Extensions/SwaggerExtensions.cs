@@ -61,7 +61,7 @@ public static class SwaggerExtensions
                            },
                            Title = appSettings.ApiDocs.Title,
                            Description = @$"
-Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie).
+Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6264358372/Technische+documentatie).
 
 ## Eventual consistency
 Ons systeem is eventual consistent, wat betekent dat data-updates niet onmiddellijk overal zichtbaar zijn, maar wel gegarandeerd na korte tijd. Om hiermee om te gaan, gebruiken we mechanismen zoals expectedSequence (om te wachten tot een specifiek event verwerkt is) en ETag (om te detecteren of data intussen gewijzigd is). Voor meer info, zie: [Deze link](https://vlaamseoverheid.atlassian.net/wiki/spaces/MG/pages/6564610476/Veel+gestelde+vragen+Verenigingsregister#Sequence-diagram:-voorbeeld-standaard-gebruik-expectedSequence-en-ETag).

@@ -13,6 +13,7 @@ Het Verenigingsregister verstrekt informatie over verenigingen die in interactie
 <br />Het betreft verenigingen zonder rechtspersoonlijkheid (zoals feitelijke verenigingen) en verenigingen met rechtspersoonlijkheid (zoals vzw’s).
 
 Deze API geeft *enkel leesrechten* tot de informatie uit het Verenigingsregister.
+Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze [publieke confluence pagina](https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6264358372/Technische+documentatie).
 
 Schrijf je in op <a href=""{appSettings.NewsletterUrl}"">onze nieuwsbrief</a> om op de hoogte te blijven met informatie en nieuwigheden over het verenigingsregister.";
 

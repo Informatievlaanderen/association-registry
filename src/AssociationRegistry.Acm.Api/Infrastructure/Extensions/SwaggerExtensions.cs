@@ -54,7 +54,7 @@ public static class SwaggerExtensions
                            },
                            Description = "---\n" +
                                          "Voor meer algemene informatie over het gebruik van deze API, raadpleeg onze " +
-                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6285361348/API+documentatie\">publieke confluence pagina</a>.",
+                                         "<a href=\"https://vlaamseoverheid.atlassian.net/wiki/spaces/AGB/pages/6264358372/Technische+documentatie\">publieke confluence pagina</a>.",
                            Contact = new OpenApiContact
                            {
                                Name = appSettings.ApiDocs.Contact.Name,
