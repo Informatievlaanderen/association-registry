@@ -1,3 +1,10 @@
+## [8.229.1](https://github.com/informatievlaanderen/association-registry/compare/v8.229.0...v8.229.1) (2025-04-10)
+
+
+### Bug Fixes
+
+* or-2711 use cancelationtoken.none for retrieving nuts lau info ([5236941](https://github.com/informatievlaanderen/association-registry/commit/5236941a5815db6db0e207f94552f2c9f11e2115))
+
 # [8.229.0](https://github.com/informatievlaanderen/association-registry/compare/v8.228.0...v8.229.0) (2025-04-10)
 
 
