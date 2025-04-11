@@ -226,6 +226,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
     }
 
+    public async Task RefreshIndices()
+        => await ElasticClient.Indices.RefreshAsync(Indices.AllIndices);
+
     private readonly Dictionary<string, object> _ranContexts = new();
 
     public void RegisterContext<T>(ITestContext<T> context)

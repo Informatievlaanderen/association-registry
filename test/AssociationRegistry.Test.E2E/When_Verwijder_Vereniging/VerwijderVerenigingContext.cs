@@ -24,5 +24,6 @@ public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequ
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.RefreshIndices();
     }
 }

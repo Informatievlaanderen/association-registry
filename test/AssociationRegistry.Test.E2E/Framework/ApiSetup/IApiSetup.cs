@@ -18,4 +18,5 @@ public interface IApiSetup
     public IProjectionDaemon AdminProjectionDaemon { get; }
 
     Task ExecuteGiven(IScenario scenario);
+    Task RefreshIndices();
 }
