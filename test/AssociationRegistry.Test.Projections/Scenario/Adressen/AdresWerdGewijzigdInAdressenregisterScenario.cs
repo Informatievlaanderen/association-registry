@@ -5,23 +5,23 @@ using AutoFixture;
 
 public class AdresWerdGewijzigdInAdressenregisterScenario : ScenarioBase
 {
-    public FeitelijkeVerenigingWerdGeregistreerd VerenigingWerdGeregistreerd { get; }
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd { get; }
     public AdresWerdGewijzigdInAdressenregister AdresWerdGewijzigdInAdressenregister { get; }
 
     public AdresWerdGewijzigdInAdressenregisterScenario()
     {
-        VerenigingWerdGeregistreerd = AutoFixture.Create<FeitelijkeVerenigingWerdGeregistreerd>();
+        VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd = AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
         AdresWerdGewijzigdInAdressenregister = AutoFixture.Create<AdresWerdGewijzigdInAdressenregister>() with
         {
-            VCode = VerenigingWerdGeregistreerd.VCode,
-            LocatieId = VerenigingWerdGeregistreerd.Locaties.First().LocatieId,
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+            LocatieId = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties.First().LocatieId,
         };
     }
 
-    public override string VCode => VerenigingWerdGeregistreerd.VCode;
+    public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
 
     public override EventsPerVCode[] Events =>
     [
-        new(VCode, VerenigingWerdGeregistreerd, AdresWerdGewijzigdInAdressenregister),
+        new(VCode, VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, AdresWerdGewijzigdInAdressenregister),
     ];
 }

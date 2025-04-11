@@ -22,6 +22,20 @@ public static class AdminApiEndpoints
     public static DetailVerenigingResponse GetBeheerDetail(this IAlbaHost source, string vCode)
         => source.GetAsJson<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
 
+    public static HttpResponseMessage GetBeheerDetailHttpResponse(this IAlbaHost source,
+                                                      HttpClient authenticatedClient,
+                                                      string vCode, long expectedSequence)
+    {
+        var client = source.Server.CreateClient();
+
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+
+        return client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}").GetAwaiter().GetResult()!;
+    }
+
     public static async  Task<DetailVerenigingResponse> GetBeheerDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
