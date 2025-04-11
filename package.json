@@ -21,7 +21,7 @@
     "@semantic-release/release-notes-generator": "12.1.0",
     "commitizen": "^4.3.0",
     "cz-conventional-changelog": "3.3.0",
-    "form-data": "4.0.0",
+    "form-data": "4.0.2",
     "husky": "8.0.3",
     "lodash": "4.17.21",
     "merge": "2.1.1",
