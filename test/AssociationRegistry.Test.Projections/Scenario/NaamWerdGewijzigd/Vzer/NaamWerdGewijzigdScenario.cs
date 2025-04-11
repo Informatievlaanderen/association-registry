@@ -13,7 +13,10 @@ public class NaamWerdGewijzigdScenario : ScenarioBase
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        NaamWerdGewijzigd = AutoFixture.Create<NaamWerdGewijzigd>();
+        NaamWerdGewijzigd = AutoFixture.Create<NaamWerdGewijzigd>() with
+        {
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+        };
     }
 
     public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
