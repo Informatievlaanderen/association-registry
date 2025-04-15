@@ -151,7 +151,7 @@ jobs:
 
 
   run-unit-tests:
-    name: Run unit tests
+    name: Domain
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -166,7 +166,7 @@ jobs:
     secrets: inherit
 
   run-acm-tests:
-    name: Run acm tests
+    name: ACM
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -201,7 +201,7 @@ jobs:
     secrets: inherit
 
   run-public-tests:
-    name: Run public tests
+    name: Public Api
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -255,7 +255,7 @@ jobs:
     secrets: inherit
 
   run-admin-tests:
-    name: Run admin tests
+    name: Admin Api
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -496,7 +496,7 @@ jobs:
           docker logs otel-collector
 
   run-address-sync-tests:
-    name: Run Address Sync tests
+    name: Address Sync
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -531,7 +531,7 @@ jobs:
     secrets: inherit
 
   run-powerbi-tests:
-    name: Run PowerBI tests
+    name: PowerBi
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -620,7 +620,7 @@ jobs:
           path: src/AssociationRegistry.KboMutations.SyncLambda/bin/Release/net8.0/AssociationRegistry.KboMutations.SyncLambda.zip
 
   run-e2e-tests:
-    name: Run e2e tests
+    name: E2E
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -636,7 +636,7 @@ jobs:
     secrets: inherit
 
   run-projections-tests:
-    name: Run projections tests
+    name: Projections
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
