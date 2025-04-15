@@ -1,3 +1,12 @@
+## [8.230.1](https://github.com/informatievlaanderen/association-registry/compare/v8.230.0...v8.230.1) (2025-04-15)
+
+
+### Bug Fixes
+
+* depend on unit tests from release ([d6b4042](https://github.com/informatievlaanderen/association-registry/commit/d6b4042ed261aad98aa285ca9f99a2dbad748e8d))
+* enable a few more services for domain tests ([e7b1e16](https://github.com/informatievlaanderen/association-registry/commit/e7b1e16df91bd401372b2c9e70593c90ae5e7366))
+* more naming fixes; force build ([ee16103](https://github.com/informatievlaanderen/association-registry/commit/ee16103fd877020c7e50d296fbd020c127a2a54f))
+
 # [8.230.0](https://github.com/informatievlaanderen/association-registry/compare/v8.229.1...v8.230.0) (2025-04-10)
 
 
