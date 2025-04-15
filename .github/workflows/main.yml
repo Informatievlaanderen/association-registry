@@ -509,7 +509,7 @@ jobs:
       run-docker-localstack: false
       run-docker-otelcollector: true
       pre-gen-marten: false
-  secrets: inherit
+    secrets: inherit
 
   build-admin-address-sync:
     name: Build Admin Address Sync Scheduled Task
