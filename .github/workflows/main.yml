@@ -259,8 +259,12 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:${{ needs.set-release-version.outputs.version }}
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg GIT_HASH=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.Api/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminapi:$VERSION
 
       - name: Show images
         shell: bash
@@ -367,8 +371,12 @@ jobs:
           BUILD_DOCKER_REGISTRY: ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}
           SEMVER: ${{ needs.set-release-version.outputs.version }}
         run: |
-          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=${{ needs.set-release-version.outputs.version }} --build-arg github.sha=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
-          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:${{ needs.set-release-version.outputs.version }}
+          VERSION=${SEMVER:-"0.0.0"}
+          if [ "$VERSION" == "none" ]; then
+            VERSION="0.0.0"
+          fi
+          docker buildx build . --build-arg ELASTIC_HOST --build-arg CI_BUILD_NUMBER=$VERSION --build-arg github.sha=${{ github.sha }} --network=host -f src/AssociationRegistry.Admin.ProjectionHost/Dockerfile \
+          --tag ${{ secrets.BUILD_DOCKER_REGISTRY_IK4 }}/verenigingsregister-adminprojections:$VERSION
 
       - name: Show images
         shell: bash
