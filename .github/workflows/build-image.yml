@@ -146,6 +146,7 @@ jobs:
 
       - name: Wait for db container
         shell: bash
+        if: ${{ inputs.run-docker-db }}
         run: |
           timeout 90s bash -c "until docker exec db pg_isready ; do sleep 5 ; done"
 
