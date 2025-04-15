@@ -149,15 +149,46 @@ jobs:
           echo RELEASE_VERSION=$(cat semver) >> $GITHUB_ENV
         shell: bash
 
+
+  run-unit-tests:
+    name: Run unit tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: false
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: false
+    secrets: inherit
+
+  run-acm-tests:
+    name: Run unit tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.Acm.Api
+      run-docker-acm: true
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: false
+      pre-gen-marten: true
+    secrets: inherit
+
   build-acm-api:
     name: Build ACM Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests, run-acm-tests ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: verenigingsregister-acmapi
-      test-project: AssociationRegistry.Test.Acm.Api
       build-project: AssociationRegistry.Acm.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: true
@@ -169,15 +200,30 @@ jobs:
       pre-gen-marten: true
     secrets: inherit
 
+  run-public-tests:
+    name: Run public tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version, run-unit-tests ]
+    with:
+      test-project: AssociationRegistry.Test.Public.Api
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      db-name: verenigingsregister
+    secrets: inherit
+
   build-public-api:
     name: Build Public Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests, run-public-tests ]
     with:
       image-file: ar-public-api-image.tar
       image-name: verenigingsregister-publicapi
-      test-project: AssociationRegistry.Test.Public.Api
       build-project: AssociationRegistry.Public.Api/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
@@ -193,7 +239,7 @@ jobs:
     name: Build Public Projections
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests, run-public-tests ]
     with:
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
@@ -228,7 +274,7 @@ jobs:
     name: Build Admin Api
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version, run-unit-tests, run-admin-tests ]
     steps:
 
       - name: Checkout Code
@@ -341,7 +387,7 @@ jobs:
     name: Build Admin Projections
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-admin-tests ]
+    needs: [ set-release-version, run-unit-tests, run-admin-tests ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -449,17 +495,48 @@ jobs:
         run: |
           docker logs otel-collector
 
+  run-address-sync-tests:
+    name: Run Address Sync tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.Admin.AddressSync
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: false
+  secrets: inherit
+
   build-admin-address-sync:
     name: Build Admin Address Sync Scheduled Task
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests, run-address-sync-tests ]
     with:
       image-file: ar-admin-address-sync-image.tar
       image-name: verenigingsregister-adressensync
-      test-project: AssociationRegistry.Test.Admin.AddressSync
       build-project: AssociationRegistry.Admin.AddressSync/
       semver: ${{ needs.set-release-version.outputs.version }}
+      run-docker-acm: false
+      run-docker-wiremock: false
+      run-docker-db: true
+      run-docker-elasticsearch: false
+      run-docker-localstack: false
+      run-docker-otelcollector: true
+      pre-gen-marten: false
+    secrets: inherit
+
+  run-powerbi-tests:
+    name: Run Address Sync tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.PowerBi.ExportHost
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
@@ -473,11 +550,10 @@ jobs:
     name: Build PowerBI Export Scheduled Task
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests, run-powerbi-tests ]
     with:
       image-file: ar-powerbiexport-image.tar
       image-name: verenigingsregister-powerbiexport
-      test-project: AssociationRegistry.Test.PowerBi.ExportHost
       build-project: AssociationRegistry.PowerBi.ExportHost/
       semver: ${{ needs.set-release-version.outputs.version }}
       run-docker-acm: false
@@ -491,7 +567,7 @@ jobs:
 
   build-sync-lambda:
     name: Build Sync Lambda
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-unit-tests ]
     runs-on: ubuntu-latest
 
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}

@@ -25,7 +25,7 @@ on:
         type: boolean
       db-name:
         type: string
-        default: "verenigingsregister"
+        required: false
       test-project: #AssociationRegistry.Test.Acm.Api
         required: true
         type: string
