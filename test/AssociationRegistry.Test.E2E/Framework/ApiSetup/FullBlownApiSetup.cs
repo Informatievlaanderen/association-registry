@@ -60,6 +60,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
 
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
+        UnautenticatedClient = clients.Unauthenticated.HttpClient;
+        UnauthorizedClient = clients.Unauthorized.HttpClient;
 
         AdminApiHost = adminApiHost.EnsureEachCallIsAuthenticated(clients.Authenticated.HttpClient);
         AdminHttpClient = clients.Authenticated.HttpClient;
@@ -140,6 +142,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public IProjectionDaemon AdminProjectionDaemon { get; private set; }
     public IElasticClient ElasticClient { get; set; }
     public HttpClient SuperAdminHttpClient { get; private set; }
+    public HttpClient UnautenticatedClient { get; private set; }
+    public HttpClient UnauthorizedClient { get; private set; }
     public HttpClient AdminHttpClient { get; private set; }
 
     private void SetUpAdminApiConfiguration()
@@ -221,6 +225,9 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
         await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
     }
+
+    public async Task RefreshIndices()
+        => await ElasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
     private readonly Dictionary<string, object> _ranContexts = new();
 

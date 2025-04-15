@@ -13,7 +13,10 @@ public class KorteNaamWerdGewijzigdScenario : ScenarioBase
         VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =
             AutoFixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>();
 
-        KorteNaamWerdGewijzigd = AutoFixture.Create<KorteNaamWerdGewijzigd>();
+        KorteNaamWerdGewijzigd = AutoFixture.Create<KorteNaamWerdGewijzigd>() with
+        {
+            VCode = VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode,
+        };
     }
 
     public override string VCode => VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode;
