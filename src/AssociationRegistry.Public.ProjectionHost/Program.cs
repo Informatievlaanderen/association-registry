@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.ProjectionHost;
 
 using Asp.Versioning.ApplicationModels;
 using Extensions;
+using Hosts;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
@@ -78,6 +79,12 @@ public class Program
         builder.Host.UseConsoleLifetime();
 
         var app = builder.Build();
+
+        if (ProgramArguments.IsCodeGen(args))
+        {
+            await app.RunOaktonCommands(args);
+            return;
+        }
 
         app.AddProjectionEndpoints(app.Configuration.GetSection(RebuildConfigurationSection.SectionName).Get<RebuildConfigurationSection>()!);
 
