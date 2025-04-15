@@ -222,7 +222,9 @@ public class GrarClient : IGrarClient
                     var nuts = result.Nuts3Code;
                     var lau = result.Gemeente?.ObjectId;
 
-                    if (gemeentenaam == null || nuts == null || lau is null)
+                    var isInvalidNutsLauGemeente = gemeentenaam is null || nuts is null || lau is null;
+
+                    if (isInvalidNutsLauGemeente)
                     {
                         return null;
                     }
