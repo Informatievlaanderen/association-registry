@@ -23,6 +23,9 @@ on:
         type: boolean
       pre-gen-marten:
         type: boolean
+      db-name:
+        type: string
+        default: "verenigingsregister"
       test-project: #AssociationRegistry.Test.Acm.Api
         required: true
         type: string
@@ -73,7 +76,7 @@ jobs:
         shell: bash
         if: ${{ inputs.run-docker-db }}
         run: |
-          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=fullblowne2e postgres:15.0
+          docker run -d --name db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=root -e POSTGRES_DB=${{ inputs.db-name }} postgres:15.0
 
       - name: Run OpenTelemetry container
         shell: bash

@@ -221,6 +221,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: true
       run-docker-otelcollector: true
+      db-name: verenigingsregister
     secrets: inherit
 
   build-admin-api:
@@ -555,6 +556,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: true
       run-docker-otelcollector: true
+      db-name: fullblowne2e
     secrets: inherit
 
   run-projections-tests:
@@ -570,6 +572,7 @@ jobs:
       run-docker-elasticsearch: true
       run-docker-localstack: false
       run-docker-otelcollector: true
+      db-name: fullblowne2e
     secrets: inherit
 
   pack-association-registry:
