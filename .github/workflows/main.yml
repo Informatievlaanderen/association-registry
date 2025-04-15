@@ -208,11 +208,26 @@ jobs:
       pre-gen-marten: true
     secrets: inherit
 
+  run-admin-tests:
+    name: Run admin tests
+    uses: ./.github/workflows/run-tests.yml
+    if: github.repository_owner == 'Informatievlaanderen'
+    needs: [ set-release-version ]
+    with:
+      test-project: AssociationRegistry.Test.Admin.Api
+      run-docker-acm: true
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-localstack: true
+      run-docker-otelcollector: true
+    secrets: inherit
+
   build-admin-api:
     name: Build Admin Api
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-admin-tests ]
     steps:
 
       - name: Checkout Code
@@ -325,7 +340,7 @@ jobs:
     name: Build Admin Projections
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
+    needs: [ set-release-version, run-admin-tests ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
