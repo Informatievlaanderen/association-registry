@@ -158,11 +158,11 @@ jobs:
     with:
       test-project: AssociationRegistry.Test
       run-docker-acm: false
-      run-docker-wiremock: false
-      run-docker-db: false
-      run-docker-elasticsearch: false
-      run-docker-localstack: false
-      run-docker-otelcollector: false
+      run-docker-wiremock: true
+      run-docker-db: true
+      run-docker-elasticsearch: true
+      run-docker-localstack: true
+      run-docker-otelcollector: true
     secrets: inherit
 
   run-acm-tests:
