@@ -182,7 +182,7 @@ jobs:
     secrets: inherit
 
   build-acm-api:
-    name: Build ACM Api
+    name: ACM
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-unit-tests, run-acm-tests ]
@@ -217,7 +217,7 @@ jobs:
     secrets: inherit
 
   build-public-api:
-    name: Build Public Api
+    name: Public Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-unit-tests, run-public-tests ]
@@ -236,7 +236,7 @@ jobs:
     secrets: inherit
 
   build-public-projections:
-    name: Build Public Projections
+    name: Public Projections
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-unit-tests, run-public-tests ]
@@ -512,7 +512,7 @@ jobs:
     secrets: inherit
 
   build-admin-address-sync:
-    name: Build Admin Address Sync Scheduled Task
+    name: Address Sync
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version, run-unit-tests, run-address-sync-tests ]
