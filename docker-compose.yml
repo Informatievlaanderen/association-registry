@@ -78,7 +78,7 @@ services:
       - vr-net
 
   wiremock:
-    image: wiremock/wiremock:3.9.1-1
+    image: wiremock/wiremock:3.12.1-1
     container_name: vr_wiremock
     ports:
       - 8080:8080
