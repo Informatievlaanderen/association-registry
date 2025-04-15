@@ -166,7 +166,7 @@ jobs:
     secrets: inherit
 
   run-acm-tests:
-    name: Run unit tests
+    name: Run acm tests
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
@@ -204,7 +204,7 @@ jobs:
     name: Run public tests
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests ]
+    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Public.Api
       run-docker-acm: false
@@ -531,7 +531,7 @@ jobs:
     secrets: inherit
 
   run-powerbi-tests:
-    name: Run Address Sync tests
+    name: Run PowerBI tests
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
     needs: [ set-release-version ]
