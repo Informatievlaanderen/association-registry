@@ -185,7 +185,7 @@ jobs:
     name: ACM
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-acm-tests ]
+    needs: [ set-release-version, run-acm-tests ]
     with:
       image-file: ar-acm-api-image.tar
       image-name: verenigingsregister-acmapi
@@ -220,7 +220,7 @@ jobs:
     name: Public Api
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-public-tests ]
+    needs: [ set-release-version, run-public-tests ]
     with:
       image-file: ar-public-api-image.tar
       image-name: verenigingsregister-publicapi
@@ -239,7 +239,7 @@ jobs:
     name: Public Projections
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-public-tests ]
+    needs: [ set-release-version, run-public-tests ]
     with:
       image-file: ar-public-projections-image.tar
       image-name: verenigingsregister-publicprojections
@@ -274,7 +274,7 @@ jobs:
     name: Build Admin Api
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-admin-tests ]
+    needs: [ set-release-version, run-admin-tests ]
     steps:
 
       - name: Checkout Code
@@ -387,7 +387,7 @@ jobs:
     name: Build Admin Projections
     runs-on: ubuntu-latest
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-admin-tests ]
+    needs: [ set-release-version, run-admin-tests ]
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
@@ -515,7 +515,7 @@ jobs:
     name: Address Sync
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-address-sync-tests ]
+    needs: [ set-release-version, run-address-sync-tests ]
     with:
       image-file: ar-admin-address-sync-image.tar
       image-name: verenigingsregister-adressensync
@@ -550,7 +550,7 @@ jobs:
     name: Build PowerBI Export Scheduled Task
     uses: ./.github/workflows/build-image.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version, run-unit-tests, run-powerbi-tests ]
+    needs: [ set-release-version, run-powerbi-tests ]
     with:
       image-file: ar-powerbiexport-image.tar
       image-name: verenigingsregister-powerbiexport
@@ -567,7 +567,7 @@ jobs:
 
   build-sync-lambda:
     name: Build Sync Lambda
-    needs: [ set-release-version, run-unit-tests ]
+    needs: [ set-release-version ]
     runs-on: ubuntu-latest
 
     if: ${{ (github.repository_owner == 'Informatievlaanderen') && (needs.set-release-version.outputs.version != 'none') }}
@@ -676,7 +676,10 @@ jobs:
       build-admin-address-sync,
       build-powerbi-exporthost,
       pack-association-registry,
-      build-sync-lambda
+      build-sync-lambda,
+      run-unit-tests,
+      run-e2e-tests,
+      run-projections-tests
     ]
 
     outputs:
