@@ -154,7 +154,6 @@ jobs:
     name: Domain
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test
       run-docker-acm: false
@@ -169,7 +168,6 @@ jobs:
     name: ACM
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Acm.Api
       run-docker-acm: true
@@ -204,7 +202,6 @@ jobs:
     name: Public Api
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Public.Api
       run-docker-acm: false
@@ -258,7 +255,6 @@ jobs:
     name: Admin Api
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Admin.Api
       run-docker-acm: true
@@ -357,7 +353,6 @@ jobs:
     name: Address Sync
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Admin.AddressSync
       run-docker-acm: false
@@ -392,7 +387,6 @@ jobs:
     name: PowerBi
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.PowerBi.ExportHost
       run-docker-acm: false
@@ -481,7 +475,6 @@ jobs:
     name: E2E
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.E2E
       run-docker-acm: true
@@ -497,7 +490,6 @@ jobs:
     name: Projections
     uses: ./.github/workflows/run-tests.yml
     if: github.repository_owner == 'Informatievlaanderen'
-    needs: [ set-release-version ]
     with:
       test-project: AssociationRegistry.Test.Projections
       run-docker-acm: false
