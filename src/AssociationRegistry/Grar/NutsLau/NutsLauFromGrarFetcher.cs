@@ -13,12 +13,14 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
         _client = client;
     }
 
-    public async Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postcodes, CancellationToken cancellationToken)
+    public async Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(string[] postcodes, CancellationToken cancellationToken)
     {
         var nutsLauInfos = new List<PostalNutsLauInfo>();
 
         foreach (var postcode in postcodes)
         {
+            await Task.Delay(150, cancellationToken);
+
             if (Postcode.IsWaalsePostcode(postcode))
                 continue;
 
@@ -40,7 +42,7 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 
 public interface INutsLauFromGrarFetcher
 {
-    Task<PostalNutsLauInfo[]> GetFlemishNutsAndLauByPostcode(string[] postalInformationList, CancellationToken cancellationToken);
+    Task<PostalNutsLauInfo[]> GetFlemishAndBrusselsNutsAndLauByPostcode(string[] postalInformationList, CancellationToken cancellationToken);
 }
 
 public record PostalNutsLauInfo

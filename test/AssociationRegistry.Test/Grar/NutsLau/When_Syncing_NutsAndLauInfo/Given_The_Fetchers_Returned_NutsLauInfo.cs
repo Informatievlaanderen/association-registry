@@ -39,7 +39,7 @@ public class Given_The_Fetchers_Returned_NutsLauInfo
         var postalNutslauInfos = fixture.CreateMany<PostalNutsLauInfo>().ToArray();
         postcodesFromGrarFetcher.Setup(x => x.FetchPostalCodes(It.IsAny<CancellationToken>()))
                                 .ReturnsAsync(postalCodes);
-        nutsLauFromGrarFetcher.Setup(x => x.GetFlemishNutsAndLauByPostcode(postalCodes, It.IsAny<CancellationToken>()))
+        nutsLauFromGrarFetcher.Setup(x => x.GetFlemishAndBrusselsNutsAndLauByPostcode(postalCodes, It.IsAny<CancellationToken>()))
                               .ReturnsAsync(postalNutslauInfos);
         return postalNutslauInfos;
     }

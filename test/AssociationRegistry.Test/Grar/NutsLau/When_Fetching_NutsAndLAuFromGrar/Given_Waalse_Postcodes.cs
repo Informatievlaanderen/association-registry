@@ -15,7 +15,7 @@ public class Given_Waalse_Postcodes
 
         var sut = new NutsLauFromGrarFetcher(client.Object);
 
-        await sut.GetFlemishNutsAndLauByPostcode(postcodes, CancellationToken.None);
+        await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, CancellationToken.None);
 
         client.Verify(x => x.GetPostalNutsLauInformation(It.IsAny<string>(), It.IsAny<CancellationToken>()), Times.Never);
     }

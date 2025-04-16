@@ -23,7 +23,7 @@ public class Given_A_Set_Of_PostalCodes
 
         var sut = new NutsLauFromGrarFetcher(client.Object);
 
-        var actual = await sut.GetFlemishNutsAndLauByPostcode(postcodes, CancellationToken.None);
+        var actual = await sut.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, CancellationToken.None);
 
         actual.Should().BeEquivalentTo(nutsLauResponses.Select(x => new PostalNutsLauInfo()
         {

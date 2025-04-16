@@ -31,7 +31,7 @@ public class NutsAndLauSyncService : INutsAndLauSyncService
 
         _logger.LogInformation($"PostcodesFromGrarFetcher returned {postcodes.Length} postcodes.");
 
-        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishNutsAndLauByPostcode(postcodes, cancellationToken);
+        var nutsLauInfo = await _nutsLauFromGrarFetcher.GetFlemishAndBrusselsNutsAndLauByPostcode(postcodes, cancellationToken);
 
         _logger.LogInformation($"NutsLauFromGrarFetcher returned {nutsLauInfo.Length} nuts lau info.");
 
