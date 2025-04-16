@@ -229,7 +229,7 @@ jobs:
       run-docker-elasticsearch: false
       run-docker-localstack: false
       run-docker-otelcollector: false
-      pre-gen-marten: false
+      pre-gen-marten: true
     secrets: inherit
 
   build-public-projections:
