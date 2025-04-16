@@ -1,3 +1,10 @@
+## [8.230.3](https://github.com/informatievlaanderen/association-registry/compare/v8.230.2...v8.230.3) (2025-04-16)
+
+
+### Bug Fixes
+
+* or-2799 add a delay for fetching nuts and lau info ([fba6b40](https://github.com/informatievlaanderen/association-registry/commit/fba6b40b20c53fb24a74e24553a830100fbe0196))
+
 ## [8.230.2](https://github.com/informatievlaanderen/association-registry/compare/v8.230.1...v8.230.2) (2025-04-16)
 
 
