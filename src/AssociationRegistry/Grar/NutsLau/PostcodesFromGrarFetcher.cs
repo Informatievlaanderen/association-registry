@@ -16,8 +16,8 @@ public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
     {
         var postalInformationList = await _client.GetPostalInformationList("0", "100", cancellationToken);
 
-        if (postalInformationList is null)
-            return Array.Empty<string>();
+        if (!postalInformationList.Postcodes.Any())
+            return [];
 
         var postcodes = postalInformationList.Postcodes.ToList();
 
@@ -26,7 +26,7 @@ public class PostcodesFromGrarFetcher:  IPostcodesFromGrarFetcher
             postalInformationList =
                 await _client.GetPostalInformationList(postalInformationList!.VolgendeOffset!, postalInformationList!.VolgendeLimit!, cancellationToken);
 
-            if (postalInformationList is not null)
+            if (postalInformationList.Postcodes.Any())
                 postcodes.AddRange(postalInformationList.Postcodes);
         }
 
