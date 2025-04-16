@@ -1,3 +1,10 @@
+## [8.230.4](https://github.com/informatievlaanderen/association-registry/compare/v8.230.3...v8.230.4) (2025-04-16)
+
+
+### Bug Fixes
+
+* regen marten on build public projections ([34d0035](https://github.com/informatievlaanderen/association-registry/commit/34d00356e20973bfdd87418afa8d29ad965ebe27))
+
 ## [8.230.3](https://github.com/informatievlaanderen/association-registry/compare/v8.230.2...v8.230.3) (2025-04-16)
 
 
