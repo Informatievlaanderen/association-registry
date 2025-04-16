@@ -1,3 +1,10 @@
+## [8.230.2](https://github.com/informatievlaanderen/association-registry/compare/v8.230.1...v8.230.2) (2025-04-16)
+
+
+### Bug Fixes
+
+* or-2799 add logging for retrieving postal info from grar ([f3ac83e](https://github.com/informatievlaanderen/association-registry/commit/f3ac83e622222f21f99700656959334f6cad31b3))
+
 ## [8.230.1](https://github.com/informatievlaanderen/association-registry/compare/v8.230.0...v8.230.1) (2025-04-15)
 
 
