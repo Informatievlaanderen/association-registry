@@ -224,6 +224,7 @@ public class GrarClient : IGrarClient
 
                     if (gemeentenaam == null || nuts == null || lau is null)
                     {
+                        _logger.LogInformation($"grar gemeentenaam or nuts/lau is null for postcode: {postcode}");
                         return null;
                     }
 
@@ -234,6 +235,7 @@ public class GrarClient : IGrarClient
 
                 case HttpStatusCode.NotFound:
                 default:
+                    _logger.LogInformation($"grar returned {response.StatusCode} for postcode {postcode}");
                     return null;
             }
         }
