@@ -4,6 +4,7 @@ using AssociationRegistry.Grar.Clients;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Resources;
 using System.Net;
 using Xunit;
 
@@ -15,12 +16,17 @@ public class Given_Grar_Retuns_NonSuccessStatuscode
         var httpClient = new Mock<IGrarHttpClient>();
         var postcode = "9000";
 
+        var httpStatusCode = HttpStatusCode.BadRequest;
+
         httpClient.Setup(x => x.GetPostInfoDetail(postcode, It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+                  .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
-        var sut = new GrarClient(httpClient.Object, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, Mock.Of<ILogger<GrarClient>>());
 
-        var exception = await Assert.ThrowsAsync<Exception>(async () => await sut.GetPostalInformationDetail(postcode));
-        exception.Message.Should().Be($"grar returned {HttpStatusCode.BadRequest} for PostInfoDetail with postcode {postcode}");
+        var exception = await Assert.ThrowsAsync<NonSuccesfulStatusCodeException>(async () => await sut.GetPostalInformationDetail(postcode));
+        exception.Message.Should().Be(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(WellKnownServices.Grar, httpStatusCode, ContextDescription.PostInfoDetail(postcode)));
     }
 }

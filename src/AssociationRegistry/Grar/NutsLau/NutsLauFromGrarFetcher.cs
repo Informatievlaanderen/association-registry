@@ -19,8 +19,6 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
 
         foreach (var postcode in postcodes)
         {
-            await Task.Delay(150, cancellationToken);
-
             if (Postcode.IsWaalsePostcode(postcode))
                 continue;
 

@@ -25,7 +25,10 @@ public class Given_Grar_Returns_No_Address_Components
                            Content = new StringContent(AddressMatchResponseWithoutAddressComponents),
                        });
 
-        var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, Mock.Of<ILogger<GrarClient>>());
 
         var result = await sut.GetAddressMatches(straatnaam: "Aalststraat", huisnummer: "48", busnummer: null, postcode: "1000",
                                                  gemeentenaam: "Brussel", CancellationToken.None);

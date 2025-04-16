@@ -323,7 +323,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
-        Throw<VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
+        Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
 
         IEvent[] events;
 

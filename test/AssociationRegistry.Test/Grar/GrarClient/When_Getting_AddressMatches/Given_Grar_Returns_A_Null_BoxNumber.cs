@@ -25,7 +25,10 @@ public class Given_Grar_Returns_A_Null_BoxNumber
                            Content = new StringContent(AddressMatchResponseWithoutBoxNumber),
                        });
 
-        var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, Mock.Of<ILogger<GrarClient>>());
 
         var result = await sut.GetAddressMatches(straatnaam: "Fosselstraat", huisnummer: "48", busnummer: null, postcode: "1790",
                                                  gemeentenaam: "Affligem", CancellationToken.None);

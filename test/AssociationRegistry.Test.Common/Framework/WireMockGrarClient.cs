@@ -10,7 +10,10 @@ public class WireMockGrarClient : GrarClient
         : base(new GrarHttpClient(new HttpClient
         {
             BaseAddress = new Uri("http://127.0.0.1:8080"),
-        }), NullLogger<GrarClient>.Instance)
+        }), new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, NullLogger<GrarClient>.Instance)
     {
     }
 }

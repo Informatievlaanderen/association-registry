@@ -4,6 +4,7 @@ using AssociationRegistry.Grar.Clients;
 using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Resources;
 using System.Net;
 using Xunit;
 
@@ -16,12 +17,17 @@ public class Given_Grar_Retuns_NonSuccessStatuscode
         var offset = "100";
         var limit = "200";
 
+        var httpStatusCode = HttpStatusCode.BadRequest;
+
         httpClient.Setup(x => x.GetPostInfoList(offset, limit, It.IsAny<CancellationToken>()))
-                  .ReturnsAsync(new HttpResponseMessage(HttpStatusCode.BadRequest));
+                  .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
-        var sut = new GrarClient(httpClient.Object, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, Mock.Of<ILogger<GrarClient>>());
 
-        var exception = await Assert.ThrowsAsync<Exception>(async () => await sut.GetPostalInformationList(offset, limit, CancellationToken.None));
-        exception.Message.Should().Be($"grar returned {HttpStatusCode.BadRequest} for PostInfoLijst with offset {offset} and limit {limit}");
+        var exception = await Assert.ThrowsAsync<NonSuccesfulStatusCodeException>(async () => await sut.GetPostalInformationList(offset, limit, CancellationToken.None));
+        exception.Message.Should().Be(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(WellKnownServices.Grar, httpStatusCode, ContextDescription.PostInfoLijst(offset, limit)));
     }
 }

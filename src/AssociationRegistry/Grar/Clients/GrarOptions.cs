@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Hosts.Configuration;
+﻿namespace AssociationRegistry.Grar.Clients;
 
 public record GrarOptions
 {
@@ -10,5 +10,5 @@ public record GrarOptions
     public readonly record struct KafkaOptions(string BootstrapServer, string Username, string Password, string TopicName, string GroupId, int Offset, bool Enabled, string SlackWebhook);
     public readonly record struct SqsOptions(string GrarSyncQueueUrl, string GrarSyncQueueName, string GrarSyncDeadLetterQueueName, bool GrarSyncQueueListenerEnabled, string AddressMatchQueueName, string AddressMatchDeadLetterQueueName, bool UseLocalStack);
     public readonly record struct WolverineOptions(string TransportServiceUrl, bool AutoProvision, bool OptimizeArtifactWorkflow);
-    public readonly record struct HttpClientOptions(string BaseUrl, string ApiKey, int Timeout);
+    public readonly record struct HttpClientOptions(string BaseUrl, string ApiKey, int Timeout, int[] BackoffInMs);
 };

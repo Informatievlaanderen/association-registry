@@ -34,7 +34,7 @@ public class Given_AndereVereniging_Is_Already_Subvereniging
             },
         };
 
-        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs>(() => commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
-        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenLidWordenWaarvanZijSubverenigingIs);
+        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>(() => commandHandler.Handle(new CommandEnvelope<VoegLidmaatschapToeCommand>(command, fixture.Create<CommandMetadata>())));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs);
     }
 }

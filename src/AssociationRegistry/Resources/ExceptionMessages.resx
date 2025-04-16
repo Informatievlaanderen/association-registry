@@ -229,10 +229,10 @@
   <data name="WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben">
     <value>Er moet minstens een veld opgegeven worden om een subvereniging te wijzigen.</value>
   </data>
-  <data name="VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs">
+  <data name="VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs">
     <value>Vereniging kan geen subvereniging worden van een vereniging waarvan zij al lid is.</value>
   </data>
-  <data name="VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs">
+  <data name="VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs">
     <value>Vereniging kan geen lid worden van een vereniging waarvan zij subvereniging is.</value>
   </data>
   <data name="UnsupportedOperationForLocatietype">
@@ -291,5 +291,8 @@
   </data>
   <data name="MagdaException">
     <value>Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst.</value>
+  </data>
+  <data name="ServiceReturnedNonSuccesfulStatusCode">
+    <value>Service {0} responded with status code '{1}' with context description '{2}'.</value>
   </data>
 </root>

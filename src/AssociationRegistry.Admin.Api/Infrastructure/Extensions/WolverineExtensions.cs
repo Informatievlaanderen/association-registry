@@ -2,6 +2,7 @@
 
 using Amazon.Runtime;
 using EventStore;
+using Grar.Clients;
 using Grar.GrarConsumer.Messaging;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;

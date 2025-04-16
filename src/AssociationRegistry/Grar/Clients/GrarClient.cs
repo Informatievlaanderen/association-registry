@@ -3,10 +3,13 @@ namespace AssociationRegistry.Grar.Clients;
 using Contracts;
 using Events;
 using Exceptions;
+using Humanizer;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.PostalInfo;
 using Newtonsoft.Json;
+using Polly;
+using Polly.Retry;
 using Resources;
 using System.Net;
 using System.Web;
@@ -16,15 +19,21 @@ public class GrarClient : IGrarClient
 {
     private readonly IGrarHttpClient _grarHttpClient;
     private readonly ILogger<GrarClient> _logger;
+    private readonly AsyncRetryPolicy _retryPolicy;
     public const string BadRequestSuccessStatusCodeMessage = "Foutieve request.";
     public const string OtherNonSuccessStatusCodeMessage = "Adressenregister niet bereikbaar.";
 
     public GrarClient(
         IGrarHttpClient grarHttpClient,
+        GrarOptions.HttpClientOptions httpClientOptions,
         ILogger<GrarClient> logger)
     {
         _grarHttpClient = grarHttpClient;
         _logger = logger;
+
+        _retryPolicy = Policy
+                      .Handle<TooManyRequestException>()
+                      .WaitAndRetryAsync(httpClientOptions.BackoffInMs.Select(x => x.Milliseconds()));
     }
 
     public async Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken)
@@ -166,7 +175,7 @@ public class GrarClient : IGrarClient
     {
         var result = await ExecuteGrarCall<PostalInformationOsloResponse?>(
             ct => _grarHttpClient.GetPostInfoDetail(postcode, ct),
-            $"PostInfoDetail with postcode {postcode}");
+            ContextDescription.PostInfoDetail(postcode));
 
         if (result == null)
             return null;
@@ -181,7 +190,7 @@ public class GrarClient : IGrarClient
     {
         var result = await ExecuteGrarCall<PostalInformationOsloResponse>(
             ct => _grarHttpClient.GetPostInfoDetail(postcode, ct),
-            $"PostInfoDetail with postcode {postcode}",
+            ContextDescription.PostInfoDetail(postcode),
             cancellationToken);
 
         var gemeentenaam = result.Gemeente?.Gemeentenaam?.GeografischeNaam?.Spelling;
@@ -202,7 +211,7 @@ public class GrarClient : IGrarClient
     {
         var result = await ExecuteGrarCall<PostalInformationListOsloResponse>(
             ct => _grarHttpClient.GetPostInfoList(offset, limit, ct),
-            $"PostInfoLijst with offset {offset} and limit {limit}",
+            ContextDescription.PostInfoLijst(offset, limit),
             cancellationToken);
 
         var (nextOffset, nextLimit) = GetOffsetAndLimitFromUri(result.Volgende);
@@ -215,38 +224,44 @@ public class GrarClient : IGrarClient
         };
     }
 
-    private async Task<T> ExecuteGrarCall<T>(
+    private async Task<T?> ExecuteGrarCall<T>(
         Func<CancellationToken, Task<HttpResponseMessage>> httpCall,
-        string contextDescription,
+        ContextDescription contextDescription,
         CancellationToken cancellationToken = default)
     {
-        try
+        return await _retryPolicy.ExecuteAsync(async () =>
         {
-            var response = await httpCall(cancellationToken);
-
-            if (!response.IsSuccessStatusCode)
+            try
             {
-                throw new Exception($"grar returned {response.StatusCode} for {contextDescription}");
+                var response = await httpCall(cancellationToken);
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == HttpStatusCode.TooManyRequests)
+                        throw new TooManyRequestException(WellKnownServices.Grar, response.StatusCode, contextDescription);
+
+                    throw new NonSuccesfulStatusCodeException(WellKnownServices.Grar, response.StatusCode, contextDescription);
+                }
+
+                var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
+                var result = JsonConvert.DeserializeObject<T>(jsonContent);
+
+                return result;
             }
+            catch (TaskCanceledException ex)
+            {
+                _logger.LogError(ex, $"A timeout occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}", contextDescription);
 
-            var jsonContent = await response.Content.ReadAsStringAsync(cancellationToken);
-            var result = JsonConvert.DeserializeObject<T>(jsonContent);
+                throw;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"An error occurred when calling the {WellKnownServices.Grar} endpoint for {{Context}}: {{Message}}", contextDescription,
+                                 ex.Message);
 
-            return result;
-        }
-        catch (TaskCanceledException ex)
-        {
-            _logger.LogError(ex, "A timeout occurred when calling the grar endpoint for {Context}", contextDescription);
-
-            throw new Exception("A timeout occurred when calling the grar endpoint", ex);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "An error occurred when calling the grar endpoint for {Context}: {Message}", contextDescription,
-                             ex.Message);
-
-            throw new Exception(ex.Message, ex);
-        }
+                throw;
+            }
+        });
     }
 
     private static (string? offset, string? limit) GetOffsetAndLimitFromUri(Uri? uri)
@@ -258,3 +273,9 @@ public class GrarClient : IGrarClient
         return (query["offset"], query["limit"]);
     }
 }
+
+public class TooManyRequestException(string service, HttpStatusCode statusCode, ContextDescription contextDescription)
+    : Exception(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(service, statusCode, contextDescription));
+
+public class NonSuccesfulStatusCodeException(string service, HttpStatusCode statusCode, ContextDescription contextDescription)
+    : Exception(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(service, statusCode, contextDescription));

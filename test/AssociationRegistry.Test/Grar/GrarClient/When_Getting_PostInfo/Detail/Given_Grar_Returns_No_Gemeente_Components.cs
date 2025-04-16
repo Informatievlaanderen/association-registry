@@ -21,7 +21,10 @@ public class Given_Grar_Returns_No_Gemeente_Components
                            Content = new StringContent(PostInfoResponseWithoutGemeenteComponents),
                        });
 
-        var sut = new GrarClient(grarHttpClient.Object, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(grarHttpClient.Object, new GrarOptions.HttpClientOptions()
+        {
+            BackoffInMs = [1,1,1],
+        }, Mock.Of<ILogger<GrarClient>>());
 
         var result = await sut.GetPostalInformationDetail("0612");
 
