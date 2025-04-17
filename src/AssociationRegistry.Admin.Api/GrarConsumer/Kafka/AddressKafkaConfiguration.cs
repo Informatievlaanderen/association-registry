@@ -2,6 +2,7 @@
 
 using Hosts.Configuration;
 using Confluent.Kafka;
+using Grar.Clients;
 
 public class AddressKafkaConfiguration : ConsumerConfig
 {

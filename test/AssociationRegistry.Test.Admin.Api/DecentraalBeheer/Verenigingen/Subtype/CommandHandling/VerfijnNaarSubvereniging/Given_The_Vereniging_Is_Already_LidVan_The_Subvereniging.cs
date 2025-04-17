@@ -6,6 +6,8 @@ using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
+using FluentAssertions;
+using Resources;
 using Vereniging.Exceptions;
 using Xunit;
 
@@ -25,7 +27,8 @@ public class Given_The_Vereniging_Is_Already_LidVan_The_Subvereniging
 
         var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(rechtspersoonScenario.VCode, null, null));
 
-        await Assert.ThrowsAnyAsync<VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs);
     }
 
     [Fact]
@@ -42,6 +45,7 @@ public class Given_The_Vereniging_Is_Already_LidVan_The_Subvereniging
 
         var command = new VerfijnSubtypeNaarSubverenigingCommand(scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(rechtspersoonScenario.VCode, null, null));
 
-        await Assert.ThrowsAnyAsync<VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        var exception = await Assert.ThrowsAnyAsync<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>(() => commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
+        exception.Message.Should().Be(ExceptionMessages.VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs);
     }
 }

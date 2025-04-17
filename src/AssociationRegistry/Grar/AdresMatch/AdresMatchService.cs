@@ -32,7 +32,6 @@ public class AdresMatchService
             locatie.Adres.Gemeente.Naam,
             cancellationToken);
 
-        var postalInformation = await grarClient.GetPostalInformationDetail(locatie.Adres.Postcode);
 
         if (adresMatches.HasNoResponse)
             return EventFactory.AdresWerdNietGevondenInAdressenregister(vCode, locatie);
@@ -44,6 +43,7 @@ public class AdresMatchService
                                                         adresMatches.Select(EventFactory.NietUniekeAdresMatchUitAdressenregister)
                                                                     .ToArray());
 
+        var postalInformation = await grarClient.GetPostalInformationDetail(locatie.Adres.Postcode);
         var verrijkteGemeentenaam = GemeentenaamDecorator.VerrijkGemeentenaam(
             locatie.Adres.Gemeente,
             postalInformation,

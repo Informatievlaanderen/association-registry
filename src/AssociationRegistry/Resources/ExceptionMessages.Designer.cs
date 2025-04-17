@@ -9,8 +9,8 @@
 
 namespace AssociationRegistry.Resources {
     using System;
-
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -22,15 +22,15 @@ namespace AssociationRegistry.Resources {
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class ExceptionMessages {
-
+        
         private static global::System.Resources.ResourceManager resourceMan;
-
+        
         private static global::System.Globalization.CultureInfo resourceCulture;
-
+        
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal ExceptionMessages() {
         }
-
+        
         /// <summary>
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
@@ -44,7 +44,7 @@ namespace AssociationRegistry.Resources {
                 return resourceMan;
             }
         }
-
+        
         /// <summary>
         ///   Overrides the current thread's CurrentUICulture property for all
         ///   resource lookups using this strongly typed resource class.
@@ -58,7 +58,7 @@ namespace AssociationRegistry.Resources {
                 resourceCulture = value;
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Achternaam mag geen nummers bevatten..
         /// </summary>
@@ -67,7 +67,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AchternaamBevatNummers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Achternaam moet een letter bevatten..
         /// </summary>
@@ -76,7 +76,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AchternaamZonderLetters", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit type van de andere vereniging..
         /// </summary>
@@ -85,7 +85,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Dit adres is niet meer actief in het adressenregister..
         /// </summary>
@@ -94,7 +94,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AdresInactief", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Adres kon niet gevalideerd worden bij adressenregister..
         /// </summary>
@@ -103,7 +103,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AdresKonNietGevalideerdWordenBijAdressenregister", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Adressenregister niet bereikbaar..
         /// </summary>
@@ -112,7 +112,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AdresKonNietOvergenomenWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Foutieve request..
         /// </summary>
@@ -121,7 +121,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AdresKonNietOvergenomenWordenBadRequest", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het adres is verwijderd uit het adressenregister..
         /// </summary>
@@ -130,7 +130,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AdresVerwijderd", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De andere vereniging is verwijderd en kan niet geladen worden..
         /// </summary>
@@ -139,7 +139,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AndereVerenigingIsVerwijderd", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een authentieke vereniging kan geen dubbel worden van een andere vereniging..
         /// </summary>
@@ -148,7 +148,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("AuthentiekeVerenigingKanNietAlsDubbelGemarkeerdWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet verwijderd worden..
         /// </summary>
@@ -157,7 +157,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("ContactgegevenFromKboCannotBeRemoved", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Contactgegevens die uit KBO werden overgenomen, kunnen niet aangepast worden..
         /// </summary>
@@ -166,7 +166,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("ContactgegevenFromKboCannotBeUpdated", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Request kon niet correct behandeld worden. Controleer het formaat en probeer het opnieuw..
         /// </summary>
@@ -175,7 +175,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("CouldNotParseRequestException", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Minimum en maximum leeftijd moeten tussen 0 en 150 inclusief liggen..
         /// </summary>
@@ -184,7 +184,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("DoelgroepOutOfRange", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een waarde in de hoofdactiviteitenLijst mag slechts 1 maal voorkomen..
         /// </summary>
@@ -193,7 +193,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("DuplicateHoofdactiviteit", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to INSZ moet uniek zijn binnen de vereniging..
         /// </summary>
@@ -202,7 +202,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("DuplicateInszProvided", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Locaties moeten uniek zijn binnen de vereniging..
         /// </summary>
@@ -211,7 +211,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("DuplicateLocatie", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een waarde in de werkingsgebiedenLijst mag slechts 1 maal voorkomen..
         /// </summary>
@@ -220,7 +220,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("DuplicateWerkingsgebied", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Einddatum moet na startdatum liggen..
         /// </summary>
@@ -229,7 +229,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("EinddatumIsBeforeStartdatum", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Einddatum mag niet in de toekomst liggen..
         /// </summary>
@@ -238,7 +238,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("EinddatumIsInFuture", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De naam van de vereniging is verplicht..
         /// </summary>
@@ -247,7 +247,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("EmptyVerenigingsNaam", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er is een fout opgetreden bij het verwerken van de projectie..
         /// </summary>
@@ -256,7 +256,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("FoutBijProjecteren", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er werd voor dit KBO-nummer geen geldige vereniging gevonden..
         /// </summary>
@@ -265,7 +265,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("GeenGeldigeVerenigingInKbo", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een adres moet bestaan uit straatnaam, huisnummer, postcode, gemeente en land..
         /// </summary>
@@ -274,7 +274,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("IncompleteAdres", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een adresId moet een adresbron en waarde bevatten..
         /// </summary>
@@ -283,7 +283,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("IncompleteAdresId", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het bevestigingstoken is niet geldig voor deze request..
         /// </summary>
@@ -292,7 +292,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidBevestigingstokenProvided", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De broncode voor dit adres is niet gekend..
         /// </summary>
@@ -301,7 +301,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidBroncode", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De bronwaarde voor een adres uit het addressenregister moet een Data Vlaanderen PURI zijn..
         /// </summary>
@@ -310,7 +310,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidBronwaardeForAR", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het opgegeven contacttype werd niet herkend. (&apos;email&apos;, &apos;website&apos;, &apos;socialmedia&apos;, &apos;telefoon&apos;).
         /// </summary>
@@ -319,7 +319,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidContactType", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Datum moet van het formaat &apos;yyyy-MM-dd&apos; zijn..
         /// </summary>
@@ -328,7 +328,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidDateFormat", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Minimum leeftijd moet kleiner of gelijk zijn aan maximum leeftijd..
         /// </summary>
@@ -337,7 +337,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidDoelgroepRange", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to E-mail voldoet niet aan het verwachte formaat (naam@domein.vlaanderen). In naam worden de volgende tekens
         ///      toegestaan &apos;!#$%&amp;&apos;*+/=?^_`{|}~-&apos;, in domein enkel &apos;.&apos; en &apos;-&apos;.
@@ -348,7 +348,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidEmailFormat", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Foutieve tekens in INSZ..
         /// </summary>
@@ -357,7 +357,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidInszChars", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to INSZ moet 11 cijfers bevatten..
         /// </summary>
@@ -366,7 +366,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidInszLength", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Incorrect INSZ: foutieve checksum..
         /// </summary>
@@ -375,7 +375,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidInszMod97", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Foutieve tekens in Kbo nummer..
         /// </summary>
@@ -384,7 +384,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidKboNummerChars", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Kbo nummer moet 10 cijfers bevatten..
         /// </summary>
@@ -393,7 +393,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidKboNummerLength", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Incorrect Kbo nummer: foutieve checksum..
         /// </summary>
@@ -402,7 +402,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidKboNummerMod97", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Social media url moet beginnen met &apos;http://&apos; of &apos;https://&apos;.
         /// </summary>
@@ -411,7 +411,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidSocialMediaStart", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to TelefoonNummer moet bestaan uit cijfers, whitespace en &quot;. / ( ) - + &quot;.
         /// </summary>
@@ -420,7 +420,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidTelefoonNummerCharacter", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Formaat van de VCode moet &apos;V0000000&apos; zijn.
         /// </summary>
@@ -429,7 +429,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidVCodeFormat", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Website url moet beginnen met &apos;http://&apos; of &apos;https://&apos;.
         /// </summary>
@@ -438,7 +438,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("InvalidWebsiteStart", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De vereniging moet minstens 1 hoofdactiviteit hebben. Je kan de laatste hoofdactiviteit niet verwijderen..
         /// </summary>
@@ -447,7 +447,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LaatsteHoofdActiviteitKanNietVerwijderdWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De vereniging moet minstens 1 locatie hebben. Je kan de laatste locatie niet verwijderen..
         /// </summary>
@@ -456,7 +456,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LaatsteLocatieKanNietVerwijderdWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De vereniging moet minstens 1 vertegenwoordiger hebben. Je kan de laatste vertegenwoordiger niet verwijderen..
         /// </summary>
@@ -465,7 +465,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LaatsteVertegenwoordigerKanNietVerwijderdWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Lidmaatschap met lidmaatschapId &apos;{0}&apos; is niet gekend.
         /// </summary>
@@ -474,7 +474,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LidmaatschapIsNietGekend", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een lidmaatschap mag niet overlappen voor eenzelfde vereniging..
         /// </summary>
@@ -483,7 +483,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LidmaatschapIsOverlappend", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een lidmaatschap mag niet verwijzen naar de vereniging waarbij hij wordt toegevoegd..
         /// </summary>
@@ -492,7 +492,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("LidmaatschapMagNietVerwijzenNaarEigenVereniging", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet verwijderd worden..
         /// </summary>
@@ -501,7 +501,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeRemoved", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De maatschappelijke zetel volgens KBO kan niet gewijzigd worden..
         /// </summary>
@@ -510,7 +510,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MaatschappelijkeZetelCanNotBeUpdated", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het locatietype &apos;Maatschappelijke zetel volgens KBO&apos; kan niet toegekend worden..
         /// </summary>
@@ -519,7 +519,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MaatschappelijkeZetelIsNotAllowed", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er heeft zich een fout voorgedaan bij het aanroepen van de Magda RegistreerInschrijvingDienst..
         /// </summary>
@@ -528,7 +528,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MagdaException", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een locatie moet minstens een adresId of een adres bevatten..
         /// </summary>
@@ -537,7 +537,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MissingAdres", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er kan maar één correspondentie locatie zijn binnen de vereniging..
         /// </summary>
@@ -546,7 +546,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MultipleCorrespondentieLocaties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er kan maar één primaire locatie zijn binnen de vereniging..
         /// </summary>
@@ -555,7 +555,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MultiplePrimaireLocaties", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er mag maar één vertegenwoordiger aangeduid zijn als primair contactpersoon..
         /// </summary>
@@ -564,7 +564,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("MultiplePrimaireVertegenwoordigers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to TelefoonNummer moet minstens één cijfer bevatten.
         /// </summary>
@@ -573,7 +573,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("NoNumbersInTelefoonNummer", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to VCode moet groter zijn dan 1000.
         /// </summary>
@@ -582,7 +582,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("OutOfRangeVCode", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Registreer inschrijving voor KBO-nummer kon niet voltooid worden.
         /// </summary>
@@ -591,7 +591,16 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("RegistreerInschrijvingKonNietVoltooidWorden", resourceCulture);
             }
         }
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service {0} responded with status code &apos;{1}&apos; with context description &apos;{2}&apos;..
+        /// </summary>
+        public static string ServiceReturnedNonSuccesfulStatusCode {
+            get {
+                return ResourceManager.GetString("ServiceReturnedNonSuccesfulStatusCode", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Social media url moet minsens één punt bevatten.
         /// </summary>
@@ -600,7 +609,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("SocialMediaMissingPeriod", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Startdatum moet voor einddatum liggen..
         /// </summary>
@@ -609,7 +618,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("StartdatumIsAfterEinddatum", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Startdatum mag niet in de toekomst liggen..
         /// </summary>
@@ -618,7 +627,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("StartdatumIsInFuture", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to De gevraagde vereniging heeft niet de verwachte sequentiewaarde..
         /// </summary>
@@ -627,7 +636,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnexpectedAggregateVersion", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to INSZ is niet gekend.
         /// </summary>
@@ -636,7 +645,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnknownInsz", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze waarde bevat niet toegestane tekens..
         /// </summary>
@@ -645,7 +654,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnsupportedContent", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit contactgegeven..
         /// </summary>
@@ -654,7 +663,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnsupportedOperationForContactgegevenBron", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op deze locatie..
         /// </summary>
@@ -663,7 +672,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnsupportedOperationForLocatietype", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze actie kan niet uitgevoerd worden op dit type vereniging..
         /// </summary>
@@ -672,7 +681,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("UnsupportedOperationForVerenigingstype", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze vereniging is dubbel en kan niet geladen worden..
         /// </summary>
@@ -681,7 +690,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingIsDubbel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze vereniging is verwijderd en kan niet geladen worden..
         /// </summary>
@@ -690,7 +699,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingIsVerwijderd", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een niet bestaande vereniging..
         /// </summary>
@@ -699,7 +708,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenNietBestaandeVereniging", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een vereniging die zelf al een dubbel is..
         /// </summary>
@@ -708,7 +717,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanEenVerenigingReedsGemarkeerdAlsDubbel", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van een verwijderde vereniging..
         /// </summary>
@@ -717,7 +726,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen dubbel worden van zichzelf..
         /// </summary>
@@ -726,7 +735,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanGeenDubbelWordenVanZichzelf", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging kan geen lid worden van een verwijderde vereniging..
         /// </summary>
@@ -735,25 +744,25 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanGeenLidWordenVanVerwijderdeVereniging", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Vereniging kan geen lid worden van een vereniging waarvan zij subvereniging is..
         /// </summary>
-        public static string VerenigingKanGeenLidWordenWaarvanZijSubverenigingIs {
+        public static string VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs {
             get {
-                return ResourceManager.GetString("VerenigingKanGeenLidWordenWaarvanHijAlReedsSubverenigingIs", resourceCulture);
+                return ResourceManager.GetString("VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Vereniging kan geen subvereniging worden van een vereniging waarvan zij al lid is..
         /// </summary>
-        public static string VerenigingKanGeenSubverenigingWordenWaarvanZijAlLidIs {
+        public static string VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs {
             get {
-                return ResourceManager.GetString("VerenigingKanGeenSubverenigingWordenWaarvanHijAlReedsLidIs", resourceCulture);
+                return ResourceManager.GetString("VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze vereniging kan niet verwijderd worden..
         /// </summary>
@@ -762,7 +771,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingKanNietVerwijderdWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Aan een KBO vereniging kunnen geen vertegenwoordigers toegevoegd worden..
         /// </summary>
@@ -771,7 +780,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotAddVertegenwoordigers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vertegenwoordiger van een KBO vereniging kan niet verwijderd worden..
         /// </summary>
@@ -780,7 +789,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidCannotRemoveVertegenwoordigers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een KBO-vereniging kan niet gestopt worden..
         /// </summary>
@@ -789,7 +798,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Een vereniging moet gemarkeerd zijn als dubbel om gecorrigeerd te kunnen worden..
         /// </summary>
@@ -798,7 +807,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VerenigingMoetGemarkeerdZijnAlsDubbelOmGecorrigeerdTeKunnenWorden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Voornaam mag geen nummers bevatten..
         /// </summary>
@@ -807,7 +816,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VoornaamBevatNummers", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Voornaam moet een letter bevatten..
         /// </summary>
@@ -816,7 +825,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("VoornaamZonderLetters", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Website url moet minsens één punt bevatten.
         /// </summary>
@@ -825,7 +834,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("WebsiteMissingPeriod", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Het opgegeven werkingsgebied NVT kan niet gecombineerd worden met andere codes..
         /// </summary>
@@ -834,7 +843,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("WerkingsgebiedKanNietGecombineerdWordenMetNVT", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Er moet minstens een veld opgegeven worden om een subvereniging te wijzigen..
         /// </summary>
@@ -843,7 +852,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze zoekopdracht bevat onbekende sorteervelden en kon niet uitgevoerd worden. Onbekende velden: {0}.
         /// </summary>
@@ -852,7 +861,7 @@ namespace AssociationRegistry.Resources {
                 return ResourceManager.GetString("ZoekOpdrachtBevatOnbekendeSorteerVelden", resourceCulture);
             }
         }
-
+        
         /// <summary>
         ///   Looks up a localized string similar to Deze zoekopdracht kon niet uitgevoerd worden. Controleer alle parameters en probeer opnieuw..
         /// </summary>
