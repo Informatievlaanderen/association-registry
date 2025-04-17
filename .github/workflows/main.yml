@@ -245,7 +245,7 @@ jobs:
       run-docker-acm: false
       run-docker-wiremock: false
       run-docker-db: true
-      run-docker-elasticsearch: false
+      run-docker-elasticsearch: true
       run-docker-localstack: false
       run-docker-otelcollector: false
       pre-gen-marten: true
