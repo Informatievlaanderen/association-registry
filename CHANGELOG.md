@@ -1,3 +1,10 @@
+# [8.231.0](https://github.com/informatievlaanderen/association-registry/compare/v8.230.6...v8.231.0) (2025-04-17)
+
+
+### Features
+
+* set scrape interval for otel to 15s ([65cf6a1](https://github.com/informatievlaanderen/association-registry/commit/65cf6a1211f25eb9f201aa1fdabf6b7792122687))
+
 ## [8.230.6](https://github.com/informatievlaanderen/association-registry/compare/v8.230.5...v8.230.6) (2025-04-17)
 
 
