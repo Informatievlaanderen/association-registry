@@ -1,3 +1,10 @@
+## [8.230.6](https://github.com/informatievlaanderen/association-registry/compare/v8.230.5...v8.230.6) (2025-04-17)
+
+
+### Bug Fixes
+
+* build elastic on public projections ([01f623f](https://github.com/informatievlaanderen/association-registry/commit/01f623f274d122d0aacf04a70faa086cf441f43e))
+
 ## [8.230.5](https://github.com/informatievlaanderen/association-registry/compare/v8.230.4...v8.230.5) (2025-04-17)
 
 
