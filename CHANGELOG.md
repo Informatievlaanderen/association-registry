@@ -1,3 +1,10 @@
+## [8.230.5](https://github.com/informatievlaanderen/association-registry/compare/v8.230.4...v8.230.5) (2025-04-17)
+
+
+### Bug Fixes
+
+* set pre gen marten true for acm ([ca65e01](https://github.com/informatievlaanderen/association-registry/commit/ca65e0173957f715225022df0173ce1d02e6b3cc))
+
 ## [8.230.4](https://github.com/informatievlaanderen/association-registry/compare/v8.230.3...v8.230.4) (2025-04-16)
 
 
