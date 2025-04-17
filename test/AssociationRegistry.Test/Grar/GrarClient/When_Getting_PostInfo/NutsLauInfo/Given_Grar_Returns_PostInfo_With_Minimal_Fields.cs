@@ -21,10 +21,7 @@ public class Given_Grar_Returns_PostInfo_With_Minimal_Fields
                        Content = new StringContent(PostInfoResponseWithoutGemeenteComponents),
                    });
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
-        {
-            BackoffInMs = [1,1,1],
-        }, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
 
         var actual = await sut.GetPostalNutsLauInformation(postcode, CancellationToken.None);
 

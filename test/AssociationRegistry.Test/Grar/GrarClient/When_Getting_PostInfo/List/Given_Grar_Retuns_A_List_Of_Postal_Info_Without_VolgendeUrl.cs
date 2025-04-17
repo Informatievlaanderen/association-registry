@@ -27,10 +27,7 @@ public class Given_Grar_Retuns_A_List_Of_Postal_Info_Without_VolgendeUrl
 
         SetupHttpClientMockToReturnPostInfoResponse(postalInfoResponse, httpClient, offset, limit);
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
-        {
-            BackoffInMs = [1,1,1],
-        }, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
 
 
         var expected = new PostcodesLijstResponse()

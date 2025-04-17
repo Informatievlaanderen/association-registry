@@ -398,7 +398,8 @@ public class Program
                .AddSingleton<IVCodeService, SequenceVCodeService>()
                .AddSingleton<IAmazonSQS>(sqsClient)
                .AddSingleton<IClock, Clock>()
-               .AddSingleton<IGrarHttpClient>(provider => provider.GetRequiredService<GrarHttpClient>())
+               .AddSingleton<IGrarHttpClient>(sp => sp.GetRequiredService<GrarHttpClient>())
+               .AddSingleton(grarOptions.GrarClient)
                .AddSingleton(new SlackWebhook(grarOptions.Kafka.SlackWebhook))
                .AddScoped(sp => new ElasticSearchOptionsService(
                               sp.GetRequiredService<ElasticSearchOptionsSection>(),

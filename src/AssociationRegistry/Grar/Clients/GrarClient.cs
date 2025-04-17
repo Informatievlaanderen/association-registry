@@ -25,7 +25,7 @@ public class GrarClient : IGrarClient
 
     public GrarClient(
         IGrarHttpClient grarHttpClient,
-        GrarOptions.HttpClientOptions httpClientOptions,
+        GrarOptions.GrarClientOptions grarClientOptions,
         ILogger<GrarClient> logger)
     {
         _grarHttpClient = grarHttpClient;
@@ -33,7 +33,7 @@ public class GrarClient : IGrarClient
 
         _retryPolicy = Policy
                       .Handle<TooManyRequestException>()
-                      .WaitAndRetryAsync(httpClientOptions.BackoffInMs.Select(x => x.Milliseconds()));
+                      .WaitAndRetryAsync(grarClientOptions.BackoffInMs.Select(x => x.Milliseconds()));
     }
 
     public async Task<AddressDetailResponse> GetAddressById(string adresId, CancellationToken cancellationToken)

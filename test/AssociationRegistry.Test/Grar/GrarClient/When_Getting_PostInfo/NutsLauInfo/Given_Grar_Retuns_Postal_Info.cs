@@ -31,10 +31,7 @@ public class Given_Grar_Retuns_Postal_Info
 
         SetupHttpClientMockToReturnPostInfoResponse(postalInfoResponse, httpClient, postcode);
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
-        {
-            BackoffInMs = [1,1,1],
-        }, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
 
         var expected = new PostalNutsLauInfoResponse(postcode, gemeentenaam, nutsCode, lauCode);
 

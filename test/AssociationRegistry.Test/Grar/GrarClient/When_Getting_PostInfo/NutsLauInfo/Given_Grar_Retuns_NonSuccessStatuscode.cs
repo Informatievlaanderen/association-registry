@@ -21,10 +21,7 @@ public class Given_Grar_Retuns_NonSuccessStatuscode
         httpClient.Setup(x => x.GetPostInfoDetail(postcode, It.IsAny<CancellationToken>()))
                   .ReturnsAsync(new HttpResponseMessage(httpStatusCode));
 
-        var sut = new GrarClient(httpClient.Object, new GrarOptions.HttpClientOptions()
-        {
-            BackoffInMs = [1,1,1],
-        }, Mock.Of<ILogger<GrarClient>>());
+        var sut = new GrarClient(httpClient.Object, new GrarOptions.GrarClientOptions([1,1,1]), Mock.Of<ILogger<GrarClient>>());
 
         var exception = await Assert.ThrowsAsync<NonSuccesfulStatusCodeException>(async () => await sut.GetPostalNutsLauInformation(postcode, CancellationToken.None));
         exception.Message.Should().Be(FormattedExceptionMessages.ServiceReturnedNonSuccesfulStatusCode(WellKnownServices.Grar, httpStatusCode, ContextDescription.PostInfoDetail(postcode)));
