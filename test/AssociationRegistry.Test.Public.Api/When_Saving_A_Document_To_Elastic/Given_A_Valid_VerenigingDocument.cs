@@ -23,12 +23,12 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
     }
 
     [Fact]
-    public void Then_it_does_not_throw_an_exception()
+    public async Task Then_it_does_not_throw_an_exception()
     {
         var fixture = new Fixture();
 
-        _classFixture.ElasticRepository!
-                     .Index(
+        await _classFixture.ElasticRepository!
+                     .IndexAsync(
                           new VerenigingZoekDocument
                           {
                               VCode = fixture.Create<string>(),

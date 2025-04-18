@@ -5,6 +5,7 @@ using Vereniging;
 
 public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, IHasStatus, IDeletable, IIsDubbel
 {
+    public long Sequence { get; set; }
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
     public Types.Verenigingstype Verenigingstype { get; set; } = null!;

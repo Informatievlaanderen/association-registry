@@ -42,9 +42,10 @@ public class Given_It_Already_Exists
             {
                 relatie,
             },
+            Sequence = 10
         });
 
-        await repository.AppendRelatie(DochterVCode, relatie);
+        await repository.AppendRelatie(DochterVCode, relatie, 10);
 
         var dochter = await _fixture.ElasticClient.GetAsync<VerenigingZoekDocument>(DochterVCode);
         dochter.Source.Relaties.Should().HaveCount(1);
