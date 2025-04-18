@@ -29,7 +29,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
         public string RuygiKortrijk { get; set; } = $"Ruygi {FictieveGemeentenaam}";
         public string RuygoJudoschoolKortrijk { get; set; } = $"Ruygo Judoschool {FictieveGemeentenaam}";
 
-        public List<FeitelijkeVerenigingWerdGeregistreerd> Events { get; set; }
+        public List<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd> Events { get; set; }
         public static string FictieveGemeentenaam = "FictieveGemeentenaam";
         public static string FictievePostcode = "8500";
 
@@ -51,7 +51,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
                 KortrijkseUltimateFrisbeeClub,
                 RuygiKortrijk,
                 RuygoJudoschoolKortrijk
-            }.Select((x, i) => fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+            }.Select((x, i) => fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
               {
                   VCode = VCode.Create(i + 32000),
                   Naam = x
