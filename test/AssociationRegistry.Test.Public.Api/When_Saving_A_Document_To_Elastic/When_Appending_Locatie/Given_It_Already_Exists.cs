@@ -39,9 +39,10 @@ public class Given_It_Already_Exists
             {
                 locatie,
             },
+            Sequence = 10,
         });
 
-        await repository.AppendLocatie(DochterVCode, locatie);
+        await repository.AppendLocatie(DochterVCode, locatie, 10);
 
         var dochter = await _fixture.ElasticClient.GetAsync<VerenigingZoekDocument>(DochterVCode);
         dochter.Source.Locaties.Should().HaveCount(1);
