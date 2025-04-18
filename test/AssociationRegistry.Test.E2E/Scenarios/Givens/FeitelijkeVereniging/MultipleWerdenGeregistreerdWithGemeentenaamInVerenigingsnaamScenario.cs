@@ -23,7 +23,7 @@ public class MultipleWerdenGeregistreerdWithGemeentenaamInVerenigingsnaamScenari
 
         Metadata = fixture.Create<CommandMetadata>() with { ExpectedVersion = null };
 
-        var events = fixture.CreateMany<FeitelijkeVerenigingWerdGeregistreerd>(17).ToArray();
+        var events = fixture.CreateMany<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(17).ToArray();
 
         events[0] = events[0] with { Naam = "KORTRIJK SPURS" };
         events[1] = events[1] with { Naam = "JUDOSCHOOL KORTRIJK" };

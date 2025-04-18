@@ -30,7 +30,16 @@ public static class SearchVerenigingenExtensions
             var descending = sortPart.StartsWith("-");
             var part = descending ? sortPart.Substring(1) : sortPart;
             var isKeyword = IsKeyword(mapping, part);
-            sortDescriptor.Field($"{part}{(isKeyword ? "" : ".keyword")}", descending ? SortOrder.Descending : SortOrder.Ascending);
+
+            var fieldType = InspectPropertyType(mapping.Properties, part.Split('.'), 0);
+
+            var resolvedField = fieldType switch
+            {
+                "integer" => part,
+                _ => $"{part}{(isKeyword ? "" : ".keyword")}",            // others (keyword, integer, etc.) should not get .keyword
+            };
+
+            sortDescriptor.Field(resolvedField, descending ? SortOrder.Descending : SortOrder.Ascending);
         }
 
         return sortDescriptor;
