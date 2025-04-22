@@ -619,7 +619,6 @@ public class PubliekZoekProjectionHandler
                 SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
                 {
                     AndereVereniging = @event.Data.SubverenigingVan.AndereVereniging,
-                    AndereVerenigingNaam = @event.Data.SubverenigingVan.AndereVerenigingNaam,
                     Identificatie = @event.Data.SubverenigingVan.Identificatie,
                     Beschrijving = @event.Data.SubverenigingVan.Beschrijving,
                 }

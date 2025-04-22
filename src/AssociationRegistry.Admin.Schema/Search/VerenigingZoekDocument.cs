@@ -6,6 +6,7 @@ using Vereniging;
 
 public class VerenigingZoekDocument
 {
+    public long Sequence { get; set; }
     public string JsonLdMetadataType { get; set; }
     public string VCode { get; set; } = null!;
 

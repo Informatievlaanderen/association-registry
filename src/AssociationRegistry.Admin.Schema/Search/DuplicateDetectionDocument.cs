@@ -28,6 +28,7 @@ public record DuplicateDetectionUpdateDocument
 
 public record DuplicateDetectionDocument
 {
+    public long Sequence { get; set; }
     public string VCode { get; set; } = null!;
     public string Naam { get; set; } = null!;
     public Locatie[] Locaties { get; set; } = null!;
