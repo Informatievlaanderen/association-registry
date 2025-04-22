@@ -36,7 +36,7 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
         return
         [
             new(FeitelijkeVerenigingWerdGeregistreerd.VCode, [FeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(FeitelijkeVerenigingWerdGeregistreerd.VCode)]),
-            new(AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [AndereFeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(FeitelijkeVerenigingWerdGeregistreerd.VCode)]),
+            new(AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, [AndereFeitelijkeVerenigingWerdGeregistreerd, new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(AndereFeitelijkeVerenigingWerdGeregistreerd.VCode)]),
         ];
     }
 
