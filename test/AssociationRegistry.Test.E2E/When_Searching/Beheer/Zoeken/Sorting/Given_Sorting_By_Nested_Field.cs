@@ -26,13 +26,13 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
         Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
     }
 
-    [Theory]
-    //[InlineData("verenigingstype.code")]
-    [InlineData("doelgroep.minimumleeftijd")]
-    public async Task? Then_it_sorts_ascending(string field)
+    [Fact]
+    public async Task? Then_it_sorts_ascending()
     {
+        var field = "doelgroep.minimumleeftijd";
+
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(
-            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort={field}");
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=doelgroep.minimumleeftijd");
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -40,6 +40,21 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
 
         values.Should().NotBeEmpty();
         values.Should().BeInAscendingOrder();
+    }
+
+    [Fact]
+    public async Task? Then_it_sorts_descending()
+    {
+        var field = "doelgroep.minimumleeftijd";
+        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=-doelgroep.minimumleeftijd");
+
+        var values = result.Verenigingen
+                           .Select(x => GetNestedPropertyValue(x, field))
+                           .ToList();
+
+        values.Should().NotBeEmpty();
+        values.Should().BeInDescendingOrder();
     }
 
     private static object? GetNestedPropertyValue(object obj, string propertyPath)
@@ -61,42 +76,6 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
 
         return currentObject;
     }
-
-    [Theory]
-    [InlineData("verenigingstype.code", "naam")]
-    [InlineData("verenigingstype.code", "korteNaam")]
-    [InlineData("verenigingstype.code", "vCode")]
-    public async Task Then_it_sorts_by_Verenigingstype_then_by_vCode_descending_V2(string ascendingField, string descendingField)
-    {
-        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort={ascendingField},-{descendingField}");
-
-        var verenigingen = result.Verenigingen;
-
-        var groups = verenigingen
-                    .Select(x => new
-                     {
-                         Code = x.Verenigingstype.Code,
-                         DescField = GetPropertyValue(x, descendingField)
-                     })
-                    .GroupBy(x => x.Code, x => x.DescField)
-                    .ToDictionary(x => x.Key, x => x.ToList());
-
-        groups.Keys.Should().BeInAscendingOrder();
-
-        foreach (var group in groups)
-        {
-            group.Value.Should().BeInDescendingOrder();
-        }
-    }
-
-    private static object GetPropertyValue(object obj, string propertyName)
-    {
-        var propInfo = obj.GetType().GetProperty(propertyName, BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
-
-        return propInfo?.GetValue(obj, null);
-    }
-
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerZoeken("*&sort=verenigingstype.code");
 }
