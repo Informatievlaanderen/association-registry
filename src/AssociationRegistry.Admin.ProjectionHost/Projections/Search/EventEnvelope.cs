@@ -4,6 +4,9 @@ using Marten.Events;
 
 public class EventEnvelope<T> : IEventEnvelope
 {
+    public long Sequence
+        => Event.Sequence;
+
     public string VCode
         => Event.StreamKey!;
 
