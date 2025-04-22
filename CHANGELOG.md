@@ -1,3 +1,16 @@
+# [8.232.0](https://github.com/informatievlaanderen/association-registry/compare/v8.231.0...v8.232.0) (2025-04-22)
+
+
+### Bug Fixes
+
+* or-2727 fix verschillende locaties in publiek zoeken ([4e052d7](https://github.com/informatievlaanderen/association-registry/commit/4e052d7eff2d238efb229e50fae240769ac10fab))
+* or-2727 implement idempotency check to fix different locations in beheer zoeken ([f04aa5a](https://github.com/informatievlaanderen/association-registry/commit/f04aa5aabc221298b4f82df023da5abcd804d543))
+
+
+### Features
+
+* or-2801 corrigeer werkingsgebieden voor bepaalde uitzonderingen ([c89a05e](https://github.com/informatievlaanderen/association-registry/commit/c89a05ec1e1ad0a3567dd817ad3f769e809dd7c3))
+
 # [8.231.0](https://github.com/informatievlaanderen/association-registry/compare/v8.230.6...v8.231.0) (2025-04-17)
 
 
