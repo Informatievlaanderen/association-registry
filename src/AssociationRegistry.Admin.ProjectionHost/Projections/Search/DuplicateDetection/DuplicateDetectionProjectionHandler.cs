@@ -40,7 +40,7 @@ public class DuplicateDetectionProjectionHandler
                 Sequence = message.Sequence,
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = string.Empty,
+                VerenigingssubtypeCode = Verenigingssubtype.Default.Code,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -61,8 +61,8 @@ public class DuplicateDetectionProjectionHandler
                 VerenigingssubtypeCode = null,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
-                Locaties = Array.Empty<DuplicateDetectionDocument.Locatie>(),
-                HoofdactiviteitVerenigingsloket = Array.Empty<string>(),
+                Locaties = [],
+                HoofdactiviteitVerenigingsloket = [],
                 IsGestopt = false,
                 IsVerwijderd = false,
                 IsDubbel = false,
@@ -261,7 +261,7 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionUpdateDocument
             {
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = string.Empty,
+                VerenigingssubtypeCode = Verenigingssubtype.Default.Code,
             },
             message.Sequence
         );

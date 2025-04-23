@@ -20,6 +20,8 @@ public class Verenigingssubtype : IVerenigingssubtype
         NietBepaald,
     };
 
+    public static readonly IVerenigingssubtype Default = new DefaultVerenigingssubtype();
+
     public Verenigingssubtype(string code, string naam)
     {
         Code = code;
@@ -46,6 +48,27 @@ public class Verenigingssubtype : IVerenigingssubtype
 
     public bool IsSubVereniging
         => Code == Subvereniging.Code;
+
+    private record DefaultVerenigingssubtype : IVerenigingssubtype
+    {
+        public DefaultVerenigingssubtype()
+        {
+            Code = string.Empty;
+            Naam = string.Empty;
+        }
+        public string Code { get; init; }
+        public string Naam { get; init; }
+    }
+}
+
+public static class VerenigingssubtypeExtensions
+{
+    public static TDestination Convert<TDestination>(this IVerenigingssubtype subtype) where TDestination : IVerenigingssubtype, new()
+        => new()
+        {
+            Code = subtype.Code,
+            Naam = subtype.Naam,
+        };
 }
 
 public interface IVerenigingssubtype

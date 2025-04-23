@@ -3,8 +3,13 @@ namespace AssociationRegistry.Acm.Api.Projections;
 using Events;
 using Marten;
 using Marten.Events;
-using Schema.Constants;
 using Schema.VerenigingenPerInsz;
+using Vereniging;
+using VerenigingenPerInsz;
+using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
+using Verenigingssubtype = Schema.VerenigingenPerInsz.Verenigingssubtype;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
+using Verenigingstype = Schema.VerenigingenPerInsz.Verenigingstype;
 
 public static class VerenigingenPerInszProjector
 {
@@ -24,7 +29,7 @@ public static class VerenigingenPerInszProjector
                 Status = VerenigingStatus.Actief,
                 KboNummer = string.Empty,
                 Verenigingstype = MapVerenigingstype(werdGeregistreerd),
-                Verenigingssubtype = MapVerenigingssubtype(werdGeregistreerd),
+                Verenigingssubtype = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Convert<Verenigingssubtype>(),
                 IsHoofdvertegenwoordigerVan = true,
             };
 

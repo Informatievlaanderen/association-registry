@@ -73,11 +73,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
-            Verenigingssubtype = new()
-            {
-                Code = string.Empty,
-                Naam = string.Empty,
-            },
+            Verenigingssubtype = Verenigingssubtype.Default.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>(),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -841,11 +837,7 @@ public class BeheerVerenigingDetailProjector
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
 
-        document.Verenigingssubtype = new()
-        {
-            Code = string.Empty,
-            Naam = string.Empty,
-        };
+        document.Verenigingssubtype = Verenigingssubtype.Default.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)

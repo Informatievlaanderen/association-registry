@@ -1,12 +1,17 @@
 namespace AssociationRegistry.Admin.Schema.PowerBiExport;
 
-using Detail;
 using Marten.Schema;
+using Contactgegeven = Detail.Contactgegeven;
+using Doelgroep = Detail.Doelgroep;
+using Locatie = Detail.Locatie;
+using SubverenigingVan = Detail.SubverenigingVan;
+using Verenigingstype = Detail.Verenigingstype;
+using Verenigingssubtype = Detail.Verenigingssubtype;
 
 public record PowerBiExportDocument : IVCode
 {
-    public Gebeurtenis[] Historiek { get; set; } = Array.Empty<Gebeurtenis>();
-    public string[] CorresponderendeVCodes { get; set; } = Array.Empty<string>();
+    public Gebeurtenis[] Historiek { get; set; } = [];
+    public string[] CorresponderendeVCodes { get; set; } = [];
     public string Naam { get; set; } = null!;
     public Verenigingstype Verenigingstype { get; set; } = null!;
     public Verenigingssubtype? Verenigingssubtype { get; set; } = null!;
@@ -20,8 +25,8 @@ public record PowerBiExportDocument : IVCode
     public Doelgroep Doelgroep { get; set; } = null!;
     public string? Rechtsvorm { get; set; }
     public string Status { get; set; } = null!;
-    public Locatie[] Locaties { get; set; } = Array.Empty<Locatie>();
-    public Contactgegeven[] Contactgegevens { get; set; } = Array.Empty<Contactgegeven>();
+    public Locatie[] Locaties { get; set; } = [];
+    public Contactgegeven[] Contactgegevens { get; set; } = [];
     public int AantalVertegenwoordigers { get; set; }
     public HoofdactiviteitVerenigingsloket[] HoofdactiviteitenVerenigingsloket { get; set; } = [];
     public Werkingsgebied[] Werkingsgebieden { get; set; } = [];
