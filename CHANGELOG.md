@@ -1,3 +1,10 @@
+# [8.233.0](https://github.com/informatievlaanderen/association-registry/compare/v8.232.1...v8.233.0) (2025-04-23)
+
+
+### Features
+
+* or-2792 default values for subtype are now empty strings ([eca5bdf](https://github.com/informatievlaanderen/association-registry/commit/eca5bdf9f4b9cc5db26a814d1080fe8c885e602c))
+
 ## [8.232.1](https://github.com/informatievlaanderen/association-registry/compare/v8.232.0...v8.232.1) (2025-04-23)
 
 
