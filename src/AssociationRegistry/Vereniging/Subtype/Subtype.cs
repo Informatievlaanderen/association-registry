@@ -34,6 +34,14 @@ public class Verenigingssubtype : IVerenigingssubtype
     public static Verenigingssubtype Parse(string code)
         => All.Single(t => t.Code == code);
 
+    public static string GetNameOrDefaultOrNull(string code)
+        => code switch
+        {
+            null => throw new ArgumentNullException(nameof(code)),
+            "" => Default.Naam,
+            _ => All.Single(t => t.Code == code).Naam,
+        };
+
     public static bool IsValidSubtypeCode(string code)
         => All.Any(t => t.Code == code);
 

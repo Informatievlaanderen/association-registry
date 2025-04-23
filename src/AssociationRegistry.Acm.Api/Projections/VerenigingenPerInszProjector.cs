@@ -29,7 +29,7 @@ public static class VerenigingenPerInszProjector
                 Status = VerenigingStatus.Actief,
                 KboNummer = string.Empty,
                 Verenigingstype = MapVerenigingstype(werdGeregistreerd),
-                Verenigingssubtype = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Convert<Verenigingssubtype>(),
+                Verenigingssubtype = MapVerenigingssubtype(werdGeregistreerd),
                 IsHoofdvertegenwoordigerVan = true,
             };
 
@@ -65,13 +65,7 @@ public static class VerenigingenPerInszProjector
         {
             FeitelijkeVerenigingWerdGeregistreerd => null,
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd =>
-                new Verenigingssubtype
-                {
-                    Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                    Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
-
-                },
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => AssociationRegistry.Vereniging.Verenigingssubtype.Default.Convert<Verenigingssubtype>(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
         };
