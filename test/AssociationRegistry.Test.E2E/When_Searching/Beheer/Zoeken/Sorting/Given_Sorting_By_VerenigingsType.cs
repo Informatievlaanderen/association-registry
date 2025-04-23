@@ -43,5 +43,5 @@ public class Given_Sorting_By_VerenigingsType : End2EndTest<SearchContext, NullR
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken("*&sort=verenigingstype.code");
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,"*&sort=verenigingstype.code").GetAwaiter().GetResult();
 }
