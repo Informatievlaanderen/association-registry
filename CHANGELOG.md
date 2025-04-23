@@ -1,3 +1,10 @@
+## [8.232.1](https://github.com/informatievlaanderen/association-registry/compare/v8.232.0...v8.232.1) (2025-04-23)
+
+
+### Bug Fixes
+
+* or-2801 change postal code of uitzonderingen ([bf04e10](https://github.com/informatievlaanderen/association-registry/commit/bf04e1043a99dd36714aaab9fd40daa9dcad91ff))
+
 # [8.232.0](https://github.com/informatievlaanderen/association-registry/compare/v8.231.0...v8.232.0) (2025-04-22)
 
 
