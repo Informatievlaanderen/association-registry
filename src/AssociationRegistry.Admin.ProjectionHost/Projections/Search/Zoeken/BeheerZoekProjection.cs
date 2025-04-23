@@ -91,8 +91,8 @@ public class BeheerZoekProjectionHandler
                 },
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
                 {
-                    Code = Verenigingssubtype.NietBepaald.Code,
-                    Naam = Verenigingssubtype.NietBepaald.Naam,
+                    Code = string.Empty,
+                    Naam = string.Empty,
                 },
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
@@ -673,8 +673,8 @@ public class BeheerZoekProjectionHandler
                 },
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
                 {
-                    Code = Verenigingssubtype.NietBepaald.Code,
-                    Naam = Verenigingssubtype.NietBepaald.Naam,
+                    Code = string.Empty,
+                    Naam = string.Empty,
                 },
             },
             message.Sequence);

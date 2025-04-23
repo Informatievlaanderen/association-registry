@@ -21,10 +21,10 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
     [Fact]
     public void Verenigingssubtype_Is_NB()
         => fixture.Result
-                  .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype()
+                  .Verenigingssubtype.Should().BeEquivalentTo(new VerenigingZoekDocument.Types.Verenigingssubtype
                    {
-                       Code = Verenigingssubtype.NietBepaald.Code,
-                       Naam = Verenigingssubtype.NietBepaald.Naam,
+                       Code = string.Empty,
+                       Naam = string.Empty,
                    });
 
     /// <summary>

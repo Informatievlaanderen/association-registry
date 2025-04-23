@@ -204,15 +204,15 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                 ? null
                 : new DuplicaatVereniging.Types.Verenigingssubtype()
                 {
-                    Code = document.Source.VerenigingssubtypeCode,
-                    Naam = Verenigingssubtype.Parse(document.Source.VerenigingssubtypeCode).Naam,
+                    Code = document.Source.VerenigingssubtypeCode!,
+                    Naam = Verenigingssubtype.GetNameOrDefaultOrNull(document.Source.VerenigingssubtypeCode!),
                 },
             document.Source.Naam,
             document.Source.KorteNaam,
             document.Source.HoofdactiviteitVerenigingsloket?
                .Select(h => new DuplicaatVereniging.Types.HoofdactiviteitVerenigingsloket(
                            h, HoofdactiviteitVerenigingsloket.Create(h).Naam)).ToImmutableArray() ?? [],
-            document.Source.Locaties.Select(ToLocatie).ToImmutableArray(),
+            [..document.Source.Locaties.Select(ToLocatie)],
             IncludesScore(document)
                 ? new DuplicaatVereniging.Types.ScoringInfo(document.Explanation.Description, document.Score)
                 : DuplicaatVereniging.Types.ScoringInfo.NotApplicable

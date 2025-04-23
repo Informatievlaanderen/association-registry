@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 
 using System.Runtime.Serialization;
+using Vereniging;
 
 [DataContract]
 public class VerenigingDetail

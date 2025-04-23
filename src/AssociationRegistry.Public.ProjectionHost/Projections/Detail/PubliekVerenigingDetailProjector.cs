@@ -118,8 +118,8 @@ public static class PubliekVerenigingDetailProjector
             VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => new
                 PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
                 {
-                    Code = Verenigingssubtype.NietBepaald.Code,
-                    Naam = Verenigingssubtype.NietBepaald.Naam,
+                    Code = string.Empty,
+                    Naam = string.Empty,
                 },
             _ => throw new ArgumentOutOfRangeException(nameof(data)),
         };
@@ -846,10 +846,9 @@ public static class PubliekVerenigingDetailProjector
 
         document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
         {
-            Code = Verenigingssubtype.NietBepaald.Code,
-            Naam = Verenigingssubtype.NietBepaald.Naam,
+            Code = string.Empty,
+            Naam = string.Empty,
         };
-
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, PubliekVerenigingDetailDocument document)

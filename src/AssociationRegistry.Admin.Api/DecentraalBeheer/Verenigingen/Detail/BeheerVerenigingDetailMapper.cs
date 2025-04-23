@@ -30,7 +30,10 @@ public class BeheerVerenigingDetailMapper
     private readonly string? _version;
     private readonly IVerenigingstypeMapper _verenigingstypeMapper;
 
-    public BeheerVerenigingDetailMapper(AppSettings appSettings, IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper, string? version)
+    public BeheerVerenigingDetailMapper(
+        AppSettings appSettings,
+        IVerplichteNamenVoorVCodesMapper verplichteNamenVoorVCodesMapper,
+        string? version)
     {
         _appSettings = appSettings;
         _verplichteNamenVoorVCodesMapper = verplichteNamenVoorVCodesMapper;
@@ -64,7 +67,7 @@ public class BeheerVerenigingDetailMapper
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
             Verenigingssubtype =
-                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, Schema.Detail.Verenigingssubtype>(vereniging.Verenigingssubtype),
+                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtype>(vereniging.Verenigingssubtype),
             SubverenigingVan =
                 _verenigingstypeMapper.MapSubverenigingVan(
                     vereniging.Verenigingssubtype,

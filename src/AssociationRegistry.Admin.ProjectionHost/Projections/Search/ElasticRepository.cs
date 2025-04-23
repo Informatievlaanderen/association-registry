@@ -41,6 +41,7 @@ public class ElasticRepository : IElasticRepository
                                                                                        .Source(@"
             if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                 ctx._source.putAll(params.doc);
+                ctx._source.sequence = params.seq;
             }"
                                                                                         )
                                                                                        .Params(p => p
@@ -58,19 +59,21 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
-                              .Source(
-                                   "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
-                                      "ctx._source.subverenigingVan = null;" +
-                                      "ctx._source.verenigingssubtype.code = params.code;" +
-                                      "ctx._source.verenigingssubtype.naam = params.naam;" +
-                                      "ctx._source.sequence = params.seq;" +
-                                   "}")
-                              .Params(p => p
-                                          .Add("code", code)
-                                          .Add("naam", naam)
-                                          .Add("seq", sequence)
-                               )
+            u => u
+                .RetryOnConflict(3)
+                .Script(s => s
+                            .Source(
+                                 "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
+                                 "ctx._source.subverenigingVan = null;" +
+                                 "ctx._source.verenigingssubtype.code = params.code;" +
+                                 "ctx._source.verenigingssubtype.naam = params.naam;" +
+                                 "ctx._source.sequence = params.seq;" +
+                                 "}")
+                            .Params(p => p
+                                        .Add("code", code)
+                                        .Add("naam", naam)
+                                        .Add("seq", sequence)
+                             )
             )
         );
 
@@ -83,7 +86,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                .RetryOnConflict(3)
+               .Script(
                 s => startdatum.HasValue
                     ? s.Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                                "ctx._source.startdatum = params.item;" +
@@ -105,7 +110,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+               .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "if(! ctx._source.locaties.contains(params.item)){" +
@@ -127,7 +134,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "for(l in ctx._source.locaties){" +
@@ -156,7 +165,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                 .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source(
                          "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
@@ -186,7 +197,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                .RetryOnConflict(3)
+               .Script(
                 s => s
                    .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                            "ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId);" +
@@ -206,7 +219,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+               .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.lidmaatschappen.add(params.item);" +
@@ -226,7 +241,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source(
                          "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
@@ -256,7 +273,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+                .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.lidmaatschappen.removeIf(l -> l.lidmaatschapId == params.lidmaatschapId);" +
@@ -276,7 +295,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+               .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "if(! ctx._source.corresponderendeVCodes.contains(params.item)){" +
@@ -298,7 +319,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<T>(
             id,
-            selector: u => u.Script(
+            selector: u => u
+               .RetryOnConflict(3)
+               .Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.corresponderendeVCodes.removeIf(c -> c == params.item);" +
@@ -322,7 +345,9 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
+            u => u
+                .RetryOnConflict(3)
+               .Script(s => s
                               .Source(@"
                     if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                         ctx._source.subverenigingVan.andereVereniging = params.andereVereniging;
@@ -347,7 +372,8 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
+            u => u.RetryOnConflict(3)
+                  .Script(s => s
                               .Source(@"
                     if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                         ctx._source.subverenigingVan.identificatie = params.identificatie;
@@ -358,7 +384,7 @@ public class ElasticRepository : IElasticRepository
                                           .Add("identificatie", identificatie)
                                           .Add("beschrijving", beschrijving)
                                           .Add("seq", sequence))
-            ));
+                   ));
 
         if (!response.IsValid)
             throw new IndexDocumentFailed(response.DebugInformation);

@@ -4,6 +4,7 @@ using Admin.Schema.Detail;
 using Scenario.Migratie;
 using Scenario.Registratie;
 using Scenario.Subtypes;
+using Verenigingssubtype = Vereniging.Verenigingssubtype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
@@ -23,10 +24,6 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     [Fact]
     public void Verenigingssubtype_Is_Niet_Bepaald()
     {
-        fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
-        {
-            Code = Vereniging.Verenigingssubtype.NietBepaald.Code,
-            Naam = Vereniging.Verenigingssubtype.NietBepaald.Naam,
-        });
+        fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(Verenigingssubtype.Default);
     }
 }

@@ -23,7 +23,7 @@ public class Given_FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRe
         => fixture.Result
                   .Verenigingssubtype.Should().BeEquivalentTo(new PubliekVerenigingDetailDocument.Types.Verenigingssubtype()
                    {
-                       Code = Verenigingssubtype.NietBepaald.Code,
-                       Naam = Verenigingssubtype.NietBepaald.Naam,
+                       Code = string.Empty,
+                       Naam = string.Empty,
                    });
 }

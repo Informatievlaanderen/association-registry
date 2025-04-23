@@ -9,7 +9,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 
@@ -72,8 +71,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTes
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                Code = string.Empty,
+                Naam = string.Empty,
             },
             SubverenigingVan = null,
             Naam = Request.Naam,
