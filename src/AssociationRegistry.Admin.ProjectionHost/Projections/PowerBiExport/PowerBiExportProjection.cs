@@ -20,6 +20,7 @@ using IEvent = Marten.Events.IEvent;
 using Lidmaatschap = Schema.PowerBiExport.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
 using SubverenigingVan = Schema.Detail.SubverenigingVan;
+using Verenigingssubtype = Schema.Detail.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 using Verenigingstype = Schema.Detail.Verenigingstype;
 using Werkingsgebied = Schema.PowerBiExport.Werkingsgebied;
@@ -80,7 +81,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
         {
             VCode = @event.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
-            Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald),
+            Verenigingssubtype = new()
+            {
+                Code = string.Empty,
+                Naam = string.Empty,
+            },
             Naam = @event.Data.Naam,
             KorteNaam = @event.Data.KorteNaam,
             KorteBeschrijving = @event.Data.KorteBeschrijving,
@@ -975,7 +980,11 @@ public class PowerBiExportProjection : SingleStreamProjection<PowerBiExportDocum
     public void Apply(IEvent<FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid> @event, PowerBiExportDocument document)
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
-        document.Verenigingssubtype = BeheerVerenigingDetailMapper.MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald);
+        document.Verenigingssubtype = new()
+        {
+            Code = string.Empty,
+            Naam = string.Empty,
+        };
 
         document.DatumLaatsteAanpassing =
             @event.GetHeaderInstant(MetadataHeaderNames.Tijdstip).ConvertAndFormatToBelgianDate();

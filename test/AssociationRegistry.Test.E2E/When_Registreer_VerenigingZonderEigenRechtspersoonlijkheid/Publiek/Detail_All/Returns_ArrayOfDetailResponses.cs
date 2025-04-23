@@ -69,8 +69,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZo
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                Code = string.Empty,
+                Naam = string.Empty,
             },
             SubverenigingVan = null,
             Naam = Request.Naam,
