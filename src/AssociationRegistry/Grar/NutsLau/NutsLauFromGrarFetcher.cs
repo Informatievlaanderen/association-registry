@@ -65,9 +65,9 @@ public class NutsLauFromGrarFetcher : INutsLauFromGrarFetcher
             }
         },
         {
-            "9971", new PostalNutsLauInfo()
+            "9771", new PostalNutsLauInfo()
             {
-                Postcode = "9971",
+                Postcode = "9771",
                 Gemeentenaam = "Kruisem",
                 Nuts = "BE235",
                 Lau = "45068",
