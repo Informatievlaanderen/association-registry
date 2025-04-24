@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.OpenTelemetry.Extensions;
 
+using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Destructurama;
 using global::OpenTelemetry;
 using global::OpenTelemetry.Exporter;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
 using Serilog;
+using Serilog.Events;
 using Serilog.Sinks.OpenTelemetry;
 using System.Reflection;
 
@@ -34,39 +36,48 @@ public static class ServiceCollectionExtensions
                .Enrich.WithThreadId()
                .Enrich.WithEnvironmentUserName()
                .MinimumLevel.Information()
-               .WriteTo.OpenTelemetry(options =>
-                {
-                    var (serviceName, collectorUrl, configureResource) = ServiceCollectionExtensions.GetResources();
-                    options.Endpoint = collectorUrl;
-                    options.Protocol = OtlpProtocol.Grpc;
-                    var executingAssembly = Assembly.GetEntryAssembly()!;
-                    var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
-
-                    options.IncludedData = IncludedData.MessageTemplateTextAttribute |
-                                           IncludedData.TraceIdField | IncludedData.SpanIdField | IncludedData.SourceContextAttribute;
-
-                    options.HttpMessageHandler = new SocketsHttpHandler { ActivityHeadersPropagator = null };
-                    options.BatchingOptions.BatchSizeLimit = 700;
-                    options.BatchingOptions.Period = TimeSpan.FromSeconds(1);
-                    options.BatchingOptions.QueueLimit = 10;
-
-                    options.ResourceAttributes = new Dictionary<string, object>
-                    {
-                        ["service.name"] = serviceName,
-                        ["service.version"] = assemblyVersion,
-                        ["service.instanceId"] = Environment.MachineName,
-                        ["service.name"] = serviceName,
-
-                        ["deployment.environment"] =
-                            Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
-                                      ?.ToLowerInvariant()
-                         ?? "unknown",
-
-                    };
-                });
+               .Filter.ByExcluding(e => e is { Exception: DomainException, Level: LogEventLevel.Error })
+               .WriteTo.Logger(lc => lc
+                                    .Filter.ByIncludingOnly(evt => evt.Exception is DomainException)
+                                    .MinimumLevel.Information()
+                                    .WriteTo.OpenTelemetry(ConfigureOpenTelemetry)
+                )
+               .WriteTo.OpenTelemetry(ConfigureOpenTelemetry);
         Log.Logger = loggerConfig.CreateLogger();
         return builder.Logging.AddSerilog();
     }
+
+    private static void ConfigureOpenTelemetry(BatchedOpenTelemetrySinkOptions options)
+    {
+        var (serviceName, collectorUrl, configureResource) = ServiceCollectionExtensions.GetResources();
+        options.Endpoint = collectorUrl;
+        options.Protocol = OtlpProtocol.Grpc;
+        var executingAssembly = Assembly.GetEntryAssembly()!;
+        var assemblyVersion = executingAssembly.GetName().Version?.ToString() ?? "unknown";
+
+        options.IncludedData = IncludedData.MessageTemplateTextAttribute | IncludedData.TraceIdField | IncludedData.SpanIdField | IncludedData.SourceContextAttribute;
+
+        options.HttpMessageHandler = new SocketsHttpHandler
+        {
+            ActivityHeadersPropagator = null
+        };
+
+        options.BatchingOptions.BatchSizeLimit = 700;
+        options.BatchingOptions.Period = TimeSpan.FromSeconds(1);
+        options.BatchingOptions.QueueLimit = 10;
+
+        options.ResourceAttributes = new Dictionary<string, object>
+        {
+            ["service.name"] = serviceName,
+            ["service.version"] = assemblyVersion,
+            ["service.instanceId"] = Environment.MachineName,
+            ["service.name"] = serviceName,
+
+            ["deployment.environment"] = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")
+                                                   ?.ToLowerInvariant() ?? "unknown",
+        };
+    }
+
     public static IServiceCollection ConfigureOpenTelemetry<T>(this IHostApplicationBuilder builder, params T[] instrumentations)
         where T : class, IInstrumentation
     {
