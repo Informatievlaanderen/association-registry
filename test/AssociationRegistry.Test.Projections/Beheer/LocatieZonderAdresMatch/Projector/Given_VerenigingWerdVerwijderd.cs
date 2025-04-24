@@ -24,8 +24,7 @@ public class Given_VerenigingWerdVerwijderd : IClassFixture<GivenVerenigingWerdV
         var doc = await session.Query<LocatieZonderAdresMatchDocument>()
                                .FirstOrDefaultAsync(d => d.VCode == "V9900004");
 
-        doc.Should().NotBeNull();
-        doc!.LocatieIds.Should().NotContain(1);
+        doc.Should().BeNull();
     }
 }
 
