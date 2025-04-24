@@ -22,7 +22,7 @@ public class Given_LocatieWerdVerwijderd : IClassFixture<GivenLocatieWerdVerwijd
         var session = _fixture.DocumentStore.LightweightSession();
 
         var doc = await session.Query<LocatieZonderAdresMatchDocument>()
-                               .FirstOrDefaultAsync(d => d.VCode == "V9900014");
+                               .FirstOrDefaultAsync(d => d.VCode == "V9900003");
 
         doc.Should().NotBeNull();
         doc!.LocatieIds.Should().NotContain(1);
