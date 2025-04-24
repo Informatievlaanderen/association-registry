@@ -123,7 +123,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = Verenigingssubtype.NietBepaald,
+            Verenigingssubtype = Verenigingssubtype.Default,
             SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
@@ -785,7 +785,7 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = Verenigingssubtype.NietBepaald,
+            Verenigingssubtype = Verenigingssubtype.Default,
             SubverenigingVan = SubverenigingVan.Create(VCode),
         };
 
