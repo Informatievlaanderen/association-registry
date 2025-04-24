@@ -1,3 +1,10 @@
+## [8.234.1](https://github.com/informatievlaanderen/association-registry/compare/v8.234.0...v8.234.1) (2025-04-24)
+
+
+### Bug Fixes
+
+* or-2792 set subtype to default on register and migrate in state ([d084909](https://github.com/informatievlaanderen/association-registry/commit/d084909173c2fda91639ab86e4342ab8570d0aa8))
+
 # [8.234.0](https://github.com/informatievlaanderen/association-registry/compare/v8.233.1...v8.234.0) (2025-04-24)
 
 
