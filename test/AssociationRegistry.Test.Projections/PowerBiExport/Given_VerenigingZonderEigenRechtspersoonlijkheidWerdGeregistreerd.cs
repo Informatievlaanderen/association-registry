@@ -24,6 +24,7 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     [Fact]
     public void Verenigingssubtype_Is_Niet_Bepaald()
     {
-        fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(Verenigingssubtype.Default);
+        fixture.Result.Verenigingssubtype.Code.Should().BeEquivalentTo( Verenigingssubtype.Default.Code);
+        fixture.Result.Verenigingssubtype.Naam.Should().BeEquivalentTo( Verenigingssubtype.Default.Naam);
     }
 }

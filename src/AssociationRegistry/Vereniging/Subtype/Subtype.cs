@@ -20,7 +20,7 @@ public class Verenigingssubtype : IVerenigingssubtype
         NietBepaald,
     };
 
-    public static readonly IVerenigingssubtype Default = new DefaultVerenigingssubtype();
+    public static readonly Verenigingssubtype Default = new (string.Empty, string.Empty);
 
     public Verenigingssubtype(string code, string naam)
     {
@@ -57,16 +57,16 @@ public class Verenigingssubtype : IVerenigingssubtype
     public bool IsSubVereniging
         => Code == Subvereniging.Code;
 
-    private record DefaultVerenigingssubtype : IVerenigingssubtype
-    {
-        public DefaultVerenigingssubtype()
-        {
-            Code = string.Empty;
-            Naam = string.Empty;
-        }
-        public string Code { get; init; }
-        public string Naam { get; init; }
-    }
+    // private record DefaultVerenigingssubtype : IVerenigingssubtype
+    // {
+    //     public DefaultVerenigingssubtype()
+    //     {
+    //         Code = string.Empty;
+    //         Naam = string.Empty;
+    //     }
+    //     public string Code { get; init; }
+    //     public string Naam { get; init; }
+    // }
 }
 
 public static class VerenigingssubtypeExtensions
