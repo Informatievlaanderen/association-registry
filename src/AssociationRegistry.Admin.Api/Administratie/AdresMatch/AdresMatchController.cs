@@ -34,6 +34,7 @@ public class AdresMatchController : ApiController
         var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync(cancellationToken);
 
         var messages = docs
+                      .SelectMany(s => s.LocatieIds.Select(x => (s.VCode, LocatieId: x)))
                       .Select(s => new TeAdresMatchenLocatieMessage(s.VCode, s.LocatieId))
                       .ToList();
 

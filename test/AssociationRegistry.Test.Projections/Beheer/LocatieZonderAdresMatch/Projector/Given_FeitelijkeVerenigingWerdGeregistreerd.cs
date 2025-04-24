@@ -8,34 +8,39 @@ using Marten;
 using Vereniging;
 
 [Collection(nameof(MultiStreamTestCollection))]
-public class Given_FeitelijkeVerenigingWerdGeregistreerd : IClassFixture<GivenFeitelijkeVerenigingWerdGeregistreerdFixture>
+public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd : IClassFixture<
+    GivenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdFixture>
 {
-    private readonly GivenFeitelijkeVerenigingWerdGeregistreerdFixture _fixture;
+    private readonly GivenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdFixture _fixture;
 
-    public Given_FeitelijkeVerenigingWerdGeregistreerd(GivenFeitelijkeVerenigingWerdGeregistreerdFixture fixture)
+    public Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
+        GivenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdFixture fixture)
     {
         _fixture = fixture;
     }
 
     [Fact]
-    public async Task Then_Multiple_Documents_Should_Be_Created()
+    public async Task Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
-        var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync();
-        docs.Should().NotBeEmpty();
-        docs.Count().Should().Be(1);
+
+        var doc = await session.Query<LocatieZonderAdresMatchDocument>()
+                               .FirstOrDefaultAsync(d => d.VCode == "V9900001");
+
+        doc.Should().NotBeNull();
+        doc!.LocatieIds.Should().Contain(1);
     }
 }
 
-public class GivenFeitelijkeVerenigingWerdGeregistreerdFixture : MultiStreamTestFixture
+public class GivenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdFixture : MultiStreamTestFixture
 {
-    public GivenFeitelijkeVerenigingWerdGeregistreerdFixture()
+    public GivenVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdFixture()
     {
         var vCode = "V9900001";
 
         Stream(vCode, new[]
         {
-            Fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+            Fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
             {
                 VCode = vCode,
                 Locaties = new[]

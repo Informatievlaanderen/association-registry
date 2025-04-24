@@ -11,7 +11,7 @@ using Schema.Detail;
 using System.Data;
 using Vereniging;
 
-public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZonderAdresMatchDocument, string>
+public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument>
 {
     public LocatieZonderAdresMatchProjection(ILogger<LocatieZonderAdresMatchProjection> logger)
     {
@@ -20,136 +20,60 @@ public class LocatieZonderAdresMatchProjection : MultiStreamProjection<LocatieZo
         Options.MaximumHopperSize = 1;
         Options.DeleteViewTypeOnTeardown<LocatieZonderAdresMatchDocument>();
 
-        IncludeType<FeitelijkeVerenigingWerdGeregistreerd>();
-
-        Identities<FeitelijkeVerenigingWerdGeregistreerd>(@event => @event.Locaties
-                                                                          .OrderBy(l => l.LocatieId)
-                                                                          .Select(locatie => $"{@event.VCode}-{locatie.LocatieId}")
-                                                                          .ToArray());
-
-        CreateEvent<LocatieWerdToegevoegd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}", @event =>
+        CreateEvent<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>(e => new LocatieZonderAdresMatchDocument()
         {
-            if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
-
-            if (@event.Data.Locatie.Adres is null) return null;
-
-            return new LocatieZonderAdresMatchDocument()
-            {
-                Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
-                VCode = @event.StreamKey,
-                LocatieId = @event.Data.Locatie.LocatieId
-            };
+            VCode = e.VCode,
+            LocatieIds = e.Locaties.Select(x => x.LocatieId).ToArray(),
         });
 
-        CreateEvent<LocatieWerdGewijzigd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}", @event =>
-        {
-            if (@event.Data.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return null;
+        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
 
-            if (@event.Data.Locatie.Adres is null) return null;
-
-            return new LocatieZonderAdresMatchDocument()
-            {
-                Id = $"{@event.StreamKey}-{@event.Data.Locatie.LocatieId}",
-                VCode = @event.StreamKey,
-                LocatieId = @event.Data.Locatie.LocatieId
-            };
-        });
-
-        DeleteEvent<LocatieWerdVerwijderd>(x => $"{x.StreamKey}-{x.Data.Locatie.LocatieId}");
-
-        DeleteEvent<AdresWerdOvergenomenUitAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
-        DeleteEvent<AdresWerdNietGevondenInAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
-        DeleteEvent<AdresNietUniekInAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
-        DeleteEvent<AdresWerdOntkoppeldVanAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
-        DeleteEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>(x => $"{x.StreamKey}-{x.Data.VerwijderdeLocatieId}");
-        DeleteEvent<AdresHeeftGeenVerschillenMetAdressenregister>(x => $"{x.StreamKey}-{x.Data.LocatieId}");
-
-        IncludeType<AdresKonNietOvergenomenWordenUitAdressenregister>();
-        Identity<AdresKonNietOvergenomenWordenUitAdressenregister>(x => $"{x.VCode}-{x.LocatieId}");
-
-        DeleteEvent(
-            (
-                    LocatieZonderAdresMatchDocument doc,
-                    AdresKonNietOvergenomenWordenUitAdressenregister adresKonNietOvergenomenWordenUitAdressenregister)
-                =>
-            {
-                switch (adresKonNietOvergenomenWordenUitAdressenregister.Reden)
-                {
-                    case GrarClient.BadRequestSuccessStatusCodeMessage:
-                    case AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd:
-                        return true;
-
-                    default:
-                        return doc.Id is null;
-                }
-            });
-
-        CustomGrouping(new LocatieZonderAdresMatchGrouper());
         DeleteEvent<VerenigingWerdVerwijderd>();
-    }
-
-    public LocatieZonderAdresMatchDocument Create(FeitelijkeVerenigingWerdGeregistreerd @event, IQuerySession session)
-    {
-        var documentSession = session.DocumentStore.IdentitySession(IsolationLevel.ReadUncommitted);
-
-        foreach (var locatie in @event.Locaties)
+        ProjectEvent<LocatieWerdToegevoegd>((doc, @event) =>
         {
-            if (locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) continue;
+            if (@event.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return doc;
 
-            if (locatie.Adres is not null)
-                documentSession.Store(new LocatieZonderAdresMatchDocument
-                {
-                    Id = $"{@event.VCode}-{locatie.LocatieId}",
-                    VCode = @event.VCode,
-                    LocatieId = locatie.LocatieId,
-                });
-        }
+            if (@event.Locatie.Adres is null) return doc;
 
-        documentSession.SaveChanges();
-
-        return null;
-    }
-
-    private void CreateEvent<TEvent>(
-        Func<IEvent<TEvent>, string> identityFunc,
-        Func<IEvent<TEvent>, LocatieZonderAdresMatchDocument> creator) where TEvent : class
-    {
-        IncludeType<TEvent>();
-        Identity(identityFunc);
-        CreateEvent(creator);
-    }
-
-    private void DeleteEvent<TEvent>(Func<IEvent<TEvent>, string> identityFunc) where TEvent : class
-    {
-        IncludeType<TEvent>();
-        Identity(identityFunc);
-        DeleteEvent<TEvent>();
-    }
-}
-
-public class LocatieZonderAdresMatchGrouper : IAggregateGrouper<string>
-{
-    public async Task Group(IQuerySession session, IEnumerable<Marten.Events.IEvent> events, ITenantSliceGroup<string> grouping)
-    {
-        var verwijderdEvents = events
-                              .OfType<IEvent<VerenigingWerdVerwijderd>>()
-                              .ToList();
-
-        if (!verwijderdEvents.Any())
-            return;
-
-        var vCodes = verwijderdEvents
-                    .Select(e => e.Data.VCode)
-                    .ToList();
-
-        var result = await session.Query<LocatieZonderAdresMatchDocument>()
-                                  .Where(x => vCodes.Contains(x.VCode))
-                                  .ToListAsync();
-
-        foreach (var locatieLookupDocument in result)
+            return doc with
+            {
+                LocatieIds = doc.LocatieIds.Append(@event.Locatie.LocatieId).ToArray()
+            };
+        });
+        ProjectEvent<LocatieWerdGewijzigd>((doc, @event) =>
         {
-            var verwijderd = verwijderdEvents.Single(x => x.StreamKey == locatieLookupDocument.VCode);
-            grouping.AddEvent(locatieLookupDocument.Id, verwijderd);
-        }
+            if (@event.Locatie.Locatietype == Locatietype.MaatschappelijkeZetelVolgensKbo.Waarde) return doc;
+
+            if (@event.Locatie.Adres is null) return doc;
+
+            if(doc.LocatieIds.Contains(@event.Locatie.LocatieId)) return doc;
+
+            return doc with
+            {
+                LocatieIds = doc.LocatieIds.Append(@event.Locatie.LocatieId).ToArray(),
+            };
+        });
+
+        ProjectEvent<LocatieWerdVerwijderd>((doc, e) => LocatieZonderAdresId(doc, e.Locatie.LocatieId));
+        ProjectEvent<AdresWerdOvergenomenUitAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+        ProjectEvent<AdresWerdNietGevondenInAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+        ProjectEvent<AdresNietUniekInAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+        ProjectEvent<AdresWerdOntkoppeldVanAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+        ProjectEvent<LocatieDuplicaatWerdVerwijderdNaAdresMatch>((doc, e) => LocatieZonderAdresId(doc, e.VerwijderdeLocatieId));
+        ProjectEvent<AdresHeeftGeenVerschillenMetAdressenregister>((doc, e) => LocatieZonderAdresId(doc, e.LocatieId));
+
+        ProjectEvent<AdresKonNietOvergenomenWordenUitAdressenregister>((doc, e) => e.Reden switch
+        {
+            GrarClient.BadRequestSuccessStatusCodeMessage or
+                AdresKonNietOvergenomenWordenUitAdressenregister.RedenLocatieWerdVerwijderd
+                => LocatieZonderAdresId(doc, e.LocatieId),
+            _ => doc,
+        });
+    }
+
+    private static LocatieZonderAdresMatchDocument LocatieZonderAdresId(LocatieZonderAdresMatchDocument doc, int locatieId)
+    {
+        return doc with {LocatieIds =
+            doc.LocatieIds.Where(x => x != locatieId).ToArray()};
     }
 }

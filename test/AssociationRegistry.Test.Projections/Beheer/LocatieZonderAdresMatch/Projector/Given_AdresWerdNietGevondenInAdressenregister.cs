@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.LocatieZonderAdresMatch.Projector;
 
 using Admin.Schema.Detail;
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework.Fixtures;
@@ -18,11 +17,15 @@ public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<Given
     }
 
     [Fact]
-    public async Task Then_A_Document_Should_Be_Created()
+    public async Task Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
-        var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync();
-        docs.Should().BeEmpty();
+
+        var doc = await session.Query<LocatieZonderAdresMatchDocument>()
+                               .FirstOrDefaultAsync(d => d.VCode == "V9900012");
+
+        doc.Should().NotBeNull();
+        doc!.LocatieIds.Should().NotContain(1);
     }
 }
 
@@ -35,7 +38,10 @@ public class GivenAdresWerdNietGevondenInAdressenregisterFixture : MultiStreamTe
 
         Stream(vCode, new IEvent[]
         {
-            Fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with { VCode = vCode, Locaties = new[] { locatie } },
+            Fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
+            {
+                VCode = vCode, Locaties = new[] { locatie },
+            },
             Fixture.Create<AdresWerdNietGevondenInAdressenregister>() with { LocatieId = locatie.LocatieId },
         });
     }

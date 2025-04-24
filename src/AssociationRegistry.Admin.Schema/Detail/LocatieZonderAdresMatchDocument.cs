@@ -1,10 +1,13 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
+using Marten.Schema;
+
 public record LocatieZonderAdresMatchDocument : IVCode, IMetadata
 {
-    public string Id { get; set; }
+    [Identity]
     public string VCode { get; set; } = null!;
-    public int LocatieId { get; set; }
+
+    public int[] LocatieIds { get; set; } = [];
 
     public Metadata Metadata { get; set; } = null!;
 }
