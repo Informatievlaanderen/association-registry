@@ -1,3 +1,10 @@
+## [8.233.1](https://github.com/informatievlaanderen/association-registry/compare/v8.233.0...v8.233.1) (2025-04-24)
+
+
+### Bug Fixes
+
+* or-2385 locaties zonder adres match verwijderde handles verenigingen properly ([4943d6d](https://github.com/informatievlaanderen/association-registry/commit/4943d6dc2408a340514c6941c94f6861351844b0))
+
 # [8.233.0](https://github.com/informatievlaanderen/association-registry/compare/v8.232.1...v8.233.0) (2025-04-23)
 
 
