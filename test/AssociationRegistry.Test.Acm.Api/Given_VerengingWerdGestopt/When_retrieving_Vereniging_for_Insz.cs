@@ -43,7 +43,7 @@ public class When_retrieving_Vereniging_for_Insz
                              .VertegenwoordigerId,
                     _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                     Verenigingstype.VZER,
-                    Verenigingssubtype.NietBepaald,
+                    Verenigingssubtype.Default,
                     VerenigingStatus.Gestopt
                 );
 

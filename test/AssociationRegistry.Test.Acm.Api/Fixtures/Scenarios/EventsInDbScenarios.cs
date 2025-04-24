@@ -56,6 +56,7 @@ public class FeitelijkeVerenigingWerdGeregistreerd_WithAllFields_EventsInDbScena
         => Metadata;
 }
 
+
 public class VertegenwoordigerWerdToegevoegd_EventsInDbScenario : IEventsInDbScenario
 {
     public readonly FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid

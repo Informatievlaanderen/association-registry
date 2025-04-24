@@ -355,8 +355,8 @@ public static class VerenigingenPerInszProjector
 
             vereniging.Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Naam,
             };
 
             docs.Add(verenigingenPerInszDocument);
