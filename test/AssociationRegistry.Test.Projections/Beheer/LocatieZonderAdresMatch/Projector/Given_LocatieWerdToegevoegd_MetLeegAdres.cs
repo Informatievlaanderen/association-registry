@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.LocatieZonderAdresMatch.Projector;
 
 using Admin.Schema.Detail;
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using Framework.Fixtures;
@@ -19,11 +18,15 @@ public class Given_LocatieWerdToegevoegd_MetLeegAdres : IClassFixture<GivenLocat
     }
 
     [Fact]
-    public async Task Then_A_Document_Should_Be_Created()
+    public async Task Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
-        var docs = await session.Query<LocatieZonderAdresMatchDocument>().ToListAsync();
-        docs.Should().BeEmpty();
+
+        var doc = await session.Query<LocatieZonderAdresMatchDocument>()
+                               .FirstOrDefaultAsync(d => d.VCode == "V9900099");
+
+        doc.Should().NotBeNull();
+        doc!.LocatieIds.Should().NotContain(1);
     }
 }
 
@@ -40,7 +43,7 @@ public class GivenLocatieWerdToegevoegdMetLeegAdresFixture : MultiStreamTestFixt
 
         Stream(vCode, new IEvent[]
         {
-            Fixture.Create<FeitelijkeVerenigingWerdGeregistreerd>() with
+            Fixture.Create<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd>() with
             {
                 VCode = vCode, Locaties = Array.Empty<Registratiedata.Locatie>(),
             },
