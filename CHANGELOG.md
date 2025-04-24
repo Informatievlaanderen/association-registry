@@ -1,3 +1,15 @@
+# [8.234.0](https://github.com/informatievlaanderen/association-registry/compare/v8.233.1...v8.234.0) (2025-04-24)
+
+
+### Bug Fixes
+
+* search sorting on nested fields ([7a12130](https://github.com/informatievlaanderen/association-registry/commit/7a12130197e10db23b2870fb9dfdbf2232ce54fe))
+
+
+### Features
+
+* or-2798 log domain exceptions at information level ([5918437](https://github.com/informatievlaanderen/association-registry/commit/5918437208e5b3f4e2ab5421277151cc59a55e2a))
+
 ## [8.233.1](https://github.com/informatievlaanderen/association-registry/compare/v8.233.0...v8.233.1) (2025-04-24)
 
 
