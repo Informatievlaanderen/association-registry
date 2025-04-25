@@ -28,8 +28,8 @@ public static class VerenigingDocumentProjector
             VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
             Verenigingssubtype = new Verenigingssubtype()
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+                Code = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Code,
+                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Naam,
             },
             KboNummer = string.Empty,
         };
@@ -122,8 +122,8 @@ public static class VerenigingDocumentProjector
 
         verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Naam,
         };
 
         return verenigingDocument;

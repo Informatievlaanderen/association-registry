@@ -40,7 +40,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                            _scenario.VertegenwoordigerWerdToegevoegd.VertegenwoordigerId,
                            _scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                            Verenigingstype.VZER,
-                           Verenigingssubtype.NietBepaald
+                           Verenigingssubtype.Default
                        );
 
         content.Should().BeEquivalentJson(expected);
