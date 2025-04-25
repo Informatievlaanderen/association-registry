@@ -19,8 +19,7 @@ public record VerenigingState : IHasVersion
     }
 
     public Verenigingstype Verenigingstype { get; init; } = null!;
-    public Verenigingssubtype Verenigingssubtype { get; init; } = null!;
-    public SubverenigingVan SubverenigingVan { get; init; } = null!;
+    public IVerenigingssubtype Verenigingssubtype { get; init; }
     public VCode VCode { get; private set; } = null!;
     public KboNummer? KboNummer { get; private init; }
     public VerenigingsNaam Naam { get; private init; } = null!;
@@ -123,8 +122,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = Verenigingssubtype.Default,
-            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
+            Verenigingssubtype = new DefaultSubverenigingSubtype(),
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -195,7 +193,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.Parse(@event.Rechtsvorm),
-            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
+            Verenigingssubtype = new NoSubtype(),
             VCode = VCode.Hydrate(@event.VCode),
             KboNummer = KboNummer.Hydrate(@event.KboNummer),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
@@ -785,41 +783,37 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = Verenigingssubtype.Default,
-            SubverenigingVan = SubverenigingVan.Create(VCode),
+            Verenigingssubtype = new DefaultSubverenigingSubtype(),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
         => this with
         {
-            Verenigingssubtype = Verenigingssubtype.FeitelijkeVereniging,
-            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
+            Verenigingssubtype = new FeitelijkeVerenigingSubtype(),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdTerugGezetNaarNietBepaald @event)
         => this with
         {
-            Verenigingssubtype = Verenigingssubtype.NietBepaald,
-            SubverenigingVan = SubverenigingVan.Create(VCode.Hydrate(@event.VCode)),
+            Verenigingssubtype = new NietBepaaldSubverenigingSubtype(),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
         => this with
         {
-            Verenigingssubtype = Verenigingssubtype.Subvereniging,
-            SubverenigingVan = SubverenigingVan.Hydrate(@event),
+            Verenigingssubtype = new SubverenigingSubtype(SubverenigingVan.Hydrate(@event)),
         };
 
     public VerenigingState Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this with
         {
-            SubverenigingVan = SubverenigingVan.Hydrate(@event),
+            Verenigingssubtype = Verenigingssubtype.Apply(@event),
         };
 
     public VerenigingState Apply(SubverenigingDetailsWerdenGewijzigd @event)
         => this with
         {
-            SubverenigingVan = SubverenigingVan.Hydrate(@event),
+            Verenigingssubtype = Verenigingssubtype.Apply(@event),
         };
 
     public void ThrowIfVerwijderd()

@@ -9,6 +9,7 @@ using Framework;
 using GemeentenaamDecorator;
 using Grar.Clients;
 using Grar.Exceptions;
+using JasperFx.Core;
 using SocialMedias;
 using TelefoonNummers;
 using VerenigingWerdVerwijderd = Events.VerenigingWerdVerwijderd;
@@ -275,18 +276,25 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
 
     public void VerfijnSubtypeNaarFeitelijkeVereniging()
     {
-        if (State.Verenigingssubtype == Verenigingssubtype.FeitelijkeVereniging)
-            return;
-
-        AddEvent(EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(VCode));
+        State.Verenigingssubtype
+             .VerFijnNaarFeitelijkeVereniging(VCode)
+             .ForEach(AddEvent);
     }
 
     public void ZetSubtypeNaarNietBepaald()
     {
-        if (State.Verenigingssubtype == Verenigingssubtype.NietBepaald)
-            return;
+        State.Verenigingssubtype
+             .ZetSubtypeNaarNietBepaald(VCode)
+             .ForEach(AddEvent);
+    }
 
-        AddEvent(EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(VCode));
+    public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
+    {
+        Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
+
+        State.Verenigingssubtype
+             .VerFijnNaarSubvereniging(VCode, subverenigingVan)
+             .ForEach(AddEvent);
     }
 
     public void Hydrate(VerenigingState obj)
@@ -321,32 +329,7 @@ public class Vereniging : VerenigingsBase, IHydrate<VerenigingState>
                                                              registratieData));
     }
 
-    public void VerfijnNaarSubvereniging(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
-    {
-        Throw<VerenigingKanGeenSubverenigingWordenWaarvanZijAlReedsLidIs>.If(AndereVerenigingIsReedsEenLid(subverenigingVan.AndereVereniging));
-
-        IEvent[] events;
-
-        if (State.Verenigingssubtype.IsSubVereniging)
-        {
-            Throw<WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben>.If(TeWijzigenSubverenigingHeeftGeenVeldenTeWijzigen(subverenigingVan));
-            events = State.SubverenigingVan.Wijzig(subverenigingVan);
-        }
-        else
-        {
-            VCode.ValidateVCode(subverenigingVan.AndereVereniging ?? string.Empty);
-            events = State.SubverenigingVan.Verfijn(subverenigingVan);
-        }
-
-        foreach (var @event in events)
-        {
-            AddEvent(@event);
-        }
-    }
-
     private bool AndereVerenigingIsReedsEenLid(VCode? andereVereniging)
         => State.Lidmaatschappen.Any(x => x.AndereVereniging == andereVereniging);
 
-    private bool TeWijzigenSubverenigingHeeftGeenVeldenTeWijzigen(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
-        => subverenigingVan.AndereVereniging is null && subverenigingVan.Identificatie is null && subverenigingVan.Beschrijving is null;
 }

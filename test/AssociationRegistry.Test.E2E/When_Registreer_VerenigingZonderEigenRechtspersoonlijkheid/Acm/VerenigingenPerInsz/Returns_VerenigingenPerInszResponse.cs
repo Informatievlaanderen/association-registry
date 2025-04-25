@@ -47,7 +47,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
-                    Verenigingssubtype =  Verenigingssubtype.Default.Convert<AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingssubtype>(),
+                    Verenigingssubtype =  VerenigingssubtypeCodering.Default.Convert<AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingssubtype>(),
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

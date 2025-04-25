@@ -10,6 +10,7 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Vereniging;
 using Xunit;
 using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
@@ -35,8 +36,8 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
     {
         var expected = new Verenigingssubtype()
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam
+            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
+            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

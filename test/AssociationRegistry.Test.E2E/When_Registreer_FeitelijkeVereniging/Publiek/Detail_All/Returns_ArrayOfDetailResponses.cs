@@ -66,7 +66,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVe
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Verenigingssubtype = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Convert<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
             SubverenigingVan = null,
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),

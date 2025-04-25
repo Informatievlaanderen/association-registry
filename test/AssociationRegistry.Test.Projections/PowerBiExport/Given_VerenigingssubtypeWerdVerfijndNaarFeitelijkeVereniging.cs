@@ -13,8 +13,8 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-            Naam = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam
+            Code = Vereniging.VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
+            Naam = Vereniging.VerenigingssubtypeCodering.FeitelijkeVereniging.Naam
         });
     }
 

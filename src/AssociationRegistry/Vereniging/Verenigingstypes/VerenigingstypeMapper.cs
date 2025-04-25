@@ -7,11 +7,11 @@ public interface IVerenigingstypeMapper
         where TSource : IVerenigingstype, new();
 
     TDestination? MapSubtype<TDestination, TSource>(TSource? subtype)
-        where TDestination : IVerenigingssubtype, new()
-        where TSource : IVerenigingssubtype;
+        where TDestination : IHasVerenigingssubtypeCodeAndNaam, new()
+        where TSource : IHasVerenigingssubtypeCodeAndNaam;
 
     public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map)
-        where TSource : IVerenigingssubtype, new();
+        where TSource : IHasVerenigingssubtypeCodeAndNaam, new();
 
 }
 
@@ -37,10 +37,10 @@ public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IVerenigingssubtype, new() where TSource : IVerenigingssubtype
+    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IHasVerenigingssubtypeCodeAndNaam, new() where TSource : IHasVerenigingssubtypeCodeAndNaam
         => default;
 
-    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtype, new()
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IHasVerenigingssubtypeCodeAndNaam, new()
         => default;
 }
 
@@ -66,7 +66,7 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IVerenigingssubtype, new() where TSource : IVerenigingssubtype
+    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IHasVerenigingssubtypeCodeAndNaam, new() where TSource : IHasVerenigingssubtypeCodeAndNaam
     {
         if (subtype is null)
         {
@@ -80,9 +80,9 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtype, new()
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IHasVerenigingssubtypeCodeAndNaam, new()
     {
-        if (subtype is null || subtype.Code != Verenigingssubtype.Subvereniging.Code)
+        if (subtype is null || subtype.Code != VerenigingssubtypeCodering.SubverenigingVan.Code)
         {
             return default;
         }

@@ -14,6 +14,6 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(
         var vzer =
             fixture.Result.Verenigingen.Single(x => x.VCode == fixture.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode);
 
-        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code, AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam));
+        vzer.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingstype(AssociationRegistry.Vereniging.VerenigingssubtypeCodering.FeitelijkeVereniging.Code, AssociationRegistry.Vereniging.VerenigingssubtypeCodering.FeitelijkeVereniging.Naam));
     }
 }

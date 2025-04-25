@@ -13,8 +13,8 @@ public class Given_VerenigingssubtypeWerdTerugGezetNaarNietBepaald(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = Vereniging.Verenigingssubtype.NietBepaald.Code,
-            Naam = Vereniging.Verenigingssubtype.NietBepaald.Naam
+            Code = Vereniging.VerenigingssubtypeCodering.NietBepaald.Code,
+            Naam = Vereniging.VerenigingssubtypeCodering.NietBepaald.Naam
         });
     }
 

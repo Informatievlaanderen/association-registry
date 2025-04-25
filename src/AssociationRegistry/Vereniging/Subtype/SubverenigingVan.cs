@@ -4,16 +4,15 @@ using DecentraalBeheer.Subtype;
 using EventFactories;
 using Events;
 
-public record SubverenigingVan(VCode vCode)
+public record SubverenigingVan()
 {
-    public VCode VCode { get; } = vCode;
     public string AndereVereniging { get; set; }
     public string AndereVerenigingNaam { get; set; }
     public string Beschrijving { get; set; }
     public string Identificatie { get; set; }
 
-    public SubverenigingVan Hydrate(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
-        => new(VCode)
+    public static SubverenigingVan Hydrate(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)
+        => new()
         {
             AndereVereniging = @event.SubverenigingVan.AndereVereniging,
             AndereVerenigingNaam = @event.SubverenigingVan.AndereVerenigingNaam,
@@ -21,47 +20,36 @@ public record SubverenigingVan(VCode vCode)
             Identificatie = @event.SubverenigingVan.Identificatie,
         };
 
-    public SubverenigingVan Hydrate(SubverenigingDetailsWerdenGewijzigd @event)
-        => new(VCode)
+    public static SubverenigingVan Hydrate(SubverenigingDetailsWerdenGewijzigd @event)
+        => new()
         {
             Beschrijving = @event.Beschrijving,
             Identificatie = @event.Identificatie,
         };
 
-    public SubverenigingVan Hydrate(SubverenigingRelatieWerdGewijzigd @event)
-        => new(VCode)
+    public static SubverenigingVan Hydrate(SubverenigingRelatieWerdGewijzigd @event)
+        => new()
         {
             AndereVereniging = @event.AndereVereniging,
             AndereVerenigingNaam = @event.AndereVerenigingNaam,
         };
 
     public static SubverenigingVan Create(VCode vCode)
-        => new(vCode);
+        => new();
 
-    public IEvent[] Verfijn(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
-        =>
-        [
-            EventFactory.VerenigingssubtypeWerdVerfijndNaarSubvereniging(
-                VCode,
-                subverenigingVan.AndereVereniging!,
-                subverenigingVan.AndereVerenigingNaam!,
-                subverenigingVan.Identificatie ?? string.Empty,
-                subverenigingVan.Beschrijving ?? string.Empty),
-        ];
-
-    public IEvent[] Wijzig(VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan commandSubverenigingVan)
+    public IEvent[] Wijzig(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
         IEvent[] events = [];
 
-        if (HasRelatieChanges(commandSubverenigingVan))
-            events = events.Append(EventFactory.SubverenigingRelatieWerdGewijzigd(VCode, commandSubverenigingVan.AndereVereniging!, commandSubverenigingVan.AndereVerenigingNaam!)).ToArray();
+        if (HasRelatieChanges(subverenigingVan))
+            events = events.Append(EventFactory.SubverenigingRelatieWerdGewijzigd(vCode, subverenigingVan.AndereVereniging!, subverenigingVan.AndereVerenigingNaam!)).ToArray();
 
-        if (HasDetailChanges(commandSubverenigingVan))
+        if (HasDetailChanges(subverenigingVan))
         {
-            var identificatie = commandSubverenigingVan.Identificatie ?? Identificatie;
-            var beschrijving = commandSubverenigingVan.Beschrijving ?? Beschrijving;
+            var identificatie = subverenigingVan.Identificatie ?? Identificatie;
+            var beschrijving = subverenigingVan.Beschrijving ?? Beschrijving;
 
-            events = events.Append(EventFactory.DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(VCode, identificatie, beschrijving)).ToArray();
+            events = events.Append(EventFactory.DetailGegevensVanDeSubverenigingRelatieWerdenGewijzigd(vCode, identificatie, beschrijving)).ToArray();
         }
 
         return events;
@@ -74,3 +62,4 @@ public record SubverenigingVan(VCode vCode)
         => commandSubverenigingVan.Beschrijving is not null && Beschrijving != commandSubverenigingVan.Beschrijving ||
            commandSubverenigingVan.Identificatie is not null && Identificatie != commandSubverenigingVan.Identificatie;
 }
+

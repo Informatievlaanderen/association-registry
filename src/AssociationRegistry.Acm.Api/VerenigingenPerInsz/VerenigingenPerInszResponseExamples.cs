@@ -1,8 +1,9 @@
 namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 
 using AcmBevraging;
-using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public class VerenigingenPerInszResponseExamples : IExamplesProvider<VerenigingenPerInszResponse>
 {
@@ -19,13 +20,9 @@ public class VerenigingenPerInszResponseExamples : IExamplesProvider<Vereniginge
                     Status = VerenigingStatus.Actief,
                     CorresponderendeVCodes = [],
                     IsHoofdvertegenwoordigerVan = false,
-                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Vereniging.Verenigingstype.VZER.Code,
-                                                                                      Vereniging.Verenigingstype.VZER.Naam),
-                    Verenigingssubtype = new VerenigingenPerInszResponse.Verenigingssubtype
-                    {
-                        Naam = Vereniging.Verenigingssubtype.NietBepaald.Naam,
-                        Code = Vereniging.Verenigingssubtype.NietBepaald.Code,
-                    },
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Verenigingstype.VZER.Code,
+                                                                                      Verenigingstype.VZER.Naam),
+                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<VerenigingenPerInszResponse.Verenigingssubtype>(),
                     KboNummer = "",
                     VertegenwoordigerId = 0,
                 },
@@ -36,8 +33,8 @@ public class VerenigingenPerInszResponseExamples : IExamplesProvider<Vereniginge
                     Status = VerenigingStatus.Gestopt,
                     CorresponderendeVCodes = [],
                     IsHoofdvertegenwoordigerVan = false,
-                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Vereniging.Verenigingstype.VZW.Code,
-                                                                                      Vereniging.Verenigingstype.VZW.Naam),
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Verenigingstype.VZW.Code,
+                                                                                      Verenigingstype.VZW.Naam),
                     KboNummer = "",
                     VertegenwoordigerId = 0,
                 },

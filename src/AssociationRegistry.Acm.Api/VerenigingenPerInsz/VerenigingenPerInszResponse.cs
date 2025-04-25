@@ -82,7 +82,7 @@ public class VerenigingenPerInszResponse
     /// <summary>
     /// Het subtype van de vereniging
     /// </summary>
-    public class Verenigingssubtype : IVerenigingssubtype
+    public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
     {
         /// <summary>
         /// De code van het subtype vereniging

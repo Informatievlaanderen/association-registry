@@ -41,11 +41,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype
-        {
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-        });
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.FeitelijkeVereniging.Convert<Verenigingssubtype>());
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

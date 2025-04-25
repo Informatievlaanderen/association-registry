@@ -20,7 +20,7 @@ public class To_VerfijnSubtypeNaarFeitelijkeVerenigingCommand
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.FeitelijkeVereniging.Code,
+            Subtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
         };
 
         var vCode = fixture.Create<VCode>();

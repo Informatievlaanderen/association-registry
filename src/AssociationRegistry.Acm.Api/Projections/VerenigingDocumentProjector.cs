@@ -3,8 +3,9 @@ namespace AssociationRegistry.Acm.Api.Projections;
 using Events;
 using Marten;
 using Marten.Events;
-using Schema.Constants;
 using Schema.VerenigingenPerInsz;
+using Vereniging;
+using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public static class VerenigingDocumentProjector
 {
@@ -26,11 +27,7 @@ public static class VerenigingDocumentProjector
             Naam = werdGeregistreerd.Naam,
             Status = VerenigingStatus.Actief,
             VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
-            Verenigingssubtype = new Verenigingssubtype()
-            {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Naam,
-            },
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
             KboNummer = string.Empty,
         };
 
@@ -120,10 +117,10 @@ public static class VerenigingDocumentProjector
 
         verenigingDocument.VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Naam,
+            Code = VerenigingssubtypeCodering.Default.Code,
+            Naam = VerenigingssubtypeCodering.Default.Naam,
         };
 
         return verenigingDocument;
@@ -133,10 +130,10 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
+            Code = VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
+            Naam = VerenigingssubtypeCodering.FeitelijkeVereniging.Naam,
         };
 
         return verenigingDocument;
@@ -146,10 +143,10 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
+            Code = VerenigingssubtypeCodering.NietBepaald.Code,
+            Naam = VerenigingssubtypeCodering.NietBepaald.Naam,
         };
 
         return verenigingDocument;
@@ -159,10 +156,10 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype()
+        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
         {
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
+            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
+            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
         };
 
         return verenigingDocument;

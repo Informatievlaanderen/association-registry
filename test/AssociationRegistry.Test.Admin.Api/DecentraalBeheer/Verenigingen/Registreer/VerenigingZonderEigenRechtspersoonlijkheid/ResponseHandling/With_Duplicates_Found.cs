@@ -21,7 +21,6 @@ using ResultNet;
 using Vereniging;
 using Wolverine;
 using Xunit;
-using Verenigingssubtype = Vereniging.Verenigingssubtype;
 using Verenigingstype = Vereniging.Verenigingstype;
 
 public class With_Duplicates_Found
@@ -76,10 +75,10 @@ public class With_Duplicates_Found
 
         mogelijkeDuplicateVerenigingen.Should()
                                       .AllSatisfy(x => x.Verenigingssubtype.Code.Should()
-                                                        .Be(Verenigingssubtype.NietBepaald.Code))
+                                                        .Be(VerenigingssubtypeCodering.NietBepaald.Code))
                                       .And
                                       .AllSatisfy(x => x.Verenigingssubtype.Naam.Should()
-                                                        .Be(Verenigingssubtype.NietBepaald.Naam));
+                                                        .Be(VerenigingssubtypeCodering.NietBepaald.Naam));
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
@@ -94,8 +93,8 @@ public class With_Duplicates_Found
             },
             Verenigingssubtype = new DuplicaatVereniging.Types.Verenigingssubtype()
             {
-                Code = Verenigingssubtype.NietBepaald.Code,
-                Naam = Verenigingssubtype.NietBepaald.Naam,
+                Code = VerenigingssubtypeCodering.NietBepaald.Code,
+                Naam = VerenigingssubtypeCodering.NietBepaald.Naam,
             },
         }));
 

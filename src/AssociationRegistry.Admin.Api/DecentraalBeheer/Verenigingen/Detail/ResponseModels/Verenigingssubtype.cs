@@ -6,10 +6,10 @@ using Vereniging;
 /// <summary>
 /// Het subtype van de vereniging
 /// </summary>
-public class Verenigingssubtype : IVerenigingssubtype
+public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
 {
     /// <summary>
-    /// De code van het subtype vereniging vereniging
+    /// De code van het subtype vereniging
     /// </summary>
     [DataMember(Name = "Code")]
     public string Code { get; init; } = null!;

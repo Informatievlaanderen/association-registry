@@ -21,7 +21,7 @@ public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<Wi
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Verenigingssubtype.NietBepaald.Code,
+            Subtype = VerenigingssubtypeCodering.NietBepaald.Code,
         };
 
         await apiSetup.AdminApiHost.Scenario(s =>

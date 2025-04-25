@@ -54,7 +54,7 @@ public class When_Retrieving_Verenigingen_For_Insz
                              .VertegenwoordigerId,
                     _scenario.NaamWerdGewijzigd.Naam,
                     Verenigingstype.VZER,
-                    Verenigingssubtype.Default
+                    VerenigingssubtypeCodering.Default
                 );
 
         content.Should().BeEquivalentJson(expected);

@@ -25,7 +25,7 @@ public class WijzigSubtypeRequestVoorVerfijnNaarSubFactory : ITestRequestFactory
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCodering.SubverenigingVan.Code,
             AndereVereniging = _scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
             Beschrijving = _fixture.Create<string>(),
             Identificatie = _fixture.Create<string>(),

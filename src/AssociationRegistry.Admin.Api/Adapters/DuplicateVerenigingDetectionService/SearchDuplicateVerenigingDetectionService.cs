@@ -205,7 +205,7 @@ public class SearchDuplicateVerenigingDetectionService : IDuplicateVerenigingDet
                 : new DuplicaatVereniging.Types.Verenigingssubtype()
                 {
                     Code = document.Source.VerenigingssubtypeCode!,
-                    Naam = Verenigingssubtype.GetNameOrDefaultOrNull(document.Source.VerenigingssubtypeCode!),
+                    Naam = VerenigingssubtypeCodering.GetNameOrDefaultOrNull(document.Source.VerenigingssubtypeCode!),
                 },
             document.Source.Naam,
             document.Source.KorteNaam,

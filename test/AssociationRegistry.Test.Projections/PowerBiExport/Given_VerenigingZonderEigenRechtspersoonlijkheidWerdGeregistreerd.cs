@@ -1,10 +1,10 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using Admin.Schema.Detail;
 using Scenario.Migratie;
 using Scenario.Registratie;
 using Scenario.Subtypes;
-using Verenigingssubtype = Vereniging.Verenigingssubtype;
+using Vereniging;
+using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
@@ -16,15 +16,15 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd(
     {
         fixture.Result.Verenigingstype.Should().BeEquivalentTo(new Verenigingstype()
         {
-            Code = Vereniging.Verenigingstype.VZER.Code,
-            Naam = Vereniging.Verenigingstype.VZER.Naam,
+            Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
+            Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
         });
     }
 
     [Fact]
     public void Verenigingssubtype_Is_Niet_Bepaald()
     {
-        fixture.Result.Verenigingssubtype.Code.Should().BeEquivalentTo( Verenigingssubtype.Default.Code);
-        fixture.Result.Verenigingssubtype.Naam.Should().BeEquivalentTo( Verenigingssubtype.Default.Naam);
+        fixture.Result.Verenigingssubtype.Code.Should().BeEquivalentTo(VerenigingssubtypeCodering.Default.Code);
+        fixture.Result.Verenigingssubtype.Naam.Should().BeEquivalentTo(VerenigingssubtypeCodering.Default.Naam);
     }
 }

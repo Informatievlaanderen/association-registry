@@ -591,8 +591,8 @@ public class PubliekZoekProjectionHandler
     {
         await _elasticRepository
            .UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(message.VCode,
-                                                                                  Verenigingssubtype.FeitelijkeVereniging.Code,
-                                                                                  Verenigingssubtype.FeitelijkeVereniging.Naam,
+                                                                                  VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
+                                                                                  VerenigingssubtypeCodering.FeitelijkeVereniging.Naam,
                                                                                   message.Sequence
             );
     }
@@ -600,8 +600,8 @@ public class PubliekZoekProjectionHandler
     public async Task Handle(EventEnvelope<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> message)
     {
         await _elasticRepository
-           .UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(message.VCode, Verenigingssubtype.NietBepaald.Code,
-                                                                                  Verenigingssubtype.NietBepaald.Naam, message.Sequence
+           .UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(message.VCode, VerenigingssubtypeCodering.NietBepaald.Code,
+                                                                                  VerenigingssubtypeCodering.NietBepaald.Naam, message.Sequence
             );
     }
 
@@ -613,8 +613,8 @@ public class PubliekZoekProjectionHandler
             {
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
                 {
-                    Code = Verenigingssubtype.Subvereniging.Code,
-                    Naam = Verenigingssubtype.Subvereniging.Naam,
+                    Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
+                    Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
                 },
                 SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
                 {

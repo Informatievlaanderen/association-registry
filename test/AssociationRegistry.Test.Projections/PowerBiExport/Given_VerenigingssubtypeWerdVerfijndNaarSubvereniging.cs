@@ -2,6 +2,8 @@
 
 using Admin.Schema.Detail;
 using Scenario.Verenigingssubtypes;
+using Vereniging;
+using SubverenigingVan = Admin.Schema.Detail.SubverenigingVan;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_VerenigingssubtypeWerdVerfijndNaarSubvereniging(
@@ -13,8 +15,8 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarSubvereniging(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = Vereniging.Verenigingssubtype.Subvereniging.Code,
-            Naam = Vereniging.Verenigingssubtype.Subvereniging.Naam,
+            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
+            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
         });
     }
 

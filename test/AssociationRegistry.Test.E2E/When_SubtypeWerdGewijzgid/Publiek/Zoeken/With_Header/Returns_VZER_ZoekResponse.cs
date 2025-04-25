@@ -7,7 +7,9 @@ using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
+using Vereniging;
 using Xunit;
+using SubverenigingVan = Public.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
 [Collection(FullBlownApiCollection.Name)]
@@ -31,11 +33,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype
-        {
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
-        });
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.SubverenigingVan.Convert<Verenigingssubtype>());
         vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
             AndereVereniging = _testContext.Request.AndereVereniging!,

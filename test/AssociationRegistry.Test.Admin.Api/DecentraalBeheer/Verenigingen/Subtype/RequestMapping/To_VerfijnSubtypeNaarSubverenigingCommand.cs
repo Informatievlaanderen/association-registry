@@ -20,7 +20,7 @@ public class To_WijzigSubtypeCommandTests
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCodering.SubverenigingVan.Code,
             AndereVereniging = fixture.Create<VCode>(),
             Beschrijving = fixture.Create<string>(),
             Identificatie = fixture.Create<string>(),
@@ -44,7 +44,7 @@ public class To_WijzigSubtypeCommandTests
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCodering.SubverenigingVan.Code,
             AndereVereniging = null,
             Beschrijving = null,
             Identificatie = null,

@@ -684,8 +684,8 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
-            Verenigingssubtype.FeitelijkeVereniging.Code,
-            Verenigingssubtype.FeitelijkeVereniging.Naam,
+            VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
+            VerenigingssubtypeCodering.FeitelijkeVereniging.Naam,
             message.Sequence
         );
     }
@@ -698,8 +698,8 @@ public class BeheerZoekProjectionHandler
             {
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
                 {
-                    Code = Verenigingssubtype.Subvereniging.Code,
-                    Naam = Verenigingssubtype.Subvereniging.Naam,
+                    Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
+                    Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
                 },
                 SubverenigingVan = new VerenigingZoekDocument.Types.SubverenigingVan
                 {
@@ -715,8 +715,8 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateVerenigingsTypeAndClearSubverenigingVan<VerenigingZoekDocument>(
             message.VCode,
-            Verenigingssubtype.NietBepaald.Code,
-            Verenigingssubtype.NietBepaald.Naam,
+            VerenigingssubtypeCodering.NietBepaald.Code,
+            VerenigingssubtypeCodering.NietBepaald.Naam,
             message.Sequence
         );
     }

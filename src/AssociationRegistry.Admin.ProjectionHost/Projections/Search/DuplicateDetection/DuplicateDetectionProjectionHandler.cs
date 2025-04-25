@@ -40,7 +40,7 @@ public class DuplicateDetectionProjectionHandler
                 Sequence = message.Sequence,
                 VCode = message.Data.VCode,
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = Verenigingssubtype.Default.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCodering.Default.Code,
                 Naam = message.Data.Naam,
                 KorteNaam = message.Data.KorteNaam,
                 Locaties = message.Data.Locaties.Select(Map).ToArray(),
@@ -261,7 +261,7 @@ public class DuplicateDetectionProjectionHandler
             new DuplicateDetectionUpdateDocument
             {
                 VerenigingsTypeCode = Verenigingstype.VZER.Code,
-                VerenigingssubtypeCode = Verenigingssubtype.Default.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCodering.Default.Code,
             },
             message.Sequence
         );
@@ -271,7 +271,7 @@ public class DuplicateDetectionProjectionHandler
             message.VCode,
             new DuplicateDetectionUpdateDocument
             {
-                VerenigingssubtypeCode = Verenigingssubtype.FeitelijkeVereniging.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
             },
             message.Sequence
         );
@@ -281,7 +281,7 @@ public class DuplicateDetectionProjectionHandler
             message.VCode,
             new DuplicateDetectionUpdateDocument
             {
-                VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCodering.NietBepaald.Code,
             },
             message.Sequence
         );
@@ -291,7 +291,7 @@ public class DuplicateDetectionProjectionHandler
             message.VCode,
             new DuplicateDetectionUpdateDocument
             {
-                VerenigingssubtypeCode = Verenigingssubtype.Subvereniging.Code,
+                VerenigingssubtypeCode = VerenigingssubtypeCodering.SubverenigingVan.Code,
             },
             message.Sequence
         );

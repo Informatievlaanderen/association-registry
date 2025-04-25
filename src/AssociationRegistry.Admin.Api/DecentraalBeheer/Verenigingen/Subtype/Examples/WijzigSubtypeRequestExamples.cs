@@ -2,6 +2,7 @@ namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype.Examples;
 
 using RequestModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 
 public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubtypeRequest>
 {
@@ -14,7 +15,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Verfijn subtype naar feitelijke vereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
+                Subtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
                 Beschrijving = null,
                 Identificatie = null,
                 AndereVereniging = null,
@@ -27,7 +28,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Zet subtype terug naar niet bepaald.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Verenigingssubtype.NietBepaald.Code,
+                Subtype = VerenigingssubtypeCodering.NietBepaald.Code,
                 Beschrijving = null,
                 Identificatie = null,
                 AndereVereniging = null,
@@ -40,7 +41,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Verfijn subtype naar subvereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Verenigingssubtype.Subvereniging.Code,
+                Subtype = VerenigingssubtypeCodering.SubverenigingVan.Code,
                 AndereVereniging = "V0001002",
                 Beschrijving = "De subvereniging van V0001002",
                 Identificatie = "0012"
@@ -53,7 +54,7 @@ public class WijzigSubtypeRequestExamples : IMultipleExamplesProvider<WijzigSubt
             Summary = "Wijzig het subtype subvereniging.",
             Value = new WijzigSubtypeRequest
             {
-                Subtype = Vereniging.Verenigingssubtype.Subvereniging.Code,
+                Subtype = VerenigingssubtypeCodering.SubverenigingVan.Code,
                 AndereVereniging = "V0001002",
                 Beschrijving = "De subvereniging van V0001002",
                 Identificatie = "0012"
