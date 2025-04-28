@@ -31,7 +31,6 @@ using Grar.GrarUpdates.LocatieFinder;
 using Grar.NutsLau;
 using GrarConsumer.Finders;
 using GrarConsumer.Kafka;
-using HostedServices.VzerMigratie;
 using Hosts;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
@@ -114,7 +113,6 @@ public class Program
         ConfigureKestrel(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
-        ConfigureHostedServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
@@ -652,13 +650,6 @@ public class Program
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
                .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
-    }
-
-    private static void ConfigureHostedServices(WebApplicationBuilder builder)
-    {
-        builder.Services.AddHostedService<VzerMigratieService>();
-
-        ConfigureAddresskafkaConsumer(builder);
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
