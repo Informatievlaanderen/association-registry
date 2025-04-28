@@ -81,7 +81,7 @@ public class Verenigingstype
     public string Naam { get; set; } = null!;
 }
 
-public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+public class Verenigingssubtype : IVerenigingssubtypeCode
 {
 
     /// <summary>

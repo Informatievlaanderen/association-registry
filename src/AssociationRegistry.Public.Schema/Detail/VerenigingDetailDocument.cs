@@ -46,7 +46,7 @@ public class PubliekVerenigingDetailDocument : IVCode, ISoftDeleted, ICanBeUitge
             public string Naam { get; init; } = null!;
         }
 
-        public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+        public class Verenigingssubtype : IVerenigingssubtypeCode
         {
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;

@@ -29,7 +29,7 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
 
     public static class Types
     {
-        public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+        public class Verenigingssubtype : IVerenigingssubtypeCode
         {
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;

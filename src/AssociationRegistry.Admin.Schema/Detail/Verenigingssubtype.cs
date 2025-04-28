@@ -2,7 +2,7 @@
 
 using Vereniging;
 
-public record Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+public record Verenigingssubtype : IVerenigingssubtypeCode
 {
     public string Code { get; init; } = null!;
     public string Naam { get; init; } = null!;

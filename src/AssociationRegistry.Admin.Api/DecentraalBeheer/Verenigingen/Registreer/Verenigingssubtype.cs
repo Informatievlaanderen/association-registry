@@ -6,7 +6,7 @@ using Vereniging;
 /// <summary>
 /// Het subtype van de vereniging
 /// </summary>
-public class Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+public class Verenigingssubtype : IVerenigingssubtypeCode
 {
     /// <summary>
     /// De code van het subtype vereniging

@@ -67,7 +67,7 @@ public class BeheerVerenigingDetailMapper
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
             Verenigingssubtype =
-                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IHasVerenigingssubtypeCodeAndNaam>(vereniging.Verenigingssubtype),
+                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtypeCode>(vereniging.Verenigingssubtype),
             SubverenigingVan =
                 _verenigingstypeMapper.MapSubverenigingVan(
                     vereniging.Verenigingssubtype,

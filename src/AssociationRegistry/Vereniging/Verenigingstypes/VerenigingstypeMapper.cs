@@ -7,11 +7,11 @@ public interface IVerenigingstypeMapper
         where TSource : IVerenigingstype, new();
 
     TDestination? MapSubtype<TDestination, TSource>(TSource? subtype)
-        where TDestination : IHasVerenigingssubtypeCodeAndNaam, new()
-        where TSource : IHasVerenigingssubtypeCodeAndNaam;
+        where TDestination : IVerenigingssubtypeCode, new()
+        where TSource : IVerenigingssubtypeCode;
 
     public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map)
-        where TSource : IHasVerenigingssubtypeCodeAndNaam, new();
+        where TSource : IVerenigingssubtypeCode, new();
 
 }
 
@@ -37,10 +37,10 @@ public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IHasVerenigingssubtypeCodeAndNaam, new() where TSource : IHasVerenigingssubtypeCodeAndNaam
+    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IVerenigingssubtypeCode, new() where TSource : IVerenigingssubtypeCode
         => default;
 
-    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IHasVerenigingssubtypeCodeAndNaam, new()
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtypeCode, new()
         => default;
 }
 
@@ -66,7 +66,7 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IHasVerenigingssubtypeCodeAndNaam, new() where TSource : IHasVerenigingssubtypeCodeAndNaam
+    public TDestination? MapSubtype<TDestination, TSource>(TSource? subtype) where TDestination : IVerenigingssubtypeCode, new() where TSource : IVerenigingssubtypeCode
     {
         if (subtype is null)
         {
@@ -80,7 +80,7 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
         };
     }
 
-    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IHasVerenigingssubtypeCodeAndNaam, new()
+    public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtypeCode, new()
     {
         if (subtype is null || subtype.Code != VerenigingssubtypeCodering.SubverenigingVan.Code)
         {

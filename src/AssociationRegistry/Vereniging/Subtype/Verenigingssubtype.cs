@@ -10,9 +10,7 @@ public record SubverenigingSubtype : IVerenigingssubtype
 {
     public SubverenigingVan SubverenigingVan { get; }
 
-    public string Code => VerenigingssubtypeCodering.SubverenigingVan.Code;
-    public string Naam => VerenigingssubtypeCodering.SubverenigingVan.Naam;
-
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.SubverenigingVan;
 
     public SubverenigingSubtype(SubverenigingVan subverenigingVan)
     {
@@ -44,7 +42,7 @@ public record SubverenigingSubtype : IVerenigingssubtype
         => lidmaatschapAndereVereniging == SubverenigingVan.AndereVereniging;
 }
 
-public record VerenigingssubtypeCodering(string Code, string Naam): IHasVerenigingssubtypeCodeAndNaam
+public record VerenigingssubtypeCodering(string Code, string Naam): IVerenigingssubtypeCode
 {
     public static VerenigingssubtypeCodering FeitelijkeVereniging = new VerenigingssubtypeCodering(Fv, "Feitelijke vereniging");
     public static VerenigingssubtypeCodering SubverenigingVan = new VerenigingssubtypeCodering(Sub, "Subvereniging");
@@ -91,8 +89,7 @@ public record VerenigingssubtypeCodering(string Code, string Naam): IHasVerenigi
 }
 public record FeitelijkeVerenigingSubtype : IVerenigingssubtype
 {
-    public string Code => VerenigingssubtypeCodering.FeitelijkeVereniging.Code;
-    public string Naam => VerenigingssubtypeCodering.FeitelijkeVereniging.Naam;
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.FeitelijkeVereniging;
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this;
@@ -126,8 +123,7 @@ public record FeitelijkeVerenigingSubtype : IVerenigingssubtype
 public record NietBepaaldSubverenigingSubtype : IVerenigingssubtype
 {
 
-    public string Code => VerenigingssubtypeCodering.NietBepaald.Code;
-    public string Naam => VerenigingssubtypeCodering.NietBepaald.Naam;
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.NietBepaald;
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this;
@@ -161,8 +157,7 @@ public record NietBepaaldSubverenigingSubtype : IVerenigingssubtype
 public record DefaultSubverenigingSubtype : IVerenigingssubtype
 {
 
-    public string Code => VerenigingssubtypeCodering.Default.Code;
-    public string Naam => VerenigingssubtypeCodering.Default.Naam;
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.Default;
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this;
@@ -197,8 +192,7 @@ public record DefaultSubverenigingSubtype : IVerenigingssubtype
 
 public record NoSubtype : IVerenigingssubtype
 {
-    public string Code => throw new InvalidOperationException("This subtype is not supposed to be used.");
-    public string Naam => throw new InvalidOperationException("This subtype is not supposed to be used.");
+    public IVerenigingssubtypeCode Code => throw new InvalidOperationException("This subtype is not supposed to be used.");
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => throw new InvalidOperationException("This subtype is not supposed to be used.");

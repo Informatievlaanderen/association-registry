@@ -31,7 +31,7 @@ public record DuplicaatVereniging(
             public string Naam { get; init; }
         }
 
-        public record Verenigingssubtype : IHasVerenigingssubtypeCodeAndNaam
+        public record Verenigingssubtype : IVerenigingssubtypeCode
         {
             public string Code { get; init; }
             public string Naam { get; init; }
