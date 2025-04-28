@@ -89,7 +89,7 @@ public class WijzigSubtypeController : ApiController
 
         var metaData = metadataProvider.GetMetadata(IfMatchParser.ParseIfMatch(ifMatch));
 
-        var gewenstSubtype = Verenigingssubtype.Parse(request.Subtype);
+        var gewenstSubtype = VerenigingssubtypeCode.Parse(request.Subtype);
         CommandResult? commandResult = null;
         if (gewenstSubtype.IsFeitelijkeVereniging)
         {

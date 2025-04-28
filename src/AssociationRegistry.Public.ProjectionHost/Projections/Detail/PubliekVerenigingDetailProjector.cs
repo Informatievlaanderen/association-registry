@@ -855,8 +855,8 @@ public static class PubliekVerenigingDetailProjector
          {
              document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
              {
-                 Code = Verenigingssubtype.FeitelijkeVereniging.Code,
-                 Naam = Verenigingssubtype.FeitelijkeVereniging.Naam,
+                 Code = VerenigingssubtypeCode.FeitelijkeVereniging.Code,
+                 Naam = VerenigingssubtypeCode.FeitelijkeVereniging.Naam,
              };
 
              document.SubverenigingVan = null;
@@ -866,8 +866,8 @@ public static class PubliekVerenigingDetailProjector
     {
         document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
         {
-            Code = Verenigingssubtype.Subvereniging.Code,
-            Naam = Verenigingssubtype.Subvereniging.Naam,
+            Code = VerenigingssubtypeCode.Subvereniging.Code,
+            Naam = VerenigingssubtypeCode.Subvereniging.Naam,
         };
 
         document.SubverenigingVan = new PubliekVerenigingDetailDocument.Types.SubverenigingVan
@@ -901,8 +901,8 @@ public static class PubliekVerenigingDetailProjector
          {
              document.Verenigingssubtype = new PubliekVerenigingDetailDocument.Types.Verenigingssubtype
              {
-                 Code = Verenigingssubtype.NietBepaald.Code,
-                 Naam = Verenigingssubtype.NietBepaald.Naam,
+                 Code = VerenigingssubtypeCode.NietBepaald.Code,
+                 Naam = VerenigingssubtypeCode.NietBepaald.Naam,
              };
 
              document.SubverenigingVan = null;

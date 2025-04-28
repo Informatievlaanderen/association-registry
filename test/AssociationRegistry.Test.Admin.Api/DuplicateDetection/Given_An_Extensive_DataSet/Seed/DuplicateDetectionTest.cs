@@ -64,7 +64,7 @@ public class DuplicateDetectionTest
         {
             Naam = x.GeregistreerdeNaam,
             VerenigingsTypeCode = Verenigingstype.FeitelijkeVereniging.Code,
-            VerenigingssubtypeCode = Verenigingssubtype.NietBepaald.Code,
+            VerenigingssubtypeCode = VerenigingssubtypeCode.NietBepaald.Code,
             HoofdactiviteitVerenigingsloket = [],
             Locaties =
             [

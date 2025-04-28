@@ -109,7 +109,7 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     public Lidmaatschap VoegLidmaatschapToe(VoegLidmaatschapToeCommand.ToeTeVoegenLidmaatschap lidmaatschap)
     {
         Throw<LidmaatschapMagNietVerwijzenNaarEigenVereniging>.If(VCode == lidmaatschap.AndereVereniging);
-        Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(State.SubverenigingVan.AndereVereniging == lidmaatschap.AndereVereniging);
+        Throw<VerenigingKanGeenLidWordenWaarvanZijAlReedsSubverenigingIs>.If(State.Verenigingssubtype.IsSubverenigingVan(lidmaatschap.AndereVereniging));
 
         var toegevoegdLidmaatschap = State.Lidmaatschappen.VoegToe(lidmaatschap);
 

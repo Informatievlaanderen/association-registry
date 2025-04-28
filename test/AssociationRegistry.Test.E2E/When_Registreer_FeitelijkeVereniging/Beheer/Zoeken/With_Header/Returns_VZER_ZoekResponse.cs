@@ -12,6 +12,7 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Vereniging;
+using Vereniging.Mappers;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
@@ -53,7 +54,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Verenigingssubtype = AssociationRegistry.Vereniging.Verenigingssubtype.Default.Convert<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             Naam = Request.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,

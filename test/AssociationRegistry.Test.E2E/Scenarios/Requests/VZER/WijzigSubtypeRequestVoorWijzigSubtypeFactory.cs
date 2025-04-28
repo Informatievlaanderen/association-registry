@@ -25,7 +25,7 @@ public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<
     {
         var request = new WijzigSubtypeRequest
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCode.Subvereniging.Code,
             AndereVereniging = _scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
             Identificatie = "andere identificatie",
             Beschrijving = "andere beschrijving",

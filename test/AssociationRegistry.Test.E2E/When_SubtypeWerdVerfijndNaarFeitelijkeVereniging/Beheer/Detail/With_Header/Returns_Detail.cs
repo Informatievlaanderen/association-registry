@@ -34,8 +34,8 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
     {
         var expected = new Verenigingssubtype()
         {
-            Code = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-            Naam = Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam
+            Code = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Code,
+            Naam = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

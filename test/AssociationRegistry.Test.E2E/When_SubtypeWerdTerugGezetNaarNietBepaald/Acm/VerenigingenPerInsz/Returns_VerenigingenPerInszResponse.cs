@@ -50,8 +50,8 @@ public class Returns_VerenigingenPerInszResponse :
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
                     {
-                        Code = Verenigingssubtype.NietBepaald.Code,
-                        Naam = Verenigingssubtype.NietBepaald.Naam,
+                        Code = VerenigingssubtypeCode.NietBepaald.Code,
+                        Naam = VerenigingssubtypeCode.NietBepaald.Naam,
                     },
                     IsHoofdvertegenwoordigerVan = true,
                 },

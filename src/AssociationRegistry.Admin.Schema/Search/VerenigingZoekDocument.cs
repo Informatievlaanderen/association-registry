@@ -81,7 +81,7 @@ public class VerenigingZoekDocument
             public string Naam { get; init; } = null!;
         }
 
-        public class Verenigingssubtype : IVerenigingssubtype
+        public class Verenigingssubtype : IVerenigingssubtypeCode
         {
             public string Code { get; init; } = null!;
             public string Naam { get; init; } = null!;

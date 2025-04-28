@@ -3,6 +3,7 @@
 using FluentValidation;
 using Infrastructure.Validation;
 using RequestModels;
+using Vereniging;
 
 // ReSharper disable ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
 public class WijzigSubtypeRequestValidator : AbstractValidator<WijzigSubtypeRequest>
@@ -24,5 +25,5 @@ public class WijzigSubtypeRequestValidator : AbstractValidator<WijzigSubtypeRequ
     }
 
     private bool IsValidSubtype(string subtypeCode)
-        => Vereniging.Verenigingssubtype.IsValidSubtypeCode(subtypeCode);
+        => VerenigingssubtypeCode.IsValidSubtypeCode(subtypeCode);
 }

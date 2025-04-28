@@ -6,6 +6,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using ResponseModels;
 using Vereniging;
+using Vereniging.Mappers;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;
@@ -67,7 +68,7 @@ public class BeheerVerenigingDetailMapper
             CorresponderendeVCodes = vereniging.CorresponderendeVCodes,
             Verenigingstype = _verenigingstypeMapper.Map<Verenigingstype, Schema.Detail.Verenigingstype>(vereniging.Verenigingstype),
             Verenigingssubtype =
-                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtype>(vereniging.Verenigingssubtype),
+                _verenigingstypeMapper.MapSubtype<Verenigingssubtype, IVerenigingssubtypeCode>(vereniging.Verenigingssubtype),
             SubverenigingVan =
                 _verenigingstypeMapper.MapSubverenigingVan(
                     vereniging.Verenigingssubtype,

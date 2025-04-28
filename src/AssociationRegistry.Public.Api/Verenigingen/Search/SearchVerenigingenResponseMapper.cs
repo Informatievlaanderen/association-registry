@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Vereniging;
+using Vereniging.Mappers;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;

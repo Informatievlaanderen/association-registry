@@ -24,7 +24,7 @@ public class VerenigingenPerInszResponseTemplate
         int vertegenwoordigerId,
         string naam,
         Verenigingstype verenigingstype,
-        IVerenigingssubtype? verenigingssubtype,
+        IVerenigingssubtypeCode? verenigingssubtype,
         string status = VerenigingStatus.Actief,
         string[] corresponderendeVCodes = null,
         string kboNummer = "",

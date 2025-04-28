@@ -102,8 +102,8 @@ public class With_Same_Naam_And_Postcode
             ""naam"": ""{Verenigingstype.VZER.Naam}"",
         }},
         ""verenigingssubtype"": {{
-        ""code"": ""{Verenigingssubtype.Default.Code}"",
-        ""naam"": ""{Verenigingssubtype.Default.Naam}"",
+        ""code"": ""{VerenigingssubtypeCode.Default.Code}"",
+        ""naam"": ""{VerenigingssubtypeCode.Default.Naam}"",
       }},
       ""naam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",

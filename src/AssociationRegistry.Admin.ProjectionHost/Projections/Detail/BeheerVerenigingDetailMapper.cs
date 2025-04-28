@@ -158,13 +158,6 @@ public class BeheerVerenigingDetailMapper
             Naam = verenigingstype.Naam,
         };
 
-    public static Verenigingssubtype MapSubtype(AssociationRegistry.Vereniging.Verenigingssubtype verenigingssubtype)
-        => new()
-        {
-            Code = verenigingssubtype.Code,
-            Naam = verenigingssubtype.Naam,
-        };
-
     public static Sleutel MapKboSleutel(string kboNummer, string vCode)
         => new()
         {

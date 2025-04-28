@@ -7,7 +7,7 @@ using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Vereniging;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-
+using Vereniging.Mappers;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
@@ -275,11 +275,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = Verenigingstype.VZER.Code,
                             Naam = Verenigingstype.VZER.Naam,
                         },
-                        Verenigingssubtype = new Verenigingssubtype
-                        {
-                            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Naam,
-                            Code = AssociationRegistry.Vereniging.Verenigingssubtype.NietBepaald.Code,
-                        },
+                        Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                         HoofdactiviteitenVerenigingsloket = new[]
                         {
                             new HoofdactiviteitVerenigingsloket

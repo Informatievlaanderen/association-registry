@@ -4,6 +4,7 @@ using DecentraalBeheer.Subtype;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
+using Vereniging.Subtypes.Subvereniging;
 
 [DataContract]
 public class WijzigSubtypeRequest
@@ -51,6 +52,6 @@ public class WijzigSubtypeRequest
             VCode.Create(vCodeAsString),
             new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(
                 AndereVereniging is null ? null : VCode.Create(AndereVereniging!),
-                Identificatie is null ? null : SubtypeIdentificatie.Create(Identificatie),
-                Beschrijving is null ? null : SubtypeBeschrijving.Create(Beschrijving)));
+                Identificatie is null ? null : SubverenigingIdentificatie.Create(Identificatie),
+                Beschrijving is null ? null : SubverenigingBeschrijving.Create(Beschrijving)));
 }

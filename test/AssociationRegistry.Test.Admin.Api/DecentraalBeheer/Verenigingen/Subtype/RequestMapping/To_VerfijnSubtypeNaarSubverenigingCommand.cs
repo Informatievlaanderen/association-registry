@@ -6,6 +6,7 @@ using AutoFixture;
 using Common.AutoFixture;
 using FluentAssertions;
 using Vereniging;
+using Vereniging.Subtypes.Subvereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -20,7 +21,7 @@ public class To_WijzigSubtypeCommandTests
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCode.Subvereniging.Code,
             AndereVereniging = fixture.Create<VCode>(),
             Beschrijving = fixture.Create<string>(),
             Identificatie = fixture.Create<string>(),
@@ -31,8 +32,8 @@ public class To_WijzigSubtypeCommandTests
         command.Should().BeOfType(typeof(VerfijnSubtypeNaarSubverenigingCommand));
 
         command.VCode.Should().Be(vCode);
-        command.SubverenigingVan.Beschrijving.Should().BeEquivalentTo(SubtypeBeschrijving.Create(request.Beschrijving));
-        command.SubverenigingVan.Identificatie.Should().BeEquivalentTo(SubtypeIdentificatie.Create(request.Identificatie));
+        command.SubverenigingVan.Beschrijving.Should().BeEquivalentTo(SubverenigingBeschrijving.Create(request.Beschrijving));
+        command.SubverenigingVan.Identificatie.Should().BeEquivalentTo(SubverenigingIdentificatie.Create(request.Identificatie));
         command.SubverenigingVan.AndereVereniging.Should().Be(VCode.Create(request.AndereVereniging));
         command.SubverenigingVan.AndereVerenigingNaam.Should().BeEmpty();
     }
@@ -44,7 +45,7 @@ public class To_WijzigSubtypeCommandTests
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = Verenigingssubtype.Subvereniging.Code,
+            Subtype = VerenigingssubtypeCode.Subvereniging.Code,
             AndereVereniging = null,
             Beschrijving = null,
             Identificatie = null,

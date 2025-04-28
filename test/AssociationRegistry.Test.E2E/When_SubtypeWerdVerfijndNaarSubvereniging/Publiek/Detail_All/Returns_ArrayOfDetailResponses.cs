@@ -11,8 +11,10 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Vereniging;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
+using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
@@ -69,8 +71,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubv
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingssubtype.Subvereniging.Naam,
+                Code = VerenigingssubtypeCode.Subvereniging.Code,
+                Naam = VerenigingssubtypeCode.Subvereniging.Naam,
             },
             SubverenigingVan = new SubverenigingVan()
             {

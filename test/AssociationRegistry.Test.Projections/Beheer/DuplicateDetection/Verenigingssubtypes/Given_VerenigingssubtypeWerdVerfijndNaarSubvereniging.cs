@@ -9,5 +9,5 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarSubvereniging(DuplicateDete
 {
     [Fact]
     public void Verenigingsubtype_Is_Subvereniging()
-        => fixture.Result.VerenigingssubtypeCode.Should().Be(Verenigingssubtype.Subvereniging.Code);
+        => fixture.Result.VerenigingssubtypeCode.Should().Be(VerenigingssubtypeCode.Subvereniging.Code);
 }

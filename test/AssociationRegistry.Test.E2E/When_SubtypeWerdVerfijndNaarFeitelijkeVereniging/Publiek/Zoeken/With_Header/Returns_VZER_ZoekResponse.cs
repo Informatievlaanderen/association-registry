@@ -7,6 +7,8 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using Vereniging;
+using Vereniging.Mappers;
 using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
@@ -31,11 +33,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype
-        {
-            Naam = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Naam,
-            Code = AssociationRegistry.Vereniging.Verenigingssubtype.FeitelijkeVereniging.Code,
-        });
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>());
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
