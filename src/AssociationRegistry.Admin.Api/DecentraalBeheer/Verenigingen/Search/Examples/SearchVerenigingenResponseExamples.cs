@@ -6,7 +6,7 @@ using JsonLdContext;
 using Vereniging;
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
-
+using Vereniging.Mappers;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = ResponseModels.Lidmaatschap;
 using Locatie = ResponseModels.Locatie;
@@ -327,7 +327,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                             Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
                         },
-                        Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<Verenigingssubtype>(),
+                        Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
                         Lidmaatschappen = new[]
                         {
                             new Lidmaatschap()

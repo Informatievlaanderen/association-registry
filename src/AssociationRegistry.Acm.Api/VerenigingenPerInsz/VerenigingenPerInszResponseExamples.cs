@@ -3,6 +3,7 @@ namespace AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AcmBevraging;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
+using Vereniging.Mappers;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public class VerenigingenPerInszResponseExamples : IExamplesProvider<VerenigingenPerInszResponse>
@@ -22,7 +23,7 @@ public class VerenigingenPerInszResponseExamples : IExamplesProvider<Vereniginge
                     IsHoofdvertegenwoordigerVan = false,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Verenigingstype.VZER.Code,
                                                                                       Verenigingstype.VZER.Naam),
-                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<VerenigingenPerInszResponse.Verenigingssubtype>(),
+                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<VerenigingenPerInszResponse.Verenigingssubtype>(),
                     KboNummer = "",
                     VertegenwoordigerId = 0,
                 },

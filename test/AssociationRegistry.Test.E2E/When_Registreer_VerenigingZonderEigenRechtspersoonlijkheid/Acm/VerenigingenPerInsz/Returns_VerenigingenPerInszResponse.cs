@@ -7,6 +7,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
+using Vereniging.Mappers;
 using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Vereniging.Verenigingstype;
@@ -47,7 +48,7 @@ public class Returns_VerenigingenPerInszResponse :
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
-                    Verenigingssubtype =  VerenigingssubtypeCodering.Default.Convert<AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingssubtype>(),
+                    Verenigingssubtype =  VerenigingssubtypeCodering.Default.Map<AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingssubtype>(),
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],

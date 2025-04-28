@@ -12,7 +12,7 @@ using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using Vereniging.Mappers;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
@@ -64,7 +64,7 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVeren
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
-            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
             Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,

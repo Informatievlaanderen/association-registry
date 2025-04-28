@@ -6,6 +6,7 @@ using ResponseModels;
 using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
+using Vereniging.Mappers;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using Contactgegeven = ResponseModels.Contactgegeven;
@@ -173,7 +174,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                         Code = "VZER",
                         Naam = "Vereniging zonder eigen rechtspersoonlijkheid",
                     },
-                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<Verenigingssubtype>(),
+                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",

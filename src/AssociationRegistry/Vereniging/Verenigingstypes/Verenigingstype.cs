@@ -40,9 +40,3 @@ public class Verenigingstype : IVerenigingstype
     public static bool TypeIsVerenigingZonderEigenRechtspersoonlijkheid(Verenigingstype type)
         => type == FeitelijkeVereniging || type == VZER;
 }
-
-public interface IVerenigingstype
-{
-    string Code { get; init; }
-    string Naam { get; init; }
-}

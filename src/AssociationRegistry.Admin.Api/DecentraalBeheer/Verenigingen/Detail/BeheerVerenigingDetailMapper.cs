@@ -6,6 +6,7 @@ using Hosts.Configuration.ConfigurationBindings;
 using Infrastructure;
 using ResponseModels;
 using Vereniging;
+using Vereniging.Mappers;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;
 using AdresVerwijzing = ResponseModels.AdresVerwijzing;

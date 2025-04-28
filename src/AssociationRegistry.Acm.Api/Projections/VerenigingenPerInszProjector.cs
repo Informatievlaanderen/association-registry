@@ -5,6 +5,7 @@ using Marten;
 using Marten.Events;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
+using Vereniging.Mappers;
 using VerenigingenPerInsz;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 using Verenigingssubtype = Schema.VerenigingenPerInsz.Verenigingssubtype;
@@ -65,7 +66,7 @@ public static class VerenigingenPerInszProjector
         {
             FeitelijkeVerenigingWerdGeregistreerd => null,
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
         };
@@ -353,7 +354,7 @@ public static class VerenigingenPerInszProjector
                 AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>();
             docs.Add(verenigingenPerInszDocument);
         }
 
@@ -373,7 +374,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Convert<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -394,7 +395,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -415,7 +416,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.SubverenigingVan.Convert<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.SubverenigingVan.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }

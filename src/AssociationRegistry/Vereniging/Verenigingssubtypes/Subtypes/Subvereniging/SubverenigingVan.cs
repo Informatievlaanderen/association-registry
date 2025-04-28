@@ -34,9 +34,6 @@ public record SubverenigingVan()
             AndereVerenigingNaam = @event.AndereVerenigingNaam,
         };
 
-    public static SubverenigingVan Create(VCode vCode)
-        => new();
-
     public IEvent[] Wijzig(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {
         IEvent[] events = [];

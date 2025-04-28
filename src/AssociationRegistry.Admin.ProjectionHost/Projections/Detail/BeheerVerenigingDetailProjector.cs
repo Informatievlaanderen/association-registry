@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Schema;
 using Schema.Detail;
 using Vereniging;
-
+using Vereniging.Mappers;
 using Contactgegeven = Schema.Detail.Contactgegeven;
 using Doelgroep = Schema.Detail.Doelgroep;
 using IEvent = Marten.Events.IEvent;
@@ -72,7 +72,7 @@ public class BeheerVerenigingDetailProjector
             JsonLdMetadataType = JsonLdType.FeitelijkeVereniging.Type,
             VCode = feitelijkeVerenigingWerdGeregistreerd.Data.VCode,
             Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER),
-            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>(),
             Naam = feitelijkeVerenigingWerdGeregistreerd.Data.Naam,
             KorteNaam = feitelijkeVerenigingWerdGeregistreerd.Data.KorteNaam,
             KorteBeschrijving = feitelijkeVerenigingWerdGeregistreerd.Data.KorteBeschrijving,
@@ -836,24 +836,24 @@ public class BeheerVerenigingDetailProjector
     {
         document.Verenigingstype = BeheerVerenigingDetailMapper.MapVerenigingstype(AssociationRegistry.Vereniging.Verenigingstype.VZER);
 
-        document.Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
+        document.Verenigingssubtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();
         document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdTerugGezetNaarNietBepaald> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
         document.SubverenigingVan = null;
     }
 
     public static void Apply(IEvent<VerenigingssubtypeWerdVerfijndNaarSubvereniging> @event, BeheerVerenigingDetailDocument document)
     {
-        document.Verenigingssubtype = VerenigingssubtypeCodering.SubverenigingVan.Convert<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
+        document.Verenigingssubtype = VerenigingssubtypeCodering.SubverenigingVan.Map<AssociationRegistry.Admin.Schema.Detail.Verenigingssubtype>();;
 
         document.SubverenigingVan = new SubverenigingVan()
         {

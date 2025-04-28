@@ -5,6 +5,7 @@ using Marten;
 using Marten.Events;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
+using Vereniging.Mappers;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;
 
 public static class VerenigingDocumentProjector
@@ -27,7 +28,7 @@ public static class VerenigingDocumentProjector
             Naam = werdGeregistreerd.Naam,
             Status = VerenigingStatus.Actief,
             VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
-            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
             KboNummer = string.Empty,
         };
 

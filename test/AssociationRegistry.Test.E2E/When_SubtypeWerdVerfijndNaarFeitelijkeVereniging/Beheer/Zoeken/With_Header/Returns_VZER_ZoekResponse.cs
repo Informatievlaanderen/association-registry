@@ -14,6 +14,7 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Vereniging;
+using Vereniging.Mappers;
 using Weasel.Postgresql.Tables.Partitioning;
 using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
@@ -41,7 +42,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.FeitelijkeVereniging.Convert<Verenigingssubtype>());
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.FeitelijkeVereniging.Map<Verenigingssubtype>());
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

@@ -10,7 +10,7 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
-
+using Vereniging.Mappers;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Public.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
@@ -51,7 +51,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
                 Code = Verenigingstype.VZER.Code,
                 Naam = Verenigingstype.VZER.Naam,
             },
-            Verenigingssubtype = VerenigingssubtypeCodering.Default.Convert<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
             Naam = Request.Naam,
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
