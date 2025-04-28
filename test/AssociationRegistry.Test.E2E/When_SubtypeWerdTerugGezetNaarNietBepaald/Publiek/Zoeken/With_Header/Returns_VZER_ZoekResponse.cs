@@ -34,7 +34,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<ZetSubtypeNaarNietBepaaldCo
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>());
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>());
     }
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

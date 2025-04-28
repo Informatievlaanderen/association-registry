@@ -7,6 +7,11 @@ using Exceptions;
 using Framework;
 using Marten.Schema;
 using SocialMedias;
+using Subtypes.Default;
+using Subtypes.FeitelijkeVereniging;
+using Subtypes.NietBepaald;
+using Subtypes.NoSubtype;
+using Subtypes.Subvereniging;
 using TelefoonNummers;
 
 public record VerenigingState : IHasVersion
@@ -122,7 +127,7 @@ public record VerenigingState : IHasVersion
         => new()
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = new DefaultSubverenigingSubtype(),
+            Verenigingssubtype = new DefaultSubtype(),
             VCode = VCode.Hydrate(@event.VCode),
             Naam = VerenigingsNaam.Hydrate(@event.Naam),
             KorteNaam = @event.KorteNaam,
@@ -783,7 +788,7 @@ public record VerenigingState : IHasVersion
         => this with
         {
             Verenigingstype = Verenigingstype.VZER,
-            Verenigingssubtype = new DefaultSubverenigingSubtype(),
+            Verenigingssubtype = new DefaultSubtype(),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging @event)
@@ -795,7 +800,7 @@ public record VerenigingState : IHasVersion
     public VerenigingState Apply(VerenigingssubtypeWerdTerugGezetNaarNietBepaald @event)
         => this with
         {
-            Verenigingssubtype = new NietBepaaldSubverenigingSubtype(),
+            Verenigingssubtype = new NietBepaaldSubtype(),
         };
 
     public VerenigingState Apply(VerenigingssubtypeWerdVerfijndNaarSubvereniging @event)

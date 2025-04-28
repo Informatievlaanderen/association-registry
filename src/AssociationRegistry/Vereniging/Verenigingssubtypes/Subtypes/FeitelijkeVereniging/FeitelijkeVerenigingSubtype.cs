@@ -1,12 +1,12 @@
-namespace AssociationRegistry.Vereniging;
+namespace AssociationRegistry.Vereniging.Subtypes.FeitelijkeVereniging;
 
-using DecentraalBeheer.Subtype;
-using EventFactories;
-using Events;
+using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.EventFactories;
+using AssociationRegistry.Events;
 
 public record FeitelijkeVerenigingSubtype : IVerenigingssubtype
 {
-    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.FeitelijkeVereniging;
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCode.FeitelijkeVereniging;
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this;

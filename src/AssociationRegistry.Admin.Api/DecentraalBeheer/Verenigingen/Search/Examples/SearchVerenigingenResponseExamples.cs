@@ -327,7 +327,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                             Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
                         },
-                        Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
+                        Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                         Lidmaatschappen = new[]
                         {
                             new Lidmaatschap()

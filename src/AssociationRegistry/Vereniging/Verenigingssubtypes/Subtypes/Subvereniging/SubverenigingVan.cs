@@ -1,8 +1,8 @@
-﻿namespace AssociationRegistry.Vereniging;
+﻿namespace AssociationRegistry.Vereniging.Subtypes.Subvereniging;
 
-using DecentraalBeheer.Subtype;
-using EventFactories;
-using Events;
+using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.EventFactories;
+using AssociationRegistry.Events;
 
 public record SubverenigingVan()
 {

@@ -15,8 +15,8 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarSubvereniging(
     {
         fixture.Result.Verenigingssubtype.Should().BeEquivalentTo(new Verenigingssubtype()
         {
-            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
-            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
+            Code = VerenigingssubtypeCode.Subvereniging.Code,
+            Naam = VerenigingssubtypeCode.Subvereniging.Naam,
         });
     }
 

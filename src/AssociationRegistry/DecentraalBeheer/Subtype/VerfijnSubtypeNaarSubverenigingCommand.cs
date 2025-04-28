@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Subtype;
 
 using Vereniging;
+using Vereniging.Subtypes.Subvereniging;
 
 public record VerfijnSubtypeNaarSubverenigingCommand(
     VCode VCode,
@@ -10,8 +11,8 @@ public record VerfijnSubtypeNaarSubverenigingCommand(
     {
         public record SubverenigingVan(
             VCode? AndereVereniging,
-            SubtypeIdentificatie? Identificatie,
-            SubtypeBeschrijving? Beschrijving)
+            SubverenigingIdentificatie? Identificatie,
+            SubverenigingBeschrijving? Beschrijving)
         {
             public string AndereVerenigingNaam { get; set; } = string.Empty;
         };

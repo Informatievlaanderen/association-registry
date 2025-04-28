@@ -38,7 +38,7 @@ public class VerenigingstypeMapperV2 : IVerenigingstypeMapper
 
     public TDestination? MapSubverenigingVan<TDestination, TSource>(TSource? subtype, Func<TDestination> map) where TSource : IVerenigingssubtypeCode, new()
     {
-        if (subtype is null || subtype.Code != VerenigingssubtypeCodering.SubverenigingVan.Code)
+        if (subtype is null || subtype.Code != VerenigingssubtypeCode.Subvereniging.Code)
         {
             return default;
         }

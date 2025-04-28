@@ -12,6 +12,7 @@ using FluentAssertions;
 using Resources;
 using Vereniging;
 using Vereniging.Exceptions;
+using Vereniging.Subtypes.Subvereniging;
 using Xunit;
 using Xunit.Categories;
 
@@ -52,8 +53,8 @@ public class Given_The_Same_Subtype
     [Fact]
     public async Task With_Detail_Changes_Then_SubverenigingDetailsWerdenGewijzigd()
     {
-        var subtypeIdentificatie = SubtypeIdentificatie.Create(_fixture.Create<string>());
-        var subtypeBeschrijving = SubtypeBeschrijving.Create(_fixture.Create<string>());
+        var subtypeIdentificatie = SubverenigingIdentificatie.Create(_fixture.Create<string>());
+        var subtypeBeschrijving = SubverenigingBeschrijving.Create(_fixture.Create<string>());
 
         var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, subtypeIdentificatie, subtypeBeschrijving));
 
@@ -67,7 +68,7 @@ public class Given_The_Same_Subtype
     [Fact]
     public async Task With_No_Changes_Then_Nothing()
     {
-       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubtypeIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
+       var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubverenigingIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
 
         await _commandHandler.Handle(new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, _fixture.Create<CommandMetadata>()));
 

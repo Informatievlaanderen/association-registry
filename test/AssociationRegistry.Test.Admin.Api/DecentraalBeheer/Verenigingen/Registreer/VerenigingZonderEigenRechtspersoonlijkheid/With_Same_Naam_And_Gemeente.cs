@@ -105,8 +105,8 @@ public class With_Same_Naam_And_Gemeente
         ""naam"": ""{Verenigingstype.VZER.Naam}"",
       }},
         ""verenigingssubtype"": {{
-        ""code"": ""{VerenigingssubtypeCodering.Default.Code}"",
-        ""naam"": ""{VerenigingssubtypeCodering.Default.Naam}"",
+        ""code"": ""{VerenigingssubtypeCode.Default.Code}"",
+        ""naam"": ""{VerenigingssubtypeCode.Default.Naam}"",
       }},
       ""naam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam}"",
       ""korteNaam"": ""{VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam}"",

@@ -1,7 +1,7 @@
-namespace AssociationRegistry.Vereniging;
+namespace AssociationRegistry.Vereniging.Subtypes.NoSubtype;
 
-using DecentraalBeheer.Subtype;
-using Events;
+using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.Events;
 
 public record NoSubtype : IVerenigingssubtype
 {

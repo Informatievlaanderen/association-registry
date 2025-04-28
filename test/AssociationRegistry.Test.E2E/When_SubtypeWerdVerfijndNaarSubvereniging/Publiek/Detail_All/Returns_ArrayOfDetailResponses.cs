@@ -71,8 +71,8 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubv
             },
             Verenigingssubtype = new Verenigingssubtype
             {
-                Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
-                Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
+                Code = VerenigingssubtypeCode.Subvereniging.Code,
+                Naam = VerenigingssubtypeCode.Subvereniging.Naam,
             },
             SubverenigingVan = new SubverenigingVan()
             {

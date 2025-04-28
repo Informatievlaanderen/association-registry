@@ -25,5 +25,5 @@ public class WijzigSubtypeRequestValidator : AbstractValidator<WijzigSubtypeRequ
     }
 
     private bool IsValidSubtype(string subtypeCode)
-        => VerenigingssubtypeCodering.IsValidSubtypeCode(subtypeCode);
+        => VerenigingssubtypeCode.IsValidSubtypeCode(subtypeCode);
 }

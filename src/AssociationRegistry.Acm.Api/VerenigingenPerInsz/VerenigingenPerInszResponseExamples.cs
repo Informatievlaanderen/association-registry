@@ -23,7 +23,7 @@ public class VerenigingenPerInszResponseExamples : IExamplesProvider<Vereniginge
                     IsHoofdvertegenwoordigerVan = false,
                     Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(Verenigingstype.VZER.Code,
                                                                                       Verenigingstype.VZER.Naam),
-                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<VerenigingenPerInszResponse.Verenigingssubtype>(),
+                    Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<VerenigingenPerInszResponse.Verenigingssubtype>(),
                     KboNummer = "",
                     VertegenwoordigerId = 0,
                 },

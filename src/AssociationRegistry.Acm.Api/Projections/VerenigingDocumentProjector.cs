@@ -28,7 +28,7 @@ public static class VerenigingDocumentProjector
             Naam = werdGeregistreerd.Naam,
             Status = VerenigingStatus.Actief,
             VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam),
-            Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
+            Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             KboNummer = string.Empty,
         };
 
@@ -118,11 +118,7 @@ public static class VerenigingDocumentProjector
 
         verenigingDocument.VerenigingsType = new(AssociationRegistry.Vereniging.Verenigingstype.VZER.Code, AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
-        {
-            Code = VerenigingssubtypeCodering.Default.Code,
-            Naam = VerenigingssubtypeCodering.Default.Naam,
-        };
+        verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
 
         return verenigingDocument;
     }
@@ -131,11 +127,7 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
-        {
-            Code = VerenigingssubtypeCodering.FeitelijkeVereniging.Code,
-            Naam = VerenigingssubtypeCodering.FeitelijkeVereniging.Naam,
-        };
+        verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>();
 
         return verenigingDocument;
     }
@@ -144,11 +136,7 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
-        {
-            Code = VerenigingssubtypeCodering.NietBepaald.Code,
-            Naam = VerenigingssubtypeCodering.NietBepaald.Naam,
-        };
+        verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>();
 
         return verenigingDocument;
     }
@@ -157,11 +145,7 @@ public static class VerenigingDocumentProjector
     {
         var verenigingDocument = await ops.GetVerenigingDocument(@event.StreamKey!);
 
-        verenigingDocument.Verenigingssubtype = new Verenigingssubtype
-        {
-            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
-            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam,
-        };
+        verenigingDocument.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
 
         return verenigingDocument;
     }

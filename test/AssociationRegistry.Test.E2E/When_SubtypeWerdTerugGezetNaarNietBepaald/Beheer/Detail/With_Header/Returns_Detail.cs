@@ -36,8 +36,8 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, Wijz
     {
         var expected = new Verenigingssubtype()
         {
-            Code = AssociationRegistry.Vereniging.VerenigingssubtypeCodering.NietBepaald.Code,
-            Naam = AssociationRegistry.Vereniging.VerenigingssubtypeCodering.NietBepaald.Naam,
+            Code = AssociationRegistry.Vereniging.VerenigingssubtypeCode.NietBepaald.Code,
+            Naam = AssociationRegistry.Vereniging.VerenigingssubtypeCode.NietBepaald.Naam,
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

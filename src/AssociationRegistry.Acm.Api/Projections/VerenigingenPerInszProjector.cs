@@ -66,7 +66,7 @@ public static class VerenigingenPerInszProjector
         {
             FeitelijkeVerenigingWerdGeregistreerd => null,
 
-            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>(),
+            VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd => VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
 
             _ => throw new ArgumentOutOfRangeException(nameof(werdGeregistreerd)),
         };
@@ -354,7 +354,7 @@ public static class VerenigingenPerInszProjector
                 AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.Default.Map<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>();
             docs.Add(verenigingenPerInszDocument);
         }
 
@@ -374,7 +374,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.FeitelijkeVereniging.Map<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -395,7 +395,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }
@@ -416,7 +416,7 @@ public static class VerenigingenPerInszProjector
                 verenigingenPerInszDocument.Verenigingen.Single(
                     vereniging => vereniging.VCode == @event.StreamKey!);
 
-            vereniging.Verenigingssubtype = VerenigingssubtypeCodering.SubverenigingVan.Map<Verenigingssubtype>();
+            vereniging.Verenigingssubtype = VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>();
 
             docs.Add(verenigingenPerInszDocument);
         }

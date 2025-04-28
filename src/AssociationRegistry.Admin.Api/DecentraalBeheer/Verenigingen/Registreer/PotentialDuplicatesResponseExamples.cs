@@ -28,7 +28,7 @@ public class PotentialDuplicatesResponseExamples : IExamplesProvider<PotentialDu
                             Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                             Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam
                         },
-                        Verenigingssubtype: VerenigingssubtypeCodering.NietBepaald.Map<DuplicaatVereniging.Types.Verenigingssubtype>(),
+                        Verenigingssubtype: VerenigingssubtypeCode.NietBepaald.Map<DuplicaatVereniging.Types.Verenigingssubtype>(),
                         Naam: "Naam",
                         KorteNaam: "Korte naam",
                         [

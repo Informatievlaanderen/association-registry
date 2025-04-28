@@ -17,7 +17,7 @@ public class To_ZetSubtypeTerugNaarNietBepaaldCommand
 
         var request = new WijzigSubtypeRequest()
         {
-            Subtype = VerenigingssubtypeCodering.NietBepaald.Code,
+            Subtype = VerenigingssubtypeCode.NietBepaald.Code,
         };
 
         var vCode = fixture.Create<VCode>();

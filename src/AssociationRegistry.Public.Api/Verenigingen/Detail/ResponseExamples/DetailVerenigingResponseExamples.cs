@@ -174,7 +174,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Publie
                         Code = "VZER",
                         Naam = "Vereniging zonder eigen rechtspersoonlijkheid",
                     },
-                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
+                    Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",

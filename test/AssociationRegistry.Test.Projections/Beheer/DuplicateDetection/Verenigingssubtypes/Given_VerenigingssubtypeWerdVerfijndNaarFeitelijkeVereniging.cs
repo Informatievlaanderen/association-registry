@@ -9,5 +9,5 @@ public class Given_VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging(Duplic
 {
     [Fact]
     public void Verenigingsubtype_Is_NietBepaald()
-        => fixture.Result.VerenigingssubtypeCode.Should().Be(VerenigingssubtypeCodering.FeitelijkeVereniging.Code);
+        => fixture.Result.VerenigingssubtypeCode.Should().Be(VerenigingssubtypeCode.FeitelijkeVereniging.Code);
 }

@@ -36,8 +36,8 @@ public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wijzi
     {
         var expected = new Verenigingssubtype()
         {
-            Code = VerenigingssubtypeCodering.SubverenigingVan.Code,
-            Naam = VerenigingssubtypeCodering.SubverenigingVan.Naam
+            Code = VerenigingssubtypeCode.Subvereniging.Code,
+            Naam = VerenigingssubtypeCode.Subvereniging.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);

@@ -216,7 +216,7 @@ public class DetailVerenigingResponseExamples : IMultipleExamplesProvider<Detail
                         Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
                         Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                     },
-                    Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
+                    Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                     Naam = "FWA De vrolijke BA’s",
                     KorteNaam = "DVB",
                     KorteBeschrijving = "De vereniging van de vrolijke BA's",

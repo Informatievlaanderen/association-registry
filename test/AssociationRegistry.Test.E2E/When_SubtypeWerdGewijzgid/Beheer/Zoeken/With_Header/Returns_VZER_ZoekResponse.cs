@@ -34,7 +34,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
-        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCodering.SubverenigingVan.Map<Verenigingssubtype>());
+        vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>());
         vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
             AndereVereniging = _testContext.Request.AndereVereniging!,

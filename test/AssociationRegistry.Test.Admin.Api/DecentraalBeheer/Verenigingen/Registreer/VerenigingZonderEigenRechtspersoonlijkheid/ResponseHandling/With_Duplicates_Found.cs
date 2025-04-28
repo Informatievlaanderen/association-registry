@@ -75,10 +75,10 @@ public class With_Duplicates_Found
 
         mogelijkeDuplicateVerenigingen.Should()
                                       .AllSatisfy(x => x.Verenigingssubtype.Code.Should()
-                                                        .Be(VerenigingssubtypeCodering.NietBepaald.Code))
+                                                        .Be(VerenigingssubtypeCode.NietBepaald.Code))
                                       .And
                                       .AllSatisfy(x => x.Verenigingssubtype.Naam.Should()
-                                                        .Be(VerenigingssubtypeCodering.NietBepaald.Naam));
+                                                        .Be(VerenigingssubtypeCode.NietBepaald.Naam));
     }
 
     private static Mock<IMessageBus> SetupRegistreerVZERCommandHandling(Fixture fixture)
@@ -93,8 +93,8 @@ public class With_Duplicates_Found
             },
             Verenigingssubtype = new DuplicaatVereniging.Types.Verenigingssubtype()
             {
-                Code = VerenigingssubtypeCodering.NietBepaald.Code,
-                Naam = VerenigingssubtypeCodering.NietBepaald.Naam,
+                Code = VerenigingssubtypeCode.NietBepaald.Code,
+                Naam = VerenigingssubtypeCode.NietBepaald.Naam,
             },
         }));
 

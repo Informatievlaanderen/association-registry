@@ -1,13 +1,13 @@
-namespace AssociationRegistry.Vereniging;
+namespace AssociationRegistry.Vereniging.Subtypes.Default;
 
-using DecentraalBeheer.Subtype;
-using EventFactories;
-using Events;
+using AssociationRegistry.DecentraalBeheer.Subtype;
+using AssociationRegistry.EventFactories;
+using AssociationRegistry.Events;
 
-public record NietBepaaldSubverenigingSubtype : IVerenigingssubtype
+public record DefaultSubtype : IVerenigingssubtype
 {
 
-    public IVerenigingssubtypeCode Code => VerenigingssubtypeCodering.NietBepaald;
+    public IVerenigingssubtypeCode Code => VerenigingssubtypeCode.Default;
 
     public IVerenigingssubtype Apply(SubverenigingRelatieWerdGewijzigd @event)
         => this;
@@ -19,7 +19,8 @@ public record NietBepaaldSubverenigingSubtype : IVerenigingssubtype
         => [EventFactory.SubtypeWerdVerfijndNaarFeitelijkeVereniging(vCode)];
 
     public IEvent[] ZetSubtypeNaarNietBepaald(VCode vCode)
-        => [];
+        => [EventFactory.SubtypeWerdTerugGezetNaarNietBepaald(vCode)];
+
 
     public IEvent[] VerFijnNaarSubvereniging(VCode vCode, VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan subverenigingVan)
     {

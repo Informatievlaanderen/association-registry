@@ -275,7 +275,7 @@ public class SearchVerenigingenResponseExamples : IMultipleExamplesProvider<Sear
                             Code = Verenigingstype.VZER.Code,
                             Naam = Verenigingstype.VZER.Naam,
                         },
-                        Verenigingssubtype = VerenigingssubtypeCodering.NietBepaald.Map<Verenigingssubtype>(),
+                        Verenigingssubtype = VerenigingssubtypeCode.NietBepaald.Map<Verenigingssubtype>(),
                         HoofdactiviteitenVerenigingsloket = new[]
                         {
                             new HoofdactiviteitVerenigingsloket
