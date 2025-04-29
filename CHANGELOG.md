@@ -1,3 +1,15 @@
+# [8.235.0](https://github.com/informatievlaanderen/association-registry/compare/v8.234.1...v8.235.0) (2025-04-29)
+
+
+### Bug Fixes
+
+* or-2385 set subtype to default on registration and migration in acm ([0ffbb44](https://github.com/informatievlaanderen/association-registry/commit/0ffbb44a154c5566221ec1f19742502a067536e7))
+
+
+### Features
+
+* or-2813 dont run vzer migration on startup ([d90327d](https://github.com/informatievlaanderen/association-registry/commit/d90327df421bca2c7a1436be4fb149a1946b4fc3))
+
 ## [8.234.1](https://github.com/informatievlaanderen/association-registry/compare/v8.234.0...v8.234.1) (2025-04-24)
 
 
