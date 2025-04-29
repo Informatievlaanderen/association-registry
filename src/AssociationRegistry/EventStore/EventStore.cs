@@ -58,19 +58,31 @@ public class EventStore : IEventStore
             if(maxSequence < 1)
                 _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-            var eventsAgain = session.Events.FetchStream(aggregateId);
+            var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
             //return new StreamActionResult(maxSequence, streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
+            session.EjectAllPendingChanges();
+
+            if (!metadata.ExpectedVersion.HasValue)
+            {
+                session.Events.Append(aggregateId, events);
+
+                await session.SaveChangesAsync(cancellationToken);
+
+                var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+
+                return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
+            }
+
             var eventsDiff =
                 await session.Events.FetchStreamAsync(aggregateId, fromVersion: metadata.ExpectedVersion.Value + 1,
                                                       token: cancellationToken);
 
             if (_conflictResolver.IsAllowedPostConflict(events, eventsDiff))
             {
-                session.EjectAllPendingChanges();
 
                 var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length + eventsDiff.Count,
                                                          events);
@@ -82,9 +94,8 @@ public class EventStore : IEventStore
                 if(maxSequence < 1)
                     _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-                var eventsAgain = session.Events.FetchStream(aggregateId);
+                var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
-                //return new StreamActionResult(maxSequence, streamAction.Version);
             }
 
             throw new UnexpectedAggregateVersionException();
