@@ -1,3 +1,10 @@
+## [8.235.1](https://github.com/informatievlaanderen/association-registry/compare/v8.235.0...v8.235.1) (2025-04-30)
+
+
+### Bug Fixes
+
+* or-2813 undo removing configure kafka consumer ([60c2401](https://github.com/informatievlaanderen/association-registry/commit/60c2401ef13ca344ccce107f9c378260cab19e9b))
+
 # [8.235.0](https://github.com/informatievlaanderen/association-registry/compare/v8.234.1...v8.235.0) (2025-04-29)
 
 
