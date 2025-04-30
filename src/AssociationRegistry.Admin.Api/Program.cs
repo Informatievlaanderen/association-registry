@@ -113,6 +113,7 @@ public class Program
         ConfigureKestrel(builder);
         ConfigureWebHost(builder);
         ConfigureServices(builder);
+        ConfigureHostedServices(builder);
 
         builder.Host.ApplyOaktonExtensions();
         builder.Host.UseLamar();
@@ -650,6 +651,11 @@ public class Program
                .AddTransient<IBeheerVerenigingDetailQuery, BeheerVerenigingDetailQuery>()
                .AddTransient<IBeheerVerenigingenZoekQuery, BeheerVerenigingenZoekQuery>()
                .AddTransient<IGetNamesForVCodesQuery, GetNamesForVCodesQuery>();
+    }
+
+    private static void ConfigureHostedServices(WebApplicationBuilder builder)
+    {
+        ConfigureAddresskafkaConsumer(builder);
     }
 
     private static void ConfigureAddresskafkaConsumer(WebApplicationBuilder builder)
