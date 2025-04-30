@@ -8,6 +8,7 @@ public class PostgreSqlOptionsSection
     public string? Password { get; set; }
     public string? Username { get; set; }
     public string? Schema { get; set; }
+    public bool IncludeErrorDetail { get; set; } = false;
 
     public bool IsComplete
         => !string.IsNullOrWhiteSpace(Host) &&
@@ -19,5 +20,6 @@ public class PostgreSqlOptionsSection
         => $"host={Host};" +
            $"database={Database};" +
            $"password={Password};" +
-           $"username={Username};";
+           $"username={Username};" +
+           $"Include Error Detail={IncludeErrorDetail}";
 }
