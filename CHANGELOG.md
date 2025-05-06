@@ -1,3 +1,16 @@
+# [8.236.0](https://github.com/informatievlaanderen/association-registry/compare/v8.235.1...v8.236.0) (2025-05-06)
+
+
+### Bug Fixes
+
+* or-2406 use aggregate version when checking for concurrency conflicts ([1b0f669](https://github.com/informatievlaanderen/association-registry/commit/1b0f669a490a69aef07e30dee866bfb67b307406))
+
+
+### Features
+
+* or-2406 add error detail logging for db queries ([663f65d](https://github.com/informatievlaanderen/association-registry/commit/663f65dc9665b3089016208e6df395ed40f7cde8))
+* or-2406 add metric for logging aggregate loaded with or without exp version ([d423bdb](https://github.com/informatievlaanderen/association-registry/commit/d423bdbb4ef7500080e7f250e05f9ee04cb68c79))
+
 ## [8.235.1](https://github.com/informatievlaanderen/association-registry/compare/v8.235.0...v8.235.1) (2025-04-30)
 
 
