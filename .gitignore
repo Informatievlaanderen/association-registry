@@ -18,6 +18,7 @@ src/*/Internal
 .paket/
 dotCover.Output/
 dotCover.Output.html
+.continue/
 
 [Pp]ackages/
 [Pp]aket-files/

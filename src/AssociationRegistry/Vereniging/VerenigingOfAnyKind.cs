@@ -372,6 +372,4 @@ public class VerenigingOfAnyKind : VerenigingsBase, IHydrate<VerenigingState>
     {
         State = obj;
     }
-
-    public long Version => State.Version;
 }

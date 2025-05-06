@@ -30,6 +30,7 @@ public class Given_An_Event
 
         await eventStore.Save(
             streamId,
+            0,
             new CommandMetadata(
                 Initiator: "SomeInitiator",
                 tijdstip,

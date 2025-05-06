@@ -104,4 +104,15 @@ public static class AdminApiEndpoints
 
         return JsonConvert.DeserializeObject<TResponse>(readAsStringAsync);
     }
+
+    public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient authenticatedClient)
+    {
+        var client = source.Server.CreateClient();
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+        return client;
+    }
 }

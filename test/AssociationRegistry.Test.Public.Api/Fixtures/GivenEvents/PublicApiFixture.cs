@@ -125,9 +125,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
 
-        foreach (var @event in eventsToAdd)
+        foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
         {
-            await eventStore.Save(vCode, metadata, CancellationToken.None, @event);
+            await eventStore.Save(vCode, i, metadata, CancellationToken.None, @event);
         }
 
         var retry = Policy

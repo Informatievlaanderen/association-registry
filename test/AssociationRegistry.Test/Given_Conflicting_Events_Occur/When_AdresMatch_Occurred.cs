@@ -47,11 +47,11 @@ public class When_AdresMatch_Occurred
 
         var vCode = _fixture.Create<string>();
 
-        await eventStore.Save(vCode, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(vCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd, adresWerdOvergenomenUitAdressenregister);
 
-        var result = await eventStore.Save(vCode, session,
+        var result = await eventStore.Save(vCode, 2, session,
                                            new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid(), ExpectedVersion: 1),
                                            CancellationToken.None,
                                            locatieWerdToegevoegd);
