@@ -94,7 +94,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         => true;
 
     public async Task<StreamActionResult> SaveNew(Vereniging vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
-        => throw new NotImplementedException();
+        => await Save(vereniging, messageMetadata, cancellationToken);
 
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
