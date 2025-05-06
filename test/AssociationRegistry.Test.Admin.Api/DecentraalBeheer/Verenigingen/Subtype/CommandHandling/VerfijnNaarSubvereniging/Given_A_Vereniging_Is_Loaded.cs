@@ -30,7 +30,7 @@ public class Given_A_Vereniging_Is_Loaded
         await Assert.ThrowsAnyAsync<Exception>(() => commandHandler.Handle(
                                                    new CommandEnvelope<VerfijnSubtypeNaarSubverenigingCommand>(command, fixture.Create<CommandMetadata>())));
 
-        verenigingRepositoryMock.Verify(x => x.Load<Vereniging>(scenario.VCode, It.IsAny<long?>(), false, false), Times.Once);
-        verenigingRepositoryMock.Verify(x => x.Load<VerenigingMetRechtspersoonlijkheid>(rechtspersoonScenario.VCode, It.IsAny<long?>(), false, false), Times.Once);
+        verenigingRepositoryMock.Verify(x => x.Load<Vereniging>(scenario.VCode, It.IsAny<CommandMetadata>(), false, false), Times.Once);
+        verenigingRepositoryMock.Verify(x => x.Load<VerenigingMetRechtspersoonlijkheid>(rechtspersoonScenario.VCode, It.IsAny<CommandMetadata>(), false, false), Times.Once);
     }
 }

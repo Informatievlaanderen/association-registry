@@ -17,7 +17,7 @@ public class VoegVertegenwoordigerToeCommandHandler
         CommandEnvelope<VoegVertegenwoordigerToeCommand> envelope,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata.ExpectedVersion)
+        var vereniging = await _repository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata)
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanGeenVertegenwoordigersToevoegen>();
 

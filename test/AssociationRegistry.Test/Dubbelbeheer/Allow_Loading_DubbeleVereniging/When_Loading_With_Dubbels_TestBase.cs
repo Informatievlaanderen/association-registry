@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.Allow_Loading_DubbeleVereniging;
 
+using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
@@ -27,7 +28,7 @@ public class When_Loading_With_Dubbels_TestBase
         }
         finally
         {
-            repositoryMock.Verify(x => x.Load<VerenigingOfAnyKind>(It.IsAny<VCode>(), It.IsAny<long?>(), false, true), times: Times.Once);
+            repositoryMock.Verify(x => x.Load<VerenigingOfAnyKind>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), false, true), times: Times.Once);
         }
     }
 }

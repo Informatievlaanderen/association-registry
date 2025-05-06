@@ -33,7 +33,7 @@ public class WijzigLocatieCommandHandler
     {
         var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
-            envelope.Metadata.ExpectedVersion);
+            envelope.Metadata);
 
 
         var (locatieId, locatietype, isPrimair, naam, adres, adresId) = envelope.Command.TeWijzigenLocatie;

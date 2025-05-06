@@ -31,7 +31,7 @@
 //                                             It.IsAny<CancellationToken>()))
 //            .ReturnsAsync(VerenigingVolgensKboResult.GeldigeVereniging(new VerenigingVolgensKbo()));
 //
-//         verenigingsRepository.Setup(x => x.Load(KboNummer.Create(kboNummer), It.IsAny<long?>()))
+//         verenigingsRepository.Setup(x => x.Load(KboNummer.Create(kboNummer), It.IsAny<CommandMetadata>()))
 //                              .ThrowsAsync(new Exception());
 //
 //         magdaRegistreerInschrijvingService.Setup(x => x.)

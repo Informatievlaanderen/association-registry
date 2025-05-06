@@ -34,15 +34,15 @@ public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(
 
     private async Task VerwerkWeigeringDubbelDoorAuthentiekeVereniging(VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommand command, CancellationToken cancellationToken)
     {
-        var vereniging = await repository.Load<Vereniging>(command.VCode, allowDubbeleVereniging:true, allowVerwijderdeVereniging:true);
+        var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+
+        var vereniging = await repository.Load<Vereniging>(command.VCode, metadata, allowDubbeleVereniging:true, allowVerwijderdeVereniging:true);
 
         vereniging.VerwerkWeigeringDubbelDoorAuthentiekeVereniging(command.VCodeAuthentiekeVereniging);
 
         await repository.Save(
             vereniging,
-            new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                SystemClock.Instance.GetCurrentInstant(),
-                                Guid.NewGuid()),
+            metadata,
             cancellationToken);
     }
 }

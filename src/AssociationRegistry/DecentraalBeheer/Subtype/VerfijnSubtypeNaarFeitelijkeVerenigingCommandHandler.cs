@@ -17,7 +17,7 @@ public class VerfijnSubtypeNaarFeitelijkeVerenigingCommandHandler
         var vereniging =
             await _verenigingRepository.Load<Vereniging>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata.ExpectedVersion);
+                envelope.Metadata);
 
         vereniging.VerfijnSubtypeNaarFeitelijkeVereniging();
 

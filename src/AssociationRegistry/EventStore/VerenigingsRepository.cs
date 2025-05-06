@@ -2,6 +2,7 @@
 
 using Framework;
 using Marten;
+using Metrics;
 using Vereniging;
 using Vereniging.Exceptions;
 
@@ -41,10 +42,12 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, vereniging.Version, session, metadata, cancellationToken, events);
     }
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, expectedVersion);
+        RepositoryMetrics.RecordAggregateLoaded(metadata.ExpectedVersion.HasValue, metadata.Initiator);
+
+        var verenigingState = await _eventStore.Load<VerenigingState>(vCode, metadata.ExpectedVersion);
 
         if (!allowVerwijderdeVereniging)
             verenigingState.ThrowIfVerwijderd();
@@ -58,9 +61,11 @@ public class VerenigingsRepository : IVerenigingsRepository
         return vereniging;
     }
 
-    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata)
     {
-        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer, expectedVersion);
+        RepositoryMetrics.RecordAggregateLoaded(metadata.ExpectedVersion.HasValue, metadata.Initiator);
+
+        var verenigingState = await _eventStore.Load<VerenigingState>(kboNummer, metadata.ExpectedVersion);
         var verenigingMetRechtspersoonlijkheid = new VerenigingMetRechtspersoonlijkheid();
         verenigingMetRechtspersoonlijkheid.Hydrate(verenigingState);
 

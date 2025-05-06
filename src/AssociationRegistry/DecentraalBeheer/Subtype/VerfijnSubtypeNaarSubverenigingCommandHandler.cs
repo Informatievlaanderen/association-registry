@@ -20,14 +20,14 @@ public class VerfijnSubtypeNaarSubverenigingCommandHandler
         var vereniging =
             await _verenigingRepository.Load<Vereniging>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata.ExpectedVersion);
+                envelope.Metadata);
 
         if (envelope.Command.SubverenigingVan.AndereVereniging is not null)
         {
             try
             {
                 var verenigingMetRechtspersoonlijkheid = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
-                    VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging));
+                    VCode.Create(envelope.Command.SubverenigingVan.AndereVereniging), envelope.Metadata);
 
                 envelope.Command.SubverenigingVan.AndereVerenigingNaam = verenigingMetRechtspersoonlijkheid.Naam;
             }

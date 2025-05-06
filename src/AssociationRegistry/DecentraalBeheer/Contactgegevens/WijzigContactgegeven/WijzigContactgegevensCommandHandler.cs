@@ -18,7 +18,7 @@ public class WijzigContactgegevenCommandHandler
     {
         var vereniging = await _verenigingRepository.Load<VerenigingOfAnyKind>(
             VCode.Create(envelope.Command.VCode),
-            envelope.Metadata.ExpectedVersion);
+            envelope.Metadata);
 
         var (contacgegevenId, waarde, beschrijving, isPrimair) = envelope.Command.Contactgegeven;
         vereniging.WijzigContactgegeven(contacgegevenId, waarde, beschrijving, isPrimair);

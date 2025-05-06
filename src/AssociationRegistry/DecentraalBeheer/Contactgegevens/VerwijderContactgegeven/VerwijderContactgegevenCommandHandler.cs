@@ -16,7 +16,7 @@ public class VerwijderContactgegevenCommandHandler
         CommandEnvelope<VerwijderContactgegevenCommand> message,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Create(message.Command.VCode), message.Metadata);
 
         vereniging.VerwijderContactgegeven(message.Command.ContactgegevenId);
 

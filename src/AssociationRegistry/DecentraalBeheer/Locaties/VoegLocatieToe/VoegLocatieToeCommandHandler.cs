@@ -32,7 +32,7 @@ public class VoegLocatieToeCommandHandler
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata.ExpectedVersion);
+                envelope.Metadata);
 
         var locatie = envelope.Command.Locatie;
         var toegevoegdeLocatie = vereniging.VoegLocatieToe(locatie);

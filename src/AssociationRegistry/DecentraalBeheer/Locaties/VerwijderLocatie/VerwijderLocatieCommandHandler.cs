@@ -14,7 +14,7 @@ public class VerwijderLocatieCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<VerwijderLocatieCommand> message, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Create(message.Command.VCode), message.Metadata);
 
         vereniging.VerwijderLocatie(message.Command.LocatieId);
 

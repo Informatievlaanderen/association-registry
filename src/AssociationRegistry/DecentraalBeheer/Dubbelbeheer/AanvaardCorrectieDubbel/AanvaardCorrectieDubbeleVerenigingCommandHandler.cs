@@ -10,16 +10,14 @@ public class AanvaardCorrectieDubbeleVerenigingCommandHandler(
 {
     public async Task Handle(AanvaardCorrectieDubbeleVerenigingCommand command, CancellationToken cancellationToken)
     {
+        var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+        var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode, metadata);
 
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode);
+        vereniging.AanvaardCorrectieDubbeleVereniging(command.VCodeDubbeleVereniging);
 
-            vereniging.AanvaardCorrectieDubbeleVereniging(command.VCodeDubbeleVereniging);
-
-            await repository.Save(
-                vereniging,
-                new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                    SystemClock.Instance.GetCurrentInstant(),
-                                    Guid.NewGuid()),
-                cancellationToken);
+        await repository.Save(
+            vereniging,
+            metadata,
+            cancellationToken);
     }
 }

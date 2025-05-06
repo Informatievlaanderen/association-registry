@@ -57,7 +57,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         CancellationToken cancellationToken)
         => await Save(vereniging, metadata, cancellationToken);
 
-    public async Task<TVereniging> Load<TVereniging>(VCode vCode, long? expectedVersion, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
+    public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
         _actualLoadingDubbel = allowDubbeleVereniging;
@@ -69,7 +69,7 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
         return await Task.FromResult(vereniging);
     }
 
-    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, long? expectedVersion)
+    public async Task<VerenigingMetRechtspersoonlijkheid> Load(KboNummer kboNummer, CommandMetadata metadata)
     {
         _invocationsLoad.Add(new InvocationLoad(kboNummer, typeof(VerenigingMetRechtspersoonlijkheid)));
 

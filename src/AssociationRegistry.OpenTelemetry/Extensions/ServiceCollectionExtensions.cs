@@ -7,6 +7,7 @@ using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;
 using global::OpenTelemetry.Trace;
+using Metrics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -97,11 +98,15 @@ public static class ServiceCollectionExtensions
                                                       .ConfigureResource(configureResource)
                                                       .AddMeter($"Wolverine:{serviceName}")
                                                       .AddMeter("Marten")
+                                                      .AddMeter(RepositoryMetrics.MeterName)
                                                       .AddRuntimeInstrumentation()
                                                       .AddAspNetCoreInstrumentation()
                                                       .AddHttpClientInstrumentation()
-                                                      .AddOtlpExporter(options =>
+                                                      .AddOtlpExporter((options, readerOptions) =>
                                                        {
+                                                           readerOptions.PeriodicExportingMetricReaderOptions = new PeriodicExportingMetricReaderOptions
+                                                               {ExportIntervalMilliseconds = 10 * 1000};
+
                                                            options.Endpoint = new Uri(collectorUrl);
                                                            options.Protocol = OtlpExportProtocol.Grpc;
                                                        }))

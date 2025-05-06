@@ -18,7 +18,7 @@ public class WijzigContactgegevenFromKboCommandHandler
     {
         var vereniging = await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(
             VCode.Create(envelope.Command.VCode),
-            envelope.Metadata.ExpectedVersion);
+            envelope.Metadata);
 
         var (contactgegevenId, beschrijving, isPrimair) = envelope.Command.Contactgegeven;
         vereniging.WijzigContactgegeven(contactgegevenId, beschrijving, isPrimair);

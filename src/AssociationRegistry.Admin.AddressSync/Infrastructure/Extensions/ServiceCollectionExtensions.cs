@@ -86,8 +86,7 @@ public static class ServiceCollectionExtensions
 
                                                    opts.RegisterDocumentType<LocatieLookupDocument>();
 
-                                                   opts.Schema.For<LocatieLookupDocument>()
-                                                       .UseNumericRevisions(true)
+                                                   opts.Schema.For<LocatieLookupDocument>().UseNumericRevisions(true)
                                                        .UseOptimisticConcurrency(false);
 
                                                    if (serviceProvider.GetRequiredService<IHostEnvironment>().IsDevelopment())

@@ -17,7 +17,7 @@ public class StopVerenigingCommandHandler
 
     public async Task<CommandResult> Handle(CommandEnvelope<StopVerenigingCommand> message, CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
+        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata)
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden>();
 

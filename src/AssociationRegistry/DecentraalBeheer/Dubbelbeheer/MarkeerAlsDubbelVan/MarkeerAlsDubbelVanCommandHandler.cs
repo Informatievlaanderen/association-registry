@@ -28,7 +28,7 @@ public class MarkeerAlsDubbelVanCommandHandler
         CommandEnvelope<MarkeerAlsDubbelVanCommand> message,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingsRepository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion);
+        var vereniging = await _verenigingsRepository.Load<Vereniging>(message.Command.VCode, message.Metadata);
 
         await ThrowIfInvalidAuthentiekeVereniging(message);
 

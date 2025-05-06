@@ -12,7 +12,7 @@ public class WijzigBasisgegevensCommandHandler
         IClock clock,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata.ExpectedVersion);
+        var vereniging = await repository.Load<Vereniging>(VCode.Create(message.Command.VCode), message.Metadata);
 
         HandleNaam(vereniging, message.Command.Naam);
         HandleKorteNaam(vereniging, message.Command.KorteNaam);

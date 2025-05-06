@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
+using AssociationRegistry.Framework;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
@@ -31,7 +32,7 @@ public class Given_An_Exception
         // ignore the assert throw, only interested in the veryfies
         await Assert.ThrowsAsync<NullReferenceException>(async () => await sut.Handle(command, CancellationToken.None));
 
-        repositoryMock.Verify(x => x.Load<Vereniging>(It.IsAny<VCode>(), It.IsAny<int?>(), true, true), times: Times.Exactly(5));
+        repositoryMock.Verify(x => x.Load<Vereniging>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), true, true), times: Times.Exactly(5));
         notifier.Verify(x => x.Notify(It.IsAny<VerwerkWeigeringDubbelDoorAuthentiekeVerenigingGefaald>()), times: Times.Exactly(4));
     }
 }
