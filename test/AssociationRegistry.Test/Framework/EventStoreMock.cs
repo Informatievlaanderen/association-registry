@@ -39,7 +39,7 @@ public class EventStoreMock : IEventStore
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events)
-        => await Save(aggregateId, 0, metadata, cancellationToken, events);
+        => await Save(aggregateId, aggregateVersion, metadata, cancellationToken, events);
 
     public Task<T> Load<T>(string aggregateId, long? expectedVersion) where T : class, IHasVersion, new()
     {
