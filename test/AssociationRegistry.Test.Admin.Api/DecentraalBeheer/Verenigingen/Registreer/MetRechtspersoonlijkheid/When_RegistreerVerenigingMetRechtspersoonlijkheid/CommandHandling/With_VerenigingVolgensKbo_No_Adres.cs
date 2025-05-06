@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using ResultNet;
 using Xunit;
 using Xunit.Categories;
@@ -51,6 +53,7 @@ public class With_VerenigingVolgensKbo_No_Adres
                 _verenigingVolgensKbo
             ),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IDocumentSession>(),
             NullLogger<RegistreerVerenigingUitKboCommandHandler>.Instance);
 
         commandHandler

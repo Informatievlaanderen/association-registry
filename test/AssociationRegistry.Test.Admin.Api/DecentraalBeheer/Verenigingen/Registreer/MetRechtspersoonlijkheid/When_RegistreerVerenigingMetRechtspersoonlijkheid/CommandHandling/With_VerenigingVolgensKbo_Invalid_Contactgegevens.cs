@@ -10,7 +10,9 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
+using Marten;
 using Microsoft.Extensions.Logging;
+using Moq;
 using ResultNet;
 using Xunit;
 using Xunit.Categories;
@@ -54,6 +56,7 @@ public class With_VerenigingVolgensKbo_Invalid_Contactgegevens
                 _verenigingVolgensKbo
             ),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

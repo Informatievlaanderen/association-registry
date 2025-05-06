@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
+using Marten;
 using Microsoft.Extensions.Logging;
+using Moq;
 using ResultNet;
 using Xunit;
 using Xunit.Categories;
@@ -53,6 +55,7 @@ public class With_VerenigingVolgensKbo_Invalid_Adres
             _vCodeService,
             new MagdaGeefVerenigingNumberFoundServiceMock(_verenigingVolgensKbo),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 
