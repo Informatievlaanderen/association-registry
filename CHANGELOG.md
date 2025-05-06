@@ -1,3 +1,10 @@
+## [8.237.1](https://github.com/informatievlaanderen/association-registry/compare/v8.237.0...v8.237.1) (2025-05-06)
+
+
+### Bug Fixes
+
+* or-2406 use quickappend and savenew consistently ([cbfbd3c](https://github.com/informatievlaanderen/association-registry/commit/cbfbd3c4e2b63a1d9e43386bbe9d760699e682e2))
+
 # [8.237.0](https://github.com/informatievlaanderen/association-registry/compare/v8.236.0...v8.237.0) (2025-05-06)
 
 
