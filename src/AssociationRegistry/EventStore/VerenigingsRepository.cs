@@ -42,6 +42,16 @@ public class VerenigingsRepository : IVerenigingsRepository
         return await _eventStore.Save(vereniging.VCode, vereniging.Version, session, metadata, cancellationToken, events);
     }
 
+    public async Task<StreamActionResult> SaveNew(Vereniging vereniging, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken)
+    {
+        var events = vereniging.UncommittedEvents.ToArray();
+
+        if (!events.Any())
+            return StreamActionResult.Empty;
+
+        return await _eventStore.SaveNew(vereniging.VCode, vereniging.Version, session, metadata, cancellationToken, events);
+    }
+
     public async Task<TVereniging> Load<TVereniging>(VCode vCode, CommandMetadata metadata, bool allowVerwijderdeVereniging = false, bool allowDubbeleVereniging = false)
         where TVereniging : IHydrate<VerenigingState>, new()
     {
@@ -91,4 +101,5 @@ public class VerenigingsRepository : IVerenigingsRepository
 
     public async Task<bool> Exists(KboNummer kboNummer)
         => await _eventStore.Exists(kboNummer);
+
 }

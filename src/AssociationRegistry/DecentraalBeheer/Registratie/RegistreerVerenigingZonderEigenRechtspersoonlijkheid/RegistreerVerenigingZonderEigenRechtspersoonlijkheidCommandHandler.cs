@@ -83,7 +83,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler
             await SynchroniseerLocatie(cancellationToken, teSynchroniserenLocatie, vereniging, vCode);
         }
 
-        var result = await _verenigingsRepository.Save(vereniging, _session ,message.Metadata, cancellationToken);
+        var result = await _verenigingsRepository.SaveNew(vereniging, _session ,message.Metadata, cancellationToken);
 
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler)} end");
 

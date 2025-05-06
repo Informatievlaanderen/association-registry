@@ -26,4 +26,5 @@ public interface IEventStore
     Task<T?> Load<T>(KboNummer kboNummer, long? expectedVersion) where T : class, IHasVersion, new();
     Task<bool> Exists(VCode vCode);
     Task<bool> Exists(KboNummer kboNummer);
+    Task<StreamActionResult> SaveNew(VCode aggregateId, long verenigingVersion, IDocumentSession session, CommandMetadata metadata, CancellationToken cancellationToken, IEvent[] events);
 }

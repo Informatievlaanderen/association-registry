@@ -125,7 +125,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
                 },
             ],
             HoofdactiviteitenVerenigingsloket = ["BIAG", "BWWC"],
-            Werkingsgebieden = ["BE25", "BE25535002"],
+            //Werkingsgebieden = ["BE25", "BE25535002"],
         };
 
         var response = (await apiSetup.AdminApiHost.Scenario(s =>

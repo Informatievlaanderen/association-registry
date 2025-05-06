@@ -17,6 +17,7 @@ public class EventStore : IEventStore
     {
         public const long NewStream = 0;
     }
+
     public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
     private readonly EventConflictResolver _conflictResolver;
@@ -41,6 +42,27 @@ public class EventStore : IEventStore
         return await Save(aggregateId, aggregateVersion, session, metadata, cancellationToken, events);
     }
 
+    public async Task<StreamActionResult> SaveNew(
+        VCode aggregateId,
+        long aggregateVersion,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        IEvent[] events)
+    {
+        SetHeaders(metadata, session);
+
+        TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());
+
+        var streamAction = session.Events.StartStream(aggregateId, events);
+
+        await session.SaveChangesAsync(cancellationToken);
+
+        var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
+
+        return new StreamActionResult(maxSequence, events.Length);
+    }
+
     public async Task<StreamActionResult> Save(
         string aggregateId,
         long aggregateVersion,
@@ -61,10 +83,11 @@ public class EventStore : IEventStore
 
             var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
-            if(maxSequence < 1)
+            if (maxSequence < 1)
                 _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
             var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
             //return new StreamActionResult(maxSequence, streamAction.Version);
         }
@@ -85,10 +108,11 @@ public class EventStore : IEventStore
 
                 var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
-                if(maxSequence < 1)
+                if (maxSequence < 1)
                     _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
                 var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
+
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
                 //return new StreamActionResult(maxSequence, streamAction.Version);
             }
