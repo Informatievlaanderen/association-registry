@@ -96,7 +96,7 @@ public class Given_Incorrect_VCode_In_The_Message
                 VCodeDubbeleVereniging = _autoFixture.Create<VCode>(),
             };
 
-        await eventstore.Save(aanvaardDubbeleVerenigingMessage.VCode, new CommandMetadata("test", new Instant(), Guid.NewGuid(), null),
+        await eventstore.Save(aanvaardDubbeleVerenigingMessage.VCode, 0, new CommandMetadata("test", new Instant(), Guid.NewGuid(), null),
                               CancellationToken.None, new VerenigingWerdGestopt(new DateOnly()));
 
         return aanvaardDubbeleVerenigingMessage;

@@ -35,6 +35,7 @@ public class WijzigLocatieCommandHandler
             VCode.Create(envelope.Command.VCode),
             envelope.Metadata.ExpectedVersion);
 
+
         var (locatieId, locatietype, isPrimair, naam, adres, adresId) = envelope.Command.TeWijzigenLocatie;
         vereniging.WijzigLocatie(locatieId, naam, locatietype, isPrimair, adresId, adres);
 

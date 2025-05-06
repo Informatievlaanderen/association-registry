@@ -9,12 +9,14 @@ public interface IEventStore
 {
     Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events);
 
     Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,

@@ -27,17 +27,19 @@ public class EventStore : IEventStore
 
     public async Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken = default,
         params IEvent[] events)
     {
         await using var session = _documentStore.LightweightSession();
 
-        return await Save(aggregateId, session, metadata, cancellationToken, events);
+        return await Save(aggregateId, aggregateVersion, session, metadata, cancellationToken, events);
     }
 
     public async Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
@@ -49,7 +51,7 @@ public class EventStore : IEventStore
 
             TryLockForKboNumber(aggregateId, session, events.FirstOrDefault());
 
-            var streamAction = AppendEvents(session, aggregateId, events, metadata.ExpectedVersion);
+            var streamAction = AppendEvents(session, aggregateId, events, aggregateVersion);
 
             await session.SaveChangesAsync(cancellationToken);
 
@@ -58,21 +60,21 @@ public class EventStore : IEventStore
             if(maxSequence < 1)
                 _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-            var eventsAgain = session.Events.FetchStream(aggregateId);
+            var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
             //return new StreamActionResult(maxSequence, streamAction.Version);
         }
         catch (EventStreamUnexpectedMaxEventIdException)
         {
             var eventsDiff =
-                await session.Events.FetchStreamAsync(aggregateId, fromVersion: metadata.ExpectedVersion.Value + 1,
+                await session.Events.FetchStreamAsync(aggregateId, fromVersion: aggregateVersion + 1,
                                                       token: cancellationToken);
 
             if (_conflictResolver.IsAllowedPostConflict(events, eventsDiff))
             {
                 session.EjectAllPendingChanges();
 
-                var streamAction = session.Events.Append(aggregateId, metadata.ExpectedVersion.Value + events.Length + eventsDiff.Count,
+                var streamAction = session.Events.Append(aggregateId, aggregateVersion + events.Length + eventsDiff.Count,
                                                          events);
 
                 await session.SaveChangesAsync(cancellationToken);
@@ -82,7 +84,7 @@ public class EventStore : IEventStore
                 if(maxSequence < 1)
                     _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
-                var eventsAgain = session.Events.FetchStream(aggregateId);
+                var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
                 //return new StreamActionResult(maxSequence, streamAction.Version);
             }

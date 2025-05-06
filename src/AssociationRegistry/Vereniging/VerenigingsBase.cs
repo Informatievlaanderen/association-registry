@@ -12,6 +12,7 @@ public abstract class VerenigingsBase
     public string Naam => State.Naam;
 
     public IEnumerable<IEvent> UncommittedEvents { get; private set; } = new List<IEvent>();
+    public long Version => State.Version;
 
     public void ClearEvents()
     {

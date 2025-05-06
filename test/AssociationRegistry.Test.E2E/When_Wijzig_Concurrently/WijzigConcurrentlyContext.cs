@@ -1,0 +1,38 @@
+namespace AssociationRegistry.Test.E2E.When_Wijzig_Concurrently;
+
+using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
+using AssociationRegistry.Test.E2E.Scenarios.Requests;
+using AssociationRegistry.Vereniging;
+using Marten.Events;
+using Xunit;
+
+public class WijzigConcurrentlyContext: IAsyncLifetime
+{
+    public FullBlownApiSetup ApiSetup { get; }
+    public FeitelijkeVerenigingWerdGeregistreerdScenario WerdGeregistreerdScenario { get; private set; }
+    public WijzigLocatieRequest Request => RequestResult.Request;
+    public VCode VCode => RequestResult.VCode;
+
+    public WijzigConcurrentlyContext(FullBlownApiSetup apiSetup)
+    {
+        ApiSetup = apiSetup;
+    }
+
+    public async Task InitializeAsync()
+    {
+        WerdGeregistreerdScenario = new();
+
+        await ApiSetup.ExecuteGiven(WerdGeregistreerdScenario);
+        RequestResult = await new WijzigLocatieRequestFactory(WerdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+    }
+
+    public RequestResult<WijzigLocatieRequest> RequestResult { get; set; }
+
+    public async Task DisposeAsync()
+    {
+
+    }
+}

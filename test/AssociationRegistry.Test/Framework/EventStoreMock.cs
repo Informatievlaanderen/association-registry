@@ -22,6 +22,7 @@ public class EventStoreMock : IEventStore
 
     public Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         CommandMetadata metadata,
         CancellationToken cancellationToken = default,
         params IEvent[] events)
@@ -33,11 +34,12 @@ public class EventStoreMock : IEventStore
 
     public async Task<StreamActionResult> Save(
         string aggregateId,
+        long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
         CancellationToken cancellationToken,
         params IEvent[] events)
-        => await Save(aggregateId, metadata, cancellationToken, events);
+        => await Save(aggregateId, 0, metadata, cancellationToken, events);
 
     public Task<T> Load<T>(string aggregateId, long? expectedVersion) where T : class, IHasVersion, new()
     {
