@@ -93,6 +93,9 @@ public class VerenigingRepositoryMock : IVerenigingsRepository
     public async Task<bool> Exists(KboNummer kboNummer)
         => true;
 
+    public async Task<StreamActionResult> SaveNew(Vereniging vereniging, IDocumentSession session, CommandMetadata messageMetadata, CancellationToken cancellationToken)
+        => throw new NotImplementedException();
+
     public void ShouldHaveLoaded<TVereniging>(params string[] keys) where TVereniging : IHydrate<VerenigingState>, new()
     {
         _invocationsLoad.Should().BeEquivalentTo(

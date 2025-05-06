@@ -62,4 +62,13 @@ public class EventStoreMock : IEventStore
 
     public async Task<bool> Exists(KboNummer kboNummer)
         => throw new NotImplementedException();
+
+    public async Task<StreamActionResult> SaveNew(
+        VCode aggregateId,
+        long verenigingVersion,
+        IDocumentSession session,
+        CommandMetadata metadata,
+        CancellationToken cancellationToken,
+        IEvent[] events)
+        => throw new NotImplementedException();
 }
