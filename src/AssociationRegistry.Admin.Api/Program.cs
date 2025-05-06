@@ -51,6 +51,8 @@ using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
+using Marten.Exceptions;
+using Marten.Internal.Sessions;
 using MessageHandling.Sqs.AddressMatch;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -82,6 +84,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Vereniging;
+using Weasel.Core.Migrations;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 using ProblemDetailsOptions = Be.Vlaanderen.Basisregisters.BasicApiProblem.ProblemDetailsOptions;
 
@@ -173,6 +176,21 @@ public class Program
     {
         await ArchiveAfdelingen(app);
         await RegistreerOntbrekendeInschrijvingen(app, logger);
+        await LogPendingDatabaseChanges(app, logger);
+    }
+
+    private static async Task LogPendingDatabaseChanges(WebApplication app, ILogger<Program> logger)
+    {
+        try
+        {
+            await using var session = app.Services.GetRequiredService<IDocumentSession>();
+            await session.DocumentStore.Storage.Database.AssertDatabaseMatchesConfigurationAsync();
+            logger.LogInformation("✅ MartenDb Schema is up to date");
+        }
+        catch (DatabaseValidationException ex)
+        {
+            logger.LogWarning("⚠️ MartenDb Schema has pending changes: {Changes}", ex.Message);
+        }
     }
 
     private static async Task RegistreerOntbrekendeInschrijvingen(WebApplication app, ILogger<Program> logger)
