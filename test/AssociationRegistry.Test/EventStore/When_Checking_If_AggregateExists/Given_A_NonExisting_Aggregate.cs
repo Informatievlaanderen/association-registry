@@ -49,7 +49,7 @@ public class Given_A_NonExisting_Aggregate
 
         var nonExistingVCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(verenigingWerdGeregistreerd.VCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(verenigingWerdGeregistreerd.VCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd);
 

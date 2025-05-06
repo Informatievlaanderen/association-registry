@@ -47,7 +47,7 @@ public class Given_An_Existing_Aggregate
         var eventStore = new EventStore(documentStore, _conflictResolver, NullLogger<EventStore>.Instance);
         var verenigingWerdGeregistreerd = (IVerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd)context.Resolve(verenigingType);
 
-        await eventStore.Save(verenigingWerdGeregistreerd.VCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(verenigingWerdGeregistreerd.VCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd);
 
