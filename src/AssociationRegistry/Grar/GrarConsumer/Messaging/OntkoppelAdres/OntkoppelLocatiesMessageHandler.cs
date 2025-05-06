@@ -16,15 +16,15 @@ public class OntkoppelLocatiesMessageHandler
 
     public async Task Handle(OntkoppelLocatiesMessage message, CancellationToken cancellationToken)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode), allowDubbeleVereniging: true);
+        var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(message.VCode), metadata, allowDubbeleVereniging: true);
 
         foreach (var teOntkoppelenLocatieId in message.TeOntkoppelenLocatieIds)
         {
             vereniging.OntkoppelLocatie(teOntkoppelenLocatieId);
         }
 
-        await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                                               SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
-                                                               vereniging.Version), cancellationToken);
+        await _repository.Save(vereniging, metadata with { ExpectedVersion = vereniging.Version }, cancellationToken);
     }
 }

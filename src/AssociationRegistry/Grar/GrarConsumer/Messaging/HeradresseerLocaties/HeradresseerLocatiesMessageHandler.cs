@@ -21,15 +21,14 @@ public class HeradresseerLocatiesMessageHandler
 
     public async Task Handle(HeradresseerLocatiesMessage doorFusieMessage, CancellationToken cancellationToken)
     {
-        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(doorFusieMessage.VCode), allowDubbeleVereniging: true);
+        var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+        var vereniging = await _repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(doorFusieMessage.VCode), metadata, allowDubbeleVereniging: true);
 
         var locatiesWithAddresses = await FetchAddressesForLocaties(doorFusieMessage.TeHeradresserenLocaties, cancellationToken);
 
         await vereniging.HeradresseerLocaties(locatiesWithAddresses, doorFusieMessage.idempotencyKey, _client);
 
-        await _repository.Save(vereniging, new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                                               SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
-                                                               vereniging.Version), cancellationToken);
+        await _repository.Save(vereniging, metadata with { ExpectedVersion = vereniging.Version }, cancellationToken);
     }
 
     private async Task<List<LocatieWithAdres>> FetchAddressesForLocaties(List<TeHeradresserenLocatie> locatiesMetAdres, CancellationToken cancellationToken)

@@ -18,15 +18,15 @@ public class SyncAdresLocatiesCommandHandler(
 
         try
         {
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(locatiesCommand.VCode), allowDubbeleVereniging: true);
+            var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+
+            var vereniging = await repository.Load<VerenigingOfAnyKind>(VCode.Hydrate(locatiesCommand.VCode), metadata, allowDubbeleVereniging: true);
 
             await vereniging.SyncAdresLocaties(locatiesCommand.LocatiesWithAdres, locatiesCommand.IdempotenceKey, grarClient);
 
             await repository.Save(
                 vereniging,
-                new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                    SystemClock.Instance.GetCurrentInstant(),
-                                    Guid.NewGuid()),
+                metadata,
                 cancellationToken);
         }
         catch (Exception ex)

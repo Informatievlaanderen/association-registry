@@ -27,6 +27,6 @@ public class Given_A_Vereniging_Is_Loaded
         // we don't care if it throws, we want to check if the vereniging is correctly loaded
         await Assert.ThrowsAnyAsync<Exception>(() => commandHandler.Handle(new CommandEnvelope<ZetSubtypeTerugNaarNietBepaaldCommand>(command, fixture.Create<CommandMetadata>())));
 
-        verenigingRepositoryMock.Verify(x => x.Load<Vereniging>(scenario.VCode, It.IsAny<long?>(), false, false), Times.Once);
+        verenigingRepositoryMock.Verify(x => x.Load<Vereniging>(scenario.VCode, It.IsAny<CommandMetadata>(), false, false), Times.Once);
     }
 }

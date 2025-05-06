@@ -17,7 +17,7 @@ public class WijzigLidmaatschapCommandHandler
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata.ExpectedVersion);
+                envelope.Metadata);
 
         vereniging.WijzigLidmaatschap(envelope.Command.Lidmaatschap);
 

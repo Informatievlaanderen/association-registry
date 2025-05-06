@@ -4,6 +4,7 @@ using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
+using Common.Framework;
 using Events;
 using EventStore;
 using FluentAssertions;
@@ -28,7 +29,7 @@ public class Given_A_Wrong_Type
             (dynamic)verenigingWerdGeregistreerd);
 
         var repo = new VerenigingsRepository(eventStoreMock);
-        var loadMethod = () => repo.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(verenigingWerdGeregistreerd.VCode), expectedVersion: null);
+        var loadMethod = () => repo.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty);
         await loadMethod.Should().ThrowAsync<ActieIsNietToegestaanVoorVerenigingstype>();
     }
 }

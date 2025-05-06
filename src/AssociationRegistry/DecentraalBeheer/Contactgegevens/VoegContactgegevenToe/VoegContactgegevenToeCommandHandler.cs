@@ -17,7 +17,7 @@ public class VoegContactgegevenToeCommandHandler
         CancellationToken cancellationToken = default)
     {
         var vereniging =
-            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata);
 
        var contactgegeven = vereniging.VoegContactgegevenToe(envelope.Command.Contactgegeven);
 

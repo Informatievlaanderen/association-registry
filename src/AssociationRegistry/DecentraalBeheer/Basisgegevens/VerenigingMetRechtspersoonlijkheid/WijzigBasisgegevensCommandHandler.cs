@@ -12,7 +12,7 @@ public class WijzigBasisgegevensCommandHandler
     {
         var vereniging =
             await repository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(message.Command.VCode),
-                                                                      message.Metadata.ExpectedVersion);
+                                                                      message.Metadata);
 
         HandleRoepnaam(vereniging, message.Command.Roepnaam);
         HandleKorteBeschrijving(vereniging, message.Command.KorteBeschrijving);

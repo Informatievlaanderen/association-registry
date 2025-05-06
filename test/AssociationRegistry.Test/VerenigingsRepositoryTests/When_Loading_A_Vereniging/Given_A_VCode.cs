@@ -9,6 +9,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
+using Common.Framework;
 using FluentAssertions;
 using Xunit;
 using Xunit.Categories;
@@ -29,7 +30,7 @@ public class Given_A_VCode
 
         var repo = new VerenigingsRepository(eventStoreMock);
 
-        var feteitelijkeVerenging = await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), expectedVersion: null);
+        var feteitelijkeVerenging = await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty);
 
         feteitelijkeVerenging
            .Should()

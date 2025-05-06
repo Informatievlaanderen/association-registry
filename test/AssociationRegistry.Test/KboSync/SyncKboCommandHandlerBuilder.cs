@@ -85,7 +85,7 @@ public class SyncKboCommandHandlerBuilder
 
     public SyncKboCommandHandlerBuilder MetFoutBijLadenVereniging()
     {
-        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<long?>()))
+        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
                               .ThrowsAsync(new Exception());
         return this;
     }
@@ -97,7 +97,7 @@ public class SyncKboCommandHandlerBuilder
             KboNummer = _kboNummer,
         });
 
-        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<long?>()))
+        _verenigingsRepository.Setup(x => x.Load(KboNummer.Create(_kboNummer), It.IsAny<CommandMetadata>()))
                               .ReturnsAsync(vereniging);
         return this;
     }

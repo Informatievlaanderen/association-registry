@@ -18,7 +18,7 @@ public class VoegLidmaatschapToeCommandHandler
         var vereniging =
             await _verenigingRepository.Load<VerenigingOfAnyKind>(
                 VCode.Create(envelope.Command.VCode),
-                envelope.Metadata.ExpectedVersion);
+                envelope.Metadata);
 
         if (await _verenigingRepository.IsVerwijderd(envelope.Command.Lidmaatschap.AndereVereniging))
             throw new VerenigingKanGeenLidWordenVanVerwijderdeVereniging();

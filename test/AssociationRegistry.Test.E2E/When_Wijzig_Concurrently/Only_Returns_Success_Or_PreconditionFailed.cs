@@ -92,6 +92,12 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
                     var vereniging = await client.GetAsync($"/v1/verenigingen/{_context.VCode}");
                     var expectedVersion = vereniging.Headers.FirstOrDefault(x => x.Key == "ETag").Value;
 
+                    if (expectedVersion == null)
+                        _helper.WriteLine(
+                            $"Expected version is null: {vereniging.StatusCode} => {vereniging.Headers.Select(x => $"{x.Key}: {x.Value}")}");
+
+                    expectedVersion.Should().NotBeNull();
+
                     // Create a new HttpRequestMessage with the custom header
                     var request = new HttpRequestMessage(HttpMethod.Patch,
                                                          $"/v1/verenigingen/{_context.VCode}/locaties/{locatie.LocatieId}")

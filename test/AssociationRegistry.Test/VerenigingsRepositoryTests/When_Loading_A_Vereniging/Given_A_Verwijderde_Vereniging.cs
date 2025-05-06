@@ -4,6 +4,7 @@ using AssociationRegistry.EventStore;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
+using Common.Framework;
 using Events;
 using EventStore;
 using FluentAssertions;
@@ -31,7 +32,7 @@ public class Given_A_Verwijderde_Vereniging
         var repo = new VerenigingsRepository(eventStoreMock);
 
         var exception = await
-            Assert.ThrowsAsync<AssociationRegistry.Vereniging.Exceptions.VerenigingIsVerwijderd>(async () => await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), expectedVersion: null)) ;
+            Assert.ThrowsAsync<AssociationRegistry.Vereniging.Exceptions.VerenigingIsVerwijderd>(async () => await repo.Load<Vereniging>(VCode.Create(verenigingWerdGeregistreerd.VCode), TestCommandMetadata.Empty)) ;
 
         exception.Message.Should().Be(ExceptionMessages.VerenigingIsVerwijderd);
     }

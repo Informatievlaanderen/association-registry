@@ -51,7 +51,7 @@ public class SyncKboCommandHandler
             throw new GeenGeldigeVerenigingInKbo();
         }
 
-        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata.ExpectedVersion);
+        var vereniging = await repository.Load(message.Command.KboNummer, message.Metadata);
 
         await RegistreerInschrijving(message.Command.KboNummer, message.Metadata, cancellationToken);
 

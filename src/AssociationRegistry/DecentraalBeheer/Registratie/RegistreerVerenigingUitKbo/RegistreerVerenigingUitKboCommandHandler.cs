@@ -39,7 +39,7 @@ public class RegistreerVerenigingUitKboCommandHandler
         _logger.LogInformation($"Handle {nameof(RegistreerVerenigingUitKboCommandHandler)} start");
 
         var command = message.Command;
-        var duplicateResult = await CheckForDuplicate(command.KboNummer);
+        var duplicateResult = await CheckForDuplicate(command.KboNummer, message.Metadata);
 
         if (duplicateResult.IsFailure())
             return duplicateResult;
@@ -65,11 +65,11 @@ public class RegistreerVerenigingUitKboCommandHandler
         }
     }
 
-    private async Task<Result> CheckForDuplicate(KboNummer kboNumber)
+    private async Task<Result> CheckForDuplicate(KboNummer kboNumber, CommandMetadata metadata)
     {
         try
         {
-            var duplicateKbo = await _verenigingsRepository.Load(kboNumber);
+            var duplicateKbo = await _verenigingsRepository.Load(kboNumber, metadata);
             return DuplicateKboFound.WithVcode(duplicateKbo.VCode!);
         }
         catch (AggregateNotFoundException)
@@ -89,7 +89,7 @@ public class RegistreerVerenigingUitKboCommandHandler
             vCode,
             verenigingVolgensKbo);
 
-        var duplicateResult = await CheckForDuplicate(verenigingVolgensKbo.KboNummer);
+        var duplicateResult = await CheckForDuplicate(verenigingVolgensKbo.KboNummer, messageMetadata);
 
         if (duplicateResult.IsFailure()) return duplicateResult;
 

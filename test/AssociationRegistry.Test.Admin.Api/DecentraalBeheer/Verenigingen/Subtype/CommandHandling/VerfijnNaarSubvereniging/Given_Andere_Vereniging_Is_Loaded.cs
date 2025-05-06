@@ -32,7 +32,7 @@ public class Given_Andere_Vereniging_Is_Loaded
     public async Task With_Verwijderde_Andere_Vereniging_Then_Throws_AndereVerenigingIsVerwijderd()
     {
         _verenigingRepositoryMock
-           .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(_rechtspersoonScenario.VCode, It.IsAny<long?>(), false, false))
+           .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(_rechtspersoonScenario.VCode, It.IsAny<CommandMetadata>(), false, false))
            .ThrowsAsync(new VerenigingIsVerwijderd(_rechtspersoonScenario.VCode));
 
         var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock.Object);
@@ -49,7 +49,7 @@ public class Given_Andere_Vereniging_Is_Loaded
     public async Task With_VZER_As_Andere_Vereniging_Then_Throws_ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype()
     {
         _verenigingRepositoryMock
-           .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(It.IsAny<VCode>(), It.IsAny<long?>(), false, false))
+           .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), false, false))
            .ThrowsAsync(new ActieIsNietToegestaanVoorVerenigingstype());
 
         var commandHandler = new VerfijnSubtypeNaarSubverenigingCommandHandler(_verenigingRepositoryMock.Object);

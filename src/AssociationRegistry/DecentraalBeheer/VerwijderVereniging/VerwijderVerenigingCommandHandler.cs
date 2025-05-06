@@ -17,7 +17,7 @@ public class VerwijderVerenigingCommandHandler
         CommandEnvelope<VerwijderVerenigingCommand> message,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata.ExpectedVersion)
+        var vereniging = await _repository.Load<Vereniging>(message.Command.VCode, message.Metadata)
                                           .OrWhenUnsupportedOperationForType()
                                           .Throw<VerenigingKanNietVerwijderdWorden>();
 

@@ -32,14 +32,14 @@ public class ProbeerAdresTeMatchenCommandHandler
 
         try
         {
-            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(command.VCode), allowDubbeleVereniging: true);
+            var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+            var vereniging = await _verenigingsRepository.Load<VerenigingOfAnyKind>(VCode.Hydrate(command.VCode), metadata, allowDubbeleVereniging: true);
 
             await vereniging.ProbeerAdresTeMatchen(_grarClient, command.LocatieId, cancellationToken);
 
             await _verenigingsRepository.Save(
                 vereniging,
-                new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber, SystemClock.Instance.GetCurrentInstant(), Guid.NewGuid(),
-                                    vereniging.Version),
+                metadata with { ExpectedVersion = vereniging.Version },
                 cancellationToken);
         }
         catch (UnexpectedAggregateVersionException)

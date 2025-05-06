@@ -27,7 +27,7 @@ public class CorrigeerMarkeringAlsDubbelVanCommandHandler
         CommandEnvelope<CorrigeerMarkeringAlsDubbelVanCommand> envelope,
         CancellationToken cancellationToken = default)
     {
-        var vereniging = await _verenigingsRepository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata.ExpectedVersion, allowDubbeleVereniging: true);
+        var vereniging = await _verenigingsRepository.Load<Vereniging>(envelope.Command.VCode, envelope.Metadata, allowDubbeleVereniging: true);
 
         var vCodeAuthentiekeVereniging = vereniging.CorrigeerMarkeringAlsDubbelVan();
 

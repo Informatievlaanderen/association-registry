@@ -16,15 +16,15 @@ public class AanvaardDubbeleVerenigingCommandHandler(
     {
         try
         {
-            var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode);
+            var metadata = CommandMetadata.ForDigitaalVlaanderenProcess;
+
+            var vereniging = await repository.Load<VerenigingOfAnyKind>(command.VCode, metadata);
 
             vereniging.AanvaardDubbeleVereniging(command.VCodeDubbeleVereniging);
 
             await repository.Save(
                 vereniging,
-                new CommandMetadata(EventStore.DigitaalVlaanderenOvoNumber,
-                                    SystemClock.Instance.GetCurrentInstant(),
-                                    Guid.NewGuid()),
+                metadata,
                 cancellationToken);
         }
         catch (AggregateNotFoundException)

@@ -18,7 +18,7 @@ public class WijzigMaatschappelijkeZetelCommandHandler
     {
         var vereniging =
             await _verenigingRepository.Load<VerenigingMetRechtspersoonlijkheid>(VCode.Create(envelope.Command.VCode),
-                                                                                 envelope.Metadata.ExpectedVersion);
+                                                                                 envelope.Metadata);
 
         vereniging.WijzigMaatschappelijkeZetel(
             envelope.Command.TeWijzigenLocatie.LocatieId,

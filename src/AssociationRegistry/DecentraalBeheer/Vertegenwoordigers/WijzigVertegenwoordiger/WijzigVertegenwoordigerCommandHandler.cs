@@ -17,7 +17,7 @@ public class WijzigVertegenwoordigerCommandHandler
         CancellationToken cancellationToken = default)
     {
         var vereniging =
-            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata.ExpectedVersion);
+            await _verenigingRepository.Load<VerenigingOfAnyKind>(VCode.Create(envelope.Command.VCode), envelope.Metadata);
 
         var (vertegenwoordigerId, rol, roepnaam, email, telefoonNummer, mobiel, socialMedia, isPrimair) =
             envelope.Command.Vertegenwoordiger;
