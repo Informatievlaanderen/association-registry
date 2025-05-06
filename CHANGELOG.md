@@ -1,3 +1,15 @@
+# [8.237.0](https://github.com/informatievlaanderen/association-registry/compare/v8.236.0...v8.237.0) (2025-05-06)
+
+
+### Bug Fixes
+
+* or-2406 use new way of saving registration events ([559f838](https://github.com/informatievlaanderen/association-registry/commit/559f83812cf6f3a0af10eaad1838aa4982ea72be))
+
+
+### Features
+
+* or-2406 log pending database changes ([8899016](https://github.com/informatievlaanderen/association-registry/commit/88990161713c8721285c70a4e096f466308d5a78))
+
 # [8.236.0](https://github.com/informatievlaanderen/association-registry/compare/v8.235.1...v8.236.0) (2025-05-06)
 
 
