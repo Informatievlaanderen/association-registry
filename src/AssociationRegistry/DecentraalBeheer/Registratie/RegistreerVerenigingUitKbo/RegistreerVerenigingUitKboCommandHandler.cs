@@ -7,6 +7,7 @@ using AssociationRegistry.Resources;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
+using Marten;
 using Microsoft.Extensions.Logging;
 using ResultNet;
 
@@ -15,6 +16,7 @@ public class RegistreerVerenigingUitKboCommandHandler
     private readonly IVCodeService _vCodeService;
     private readonly IMagdaGeefVerenigingService _magdaGeefVerenigingService;
     private readonly IMagdaRegistreerInschrijvingService _magdaRegistreerInschrijvingService;
+    private readonly IDocumentSession _session;
     private readonly ILogger<RegistreerVerenigingUitKboCommandHandler> _logger;
     private readonly IVerenigingsRepository _verenigingsRepository;
 
@@ -23,12 +25,14 @@ public class RegistreerVerenigingUitKboCommandHandler
         IVCodeService vCodeService,
         IMagdaGeefVerenigingService magdaGeefVerenigingService,
         IMagdaRegistreerInschrijvingService magdaRegistreerInschrijvingService,
+        IDocumentSession session,
         ILogger<RegistreerVerenigingUitKboCommandHandler> logger)
     {
         _verenigingsRepository = verenigingsRepository;
         _vCodeService = vCodeService;
         _magdaGeefVerenigingService = magdaGeefVerenigingService;
         _magdaRegistreerInschrijvingService = magdaRegistreerInschrijvingService;
+        _session = session;
         _logger = logger;
     }
 
@@ -93,7 +97,7 @@ public class RegistreerVerenigingUitKboCommandHandler
 
         if (duplicateResult.IsFailure()) return duplicateResult;
 
-        var result = await _verenigingsRepository.Save(vereniging, messageMetadata, cancellationToken);
+        var result = await _verenigingsRepository.SaveNew(vereniging, _session, messageMetadata, cancellationToken);
 
         return Result.Success(CommandResult.Create(vCode, result));
     }

@@ -11,6 +11,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
@@ -56,6 +57,7 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
             new InMemorySequentialVCodeService(),
             _magdaGeefVerenigingService.Object,
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger);
     }
 

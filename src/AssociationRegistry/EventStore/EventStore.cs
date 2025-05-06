@@ -60,6 +60,9 @@ public class EventStore : IEventStore
 
         var maxSequence = streamAction.Events.Max(@event => @event.Sequence);
 
+        if(maxSequence == 0)
+            maxSequence = (await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken)).Max(x => x.Sequence);
+
         return new StreamActionResult(maxSequence, events.Length);
     }
 

@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.Logging;
+using Moq;
 using ResultNet;
 using Xunit;
 using Xunit.Categories;
@@ -38,6 +40,7 @@ public class With_An_Unknown_VerenigingVolgensKbo
             _vCodeService,
             new MagdaGeefVerenigingNumberNotFoundServiceMock(),
             new MagdaRegistreerInschrijvingServiceMock(Result.Success()),
+            Mock.Of<IDocumentSession>(),
             commandHandlerLogger
         );
 

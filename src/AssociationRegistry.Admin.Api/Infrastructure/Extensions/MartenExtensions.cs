@@ -52,7 +52,7 @@ public static class MartenExtensions
 
                                           opts.Events.StreamIdentity = StreamIdentity.AsString;
                                           opts.Events.MetadataConfig.EnableAll();
-                                          opts.Events.AppendMode = isDevelopment ? EventAppendMode.Rich : EventAppendMode.Quick;
+                                          opts.Events.AppendMode = EventAppendMode.Quick;
 
                                           opts.Events.AddEventTypes( typeof(IEvent).Assembly
                                                                          .GetTypes()
