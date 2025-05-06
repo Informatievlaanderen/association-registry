@@ -68,7 +68,11 @@ services:
       POSTGRES_USER: root
       POSTGRES_PASSWORD: root
       POSTGRES_MULTIPLE_DATABASES: verenigingsregister,fullblowne2e
-      PGOPTIONS: '-c lock_timeout=30s'
+      # you can drop PGOPTIONS here, and move lock_timeout into the command flags
+    # override the entrypoint to pass in both max_connections and lock_timeout
+    command: >
+      postgres
+      -c max_connections=200
     ports:
       - "5432:5432"
     volumes:
