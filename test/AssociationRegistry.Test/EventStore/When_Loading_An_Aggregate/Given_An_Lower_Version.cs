@@ -51,7 +51,7 @@ public class Given_An_Lower_Version
         var locatieWerdToegevoegd = _fixture.Create<LocatieWerdToegevoegd>();
         var vCode = VCode.Create(verenigingWerdGeregistreerd.VCode);
 
-        await eventStore.Save(vCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
@@ -80,7 +80,7 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               feitelijkeVerenigingWerdGeregistreerd, @event);
 
@@ -110,7 +110,7 @@ public class Given_An_Lower_Version
 
         var vCode = _fixture.Create<VCode>();
 
-        await eventStore.Save(vCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               verenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd, @event);
 

@@ -47,7 +47,7 @@ public class When_AdresWerdGeheradresseerd
 
         var vCode = _fixture.Create<string>();
 
-        await eventStore.Save(vCode, 0, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
+        await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, session, new CommandMetadata(Initiator: "brol", Instant.MinValue, Guid.NewGuid()),
                               CancellationToken.None,
                               (dynamic)verenigingWerdGeregistreerd, adresWerdGewijzigdInAdressenregister);
 

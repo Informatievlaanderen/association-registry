@@ -13,6 +13,10 @@ using IEvent = Events.IEvent;
 
 public class EventStore : IEventStore
 {
+    public class ExpectedVersion
+    {
+        public const long NewStream = 0;
+    }
     public const string DigitaalVlaanderenOvoNumber = "OVO002949";
     private readonly IDocumentStore _documentStore;
     private readonly EventConflictResolver _conflictResolver;
