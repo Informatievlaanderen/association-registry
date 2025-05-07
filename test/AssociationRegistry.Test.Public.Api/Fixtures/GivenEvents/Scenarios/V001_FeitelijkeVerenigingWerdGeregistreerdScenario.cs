@@ -90,7 +90,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         _vCode,
         [
             new(Code: "BE25", Naam: "Provincie West-Vlaanderen"),
-            new("BE25535002", "Bredene"),
+            new("BE25535003", "Bredene"),
         ]);
 
     public VCode VCode

@@ -13,8 +13,7 @@ public class ElasticRepository : IElasticRepository
         _elasticClient = elasticClient;
     }
 
-    public async Task IndexAsync<TDocument>(TDocument document)
-        where TDocument : class
+    public async Task IndexAsync(VerenigingZoekDocument document)
     {
         var response = await _elasticClient.IndexDocumentAsync(document);
 
@@ -22,21 +21,23 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task UpdateAsync<TDocument>(string id, TDocument update, long sequence) where TDocument : class
+    public async Task UpdateAsync(string id, VerenigingZoekUpdateDocument update, long sequence)
     {
-        var response = await _elasticClient.UpdateAsync<TDocument>(id, u => u
-                                                                           .RetryOnConflict(3)
-                                                                      .Script(s => s
-                                                                                              .Source(@"
+        var response = await _elasticClient.UpdateAsync<VerenigingZoekUpdateDocument>(id, u => u
+                                                                                         .RetryOnConflict(3)
+                                                                                         .Script(s => s
+                                                                                             .Source(@"
             if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                 ctx._source.putAll(params.doc);
-            }"
-                                                                                               )
-                                                                                              .Params(p => p
-                                                                                                      .Add("doc", update)
-                                                                                                      .Add("seq", sequence)
-                                                                                               )
-                                                                                           )
+                ctx._source.sequence = params.seq;
+            }
+"
+                                                                                              )
+                                                                                             .Params(p => p
+                                                                                                 .Add("doc", update)
+                                                                                                 .Add("seq", sequence)
+                                                                                              )
+                                                                                          )
         );
 
         if (!response.IsValid)

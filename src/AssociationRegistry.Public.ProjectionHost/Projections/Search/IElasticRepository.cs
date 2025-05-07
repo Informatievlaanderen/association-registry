@@ -4,10 +4,8 @@ using Schema.Search;
 
 public interface IElasticRepository
 {
-    Task IndexAsync<TDocument>(TDocument document)
-        where TDocument : class;
-
-    Task UpdateAsync<TDocument>(string id, TDocument update, long sequence) where TDocument : class;
+    Task IndexAsync(VerenigingZoekDocument document);
+    Task UpdateAsync(string id, VerenigingZoekUpdateDocument update, long sequence);
     Task UpdateVerenigingsTypeAndClearSubverenigingVan<TDocument>(string id, string code, string naam, long sequence) where TDocument : class;
     Task AppendLocatie(string id, VerenigingZoekDocument.Types.Locatie locatie, long sequence);
     Task RemoveLocatie(string id, int locatieId, long sequence);
