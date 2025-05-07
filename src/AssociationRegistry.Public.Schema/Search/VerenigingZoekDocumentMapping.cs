@@ -15,6 +15,12 @@ public static class VerenigingZoekDocumentMapping
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.VCode)
                                                    .Normalizer(PubliekZoekenNormalizer))
+                         .Number(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Sequence)
+                                                   .Index(false)
+                                                   .DocValues(false)
+                              )
                          .Text(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Naam)
