@@ -158,6 +158,8 @@ public class EventStore : IEventStore
 
         if (expectedVersion is not null && aggregate.Version != expectedVersion)
         {
+            Throw<UnexpectedAggregateVersionException>.If(expectedVersion > aggregate.Version);
+
             var eventsInNewVersion = (await session.Events.FetchStreamAsync(id, aggregate.Version))
                .Where(x => x.Version > expectedVersion);
 

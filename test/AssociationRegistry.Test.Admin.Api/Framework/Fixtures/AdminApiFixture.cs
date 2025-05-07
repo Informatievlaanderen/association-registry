@@ -28,6 +28,7 @@ using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
 using System.Text;
+using Vereniging;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
 
@@ -180,16 +181,11 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     }
 
     public virtual async Task DisposeAsync()
-    {
-    }
+        => Dispose();
 
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        AdminApiClients.SafeDispose();
-
-        _adminApiServer.SafeDispose();
-        _projectionHostServer.SafeDispose();
     }
 
     private static void EnsureDbExists(IConfigurationRoot configuration)
@@ -233,8 +229,9 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
+        await using var session = DocumentStore.LightweightSession();
         var eventStore = new EventStore(ProjectionsDocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
-        var result = await eventStore.Save(vCode.ToUpperInvariant(), EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventsToAdd);
+        var result = await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), EventStore.ExpectedVersion.NewStream, session, metadata, CancellationToken.None, eventsToAdd);
 
         return result;
     }

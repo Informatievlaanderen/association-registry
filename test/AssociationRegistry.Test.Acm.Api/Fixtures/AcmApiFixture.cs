@@ -23,6 +23,7 @@ using Npgsql;
 using Oakton;
 using Polly;
 using System.Reflection;
+using Vereniging;
 using Xunit;
 
 public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
@@ -70,6 +71,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                     builder.UseSetting($"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier);
 
                     builder.UseConfiguration(GetConfiguration());
+
                     builder.ConfigureAppConfiguration(
                         cfg =>
                             cfg.SetBasePath(GetRootDirectoryOrThrow())
@@ -79,7 +81,8 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
                                     new[]
                                     {
                                         new KeyValuePair<string, string>(
-                                            $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}", _identifier),
+                                            $"{PostgreSqlOptionsSection.SectionName}:{nameof(PostgreSqlOptionsSection.Database)}",
+                                            _identifier),
                                     })
                     );
                 });
@@ -103,18 +106,16 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public async Task InitializeAsync()
         => await Given();
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    public virtual async Task DisposeAsync()
+        => Dispose();
 
     public void Dispose()
     {
         GC.SuppressFinalize(this);
-        AcmApiClients.SafeDispose();
-        _webApplicationFactory.SafeDispose();
         DropDatabase();
     }
 
-    private static void EnsureDbExists(IConfigurationRoot configuration)
+    private void EnsureDbExists(IConfigurationRoot configuration)
     {
         var postgreSqlOptionsSection = configuration.GetPostgreSqlOptionsSection();
         using var connection = new NpgsqlConnection(GetConnectionString(configuration, RootDatabase));
@@ -175,10 +176,9 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
         var result = StreamActionResult.Empty;
 
-        foreach (var (@event, i) in eventsToAdd.Select((x, i) => (x, i)))
-        {
-            result = await eventStore.Save(vCode.ToUpperInvariant(), i, metadata, CancellationToken.None, @event);
-        }
+        await using var session = DocumentStore.LightweightSession();
+
+        await eventStore.SaveNew(VCode.Create(vCode.ToUpperInvariant()), EventStore.ExpectedVersion.NewStream, session, metadata, CancellationToken.None, eventsToAdd);
 
         var retry = Policy
                    .Handle<Exception>()

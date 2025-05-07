@@ -56,7 +56,7 @@ public class Given_An_Lower_Version
                               (dynamic)verenigingWerdGeregistreerd, locatieWerdToegevoegd);
 
         await Assert.ThrowsAsync<UnexpectedAggregateVersionException>(() => eventStore.Load<VerenigingState>(vCode, expectedVersion: 1));
-        documentStore.Dispose();
+        await documentStore.DisposeAsync();
     }
 
     [Theory]
@@ -86,7 +86,7 @@ public class Given_An_Lower_Version
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);
-        documentStore.Dispose();
+        await documentStore.DisposeAsync();
     }
 
     [Theory]
@@ -117,6 +117,6 @@ public class Given_An_Lower_Version
 
         var aggregate = await eventStore.Load<VerenigingState>(vCode, expectedVersion: 1);
         aggregate.Version.Should().Be(2);
-        documentStore.Dispose();
+        await documentStore.DisposeAsync();
     }
 }
