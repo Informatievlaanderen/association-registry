@@ -15,9 +15,7 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Vereniging
 {
     private readonly Fixture _fixture;

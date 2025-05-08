@@ -9,9 +9,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_The_AndereVereniging_Is_Verwijderd
 {
     [Fact]

@@ -8,9 +8,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_New_Vereniging : IAsyncLifetime
 {
     private readonly EventStoreMock _eventStore;
@@ -64,6 +62,6 @@ public class Given_A_New_Vereniging : IAsyncLifetime
         theEvent.Startdatum.Should().BeNull();
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => new ValueTask(Task.CompletedTask);
 }

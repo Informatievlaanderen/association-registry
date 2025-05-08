@@ -5,11 +5,8 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPubliekeDatastroom
 {
     private readonly PublicApiClient _publicApiClient;

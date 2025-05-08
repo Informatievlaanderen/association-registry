@@ -5,10 +5,8 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class With_An_Empty_Locatietype : ValidatorTest
 {
     [Fact]

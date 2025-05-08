@@ -9,12 +9,9 @@ using templates;
 using Vereniging;
 
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
 {
     private readonly ITestOutputHelper _outputHelper;

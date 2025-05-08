@@ -2,9 +2,8 @@ namespace AssociationRegistry.Test.Admin.Api.Framework;
 
 using AutoFixture;
 using Common.AutoFixture;
-using Xunit.Categories;
+using System.ComponentModel;
 
-[UnitTest]
 [Category("Validator")]
 public abstract class ValidatorTest
 {

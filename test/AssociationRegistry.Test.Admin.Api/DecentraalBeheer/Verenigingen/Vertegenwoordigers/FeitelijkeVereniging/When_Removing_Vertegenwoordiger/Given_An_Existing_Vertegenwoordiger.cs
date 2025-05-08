@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
 {
@@ -32,13 +31,11 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
                                                                          jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Delete_An_Existing_Vertegenwoordiger>
 {
     private readonly Delete_An_Existing_Vertegenwoordiger _classFixture;

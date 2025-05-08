@@ -8,11 +8,8 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_ContactgegevenWerdToegevoegd
 {
     private readonly PublicApiClient _publicApiClient;

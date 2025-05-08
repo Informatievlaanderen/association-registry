@@ -12,9 +12,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<WijzigBasisgegevensCommand> _commandEnvelope;

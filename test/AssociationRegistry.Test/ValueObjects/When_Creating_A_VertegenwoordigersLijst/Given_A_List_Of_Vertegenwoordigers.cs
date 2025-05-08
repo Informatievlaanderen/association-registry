@@ -5,9 +5,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_List_Of_Vertegenwoordigers
 {
     [Fact]

@@ -4,10 +4,8 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEige
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class A_Valid_Request : ValidatorTest
 {
     [Fact]

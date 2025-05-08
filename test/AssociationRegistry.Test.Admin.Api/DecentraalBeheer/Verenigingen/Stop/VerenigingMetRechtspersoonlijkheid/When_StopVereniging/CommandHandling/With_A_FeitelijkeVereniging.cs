@@ -11,9 +11,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_VerenigingMetRechtspersoonlijkheid
 {
     private readonly StopVerenigingCommandHandler _commandHandler;

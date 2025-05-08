@@ -6,11 +6,8 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdVerwijderd
 {
     private readonly PublicApiClient _publicApiClient;

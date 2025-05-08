@@ -8,7 +8,7 @@ using AutoFixture;
 using FluentAssertions;
 using Grar.GrarConsumer.Messaging;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(FullBlownApiCollection.Name)]
 public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue

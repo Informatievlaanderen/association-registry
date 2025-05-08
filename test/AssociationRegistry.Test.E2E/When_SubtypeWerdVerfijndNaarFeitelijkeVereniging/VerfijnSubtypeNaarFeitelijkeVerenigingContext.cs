@@ -23,7 +23,7 @@ public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<Wijz
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);

@@ -7,7 +7,7 @@ using Scenarios.Requests;
 
 public abstract class TestContextBase<TRequest> : ITestContext<TRequest>
 {
-    public abstract Task InitializeAsync();
+    public abstract ValueTask InitializeAsync();
     public async ValueTask DisposeAsync()
     {
     }

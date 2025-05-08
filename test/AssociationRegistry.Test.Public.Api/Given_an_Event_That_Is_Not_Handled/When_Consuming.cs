@@ -10,7 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 using IEvent = AssociationRegistry.Events.IEvent;
 
 public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
@@ -21,7 +20,7 @@ public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
     {
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await AddEvent(VCode, new AnUnhandledEvent());
     }
@@ -29,7 +28,6 @@ public class Given_An_Unhandled_Event_Fixture : ProjectionHostFixture
     public record AnUnhandledEvent : IEvent;
 }
 
-[UnitTest]
 public class Given_An_Unhandled_Event : IClassFixture<Given_An_Unhandled_Event_Fixture>
 {
     private readonly IDocumentStore _documentStore;

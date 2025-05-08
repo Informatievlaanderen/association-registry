@@ -9,9 +9,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Duplicate_Vertegenwoordiger
 {
     private readonly VoegVertegenwoordigerToeCommandHandler _commandHandler;

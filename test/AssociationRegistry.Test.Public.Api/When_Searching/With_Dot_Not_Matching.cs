@@ -7,11 +7,8 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class With_Dot_Not_Matching
 {
     private readonly PublicApiClient _publicApiClient;
@@ -30,7 +27,7 @@ public class With_Dot_Not_Matching
         => (await _publicApiClient.Search(_query)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask? Then_we_retrieve_one_vereniging_matching_the_name_searched()
+    public async ValueTask Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
         var response = await _publicApiClient.Search(_query);
         var content = await response.Content.ReadAsStringAsync();
@@ -51,7 +48,7 @@ public class With_Dot_Not_Matching
         => (await _publicApiClient.Search(_query2)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask? Then_we_retrieve_one_vereniging_matching_the_name_searched2()
+    public async ValueTask Then_we_retrieve_one_vereniging_matching_the_name_searched2()
     {
         var response = await _publicApiClient.Search(_query2);
         var content = await response.Content.ReadAsStringAsync();

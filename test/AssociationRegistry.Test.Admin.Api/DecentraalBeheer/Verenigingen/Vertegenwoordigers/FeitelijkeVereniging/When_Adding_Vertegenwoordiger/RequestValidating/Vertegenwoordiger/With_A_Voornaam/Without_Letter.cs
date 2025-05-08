@@ -6,9 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOf
 using AssociationRegistry.Admin.Api.Verenigingen.Vertegenwoordigers.VerenigingOfAnyKind.VoegVertegenwoordigerToe.RequestModels;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Without_Letter
 {
     [Theory]

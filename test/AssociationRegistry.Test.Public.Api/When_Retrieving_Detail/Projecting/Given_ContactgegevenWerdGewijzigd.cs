@@ -8,9 +8,7 @@ using FluentAssertions;
 using Framework;
 using JsonLdContext;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_ContactgegevenWerdGewijzigd
 {
     [Fact]

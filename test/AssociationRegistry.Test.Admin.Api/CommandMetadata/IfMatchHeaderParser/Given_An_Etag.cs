@@ -3,9 +3,7 @@ namespace AssociationRegistry.Test.Admin.Api.CommandMetadata.IfMatchHeaderParser
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_PositiveNumber_Weak_Etag
 {
     [Theory]
@@ -18,7 +16,6 @@ public class Given_A_PositiveNumber_Weak_Etag
     }
 }
 
-[UnitTest]
 public class Given_Not_A_PositiveNumber_Weak_Etag
 {
     [Theory]
@@ -32,7 +29,6 @@ public class Given_Not_A_PositiveNumber_Weak_Etag
     }
 }
 
-[UnitTest]
 public class Given_Not_A_Weak_Etag
 {
     [Theory]

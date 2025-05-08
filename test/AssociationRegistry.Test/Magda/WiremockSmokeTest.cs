@@ -3,9 +3,7 @@ namespace AssociationRegistry.Test.Magda;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class WiremockSmokeTest
 {
     [Fact]

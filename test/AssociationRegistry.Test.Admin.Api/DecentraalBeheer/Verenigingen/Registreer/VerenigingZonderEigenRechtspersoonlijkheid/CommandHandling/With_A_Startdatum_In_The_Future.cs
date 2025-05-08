@@ -15,9 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;

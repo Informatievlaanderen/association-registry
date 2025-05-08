@@ -10,9 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
 {
     [Theory]
@@ -95,7 +93,6 @@ public class Given_Duplicate_Locaties_With_Same_Name_For_VZER
     }
 }
 
-[UnitTest]
 public class Given_Duplicate_Locaties_With_Different_Names_For_VZER
 {
     [Fact]

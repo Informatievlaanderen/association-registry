@@ -6,12 +6,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 
-[UnitTest]
-[Category("Mapping")]
 public class To_WijzigLocatieCommand
 {
     [Fact]

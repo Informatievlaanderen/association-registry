@@ -75,7 +75,7 @@ public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamCo
         _scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_scenario);
 

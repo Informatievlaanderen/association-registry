@@ -12,9 +12,7 @@ using AutoFixture.Kernel;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_AdresHeeftGeenVerschillenMetAdressenregister
 {
     private static Mock<IGrarClient> SetupGrarClientMock(Fixture fixture, Registratiedata.Locatie locatie)

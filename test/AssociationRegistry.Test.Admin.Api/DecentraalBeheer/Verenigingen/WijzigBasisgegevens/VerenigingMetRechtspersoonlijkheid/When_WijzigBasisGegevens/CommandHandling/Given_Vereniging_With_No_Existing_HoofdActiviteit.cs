@@ -9,9 +9,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Vereniging_With_No_Existing_HoofdActiviteit
 {
     private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _scenario;

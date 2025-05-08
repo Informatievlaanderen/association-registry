@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Second_NietPrimair_Contactgegeven
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;

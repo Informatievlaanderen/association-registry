@@ -8,7 +8,6 @@ using AutoFixture;
 using FluentAssertions;
 using Marten;
 using Xunit;
-using Xunit.Categories;
 using GetNamesForVCodesFilter = AssociationRegistry.Admin.Api.Queries.GetNamesForVCodesFilter;
 using GetNamesForVCodesQuery = AssociationRegistry.Admin.Api.Queries.GetNamesForVCodesQuery;
 
@@ -27,7 +26,6 @@ public class GetNamesForVCodesQueryFixture : IAsyncLifetime
     }
 }
 
-[IntegrationTest]
 public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;

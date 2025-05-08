@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Remove_A_Removed_Vereniging : IAsyncLifetime
 {
@@ -32,13 +31,11 @@ public class Remove_A_Removed_Vereniging : IAsyncLifetime
         Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_Removed_Vereniging : IClassFixture<Remove_A_Removed_Vereniging>
 {
     private readonly Remove_A_Removed_Vereniging _classFixture;

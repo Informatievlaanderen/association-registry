@@ -7,12 +7,9 @@ using Fixtures.GivenEvents.Scenarios;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Xunit;
-using Xunit.Categories;
 using HoofdactiviteitVerenigingsloket = Vereniging.HoofdactiviteitVerenigingsloket;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
 {
     private readonly V024_FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario _scenario;
@@ -29,7 +26,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
+    public async ValueTask Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
     {
         var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();

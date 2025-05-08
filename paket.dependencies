@@ -87,7 +87,6 @@ nuget Microsoft.NET.Test.Sdk
 nuget xunit.v3
 nuget xunit.analyzers
 nuget xunit.v3.assert
-nuget xunit.v3.assert.source
 nuget xunit.v3.core
 nuget xunit.v3.extensibility.core
 nuget xunit.v3.runner.console

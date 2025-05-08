@@ -8,9 +8,7 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Not_The_MaatschappelijkeZetelId
 {
     [Fact]

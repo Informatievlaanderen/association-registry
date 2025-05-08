@@ -9,7 +9,6 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup : IAsyncLifetime
 {
@@ -50,13 +49,11 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
                                                               _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister : IClassFixture<
     Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
 {

@@ -9,9 +9,7 @@ using Framework;
 using JsonLdContext;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_MaatschappelijkeZetelWerdGewijzigd
 {
     [Fact]

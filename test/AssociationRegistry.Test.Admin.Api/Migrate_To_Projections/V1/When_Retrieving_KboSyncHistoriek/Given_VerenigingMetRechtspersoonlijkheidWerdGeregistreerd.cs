@@ -7,11 +7,8 @@ using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     private readonly HttpResponseMessage _response;

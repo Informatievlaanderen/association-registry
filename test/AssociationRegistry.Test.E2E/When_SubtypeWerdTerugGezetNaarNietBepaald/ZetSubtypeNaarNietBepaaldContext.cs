@@ -22,7 +22,7 @@ public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequ
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(Scenario).ExecuteRequest(ApiSetup);

@@ -18,9 +18,7 @@ using Moq;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Locatie_With_AdresId
 {
     [Fact]

@@ -6,9 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Einddatum_Is_Valid : ValidatorTest
 {
     [Fact]

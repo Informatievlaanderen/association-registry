@@ -11,9 +11,7 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_TeHeradressren_Locaties
 {
     [Fact]

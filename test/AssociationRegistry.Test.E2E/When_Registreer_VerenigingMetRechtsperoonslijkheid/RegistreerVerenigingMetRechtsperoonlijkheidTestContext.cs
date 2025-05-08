@@ -17,7 +17,7 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
         ApiSetup = apiSetup;
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(new EmptyScenario());
 

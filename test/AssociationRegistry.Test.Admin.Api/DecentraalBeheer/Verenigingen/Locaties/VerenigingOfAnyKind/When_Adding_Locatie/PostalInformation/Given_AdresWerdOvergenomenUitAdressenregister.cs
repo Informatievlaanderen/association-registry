@@ -9,7 +9,6 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 using Policy = Polly.Policy;
 
 public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
@@ -54,13 +53,11 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetim
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     Given_AdresWerdOvergenomenUitAdressenregister_Setup>
 {

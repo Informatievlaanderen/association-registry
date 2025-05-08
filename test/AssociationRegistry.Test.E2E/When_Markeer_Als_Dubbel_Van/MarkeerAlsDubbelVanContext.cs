@@ -21,7 +21,7 @@ public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequ
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);

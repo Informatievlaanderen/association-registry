@@ -9,11 +9,8 @@ using Framework;
 using templates;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Adres
 {
     private readonly V014_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_All_Data_Scenario _scenario;

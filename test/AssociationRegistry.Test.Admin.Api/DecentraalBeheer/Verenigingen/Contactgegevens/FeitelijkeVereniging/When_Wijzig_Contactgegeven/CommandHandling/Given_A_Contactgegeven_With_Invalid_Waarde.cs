@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging.Websites;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Contactgegeven_With_Invalid_Waarde
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;

@@ -18,9 +18,7 @@ using ResultNet;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_Rechtsvorm_Ending_In_The_Future
 {
     private readonly MagdaGeefVerenigingService _service;
