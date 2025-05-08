@@ -33,7 +33,8 @@ public class ElasticRepository : IElasticRepository
             throw new IndexDocumentFailed(response.DebugInformation);
     }
 
-    public async Task UpdateAsync<TDocument>(string id, TDocument update, long sequence) where TDocument : class
+    public async Task UpdateAsync<TDocument>(string id, TDocument update, long sequence)
+        where TDocument : class
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(id, u => u
                                                                            .RetryOnConflict(3)
