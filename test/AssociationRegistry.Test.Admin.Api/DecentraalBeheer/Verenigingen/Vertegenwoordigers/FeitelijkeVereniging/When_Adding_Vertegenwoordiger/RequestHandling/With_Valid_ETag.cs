@@ -43,7 +43,7 @@ public class With_Valid_ETag : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await _toeController.Post(
             _fixture.Create<VCode>(),

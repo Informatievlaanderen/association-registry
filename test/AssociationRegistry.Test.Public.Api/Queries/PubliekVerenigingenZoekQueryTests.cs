@@ -33,7 +33,7 @@ public class PubliekVerenigingenZoekQueryTests
     }
 
     [Fact]
-    public async Task? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
+    public async ValueTask? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizePublicApi();
         var totalCount = 0;

@@ -30,7 +30,7 @@ public class Given_A_Contactgegeven_With_Invalid_Waarde
     }
 
     [Fact]
-    public async Task Then_it_throws_an_InvalidEmailFormatException()
+    public async ValueTask Then_it_throws_an_InvalidEmailFormatException()
     {
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,

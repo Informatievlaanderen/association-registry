@@ -131,7 +131,7 @@ public class With_FailureResultFromMagda
     }
 
     [Fact]
-    public async Task Then_One_Notification_Is_Send()
+    public async ValueTask Then_One_Notification_Is_Send()
     {
         try { await _action(); }
         catch
@@ -145,7 +145,7 @@ public class With_FailureResultFromMagda
     }
 
     [Fact]
-    public async Task Then_No_Event_Is_Saved()
+    public async ValueTask Then_No_Event_Is_Saved()
     {
         try { await _action(); }
         catch

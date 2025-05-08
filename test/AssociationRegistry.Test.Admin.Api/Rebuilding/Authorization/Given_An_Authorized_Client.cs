@@ -20,7 +20,7 @@ public class Given_An_Authorized_Client
     }
 
     [Fact]
-    public async Task Then_Statuscode_Is_Ok()
+    public async ValueTask Then_Statuscode_Is_Ok()
     {
         var response = await _client.RebuildAllAdminProjections(CancellationToken.None);
         response.StatusCode.Should().Be(HttpStatusCode.OK);

@@ -20,7 +20,7 @@ public class Given_An_Unauthorized_Client
     }
 
     [Fact]
-    public async Task Then_Statuscode_Is_Forbidden()
+    public async ValueTask Then_Statuscode_Is_Forbidden()
     {
         var response = await _client.RebuildAllAdminProjections(CancellationToken.None);
         response.StatusCode.Should().Be(HttpStatusCode.Forbidden);

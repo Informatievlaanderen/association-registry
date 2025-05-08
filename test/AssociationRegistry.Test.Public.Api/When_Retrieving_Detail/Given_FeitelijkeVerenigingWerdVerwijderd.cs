@@ -23,7 +23,7 @@ public class Given_FeitelijkeVerenigingWerdVerwijderd
     }
 
     [Fact]
-    public async Task Then_we_get_a_notfound_response()
+    public async ValueTask Then_we_get_a_notfound_response()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VCode);
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

@@ -47,7 +47,7 @@ public class Given_A_GeefOndernemingResponseBody_Which_Is_In_Oprichting
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async ValueTask Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);

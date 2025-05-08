@@ -17,7 +17,7 @@ using Xunit.Categories;
 public class With_A_Changed_Adres
 {
     [Fact]
-    public async Task Then_A_AdresWerdGewijzigdInHetAdressenregiser()
+    public async ValueTask Then_A_AdresWerdGewijzigdInHetAdressenregiser()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

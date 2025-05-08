@@ -55,7 +55,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_FailureResult()
+    public async ValueTask Then_It_Returns_A_FailureResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
@@ -64,7 +64,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     }
 
     [Fact]
-    public async Task Then_It_LogsTheUitzondering()
+    public async ValueTask Then_It_LogsTheUitzondering()
     {
         var kboNummer = _fixture.Create<KboNummer>();
         await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);

@@ -10,7 +10,7 @@ using Xunit;
 public class Given_Grar_Returns_PostalInformationWith_Volgende
 {
     [Fact]
-    public async Task Then_Returns_Postcodes_With_A_Next_Batch_Of_Postal_Codes()
+    public async ValueTask Then_Returns_Postcodes_With_A_Next_Batch_Of_Postal_Codes()
     {
         var grarClient = new Mock<IGrarClient>();
 

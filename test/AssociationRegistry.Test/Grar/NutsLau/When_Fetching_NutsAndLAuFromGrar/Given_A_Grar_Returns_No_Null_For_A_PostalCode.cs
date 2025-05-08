@@ -12,7 +12,7 @@ using Xunit;
 public class Given_A_Grar_Returns_No_Null_For_A_PostalCode
 {
     [Fact]
-    public async Task Then_Ignores_The_Null_Response()
+    public async ValueTask Then_Ignores_The_Null_Response()
     {
         var fixture = new Fixture().CustomizeDomain();
         var client = new Mock<IGrarClient>();

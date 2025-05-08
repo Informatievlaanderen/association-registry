@@ -12,7 +12,7 @@ using Xunit;
 public class Given_Uitzonderingen
 {
     [Fact]
-    public async Task Then_We_Map_It_To_The_Correct_Nuts_Lau()
+    public async ValueTask Then_We_Map_It_To_The_Correct_Nuts_Lau()
     {
         var client = new Mock<IGrarClient>();
         var overriddenPostcodes = NutsLauFromGrarFetcher.Uitzonderingen.Keys.OrderBy(_ => Guid.NewGuid()).Take(2).ToArray(); // random selection

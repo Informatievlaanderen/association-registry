@@ -13,7 +13,7 @@ using Xunit;
 public class Given_KboNummersMetGeldigeRechtsvorm_MaarKboNummerNietGekend
 {
     [Fact]
-    public async Task Returns_VerenigingenPerKbo_With_NNB()
+    public async ValueTask Returns_VerenigingenPerKbo_With_NNB()
     {
         var fixture = new Fixture().CustomizeDomain();
         var rechtsvorm = RechtsvormCodes.IVZW;

@@ -34,7 +34,7 @@ public class Returns_DetailResponse :
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse

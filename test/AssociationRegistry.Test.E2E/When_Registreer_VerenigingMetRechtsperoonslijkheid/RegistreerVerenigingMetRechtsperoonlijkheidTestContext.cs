@@ -9,6 +9,7 @@ using Nest;
 using Scenarios.Givens;
 using Scenarios.Requests.FeitelijkeVereniging;
 
+
 public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {
     public RegistreerVerenigingMetRechtsperoonlijkheidTestContext(FullBlownApiSetup apiSetup)

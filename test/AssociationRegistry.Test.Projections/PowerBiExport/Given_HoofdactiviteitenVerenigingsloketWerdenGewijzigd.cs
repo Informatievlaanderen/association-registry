@@ -8,7 +8,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(PowerBiScena
     : PowerBiScenarioClassFixture<HoofdactiviteitenWerdenGewijzigdScenario>
 {
     [Fact]
-    public async Task ARecordIsStored_With_Hoofdactiviteiten()
+    public async ValueTask ARecordIsStored_With_Hoofdactiviteiten()
     {
        var expectedHoofdactiviteiten =
             fixture.Scenario
@@ -25,7 +25,7 @@ public class Given_HoofdactiviteitenVerenigingsloketWerdenGewijzigd(PowerBiScena
     }
 
     [Fact]
-    public async Task ARecordIsStored_With_Historiek()
+    public async ValueTask ARecordIsStored_With_Historiek()
     {
         fixture.Result.VCode.Should().Be(fixture.Scenario.VerenigingWerdGeregistreerd.VCode);
         fixture.Result.Historiek.Should().NotBeEmpty();

@@ -25,11 +25,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
+    public async ValueTask? Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
     {
         var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();

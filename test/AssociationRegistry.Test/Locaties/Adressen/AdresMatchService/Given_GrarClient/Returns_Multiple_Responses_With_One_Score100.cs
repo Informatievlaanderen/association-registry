@@ -12,7 +12,7 @@ using Xunit;
 public class Returns_Multiple_Responses_With_One_Score100
 {
     [Fact]
-    public async Task Then_AdresWerdOvergenomenUitAdressenregister()
+    public async ValueTask Then_AdresWerdOvergenomenUitAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
         var overTeNemenAdresId = fixture.Create<Registratiedata.AdresId>();

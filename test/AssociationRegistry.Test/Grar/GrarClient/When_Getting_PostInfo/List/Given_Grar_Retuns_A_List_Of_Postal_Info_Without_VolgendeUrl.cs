@@ -14,7 +14,7 @@ using Xunit;
 public class Given_Grar_Retuns_A_List_Of_Postal_Info_Without_VolgendeUrl
 {
     [Fact]
-    public async Task Then_Returns_PostalInfoList_Without_Offset_And_Limit()
+    public async ValueTask Then_Returns_PostalInfoList_Without_Offset_And_Limit()
     {
         var httpClient = new Mock<IGrarHttpClient>();
         var offset = "100";

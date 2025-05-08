@@ -14,12 +14,12 @@ public class VerenigingenPerInszQueryFixture: IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(VerenigingenPerInszQueryTests));
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await Store.DisposeAsync();
     }
@@ -36,7 +36,7 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
     }
 
     [Fact]
-    public async Task Returns_VerenigingenPerInszDocument()
+    public async ValueTask Returns_VerenigingenPerInszDocument()
     {
         var vereniging = await StoreVereniging(_session);
 
@@ -48,7 +48,7 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
     }
 
     [Fact]
-    public async Task With_Multiple_Verenigingen_Returns_Correct_VerenigingenPerInszDocument()
+    public async ValueTask With_Multiple_Verenigingen_Returns_Correct_VerenigingenPerInszDocument()
     {
         var vereniging = await StoreVereniging(_session);
         await StoreVereniging(_session);
@@ -61,7 +61,7 @@ public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQu
     }
 
     [Fact]
-    public async Task With_Other_Insz_Verenigingen_Returns_No_Verenigingen()
+    public async ValueTask With_Other_Insz_Verenigingen_Returns_No_Verenigingen()
     {
         var insz = "123456789";
         await StoreVereniging(_session);

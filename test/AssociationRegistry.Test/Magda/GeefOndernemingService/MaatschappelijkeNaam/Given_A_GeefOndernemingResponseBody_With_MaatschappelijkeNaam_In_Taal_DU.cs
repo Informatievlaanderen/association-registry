@@ -62,7 +62,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async ValueTask Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
@@ -71,7 +71,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_VerenigingVolgensKbo()
+    public async ValueTask Then_It_Returns_A_VerenigingVolgensKbo()
     {
         var kboNummer = _fixture.Create<KboNummer>();
         var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);
@@ -124,7 +124,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async ValueTask Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);
@@ -133,7 +133,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_VerenigingVolgensKbo()
+    public async ValueTask Then_It_Returns_A_VerenigingVolgensKbo()
     {
         var kboNummer = _fixture.Create<KboNummer>();
         var result = await _service.GeefVereniging(kboNummer, _fixture.Create<CommandMetadata>(), CancellationToken.None);

@@ -44,7 +44,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_an_assceptedResponse()
+    public async ValueTask Then_it_returns_an_assceptedResponse()
     {
         var response = await _controller.Delete(
             _fixture.Create<VCode>(),
@@ -59,7 +59,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_a_sequence_header()
+    public async ValueTask Then_it_returns_a_sequence_header()
     {
         await _controller.Delete(
             _fixture.Create<VCode>(),
@@ -73,7 +73,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_a_etag_header()
+    public async ValueTask Then_it_returns_a_etag_header()
     {
         await _controller.Delete(
             _fixture.Create<VCode>(),

@@ -11,7 +11,7 @@ using Xunit;
 public class Given_Grar_Returns_No_Gemeente_Components
 {
     [Fact]
-    public async Task Then_Returns_Empty_Collection()
+    public async ValueTask Then_Returns_Empty_Collection()
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 

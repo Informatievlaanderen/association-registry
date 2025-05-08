@@ -44,7 +44,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
     }
 
     [Fact]
-    public async Task WithVerenigingMetRechtspersoonlijkheid()
+    public async ValueTask WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new Vereniging
         {
             type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,

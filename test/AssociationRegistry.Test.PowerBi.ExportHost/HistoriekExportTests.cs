@@ -29,7 +29,7 @@ public class HistoriekExportTests
     }
 
     [Fact]
-    public async Task WithMultipleDocuments_ThenCsvExportShouldExport()
+    public async ValueTask WithMultipleDocuments_ThenCsvExportShouldExport()
     {
         var docs = _fixture.CreateMany<PowerBiExportDocument>();
 

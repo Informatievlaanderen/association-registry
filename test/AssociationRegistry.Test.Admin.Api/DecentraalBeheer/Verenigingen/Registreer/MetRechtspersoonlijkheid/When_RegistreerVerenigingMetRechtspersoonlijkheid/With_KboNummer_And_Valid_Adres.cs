@@ -31,7 +31,7 @@ public class With_KboNummer_And_Valid_Adres : With_KboNummer_For_Supported_Veren
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

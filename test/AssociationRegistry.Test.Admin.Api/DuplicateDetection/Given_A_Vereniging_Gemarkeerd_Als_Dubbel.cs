@@ -35,7 +35,7 @@ public class Given_A_Vereniging_Gemarkeerd_Als_Dubbel
     }
 
     [Fact]
-    public async Task? Then_no_duplicate_is_returned_for_dubbele_vereniging()
+    public async ValueTask? Then_no_duplicate_is_returned_for_dubbele_vereniging()
     {
         var request = CreateRegistreerFeitelijkeVerenigingRequest(_scenario.DubbeleVerenigingWerdGeregistreerd.Naam,
                                                                   _scenario.DubbeleVerenigingWerdGeregistreerd.Locaties.First().Adres

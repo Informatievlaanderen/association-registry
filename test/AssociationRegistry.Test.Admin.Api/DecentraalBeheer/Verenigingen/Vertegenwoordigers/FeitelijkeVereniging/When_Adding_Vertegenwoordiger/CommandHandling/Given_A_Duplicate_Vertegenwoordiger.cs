@@ -29,7 +29,7 @@ public class Given_A_Duplicate_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_DuplicateVertegenwoordiger_Is_Thrown()
+    public async ValueTask Then_A_DuplicateVertegenwoordiger_Is_Thrown()
     {
         var command = _fixture.Create<VoegVertegenwoordigerToeCommand>() with { VCode = _scenario.VCode };
 

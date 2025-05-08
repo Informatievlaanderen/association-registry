@@ -29,7 +29,7 @@ public class Given_Andere_Vereniging_Is_Loaded
     }
 
     [Fact]
-    public async Task With_Verwijderde_Andere_Vereniging_Then_Throws_AndereVerenigingIsVerwijderd()
+    public async ValueTask With_Verwijderde_Andere_Vereniging_Then_Throws_AndereVerenigingIsVerwijderd()
     {
         _verenigingRepositoryMock
            .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(_rechtspersoonScenario.VCode, It.IsAny<CommandMetadata>(), false, false))
@@ -46,7 +46,7 @@ public class Given_Andere_Vereniging_Is_Loaded
     }
 
     [Fact]
-    public async Task With_VZER_As_Andere_Vereniging_Then_Throws_ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype()
+    public async ValueTask With_VZER_As_Andere_Vereniging_Then_Throws_ActieIsNietToegestaanVoorAndereVerenigingVerenigingstype()
     {
         _verenigingRepositoryMock
            .Setup(x => x.Load<VerenigingMetRechtspersoonlijkheid>(It.IsAny<VCode>(), It.IsAny<CommandMetadata>(), false, false))

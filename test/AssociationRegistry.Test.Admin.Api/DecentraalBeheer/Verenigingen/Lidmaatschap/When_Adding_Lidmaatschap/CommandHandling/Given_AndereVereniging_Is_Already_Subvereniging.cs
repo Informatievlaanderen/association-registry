@@ -15,7 +15,7 @@ using Xunit;
 public class Given_AndereVereniging_Is_Already_Subvereniging
 {
     [Fact]
-    public async Task Then_It_Saves_A_Lidmaatschap()
+    public async ValueTask Then_It_Saves_A_Lidmaatschap()
     {
         var fixture = new Fixture().CustomizeDomain();
 

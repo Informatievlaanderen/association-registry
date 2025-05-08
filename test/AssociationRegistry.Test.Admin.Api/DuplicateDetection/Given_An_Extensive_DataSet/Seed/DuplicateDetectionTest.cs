@@ -109,7 +109,7 @@ public class DuplicateDetectionTest
         return new ReadOnlyCollection<DuplicateDetectionSeedLine>(records);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         if (_elastic.Indices.ExistsAsync(_duplicateDetectionIndex).GetAwaiter().GetResult().Exists)
             _elastic.Indices.DeleteAsync(_duplicateDetectionIndex).GetAwaiter().GetResult();

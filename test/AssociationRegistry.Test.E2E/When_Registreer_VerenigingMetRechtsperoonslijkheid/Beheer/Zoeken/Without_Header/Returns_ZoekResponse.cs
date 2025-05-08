@@ -36,7 +36,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse

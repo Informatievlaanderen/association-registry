@@ -8,7 +8,7 @@ public class Given_MultipleFeitelijkeVerenigingenWerdenGeregistreerd(PowerBiScen
     : PowerBiScenarioClassFixture<MultipleFeitelijkeVerenigingenWerdenGeregistreerdScenario>
 {
     [Fact]
-    public async Task ARecordIsStoredForEachVCode()
+    public async ValueTask ARecordIsStoredForEachVCode()
     {
         await using var documentSession = fixture.Context.AdminStore.LightweightSession();
 

@@ -24,7 +24,7 @@ public class Delete_An_Existing_Contactgegeven_Given_A_FeitelijkeVereniging : IA
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteContactgegeven(Scenario.VCode,
                                                                       Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens[0]
@@ -48,7 +48,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Delete_An_Existing_Con
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
