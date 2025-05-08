@@ -5,12 +5,9 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_No_Sort
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -23,7 +20,7 @@ public class Given_No_Sort
     }
 
     [Fact]
-    public async ValueTask? Then_it_sorts_by_vcode_descending()
+    public async ValueTask Then_it_sorts_by_vcode_descending()
     {
         var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();

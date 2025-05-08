@@ -4,9 +4,7 @@ using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.SocialMedias.Exceptions;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_String_With_Invalid_Start
 {
     [Theory]

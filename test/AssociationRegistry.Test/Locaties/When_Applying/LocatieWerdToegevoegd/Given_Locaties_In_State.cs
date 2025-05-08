@@ -6,10 +6,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-[Category("State")]
 public class Given_Locaties_In_State
 {
     [Fact]

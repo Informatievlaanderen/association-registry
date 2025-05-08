@@ -4,9 +4,7 @@ using Events;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class AdresIdEqualityTests
 {
     private readonly AdresId EqualityComparisonSource =

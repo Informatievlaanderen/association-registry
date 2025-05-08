@@ -8,10 +8,7 @@ using AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-[Category("Mapping")]
 public class With_Empty_Startdatum
 {
     [Fact]

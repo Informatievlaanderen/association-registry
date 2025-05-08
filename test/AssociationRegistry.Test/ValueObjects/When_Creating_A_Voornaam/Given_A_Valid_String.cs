@@ -3,9 +3,7 @@
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Valid_String
 {
     [Theory]

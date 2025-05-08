@@ -8,12 +8,9 @@ using System.Net;
 using templates;
 using Vereniging;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(AcmApiCollection))]
-[Category("AcmApi")]
-[IntegrationTest]
 public class When_Retrieving_Verenigingen_For_Insz
 {
     private readonly HttpResponseMessage _response;

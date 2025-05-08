@@ -13,12 +13,9 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
 {
     private readonly AdminApiClient _adminApiClient;

@@ -11,7 +11,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Patch_A_Locatie_Given_A_FeitelijkeVereniging : IAsyncLifetime
 {
@@ -62,13 +61,11 @@ public class Patch_A_Locatie_Given_A_FeitelijkeVereniging : IAsyncLifetime
         Response = await _fixture.AdminApiClient.PatchLocatie(Scenario.VCode, TeWijzigenLocatie.LocatieId, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_Locatie_Given_A_FeitelijkeVereniging>
 {
     private readonly Patch_A_Locatie_Given_A_FeitelijkeVereniging _classFixture;

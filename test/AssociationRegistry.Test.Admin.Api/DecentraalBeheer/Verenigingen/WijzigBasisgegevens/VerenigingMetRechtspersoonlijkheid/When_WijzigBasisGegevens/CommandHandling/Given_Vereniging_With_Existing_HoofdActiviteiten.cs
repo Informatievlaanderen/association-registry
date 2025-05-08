@@ -9,9 +9,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Vereniging_With_Existing_HoofdActiviteiten
 {
     private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;

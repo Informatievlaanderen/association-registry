@@ -5,7 +5,7 @@ using Admin.Schema.Constants;
 using Framework.AlbaHost;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime

@@ -13,12 +13,9 @@ using Nest;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class When_Searching_On_Type
 {
     private PubliekVerenigingenZoekQuery _query;

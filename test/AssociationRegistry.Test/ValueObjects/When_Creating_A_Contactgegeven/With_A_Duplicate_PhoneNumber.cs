@@ -7,9 +7,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Duplicate_PhoneNumber
 {
     [Theory]

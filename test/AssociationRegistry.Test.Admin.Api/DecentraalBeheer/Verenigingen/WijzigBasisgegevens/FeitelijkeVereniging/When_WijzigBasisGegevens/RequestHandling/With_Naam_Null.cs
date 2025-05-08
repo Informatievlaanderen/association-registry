@@ -9,9 +9,7 @@ using FluentValidation;
 using Moq;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Naam_Null
 {
     private readonly WijzigBasisgegevensController _controller;

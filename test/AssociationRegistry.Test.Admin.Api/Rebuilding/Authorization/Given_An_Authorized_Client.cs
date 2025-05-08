@@ -5,11 +5,8 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures.MinimalApi;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_An_Authorized_Client
 {
     private readonly AdminApiClient _client;

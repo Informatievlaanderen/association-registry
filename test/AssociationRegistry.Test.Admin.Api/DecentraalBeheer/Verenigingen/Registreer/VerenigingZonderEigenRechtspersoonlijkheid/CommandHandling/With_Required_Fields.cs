@@ -15,9 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Required_Fields
 {
     private const string Naam = "naam1";

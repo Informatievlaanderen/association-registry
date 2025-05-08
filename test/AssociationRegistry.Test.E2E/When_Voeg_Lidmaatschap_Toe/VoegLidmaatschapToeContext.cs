@@ -21,7 +21,7 @@ public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequ
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VoegLidmaatschapToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);

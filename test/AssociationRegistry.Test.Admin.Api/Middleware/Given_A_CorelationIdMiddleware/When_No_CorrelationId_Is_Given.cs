@@ -5,11 +5,10 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework.Fixtures;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 [Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
 public class When_No_CorrelationId_Is_Given

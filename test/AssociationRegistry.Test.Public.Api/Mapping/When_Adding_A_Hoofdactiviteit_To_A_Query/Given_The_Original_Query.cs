@@ -4,18 +4,13 @@ using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Verenigingen.Search;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
-[Category("Mapping")]
 public class Given_The_Original_Query
 {
     private const string BaseUrl = "http://base";
     private const string EenHoofdActiviteitCode = "BWWC";
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_Empty_OriginalQuery
+            public class Given_An_Empty_OriginalQuery
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -27,9 +22,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Does_Not_Contain_Hoofdactiviteiten
+            public class Given_An_OriginalQuery_That_Does_Not_Contain_Hoofdactiviteiten
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -42,9 +35,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Contains_Only_A_Star
+            public class Given_An_OriginalQuery_That_Contains_Only_A_Star
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -56,9 +47,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Contains_1_Hoofdactiviteit_And_Nothing_Else
+            public class Given_An_OriginalQuery_That_Contains_1_Hoofdactiviteit_And_Nothing_Else
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -72,9 +61,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Contains_2_Hoofdactiviteiten_And_Nothing_Else
+            public class Given_An_OriginalQuery_That_Contains_2_Hoofdactiviteiten_And_Nothing_Else
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -88,9 +75,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Contains_1_Hoofdactiviteit_And_Something_Else
+            public class Given_An_OriginalQuery_That_Contains_1_Hoofdactiviteit_And_Something_Else
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()
@@ -104,9 +89,7 @@ public class Given_The_Original_Query
         }
     }
 
-    [UnitTest]
-    [Category("Mapping")]
-    public class Given_An_OriginalQuery_That_Contains_2_Hoofdactiviteiten_And_Something_Else
+            public class Given_An_OriginalQuery_That_Contains_2_Hoofdactiviteiten_And_Something_Else
     {
         [Fact]
         public void Then_it_adds_the_hoofdactiviteit_to_the_query()

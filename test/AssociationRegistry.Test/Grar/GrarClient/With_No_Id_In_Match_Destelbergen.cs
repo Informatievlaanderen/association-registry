@@ -3,9 +3,7 @@
 using Fixtures;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_No_Id_In_Match_Destelbergen : IClassFixture<WithNoIdInMatchDestelbergenFixture>
 {
     private readonly WithNoIdInMatchDestelbergenFixture _fixture;

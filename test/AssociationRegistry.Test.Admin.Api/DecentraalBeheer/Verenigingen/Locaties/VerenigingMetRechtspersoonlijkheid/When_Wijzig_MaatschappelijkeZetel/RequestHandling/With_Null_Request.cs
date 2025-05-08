@@ -7,9 +7,7 @@ using AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Null_Request
 {
     private readonly WijzigMaatschappelijkeZetelController _controller;

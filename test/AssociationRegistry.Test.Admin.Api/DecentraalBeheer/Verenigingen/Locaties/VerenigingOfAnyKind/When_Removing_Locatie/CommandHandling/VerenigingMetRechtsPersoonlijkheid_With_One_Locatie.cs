@@ -8,9 +8,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class VerenigingMetRechtsPersoonlijkheid_With_One_Locatie
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

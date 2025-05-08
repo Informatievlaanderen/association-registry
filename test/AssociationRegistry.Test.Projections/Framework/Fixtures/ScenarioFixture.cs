@@ -40,5 +40,5 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext con
     protected abstract Task<TResult> GetResultAsync(
         IDocumentSession session,
         TScenario scenario);
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => new(Task.CompletedTask);
 }

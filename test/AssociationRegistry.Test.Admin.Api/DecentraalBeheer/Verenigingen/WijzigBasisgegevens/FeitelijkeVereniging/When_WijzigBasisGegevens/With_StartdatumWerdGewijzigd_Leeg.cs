@@ -11,7 +11,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
 {
@@ -43,8 +42,6 @@ public sealed class When_WijzigBasisGegevens_WithStartdatumLeeg
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_StartdatumWerdGewijzigd_Leeg
 {
     private readonly EventsInDbScenariosFixture _fixture;

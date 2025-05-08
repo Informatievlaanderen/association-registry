@@ -12,9 +12,7 @@ using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.Extensions.Logging.Abstractions;
 using Xunit;
-using Xunit.Categories;
 
-[IntegrationTest]
 public class Given_A_Valid_KboNummer
 {
     private const string KboNummer = "0442528054";

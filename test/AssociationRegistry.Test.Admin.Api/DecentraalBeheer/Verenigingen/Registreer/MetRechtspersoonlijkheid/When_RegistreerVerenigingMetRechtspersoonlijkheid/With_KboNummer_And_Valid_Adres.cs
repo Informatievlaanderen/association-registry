@@ -9,7 +9,7 @@ using Polly;
 
 using With_Kbo_Nummer_For_Supported_Rechtsvorm;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 public class RegistreerForValidAdresSetup : RegistreerVereniginMetRechtspersoonlijkheidSetup
 {

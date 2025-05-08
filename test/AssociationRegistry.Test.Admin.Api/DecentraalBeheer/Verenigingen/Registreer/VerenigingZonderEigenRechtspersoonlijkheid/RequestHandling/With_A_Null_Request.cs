@@ -9,9 +9,7 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fakes;
 using Moq;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Null_Request
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidController _controller;

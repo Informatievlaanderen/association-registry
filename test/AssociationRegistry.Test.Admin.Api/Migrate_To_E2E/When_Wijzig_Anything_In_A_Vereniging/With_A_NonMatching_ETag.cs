@@ -6,9 +6,9 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Microsoft.Net.Http.Headers;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
 {
@@ -38,9 +38,7 @@ public sealed class When_WijzigBasisgegevens_With_A_NonMatching_ETag
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 [Category(Categories.MoveToBasicE2E)]
-[IntegrationTest]
 public class With_A_NonMatching_ETag
 {
     private readonly EventsInDbScenariosFixture _fixture;

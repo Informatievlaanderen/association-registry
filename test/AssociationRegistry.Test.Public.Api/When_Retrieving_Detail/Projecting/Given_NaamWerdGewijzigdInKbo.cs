@@ -9,9 +9,7 @@ using Framework;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_NaamWerdGewijzigdInKbo
 {
     [Fact]
@@ -28,7 +26,6 @@ public class Given_NaamWerdGewijzigdInKbo
     }
 }
 
-[UnitTest]
 public class Given_RechtsvormWerdGewijzigdInKbo
 {
     [Fact]
@@ -51,7 +48,6 @@ public class Given_RechtsvormWerdGewijzigdInKbo
     }
 }
 
-[UnitTest]
 public class Given_KorteNaamWerdGewijzigdInKbo
 {
     [Fact]

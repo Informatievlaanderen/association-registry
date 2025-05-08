@@ -4,9 +4,7 @@ using AssociationRegistry.Vereniging.TelefoonNummers;
 using AssociationRegistry.Vereniging.TelefoonNummers.Exceptions;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_String_Without_Numbers
 {
     [Theory]

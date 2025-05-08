@@ -25,7 +25,7 @@ public class BeheerDetailContext: TestContextBase<RegistreerVerenigingZonderEige
         apiSetup.RegisterContext(this);
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     { }
 
     public override async Task Init()

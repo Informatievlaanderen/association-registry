@@ -7,7 +7,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Unparsable_Request
 {
@@ -27,8 +26,6 @@ public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Un
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Unparsable_Request
 {
     private readonly EventsInDbScenariosFixture _fixture;

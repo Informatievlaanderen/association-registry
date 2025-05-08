@@ -8,9 +8,7 @@ using FluentAssertions;
 using Framework;
 using JsonLdContext;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_ContactgegevenWerdOvergenomenUitKBO
 {
     [Fact]
@@ -43,7 +41,6 @@ public class Given_ContactgegevenWerdOvergenomenUitKBO
     }
 }
 
-[UnitTest]
 public class Given_ContactgegevenWerdGewijzigdUitKBO
 {
     [Fact]

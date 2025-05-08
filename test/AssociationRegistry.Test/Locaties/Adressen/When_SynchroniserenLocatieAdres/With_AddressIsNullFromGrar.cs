@@ -12,9 +12,7 @@ using Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_AddressIsNullFromGrar
 {
     [Fact]

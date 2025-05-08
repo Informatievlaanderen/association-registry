@@ -13,10 +13,8 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
 
-[UnitTest]
 public class Given_NietGeslaagd_Uitzondering_Fout
 {
     private readonly MagdaRegistreerInschrijvingService _service;

@@ -177,5 +177,5 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
            $"password={configurationRoot["PostgreSQLOptions:password"]};" +
            $"username={configurationRoot["PostgreSQLOptions:username"]}";
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => new(Task.CompletedTask);
 }

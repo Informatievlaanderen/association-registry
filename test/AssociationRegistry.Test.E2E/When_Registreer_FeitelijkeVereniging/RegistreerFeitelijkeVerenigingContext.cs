@@ -25,7 +25,7 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
         apiSetup.RegisterContext(this);
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         // _emptyScenario = new EmptyScenario();e
         //

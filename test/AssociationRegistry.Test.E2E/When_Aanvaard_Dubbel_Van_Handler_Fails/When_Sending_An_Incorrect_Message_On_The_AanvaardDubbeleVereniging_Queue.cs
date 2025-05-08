@@ -15,7 +15,7 @@ using NodaTime;
 using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Given_Incorrect_VCode_In_The_Message

@@ -21,7 +21,7 @@ public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
         Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
