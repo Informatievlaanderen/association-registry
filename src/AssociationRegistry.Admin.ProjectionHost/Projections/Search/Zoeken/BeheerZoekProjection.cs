@@ -1,3 +1,5 @@
+using AssociationRegistry.Admin.Schema.Search;
+
 namespace AssociationRegistry.Admin.ProjectionHost.Projections.Search.Zoeken;
 
 using Events;
@@ -201,7 +203,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<NaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Naam = message.Data.Naam,
             },
@@ -211,7 +213,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<RoepnaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Roepnaam = message.Data.Roepnaam,
             },
@@ -221,7 +223,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.Data.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 KorteNaam = message.Data.KorteNaam,
             },
@@ -245,7 +247,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<EinddatumWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
             },
@@ -255,7 +257,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<DoelgroepWerdGewijzigd> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Doelgroep = new Doelgroep
                 {
@@ -271,7 +273,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 HoofdactiviteitenVerenigingsloket = message.Data.HoofdactiviteitenVerenigingsloket
                                                            .Select(
@@ -294,7 +296,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Werkingsgebieden = [],
             },
@@ -305,7 +307,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Werkingsgebieden = message.Data.Werkingsgebieden
                                           .Select(
@@ -328,7 +330,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Werkingsgebieden = message.Data.Werkingsgebieden
                                           .Select(
@@ -351,7 +353,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Werkingsgebieden =
                 [
@@ -373,7 +375,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsUitgeschrevenUitPubliekeDatastroom = true,
             },
@@ -384,7 +386,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsUitgeschrevenUitPubliekeDatastroom = false,
             },
@@ -500,7 +502,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Status = VerenigingStatus.Gestopt,
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
@@ -512,7 +514,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Status = VerenigingStatus.Gestopt,
                 Einddatum = message.Data.Einddatum.ToString(WellknownFormats.DateOnly),
@@ -534,7 +536,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<NaamWerdGewijzigdInKbo> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Naam = message.Data.Naam,
             },
@@ -544,7 +546,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<KorteNaamWerdGewijzigdInKbo> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 KorteNaam = message.Data.KorteNaam,
             },
@@ -554,7 +556,7 @@ public class BeheerZoekProjectionHandler
     public async Task Handle(EventEnvelope<RechtsvormWerdGewijzigdInKBO> message)
         => await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Verenigingstype = new VerenigingZoekDocument.Types.VerenigingsType
                 {
@@ -615,7 +617,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsDubbel = true,
             },
@@ -634,7 +636,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsDubbel = false,
             },
@@ -653,7 +655,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             message.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 IsDubbel = false,
             },
@@ -694,7 +696,7 @@ public class BeheerZoekProjectionHandler
     {
         await _elasticRepository.UpdateAsync(
             @event.VCode,
-            new VerenigingZoekDocument
+            new VerenigingZoekUpdateDocument
             {
                 Verenigingssubtype = new VerenigingZoekDocument.Types.Verenigingssubtype
                 {
