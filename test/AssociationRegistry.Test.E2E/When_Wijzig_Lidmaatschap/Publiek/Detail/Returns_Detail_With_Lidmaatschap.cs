@@ -7,8 +7,8 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_With_Lidmaatschap : IClassFixture<WijzigLidmaatschapContext>, IAsyncLifetime
+[Collection("WijzigLidmaatschapContext")]
+public class Returns_Detail_With_Lidmaatschap : IAsyncLifetime
 {
     private readonly WijzigLidmaatschapContext _context;
 

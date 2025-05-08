@@ -8,8 +8,8 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using Lidmaatschap = Admin.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IClassFixture<VoegLidmaatschapToeContext>, IAsyncLifetime
+[Collection(VoegLidmaatschapToeContext.Name)]
+public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime
 {
     private readonly VoegLidmaatschapToeContext _context;
 

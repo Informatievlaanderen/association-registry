@@ -20,9 +20,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerFeitelijkeVerenig
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_VZER_ZoekResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_VZER_ZoekResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

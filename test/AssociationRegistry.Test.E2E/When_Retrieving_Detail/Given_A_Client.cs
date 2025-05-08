@@ -20,9 +20,9 @@ public class Given_A_Client :
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Given_A_Client(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Given_A_Client(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

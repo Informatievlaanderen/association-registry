@@ -11,6 +11,7 @@ using Vereniging;
 
 public class SearchContext: TestContextBase<NullRequest>
 {
+    public const string Name = "SearchContext";
     public VCode VCode => RequestResult.VCode;
     public SearchScenario Scenario { get; }
 

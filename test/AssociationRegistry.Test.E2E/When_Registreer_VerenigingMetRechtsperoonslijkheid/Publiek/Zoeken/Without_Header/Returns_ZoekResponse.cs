@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
 {
     private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

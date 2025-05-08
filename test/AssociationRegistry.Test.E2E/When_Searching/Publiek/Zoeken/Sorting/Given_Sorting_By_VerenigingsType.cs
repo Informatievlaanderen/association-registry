@@ -14,9 +14,9 @@ public class Given_Sorting_By_VerenigingsType : End2EndTest<SearchContext, NullR
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_VerenigingsType(SearchContext testContext) : base(testContext)
+    public Given_Sorting_By_VerenigingsType(SearchContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

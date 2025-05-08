@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVa
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(MarkeerAlsDubbelVanContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(MarkeerAlsDubbelVanContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

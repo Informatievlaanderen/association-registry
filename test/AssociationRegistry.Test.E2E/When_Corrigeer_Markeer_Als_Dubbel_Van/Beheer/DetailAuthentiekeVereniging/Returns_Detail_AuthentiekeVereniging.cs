@@ -17,7 +17,7 @@ public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeri
     private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_AuthentiekeVereniging(CorrigeerMarkeringAlsDubbelVanContext context, ITestOutputHelper helper) : base(context)
+    public Returns_Detail_AuthentiekeVereniging(CorrigeerMarkeringAlsDubbelVanContext context, ITestOutputHelper helper)
     {
         _context = context;
         _helper = helper;

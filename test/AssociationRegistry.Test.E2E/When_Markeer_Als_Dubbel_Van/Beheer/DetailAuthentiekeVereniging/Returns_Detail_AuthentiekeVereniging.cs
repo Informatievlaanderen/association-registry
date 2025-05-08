@@ -7,8 +7,8 @@ using FluentAssertions;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_AuthentiekeVereniging : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
+[Collection(MarkeerAlsDubbelVanContext.Name)]
+public class Returns_Detail_AuthentiekeVereniging : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;
     private readonly ITestOutputHelper _helper;

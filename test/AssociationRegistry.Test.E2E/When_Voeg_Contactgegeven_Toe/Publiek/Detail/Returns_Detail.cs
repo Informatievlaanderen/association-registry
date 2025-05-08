@@ -6,8 +6,8 @@ using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : IClassFixture<VoegContactgegevenToeContext>, IAsyncLifetime
+[Collection(VoegContactgegevenToeContext.Name)]
+public class Returns_Detail : IAsyncLifetime
 {
     private readonly VoegContactgegevenToeContext _context;
 

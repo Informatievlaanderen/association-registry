@@ -15,9 +15,9 @@ public class Given_Sorting_By_Single_Field : End2EndTest<SearchContext, NullRequ
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Single_Field(SearchContext testContext) : base(testContext)
+    public Given_Sorting_By_Single_Field(SearchContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

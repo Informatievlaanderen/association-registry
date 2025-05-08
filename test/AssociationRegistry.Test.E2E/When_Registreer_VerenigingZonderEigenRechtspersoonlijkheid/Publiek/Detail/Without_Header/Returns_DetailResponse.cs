@@ -24,9 +24,9 @@ public class Returns_DetailResponse : End2EndTest<RegistreerVerenigingZonderEige
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

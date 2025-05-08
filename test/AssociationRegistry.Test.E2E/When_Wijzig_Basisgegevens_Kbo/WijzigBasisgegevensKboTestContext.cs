@@ -12,6 +12,7 @@ using WijzigBasisgegevensRequestFactory = Scenarios.Requests.VerenigingMetRechts
 
 public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgegevensRequest>
 {
+    public const string Name = "WijzigBasisgegevensKboTestContext";
     private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdScenario _werdGeregistreerdScenario;
 
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd RegistratieData

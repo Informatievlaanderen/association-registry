@@ -12,6 +12,7 @@ using Scenarios.Requests.FeitelijkeVereniging;
 
 public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContextBase<RegistreerVerenigingUitKboRequest>
 {
+    public const string Name = "RegistreerVerenigingMetRechtsperoonlijkheidTestContext";
     public RegistreerVerenigingMetRechtsperoonlijkheidTestContext(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
