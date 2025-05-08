@@ -7,14 +7,14 @@ using System.Net;
 using Xunit;
 using Xunit.Categories;
 
-[Collection(nameof(MinimalAdminApiCollection))]
+[Collection(nameof(AdminApiCollection))]
 [Category("AdminApi")]
 [IntegrationTest]
 public class Given_An_Unauthorized_Client
 {
     private readonly AdminApiClient _client;
 
-    public Given_An_Unauthorized_Client(MinimalAdminApiFixture fixture)
+    public Given_An_Unauthorized_Client(EventsInDbScenariosFixture fixture)
     {
         _client = fixture.DefaultClient;
     }
