@@ -12,7 +12,7 @@ using Xunit;
 public class Given_KboNummersMetOngeldigeRechtsvorm
 {
     [Fact]
-    public async Task Returns_VerenigingenPerKbo_With_NVT()
+    public async ValueTask Returns_VerenigingenPerKbo_With_NVT()
     {
         var fixture = new Fixture().CustomizeDomain();
         var ongeldigeRechtsvorm = fixture.Create<string>();

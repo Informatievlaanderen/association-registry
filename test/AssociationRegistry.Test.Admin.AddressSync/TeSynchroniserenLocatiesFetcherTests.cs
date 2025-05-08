@@ -18,7 +18,7 @@ using Vereniging;
 public class TeSynchroniserenLocatiesFetcherTests
 {
     [Fact]
-    public async Task Given_No_LocatieLookupDocumenten_Returns_Empty()
+    public async ValueTask Given_No_LocatieLookupDocumenten_Returns_Empty()
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
 
@@ -33,7 +33,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     }
 
     [Fact]
-    public async Task Given_1_LocatieLookupDocumenten_Returns_1_Locatie()
+    public async ValueTask Given_1_LocatieLookupDocumenten_Returns_1_Locatie()
     {
         var fixture = new Fixture().CustomizeDomain();
         await using var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
@@ -76,7 +76,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     }
 
     [Fact]
-    public async Task Given_Several_LocatieLookupDocumenten_Returns_Grouped_Messages()
+    public async ValueTask Given_Several_LocatieLookupDocumenten_Returns_Grouped_Messages()
     {
         var fixture = new Fixture().CustomizeDomain();
         await using var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));
@@ -126,7 +126,7 @@ public class TeSynchroniserenLocatiesFetcherTests
     }
 
     [Fact]
-    public async Task Given_Grar_Returns_Gone_Then_Message_Has_Locatie_With_Null_Adres()
+    public async ValueTask Given_Grar_Returns_Gone_Then_Message_Has_Locatie_With_Null_Adres()
     {
         var fixture = new Fixture().CustomizeDomain();
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(TeSynchroniserenLocatiesFetcherTests));

@@ -30,7 +30,7 @@ public class Given_A_Second_Primair_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_DuplicateVertegenwoordiger_Is_Thrown()
+    public async ValueTask Then_A_DuplicateVertegenwoordiger_Is_Thrown()
     {
         var command = new VoegVertegenwoordigerToeCommand(
             _scenario.VCode,

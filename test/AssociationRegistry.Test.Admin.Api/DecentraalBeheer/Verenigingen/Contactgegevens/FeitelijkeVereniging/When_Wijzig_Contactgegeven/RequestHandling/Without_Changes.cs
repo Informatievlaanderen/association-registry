@@ -36,7 +36,7 @@ public class Without_Changes : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _result = await _controller.Patch(
             vCode: "V0001001",

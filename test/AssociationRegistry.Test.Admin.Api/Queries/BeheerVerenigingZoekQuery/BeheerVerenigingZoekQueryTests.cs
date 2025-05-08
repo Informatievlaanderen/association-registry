@@ -35,7 +35,7 @@ public class BeheerVerenigingenZoekQueryTests
     }
 
     [Fact]
-    public async Task? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
+    public async ValueTask? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var totalCount = 0;

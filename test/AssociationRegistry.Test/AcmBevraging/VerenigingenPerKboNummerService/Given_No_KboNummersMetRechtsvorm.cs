@@ -8,7 +8,7 @@ using Xunit;
 public class Given_No_KboNummersMetRechtsvorm
 {
     [Fact]
-    public async Task Returns_No_VerenigingenPerKbo()
+    public async ValueTask Returns_No_VerenigingenPerKbo()
     {
         var store = await TestDocumentStoreFactory.CreateAsync(nameof(Given_No_KboNummersMetRechtsvorm));
 

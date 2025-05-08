@@ -18,7 +18,7 @@ public class LocatieLookupFixture : IAsyncLifetime
     public DocumentStore Store { get; private set; }
     public IDocumentSession Session { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         AutoFixture = new Fixture().CustomizeAdminApi();
 
@@ -26,7 +26,7 @@ public class LocatieLookupFixture : IAsyncLifetime
         Session = Store.LightweightSession();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }
@@ -42,7 +42,7 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
     }
 
     [Fact]
-    public async Task With_No_Matching_Documents_Then_Returns_Empty_Collection()
+    public async ValueTask With_No_Matching_Documents_Then_Returns_Empty_Collection()
     {
         var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
 
@@ -57,7 +57,7 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
     }
 
     [Fact]
-    public async Task With_One_Matching_Documents_Then_Returns_A_Collection_With_One_Match()
+    public async ValueTask With_One_Matching_Documents_Then_Returns_A_Collection_With_One_Match()
     {
         var locatieLookupDocument = _fixture.AutoFixture.Create<LocatieLookupDocument>();
 
@@ -77,7 +77,7 @@ public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
     }
 
     [Fact]
-    public async Task With_Multiple_Matching_Documents_Then_Returns_A_Collection_With_Multiple_Matches()
+    public async ValueTask With_Multiple_Matching_Documents_Then_Returns_A_Collection_With_Multiple_Matches()
     {
         var vCode1 = _fixture.AutoFixture.Create<VCode>();
         var vCode2 = _fixture.AutoFixture.Create<VCode>();

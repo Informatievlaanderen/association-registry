@@ -54,7 +54,7 @@ public class With_Two_Duplicate_Contactgegevens
     }
 
     [Fact]
-    public async Task Then_The_Result_Contains_The_Potential_Duplicates()
+    public async ValueTask Then_The_Result_Contains_The_Potential_Duplicates()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
         await method.Should().ThrowAsync<ContactgegevenIsDuplicaat>();

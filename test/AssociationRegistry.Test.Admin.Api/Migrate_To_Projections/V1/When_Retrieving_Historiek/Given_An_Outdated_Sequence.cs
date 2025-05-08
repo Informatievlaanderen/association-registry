@@ -26,7 +26,7 @@ public class Given_An_Outdated_Sequence
     }
 
     [Fact]
-    public async Task Then_we_get_a_precondition_failed_response_for_historiek()
+    public async ValueTask Then_we_get_a_precondition_failed_response_for_historiek()
     {
         var response =
             await _adminApiClient.GetHistoriek(_fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode, long.MaxValue);

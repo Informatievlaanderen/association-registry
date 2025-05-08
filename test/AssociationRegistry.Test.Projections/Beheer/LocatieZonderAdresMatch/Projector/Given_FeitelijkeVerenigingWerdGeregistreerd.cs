@@ -20,7 +20,7 @@ public class Given_VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd :
     }
 
     [Fact]
-    public async Task Then_A_Document_Should_Not_Contain_LocationId()
+    public async ValueTask Then_A_Document_Should_Not_Contain_LocationId()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

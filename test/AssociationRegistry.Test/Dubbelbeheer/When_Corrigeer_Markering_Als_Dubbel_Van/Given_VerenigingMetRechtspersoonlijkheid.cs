@@ -19,7 +19,7 @@ using Xunit;
 public class Given_VerenigingMetRechtspersoonlijkheid
 {
     [Fact]
-    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
+    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_AllFields_Scenario();

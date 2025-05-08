@@ -103,7 +103,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public AcmApiClient DefaultClient
         => AcmApiClients.Authenticated;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await Given();
 
     public virtual async Task DisposeAsync()

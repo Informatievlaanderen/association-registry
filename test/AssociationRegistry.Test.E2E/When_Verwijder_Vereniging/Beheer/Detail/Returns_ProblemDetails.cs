@@ -17,7 +17,7 @@ public class Returns_ProblemDetails : IClassFixture<VerwijderVerenigingContext>
     }
 
     [Fact]
-    public async Task With_VerenigingWerdVerwijderd_In_Response()
+    public async ValueTask With_VerenigingWerdVerwijderd_In_Response()
     {
         var response = _context.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, 2);
         var responseContent = await response.Content.ReadAsStringAsync();

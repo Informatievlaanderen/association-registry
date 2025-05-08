@@ -16,7 +16,7 @@ using Verenigingstype = AssociationRegistry.Acm.Api.VerenigingenPerInsz.Verenigi
 public class VerenigingenPerInszControllerTests
 {
     [Fact]
-    public async Task Given_No_Verenigingen_Returns_Insz_With_Empty_Verenigingen()
+    public async ValueTask Given_No_Verenigingen_Returns_Insz_With_Empty_Verenigingen()
     {
         var verenigingenPerInsz = new VerenigingenPerInszDocument()
         {
@@ -39,7 +39,7 @@ public class VerenigingenPerInszControllerTests
     }
 
     [Fact]
-    public async Task Given_Verenigingen_Per_Kbo_Returns_Insz_With_KboNummers()
+    public async ValueTask Given_Verenigingen_Per_Kbo_Returns_Insz_With_KboNummers()
     {
         var verenigingenPerInsz = new VerenigingenPerInszDocument()
         {
@@ -81,7 +81,7 @@ public class VerenigingenPerInszControllerTests
     }
 
     [Fact]
-    public async Task Given_Verenigingen_Per_Insz_Returns_Insz_With_Verenigingen()
+    public async ValueTask Given_Verenigingen_Per_Insz_Returns_Insz_With_Verenigingen()
     {
         var fixture = new Fixture().CustomizeAcmApi();
 

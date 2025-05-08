@@ -29,7 +29,7 @@ public class Given_A_Contactgegeven_With_Same_Type_And_Value_But_Diff_Beschrijvi
     }
 
     [Fact]
-    public async Task Then_A_DuplicateContactgegeven_Is_Not_Thrown()
+    public async ValueTask Then_A_DuplicateContactgegeven_Is_Not_Thrown()
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 

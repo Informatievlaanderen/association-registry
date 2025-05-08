@@ -128,7 +128,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public AdminApiClient DefaultClient
         => AdminApiClients.Authenticated;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await Given();
     }

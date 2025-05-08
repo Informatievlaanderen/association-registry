@@ -29,7 +29,7 @@ public class With_An_Unknown_LocatieId
     }
 
     [Fact]
-    public async Task Then_A_UnknownVertegenoordigerException_Is_Thrown()
+    public async ValueTask Then_A_UnknownVertegenoordigerException_Is_Thrown()
     {
         var nonExistingLocatieId = _scenario.LocatieWerdToegevoegd.Locatie.LocatieId + _fixture.Create<int>();
         var command = new VerwijderLocatieCommand(_scenario.VCode, nonExistingLocatieId);

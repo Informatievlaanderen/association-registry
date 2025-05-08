@@ -20,7 +20,7 @@ public class Given_The_Resource_Exists : IClassFixture<StaticPublicApiFixture>
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
     {
         var response = await _httpClient.GetAsync("/v1/contexten/publiek/detail-vereniging-context.json");
         response.Should().BeSuccessful();

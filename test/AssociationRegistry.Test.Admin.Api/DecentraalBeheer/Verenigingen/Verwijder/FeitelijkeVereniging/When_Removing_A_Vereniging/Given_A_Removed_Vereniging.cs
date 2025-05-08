@@ -27,7 +27,7 @@ public class Remove_A_Removed_Vereniging : IAsyncLifetime
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
@@ -49,7 +49,7 @@ public class Given_A_Removed_Vereniging : IClassFixture<Remove_A_Removed_Verenig
     }
 
     [Fact]
-    public async Task Then_it_saves_no_events()
+    public async ValueTask Then_it_saves_no_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -67,7 +67,7 @@ public class Given_A_Removed_Vereniging : IClassFixture<Remove_A_Removed_Verenig
     }
 
     [Fact]
-    public async Task Then_it_returns_a_correct_message()
+    public async ValueTask Then_it_returns_a_correct_message()
     {
         var responseBody = await _classFixture.Response.Content.ReadAsStringAsync();
         var problemDetails = JsonConvert.DeserializeObject<JObject>(responseBody);

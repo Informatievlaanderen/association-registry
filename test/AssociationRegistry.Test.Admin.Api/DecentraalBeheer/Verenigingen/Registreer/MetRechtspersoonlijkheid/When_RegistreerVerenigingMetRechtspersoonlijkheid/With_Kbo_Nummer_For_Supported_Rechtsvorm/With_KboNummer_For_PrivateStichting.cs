@@ -48,7 +48,7 @@ public class With_KboNummer_For_PrivateStichting : With_KboNummer_For_Supported_
     }
 
     [Fact]
-    public async Task Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
+    public async ValueTask Then_It_Adds_Vertegenwoordigers_From_Temporary_Source()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

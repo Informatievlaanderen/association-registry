@@ -6,7 +6,7 @@ using Xunit;
 public class Given_Geen_Geldige_Vereniging_Volgens_Magda
 {
     [Fact]
-    public async Task Then_Throws_GeenGeldigeVerenigingInKbo()
+    public async ValueTask Then_Throws_GeenGeldigeVerenigingInKbo()
     {
         await Assert
            .ThrowsAsync<GeenGeldigeVerenigingInKbo>(() => new SyncKboCommandHandlerBuilder()

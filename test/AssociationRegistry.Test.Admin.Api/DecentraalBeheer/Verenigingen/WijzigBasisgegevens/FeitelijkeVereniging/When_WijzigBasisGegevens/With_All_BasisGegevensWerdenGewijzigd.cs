@@ -132,7 +132,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     }
 
     [Fact]
-    public async Task Then_it_returns_an_accepted_response()
+    public async ValueTask Then_it_returns_an_accepted_response()
         => _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
 
     [Fact]

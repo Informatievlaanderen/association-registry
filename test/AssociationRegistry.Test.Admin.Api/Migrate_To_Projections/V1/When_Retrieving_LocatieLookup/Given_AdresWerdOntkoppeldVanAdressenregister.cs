@@ -17,10 +17,10 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister_Setup : IAsyncLifetime
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V078AdresWerdOntkoppeldVanAdressenregister);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }
@@ -40,12 +40,12 @@ public class Given_AdresWerdOntkoppeldVanAdressenregister : IClassFixture<Given_
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _superAdminApiClient.GetLocatieLookup(_scenario.VCode, _scenario.Result.Sequence))
           .Should().BeSuccessful();
 
     [Fact]
-    public async Task Then_we_get_a_locatie_lookup_response()
+    public async ValueTask Then_we_get_a_locatie_lookup_response()
     {
         var response = await _superAdminApiClient.GetLocatieLookup(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

@@ -32,7 +32,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingZonderE
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,

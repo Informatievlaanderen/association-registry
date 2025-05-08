@@ -29,7 +29,7 @@ public class With_One_Vertegenwoordiger_And_An_Unknown_VertegenwoordigerId
     }
 
     [Fact]
-    public async Task Then_A_UnknownVertegenoordigerException_Is_Thrown()
+    public async ValueTask Then_A_UnknownVertegenoordigerException_Is_Thrown()
     {
         var unKnownVertegenwoordigerId = _scenario.VertegenwoordigerId + 1;
         var command = new VerwijderVertegenwoordigerCommand(_scenario.VCode, unKnownVertegenwoordigerId);

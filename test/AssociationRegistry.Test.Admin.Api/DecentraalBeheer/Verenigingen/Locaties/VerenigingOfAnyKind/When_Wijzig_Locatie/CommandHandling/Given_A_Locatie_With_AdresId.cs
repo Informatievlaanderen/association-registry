@@ -25,7 +25,7 @@ using Xunit.Categories;
 public class Given_A_Locatie_With_Adres_id
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());

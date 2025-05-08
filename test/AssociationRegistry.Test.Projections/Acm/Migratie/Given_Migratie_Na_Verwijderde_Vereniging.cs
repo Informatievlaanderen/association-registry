@@ -11,7 +11,7 @@ public class Given_Migratie_Na_Verwijderde_Vereniging(
     : VerenigingenPerInszScenarioClassFixture<Migratie_Na_Verwijderde_Vereniging>
 {
     [Fact]
-    public async Task Then_VerenigingsType_Is_Vzer()
+    public async ValueTask Then_VerenigingsType_Is_Vzer()
     {
         await using var session = fixture.Context.AcmStore.LightweightSession();
         var verenigingDocument = await session.Query<VerenigingDocument>()

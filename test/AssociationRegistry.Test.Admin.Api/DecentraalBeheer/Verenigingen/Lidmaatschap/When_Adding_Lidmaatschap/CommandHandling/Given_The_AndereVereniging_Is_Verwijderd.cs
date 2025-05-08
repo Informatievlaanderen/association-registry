@@ -15,7 +15,7 @@ using Xunit.Categories;
 public class Given_The_AndereVereniging_Is_Verwijderd
 {
     [Fact]
-    public async Task Then_It_Saves_A_Lidmaatschap()
+    public async ValueTask Then_It_Saves_A_Lidmaatschap()
     {
         var fixture = new Fixture().CustomizeDomain();
         var repositoryMock = new Mock<IVerenigingsRepository>();

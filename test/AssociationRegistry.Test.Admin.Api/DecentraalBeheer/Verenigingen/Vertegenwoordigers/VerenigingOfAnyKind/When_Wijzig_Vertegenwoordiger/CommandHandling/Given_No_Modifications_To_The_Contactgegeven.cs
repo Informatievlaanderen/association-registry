@@ -33,7 +33,7 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
         _commandHandler = new WijzigVertegenwoordigerCommandHandler(_verenigingRepositoryMock);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,

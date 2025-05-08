@@ -16,7 +16,7 @@ using IEvent = Marten.Events.IEvent;
 public class Given_An_Event
 {
     [Fact]
-    public async Task Then_it_is_persisted_in_the_database()
+    public async ValueTask Then_it_is_persisted_in_the_database()
     {
         var documentStore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Event));
         // arrange

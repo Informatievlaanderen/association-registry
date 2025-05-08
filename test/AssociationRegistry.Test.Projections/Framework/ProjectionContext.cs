@@ -30,7 +30,7 @@ public class ProjectionContext : IProjectionContext, IAsyncLifetime
         Configuration = new ConfigurationBuilder().AddJsonFile("appsettings.v2.beheer.json").Build();
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         // DropDatabase(Configuration);
         EnsureDbExists(Configuration);

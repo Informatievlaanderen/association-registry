@@ -31,7 +31,7 @@ public class Given_A_Verwijderde_Vereniging
     }
 
     [Fact]
-    public async Task? Then_no_duplicate_is_returned()
+    public async ValueTask? Then_no_duplicate_is_returned()
     {
         var request = CreateRegistreerFeitelijkeVerenigingRequest(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                                                                   _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres

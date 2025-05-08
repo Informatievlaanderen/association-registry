@@ -7,7 +7,7 @@ using Xunit;
 public class NutsLauLoaderTests
 {
     [Fact]
-    public async Task LoadNutsLauCodes()
+    public async ValueTask LoadNutsLauCodes()
     {
         var records = NutsLauReader.Read();
 

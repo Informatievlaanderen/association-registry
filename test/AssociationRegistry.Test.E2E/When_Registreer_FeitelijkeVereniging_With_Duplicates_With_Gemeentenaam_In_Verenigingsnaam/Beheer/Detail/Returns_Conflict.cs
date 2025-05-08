@@ -117,9 +117,9 @@ public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWi
         return duplicates;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await Task.CompletedTask;
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
         => await Task.CompletedTask;
 }
