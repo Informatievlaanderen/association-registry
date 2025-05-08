@@ -13,12 +13,9 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
 {
     private readonly AdminApiClient _adminApiClient;
@@ -39,7 +36,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [InlineData("V9999051", "De Pottestampers")]
     [InlineData("V9999051", "DE POTTESTAMPERS")]
     [InlineData("V9999051", "de pottestampers")]
-    public async Task? Then_A_DuplicateIsDetected_WithDifferentCapitalization(
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentCapitalization(
         string duplicatesShouldContainThisVCode,
         string verbasterdeNaam)
     {
@@ -53,7 +50,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [InlineData("V9999050", "Sint-Servaas!")]
     [InlineData("V9999048", "Grote-Vereniging!")]
     [InlineData("V9999050", "Sint Servaas!")]
-    public async Task Then_A_DuplicateIsDetected_WithDifferentPunctuation(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentPunctuation(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }
@@ -63,7 +60,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [InlineData("V9999048", "Grote Vereniging   ")]
     [InlineData("V9999048", "Grote    Vereniging")]
     [InlineData("V9999048", " Grote  Vereniging ")]
-    public async Task? Then_A_DuplicateIsDetected_WithAdditionalSpaces(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithAdditionalSpaces(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }
@@ -71,7 +68,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [Theory]
     [InlineData("V9999047", "Vereniging van Technologieenthousiasten: Innovacie & Ontwikkeling")]
     [InlineData("V9999049", "Cafesport")]
-    public async Task? Then_A_DuplicateIsDetected_WithNoAccents(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithNoAccents(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }
@@ -79,7 +76,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [Theory]
     [InlineData("V9999048", "Grote Veréniging")]
     [InlineData("V9999051", "Dé pottestampers")]
-    public async Task? Then_A_DuplicateIsDetected_WithMoreAccents(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithMoreAccents(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }
@@ -87,7 +84,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [Theory]
     [InlineData("V9999048", "De Grote van de Vereniging")]
     [InlineData("V9999051", "pottestampers met het")]
-    public async Task? Then_A_DuplicateIsDetected_WithStopwoorden(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithStopwoorden(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }
@@ -96,7 +93,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Naam
     [InlineData("V9999048", "Gorte Veregigning")]
     //[InlineData("V9999048", "Gorte Vereeegigning")]
     [InlineData("V9999051", "De potenstampers")]
-    public async Task? Then_A_DuplicateIsDetected_WithFoezieSearch(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
+    public async ValueTask Then_A_DuplicateIsDetected_WithFoezieSearch(string duplicatesShouldContainThisVCode, string verbasterdeNaam)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeNaam);
     }

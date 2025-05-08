@@ -8,13 +8,11 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Reeds_Gewijzigd_Lidmaatschap
 {
     [Fact]
-    public async Task Then_It_Saves_A_Lidmaatschap_With_Correct_LidmaatschapId()
+    public async ValueTask Then_It_Saves_A_Lidmaatschap_With_Correct_LidmaatschapId()
     {
         var fixture = new Fixture().CustomizeDomain();
 

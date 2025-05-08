@@ -3,27 +3,24 @@ namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging;
 using Admin.Api.Verenigingen.Verwijder.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests;
-using Vereniging;
+using Xunit;
 
-public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequest>
+public class VerwijderVerenigingContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VerwijderVerenigingRequest>
 {
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public VCode VCode => RequestResult.VCode;
+    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
+        => new();
 
-    public VerwijderVerenigingContext(FullBlownApiSetup apiSetup)
+    public VerwijderVerenigingContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        _werdGeregistreerdScenario = new();
     }
 
-    public override async Task InitializeAsync()
-    {
-        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        RequestResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.RefreshIndices();
-    }
+    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
+        => CommandResult = await new VerwijderVerenigingRequestFactory(scenario).ExecuteRequest(ApiSetup);
+}
+
+[CollectionDefinition(nameof(VerwijderVerenigingCollection))]
+public class VerwijderVerenigingCollection : ICollectionFixture<VerwijderVerenigingContext>
+{
 }

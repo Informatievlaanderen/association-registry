@@ -9,13 +9,10 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
-using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;
-using Xunit.Categories;
 
-[IntegrationTest]
 public class Given_An_Lower_Version
 {
     private readonly Fixture _fixture;

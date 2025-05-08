@@ -9,7 +9,6 @@ using AutoFixture;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Duplicate_Requests
 {
@@ -49,8 +48,6 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Dupli
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Duplicate_Requests
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -64,7 +61,7 @@ public class With_Duplicate_Requests
         => When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Duplicate_Requests.Called(_fixture).UitKboRequest;
 
     [Fact]
-    public async Task Then_it_returns_an_ok_response_with_correct_headers()
+    public async ValueTask Then_it_returns_an_ok_response_with_correct_headers()
     {
         var responses = When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Duplicate_Requests.Called(_fixture).Responses;
 

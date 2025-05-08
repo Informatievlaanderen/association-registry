@@ -13,10 +13,8 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
 
-[UnitTest]
 public class Given_Geslaagd
 {
     private readonly MagdaRegistreerInschrijvingService _service;
@@ -54,7 +52,7 @@ public class Given_Geslaagd
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_SuccessResult()
+    public async ValueTask Then_It_Returns_A_SuccessResult()
     {
         var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                            CancellationToken.None);

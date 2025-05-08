@@ -8,9 +8,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Contactgegeven_Was_Removed
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
@@ -29,7 +27,7 @@ public class Given_A_Contactgegeven_Was_Removed
     }
 
     [Fact]
-    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
+    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved_With_The_Next_Id3()
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 

@@ -10,7 +10,7 @@ using Xunit;
 public class Returns_Single_Response_With_Score100
 {
     [Fact]
-    public async Task Then_AdresWerdOvergenomenUitAdressenregister()
+    public async ValueTask Then_AdresWerdOvergenomenUitAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
 

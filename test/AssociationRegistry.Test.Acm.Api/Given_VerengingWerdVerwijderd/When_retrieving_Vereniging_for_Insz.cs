@@ -7,11 +7,8 @@ using FluentAssertions;
 using System.Net;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AcmApiCollection))]
-[Category("AcmApi")]
-[IntegrationTest]
 public class When_retrieving_Vereniging_for_Insz
 {
     private readonly HttpResponseMessage _response;
@@ -28,7 +25,7 @@ public class When_retrieving_Vereniging_for_Insz
         => _response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     [Fact]
-    public async Task Then_we_get_a_response_with_one_vereniging()
+    public async ValueTask Then_we_get_a_response_with_one_vereniging()
     {
         var content = await _response.Content.ReadAsStringAsync();
 

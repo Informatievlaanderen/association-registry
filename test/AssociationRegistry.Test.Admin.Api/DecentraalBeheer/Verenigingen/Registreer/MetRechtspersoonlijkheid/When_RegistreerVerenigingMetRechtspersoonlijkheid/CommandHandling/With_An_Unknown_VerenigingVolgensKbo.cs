@@ -14,9 +14,7 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_An_Unknown_VerenigingVolgensKbo
 {
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;
@@ -49,7 +47,7 @@ public class With_An_Unknown_VerenigingVolgensKbo
     }
 
     [Fact]
-    public async Task Then_It_Throws_GeenGeldigeVerenigingInKbo()
+    public async ValueTask Then_It_Throws_GeenGeldigeVerenigingInKbo()
     {
         var handle = () => _commandHandler
            .Handle(_envelope, CancellationToken.None);

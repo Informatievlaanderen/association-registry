@@ -14,9 +14,7 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_Which_Is_Not_A_Rechtspersoon
 {
     private readonly MagdaGeefVerenigingService _service;
@@ -46,7 +44,7 @@ public class Given_A_GeefOndernemingResponseBody_Which_Is_Not_A_Rechtspersoon
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_FailureResult()
+    public async ValueTask Then_It_Returns_A_FailureResult()
     {
         var result = await _service.GeefVereniging(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                    CancellationToken.None);

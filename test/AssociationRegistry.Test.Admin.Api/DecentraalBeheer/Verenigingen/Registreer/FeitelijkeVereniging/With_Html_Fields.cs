@@ -13,7 +13,6 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerable<object[]>
 {
@@ -53,8 +52,6 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Html_Fields
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -66,7 +63,7 @@ public class With_Html_Fields
 
     [Theory]
     [ClassData(typeof(When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data))]
-    public async Task Then_it_returns_a_bad_request_response(RegistreerFeitelijkeVerenigingRequest request)
+    public async ValueTask Then_it_returns_a_bad_request_response(RegistreerFeitelijkeVerenigingRequest request)
     {
         var response = await _fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(request));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Detail_All;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Formats;
 using JsonLdContext;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
@@ -9,7 +8,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 
@@ -19,17 +17,18 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, PubliekVerenigingDetailResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetailResponse>
 {
-    private readonly WijzigBasisgegevensKboTestContext _testContext;
+    private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
-        setup => setup.PublicApiHost
-                      .GetPubliekDetailAll()
-                      .FindVereniging(TestContext.VCode);
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost
+                      .GetPubliekDetailAll(_testContext.CommandResult.Sequence)
+                .FindVereniging(_testContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
+    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
@@ -56,27 +55,27 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = TestContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = TestContext.RegistratieData.KorteNaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
-            Naam = TestContext.RegistratieData.Naam,
-            Roepnaam = Request.Roepnaam,
+            Naam = _testContext.RegistratieData.Naam,
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

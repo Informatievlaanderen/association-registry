@@ -4,9 +4,7 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Formats;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Null_Adres
 {
     [Fact]

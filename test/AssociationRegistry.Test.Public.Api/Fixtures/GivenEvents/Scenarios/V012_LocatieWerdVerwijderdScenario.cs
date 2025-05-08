@@ -40,6 +40,7 @@ public class V012_LocatieWerdVerwijderdScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             LocatieWerdVerwijderd,
         };
     }

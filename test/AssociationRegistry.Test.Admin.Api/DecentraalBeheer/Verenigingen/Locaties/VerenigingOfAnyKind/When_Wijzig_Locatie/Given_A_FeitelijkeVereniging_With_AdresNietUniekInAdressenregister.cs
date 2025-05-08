@@ -9,7 +9,6 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup : IAsyncLifetime
 {
@@ -43,20 +42,18 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_
         }";
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchLocatie(Scenario.VCode,
                                                               Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().LocatieId,
                                                               _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister : IClassFixture<
     Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister_Setup>
 {
@@ -69,7 +66,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister 
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -100,7 +97,7 @@ public class Given_A_FeitelijkeVereniging_With_AdresNietUniekInAdressenregister 
     }
 
     [Fact]
-    public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
+    public async ValueTask Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var asyncRetryPolicy = Policy.Handle<Exception>()
                                      .RetryAsync(retryCount: 5, onRetryAsync: async (exception, i) =>

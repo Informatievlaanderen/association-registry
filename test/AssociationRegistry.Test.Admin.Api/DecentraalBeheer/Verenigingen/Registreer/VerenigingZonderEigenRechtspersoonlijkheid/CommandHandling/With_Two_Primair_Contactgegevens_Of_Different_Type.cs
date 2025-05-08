@@ -15,9 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
@@ -57,7 +55,7 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
             NullLogger<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommandHandler>.Instance);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var commandMetadata = _fixture.Create<CommandMetadata>();
 
@@ -65,8 +63,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                                      CancellationToken.None);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 
     [Fact]
     public void Then_it_saves_the_event()

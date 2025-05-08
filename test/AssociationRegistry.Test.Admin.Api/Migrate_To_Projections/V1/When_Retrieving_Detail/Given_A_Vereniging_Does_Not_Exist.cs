@@ -7,11 +7,8 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_A_Vereniging_Does_Not_Exist
 {
     private const string VCode = "V9999999";
@@ -27,7 +24,7 @@ public class Given_A_Vereniging_Does_Not_Exist
         => _response.StatusCode.Should().Be(HttpStatusCode.NotFound);
 
     [Fact]
-    public async Task Then_we_get_a_detail()
+    public async ValueTask Then_we_get_a_detail()
     {
         var content = await _response.Content.ReadAsStringAsync();
         var problemDetails = JsonConvert.DeserializeObject<ProblemDetails>(content);

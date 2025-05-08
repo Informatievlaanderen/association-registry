@@ -3,11 +3,10 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
 using Framework.Fixtures;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 [Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
 public class When_A_CorrelationId_Is_Given
@@ -20,7 +19,7 @@ public class When_A_CorrelationId_Is_Given
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Returns_A_400_Response()
+    public async ValueTask Then_It_Does_Not_Returns_A_400_Response()
     {
         var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 
@@ -34,7 +33,7 @@ public class When_A_CorrelationId_Is_Given
     }
 
     [Fact]
-    public async Task Then_It_Returns_The_CorrelationId()
+    public async ValueTask Then_It_Returns_The_CorrelationId()
     {
         var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 

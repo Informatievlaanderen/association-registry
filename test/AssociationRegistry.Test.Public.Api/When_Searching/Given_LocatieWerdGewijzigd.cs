@@ -10,11 +10,8 @@ using templates;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_LocatieWerdGewijzigd
 {
     private readonly V013_LocatieWerdGewijzigdScenario _scenario;
@@ -27,11 +24,11 @@ public class Given_LocatieWerdGewijzigd
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_we_retrieve_one_vereniging_with_the_changed_Locatie()
+    public async ValueTask Then_we_retrieve_one_vereniging_with_the_changed_Locatie()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

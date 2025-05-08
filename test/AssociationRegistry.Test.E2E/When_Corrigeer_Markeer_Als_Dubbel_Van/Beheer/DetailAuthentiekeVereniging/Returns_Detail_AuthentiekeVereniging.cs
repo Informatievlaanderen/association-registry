@@ -6,22 +6,23 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Scenarios.Requests;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest,
-    DetailVerenigingResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_AuthentiekeVereniging(CorrigeerMarkeringAlsDubbelVanContext context, ITestOutputHelper helper) : base(context)
+    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
         _helper = helper;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -30,7 +31,7 @@ public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeri
     }
 
     [Fact]
-    public async Task With_No_DubbeleVereniging_In_CorresponderendeVCodes()
+    public async ValueTask With_No_DubbeleVereniging_In_CorresponderendeVCodes()
     {
         var tryCounter = 0;
 
@@ -59,7 +60,4 @@ public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeri
     {
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Actief);
     }
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(_context.Scenario.AuthentiekeVereniging.VCode);
 }

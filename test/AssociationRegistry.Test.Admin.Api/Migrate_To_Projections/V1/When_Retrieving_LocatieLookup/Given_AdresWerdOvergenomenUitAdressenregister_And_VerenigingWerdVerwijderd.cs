@@ -6,7 +6,6 @@ using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
 public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd_Setup : IAsyncLifetime
 {
@@ -17,17 +16,15 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVer
         _fixture = fixture;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await _fixture.Initialize(_fixture.V074AdresWerdOvergenomenUitAdressenregisterAndVerenigingWerdVerwijderd);
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd : IClassFixture<
     Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd_Setup>
 {
@@ -41,12 +38,12 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVer
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _superAdminApiClient.GetLocatieLookup(_scenario.VCode, _scenario.Result.Sequence))
           .Should().BeSuccessful();
 
     [Fact]
-    public async Task Then_we_get_a_locatie_lookup_response()
+    public async ValueTask Then_we_get_a_locatie_lookup_response()
     {
         var response = await _superAdminApiClient.GetLocatieLookup(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

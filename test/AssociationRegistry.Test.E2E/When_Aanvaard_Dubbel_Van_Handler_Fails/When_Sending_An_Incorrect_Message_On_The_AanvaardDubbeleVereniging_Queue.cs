@@ -15,9 +15,9 @@ using NodaTime;
 using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(nameof(AanvaardDubbelHandlerCollection))]
 public class Given_Incorrect_VCode_In_The_Message
 {
     private readonly FullBlownApiSetup _setup;
@@ -39,7 +39,7 @@ public class Given_Incorrect_VCode_In_The_Message
     /// VerwerkWeigeringDubbelDoorAuthentiekeVerenigingMessageHandler -> throws exception -> Message comes on dlq
     /// </summary>
     [Fact]
-    public async Task Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
+    public async ValueTask Then_VerwerkWeigeringDubbelDoorAuthentiekeVerenigingHandler_Puts_A_Message_On_The_Dlq()
     {
         var bus = _setup.AdminApiHost.Services.GetRequiredService<IMessageBus>();
         var messageStore = _setup.AdminApiHost.Services.GetRequiredService<IMessageStore>();

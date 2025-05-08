@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -10,19 +9,21 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
-
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, SearchVerenigingenResponse>
+[Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
+public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
+    private readonly RegistreerFeitelijkeVerenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()
@@ -31,7 +32,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -43,18 +44,18 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
             Verenigingssubtype = null,
-            Naam = Request.Naam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = PubliekZoekResponseMapper.MapLocaties(Request.Locaties, _testContext.VCode),
+            Naam = _testContext.CommandRequest.Naam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
+            Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
@@ -63,7 +64,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerFeitelij
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }

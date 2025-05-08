@@ -2,7 +2,6 @@
 
 using AssociationRegistry.Grar.Clients;
 using FluentAssertions;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;
@@ -11,7 +10,7 @@ using Xunit;
 public class Given_Grar_Returns_No_Address_Components
 {
     [Fact]
-    public async Task Then_Returns_Empty_Collection()
+    public async ValueTask Then_Returns_Empty_Collection()
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 

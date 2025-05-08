@@ -3,18 +3,14 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Test.Framework;
-using AssociationRegistry.Test.Framework.Customizations;
 using AssociationRegistry.Vereniging;
-using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_VCode
 {
     [Theory]

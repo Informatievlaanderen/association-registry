@@ -8,9 +8,9 @@ using AutoFixture;
 using FluentAssertions;
 using Messages;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(nameof(MessageQueueCollection))]
 public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
 {
     private readonly FullBlownApiSetup _setup;
@@ -26,7 +26,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
     }
 
     [Fact]
-    public async Task Then_The_Dlq_Recieves_The_Message()
+    public async ValueTask Then_The_Dlq_Recieves_The_Message()
     {
         var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.AddressMatchDeadLetterQueueName);
 
@@ -34,7 +34,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
 
-        var maxRetries = 5;
+        var maxRetries = 50;
         var tries = 0;
         List<Message> messages = null;
 

@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
 public class Given_A_Valid_VerenigingDocument_Fixture : ElasticRepositoryFixture
 {
@@ -12,7 +11,6 @@ public class Given_A_Valid_VerenigingDocument_Fixture : ElasticRepositoryFixture
     }
 }
 
-[IntegrationTest]
 public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_VerenigingDocument_Fixture>
 {
     private readonly Given_A_Valid_VerenigingDocument_Fixture _classFixture;
@@ -23,7 +21,7 @@ public class Given_A_Valid_VerenigingDocument : IClassFixture<Given_A_Valid_Vere
     }
 
     [Fact]
-    public async Task Then_it_does_not_throw_an_exception()
+    public async ValueTask Then_it_does_not_throw_an_exception()
     {
         var fixture = new Fixture();
 

@@ -3,13 +3,11 @@ namespace AssociationRegistry.Test.Magda;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class WiremockSmokeTest
 {
     [Fact]
-    public async Task With_A_Mapped_Uri()
+    public async ValueTask With_A_Mapped_Uri()
     {
         var client = new HttpClient();
 
@@ -20,7 +18,7 @@ public class WiremockSmokeTest
     }
 
     [Fact]
-    public async Task With_A_Non_Mapped_Uri()
+    public async ValueTask With_A_Non_Mapped_Uri()
     {
         var client = new HttpClient();
 

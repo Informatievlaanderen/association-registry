@@ -10,7 +10,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
@@ -56,18 +55,16 @@ public class Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsync
         }}";
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchLocatie(Scenario.VCode, TeWijzigenLocatie.LocatieId, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
     private readonly Patch_A_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid _classFixture;
@@ -78,7 +75,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -91,7 +88,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Patch_A_
     }
 
     [Fact]
-    public async Task Then_it_returns_an_accepted_response()
+    public async ValueTask Then_it_returns_an_accepted_response()
         => _classFixture.Response.StatusCode.Should().Be(
             HttpStatusCode.Accepted,
             await _classFixture.Response.Content.ReadAsStringAsync());

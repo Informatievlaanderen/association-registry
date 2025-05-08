@@ -11,9 +11,7 @@ using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Vertegenwoordiger
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
@@ -32,7 +30,7 @@ public class Given_A_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_VertegenwoordigerWerdGewijzigd_Event_Is_Saved_With_The_Next_Id()
+    public async ValueTask Then_A_VertegenwoordigerWerdGewijzigd_Event_Is_Saved_With_The_Next_Id()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,

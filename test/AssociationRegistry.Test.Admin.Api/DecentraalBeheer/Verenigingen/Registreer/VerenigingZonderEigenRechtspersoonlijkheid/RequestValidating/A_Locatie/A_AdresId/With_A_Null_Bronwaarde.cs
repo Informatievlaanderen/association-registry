@@ -7,10 +7,8 @@ using AssociationRegistry.Test.Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class With_A_Null_Bronwaarde : ValidatorTest
 {
     [Fact]

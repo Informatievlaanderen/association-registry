@@ -5,9 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRe
 using AssociationRegistry.Admin.Api.Verenigingen.Contactgegevens.VerenigingMetRechtspersoonlijkheid.WijzigContactgegeven.RequestModels;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_Empty_Request
 {
     [Fact]

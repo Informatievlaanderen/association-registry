@@ -4,38 +4,32 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
 using FluentAssertions;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_With_Dubbel_Van : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
+[Collection(nameof(MarkeerAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly MarkeerAlsDubbelVanContext _context;
+    private readonly MarkeerAlsDubbelVanContext _testContext;
 
-    public Returns_Detail_With_Dubbel_Van(MarkeerAlsDubbelVanContext context)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
     {
-        Response.Vereniging.IsDubbelVan.Should().Be(_context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response.Vereniging.IsDubbelVan.Should().Be(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     [Fact]
     public void With_Status_Is_Dubbel()
     {
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Dubbel);
-    }
-
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
-    }
-
-    public async Task DisposeAsync()
-    {
     }
 }

@@ -7,9 +7,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Valid_Name_Length : ValidatorTest
 {
     [Fact]

@@ -71,6 +71,7 @@ public class V019_Vereniging19ForSearchScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
         };
     }
 

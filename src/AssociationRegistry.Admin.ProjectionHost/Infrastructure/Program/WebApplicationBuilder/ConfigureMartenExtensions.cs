@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Program.WebApplicationBuilder;
 
-using ConfigurationBindings;
 using Constants;
 using Hosts.Configuration.ConfigurationBindings;
 using JasperFx.CodeGeneration;
@@ -10,7 +9,6 @@ using Marten.Events;
 using Marten.Events.Daemon.Resiliency;
 using Marten.Events.Projections;
 using Marten.Services;
-using Metrics;
 using Newtonsoft.Json;
 using Projections;
 using Projections.Detail;

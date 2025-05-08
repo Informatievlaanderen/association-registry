@@ -8,9 +8,7 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Without_A_Locatietype : ValidatorTest
 {
     [Fact]

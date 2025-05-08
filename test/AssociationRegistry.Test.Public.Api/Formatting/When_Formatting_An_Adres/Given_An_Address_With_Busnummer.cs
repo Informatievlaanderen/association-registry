@@ -4,9 +4,7 @@ using Events;
 using FluentAssertions;
 using Formats;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_Address_With_Busnummer
 {
     [Fact]

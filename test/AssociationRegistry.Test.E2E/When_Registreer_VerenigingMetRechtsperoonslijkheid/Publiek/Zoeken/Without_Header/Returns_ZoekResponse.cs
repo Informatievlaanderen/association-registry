@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Publiek.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -9,15 +8,18 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, SearchVerenigingenResponse>
+[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
+public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext) : base(testContext)
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.CommandResult.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()
@@ -26,9 +28,6 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.RequestResult.VCode}");
 }

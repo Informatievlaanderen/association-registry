@@ -16,9 +16,7 @@ using Microsoft.Net.Http.Headers;
 using Moq;
 using Wolverine;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Without_Changes : IAsyncLifetime
 {
     private readonly WijzigContactgegevenController _controller;
@@ -36,7 +34,7 @@ public class Without_Changes : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _result = await _controller.Patch(
             vCode: "V0001001",
@@ -64,6 +62,6 @@ public class Without_Changes : IAsyncLifetime
         _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

@@ -7,11 +7,8 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPubliekeDatastroom
 {
     private readonly V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPubliekeDatastroomScenario _scenario;
@@ -24,11 +21,11 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPub
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task? Then_no_vereniging_is_retrieved_by_its_vCode()
+    public async ValueTask Then_no_vereniging_is_retrieved_by_its_vCode()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

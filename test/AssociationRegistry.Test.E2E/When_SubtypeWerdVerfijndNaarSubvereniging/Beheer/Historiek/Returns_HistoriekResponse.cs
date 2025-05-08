@@ -1,31 +1,34 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Events;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, HistoriekResponse>
+[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
+public class Returns_Detail : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_Historiek(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode, headers: new RequestParameters().WithExpectedSequence(
+                                                  _testContext.CommandResult.Sequence))
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -41,12 +44,12 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingCont
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdVerfijndNaarSubvereniging));
 
         werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubTypeWerdVerfijndNaarSubvereniging(new VerenigingssubtypeWerdVerfijndNaarSubvereniging(
-                                                                                                       VCode: TestContext.VCode,
+                                                                                                       VCode: _testContext.VCode,
                                                                                                        new Registratiedata.SubverenigingVan(
-                                                                                                           TestContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
-                                                                                                           TestContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
-                                                                                                           TestContext.Request.Identificatie ?? "",
-                                                                                                           TestContext.Request.Beschrijving ?? ""
+                                                                                                           _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode,
+                                                                                                           _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+                                                                                                           _testContext.CommandRequest.Identificatie ?? "",
+                                                                                                           _testContext.CommandRequest.Beschrijving ?? ""
                                                                                                        ))),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }

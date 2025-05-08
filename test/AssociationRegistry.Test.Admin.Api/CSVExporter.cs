@@ -7,12 +7,9 @@ using Framework.Fixtures;
 using Marten;
 using System.Globalization;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class CSVExporter
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -25,7 +22,7 @@ public class CSVExporter
     }
 
     [Fact(Skip = "To migrate to a real test")]
-    public async Task ExportCSV()
+    public async ValueTask ExportCSV()
     {
         await using var writer = new StreamWriter("output.csv");
         await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);

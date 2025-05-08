@@ -9,7 +9,6 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 using Policy = Polly.Policy;
 
 public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
@@ -49,18 +48,16 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetim
         }";
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     Given_AdresWerdOvergenomenUitAdressenregister_Setup>
 {
@@ -73,7 +70,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 
@@ -106,7 +103,7 @@ public class Given_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     }
 
     [Fact]
-    public async Task Then_it_should_have_placed_message_on_sqs_for_address_match()
+    public async ValueTask Then_it_should_have_placed_message_on_sqs_for_address_match()
     {
         var policyResult = await Policy.Handle<Exception>()
                                        .RetryAsync(retryCount: 5, onRetryAsync: async (_, i) => await Task.Delay(TimeSpan.FromSeconds(i)))

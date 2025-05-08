@@ -13,12 +13,9 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Some_Updates
 {
     private readonly AdminApiClient _adminApiClient;
@@ -34,7 +31,7 @@ public class Given_Some_Updates
 
     [Theory]
     [InlineData("V9999047", "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling")]
-    public async Task? Then_A_DuplicateIsDetected_WithDifferentCapitalization(
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentCapitalization(
         string duplicatesShouldContainThisVCode,
         string naam)
     {

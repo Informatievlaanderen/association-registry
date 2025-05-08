@@ -102,6 +102,7 @@ public class V001_FeitelijkeVerenigingWerdGeregistreerdScenario : IScenario
         [
             FeitelijkeVerenigingWerdGeregistreerd,
             WerkingsgebiedenWerdenBepaald,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode)
         ];
     }
 

@@ -14,7 +14,7 @@
 // public class Given_RegistreerInschrijving_Throws_Exception
 // {
 //     [Fact]
-//     public async Task Then_ThrowsException()
+//     public async ValueTask Then_ThrowsException()
 //     {
 //         var fixture = new Fixture().CustomizeAdminApi();
 //         var magdaRegistreerInschrijvingService = new Mock<IMagdaRegistreerInschrijvingService>();

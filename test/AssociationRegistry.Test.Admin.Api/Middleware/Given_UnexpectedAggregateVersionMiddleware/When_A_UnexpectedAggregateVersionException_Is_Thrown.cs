@@ -14,18 +14,17 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 [Category("Middleware")]
 public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifetime
 {
     private IHost _host = null!;
     private const string Route = "/";
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>
@@ -53,7 +52,7 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_412_Response()
+    public async ValueTask Then_It_Returns_A_412_Response()
     {
         var testClient = _host.GetTestClient();
 
@@ -67,10 +66,10 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
         problemDetails.Detail.Should().Be(ValidationMessages.Status412PreconditionFailed);
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _host.Dispose();
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

@@ -9,24 +9,22 @@ using FluentAssertions;
 using Marten;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
 public class GetNamesForVCodesQueryFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(GetNamesForVCodesQueryTests));
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await Store.DisposeAsync();
     }
 }
 
-[IntegrationTest]
 public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;
@@ -37,7 +35,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     }
 
     [Fact]
-    public async Task Returns_Empty_Collection_When_No_VCodes_Provided()
+    public async ValueTask Returns_Empty_Collection_When_No_VCodes_Provided()
     {
         var query = new GetNamesForVCodesQuery(_session);
 
@@ -47,7 +45,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     }
 
     [Fact]
-    public async Task Returns_Empty_Collection_When_No_VCodes_Matched()
+    public async ValueTask Returns_Empty_Collection_When_No_VCodes_Matched()
     {
         var fixture = new Fixture().CustomizeDomain();
         var andereVCode = fixture.Create<VCode>();
@@ -64,7 +62,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     }
 
     [Fact]
-    public async Task Returns_Collection_Of_VCode_With_Names_When_All_VCodes_Match()
+    public async ValueTask Returns_Collection_Of_VCode_With_Names_When_All_VCodes_Match()
     {
         var fixture = new Fixture().CustomizeDomain();
 
@@ -85,7 +83,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     }
 
     [Fact]
-    public async Task Returns_Collection_Of_VCode_With_Names_When_Some_VCodes_Are_Not_Found_In_Projection()
+    public async ValueTask Returns_Collection_Of_VCode_With_Names_When_Some_VCodes_Are_Not_Found_In_Projection()
     {
         var fixture = new Fixture().CustomizeDomain();
 
@@ -108,7 +106,7 @@ public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryF
     }
 
     [Fact]
-    public async Task Returns_Only_Matching_Collection_Of_VCode_With_Names()
+    public async ValueTask Returns_Only_Matching_Collection_Of_VCode_With_Names()
     {
         var fixture = new Fixture().CustomizeDomain();
 

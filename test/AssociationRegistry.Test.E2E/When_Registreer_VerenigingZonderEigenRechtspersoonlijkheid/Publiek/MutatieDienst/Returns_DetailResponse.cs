@@ -1,22 +1,24 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.MutatieDienst;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using Public.Api.Verenigingen.Mutaties;
+using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using FluentAssertions;
+using Public.Api.Verenigingen.Mutaties;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingSequenceResponse[]>
+[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
+public class Returns_MutatieDienstResponse : End2EndTest<PubliekVerenigingSequenceResponse[]>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_VerenigingMutationsSequenceResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_MutatieDienstResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override PubliekVerenigingSequenceResponse[] GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetVerenigingMutationsSequence();
 
     [Fact]
     public void With_RegisteredVereniging()
@@ -25,7 +27,4 @@ public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<Registree
         actual.Should().NotBeNull();
         actual!.Sequence.Should().BeGreaterThan(0);
     }
-
-    public override Func<IApiSetup, PubliekVerenigingSequenceResponse[]> GetResponse
-        => setup => setup.PublicApiHost.GetVerenigingMutationsSequence();
 }

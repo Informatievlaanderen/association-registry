@@ -20,7 +20,6 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Postcode
 {
@@ -65,8 +64,6 @@ public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Sa
 
 //TODO: Rework to unit test
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Same_Naam_And_Postcode
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -139,7 +136,7 @@ public class With_Same_Naam_And_Postcode
     }
 
     [Fact]
-    public async Task Then_it_returns_the_list_of_potential_duplicates()
+    public async ValueTask Then_it_returns_the_list_of_potential_duplicates()
     {
         var content = await Response.Content.ReadAsStringAsync();
         content.Should().BeEquivalentJson(ResponseBody);
@@ -158,7 +155,7 @@ public class With_Same_Naam_And_Postcode
     }
 
     [Fact]
-    public async Task Then_it_saves_no_extra_events()
+    public async ValueTask Then_it_saves_no_extra_events()
     {
         await using var session = _fixture.DocumentStore
                                           .LightweightSession();

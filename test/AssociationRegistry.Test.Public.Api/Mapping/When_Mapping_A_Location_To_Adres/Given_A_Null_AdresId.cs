@@ -8,9 +8,7 @@ using FluentAssertions;
 using Framework;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Null_AdresId
 {
     [Fact]

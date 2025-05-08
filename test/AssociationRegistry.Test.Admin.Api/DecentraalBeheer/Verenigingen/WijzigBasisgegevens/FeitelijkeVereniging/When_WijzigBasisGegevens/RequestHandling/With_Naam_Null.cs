@@ -9,9 +9,7 @@ using FluentValidation;
 using Moq;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Naam_Null
 {
     private readonly WijzigBasisgegevensController _controller;
@@ -25,7 +23,7 @@ public class With_Naam_Null
     }
 
     [Fact]
-    public async Task Then_it_throws_a_ValidationException()
+    public async ValueTask Then_it_throws_a_ValidationException()
     {
         await Assert.ThrowsAsync<ValidationException>(
             () => _controller.Patch(

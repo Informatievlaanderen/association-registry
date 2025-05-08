@@ -4,7 +4,6 @@ using Asp.Versioning;
 using Be.Vlaanderen.Basisregisters.Api;
 using Be.Vlaanderen.Basisregisters.Api.Exceptions;
 using Constants;
-using Detail;
 using Exceptions;
 using FluentValidation;
 using Infrastructure;
@@ -17,14 +16,10 @@ using Queries;
 using RequestModels;
 using ResponseExamples;
 using ResponseModels;
-using Schema;
-using Schema.Constants;
 using Schema.Search;
 using Swashbuckle.AspNetCore.Filters;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
@@ -131,6 +126,7 @@ public class SearchVerenigingenController : ApiController
 
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
+
 
         var searchResponse =
             await query.ExecuteAsync(new PubliekVerenigingenZoekFilter(q, sort, hoofdActiviteitenArray, paginationQueryParams),

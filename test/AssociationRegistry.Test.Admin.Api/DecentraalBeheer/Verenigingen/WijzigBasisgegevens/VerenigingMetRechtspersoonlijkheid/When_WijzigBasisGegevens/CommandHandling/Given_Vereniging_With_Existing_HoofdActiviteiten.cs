@@ -9,9 +9,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Vereniging_With_Existing_HoofdActiviteiten
 {
     private VerenigingMetRechtspersoonlijkheidWerdGeregistreerdWithHoofdActiviteitenScenario _scenario;
@@ -27,7 +25,7 @@ public class Given_Vereniging_With_Existing_HoofdActiviteiten
     }
 
     [Fact]
-    public async Task WithEmptyHoofdActiviteitenRequest_ThenThrowsNonSuccessStatusCode()
+    public async ValueTask WithEmptyHoofdActiviteitenRequest_ThenThrowsNonSuccessStatusCode()
     {
         var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());

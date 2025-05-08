@@ -1,27 +1,27 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Detail.With_Header;
 
-using Admin.Api;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Subtype.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Vereniging;
 using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>
+[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
+public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
+    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context): base(context)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -34,24 +34,10 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
     {
         var expected = new Verenigingssubtype()
         {
-            Code = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Code,
-            Naam = Vereniging.VerenigingssubtypeCode.FeitelijkeVereniging.Naam
+            Code = VerenigingssubtypeCode.FeitelijkeVereniging.Code,
+            Naam = VerenigingssubtypeCode.FeitelijkeVereniging.Naam
         };
 
         Response.Vereniging.Verenigingssubtype.Should().BeEquivalentTo(expected);
-    }
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-    {
-        get { return setup =>
-        {
-            var logger = setup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
-
-            logger.LogInformation("EXECUTING GET REQUEST");
-
-            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                TestContext.RequestResult.Sequence)
-                        .GetAwaiter().GetResult();
-        }; }
     }
 }

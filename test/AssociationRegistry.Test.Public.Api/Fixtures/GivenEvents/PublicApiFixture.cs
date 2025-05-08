@@ -3,9 +3,10 @@ namespace AssociationRegistry.Test.Public.Api.Fixtures.GivenEvents;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using Events;
 using Framework.Helpers;
+using Humanizer;
 using Marten;
+using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,7 @@ using Oakton;
 using Polly;
 using System.Reflection;
 using Xunit;
+using IEvent = Events.IEvent;
 using Policy = Polly.Policy;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 using PublicApiProgram = AssociationRegistry.Public.Api.Program;
@@ -115,11 +117,11 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         if (ElasticClient is null)
             throw new NullReferenceException("Elastic client cannot be null when adding an event");
 
-        using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
+        // using var daemon = await ProjectionsDocumentStore.BuildProjectionDaemonAsync();
+        // await daemon.StartAllShards();
 
-        if (daemon is null)
-            throw new NullReferenceException("Projection daemon cannot be null when adding an event");
+        // if (daemon is null)
+            // throw new NullReferenceException("Projection daemon cannot be null when adding an event");
 
         metadata ??= new CommandMetadata(vCode.ToUpperInvariant(), new Instant(), Guid.NewGuid());
 
@@ -132,12 +134,12 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var retry = Policy
                    .Handle<Exception>()
-                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
+                   .WaitAndRetryAsync(retryCount: 5, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
             async () =>
             {
-                await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+                await ProjectionsDocumentStore.WaitForNonStaleProjectionDataAsync(60.Seconds());
                 await ElasticClient.Indices.RefreshAsync(Indices.All);
             });
     }
@@ -212,9 +214,9 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
         _projectionHostServer.Dispose();
     }
 
-    public virtual Task InitializeAsync()
-        => Task.CompletedTask;
+    public virtual ValueTask InitializeAsync()
+        => ValueTask.CompletedTask;
 
-    public virtual Task DisposeAsync()
-        => Task.CompletedTask;
+    public virtual ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

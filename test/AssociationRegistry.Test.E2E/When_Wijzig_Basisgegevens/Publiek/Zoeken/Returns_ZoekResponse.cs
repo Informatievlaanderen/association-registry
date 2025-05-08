@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Zoeken;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
@@ -10,19 +9,22 @@ using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
-
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, SearchVerenigingenResponse>
+[Collection(nameof(WijzigBasisGegevensCollection))]
+public class Returns_SearchVerenigingenResponse
+    : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly WijzigBasisgegevensTestContext _testContext;
+    private readonly WijzigBasisgegevensContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensTestContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()
@@ -31,7 +33,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -43,17 +45,17 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = Request.Naam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, _testContext.VCode),
+            Naam = _testContext.CommandRequest.Naam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
+            Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
@@ -62,7 +64,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }

@@ -10,11 +10,8 @@ using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using Common.Framework;
 using FluentAssertions;
-using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class To_A_RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand
 {
     [Fact]

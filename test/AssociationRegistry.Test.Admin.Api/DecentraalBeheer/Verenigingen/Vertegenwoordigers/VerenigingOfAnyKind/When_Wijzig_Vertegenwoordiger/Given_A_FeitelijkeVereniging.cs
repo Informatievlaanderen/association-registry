@@ -12,7 +12,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging : IAsyncLifetime
 {
@@ -62,19 +61,17 @@ public class Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging : IAsyncLife
         AanTePassenVertegenwoordiger = Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0];
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchVertegenwoordiger(Scenario.VCode, AanTePassenVertegenwoordiger.VertegenwoordigerId,
                                                                         _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging>
 {
     private readonly Patch_A_New_Vertegenwoordiger_For_FeitelijkeVereniging _classFixture;
@@ -85,7 +82,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Vertegenwo
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

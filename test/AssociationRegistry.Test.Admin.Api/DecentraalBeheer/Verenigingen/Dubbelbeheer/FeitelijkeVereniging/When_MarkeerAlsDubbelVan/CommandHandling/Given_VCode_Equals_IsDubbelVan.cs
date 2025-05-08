@@ -13,9 +13,7 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_VCode_Equals_IsDubbelVan
 {
     private readonly Fixture _fixture;
@@ -37,7 +35,7 @@ public class Given_VCode_Equals_IsDubbelVan
     }
 
     [Fact]
-    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanZichzelf()
+    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanZichzelf()
     {
         var command = _fixture.Create<MarkeerAlsDubbelVanCommand>() with
         {

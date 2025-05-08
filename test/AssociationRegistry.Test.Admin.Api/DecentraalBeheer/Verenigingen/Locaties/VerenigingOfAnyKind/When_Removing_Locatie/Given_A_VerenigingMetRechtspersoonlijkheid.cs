@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
@@ -24,19 +23,17 @@ public class Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkhe
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteLocatie(Scenario.VCode, Scenario.LocatieWerdToegevoegd.Locatie.LocatieId,
                                                                jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     Delete_An_Existing_Locatie_Given_A_VerenigingMetRechtspersoonlijkheid>
 {
@@ -48,7 +45,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

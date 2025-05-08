@@ -12,9 +12,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<WijzigBasisgegevensCommand> _commandEnvelope;
@@ -38,7 +36,7 @@ public class With_A_Startdatum_In_The_Future
     }
 
     [Fact]
-    public async Task Then_it_throws_an_StartdatumIsInFutureException()
+    public async ValueTask Then_it_throws_an_StartdatumIsInFutureException()
     {
         var method = () => _commandHandler.Handle(
             _commandEnvelope,

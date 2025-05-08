@@ -1,26 +1,25 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using JsonLdContext;
-using Public.Api.Verenigingen.Search.ResponseModels;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
-using Vereniging;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
+using AssociationRegistry.Vereniging;
 using KellermanSoftware.CompareNetObjects;
-
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
-    SearchVerenigingenResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly WijzigBasisgegevensKboTestContext _testContext;
+    private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext testContext)
+        : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
@@ -32,7 +31,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
     }
 
     [Fact]
-    public async Task WithVerenigingMetRechtspersoonlijkheid()
+    public async ValueTask WithVerenigingMetRechtspersoonlijkheid()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.VerenigingMetRechtspersoonlijkheid.Type,
@@ -44,7 +43,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
@@ -52,9 +51,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Naam = Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = Request.Roepnaam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Lidmaatschappen = [],
             Relaties = [],
@@ -65,6 +64,6 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 }

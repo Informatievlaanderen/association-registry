@@ -4,7 +4,6 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
@@ -19,7 +18,7 @@ using Xunit;
 public class Given_GeenDubbeleVereniging
 {
     [Fact]
-    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
+    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanVerwijderdeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();

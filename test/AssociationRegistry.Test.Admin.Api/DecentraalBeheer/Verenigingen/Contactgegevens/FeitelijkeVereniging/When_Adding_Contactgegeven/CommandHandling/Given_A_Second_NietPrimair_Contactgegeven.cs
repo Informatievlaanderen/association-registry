@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Second_NietPrimair_Contactgegeven
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
@@ -35,7 +33,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     [InlineData("Website", "https://www.example.org")]
     [InlineData("SocialMedia", "https://www.example.org")]
     [InlineData("Telefoon", "0000112233")]
-    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
+    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved1(string type, string waarde)
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
@@ -54,7 +52,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     }
 
     [Fact]
-    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved2()
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,

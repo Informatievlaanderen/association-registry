@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Publiek.Zoeken.Migratie;
 
-using AssociationRegistry.Test.Projections.Scenario.Dubbels;
 using Scenario.Migratie;
 
 [Collection(nameof(ProjectionContext))]

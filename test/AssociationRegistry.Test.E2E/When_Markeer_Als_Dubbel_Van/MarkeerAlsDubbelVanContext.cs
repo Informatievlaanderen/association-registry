@@ -1,31 +1,61 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van;
 
 using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Events;
+using FluentAssertions;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
+using Marten;
 using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
-using Vereniging;
+using Xunit;
+using IEvent = Marten.Events.IEvent;
 
-public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(MarkeerAlsDubbelVanCollection))]
+public class MarkeerAlsDubbelVanCollection : ICollectionFixture<MarkeerAlsDubbelVanContext>
 {
-    public VCode VCode => RequestResult.VCode;
-    public MultipleWerdGeregistreerdScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistreerdScenario, MarkeerAlsDubbelVanRequest>
+{
+    public IEvent? VerenigingAanvaarddeDubbeleVereniging { get; private set; }
 
-    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
+    protected override MultipleWerdGeregistreerdScenario InitializeScenario()
+        => new MultipleWerdGeregistreerdScenario();
+
+    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new MarkeerAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
+
+        await using var session = ApiSetup.AdminApiHost.Services.GetRequiredService<IDocumentSession>();
+
+        var stream = await session
+                          .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        var counter = 0;
+
+        VerenigingAanvaarddeDubbeleVereniging = stream
+           .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+
+        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 10)
+
+        {
+            counter++;
+            await Task.Delay(500);
+
+            stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+            VerenigingAanvaarddeDubbeleVereniging = stream
+               .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+        }
+
+        VerenigingAanvaarddeDubbeleVereniging.Should().NotBeNull();
     }
 }

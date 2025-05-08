@@ -7,12 +7,9 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Sort_By_A_List
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -26,7 +23,7 @@ public class Given_Sort_By_A_List
 
     [Theory]
     [InlineData("locaties")]
-    public async Task? Then_it_sorts_ascending(string field)
+    public async ValueTask Then_it_sorts_ascending(string field)
     {
         var response = await _adminApiClient.Search(q: "*", field);
 

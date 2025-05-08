@@ -46,13 +46,10 @@ using Infrastructure.Metrics;
 using Infrastructure.Middleware;
 using Infrastructure.ResponseWriter;
 using Infrastructure.Sequence;
-using JasperFx.Core;
 using Kbo;
 using Lamar.Microsoft.DependencyInjection;
 using Magda;
 using Marten;
-using Marten.Exceptions;
-using Marten.Internal.Sessions;
 using MessageHandling.Sqs.AddressMatch;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -745,12 +742,12 @@ public class Program
 
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Admin Api started"));
 
         app.Lifetime.ApplicationStopping.Register(
             () =>
             {
-                Log.Information("Application stopping");
+                Log.Information("Admin Api stopping");
                 Log.CloseAndFlush();
             });
 

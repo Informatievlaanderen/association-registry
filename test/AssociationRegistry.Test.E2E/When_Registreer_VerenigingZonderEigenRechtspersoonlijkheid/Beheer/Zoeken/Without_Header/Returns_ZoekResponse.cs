@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
 using JsonLdContext;
@@ -9,24 +8,28 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
+using Marten;
 using NodaTime;
-
 using Xunit;
+using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, SearchVerenigingenResponse>
+[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+
 
     [Fact]
     public void With_Context()
@@ -35,8 +38,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
-        => Response.Verenigingen.Single().ShouldCompare(new Vereniging
+    public async ValueTask WithFeitelijkeVereniging()
+    {
+        Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
             Doelgroep = new DoelgroepResponse
@@ -47,27 +51,25 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteNaam = Request.KorteNaam,
+            KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = Request.Naam,
+            Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = BeheerZoekResponseMapper.MapLocaties(Request.Locaties, _testContext.VCode),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = [],
-            Links = new VerenigingLinks()
+            Links = new VerenigingLinks
             {
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+    }
 }

@@ -5,18 +5,14 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
-using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_VerenigingMetRechtspersoonlijkheid
 {
     [Fact]
-    public async Task Then_It_Saves_A_Lidmaatschap()
+    public async ValueTask Then_It_Saves_A_Lidmaatschap()
     {
         var fixture = new Fixture().CustomizeDomain();
 

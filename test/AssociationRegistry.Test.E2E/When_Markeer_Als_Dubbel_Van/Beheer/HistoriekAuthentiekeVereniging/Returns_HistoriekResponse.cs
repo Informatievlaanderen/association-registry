@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.HistoriekAuthentiekeVereniging;
 
-using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
@@ -10,23 +9,25 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
+[Collection(nameof(MarkeerAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<HistoriekResponse>
 {
+    private readonly MarkeerAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
-
-    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
         _helper = helper;
     }
 
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.VerenigingAanvaarddeDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
+
     [Fact]
-    public async Task With_VCode()
+    public async ValueTask With_VCode()
     {
         var tryCounter = 0;
 
@@ -45,7 +46,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        Response.VCode.ShouldCompare(TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response.VCode.ShouldCompare(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     [Fact]
@@ -55,7 +56,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
     }
 
     [Fact]
-    public async Task With_All_Gebeurtenissen()
+    public async ValueTask With_All_Gebeurtenissen()
     {
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeDubbeleVereniging));
@@ -77,7 +78,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingAanvaarddeDubbeleVereniging(TestContext.Request, TestContext.VCode),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingAanvaarddeDubbeleVereniging(_testContext.CommandRequest, _testContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

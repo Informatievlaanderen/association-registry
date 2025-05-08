@@ -9,7 +9,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
-using Marten.Events;
 using System.Net;
 
 public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>
@@ -23,7 +22,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<WijzigBasisgegevensRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<WijzigBasisgegevensRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -43,7 +42,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
             Werkingsgebieden = ["BE21"],
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
@@ -53,11 +52,10 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<WijzigBasisgegevensRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new CommandResult<WijzigBasisgegevensRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 }

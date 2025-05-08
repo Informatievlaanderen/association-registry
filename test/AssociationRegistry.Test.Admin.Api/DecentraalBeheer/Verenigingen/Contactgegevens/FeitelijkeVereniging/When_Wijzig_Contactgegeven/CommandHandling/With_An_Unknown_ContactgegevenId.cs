@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_An_Unknown_ContactgegevenId
 {
     private readonly FeitelijkeVerenigingWerdGeregistreerdWithoutContactgegevens _scenario;
@@ -30,7 +28,7 @@ public class With_An_Unknown_ContactgegevenId
     }
 
     [Fact]
-    public async Task Then_A_UnknownContactgegevenException_Is_Thrown()
+    public async ValueTask Then_A_UnknownContactgegevenException_Is_Thrown()
     {
         var command = new WijzigContactgegevenCommand(_scenario.VCode, new WijzigContactgegevenCommand.CommandContactgegeven(
                                                           _fixture.Create<int>(),

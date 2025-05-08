@@ -7,11 +7,8 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens
 {
     private readonly V015_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigBasisgegevens _scenario;
@@ -28,7 +25,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_Wijz
     }
 
     [Fact]
-    public async Task Then_we_get_a_detail_response()
+    public async ValueTask Then_we_get_a_detail_response()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VCode);
 

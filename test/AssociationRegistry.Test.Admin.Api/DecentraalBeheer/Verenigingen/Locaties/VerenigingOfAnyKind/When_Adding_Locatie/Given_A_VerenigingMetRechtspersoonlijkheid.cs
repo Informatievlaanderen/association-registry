@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Given_A_VerenigingMetRechtspersoonlijkheid_Setup : IAsyncLifetime
 {
@@ -41,18 +40,16 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid_Setup : IAsyncLifetime
         }";
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Given_A_VerenigingMetRechtspersoonlijkheid_Setup>
 {
     private readonly Given_A_VerenigingMetRechtspersoonlijkheid_Setup _classFixture;
@@ -63,7 +60,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<Given_A_
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

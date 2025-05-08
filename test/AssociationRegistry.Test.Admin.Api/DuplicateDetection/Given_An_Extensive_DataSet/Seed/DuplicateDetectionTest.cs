@@ -17,7 +17,7 @@ using Nest;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 using Adres = Vereniging.Adres;
 using Locatie = Vereniging.Locatie;
 
@@ -91,7 +91,7 @@ public class DuplicateDetectionTest
         string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
     {
         var resourceName = associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv;
-        var assembly = typeof(Then_Some_Duplicates_Are_Expected).Assembly;
+        var assembly = typeof(DuplicateDetectionTest).Assembly;
         var stream = assembly.GetResource(resourceName);
 
         using var streamReader = new StreamReader(stream);
@@ -109,7 +109,7 @@ public class DuplicateDetectionTest
         return new ReadOnlyCollection<DuplicateDetectionSeedLine>(records);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         if (_elastic.Indices.ExistsAsync(_duplicateDetectionIndex).GetAwaiter().GetResult().Exists)
             _elastic.Indices.DeleteAsync(_duplicateDetectionIndex).GetAwaiter().GetResult();
@@ -125,8 +125,8 @@ public class DuplicateDetectionTest
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicatesFor(string teRegistrerenNaam)
         => await _duplicateVerenigingDetectionService.GetDuplicates(VerenigingsNaam.Create(teRegistrerenNaam),

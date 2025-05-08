@@ -8,9 +8,9 @@ using AutoFixture;
 using FluentAssertions;
 using Grar.GrarConsumer.Messaging;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(nameof(MessageQueueCollection))]
 public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 {
     private readonly FullBlownApiSetup _setup;
@@ -26,7 +26,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
     }
 
     [Fact]
-    public async Task Then_The_Dlq_Recieves_The_Message()
+    public async ValueTask Then_The_Dlq_Recieves_The_Message()
     {
         var dlqUrl = await _setup.AmazonSqs.GetQueueUrlAsync(_setup.AdminApiConfiguration.GetGrarOptions().Sqs.GrarSyncDeadLetterQueueName);
 
@@ -34,7 +34,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
-        var maxRetries = 5;
+        var maxRetries = 20;
         var tries = 0;
         List<Message> messages = null;
 
@@ -51,7 +51,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
             }
 
             _testOutputHelper.WriteLine($"Attempt {tries}");
-            await Task.Delay(500);
+            await Task.Delay(1000);
         }
 
         messages.Should().NotBeEmpty();

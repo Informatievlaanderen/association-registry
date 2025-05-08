@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.Framework.Fixtures;
 
-using AssociationRegistry.Framework;
 using Events;
 using JasperFx.Core;
 using System.Collections;

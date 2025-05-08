@@ -20,7 +20,6 @@ using Newtonsoft.Json;
 using Npgsql;
 using Weasel.Core;
 using PostgreSqlOptionsSection = AssociationRegistry.KboMutations.SyncLambda.Logging.PostgreSqlOptionsSection;
-using SsmClientWrapper = AssociationRegistry.KboMutations.SsmClientWrapper;
 
 namespace AssociationRegistry.KboMutations.SyncLambda;
 

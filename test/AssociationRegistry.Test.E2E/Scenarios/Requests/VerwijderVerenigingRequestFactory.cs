@@ -1,11 +1,10 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Verwijder.RequestModels;
 using Alba;
-using Be.Vlaanderen.Basisregisters.Utilities;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
-using Marten.Events;
 using System.Net;
 using Vereniging;
 
@@ -18,7 +17,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<VerwijderVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<VerwijderVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new VerwijderVerenigingRequest()
         {
@@ -26,7 +25,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         };
 
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+       var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
 
             foreach (var defaultRequestHeader in apiSetup.SuperAdminHttpClient.DefaultRequestHeaders)
@@ -41,12 +40,11 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<VerwijderVerenigingRequest>(
-            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
+        return new CommandResult<VerwijderVerenigingRequest>(
+            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }

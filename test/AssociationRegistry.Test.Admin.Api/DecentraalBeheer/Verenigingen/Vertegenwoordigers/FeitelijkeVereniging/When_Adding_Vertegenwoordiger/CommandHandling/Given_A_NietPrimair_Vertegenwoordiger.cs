@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_NietPrimair_Vertegenwoordiger
 {
     private VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -36,7 +34,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_VertegenwoordigerWerdToegevoegd_Event_Is_Saved()
     {
         await _commandHandler
            .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));
@@ -58,7 +56,7 @@ public class Given_A_NietPrimair_Vertegenwoordiger
     }
 
     [Fact]
-    public async Task Then_A_EntityId_Is_Returned()
+    public async ValueTask Then_A_EntityId_Is_Returned()
     {
         var result = await _commandHandler
            .Handle(new CommandEnvelope<VoegVertegenwoordigerToeCommand>(_command, _fixture.Create<CommandMetadata>()));

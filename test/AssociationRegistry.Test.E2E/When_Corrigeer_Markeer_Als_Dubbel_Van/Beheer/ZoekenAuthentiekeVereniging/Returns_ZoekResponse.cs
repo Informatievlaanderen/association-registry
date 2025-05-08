@@ -1,22 +1,33 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van.Beheer.ZoekenAuthentiekeVereniging;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
+using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using FluentAssertions;
+using JasperFx.Core;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
+using Marten;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, SearchVerenigingenResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+    }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+    {
+        Task.Delay(5.Seconds()).GetAwaiter().GetResult();
+
+        return setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+                                                  setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().WithExpectedSequence(
+                                                      _testContext.AanvaarddeCorrectieDubbeleVereniging?.Sequence)).GetAwaiter()
+                    .GetResult();
     }
 
     [Fact]
@@ -31,7 +42,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
         Response.Verenigingen.Single(x => x.VCode == _testContext.Scenario.AuthentiekeVereniging.VCode)
                 .CorresponderendeVCodes.Should().BeEmpty();
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}");
 }

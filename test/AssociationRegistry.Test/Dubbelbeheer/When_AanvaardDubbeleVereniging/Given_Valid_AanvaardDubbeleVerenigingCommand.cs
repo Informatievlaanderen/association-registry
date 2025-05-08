@@ -4,7 +4,6 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Messages;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
@@ -16,7 +15,7 @@ using Xunit;
 public class Given_Valid_AanvaardDubbeleVerenigingCommand
 {
     [Fact]
-    public async Task Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_FeitelijkeVereniging()
+    public async ValueTask Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_FeitelijkeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();
@@ -43,7 +42,7 @@ public class Given_Valid_AanvaardDubbeleVerenigingCommand
     }
 
     [Fact]
-    public async Task Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
+    public async ValueTask Then_It_Saves_A_VerenigingAanvaarddeDubbeleVereniging_For_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();

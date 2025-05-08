@@ -6,9 +6,7 @@ using AssociationRegistry.Resources;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Reden_Is_Html : ValidatorTest
 {
     [Fact]

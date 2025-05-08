@@ -21,7 +21,7 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
     {
     }
 
-    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -148,8 +148,6 @@ public class RegistreerFeitelijkeVerenigingRequestFactory : ITestRequestFactory<
         var vCode = response.Headers.Location.First().Split('/').Last();
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        await apiSetup.AdminProjectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-
-        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request, sequence);
     }
 }

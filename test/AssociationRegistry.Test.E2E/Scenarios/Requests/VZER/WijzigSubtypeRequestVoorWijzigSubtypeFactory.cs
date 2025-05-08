@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 
+using Admin.Api.Infrastructure;
 using Alba;
 using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
@@ -7,7 +8,6 @@ using AssociationRegistry.Test.E2E.Scenarios.Givens.VerenigingZonderEigenRechtsp
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.AutoFixture;
-using Marten.Events;
 using System.Net;
 
 public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<WijzigSubtypeRequest>
@@ -21,7 +21,7 @@ public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<
         _fixture = new Fixture().CustomizeAdminApi();
     }
 
-    public async Task<RequestResult<WijzigSubtypeRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<WijzigSubtypeRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new WijzigSubtypeRequest
         {
@@ -31,18 +31,17 @@ public class WijzigSubtypeRequestVoorWijzigSubtypeFactory : ITestRequestFactory<
             Beschrijving = "andere beschrijving",
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/subtype");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
+        return new CommandResult<WijzigSubtypeRequest>(VCode.Create(_scenario.BaseScenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }

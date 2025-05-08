@@ -12,9 +12,7 @@ using Grar.NutsLau;
 using Hosts.Configuration;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
-using Marten.Events;
 using Marten.Events.Daemon;
-using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,13 +22,12 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
-using Scenarios.Requests;
 using TestClasses;
 using Vereniging;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
+public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 {
     public FullBlownApiSetup()
     {
@@ -44,7 +41,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
     public IAlbaHost PublicProjectionHost { get; private set; }
     public IAlbaHost PublicApiHost { get; private set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         SetUpAdminApiConfiguration();
 
@@ -55,9 +52,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
                                   createClientFunc: () => new HttpClient());
 
-        var elasticSearchOptions = AdminApiConfiguration.GetElasticSearchOptionsSection();
-        ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
-        ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
 
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
         UnautenticatedClient = clients.Unauthenticated.HttpClient;
@@ -68,7 +62,11 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
-        InsertWerkingsgebieden();
+        var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
+        ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
+        ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
+
+        await InsertWerkingsgebieden();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting("adminproj"));
@@ -87,30 +85,19 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
         AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
+        VCodeService = AdminApiHost.Services.GetRequiredService<IVCodeService>();
 
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
-        AdminProjectionDaemon = AdminProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
+        await AdminProjectionHost.StartAsync();
+        await PublicProjectionHost.StartAsync();
 
-        var agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
-        {
-            x.Name.Identity, x.Position, x.Status
-        });
-
-
-        while (!agents.Any())
-        {
-            Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
-            await Task.Delay(500);
-            agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
-            {
-                x.Name.Identity, x.Position, x.Status
-            });
-
-        }
-        Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
     }
+
+    public IProjectionDaemon AcmProjectionDaemon { get; set; }
+    public IProjectionDaemon PublicProjectionDaemon { get; set; }
+    public IVCodeService VCodeService { get; set; }
 
     private async Task InsertWerkingsgebieden()
     {
@@ -186,7 +173,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     public IConfigurationRoot AdminApiConfiguration { get; set; }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await AdminApiHost.StopAsync();
         await PublicApiHost.StopAsync();
@@ -200,7 +187,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task ExecuteGiven(IScenario scenario)
+    public async Task<Dictionary<string, Marten.Events.IEvent[]>> ExecuteGiven(IScenario scenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
 
@@ -211,19 +198,26 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
         var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
 
+        var executedEvents = new Dictionary<string, Marten.Events.IEvent[]>();
+        if (givenEvents.Length == 0)
+            return [];
+
         foreach (var eventsPerStream in givenEvents)
         {
-            session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            var streamAction = session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            if(!executedEvents.ContainsKey(streamAction.Key))
+            {
+                executedEvents.Add(streamAction.Key, streamAction.Events.ToArray());
+            }
+            else
+            {
+                executedEvents[streamAction.Key] = streamAction.Events.Concat(executedEvents[streamAction.Key]).ToArray();
+            }
         }
-
-        if (givenEvents.Length == 0)
-            return;
 
         await session.SaveChangesAsync();
 
-        await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+        return executedEvents;
     }
 
     public async Task RefreshIndices()
@@ -231,17 +225,18 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 
     private readonly Dictionary<string, object> _ranContexts = new();
 
-    public void RegisterContext<T>(ITestContext<T> context)
+    public void Dispose()
     {
-
-        if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
-        {
-            context.Init().GetAwaiter().GetResult();
-            _ranContexts.Add(context.GetType().Name, context.RequestResult);
-        }
-        else
-        {
-            context.RequestResult = (RequestResult<T>)ranContext;
-        }
+        AdminApiHost.Dispose();
+        AcmApiHost.Dispose();
+        AdminProjectionHost.Dispose();
+        PublicProjectionHost.Dispose();
+        PublicApiHost.Dispose();
+        AdminProjectionDaemon.Dispose();
+        SuperAdminHttpClient.Dispose();
+        UnautenticatedClient.Dispose();
+        UnauthorizedClient.Dispose();
+        AdminHttpClient.Dispose();
+        AmazonSqs.Dispose();
     }
 }

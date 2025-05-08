@@ -27,7 +27,7 @@ public class BasisgegevensExportTestsWithNullValues
     }
 
     [Fact]
-    public async Task Then_Export_Empty_Strings()
+    public async ValueTask Then_Export_Empty_Strings()
     {
         PowerBiExportDocument[] docs = [_fixture.Create<PowerBiExportDocument>() with
         {

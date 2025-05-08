@@ -6,7 +6,7 @@ using FluentAssertions;
 using Seed;
 using Vereniging;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 public class Then_MunicipaltyStopwords_Are_Not_Applied_To_Gemeente: DuplicateDetectionTest
 {
@@ -20,7 +20,7 @@ public class Then_MunicipaltyStopwords_Are_Not_Applied_To_Gemeente: DuplicateDet
     }
 
     [Fact]
-    public async Task With_Gemeente_From_Stopwords()
+    public async ValueTask With_Gemeente_From_Stopwords()
     {
         var result = await _duplicateVerenigingDetectionService.GetDuplicates(VerenigingsNaam.Create("Ruygi KORTRIJK"),
         [

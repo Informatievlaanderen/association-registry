@@ -9,7 +9,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging : IAsyncLifetime
 {
@@ -46,19 +45,17 @@ public class Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging : IAsyncLif
         AanTePassenContactGegeven = contactgegeven;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchContactgegevens(Scenario.VCode, AanTePassenContactGegeven.ContactgegevenId,
                                                                       _jsonBody);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging>
 {
     private readonly Patch_A_New_Contactgegeven_Given_A_FeitelijkeVereniging _classFixture;
@@ -69,7 +66,7 @@ public class Given_A_FeitelijkeVereniging : IClassFixture<Patch_A_New_Contactgeg
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

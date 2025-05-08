@@ -11,7 +11,7 @@ using Xunit;
 public class Given_A_Destination_Adres
 {
     [Fact]
-    public async Task Then_It_Calls_TeHeradresserenLocatiesHandler()
+    public async ValueTask Then_It_Calls_TeHeradresserenLocatiesHandler()
     {
         var teHeradresserenLocatiesHandler = new Mock<ITeHeradresserenLocatiesProcessor>();
         var teOntkoppelenLocatiesHandler = new Mock<ITeOntkoppelenLocatiesProcessor>();

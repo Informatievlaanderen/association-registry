@@ -4,42 +4,35 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.When_Wijzig_Locatie;
 using FluentAssertions;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigConcurrentlyContext>, IAsyncLifetime
+[Collection(nameof(WijzigConcurrentlyCollection))]
+public class Only_Returns_Success_Or_PreconditionFailed : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly WijzigConcurrentlyContext _context;
+    private readonly WijzigConcurrentlyContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Only_Returns_Success_Or_PreconditionFailed(WijzigConcurrentlyContext context, ITestOutputHelper helper)
+    public Only_Returns_Success_Or_PreconditionFailed(WijzigConcurrentlyContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
         _helper = helper;
     }
 
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
-    }
-
-    public async Task DisposeAsync()
-    {
-    }
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
-    public async Task TestZonderExpectedVersion()
+    public async ValueTask TestZonderExpectedVersion()
     {
-        var client = _context.ApiSetup.AdminApiHost.CreateClientWithHeaders(_context.ApiSetup.SuperAdminHttpClient);
-        var locatie = _context.WerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
+        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
+        var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
         for (var i = 0; i < 100; i++)
@@ -49,7 +42,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
             var task = Task.Run(async () =>
             {
 
-                var response = await client.PatchAsync($"/v1/verenigingen/{_context.VCode}/locaties/{locatie.LocatieId}",
+                var response = await client.PatchAsync($"/v1/verenigingen/{_testContext.VCode}/locaties/{locatie.LocatieId}",
                                                        new StringContent(
                                                            JsonConvert.SerializeObject(new WijzigLocatieRequest
                                                            {
@@ -77,10 +70,10 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
     }
 
     [Fact]
-    public async Task TestMetExpectedVersion()
+    public async ValueTask TestMetExpectedVersion()
     {
-        var client = _context.ApiSetup.AdminApiHost.CreateClientWithHeaders(_context.ApiSetup.SuperAdminHttpClient);
-        var locatie = _context.WerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
+        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
+        var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
         for (var i = 0; i < 100; i++)
@@ -89,7 +82,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
 
             var task = Task.Run(async () =>
             {
-                    var vereniging = await client.GetAsync($"/v1/verenigingen/{_context.VCode}");
+                    var vereniging = await client.GetAsync($"/v1/verenigingen/{_testContext.VCode}");
                     var expectedVersion = vereniging.Headers.FirstOrDefault(x => x.Key == "ETag").Value;
 
                     if (expectedVersion == null)
@@ -100,7 +93,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
 
                     // Create a new HttpRequestMessage with the custom header
                     var request = new HttpRequestMessage(HttpMethod.Patch,
-                                                         $"/v1/verenigingen/{_context.VCode}/locaties/{locatie.LocatieId}")
+                                                         $"/v1/verenigingen/{_testContext.VCode}/locaties/{locatie.LocatieId}")
                     {
                         Content = new StringContent(
                             JsonConvert.SerializeObject(new WijzigLocatieRequest
@@ -132,6 +125,6 @@ public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigCo
             tasks.Add(task);
         }
 
-        Task.WaitAll(tasks.ToArray());
+        Task.WaitAll(tasks.ToArray(), TestContext.Current.CancellationToken);
     }
 }

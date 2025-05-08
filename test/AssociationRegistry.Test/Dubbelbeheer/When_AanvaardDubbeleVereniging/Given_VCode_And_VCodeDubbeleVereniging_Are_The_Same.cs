@@ -3,7 +3,6 @@
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
-using Common.Scenarios.CommandHandling;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 using FluentAssertions;
@@ -16,7 +15,7 @@ using Xunit;
 public class Given_VCode_And_VCodeDubbeleVereniging_Are_The_Same
 {
     [Fact]
-    public async Task Then_Throws_InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf()
+    public async ValueTask Then_Throws_InvalidOperationVerenigingKanGeenDubbelWordenVanZichzelf()
     {
         var fixture = new Fixture().CustomizeDomain();
         var messageBus = new Mock<IMessageBus>();

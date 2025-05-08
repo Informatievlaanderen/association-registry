@@ -6,9 +6,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using Moq;
 using Wolverine;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Null_Request
 {
     private readonly WijzigLocatieController _controller;
@@ -20,7 +18,7 @@ public class With_Null_Request
     }
 
     [Fact]
-    public async Task Then_it_throws_a_CouldNotParseRequestException()
+    public async ValueTask Then_it_throws_a_CouldNotParseRequestException()
     {
         await Assert.ThrowsAsync<CouldNotParseRequestException>(
             async () => await _controller.Patch(

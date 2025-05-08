@@ -7,9 +7,7 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Null_Values_Does_Not_Update_Anything
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
@@ -28,7 +26,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Update_Anything()
+    public async ValueTask Then_It_Does_Not_Update_Anything()
     {
         var command = new WijzigVertegenwoordigerCommand(
             _scenario.VCode,

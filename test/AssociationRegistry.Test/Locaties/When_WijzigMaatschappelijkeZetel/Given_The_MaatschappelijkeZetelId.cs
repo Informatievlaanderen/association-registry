@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_WijzigMaatschappelijkeZetel;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
@@ -8,9 +7,7 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_To_MaatschappelijkeZetelId
 {
     [Fact]

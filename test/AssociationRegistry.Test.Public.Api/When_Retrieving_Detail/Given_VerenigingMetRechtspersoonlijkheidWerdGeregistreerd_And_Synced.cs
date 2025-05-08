@@ -10,11 +10,8 @@ using templates;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synced
 {
     private readonly V021_VerenigingMetRechtspersoonlijkheidWerdGesynchroniseerd _scenario;
@@ -29,7 +26,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_And_Synce
     }
 
     [Fact]
-    public async Task Then_we_get_a_detail_response()
+    public async ValueTask Then_we_get_a_detail_response()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode);
 

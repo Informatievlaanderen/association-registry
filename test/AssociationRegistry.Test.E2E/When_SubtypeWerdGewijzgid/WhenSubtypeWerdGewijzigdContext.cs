@@ -3,29 +3,29 @@ namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid;
 using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.VZER;
-using Vereniging;
+using Xunit;
 
-public class WhenSubtypeWerdGewijzigdContext: TestContextBase<WijzigSubtypeRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(WhenSubtypeWerdGewijzigdCollection))]
+public class WhenSubtypeWerdGewijzigdCollection : ICollectionFixture<WhenSubtypeWerdGewijzigdContext>
 {
-    public VCode VCode => RequestResult.VCode;
-    public SubtypeWerdVerfijndNaarSubverenigingScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class WhenSubtypeWerdGewijzigdContext : TestContextBase<SubtypeWerdVerfijndNaarSubverenigingScenario, WijzigSubtypeRequest>
+{
+    protected override SubtypeWerdVerfijndNaarSubverenigingScenario InitializeScenario()
+        => new();
 
-    public WhenSubtypeWerdGewijzigdContext(FullBlownApiSetup apiSetup)
+    public WhenSubtypeWerdGewijzigdContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(SubtypeWerdVerfijndNaarSubverenigingScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }

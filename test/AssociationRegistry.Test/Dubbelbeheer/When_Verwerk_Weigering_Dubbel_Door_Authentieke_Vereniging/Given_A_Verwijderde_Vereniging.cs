@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
@@ -14,7 +13,7 @@ using Xunit;
 public class Given_A_Verwijderde_Vereniging
 {
     [Fact]
-    public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
+    public async ValueTask Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
         var scenario = new VerenigingWerdGemarkeerdAlsDubbelVanEnVerwijderdScenario();
         var repositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState(), true, true);

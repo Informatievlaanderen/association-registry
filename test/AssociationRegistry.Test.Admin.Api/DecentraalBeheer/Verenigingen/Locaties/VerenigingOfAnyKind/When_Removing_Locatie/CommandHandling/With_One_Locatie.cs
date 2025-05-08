@@ -8,9 +8,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_One_Locatie
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;
@@ -27,7 +25,7 @@ public class With_One_Locatie
     }
 
     [Fact]
-    public async Task Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
+    public async ValueTask Then_A_VertegenwoordigerWerdVerwijderd_Event_Is_Saved()
     {
         var command = new VerwijderLocatieCommand(_scenario.VCode, _scenario.LocatieWerdToegevoegd.Locatie.LocatieId);
         var commandMetadata = _fixture.Create<CommandMetadata>();

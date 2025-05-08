@@ -13,7 +13,6 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
-using EventStore;
 using FluentValidation;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Infrastructure.Configuration;
@@ -30,7 +29,6 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.NewtonsoftJson;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
@@ -542,12 +540,12 @@ public class Program
 
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("ACM Api started"));
 
         app.Lifetime.ApplicationStopping.Register(
             () =>
             {
-                Log.Information("Application stopping");
+                Log.Information("ACM Api stopping");
                 Log.CloseAndFlush();
             });
 

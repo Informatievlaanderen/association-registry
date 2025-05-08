@@ -11,12 +11,9 @@ using Framework.Fixtures;
 using Newtonsoft.Json;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_A_Verwijderde_Vereniging
 {
     private readonly AdminApiClient _adminApiClient;
@@ -31,7 +28,7 @@ public class Given_A_Verwijderde_Vereniging
     }
 
     [Fact]
-    public async Task? Then_no_duplicate_is_returned()
+    public async ValueTask Then_no_duplicate_is_returned()
     {
         var request = CreateRegistreerFeitelijkeVerenigingRequest(_scenario.FeitelijkeVerenigingWerdGeregistreerd.Naam,
                                                                   _scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First().Adres

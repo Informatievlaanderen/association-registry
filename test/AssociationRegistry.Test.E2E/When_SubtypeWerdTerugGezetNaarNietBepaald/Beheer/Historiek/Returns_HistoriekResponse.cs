@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Historiek;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
@@ -9,23 +8,25 @@ using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, HistoriekResponse>
+[Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
+public class Returns_Detail : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
 
-    public Returns_Historiek(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -40,7 +41,7 @@ public class Returns_Historiek : End2EndTest<ZetSubtypeNaarNietBepaaldContext, W
         var werdVerfijnd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald));
 
-        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubtypeWerdTerugGezetNaarNietBepaald(TestContext.VCode),
+        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubtypeWerdTerugGezetNaarNietBepaald(_testContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Do
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
-using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
@@ -15,7 +14,7 @@ using Xunit;
 public class Given_Vereniging_Is_Not_Dubbel
 {
     [Fact]
-    public async Task Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
+    public async ValueTask Then_WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerkt_Event_Is_Saved()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();

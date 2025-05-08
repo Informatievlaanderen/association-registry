@@ -1,22 +1,22 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Acm.VerenigingenPerInsz;
 
-using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using AcmBevraging;
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VerenigingenPerInszResponse :
-    End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, VerenigingenPerInszResponse>
+[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
+public class Returns_Vereniging : End2EndTest<VerenigingenPerInszResponse>
 {
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext context) : base(context)
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = "0123456789",
@@ -24,12 +24,16 @@ public class Returns_VerenigingenPerInszResponse :
             [
                 new VerenigingenPerInszRequest.KboNummerMetRechtsvormRequest()
                 {
-                    KboNummer = context.Request.KboNummer,
+                    KboNummer = testContext.CommandRequest.KboNummer,
                     Rechtsvorm = "ONGEKENDE RECHTSVORM", // TODO: Veranderen naar happy path
                 },
             ],
         };
     }
+
+    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence)
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -46,8 +50,4 @@ public class Returns_VerenigingenPerInszResponse :
                 }).ToArray(),
         });
     }
-
-    public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
-        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
-                         .GetAwaiter().GetResult();
 }

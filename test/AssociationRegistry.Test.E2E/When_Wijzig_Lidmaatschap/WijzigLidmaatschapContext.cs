@@ -3,29 +3,29 @@ namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
-using Vereniging;
+using Xunit;
 
-public class WijzigLidmaatschapContext: TestContextBase<WijzigLidmaatschapRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(WijzigLidmaatschapCollection))]
+public class WijzigLidmaatschapCollection : ICollectionFixture<WijzigLidmaatschapContext>
 {
-    public VCode VCode => RequestResult.VCode;
-    public LidmaatschapWerdToegevoegdScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class WijzigLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevoegdScenario, WijzigLidmaatschapRequest>
+{
+    protected override LidmaatschapWerdToegevoegdScenario InitializeScenario()
+        => new(new MultipleWerdGeregistreerdScenario());
 
-    public WijzigLidmaatschapContext(FullBlownApiSetup apiSetup)
+    public WijzigLidmaatschapContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(LidmaatschapWerdToegevoegdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new WijzigLidmaatschapRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }

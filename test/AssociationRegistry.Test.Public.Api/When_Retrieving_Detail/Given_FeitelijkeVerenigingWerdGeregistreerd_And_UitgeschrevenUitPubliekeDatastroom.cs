@@ -5,11 +5,8 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPubliekeDatastroom
 {
     private readonly PublicApiClient _publicApiClient;
@@ -22,7 +19,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPub
     }
 
     [Fact]
-    public async Task Then_we_get_a_notFound_response()
+    public async ValueTask Then_we_get_a_notFound_response()
     {
         var response = await _publicApiClient.GetDetail(_vCode);
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);

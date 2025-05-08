@@ -1,32 +1,32 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens;
 
 using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
-using Events;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Vereniging;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
+using Xunit;
 
-public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevensRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(WijzigBasisGegevensCollection))]
+public class WijzigBasisGegevensCollection : ICollectionFixture<WijzigBasisgegevensContext>
 {
-    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
-    public VCode VCode => RequestResult.VCode;
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class WijzigBasisgegevensContext : TestContextBase<FeitelijkeVerenigingWerdGeregistreerdScenario, WijzigBasisgegevensRequest>
+{
+    protected override FeitelijkeVerenigingWerdGeregistreerdScenario InitializeScenario()
+        => new(true);
 
-    public WijzigBasisgegevensTestContext(FullBlownApiSetup apiSetup)
+    public WijzigBasisgegevensContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
     {
-        _werdGeregistreerdScenario = new(true);
-
-        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new WijzigBasisgegevensRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }
+

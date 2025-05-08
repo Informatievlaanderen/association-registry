@@ -17,9 +17,7 @@ using Moq;
 using ResultNet;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_PotentialDuplicate
 {
     private readonly List<DuplicaatVereniging> _potentialDuplicates;

@@ -10,13 +10,11 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_NonExistingLocatie
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

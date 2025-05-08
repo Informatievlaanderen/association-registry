@@ -9,11 +9,8 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_An_Outdated_Sequence
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -26,7 +23,7 @@ public class Given_An_Outdated_Sequence
     }
 
     [Fact]
-    public async Task Then_we_get_a_precondition_failed_response_for_historiek()
+    public async ValueTask Then_we_get_a_precondition_failed_response_for_historiek()
     {
         var response =
             await _adminApiClient.GetHistoriek(_fixture.V001FeitelijkeVerenigingWerdGeregistreerdWithAllFields.VCode, long.MaxValue);

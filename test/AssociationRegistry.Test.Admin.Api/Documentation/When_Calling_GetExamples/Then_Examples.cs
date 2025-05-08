@@ -9,11 +9,8 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Collections;
 using System.Reflection;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Then_Examples
 {
     private readonly AdminApiFixture _fixture;

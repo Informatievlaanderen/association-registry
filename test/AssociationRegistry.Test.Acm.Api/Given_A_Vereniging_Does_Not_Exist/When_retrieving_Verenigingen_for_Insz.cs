@@ -6,11 +6,8 @@ using Framework;
 using System.Net;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AcmApiCollection))]
-[Category("AcmApi")]
-[IntegrationTest]
 public class When_retrieving_Verenigingen_for_Insz
 {
     private const string Insz = "00000000000";
@@ -26,7 +23,7 @@ public class When_retrieving_Verenigingen_for_Insz
         => _response.StatusCode.Should().Be(HttpStatusCode.OK);
 
     [Fact]
-    public async Task Then_we_get_a_response_with_no_verenigingen()
+    public async ValueTask Then_we_get_a_response_with_no_verenigingen()
     {
         var content = await _response.Content.ReadAsStringAsync();
 

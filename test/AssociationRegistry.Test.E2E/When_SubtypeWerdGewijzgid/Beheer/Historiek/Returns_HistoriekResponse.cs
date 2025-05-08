@@ -1,30 +1,32 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid.Beheer.Historiek;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Events;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Events;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<WhenSubtypeWerdGewijzigdContext, WijzigSubtypeRequest, HistoriekResponse>
+[Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
+public class Returns_HistoriekResponse : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly WhenSubtypeWerdGewijzigdContext _testContext;
 
-    public Returns_Historiek(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext)
+    public Returns_HistoriekResponse(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -39,12 +41,12 @@ public class Returns_Historiek : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wi
         var relatieWerdGewijzigd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubverenigingRelatieWerdGewijzigd));
         relatieWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.SubverenigingRelatieWerdGewijzigd(
-                                               new SubverenigingRelatieWerdGewijzigd(TestContext.VCode, TestContext.Request.AndereVereniging, TestContext.Scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam)),
+                                               new SubverenigingRelatieWerdGewijzigd(_testContext.VCode, _testContext.CommandRequest.AndereVereniging, _testContext.Scenario.BaseScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam)),
                                            compareConfig: HistoriekComparisonConfig.Instance);
 
         var detailWerdGewijzigd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(SubverenigingDetailsWerdenGewijzigd));
-        detailWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.SubverenigingDetailsWerdenGewijzigd(new SubverenigingDetailsWerdenGewijzigd(TestContext.VCode, TestContext.Request.Identificatie, TestContext.Request.Beschrijving)),
+        detailWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.SubverenigingDetailsWerdenGewijzigd(new SubverenigingDetailsWerdenGewijzigd(_testContext.VCode, _testContext.CommandRequest.Identificatie, _testContext.CommandRequest.Beschrijving)),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Nest;
-using Newtonsoft.Json;
 using Schema.Search;
 
 public class ElasticRepository : IElasticRepository
@@ -53,7 +52,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
+            u => u.RetryOnConflict(3).Script(s => s
                               .Source(@"
                     if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                         ctx._source.subverenigingVan = null;
@@ -79,7 +78,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
+            u => u.RetryOnConflict(3).Script(s => s
                               .Source(@"
                     if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                         ctx._source.subverenigingVan.andereVereniging = params.andereVereniging;
@@ -102,7 +101,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<TDocument>(
             id,
-            u => u.Script(s => s
+            u => u.RetryOnConflict(3).Script(s => s
                               .Source(@"
                     if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {
                         ctx._source.subverenigingVan.identificatie = params.identificatie;
@@ -123,7 +122,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.locaties.add(params.locatie);" +
@@ -139,7 +138,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.lidmaatschappen.add(params.lidmaatschap);" +
@@ -155,7 +154,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source(
                         "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
@@ -183,7 +182,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
                             "ctx._source.lidmaatschappen.removeIf(l -> l.lidmaatschapId == params.lidmaatschapId);"+
@@ -199,7 +198,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source(
                          "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
@@ -227,7 +226,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source(
                          "if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
@@ -264,7 +263,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
                             "ctx._source.locaties.removeIf(l -> l.locatieId == params.locatieId);"+
@@ -280,7 +279,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.Script(
+            selector: u => u.RetryOnConflict(3).Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {"+
                             "   ctx._source.relaties.add(params.relatie);" +

@@ -13,10 +13,8 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
 
-[UnitTest]
 public class Given_NietGeslaagd_Uitzondering_Fout
 {
     private readonly MagdaRegistreerInschrijvingService _service;
@@ -65,7 +63,7 @@ public class Given_NietGeslaagd_Uitzondering_Fout
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_FailedResult()
+    public async ValueTask Then_It_Returns_A_FailedResult()
     {
         var result = await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                            CancellationToken.None);

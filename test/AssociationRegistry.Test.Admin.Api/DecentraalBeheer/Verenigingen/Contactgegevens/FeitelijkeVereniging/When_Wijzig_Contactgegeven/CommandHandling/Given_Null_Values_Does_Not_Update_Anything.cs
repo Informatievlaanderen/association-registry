@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Null_Values_Does_Not_Update_Anything
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
@@ -31,7 +29,7 @@ public class Given_Null_Values_Does_Not_Update_Anything
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Update_Anything()
+    public async ValueTask Then_It_Does_Not_Update_Anything()
     {
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,
@@ -47,7 +45,6 @@ public class Given_Null_Values_Does_Not_Update_Anything
     }
 }
 
-[UnitTest]
 public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;
@@ -66,7 +63,7 @@ public class Given_Null_For_Beschrijving_Does_Not_Update_Beschrijving
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Update_Anything()
+    public async ValueTask Then_It_Does_Not_Update_Anything()
     {
         var command = new WijzigContactgegevenCommand(
             _scenario.VCode,

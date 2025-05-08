@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.Zoeken;
 
-using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Events;
 using FluentAssertions;
 using Framework.AlbaHost;
@@ -10,17 +9,20 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, SearchVerenigingenResponse>
+[Collection(nameof(MarkeerAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
-    private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
 
-    public Returns_SearchVerenigingenResponse(MarkeerAlsDubbelVanContext testContext) : base(testContext)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()
@@ -29,11 +31,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVa
     }
 
     [Fact]
-    public async Task With_Verenigingen_Empty()
+    public async ValueTask With_Verenigingen_Empty()
     {
         Response.Verenigingen.Should().BeEmpty();
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }

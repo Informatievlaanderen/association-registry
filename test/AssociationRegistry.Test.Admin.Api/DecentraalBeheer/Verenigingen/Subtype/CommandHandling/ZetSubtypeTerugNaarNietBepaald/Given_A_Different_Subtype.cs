@@ -6,16 +6,13 @@ using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
-using Vereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Different_Subtype
 {
     [Fact]
-    public async Task Then_It_Saves_A_SubtypeWerdTerugGezetNaarNietBepaald()
+    public async ValueTask Then_It_Saves_A_SubtypeWerdTerugGezetNaarNietBepaald()
     {
         var fixture = new Fixture().CustomizeDomain();
 

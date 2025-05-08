@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.ElasticSearch;
 
 using Schema.Search;
-using Extensions;
 using Nest;
 using Nest.Specification.IndicesApi;
 

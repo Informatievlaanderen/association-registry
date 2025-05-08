@@ -1,29 +1,28 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Formats;
-using JsonLdContext;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
-using Vereniging;
-using Vereniging.Bronnen;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse :
-    End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
+    private readonly WijzigBasisgegevensKboContext _testContext;
+
+    public Returns_DetailResponse(WijzigBasisgegevensKboContext context) : base(context.ApiSetup)
     {
+        _testContext = context;
     }
 
     [Fact]
@@ -35,13 +34,13 @@ public class Returns_DetailResponse :
     [Fact]
     public void With_Metadata_DatumLaatsteAanpassing()
     {
-        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
-                                                               compareConfig: new ComparisonConfig
-                                                                   { MaxMillisecondsDateDifference = 5000 });
+        Response.Metadata.DatumLaatsteAanpassing.ShouldCompare(
+            Instant.FromDateTimeOffset(DateTimeOffset.Now).FormatAsBelgianDate(),
+            compareConfig: new ComparisonConfig { MaxMillisecondsDateDifference = 5000 });
     }
 
     [Fact]
-    public async Task WithVerenigingMetRechtspersoonlijkheid()
+    public async ValueTask WithVerenigingMetRechtspersoonlijkheid()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.KBO,
@@ -49,38 +48,38 @@ public class Returns_DetailResponse :
             CorresponderendeVCodes = [],
             Doelgroep = new DoelgroepResponse
             {
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
                 type = JsonLdType.Doelgroep.Type,
-                Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
-                Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
+                Minimumleeftijd = _testContext.CommandRequest.Doelgroep.Minimumleeftijd.Value,
+                Maximumleeftijd = _testContext.CommandRequest.Doelgroep.Maximumleeftijd.Value,
             },
-            Roepnaam = Request.Roepnaam,
-            VCode = TestContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = TestContext.RegistratieData.KorteNaam,
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
-            Naam = TestContext.RegistratieData.Naam,
+            Naam = _testContext.RegistratieData.Naam,
             Startdatum = Instant.FromDateTimeOffset(
-                new DateTimeOffset(TestContext.RegistratieData.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
+                new DateTimeOffset(_testContext.RegistratieData.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
             IsUitgeschrevenUitPubliekeDatastroom = false,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(TestContext.Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(TestContext.Request.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Vertegenwoordigers = [],
             Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
+            Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 }

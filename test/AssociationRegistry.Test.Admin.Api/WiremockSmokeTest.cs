@@ -3,13 +3,11 @@ namespace AssociationRegistry.Test.Admin.Api;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class WiremockSmokeTest
 {
     [Fact]
-    public async Task With_A_Mapped_Uri_For_No_Exact_Match()
+    public async ValueTask With_A_Mapped_Uri_For_No_Exact_Match()
     {
         var client = new HttpClient();
 
@@ -19,7 +17,7 @@ public class WiremockSmokeTest
     }
 
     [Fact]
-    public async Task With_A_Mapped_Uri_For_Exact_Match()
+    public async ValueTask With_A_Mapped_Uri_For_Exact_Match()
     {
         var client = new HttpClient();
 

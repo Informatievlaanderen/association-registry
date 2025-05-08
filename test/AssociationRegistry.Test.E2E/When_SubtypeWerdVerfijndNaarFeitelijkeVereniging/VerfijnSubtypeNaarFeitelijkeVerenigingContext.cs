@@ -3,31 +3,29 @@ namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVer
 using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
-using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
-using Scenarios.Requests.FeitelijkeVereniging;
 using Scenarios.Requests.VZER;
-using Vereniging;
+using Xunit;
 
-public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
+public class VerfijnSubtypeNaarFeitelijkeVerenigingCollection : ICollectionFixture<VerfijnSubtypeNaarFeitelijkeVerenigingContext>
 {
-    public VCode VCode => RequestResult.VCode;
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class VerfijnSubtypeNaarFeitelijkeVerenigingContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, WijzigSubtypeRequest>
+{
+    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
+        => new();
 
-    public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
+    public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }

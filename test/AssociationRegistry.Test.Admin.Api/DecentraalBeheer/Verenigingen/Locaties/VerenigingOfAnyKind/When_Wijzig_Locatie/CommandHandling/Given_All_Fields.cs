@@ -14,9 +14,7 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_All_Fields
 {
     private readonly WijzigLocatieCommandHandler _commandHandler;
@@ -48,7 +46,7 @@ public class Given_All_Fields
     }
 
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved_With_The_Next_Id()
     {
         var command = new WijzigLocatieCommand(
             _scenario.VCode,

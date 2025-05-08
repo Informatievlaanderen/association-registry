@@ -10,9 +10,7 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Vereniging_With_No_Existing_HoofdActiviteit
 {
     private FeitelijkeVerenigingWerdGeregistreerdWithNoHoofdActiviteitScenario _scenario;
@@ -28,7 +26,7 @@ public class Given_Vereniging_With_No_Existing_HoofdActiviteit
     }
 
     [Fact]
-    public async Task WithEmptyHoofdActiviteitenRequest_ThenNothing()
+    public async ValueTask WithEmptyHoofdActiviteitenRequest_ThenNothing()
     {
         var command = new WijzigBasisgegevensCommand(_scenario.VCode,
                                                      HoofdactiviteitenVerenigingsloket: Array.Empty<HoofdactiviteitVerenigingsloket>());

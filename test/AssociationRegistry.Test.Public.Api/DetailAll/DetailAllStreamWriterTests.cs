@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
-using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Public.Api.Framework;
@@ -19,7 +18,7 @@ public class DetailAllStreamWriterTests
     }
 
     [Fact]
-    public async Task WithEmptyData_ReturnsEmptyStream()
+    public async ValueTask WithEmptyData_ReturnsEmptyStream()
     {
         var sut = new DetailAllStreamWriter(Mock.Of<IDetailAllConverter>());
 
@@ -32,7 +31,7 @@ public class DetailAllStreamWriterTests
     }
 
     [Fact]
-    public async Task WithData_ReturnsStreamWithData()
+    public async ValueTask WithData_ReturnsStreamWithData()
     {
         var publiekVerenigingDetailDocument = _fixture.Create<PubliekVerenigingDetailDocument>();
         var mock = new Mock<IDetailAllConverter>();

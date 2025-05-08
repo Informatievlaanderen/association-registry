@@ -14,9 +14,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Wolverine;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Valid_ETag : IAsyncLifetime
 {
     private readonly Mock<IMessageBus> _messageBusMock;
@@ -35,7 +33,7 @@ public class With_Valid_ETag : IAsyncLifetime
             { ControllerContext = new ControllerContext { HttpContext = new DefaultHttpContext() } };
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await _controller.Patch(
             new WijzigBasisgegevensRequestValidator(),
@@ -60,6 +58,6 @@ public class With_Valid_ETag : IAsyncLifetime
             Times.Once);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

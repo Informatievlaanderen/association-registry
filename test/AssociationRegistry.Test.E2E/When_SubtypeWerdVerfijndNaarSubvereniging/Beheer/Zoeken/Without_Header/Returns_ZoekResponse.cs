@@ -1,23 +1,28 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Beheer.Zoeken.Without_Header;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
+using Marten;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
+public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(
+                                                  _testContext.CommandResult.Sequence))
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -26,14 +31,11 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaar
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeNull();
         vereniging.SubverenigingVan.Should().BeNull();
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

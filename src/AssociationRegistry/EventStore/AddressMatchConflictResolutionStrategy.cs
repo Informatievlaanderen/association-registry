@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.EventStore;
 
 using Events;
-using Framework;
 
 public class AddressMatchConflictResolutionStrategy : IEventPostConflictResolutionStrategy, IEventPreConflictResolutionStrategy
 {

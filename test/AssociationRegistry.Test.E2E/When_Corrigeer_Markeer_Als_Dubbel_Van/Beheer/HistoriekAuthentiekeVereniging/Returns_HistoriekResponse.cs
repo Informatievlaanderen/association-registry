@@ -8,25 +8,29 @@ using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, HistoriekResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
 {
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.Scenario.AuthentiekeVereniging.VCode);
-
-    public Returns_Historiek(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext)
+    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
         _helper = helper;
     }
 
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(
+            setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode,
+            headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging!.Sequence)).GetAwaiter().GetResult();
+
+
     [Fact]
-    public async Task With_VCode()
+    public async ValueTask With_VCode()
     {
         var tryCounter = 0;
 
@@ -45,7 +49,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        Response.VCode.ShouldCompare(TestContext.Scenario.AuthentiekeVereniging.VCode);
+        Response.VCode.ShouldCompare(_testContext.Scenario.AuthentiekeVereniging.VCode);
     }
 
     [Fact]
@@ -55,7 +59,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
     }
 
     [Fact]
-    public async Task With_All_Gebeurtenissen()
+    public async ValueTask With_All_Gebeurtenissen()
     {
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingAanvaarddeCorrectieDubbeleVereniging));
@@ -77,7 +81,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.AanvaardingDubbeleVerenigingWerdGecorrigeerd(TestContext.Scenario.VerenigingAanvaarddeDubbeleVereniging),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.AanvaardingDubbeleVerenigingWerdGecorrigeerd(_testContext.Scenario.VerenigingAanvaarddeDubbeleVereniging),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

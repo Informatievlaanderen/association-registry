@@ -15,9 +15,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Startdatum_In_The_Future
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;
@@ -50,7 +48,7 @@ public class With_A_Startdatum_In_The_Future
     }
 
     [Fact]
-    public async Task Then_it_throws_an_StartdatumIsInFutureException()
+    public async ValueTask Then_it_throws_an_StartdatumIsInFutureException()
     {
         var method = () => _commandHandler.Handle(_commandEnvelope, CancellationToken.None);
         await method.Should().ThrowAsync<StartdatumMagNietInToekomstZijn>();

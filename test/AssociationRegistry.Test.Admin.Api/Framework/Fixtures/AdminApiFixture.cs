@@ -14,7 +14,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using IdentityModel.Client;
-using JasperFx.Core;
 using Marten;
 using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +26,6 @@ using NodaTime;
 using Npgsql;
 using Oakton;
 using System.Net.Http.Headers;
-using System.Text;
 using Vereniging;
 using Xunit;
 using ProjectionHostProgram = AssociationRegistry.Admin.ProjectionHost.Program;
@@ -175,12 +173,12 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
     public AdminApiClient DefaultClient
         => AdminApiClients.Authenticated;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await Given();
     }
 
-    public virtual async Task DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
         => Dispose();
 
     public void Dispose()

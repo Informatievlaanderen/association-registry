@@ -1,34 +1,36 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.With_Header;
 
-using Admin.Api;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
-using Vereniging.Bronnen;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NodaTime;
-
+using Vereniging.Bronnen;
 using Xunit;
+using DoelgroepResponse = Admin.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_DetailResponse :
-    End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, DetailVerenigingResponse>
+[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
+public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>
 {
-    public Returns_VZER_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
+
+    public Returns_VZER_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+               => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+
+
 
     [Fact]
     public void With_Context()
@@ -45,7 +47,7 @@ public class Returns_VZER_DetailResponse :
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.ShouldCompare(new VerenigingDetail
         {
             Bron = Bron.Initiator,
@@ -54,51 +56,37 @@ public class Returns_VZER_DetailResponse :
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = TestContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = Vereniging.Verenigingstype.VZER.Code,
+                Naam = Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype()
             {
                 Code = string.Empty,
                 Naam = string.Empty,
             },
-            Naam = Request.Naam,
+            Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(DateTimeOffset.UtcNow).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom,
-            Contactgegevens = BeheerDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, TestContext.VCode),
+            IsUitgeschrevenUitPubliekeDatastroom = _testContext.CommandRequest.IsUitgeschrevenUitPubliekeDatastroom,
+            Contactgegevens = BeheerDetailResponseMapper.MapContactgegevens(_testContext.CommandRequest.Contactgegevens, _testContext.VCode),
             HoofdactiviteitenVerenigingsloket =
-                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = BeheerDetailResponseMapper.MapLocaties(Request.Locaties, TestContext.VCode),
-            Vertegenwoordigers = BeheerDetailResponseMapper.MapVertegenwoordigers(Request.Vertegenwoordigers, TestContext.VCode),
+                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
+            Locaties = BeheerDetailResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
+            Vertegenwoordigers = BeheerDetailResponseMapper.MapVertegenwoordigers(_testContext.CommandRequest.Vertegenwoordigers, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = BeheerDetailResponseMapper.MapSleutels(TestContext.VCode),
+            Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-    {
-        get { return setup =>
-        {
-            var logger = setup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
-
-            logger.LogInformation("EXECUTING GET REQUEST");
-
-            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                TestContext.RequestResult.Sequence)
-                        .GetAwaiter().GetResult();
-        }; }
-    }
 }

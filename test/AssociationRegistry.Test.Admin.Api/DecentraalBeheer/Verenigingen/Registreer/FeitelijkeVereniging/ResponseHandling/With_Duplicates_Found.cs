@@ -17,7 +17,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Wolverine;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;
@@ -25,7 +24,7 @@ using Verenigingstype = Vereniging.Verenigingstype;
 public class With_Duplicates_Found
 {
     [Fact]
-    public async Task Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
+    public async ValueTask Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = MockRegistreerVzerCommandHandling(fixture);
@@ -54,7 +53,7 @@ public class With_Duplicates_Found
     }
 
     [Fact]
-    public async Task Then_Verenigingssubtype_isNull()
+    public async ValueTask Then_Verenigingssubtype_isNull()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = MockRegistreerVzerCommandHandling(fixture);

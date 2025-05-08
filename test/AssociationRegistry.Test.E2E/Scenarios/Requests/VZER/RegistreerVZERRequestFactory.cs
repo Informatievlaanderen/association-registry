@@ -21,7 +21,7 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
     {
     }
 
-    public async Task<RequestResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -148,8 +148,6 @@ public class RegistreerVZERRequestFactory : ITestRequestFactory<RegistreerVereni
         var vCode = response.Headers.Location.First().Split('/').Last();
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        await apiSetup.AdminProjectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
-
-        return new RequestResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
     }
 }

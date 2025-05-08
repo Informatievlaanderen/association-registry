@@ -16,7 +16,7 @@ using Xunit;
 public class Given_Multiple_Message_With_Same_IdempotenceKey
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

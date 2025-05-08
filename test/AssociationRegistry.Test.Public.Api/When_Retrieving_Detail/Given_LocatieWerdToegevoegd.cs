@@ -8,11 +8,8 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_LocatieWerdToegevoegd
 {
     private readonly PublicApiClient _publicApiClient;
@@ -26,19 +23,19 @@ public class Given_LocatieWerdToegevoegd
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _publicApiClient.GetDetail(_scenario.VCode))
           .Should().BeSuccessful();
 
     [Fact]
-    public async Task Then_we_get_json_ld_as_content_type()
+    public async ValueTask Then_we_get_json_ld_as_content_type()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VCode);
         response.Content.Headers.ContentType!.MediaType.Should().Be(WellknownMediaTypes.JsonLd);
     }
 
     [Fact]
-    public async Task Then_we_get_a_detail_vereniging_response()
+    public async ValueTask Then_we_get_a_detail_vereniging_response()
     {
         var response = await _publicApiClient.GetDetail(_scenario.VCode);
 

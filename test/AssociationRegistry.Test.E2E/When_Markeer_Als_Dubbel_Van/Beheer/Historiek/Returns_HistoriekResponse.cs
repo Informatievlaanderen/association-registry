@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.Historiek;
 
-using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
@@ -11,20 +10,23 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
+[Collection(nameof(MarkeerAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly MarkeerAlsDubbelVanContext _testContext;
 
-    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext) : base(testContext)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -39,7 +41,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdGemarkeerdAlsDubbelVan));
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGermarkeerdAlsDubbelVan(TestContext.Request, TestContext.VCode),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGermarkeerdAlsDubbelVan(_testContext.CommandRequest, _testContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

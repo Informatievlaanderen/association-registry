@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
 using Events;
-using Framework;
 
 public abstract class VerenigingsBase
 {

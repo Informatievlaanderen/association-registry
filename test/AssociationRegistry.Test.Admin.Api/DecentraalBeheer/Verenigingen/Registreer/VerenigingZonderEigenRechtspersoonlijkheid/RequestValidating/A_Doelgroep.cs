@@ -5,9 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEige
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class A_Doelgroep
 {
     [Fact]

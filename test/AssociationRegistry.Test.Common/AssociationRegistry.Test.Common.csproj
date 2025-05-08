@@ -28,11 +28,5 @@
     <EmbeddedResource Include="templates\adminApi\ZoekVerenigingenResponse.json" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Reference Include="Scriban">
-      <HintPath>..\..\..\..\..\home\koen\.nuget\packages\scriban\5.10.0\lib\net7.0\Scriban.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

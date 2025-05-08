@@ -29,7 +29,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact(Skip = "to replace with a singular duplicate test strategy")]
-    public async Task It_asciis_the_tokens()
+    public async ValueTask It_asciis_the_tokens()
     {
         var analyzeResponse =
             await _elasticClient.Indices
@@ -48,7 +48,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact(Skip = "to replace with a singular duplicate test strategy")]
-    public async Task It_Replaces_Hyphen_And_Underscores_With_Spaces()
+    public async ValueTask It_Replaces_Hyphen_And_Underscores_With_Spaces()
     {
         var analyzeResponse =
             await _elasticClient.Indices
@@ -71,7 +71,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact]
-    public async Task Stopwords_Everywhere()
+    public async ValueTask Stopwords_Everywhere()
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
@@ -84,7 +84,7 @@ public class ForDuplicateDetection : IClassFixture<DuplicateDetectionSetup>
     }
 
     [Fact]
-    public async Task Fuzzy()
+    public async ValueTask Fuzzy()
     {
         await _elasticClient.Indices.RefreshAsync(Indices.AllIndices);
 

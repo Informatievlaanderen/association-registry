@@ -1,12 +1,12 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Alba;
 using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
-using Marten.Events;
 using Primitives;
 using System.Net;
 using Vereniging;
@@ -20,7 +20,7 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<WijzigLidmaatschapRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<WijzigLidmaatschapRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var vCode = _scenario.LidmaatschapWerdToegevoegd.VCode;
         var lidmaatschapLidmaatschapId = _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId;
@@ -37,18 +37,17 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
             Beschrijving = fixture.Create<string>(),
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{vCode}/lidmaatschappen/{lidmaatschapLidmaatschapId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<WijzigLidmaatschapRequest>(VCode.Create(vCode), request);
+        return new CommandResult<WijzigLidmaatschapRequest>(VCode.Create(vCode), request, sequence);
     }
 }

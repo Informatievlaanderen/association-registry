@@ -3,10 +3,7 @@ namespace AssociationRegistry.Test.VerenigingsRepositoryTests;
 using AssociationRegistry.EventStore;
 using AutoFixture;
 using Common.AutoFixture;
-using Events;
-using EventStore;
 using FluentAssertions;
-using Framework;
 using Moq;
 using Vereniging;
 using Xunit;
@@ -21,7 +18,7 @@ public class When_Checking_If_Vereniging_IsVerwijderd
     }
 
     [Fact]
-    public async Task Given_A_Vereniging_IsVerwijderd()
+    public async ValueTask Given_A_Vereniging_IsVerwijderd()
     {
         var eventStoreMock = new Mock<IEventStore>();
 
@@ -41,7 +38,7 @@ public class When_Checking_If_Vereniging_IsVerwijderd
     }
 
     [Fact]
-    public async Task Given_A_Vereniging_IsNietVerwijderd()
+    public async ValueTask Given_A_Vereniging_IsNietVerwijderd()
     {
         var eventStoreMock = new Mock<IEventStore>();
 

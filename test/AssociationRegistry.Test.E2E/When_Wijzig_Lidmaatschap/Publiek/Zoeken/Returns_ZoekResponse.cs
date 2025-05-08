@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Zoeken;
 
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -10,22 +9,25 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
-using Vereniging;
-
 using Xunit;
+using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
+using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschapContext, WijzigLidmaatschapRequest, SearchVerenigingenResponse>
+[Collection(nameof(WijzigLidmaatschapCollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly WijzigLidmaatschapContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
-    public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()
@@ -34,7 +36,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschap
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().ShouldCompare(new Vereniging
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
@@ -57,7 +59,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschap
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
             Locaties = PubliekZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
-            Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.Request, _testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
+            Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
             Relaties = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
             Links = new VerenigingLinks()
@@ -65,7 +67,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschap
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }

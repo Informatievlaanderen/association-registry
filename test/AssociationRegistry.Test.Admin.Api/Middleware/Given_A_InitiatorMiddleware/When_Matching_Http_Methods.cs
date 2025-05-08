@@ -9,17 +9,16 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[IntegrationTest]
 [Category("Middleware")]
 public class When_Matching_Http_Methods : IAsyncLifetime
 {
     private IHost _host = null!;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>
@@ -46,7 +45,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     [InlineData("PUT")]
     [InlineData("GET")]
     [InlineData("PATCH")]
-    public async Task Methods_Without_Initiator_Header_Return_400BadRequest(string methodAsString)
+    public async ValueTask Methods_Without_Initiator_Header_Return_400BadRequest(string methodAsString)
     {
         var httpMethod = new HttpMethod(methodAsString);
 
@@ -63,7 +62,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     [InlineData("PATCH")]
     [InlineData("OPTIONS")]
     [InlineData("HEAD")]
-    public async Task Methods_With_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
+    public async ValueTask Methods_With_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
     {
         var testClient = _host.GetTestClient();
         testClient.DefaultRequestHeaders.Add(WellknownHeaderNames.Initiator, value: "Koen");
@@ -77,7 +76,7 @@ public class When_Matching_Http_Methods : IAsyncLifetime
     [Theory]
     [InlineData("OPTIONS")]
     [InlineData("HEAD")]
-    public async Task Methods_Without_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
+    public async ValueTask Methods_Without_Initiator_Header_Do_Not_Return_400BadRequest(string methodAsString)
     {
         var testClient = _host.GetTestClient();
 
@@ -87,10 +86,10 @@ public class When_Matching_Http_Methods : IAsyncLifetime
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _host.Dispose();
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

@@ -10,13 +10,11 @@ using Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_NonExistingLocatie
 {
     [Fact]
-    public async Task Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
+    public async ValueTask Then_An_AdresWerdOntkoppeldVanAdressenregister_Was_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

@@ -19,9 +19,7 @@ using Microsoft.Net.Http.Headers;
 using Moq;
 using Wolverine;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_Valid_Request
 {
     private readonly WijzigVertegenwoordigerController _controller;
@@ -44,7 +42,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_an_acceptedResponse()
+    public async ValueTask Then_it_returns_an_acceptedResponse()
     {
         var response = await _controller.Patch(
             _fixture.Create<VCode>(),
@@ -60,7 +58,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_a_sequence_header()
+    public async ValueTask Then_it_returns_a_sequence_header()
     {
         await _controller.Patch(
             _fixture.Create<VCode>(),
@@ -75,7 +73,7 @@ public class With_Valid_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_a_etag_header()
+    public async ValueTask Then_it_returns_a_etag_header()
     {
         await _controller.Patch(
             _fixture.Create<VCode>(),

@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Stop.RequestModels;
 using Alba;
 using Events;
@@ -7,7 +8,6 @@ using Framework.ApiSetup;
 using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
-using Marten.Events;
 using System.Net;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>
@@ -19,26 +19,25 @@ public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRe
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<StopVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<StopVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new StopVerenigingRequest
         {
             Einddatum = DateOnly.FromDateTime(DateTimeOffset.UtcNow.Date)
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/stop");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new RequestResult<StopVerenigingRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new CommandResult<StopVerenigingRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 
     protected async Task WaitForAdresMatchEvent(FullBlownApiSetup apiSetup)

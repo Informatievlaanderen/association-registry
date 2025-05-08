@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
 {
@@ -24,7 +23,7 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteVertegenwoordiger(Scenario.VCode,
                                                                          Scenario.FeitelijkeVerenigingWerdGeregistreerd
@@ -32,13 +31,11 @@ public class Delete_An_Existing_Vertegenwoordiger : IAsyncLifetime
                                                                          jsonBody: @"{""initiator"":""OVO000001""}");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Delete_An_Existing_Vertegenwoordiger>
 {
     private readonly Delete_An_Existing_Vertegenwoordiger _classFixture;
@@ -49,7 +46,7 @@ public class Given_An_Existing_Vertegenwoordiger : IClassFixture<Delete_An_Exist
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

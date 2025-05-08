@@ -11,7 +11,7 @@ using Xunit;
 public class Given_An_Existing_WerkingsgebiedCode
 {
     [Fact]
-    public async Task Then_We_Create_A_Werkingsgebied()
+    public async ValueTask Then_We_Create_A_Werkingsgebied()
     {
         var fixture = new Fixture().CustomizeDomain();
         var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Existing_WerkingsgebiedCode));

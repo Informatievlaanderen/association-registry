@@ -13,7 +13,7 @@ using Xunit;
 public class Given_One_Location_Found
 {
     [Fact]
-    public async Task Then_One_Message_Is_Sent()
+    public async ValueTask Then_One_Message_Is_Sent()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var sourceAdresId = fixture.Create<int>();

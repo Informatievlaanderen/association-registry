@@ -1,39 +1,28 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_Without_Lidmaatschap : IClassFixture<VerwijderLidmaatschapContext>, IAsyncLifetime
+[Collection(nameof(VerwijderLidmaatschapCollection))]
+public class Returns_Detail_Without_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly VerwijderLidmaatschapContext _context;
+    private readonly VerwijderLidmaatschapContext _testContext;
 
-    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext context)
+    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
 
     [Fact]
     public void JsonContentMatches()
     {
-        var comparisonConfig = new ComparisonConfig();
-        comparisonConfig.MaxDifferences = 10;
-        comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-
         Response.Vereniging.Lidmaatschappen.Should().BeEmpty();
     }
 
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async Task InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
-    }
-
-    public async Task DisposeAsync()
-    {
-    }
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 }

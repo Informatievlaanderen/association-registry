@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
 using Events;
@@ -7,7 +8,6 @@ using Framework.ApiSetup;
 using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
-using Marten.Events;
 using System.Net;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 
@@ -20,7 +20,7 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<WijzigLocatieRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<WijzigLocatieRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new WijzigLocatieRequest()
         {
@@ -42,24 +42,23 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
                 },
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/locaties/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await WaitForAdresMatchEvent(apiSetup);
+        var sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        var newSequence = await WaitForAdresMatchEvent(apiSetup);
 
-        return new RequestResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, newSequence);
     }
 
-    protected async Task WaitForAdresMatchEvent(IApiSetup apiSetup)
+    protected async Task<long> WaitForAdresMatchEvent(IApiSetup apiSetup)
     {
         await using var session = apiSetup.AdminProjectionHost.DocumentStore().LightweightSession();
         var events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
@@ -75,4 +74,6 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
                 throw new Exception(
                     $"Kept waiting for Adresmatch... Events committed: {string.Join(separator: ", ", events.Select(x => x.EventTypeName))}");
         }
+
+        return events.Max(a => a.Sequence);
     }}

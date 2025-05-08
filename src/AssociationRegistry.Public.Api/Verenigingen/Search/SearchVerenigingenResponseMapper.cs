@@ -10,7 +10,6 @@ using Schema.Search;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Vereniging;
 using Vereniging.Mappers;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;
@@ -41,7 +40,8 @@ public class SearchVerenigingenResponseMapper
         PaginationQueryParams paginationRequest,
         string originalQuery,
         string[] hoofdactiviteiten)
-        => new()
+    {
+        return new SearchVerenigingenResponse
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
@@ -50,6 +50,7 @@ public class SearchVerenigingenResponseMapper
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
+    }
 
     private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
         => new()

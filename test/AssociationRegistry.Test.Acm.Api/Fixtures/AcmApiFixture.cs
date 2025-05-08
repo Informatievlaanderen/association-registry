@@ -1,17 +1,14 @@
 namespace AssociationRegistry.Test.Acm.Api.Fixtures;
 
 using AssociationRegistry.Acm.Api;
-using AssociationRegistry.Acm.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Acm.Api.Infrastructure.Extensions;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Common.Fixtures;
 using Events;
-using EventStore;
 using Framework.Helpers;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
-using JasperFx.Core;
 using Marten;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -103,10 +100,10 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public AcmApiClient DefaultClient
         => AcmApiClients.Authenticated;
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
         => await Given();
 
-    public virtual async Task DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
         => Dispose();
 
     public void Dispose()

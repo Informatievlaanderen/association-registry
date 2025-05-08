@@ -4,7 +4,6 @@ using ResponseModels;
 using Formats;
 using Infrastructure.ConfigurationBindings;
 using Schema.Detail;
-using Vereniging;
 using Vereniging.Mappers;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;

@@ -5,11 +5,10 @@ using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework.Fixtures;
 using Newtonsoft.Json;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 [Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
 public class When_No_Initiator_Is_Given
@@ -22,7 +21,7 @@ public class When_No_Initiator_Is_Given
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_400_Response()
+    public async ValueTask Then_It_Returns_A_400_Response()
     {
         var testClient = new AdminApiClient(_fixture.AdminApiClients.GetAuthenticatedHttpClient()).HttpClient;
 

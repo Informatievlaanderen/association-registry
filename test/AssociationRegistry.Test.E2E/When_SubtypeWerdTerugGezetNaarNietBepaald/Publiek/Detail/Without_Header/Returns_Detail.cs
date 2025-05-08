@@ -1,24 +1,25 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Publiek.Detail.Without_Header;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
+[Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
+public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
 {
-    private readonly ZetSubtypeNaarNietBepaaldContext _context;
+    private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context): base(context)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -31,7 +32,4 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, Wijz
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
-
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.RequestResult.VCode);
 }

@@ -13,12 +13,9 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
 {
     private readonly AdminApiClient _adminApiClient;
@@ -35,7 +32,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
     [Theory]
     [InlineData("V9999047", "NEDER-OVER-OPPER-ONDER-HEEMBEEK")]
     [InlineData("V9999047", "NeDeR-OvEr-oPpEr-OnDeR-HeEmBeEk")]
-    public async Task? Then_A_DuplicateIsDetected_WithDifferentCapitalization(
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentCapitalization(
         string duplicatesShouldContainThisVCode,
         string verbasterdeGemeente)
     {
@@ -47,7 +44,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
     [InlineData("V9999047", "Neder over opper-onder-heembeek")]
     [InlineData("V9999047", "Neder over opper. onder heembeek")]
     [InlineData("V9999047", "Neder over opper-onder. heembeek")]
-    public async Task Then_A_DuplicateIsDetected_WithDifferentPunctuation(
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentPunctuation(
         string duplicatesShouldContainThisVCode,
         string verbasterdeGemeente)
     {
@@ -58,7 +55,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
     [InlineData("V9999047", "Neders-met-opper-onder-heembeek")]
     [InlineData("V9999047", "Neder-over-van-onder-heembeek")]
     [InlineData("V9999048", "Neder-met-opper-en-het-onder-heembeek")]
-    public async Task? Then_A_DuplicateIsDetected_WithStopwoorden(string duplicatesShouldContainThisVCode, string verbasterdeGemeente)
+    public async ValueTask Then_A_DuplicateIsDetected_WithStopwoorden(string duplicatesShouldContainThisVCode, string verbasterdeGemeente)
     {
         await VerifyThatDuplicateIsFound(duplicatesShouldContainThisVCode, verbasterdeGemeente);
     }
@@ -67,7 +64,7 @@ public class Given_Some_FeitelijkeVerenigingenGeregistreerd_Met_Gemeente
     [InlineData("V9999047", "Neders-over-opper-onder-heembeek")]
     [InlineData("V9999047", "Neder-over-oper-onder-heembeek")]
     [InlineData("V9999048", "Neder-over-opper-onder-humbeek")]
-    public async Task? Then_A_DuplicateIsDetected_WithFoezieSearch(
+    public async ValueTask Then_A_DuplicateIsDetected_WithFoezieSearch(
         string duplicatesShouldContainThisVCode,
         string verbasterdeGemeente)
     {

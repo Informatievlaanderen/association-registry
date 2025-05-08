@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_Heradresseren_Locaties;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.Grar;
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
@@ -16,7 +15,7 @@ using Xunit;
 public class With_Multiple_TeHeradressren_Locaties
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

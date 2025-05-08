@@ -14,10 +14,8 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
-[UnitTest]
 public class Given_A_Vereniging
 {
     private readonly Fixture _fixture;
@@ -44,7 +42,7 @@ public class Given_A_Vereniging
     }
 
     [Fact]
-    public async Task Then_It_Saves_An_VerenigingWerdGermarkeerdAlsDubbel_Event()
+    public async ValueTask Then_It_Saves_An_VerenigingWerdGermarkeerdAlsDubbel_Event()
     {
         var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
         {
@@ -63,7 +61,7 @@ public class Given_A_Vereniging
     }
 
     [Fact]
-    public async Task Then_It_Sends_A_Message_To_The_Outbox()
+    public async ValueTask Then_It_Sends_A_Message_To_The_Outbox()
     {
         var command = _fixture.Create<CorrigeerMarkeringAlsDubbelVanCommand>() with
         {

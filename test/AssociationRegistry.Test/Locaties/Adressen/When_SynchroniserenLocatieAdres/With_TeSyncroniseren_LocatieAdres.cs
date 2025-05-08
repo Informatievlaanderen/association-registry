@@ -11,13 +11,11 @@ using Events;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Changed_Adres
 {
     [Fact]
-    public async Task Then_A_AdresWerdGewijzigdInHetAdressenregiser()
+    public async ValueTask Then_A_AdresWerdGewijzigdInHetAdressenregiser()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

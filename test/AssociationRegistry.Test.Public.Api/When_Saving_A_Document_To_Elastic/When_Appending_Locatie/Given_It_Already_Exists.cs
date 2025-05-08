@@ -7,11 +7,8 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_It_Already_Exists
 {
     private const string DochterVCode = "V0005998";
@@ -25,7 +22,7 @@ public class Given_It_Already_Exists
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Add_It_Again()
+    public async ValueTask Then_It_Does_Not_Add_It_Again()
     {
         // dochter
         var locatie = _autofixture.Create<VerenigingZoekDocument.Types.Locatie>();

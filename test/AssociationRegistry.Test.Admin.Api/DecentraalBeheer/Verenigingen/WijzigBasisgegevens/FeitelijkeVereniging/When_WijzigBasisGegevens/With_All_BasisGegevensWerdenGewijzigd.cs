@@ -20,7 +20,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 {
@@ -56,8 +55,6 @@ public sealed class When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBasisGegevens_WithAllBasisGegevensGewijzigd_Setup>
 {
     private readonly WijzigBasisgegevensRequest _request;
@@ -132,7 +129,7 @@ public class With_All_BasisGegevensWerdenGewijzigd : IClassFixture<When_WijzigBa
     }
 
     [Fact]
-    public async Task Then_it_returns_an_accepted_response()
+    public async ValueTask Then_it_returns_an_accepted_response()
         => _response.StatusCode.Should().Be(HttpStatusCode.Accepted, await _response.Content.ReadAsStringAsync());
 
     [Fact]

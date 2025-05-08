@@ -3,29 +3,25 @@ namespace AssociationRegistry.Test.E2E.When_Voeg_Contactgegeven_Toe;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
-using Vereniging;
+using Xunit;
 
-public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToeRequest>
+public class VoegContactgegevenToeContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VoegContactgegevenToeRequest>
 {
-    public VCode VCode => RequestResult.VCode;
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
-
-    public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup)
+    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
+        => new();
+    public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new VoegContactgegevenToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new VoegContactgegevenToeRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
+}
+
+[CollectionDefinition(nameof(VoegContactgegevenToeCollection))]
+public class VoegContactgegevenToeCollection : ICollectionFixture<VoegContactgegevenToeContext>
+{
 }

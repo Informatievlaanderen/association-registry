@@ -8,13 +8,11 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_The_Same_Subtype
 {
     [Fact]
-    public async Task Then_No_Event_Is_Saved()
+    public async ValueTask Then_No_Event_Is_Saved()
     {
         var fixture = new Fixture().CustomizeDomain();
 

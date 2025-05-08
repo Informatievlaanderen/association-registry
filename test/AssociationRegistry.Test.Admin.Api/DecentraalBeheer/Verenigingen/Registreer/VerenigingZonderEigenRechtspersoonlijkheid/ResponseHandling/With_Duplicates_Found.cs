@@ -2,8 +2,6 @@
 
 using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid;
 using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.DecentraalBeheer.Registratie.RegistreerVerenigingZonderEigenRechtspersoonlijkheid;
@@ -26,7 +24,7 @@ using Verenigingstype = Vereniging.Verenigingstype;
 public class With_Duplicates_Found
 {
     [Fact]
-    public async Task Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
+    public async ValueTask Then_Verenigingstype_FeitelijkeVereniging_Is_Returned()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);
@@ -53,7 +51,7 @@ public class With_Duplicates_Found
     }
 
     [Fact]
-    public async Task Then_Verenigingssubtype_isNietBepaald()
+    public async ValueTask Then_Verenigingssubtype_isNietBepaald()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = SetupRegistreerVZERCommandHandling(fixture);

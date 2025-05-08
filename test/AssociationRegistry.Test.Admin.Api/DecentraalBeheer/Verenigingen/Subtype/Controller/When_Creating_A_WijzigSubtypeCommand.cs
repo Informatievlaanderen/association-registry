@@ -1,18 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Admin.Api.DecentraalBeheer.Verenigingen.Subtype.Controller;
 
-using AssociationRegistry.Admin.Api.Infrastructure.Middleware;
-using AssociationRegistry.Admin.Api.Queries;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype;
-using AssociationRegistry.Admin.Schema.Detail;
-using AssociationRegistry.DecentraalBeheer.Subtype;
-using AssociationRegistry.Framework;
-using AutoFixture;
-using Common.AutoFixture;
-using FluentValidation;
-using Hosts.Configuration.ConfigurationBindings;
-using Moq;
-using Vereniging;
-using Wolverine;
 using Xunit;
 
 public class When_Creating_A_WijzigSubtypeCommand
@@ -20,7 +7,7 @@ public class When_Creating_A_WijzigSubtypeCommand
     // TODO: Write test that checks if we get the name when it's not null
     // todo: use GetNamesQuery instead
     [Fact]
-    public async Task Fetches_The_Name_AndereVereniging_From_Projections()
+    public async ValueTask Fetches_The_Name_AndereVereniging_From_Projections()
     {
         // var fixture = new Fixture().CustomizeAdminApi();
         // var messageBus = new Mock<IMessageBus>();

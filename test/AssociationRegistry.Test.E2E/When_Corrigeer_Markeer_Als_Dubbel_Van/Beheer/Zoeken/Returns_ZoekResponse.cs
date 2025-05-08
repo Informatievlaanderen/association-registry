@@ -6,18 +6,22 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
+using Marten;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, SearchVerenigingenResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+
 
     [Fact]
     public void With_Context()
@@ -28,7 +32,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
     [Fact]
     public void With_Vereniging()
         => Response.Verenigingen.Should().NotBeEmpty();
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

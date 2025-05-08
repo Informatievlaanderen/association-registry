@@ -3,12 +3,9 @@ namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Sear
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_Sort_By_Field_In_A_List
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -22,7 +19,7 @@ public class Given_Sort_By_Field_In_A_List
 
     [Theory]
     [InlineData("locaties.postcode")]
-    public async Task? Then_it_returns200_but_we_dont_support_it(string field)
+    public async ValueTask Then_it_returns200_but_we_dont_support_it(string field)
     {
         var response = await _adminApiClient.Search(q: "*", field);
 

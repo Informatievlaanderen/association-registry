@@ -14,7 +14,7 @@ using Xunit;
 public class Given_Weigering_Reeds_Verwerkt_Door_DubbeleVereniging
 {
     [Fact]
-    public async Task Then_ShouldNotHaveAnySaves()
+    public async ValueTask Then_ShouldNotHaveAnySaves()
     {
         var fixture = new Fixture().CustomizeDomain();
         var scenario = new WeigeringDubbelDoorAuthentiekeVerenigingWerdVerwerktScenario();

@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLifetime
 {
@@ -24,18 +23,16 @@ public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLife
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_An_Client_With_Insufficient_Rights : IClassFixture<Remove_An_Existing_Vereniging_With_Insufficient_Rights>
 {
     private readonly Remove_An_Existing_Vereniging_With_Insufficient_Rights _classFixture;
@@ -46,7 +43,7 @@ public class Given_An_Client_With_Insufficient_Rights : IClassFixture<Remove_An_
     }
 
     [Fact]
-    public async Task Then_it_saves_no_events()
+    public async ValueTask Then_it_saves_no_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

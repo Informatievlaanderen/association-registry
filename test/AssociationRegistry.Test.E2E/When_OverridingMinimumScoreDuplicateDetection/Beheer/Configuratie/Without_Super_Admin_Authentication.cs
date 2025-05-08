@@ -8,7 +8,7 @@ using Framework.ApiSetup;
 using System.Net;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(nameof(OverridingMinimumScoreDuplicateDetectionCollection))]
 public class Without_Super_Admin_Authentication {
     private readonly FullBlownApiSetup _apiSetup;
 
@@ -18,7 +18,7 @@ public class Without_Super_Admin_Authentication {
     }
 
     [Fact]
-    public async Task Returns_403()
+    public async ValueTask Returns_403()
     {
        var request = new OverrideMinimumScoreDuplicateDetectionRequest()
         {

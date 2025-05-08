@@ -8,13 +8,11 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Different_Subtype
 {
     [Fact]
-    public async Task Then_It_Saves_A_SubtypeWerdVerfijndNaarFeitelijkeVereniging()
+    public async ValueTask Then_It_Saves_A_SubtypeWerdVerfijndNaarFeitelijkeVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
 

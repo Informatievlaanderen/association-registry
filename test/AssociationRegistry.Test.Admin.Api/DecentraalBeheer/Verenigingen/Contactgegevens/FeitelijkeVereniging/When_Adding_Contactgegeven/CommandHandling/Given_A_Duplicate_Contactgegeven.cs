@@ -9,9 +9,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Duplicate_Contactgegeven
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;
@@ -29,7 +27,7 @@ public class Given_A_Duplicate_Contactgegeven
     }
 
     [Fact]
-    public async Task Then_A_DuplicateContactgegeven_Is_Thrown()
+    public async ValueTask Then_A_DuplicateContactgegeven_Is_Thrown()
     {
         var command = _fixture.Create<VoegContactgegevenToeCommand>() with { VCode = _scenario.VCode };
 

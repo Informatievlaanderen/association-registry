@@ -11,12 +11,9 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Resources;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Repliek_Uitzondering_Fout
 {
     private readonly MagdaRegistreerInschrijvingService _service;
@@ -57,7 +54,7 @@ public class Given_Repliek_Uitzondering_Fout
     }
 
     [Fact]
-    public async Task Then_It_Throws_A_MagdaException()
+    public async ValueTask Then_It_Throws_A_MagdaException()
     {
         var result = async () => await _service.RegistreerInschrijving(_fixture.Create<KboNummer>(), _fixture.Create<CommandMetadata>(),
                                                            CancellationToken.None);

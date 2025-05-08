@@ -4,35 +4,28 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.W
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 using AssociationRegistry.Test.E2E.Scenarios.Requests;
-using AssociationRegistry.Vereniging;
-using Marten.Events;
+using Framework.TestClasses;
 using Xunit;
 
-public class WijzigConcurrentlyContext: IAsyncLifetime
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(WijzigConcurrentlyCollection))]
+public class WijzigConcurrentlyCollection : ICollectionFixture<WijzigConcurrentlyContext>
 {
-    public FullBlownApiSetup ApiSetup { get; }
-    public FeitelijkeVerenigingWerdGeregistreerdScenario WerdGeregistreerdScenario { get; private set; }
-    public WijzigLocatieRequest Request => RequestResult.Request;
-    public VCode VCode => RequestResult.VCode;
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class WijzigConcurrentlyContext : TestContextBase<FeitelijkeVerenigingWerdGeregistreerdScenario, WijzigLocatieRequest>
+{
+    protected override FeitelijkeVerenigingWerdGeregistreerdScenario InitializeScenario()
+        => new();
 
-    public WijzigConcurrentlyContext(FullBlownApiSetup apiSetup)
+    public WijzigConcurrentlyContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
     }
 
-    public async Task InitializeAsync()
+    protected override async ValueTask ExecuteScenario(FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
     {
-        WerdGeregistreerdScenario = new();
-
-        await ApiSetup.ExecuteGiven(WerdGeregistreerdScenario);
-        RequestResult = await new WijzigLocatieRequestFactory(WerdGeregistreerdScenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-    }
-
-    public RequestResult<WijzigLocatieRequest> RequestResult { get; set; }
-
-    public async Task DisposeAsync()
-    {
-
+        CommandResult = await new WijzigLocatieRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }

@@ -11,9 +11,7 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_VerenigingMetRechtspersoonlijkheid
 {
     private readonly StopVerenigingCommandHandler _commandHandler;
@@ -34,7 +32,7 @@ public class With_A_VerenigingMetRechtspersoonlijkheid
     }
 
     [Fact]
-    public async Task Then_A_UnsupportedOperationException_Is_Thrown()
+    public async ValueTask Then_A_UnsupportedOperationException_Is_Thrown()
     {
         var method = () => _commandHandler.Handle(_envelope, CancellationToken.None);
         await method.Should().ThrowAsync<VerenigingMetRechtspersoonlijkheidKanNietGestoptWorden>();

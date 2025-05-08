@@ -1,6 +1,5 @@
 namespace AssociationRegistry.EventFactories;
 
-using DecentraalBeheer.Subtype;
 using Events;
 using GemeentenaamDecorator;
 using Grar.Models;

@@ -15,13 +15,11 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_Existing_Locatie_Without_AdresId
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_And_AdresWerdOvergenomenUitAdressenregister_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());

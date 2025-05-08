@@ -2,7 +2,6 @@ namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
 using Framework;
-using Marten.Linq.SoftDeletes;
 using Nest;
 using Schema;
 using Schema.Search;
@@ -19,12 +18,12 @@ public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<Verenigi
 public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
 {
     private readonly IElasticClient _client;
-    private readonly TypeMapping _typeMapping;
+    private readonly ITypeMapping _typeMapping;
 
     private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
         x => x.Descending(v => v.VCode);
 
-    public PubliekVerenigingenZoekQuery(IElasticClient client, TypeMapping typeMapping)
+    public PubliekVerenigingenZoekQuery(IElasticClient client, ITypeMapping typeMapping)
     {
         _client = client;
         _typeMapping = typeMapping;

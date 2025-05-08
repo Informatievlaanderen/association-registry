@@ -11,7 +11,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
-using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
@@ -26,7 +25,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
         _potentialDuplicateVerenigingWerdGeregistreerd = potentialDuplicateVerenigingWerdGeregistreerd;
     }
 
-    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -136,9 +135,10 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
 
         var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
 
-        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
+        var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
+
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
@@ -146,14 +146,16 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
             s.Header("Location").ShouldHaveValues();
-            s.Header("Location").SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+
+            s.Header("Location")
+             .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response.Headers.Location.First().Split('/').Last();
+        })).Context.Response;
+        var vCode = response.Headers.Location.First().Split('/').Last();
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-
-        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
+        return new CommandResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request, sequence);
     }
 }

@@ -1,38 +1,30 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Searching.Publiek.Zoeken.Sorting;
 
-using Public.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using AssociationRegistry.Test.E2E.Scenarios.Requests;
 using FluentAssertions;
-using KellermanSoftware.CompareNetObjects;
 using System.Reflection;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullRequest, SearchVerenigingenResponse>
+[Collection(nameof(SearchCollection))]
+public class Given_Sorting_By_Nested_Fields
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Nested_Fields(SearchContext testContext) : base(testContext)
+    public Given_Sorting_By_Nested_Fields( SearchContext testContext)
+
     {
         _testContext = testContext;
     }
 
-    [Fact]
-    public void With_Context()
-    {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/publiek/zoek-verenigingen-context.json");
-    }
+
 
     [Fact]
-    public async Task? Then_it_sorts_ascending()
+    public async ValueTask Then_it_sorts_ascending()
     {
         var field = "doelgroep.minimumleeftijd";
 
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(
-            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=doelgroep.minimumleeftijd");
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=doelgroep.minimumleeftijd", _testContext.MaxSequenceByScenario);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -43,11 +35,11 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
     }
 
     [Fact]
-    public async Task? Then_it_sorts_descending()
+    public async ValueTask Then_it_sorts_descending()
     {
         var field = "doelgroep.minimumleeftijd";
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(
-            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=-doelgroep.minimumleeftijd");
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=-doelgroep.minimumleeftijd", _testContext.MaxSequenceByScenario);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -76,6 +68,4 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
 
         return currentObject;
     }
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken("*&sort=verenigingstype.code");
 }

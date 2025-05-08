@@ -7,7 +7,6 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public class Remove_An_Existing_Vereniging : IAsyncLifetime
 {
@@ -24,18 +23,16 @@ public class Remove_An_Existing_Vereniging : IAsyncLifetime
         DocumentStore = _fixture.DocumentStore;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }
 
-[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
 public class Given_An_Existing_Vereniging : IClassFixture<Remove_An_Existing_Vereniging>
 {
     private readonly Remove_An_Existing_Vereniging _classFixture;
@@ -46,7 +43,7 @@ public class Given_An_Existing_Vereniging : IClassFixture<Remove_An_Existing_Ver
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

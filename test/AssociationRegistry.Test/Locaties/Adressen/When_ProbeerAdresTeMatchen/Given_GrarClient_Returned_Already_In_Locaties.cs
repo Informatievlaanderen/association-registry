@@ -10,9 +10,7 @@ using AutoFixture;
 using FluentAssertions;
 using Moq;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Duplicate_Locaties_With_Same_Name
 {
     [Theory]
@@ -95,11 +93,10 @@ public class Given_Duplicate_Locaties_With_Same_Name
     }
 }
 
-[UnitTest]
 public class Given_Duplicate_Locaties_With_Different_Names
 {
     [Fact]
-    public async Task Then_AdresKonNietOvergenomenWordenUitAdressenregister()
+    public async ValueTask Then_AdresKonNietOvergenomenWordenUitAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
 

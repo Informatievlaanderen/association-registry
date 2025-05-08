@@ -10,16 +10,13 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using FluentAssertions;
 using Resources;
-using Vereniging;
 using Vereniging.Exceptions;
 using Vereniging.Subtypes.Subvereniging;
 using Xunit;
-using Xunit.Categories;
 
 /// <summary>
 /// This will result in a te wijzigen subtype
 /// </summary>
-[UnitTest]
 public class Given_The_Same_Subtype
 {
     private readonly Fixture _fixture;
@@ -39,7 +36,7 @@ public class Given_The_Same_Subtype
     }
 
     [Fact]
-    public async Task With_Relatie_Changes_Then_SubverenigingRelatieWerdGewijzigd()
+    public async ValueTask With_Relatie_Changes_Then_SubverenigingRelatieWerdGewijzigd()
     {
         var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(_rechtspersoonScenario.VCode, null, null));
 
@@ -51,7 +48,7 @@ public class Given_The_Same_Subtype
     }
 
     [Fact]
-    public async Task With_Detail_Changes_Then_SubverenigingDetailsWerdenGewijzigd()
+    public async ValueTask With_Detail_Changes_Then_SubverenigingDetailsWerdenGewijzigd()
     {
         var subtypeIdentificatie = SubverenigingIdentificatie.Create(_fixture.Create<string>());
         var subtypeBeschrijving = SubverenigingBeschrijving.Create(_fixture.Create<string>());
@@ -66,7 +63,7 @@ public class Given_The_Same_Subtype
     }
 
     [Fact]
-    public async Task With_No_Changes_Then_Nothing()
+    public async ValueTask With_No_Changes_Then_Nothing()
     {
        var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, SubverenigingIdentificatie.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarSubvereniging.SubverenigingVan.Identificatie), null));
 
@@ -76,7 +73,7 @@ public class Given_The_Same_Subtype
     }
 
     [Fact]
-    public async Task With_All_Null_Values_Then_Throw_WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben()
+    public async ValueTask With_All_Null_Values_Then_Throw_WijzigSubverenigingMoetMinstensEenVeldTeWijzigenHebben()
     {
         var command = new VerfijnSubtypeNaarSubverenigingCommand(_scenario.VCode, new VerfijnSubtypeNaarSubverenigingCommand.Data.SubverenigingVan(null, null, null));
 

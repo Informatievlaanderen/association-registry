@@ -12,11 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public abstract class With_KboNummer_For_Supported_Vereniging
 {
     protected readonly EventsInDbScenariosFixture _fixture;
@@ -60,7 +57,7 @@ public abstract class With_KboNummer_For_Supported_Vereniging
     }
 
     [Fact]
-    public async Task Then_it_stores_a_call_reference()
+    public async ValueTask Then_it_stores_a_call_reference()
     {
         var hasCorrelationIdHeader =
             RegistreerVerenigingMetRechtspersoonlijkheidSetup.Response.Headers.TryGetValues(

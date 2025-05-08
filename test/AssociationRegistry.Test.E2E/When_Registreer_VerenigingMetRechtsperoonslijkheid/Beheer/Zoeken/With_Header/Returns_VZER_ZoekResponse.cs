@@ -1,33 +1,35 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Schema.Search;
 using FluentAssertions;
+using FluentAssertions.Extensions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using NodaTime;
-using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
+using Marten;
+using Marten.Events.Daemon;
+using Nest;
 using Xunit;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
-using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
-using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, SearchVerenigingenResponse>
+[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
+public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
+    private readonly ITestOutputHelper _helper;
 
-    public Returns_VZER_ZoekResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext) : base(testContext)
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _helper = helper;
+    }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+    {
+        return setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.CommandResult.VCode}",
+                                                  setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter()
+                    .GetResult();
     }
 
     [Fact]
@@ -37,9 +39,6 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRech
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.RequestResult.VCode}").GetAwaiter().GetResult();
 }

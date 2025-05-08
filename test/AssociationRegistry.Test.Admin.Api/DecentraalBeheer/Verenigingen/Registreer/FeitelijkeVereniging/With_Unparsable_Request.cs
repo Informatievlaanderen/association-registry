@@ -7,7 +7,6 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class When_RegistreerFeitelijkeVereniging_With_Unparsable_Request
 {
@@ -27,8 +26,6 @@ public sealed class When_RegistreerFeitelijkeVereniging_With_Unparsable_Request
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Unparsable_Request
 {
     private readonly EventsInDbScenariosFixture _fixture;
@@ -52,7 +49,7 @@ public class With_Unparsable_Request
     }
 
     [Fact]
-    public async Task Then_it_returns_a_validationproblemdetails_response()
+    public async ValueTask Then_it_returns_a_validationproblemdetails_response()
     {
         var responseContent = await Response.Content.ReadAsStringAsync();
 

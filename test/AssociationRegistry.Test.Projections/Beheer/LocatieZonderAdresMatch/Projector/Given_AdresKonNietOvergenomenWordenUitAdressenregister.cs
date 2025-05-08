@@ -19,7 +19,7 @@ public class Given_AdresKonNietOvergenomenWordenUitAdressenregister : IClassFixt
     }
 
     [Fact]
-    public async Task Then_A_Document_Should_Be_Created()
+    public async ValueTask Then_A_Document_Should_Be_Created()
     {
         var session = _fixture.DocumentStore.LightweightSession();
 

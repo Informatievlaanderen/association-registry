@@ -4,9 +4,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Missing_Adres_Velden
 {
     [Theory]

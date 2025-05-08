@@ -16,9 +16,7 @@ using Moq;
 using ResultNet;
 
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_KboNummer
 {
     private readonly RegistreerVerenigingUitKboCommand _command;
