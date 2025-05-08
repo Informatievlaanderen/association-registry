@@ -14,6 +14,7 @@ using Vereniging;
 
 public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
+    public const string Name = "VerfijnSubtypeNaarFeitelijkeVerenigingContext";
     public VCode VCode => RequestResult.VCode;
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 

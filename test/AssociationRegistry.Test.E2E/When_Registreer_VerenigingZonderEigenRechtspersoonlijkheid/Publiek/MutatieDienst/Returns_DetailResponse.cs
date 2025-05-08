@@ -13,9 +13,9 @@ public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<Registree
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_VerenigingMutationsSequenceResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_VerenigingMutationsSequenceResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

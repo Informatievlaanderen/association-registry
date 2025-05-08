@@ -15,9 +15,9 @@ public class Given_Sorting_By_Multiple_Fields : End2EndTest<SearchContext, NullR
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Multiple_Fields(SearchContext testContext) : base(testContext)
+    public Given_Sorting_By_Multiple_Fields(SearchContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

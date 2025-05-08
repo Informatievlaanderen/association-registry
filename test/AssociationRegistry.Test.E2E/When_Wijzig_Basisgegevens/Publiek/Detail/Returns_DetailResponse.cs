@@ -24,9 +24,9 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
 {
     private readonly WijzigBasisgegevensTestContext _testContext;
 
-    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext) : base(testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

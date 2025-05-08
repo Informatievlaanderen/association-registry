@@ -14,9 +14,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRech
 {
     private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
 
-    public Returns_VZER_ZoekResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext) : base(testContext)
+    public Returns_VZER_ZoekResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

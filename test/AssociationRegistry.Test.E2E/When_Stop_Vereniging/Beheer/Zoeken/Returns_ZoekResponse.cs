@@ -16,9 +16,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<StopVerenigingCont
 {
     private readonly StopVerenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(StopVerenigingContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(StopVerenigingContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

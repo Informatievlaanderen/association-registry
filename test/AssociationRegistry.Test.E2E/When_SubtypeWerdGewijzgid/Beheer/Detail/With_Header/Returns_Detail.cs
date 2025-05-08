@@ -20,7 +20,7 @@ public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wijzi
 {
     private readonly WhenSubtypeWerdGewijzigdContext _context;
 
-    public Returns_Detail(WhenSubtypeWerdGewijzigdContext context): base(context)
+    public Returns_Detail(WhenSubtypeWerdGewijzigdContext context)
     {
         _context = context;
     }

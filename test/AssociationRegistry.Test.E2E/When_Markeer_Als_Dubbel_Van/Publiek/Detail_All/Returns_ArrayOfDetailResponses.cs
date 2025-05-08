@@ -17,7 +17,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<MarkeerAlsDubbelVanCon
     public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>
         setup => setup.PublicApiHost.GetPubliekDetailAll();
 
-    public Returns_ArrayOfDetailResponses(MarkeerAlsDubbelVanContext context) : base(context)
+    public Returns_ArrayOfDetailResponses(MarkeerAlsDubbelVanContext context)
     {
     }
 

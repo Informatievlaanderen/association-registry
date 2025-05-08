@@ -6,8 +6,8 @@ using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_Without_Lidmaatschap : IClassFixture<VerwijderLidmaatschapContext>, IAsyncLifetime
+[Collection(VerwijderLidmaatschapContext.Name)]
+public class Returns_Detail_Without_Lidmaatschap : IAsyncLifetime
 {
     private readonly VerwijderLidmaatschapContext _context;
 

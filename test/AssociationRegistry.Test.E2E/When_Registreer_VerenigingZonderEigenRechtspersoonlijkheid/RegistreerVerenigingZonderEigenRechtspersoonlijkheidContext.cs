@@ -13,6 +13,7 @@ using Nest;
 
 public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext: TestContextBase<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
+    public const string Name = "RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext";
     private EmptyScenario _emptyScenario;
     private readonly ILogger _logger;
     public VCode VCode => RequestResult.VCode;

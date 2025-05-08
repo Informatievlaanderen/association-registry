@@ -15,15 +15,15 @@ using Vereniging;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection("WijzigLidmaatschapContext")]
 public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigLidmaatschapContext, WijzigLidmaatschapRequest, SearchVerenigingenResponse>
 {
     private readonly WijzigLidmaatschapContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
-    public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 

@@ -25,9 +25,9 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVeren
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_VZER_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_VZER_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

@@ -11,13 +11,13 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection("WijzigLidmaatschapContext")]
 public class Returns_Historiek : End2EndTest<WijzigLidmaatschapContext, WijzigLidmaatschapRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(WijzigLidmaatschapContext testContext) : base(testContext)
+    public Returns_Historiek(WijzigLidmaatschapContext testContext)
     {
     }
 

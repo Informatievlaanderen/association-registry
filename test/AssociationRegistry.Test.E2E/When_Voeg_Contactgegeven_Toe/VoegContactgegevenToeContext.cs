@@ -12,6 +12,7 @@ using Vereniging;
 
 public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToeRequest>
 {
+    public const string Name = "VoegContactgegevenToeContext";
     public VCode VCode => RequestResult.VCode;
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 

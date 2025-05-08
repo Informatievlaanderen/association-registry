@@ -19,7 +19,7 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenig
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext)
+    public Returns_Historiek(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext)
     {
     }
 

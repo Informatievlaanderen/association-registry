@@ -14,7 +14,7 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVereniging
 {
     private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context): base(context)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context)
     {
         _context = context;
     }

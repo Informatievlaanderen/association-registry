@@ -22,7 +22,7 @@ using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigings
 public class Returns_DetailResponse :
     End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext)
     {
     }
 

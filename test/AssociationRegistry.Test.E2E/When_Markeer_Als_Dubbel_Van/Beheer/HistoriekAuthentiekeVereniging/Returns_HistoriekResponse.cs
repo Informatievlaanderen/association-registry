@@ -20,7 +20,7 @@ public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, Markeer
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
 
-    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext)
+    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper)
     {
         _helper = helper;
     }
