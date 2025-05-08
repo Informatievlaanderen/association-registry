@@ -7,11 +7,8 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_A_Vereniging_Does_Not_Exist
 {
     private const string VCode = "V9999999";

@@ -16,9 +16,7 @@ using Microsoft.Net.Http.Headers;
 using Moq;
 using Wolverine;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Without_Changes : IAsyncLifetime
 {
     private readonly WijzigBasisgegevensController _controller;
@@ -65,6 +63,6 @@ public class Without_Changes : IAsyncLifetime
         _controller.Response.Headers.Should().NotContainKey(HeaderNames.Location);
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

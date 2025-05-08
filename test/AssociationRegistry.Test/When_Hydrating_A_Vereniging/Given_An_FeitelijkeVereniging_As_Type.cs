@@ -5,9 +5,7 @@ using Vereniging;
 using Vereniging.Exceptions;
 
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_FeitelijkeVereniging_As_Type
 {
     private readonly VerenigingState _verenigingState;

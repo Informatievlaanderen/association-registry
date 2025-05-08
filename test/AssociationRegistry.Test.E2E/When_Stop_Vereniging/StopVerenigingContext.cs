@@ -19,7 +19,7 @@ public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
         _werdGeregistreerdScenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

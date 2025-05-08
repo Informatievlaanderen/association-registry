@@ -3,9 +3,7 @@
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_Null
 {
     [Fact]

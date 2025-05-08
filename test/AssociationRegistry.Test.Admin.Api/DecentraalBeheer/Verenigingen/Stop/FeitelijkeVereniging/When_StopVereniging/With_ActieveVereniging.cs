@@ -12,7 +12,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class With_ActieveVereniging_Setup
 {
@@ -30,8 +29,6 @@ public sealed class With_ActieveVereniging_Setup
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_ActieveVereniging : IClassFixture<With_ActieveVereniging_Setup>
 {
     private readonly HttpResponseMessage _response;

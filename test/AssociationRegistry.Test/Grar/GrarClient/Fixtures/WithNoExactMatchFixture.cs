@@ -28,5 +28,5 @@ public class WithNoExactMatchFixture : IAsyncLifetime
                                                  CancellationToken.None);
     }
 
-    public Task DisposeAsync() => Task.CompletedTask;
+    public ValueTask DisposeAsync() => new ValueTask(Task.CompletedTask);
 }

@@ -3,9 +3,7 @@ namespace AssociationRegistry.Test.ValueObjects.When_Creating_A_Vertegenwoordige
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_Empty_List
 {
     [Fact]

@@ -4,9 +4,7 @@ using AssociationRegistry.Vereniging.Emails;
 using AssociationRegistry.Vereniging.Emails.Exceptions;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_InvalidValid_EmailAddres
 {
     [Theory]

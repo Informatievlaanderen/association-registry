@@ -14,11 +14,9 @@ using JsonLdContext;
 using Vereniging;
 
 using Xunit;
-using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Public.Schema.Detail.Doelgroep;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[UnitTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
 {
     [Fact]

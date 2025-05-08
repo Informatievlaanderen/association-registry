@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using Xunit;
-using Xunit.Abstractions;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigConcurrentlyContext>, IAsyncLifetime

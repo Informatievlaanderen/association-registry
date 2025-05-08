@@ -27,7 +27,7 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
     }
 
     [Fact]
-    public async ValueTask? Then_it_sorts_ascending()
+    public async ValueTask Then_it_sorts_ascending()
     {
         var field = "doelgroep.minimumleeftijd";
 
@@ -43,7 +43,7 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
     }
 
     [Fact]
-    public async ValueTask? Then_it_sorts_descending()
+    public async ValueTask Then_it_sorts_descending()
     {
         var field = "doelgroep.minimumleeftijd";
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(

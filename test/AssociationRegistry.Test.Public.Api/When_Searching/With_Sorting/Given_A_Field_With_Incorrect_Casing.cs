@@ -8,12 +8,9 @@ using Newtonsoft.Json;
 using Resources;
 using System.Net;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_A_Field_With_Incorrect_Casing
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -26,7 +23,7 @@ public class Given_A_Field_With_Incorrect_Casing
     }
 
     [Fact]
-    public async ValueTask? Then_it_sorts_descending_via_vcode()
+    public async ValueTask Then_it_sorts_descending_via_vcode()
     {
         var incorrectlyCasedField = "VCODE";
         var response = await _publicApiClient.Search(q: "*", incorrectlyCasedField);

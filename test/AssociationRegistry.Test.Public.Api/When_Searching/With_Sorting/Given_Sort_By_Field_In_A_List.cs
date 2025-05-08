@@ -4,12 +4,9 @@ using Fixtures;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Xunit;
-using Xunit.Abstractions;
-using Xunit.Categories;
+using ITestOutputHelper = Xunit.ITestOutputHelper;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_Sort_By_Field_In_A_List
 {
     private readonly ITestOutputHelper _outputHelper;

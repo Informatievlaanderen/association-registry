@@ -7,9 +7,7 @@ using Events;
 using FluentAssertions;
 using Framework;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_StartdatumWerdGewijzigd
 {
     [Fact]
@@ -26,7 +24,6 @@ public class Given_StartdatumWerdGewijzigd
     }
 }
 
-[UnitTest]
 public class Given_StartdatumWerdGewijzigdInKbo
 {
     [Fact]

@@ -7,9 +7,7 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_An_Adres
 {
     [Fact]

@@ -9,7 +9,6 @@ using FluentAssertions;
 using Marten;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
 public class GetNamesForVCodesQueryFixture : IAsyncLifetime
 {
@@ -26,7 +25,6 @@ public class GetNamesForVCodesQueryFixture : IAsyncLifetime
     }
 }
 
-[IntegrationTest]
 public class GetNamesForVCodesQueryTests : IClassFixture<GetNamesForVCodesQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;

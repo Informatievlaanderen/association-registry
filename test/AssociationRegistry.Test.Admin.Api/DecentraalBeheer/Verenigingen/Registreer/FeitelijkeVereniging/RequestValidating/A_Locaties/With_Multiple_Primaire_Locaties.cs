@@ -6,10 +6,8 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class With_Multiple_Primaire_Locaties : ValidatorTest
 {
     [Fact]

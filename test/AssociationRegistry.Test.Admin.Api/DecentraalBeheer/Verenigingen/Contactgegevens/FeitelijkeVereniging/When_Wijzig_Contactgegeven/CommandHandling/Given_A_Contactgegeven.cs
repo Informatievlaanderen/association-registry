@@ -10,9 +10,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Emails;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_Contactgegeven
 {
     private readonly WijzigContactgegevenCommandHandler _commandHandler;

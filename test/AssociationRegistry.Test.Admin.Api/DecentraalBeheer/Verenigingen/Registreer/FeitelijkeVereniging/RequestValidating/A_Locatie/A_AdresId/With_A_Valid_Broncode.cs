@@ -8,11 +8,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using AdresId = AssociationRegistry.Admin.Api.Verenigingen.Common.AdresId;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class With_A_Valid_Broncode : ValidatorTest
 {
     [Theory]

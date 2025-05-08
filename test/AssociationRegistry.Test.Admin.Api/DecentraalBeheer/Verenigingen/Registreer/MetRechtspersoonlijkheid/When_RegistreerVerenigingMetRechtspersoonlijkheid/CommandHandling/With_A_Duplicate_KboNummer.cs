@@ -17,9 +17,7 @@ using Moq;
 using ResultNet;
 
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_A_Duplicate_KboNummer : IAsyncLifetime
 {
     private Result _result = null!;
@@ -85,6 +83,6 @@ public class With_A_Duplicate_KboNummer : IAsyncLifetime
         _magdaGeefVerenigingService.Invocations.Should().BeEmpty();
     }
 
-    public Task DisposeAsync()
-        => Task.CompletedTask;
+    public ValueTask DisposeAsync()
+        => ValueTask.CompletedTask;
 }

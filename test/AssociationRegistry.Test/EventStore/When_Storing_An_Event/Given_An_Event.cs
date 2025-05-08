@@ -9,10 +9,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using NodaTime.Text;
 using Xunit;
-using Xunit.Categories;
 using IEvent = Marten.Events.IEvent;
 
-[IntegrationTest]
 public class Given_An_Event
 {
     [Fact]

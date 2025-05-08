@@ -4,11 +4,8 @@ using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class Given_An_Unauthenticated_Client
 {
     private readonly EventsInDbScenariosFixture _fixture;

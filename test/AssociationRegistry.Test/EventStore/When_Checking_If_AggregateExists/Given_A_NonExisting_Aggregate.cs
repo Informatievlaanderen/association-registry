@@ -12,9 +12,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;
-using Xunit.Categories;
 
-[IntegrationTest]
 public class Given_A_NonExisting_Aggregate
 {
     private readonly Fixture _fixture;

@@ -22,7 +22,7 @@ public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubty
         Scenario = new();
     }
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(Scenario).ExecuteRequest(ApiSetup);

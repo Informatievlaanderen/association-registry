@@ -9,10 +9,8 @@ using Framework;
 using Microsoft.AspNetCore.Http;
 using Resources;
 using Xunit;
-using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
-[UnitTest]
 public class A_Invalid_Request : ValidatorTest
 {
     private readonly Fixture _fixture;

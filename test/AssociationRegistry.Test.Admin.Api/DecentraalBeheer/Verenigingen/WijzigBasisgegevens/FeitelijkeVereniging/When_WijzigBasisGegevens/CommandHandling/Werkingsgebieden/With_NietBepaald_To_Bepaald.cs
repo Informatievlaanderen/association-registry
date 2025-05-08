@@ -6,9 +6,7 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_NietBepaald_To_Bepaald
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

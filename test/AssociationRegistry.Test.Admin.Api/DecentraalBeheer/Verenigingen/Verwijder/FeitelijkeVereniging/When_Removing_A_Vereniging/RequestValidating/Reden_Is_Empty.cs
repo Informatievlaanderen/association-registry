@@ -5,9 +5,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Verwijder.RequestModels;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Reden_Is_Empty : ValidatorTest
 {
     [Fact]

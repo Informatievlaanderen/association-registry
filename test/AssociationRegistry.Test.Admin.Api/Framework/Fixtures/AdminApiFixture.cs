@@ -180,7 +180,7 @@ public abstract class AdminApiFixture : IDisposable, IAsyncLifetime
         await Given();
     }
 
-    public virtual async Task DisposeAsync()
+    public virtual async ValueTask DisposeAsync()
         => Dispose();
 
     public void Dispose()

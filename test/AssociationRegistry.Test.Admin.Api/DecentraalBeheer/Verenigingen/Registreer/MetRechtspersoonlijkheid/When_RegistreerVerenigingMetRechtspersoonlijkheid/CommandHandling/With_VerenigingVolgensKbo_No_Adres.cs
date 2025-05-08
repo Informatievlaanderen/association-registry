@@ -14,9 +14,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using ResultNet;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_VerenigingVolgensKbo_No_Adres
 {
     private readonly RegistreerVerenigingUitKboCommand _command;

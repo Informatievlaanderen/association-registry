@@ -9,11 +9,10 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.ComponentModel;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
-[IntegrationTest]
 [Category("Middleware")]
 public class When_Matching_Http_Methods : IAsyncLifetime
 {
@@ -87,10 +86,10 @@ public class When_Matching_Http_Methods : IAsyncLifetime
         response.StatusCode.Should().NotBe(HttpStatusCode.BadRequest);
     }
 
-    public Task DisposeAsync()
+    public ValueTask DisposeAsync()
     {
         _host.Dispose();
 
-        return Task.CompletedTask;
+        return ValueTask.CompletedTask;
     }
 }

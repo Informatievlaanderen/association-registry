@@ -78,7 +78,7 @@ public class GivenEventsFixture : PublicApiFixture
             V024FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario,
         };
 
-    public override async Task InitializeAsync()
+    public override async ValueTask InitializeAsync()
     {
         foreach (var scenario in Scenarios)
         {

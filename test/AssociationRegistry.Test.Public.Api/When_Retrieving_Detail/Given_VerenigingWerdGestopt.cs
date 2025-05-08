@@ -4,11 +4,8 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_VerenigingWerdGestopt
 {
     private readonly HttpResponseMessage _response;

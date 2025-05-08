@@ -14,7 +14,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
-using Xunit.Categories;
 
 public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup
 {
@@ -37,8 +36,6 @@ public sealed class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_Schr
 }
 
 [Collection(nameof(AdminApiCollection))]
-[Category("AdminApi")]
-[IntegrationTest]
 public class With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom :
     IClassFixture<With_Vereniging_UitgeschrevenUitPubliekeDatastroom_When_SchrijfInInPubliekeDatastroom_Setup>
 {

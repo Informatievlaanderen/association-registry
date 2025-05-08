@@ -7,9 +7,7 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class With_An_Empty_Broncode : ValidatorTest
 {
     [Fact]

@@ -16,9 +16,7 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_An_Addres_Of_Unknown_Type
 {
     private readonly MagdaGeefVerenigingService _service;

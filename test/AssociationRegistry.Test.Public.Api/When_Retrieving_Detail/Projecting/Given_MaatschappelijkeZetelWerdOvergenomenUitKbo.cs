@@ -9,9 +9,7 @@ using Formats;
 using Framework;
 using JsonLdContext;
 using Xunit;
-using Xunit.Categories;
 
-[UnitTest]
 public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
 {
     [Fact]
@@ -80,7 +78,6 @@ public class Given_MaatschappelijkeZetelWerdOvergenomenUitKbo
     }
 }
 
-[UnitTest]
 public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
 {
     [Fact]
@@ -157,7 +154,6 @@ public class Given_MaatschappelijkeZetelWerdGewijzigdInKbo
     }
 }
 
-[UnitTest]
 public class Given_MaatschappelijkeZetelWerdVerwijderdUitKbo
 {
     [Fact]

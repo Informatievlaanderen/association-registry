@@ -5,11 +5,8 @@ using Fixtures;
 using FluentAssertions;
 using Framework;
 using Xunit;
-using Xunit.Categories;
 
 [Collection(VerenigingPublicApiCollection.Name)]
-[Category("PublicApi")]
-[IntegrationTest]
 public class Given_The_Resource_Exists : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;

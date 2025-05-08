@@ -6,10 +6,8 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
-using Xunit.Categories;
 using InszTestSet = Framework.InszTestSet;
 
-[UnitTest]
 public class Is_Valid
 {
     [Theory]
