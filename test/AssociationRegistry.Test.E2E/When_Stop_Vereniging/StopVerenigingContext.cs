@@ -10,6 +10,7 @@ using Scenarios.Requests;
 
 public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {
+    public const string Name = "StopVerenigingContext";
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 

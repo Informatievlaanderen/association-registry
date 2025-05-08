@@ -12,6 +12,7 @@ using Vereniging;
 
 public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
 {
+    public const string Name = "VerwijderLidmaatschapContext";
     public VCode VCode => RequestResult.VCode;
     public LidmaatschapWerdToegevoegdScenario Scenario { get; }
 

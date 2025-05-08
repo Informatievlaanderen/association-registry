@@ -26,7 +26,7 @@ using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigings
 public class Returns_VZER_DetailResponse :
     End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, DetailVerenigingResponse>
 {
-    public Returns_VZER_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
+    public Returns_VZER_DetailResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
     }
 

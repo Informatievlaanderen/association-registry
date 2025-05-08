@@ -13,6 +13,7 @@ using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
+    public const string Name = "RegistreerFeitelijkeVerenigingTestContext";
     private EmptyScenario _emptyScenario;
     private readonly ILogger _logger;
     public VCode VCode => RequestResult.VCode;

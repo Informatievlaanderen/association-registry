@@ -3,16 +3,12 @@ namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 using ApiSetup;
 using Xunit;
 
-public abstract class End2EndTest<TContext, TRequest, TResponse>: IClassFixture<TContext>, IAsyncLifetime
+public abstract class End2EndTest<TContext, TRequest, TResponse>: IAsyncLifetime
     where TContext : TestContextBase<TRequest>
 {
-    public TContext TestContext { get; }
+    public TContext TestContext { get; protected set; }
     // Convenience props
     public TRequest Request => TestContext.Request;
-    public End2EndTest(TContext testContext)
-    {
-        TestContext = testContext;
-    }
 
     public async ValueTask InitializeAsync()
     {

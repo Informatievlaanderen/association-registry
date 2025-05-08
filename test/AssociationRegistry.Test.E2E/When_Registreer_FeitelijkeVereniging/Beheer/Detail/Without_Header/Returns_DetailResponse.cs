@@ -22,7 +22,7 @@ using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigings
 public class Returns_DetailResponse :
     End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
+    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
     }
 

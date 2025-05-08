@@ -12,6 +12,7 @@ using Vereniging;
 
 public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequest>
 {
+    public const string Name = "VoegLidmaatschapToeContext";
     public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 

@@ -19,7 +19,7 @@ public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, Wijz
 {
     private readonly ZetSubtypeNaarNietBepaaldContext _context;
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context): base(context)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context)
     {
         _context = context;
     }

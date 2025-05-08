@@ -20,7 +20,7 @@ public class Returns_Historiek : End2EndTest<VoegContactgegevenToeContext, VoegC
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VoegContactgegevenToeContext testContext) : base(testContext)
+    public Returns_Historiek(VoegContactgegevenToeContext testContext)
     {
         _context = testContext;
     }

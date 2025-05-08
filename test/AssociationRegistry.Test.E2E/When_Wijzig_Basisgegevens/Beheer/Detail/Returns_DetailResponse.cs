@@ -25,7 +25,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 
-    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext) : base(testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext)
     {
     }
 

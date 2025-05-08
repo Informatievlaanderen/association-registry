@@ -15,7 +15,7 @@ public class Returns_VerenigingenPerInszResponse :
 {
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext context) : base(context)
+    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext context)
     {
         _request = new VerenigingenPerInszRequest()
         {

@@ -5,8 +5,8 @@ using Framework.AlbaHost;
 using System.Net;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Vereniging_Not_Found : IClassFixture<MarkeerAlsDubbelVanContext>, IAsyncLifetime
+[Collection(MarkeerAlsDubbelVanContext.Name)]
+public class Returns_Vereniging_Not_Found : IAsyncLifetime
 {
     private readonly MarkeerAlsDubbelVanContext _context;
 

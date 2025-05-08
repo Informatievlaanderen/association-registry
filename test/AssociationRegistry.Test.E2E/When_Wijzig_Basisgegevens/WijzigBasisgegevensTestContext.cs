@@ -12,6 +12,7 @@ using Scenarios.Requests.FeitelijkeVereniging;
 
 public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevensRequest>
 {
+    public const string Name = "WijzigBasisgegevensTestContext";
     private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
     public VCode VCode => RequestResult.VCode;

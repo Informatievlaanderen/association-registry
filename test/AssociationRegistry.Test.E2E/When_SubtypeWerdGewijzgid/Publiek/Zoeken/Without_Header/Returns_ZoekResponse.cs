@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WhenSubtypeWerdGew
 {
     private readonly WhenSubtypeWerdGewijzigdContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext)
+    public Returns_SearchVerenigingenResponse(WhenSubtypeWerdGewijzigdContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]

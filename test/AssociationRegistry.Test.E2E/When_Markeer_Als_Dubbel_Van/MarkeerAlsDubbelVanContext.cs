@@ -12,6 +12,7 @@ using Vereniging;
 
 public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequest>
 {
+    public const string Name = "MarkeerAlsDubbelVanContext";
     public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 
