@@ -64,7 +64,7 @@ public class EventStoreMock : IEventStore
         => throw new NotImplementedException();
 
     public async Task<StreamActionResult> SaveNew(
-        VCode aggregateId,
+        string aggregateId,
         long verenigingVersion,
         IDocumentSession session,
         CommandMetadata metadata,

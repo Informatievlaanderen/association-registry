@@ -43,7 +43,7 @@ public class EventStore : IEventStore
     }
 
     public async Task<StreamActionResult> SaveNew(
-        VCode aggregateId,
+        string aggregateId,
         long aggregateVersion,
         IDocumentSession session,
         CommandMetadata metadata,
