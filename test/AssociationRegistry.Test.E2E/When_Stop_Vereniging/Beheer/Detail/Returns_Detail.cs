@@ -26,12 +26,12 @@ public class Returns_Detail : IClassFixture<StopVerenigingContext>, IAsyncLifeti
 
     public DetailVerenigingResponse Response { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

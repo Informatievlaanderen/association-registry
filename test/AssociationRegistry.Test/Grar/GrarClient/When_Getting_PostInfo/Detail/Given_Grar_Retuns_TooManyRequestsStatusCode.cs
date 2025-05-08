@@ -11,7 +11,7 @@ using Xunit;
 public class Given_Grar_Retuns_TooManyRequestsStatusCode
 {
     [Fact]
-    public async Task Then_Throws_Exception()
+    public async ValueTask Then_Throws_Exception()
     {
         var httpClient = new Mock<IGrarHttpClient>();
         var postcode = "9000";

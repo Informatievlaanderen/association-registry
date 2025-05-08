@@ -30,7 +30,7 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
     }
 
     [Fact]
-    public async Task WithVereniging()
+    public async ValueTask WithVereniging()
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);

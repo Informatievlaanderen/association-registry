@@ -14,7 +14,7 @@ using Xunit;
 public class DetailVerenigingenControllerTests
 {
     [Fact]
-    public async Task Uses_GetNamesQuery()
+    public async ValueTask Uses_GetNamesQuery()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var detail = fixture.Create<BeheerVerenigingDetailDocument>();

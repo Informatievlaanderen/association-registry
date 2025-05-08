@@ -26,7 +26,7 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
     }
 
     [Fact]
-    public async Task Then_we_get_registreer_inschrijving_gebeurtenis()
+    public async ValueTask Then_we_get_registreer_inschrijving_gebeurtenis()
     {
         var content = await _response.Content.ReadAsStringAsync();
 

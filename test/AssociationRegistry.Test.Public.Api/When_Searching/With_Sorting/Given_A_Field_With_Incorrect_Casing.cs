@@ -26,7 +26,7 @@ public class Given_A_Field_With_Incorrect_Casing
     }
 
     [Fact]
-    public async Task? Then_it_sorts_descending_via_vcode()
+    public async ValueTask? Then_it_sorts_descending_via_vcode()
     {
         var incorrectlyCasedField = "VCODE";
         var response = await _publicApiClient.Search(q: "*", incorrectlyCasedField);

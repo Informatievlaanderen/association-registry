@@ -19,7 +19,7 @@ public class Given_The_Resource_Does_Not_Exists : IClassFixture<StaticPublicApiF
     }
 
     [Fact]
-    public async Task Then_we_get_a_notFound_response()
+    public async ValueTask Then_we_get_a_notFound_response()
     {
         var response = await _httpClient.GetAsync("DoesNotExist.json");
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

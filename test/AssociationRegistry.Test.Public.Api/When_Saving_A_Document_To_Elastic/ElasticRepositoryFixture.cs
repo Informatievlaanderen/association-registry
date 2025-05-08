@@ -26,7 +26,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         _configurationRoot = GetConfiguration();
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         ElasticClient = CreateElasticClient(_configurationRoot);
 

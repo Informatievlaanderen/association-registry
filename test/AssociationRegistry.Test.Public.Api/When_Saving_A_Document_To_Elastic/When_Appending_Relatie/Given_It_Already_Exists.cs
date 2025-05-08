@@ -25,7 +25,7 @@ public class Given_It_Already_Exists
     }
 
     [Fact]
-    public async Task Then_It_Does_Not_Add_It_Again()
+    public async ValueTask Then_It_Does_Not_Add_It_Again()
     {
         // dochter
         var relatie = new VerenigingZoekDocument.Types.Relatie

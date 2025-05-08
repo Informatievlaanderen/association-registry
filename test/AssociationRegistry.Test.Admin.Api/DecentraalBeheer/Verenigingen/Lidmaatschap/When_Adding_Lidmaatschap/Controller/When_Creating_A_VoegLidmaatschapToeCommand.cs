@@ -21,7 +21,7 @@ public class When_Creating_A_VoegLidmaatschapToeCommand
 {
     // todo: use GetNamesQuery instead
     [Fact]
-    public async Task Fetches_The_Name_AndereVereniging_From_Projections()
+    public async ValueTask Fetches_The_Name_AndereVereniging_From_Projections()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var messageBus = new Mock<IMessageBus>();

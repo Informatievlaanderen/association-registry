@@ -10,7 +10,7 @@ using Xunit;
 public class Returns_No_Responses
 {
     [Fact]
-    public async Task Then_AdresNietUniekInAdressenregister()
+    public async ValueTask Then_AdresNietUniekInAdressenregister()
     {
         var fixture = new Fixture().CustomizeDomain();
 

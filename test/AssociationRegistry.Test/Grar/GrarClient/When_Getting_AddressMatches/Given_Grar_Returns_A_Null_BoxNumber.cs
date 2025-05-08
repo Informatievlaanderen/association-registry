@@ -11,7 +11,7 @@ using Xunit;
 public class Given_Grar_Returns_A_Null_BoxNumber
 {
     [Fact]
-    public async Task Then_Returns_Empty_String_BoxNumber()
+    public async ValueTask Then_Returns_Empty_String_BoxNumber()
     {
         var grarHttpClient = new Mock<IGrarHttpClient>();
 

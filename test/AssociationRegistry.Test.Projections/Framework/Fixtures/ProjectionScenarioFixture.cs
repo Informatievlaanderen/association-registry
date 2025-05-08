@@ -20,12 +20,12 @@ public abstract class ProjectionScenarioFixture<TProjectionContext> : IDisposabl
     {
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await Given();
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
     }
 }

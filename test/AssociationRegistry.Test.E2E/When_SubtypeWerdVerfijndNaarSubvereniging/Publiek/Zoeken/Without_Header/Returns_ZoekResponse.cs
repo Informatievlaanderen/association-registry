@@ -26,7 +26,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaar
     }
 
     [Fact]
-    public async Task WithFeitelijkeVereniging()
+    public async ValueTask WithFeitelijkeVereniging()
     {
         var vereniging = Response.Verenigingen.Single();
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);

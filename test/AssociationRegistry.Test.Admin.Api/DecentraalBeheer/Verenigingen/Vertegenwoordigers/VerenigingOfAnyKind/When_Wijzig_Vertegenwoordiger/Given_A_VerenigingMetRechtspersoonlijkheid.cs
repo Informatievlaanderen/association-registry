@@ -62,7 +62,7 @@ public class Patch_A_New_Vertegenwoordiger_For_VerenigingMetRechtspersoonlijkhei
         AanTePassenVertegenwoordiger = Scenario.VertegenwoordigerWerdOvergenomenUitKBO;
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _fixture.AdminApiClient.PatchVertegenwoordiger(Scenario.VCode, AanTePassenVertegenwoordiger.VertegenwoordigerId,
                                                                         _jsonBody);
@@ -86,7 +86,7 @@ public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

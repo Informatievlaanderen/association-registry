@@ -91,7 +91,7 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
 
     protected void Stream(string vCode, IReadOnlyCollection<IEvent> events) => _internalStreamCollection.Add(vCode, events.ToArray());
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         await WaitFor.PostGreSQLToBecomeAvailable(new NullLogger<AdminApiFixture>(), GetConnectionString(_configuration, RootDatabase));
 
@@ -111,7 +111,7 @@ public abstract class MultiStreamTestFixture : IAsyncLifetime
         await DocumentStore.WaitForNonStaleProjectionDataAsync(5.Seconds());
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await Host.StopAsync();
     }

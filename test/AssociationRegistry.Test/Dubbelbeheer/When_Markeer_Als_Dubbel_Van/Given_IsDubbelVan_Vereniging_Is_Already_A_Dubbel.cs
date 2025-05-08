@@ -16,7 +16,7 @@ using Xunit;
 public class Given_IsDubbelVan_Vereniging_Is_Already_A_Dubbel
 {
     [Fact]
-    public async Task Then_Throws_VerenigingKanGeenDubbelWordenVanDubbelVereniging()
+    public async ValueTask Then_Throws_VerenigingKanGeenDubbelWordenVanDubbelVereniging()
     {
         var fixture = new Fixture().CustomizeDomain();
         var verenigingsRepositoryMock = new Mock<IVerenigingsRepository>();

@@ -12,7 +12,7 @@ using Xunit;
 public class Given_An_Non_Existing_WerkingsgebiedCode
 {
     [Fact]
-    public async Task Then_Throws_WerkingsgebiedCodeIsNietGekend()
+    public async ValueTask Then_Throws_WerkingsgebiedCodeIsNietGekend()
     {
         var fixture = new Fixture().CustomizeDomain();
         var documentstore = await TestDocumentStoreFactory.CreateAsync(nameof(Given_An_Non_Existing_WerkingsgebiedCode));

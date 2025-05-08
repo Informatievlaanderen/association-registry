@@ -35,7 +35,7 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
         _jsonBody = JsonConvert.SerializeObject(Request);
     }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Response = await _classFixture.AdminApiClient.PostVertegenwoordiger(Scenario.VCode, _jsonBody);
     }
@@ -57,7 +57,7 @@ public class Given_A_New_Vertegenwoordiger : IClassFixture<Post_A_New_Vertegenwo
     }
 
     [Fact]
-    public async Task Then_it_saves_the_events()
+    public async ValueTask Then_it_saves_the_events()
     {
         await using var session = _classFixture.DocumentStore.LightweightSession();
 

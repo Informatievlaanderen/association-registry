@@ -14,12 +14,12 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 {
     public DocumentStore Store { get; set; }
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         Store = await TestDocumentStoreFactory.CreateAsync(nameof(BeheerVerenigingDetailQueryTests));
     }
 
-    public async Task DisposeAsync()
+    public async ValueTask DisposeAsync()
     {
         await Store.DisposeAsync();
     }
@@ -37,7 +37,7 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     }
 
     [Fact]
-    public async Task Returns_Null_When_No_VCode_Provided()
+    public async ValueTask Returns_Null_When_No_VCode_Provided()
     {
         var query = new BeheerVerenigingDetailQuery(_session);
 
@@ -47,7 +47,7 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     }
 
     [Fact]
-    public async Task Throw_When_Null_VCode_Provided()
+    public async ValueTask Throw_When_Null_VCode_Provided()
     {
         var query = new BeheerVerenigingDetailQuery(_session);
 
@@ -55,7 +55,7 @@ public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDe
     }
 
     [Fact]
-    public async Task Returns_Detail_When_VCode_Matches()
+    public async ValueTask Returns_Detail_When_VCode_Matches()
     {
         var fixture = new Fixture().CustomizeDomain();
 

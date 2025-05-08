@@ -29,11 +29,11 @@ public class Given_LocatieDuplicaatWerdVerwijderdNaAdresMatch
     }
 
     [Fact]
-    public async Task Then_we_get_a_successful_response()
+    public async ValueTask Then_we_get_a_successful_response()
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async Task Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
+    public async ValueTask Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
     {
         var loc = V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario.TeBehoudenLocatie;
 

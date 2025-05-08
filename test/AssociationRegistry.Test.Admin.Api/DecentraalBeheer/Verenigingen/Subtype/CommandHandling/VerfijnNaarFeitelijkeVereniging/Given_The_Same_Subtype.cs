@@ -14,7 +14,7 @@ using Xunit.Categories;
 public class Given_The_Same_Subtype
 {
     [Fact]
-    public async Task Then_No_Event_Is_Saved()
+    public async ValueTask Then_No_Event_Is_Saved()
     {
         var fixture = new Fixture().CustomizeDomain();
 

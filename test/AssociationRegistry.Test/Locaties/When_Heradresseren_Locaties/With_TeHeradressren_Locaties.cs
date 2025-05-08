@@ -17,7 +17,7 @@ using Xunit.Categories;
 public class With_TeHeradressren_Locaties
 {
     [Fact]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved()
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario().GetVerenigingState();
 

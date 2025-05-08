@@ -22,7 +22,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_And_UitgeschrevenUitPub
     }
 
     [Fact]
-    public async Task Then_we_get_a_notFound_response()
+    public async ValueTask Then_we_get_a_notFound_response()
     {
         var response = await _publicApiClient.GetDetail(_vCode);
         response.Should().HaveStatusCode(HttpStatusCode.NotFound);

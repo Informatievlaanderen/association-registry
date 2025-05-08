@@ -25,7 +25,7 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
     private IHost _host = null!;
     private const string Route = "/";
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         _host = await new HostBuilder().ConfigureWebHost(
                                             webBuilder =>
@@ -53,7 +53,7 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
     }
 
     [Fact]
-    public async Task Then_It_Returns_A_412_Response()
+    public async ValueTask Then_It_Returns_A_412_Response()
     {
         var testClient = _host.GetTestClient();
 

@@ -17,7 +17,7 @@ public abstract class ScenarioFixture<TScenario, TResult, TContext>(TContext con
     public string MetadataInitiator = "metadata.Initiator";
     public readonly string MetadataTijdstip = InstantPattern.General.Format(new Instant());
 
-    public async Task InitializeAsync()
+    public async ValueTask InitializeAsync()
     {
         var store = Context.AdminStore;
         await store.Advanced.Clean.DeleteAllDocumentsAsync();
