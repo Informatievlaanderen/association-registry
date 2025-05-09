@@ -15,7 +15,7 @@ public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullReque
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<NullRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var vCode = _scenario.LidmaatschapWerdToegevoegd.VCode;
         var lidmaatschapLidmaatschapId = _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId;
@@ -31,6 +31,6 @@ public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullReque
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<NullRequest>(VCode.Create(vCode), new NullRequest());
+        return new CommandResult<NullRequest>(VCode.Create(vCode), new NullRequest());
     }
 }

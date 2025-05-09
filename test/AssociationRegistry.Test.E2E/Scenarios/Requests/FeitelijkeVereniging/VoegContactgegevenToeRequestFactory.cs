@@ -19,7 +19,7 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<VoegContactgegevenToeRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<VoegContactgegevenToeRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -37,6 +37,6 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
+        return new CommandResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

@@ -13,8 +13,8 @@ public class WijzigConcurrentlyContext: IAsyncLifetime
     public const string Name = nameof(WijzigConcurrentlyContext);
     public FullBlownApiSetup ApiSetup { get; }
     public FeitelijkeVerenigingWerdGeregistreerdScenario WerdGeregistreerdScenario { get; private set; }
-    public WijzigLocatieRequest Request => RequestResult.Request;
-    public VCode VCode => RequestResult.VCode;
+    public WijzigLocatieRequest Request => CommandResult.Request;
+    public VCode VCode => CommandResult.VCode;
 
     public WijzigConcurrentlyContext(FullBlownApiSetup apiSetup)
     {
@@ -26,11 +26,11 @@ public class WijzigConcurrentlyContext: IAsyncLifetime
         WerdGeregistreerdScenario = new();
 
         await ApiSetup.ExecuteGiven(WerdGeregistreerdScenario);
-        RequestResult = await new WijzigLocatieRequestFactory(WerdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        CommandResult = await new WijzigLocatieRequestFactory(WerdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 
-    public RequestResult<WijzigLocatieRequest> RequestResult { get; set; }
+    public CommandResult<WijzigLocatieRequest> CommandResult { get; set; }
 
     public async ValueTask DisposeAsync()
     {

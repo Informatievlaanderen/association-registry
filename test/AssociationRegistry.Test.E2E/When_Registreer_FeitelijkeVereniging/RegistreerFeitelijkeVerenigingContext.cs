@@ -16,7 +16,7 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
     public const string Name = "RegistreerFeitelijkeVerenigingTestContext";
     private EmptyScenario _emptyScenario;
     private readonly ILogger _logger;
-    public VCode VCode => RequestResult.VCode;
+    public VCode VCode => CommandResult.VCode;
 
     public RegistreerFeitelijkeVerenigingTestContext(FullBlownApiSetup apiSetup)
     {
@@ -55,7 +55,7 @@ public class RegistreerFeitelijkeVerenigingTestContext: TestContextBase<Registre
 
         logger.LogInformation("Executing registreer feitelijke vereniging request");
 
-        RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
+        CommandResult = await requestFactory.ExecuteRequest(ApiSetup);
 
 
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));

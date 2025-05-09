@@ -78,5 +78,5 @@ public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVeren
 
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.RequestResult.Sequence).GetAwaiter().GetResult();
+        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
 }

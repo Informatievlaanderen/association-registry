@@ -22,7 +22,7 @@ public class BeheerdetailRequestFactory : ITestRequestFactory<RegistreerVerenigi
     {
     }
 
-    public async Task<RequestResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -50,6 +50,6 @@ public class BeheerdetailRequestFactory : ITestRequestFactory<RegistreerVerenigi
 
         await apiSetup.AdminProjectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
+        return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
     }
 }

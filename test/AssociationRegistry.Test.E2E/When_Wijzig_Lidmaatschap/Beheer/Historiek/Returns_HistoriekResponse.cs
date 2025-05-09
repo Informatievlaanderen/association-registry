@@ -11,20 +11,23 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection("WijzigLidmaatschapContext")]
-public class Returns_Historiek : End2EndTest<WijzigLidmaatschapContext, WijzigLidmaatschapRequest, HistoriekResponse>
+[Collection(nameof(WijzigLidmaatschapCollection))]
+public class Returns_Historiek: End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly WijzigLidmaatschapContext _testContext;
 
-    public Returns_Historiek(WijzigLidmaatschapContext testContext)
+    public Returns_Historiek(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -39,10 +42,10 @@ public class Returns_Historiek : End2EndTest<WijzigLidmaatschapContext, WijzigLi
         var lidmaatschapWerdToegevoegd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(LidmaatschapWerdGewijzigd));
 
         lidmaatschapWerdToegevoegd.ShouldCompare(HistoriekGebeurtenisMapper.LidmaatschapWerdGewijzigd(
-                                                     TestContext.Request,
-                                                     TestContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                                                     TestContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                                                     TestContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam),
+                                                     _testContext.CommandRequest,
+                                                     _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam),
                                                  compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

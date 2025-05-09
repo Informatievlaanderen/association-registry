@@ -12,7 +12,7 @@ public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequ
 {
     public const string Name = "VerwijderVerenigingContext";
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public VCode VCode => RequestResult.VCode;
+    public VCode VCode => CommandResult.VCode;
 
     public VerwijderVerenigingContext(FullBlownApiSetup apiSetup)
     {
@@ -23,7 +23,7 @@ public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequ
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        RequestResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        CommandResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.RefreshIndices();
     }

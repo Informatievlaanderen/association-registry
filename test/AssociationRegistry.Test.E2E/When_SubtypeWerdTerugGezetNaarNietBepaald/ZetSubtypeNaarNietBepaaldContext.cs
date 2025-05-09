@@ -14,7 +14,7 @@ using Scenarios.Requests.VZER;
 public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
 {
     public const string Name = "ZetSubtypeNaarNietBepaaldContext";
-    public VCode VCode => RequestResult.VCode;
+    public VCode VCode => CommandResult.VCode;
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario Scenario { get; }
 
     public ZetSubtypeNaarNietBepaaldContext(FullBlownApiSetup apiSetup)
@@ -26,7 +26,7 @@ public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequ
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(Scenario).ExecuteRequest(ApiSetup);
+        CommandResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
