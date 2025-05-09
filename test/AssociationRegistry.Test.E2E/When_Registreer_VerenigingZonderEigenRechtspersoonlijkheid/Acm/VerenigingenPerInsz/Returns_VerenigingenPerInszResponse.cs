@@ -6,6 +6,7 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Vereniging.Mappers;
 using Xunit;
