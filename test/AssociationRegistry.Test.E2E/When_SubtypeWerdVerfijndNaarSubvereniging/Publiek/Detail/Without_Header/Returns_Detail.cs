@@ -33,5 +33,5 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
     }
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.RequestResult.VCode);
+        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.CommandResult.VCode);
 }

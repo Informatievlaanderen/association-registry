@@ -41,5 +41,5 @@ public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRech
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.RequestResult.VCode}").GetAwaiter().GetResult();
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.CommandResult.VCode}").GetAwaiter().GetResult();
 }

@@ -59,8 +59,8 @@ public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wijzi
 
             logger.LogInformation("EXECUTING GET REQUEST");
 
-            return setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                  TestContext.RequestResult.Sequence).GetAwaiter().GetResult();
+            return setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
+                                                                  TestContext.CommandResult.Sequence).GetAwaiter().GetResult();
         }; }
     }
 }

@@ -59,8 +59,8 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
 
             logger.LogInformation("EXECUTING GET REQUEST");
 
-            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                TestContext.RequestResult.Sequence)
+            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
+                                                                TestContext.CommandResult.Sequence)
                         .GetAwaiter().GetResult();
         }; }
     }
