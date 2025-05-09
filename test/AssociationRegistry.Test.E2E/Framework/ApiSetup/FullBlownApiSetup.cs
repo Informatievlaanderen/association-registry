@@ -10,6 +10,7 @@ using Common.Clients;
 using Common.Framework;
 using Grar.NutsLau;
 using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
 using Marten.Events;
@@ -28,6 +29,7 @@ using Scenarios.Requests;
 using TestClasses;
 using Vereniging;
 using Xunit;
+using IEvent = Events.IEvent;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
@@ -55,9 +57,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         var clients = new Clients(adminApiHost.Services.GetRequiredService<OAuth2IntrospectionOptions>(),
                                   createClientFunc: () => new HttpClient());
 
-        var elasticSearchOptions = AdminApiConfiguration.GetElasticSearchOptionsSection();
-        ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
-        ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
 
         SuperAdminHttpClient = clients.SuperAdmin.HttpClient;
         UnautenticatedClient = clients.Unauthenticated.HttpClient;
@@ -67,6 +66,10 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         AdminHttpClient = clients.Authenticated.HttpClient;
 
         await AdminApiHost.ResetAllMartenDataAsync();
+
+        var elasticSearchOptions = AdminApiHost.Server.Services.GetRequiredService<IConfiguration>().GetElasticSearchOptionsSection();
+        ElasticClient = ElasticSearchExtensions.CreateElasticClient(elasticSearchOptions, NullLogger.Instance);
+        ElasticClient.Indices.DeleteAsync(elasticSearchOptions.Indices.DuplicateDetection).GetAwaiter().GetResult();
 
         await InsertWerkingsgebieden();
 
@@ -92,27 +95,21 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
+        var runningDaemons = new List<Task>();
         AdminProjectionDaemon = AdminProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
+        PublicProjectionDaemon = PublicProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
+        AcmProjectionDaemon = AcmApiHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
+        runningDaemons.Add(AdminProjectionDaemon.StartAllAsync());
 
-        var agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
-        {
-            x.Name.Identity, x.Position, x.Status
-        });
+        runningDaemons.Add(PublicProjectionDaemon.StartAllAsync());
+        runningDaemons.Add(AcmProjectionDaemon.StartAllAsync());
 
+        Task.WaitAll(runningDaemons.ToArray());
 
-        while (!agents.Any())
-        {
-            Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
-            await Task.Delay(500);
-            agents = AdminProjectionDaemon.CurrentAgents().Select(x => new
-            {
-                x.Name.Identity, x.Position, x.Status
-            });
-
-        }
-        Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
     }
 
+    public IProjectionDaemon AcmProjectionDaemon { get; set; }
+    public IProjectionDaemon PublicProjectionDaemon { get; set; }
     public IVCodeService VCodeService { get; set; }
 
     private async Task InsertWerkingsgebieden()
@@ -203,7 +200,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task ExecuteGiven(IScenario scenario)
+    public async Task<KeyValuePair<string, IEvent[]>[]> ExecuteGiven(IScenario scenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
 
@@ -214,19 +211,17 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
 
+        if (givenEvents.Length == 0)
+            return [];
+
         foreach (var eventsPerStream in givenEvents)
         {
             session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
         }
 
-        if (givenEvents.Length == 0)
-            return;
-
         await session.SaveChangesAsync();
 
-        await AdminProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await PublicProjectionHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
-        await AcmApiHost.DocumentStore().WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(30));
+        return givenEvents;
     }
 
     public async Task RefreshIndices()

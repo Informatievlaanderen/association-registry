@@ -481,12 +481,12 @@ public class Program
 
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Public api started"));
 
         app.Lifetime.ApplicationStopping.Register(
             () =>
             {
-                Log.Information("Application stopping");
+                Log.Information("Public api stopping");
                 Log.CloseAndFlush();
             });
 
