@@ -13,7 +13,7 @@ using Vereniging;
 public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToeRequest>
 {
     public const string Name = "VoegContactgegevenToeContext";
-    public VCode VCode => RequestResult.VCode;
+    public VCode VCode => CommandResult.VCode;
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 
     public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup)
@@ -25,7 +25,7 @@ public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToe
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        RequestResult = await new VoegContactgegevenToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        CommandResult = await new VoegContactgegevenToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

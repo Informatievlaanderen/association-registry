@@ -26,7 +26,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
         _potentialDuplicateVerenigingWerdGeregistreerd = potentialDuplicateVerenigingWerdGeregistreerd;
     }
 
-    public async Task<RequestResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerFeitelijkeVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -154,6 +154,6 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
 
         await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
+        return new CommandResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
     }
 }

@@ -1,21 +1,27 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Formats;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection("WijzigLidmaatschapContext")]
-public class Returns_Detail_With_Lidmaatschap : IAsyncLifetime
+[Collection(nameof(WijzigLidmaatschapCollection))]
+public class Returns_Detail_With_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly WijzigLidmaatschapContext _context;
+    private readonly WijzigLidmaatschapContext _testContext;
 
-    public Returns_Detail_With_Lidmaatschap(WijzigLidmaatschapContext context)
+    public Returns_Detail_With_Lidmaatschap(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse  GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void JsonContentMatches()
@@ -26,29 +32,18 @@ public class Returns_Detail_With_Lidmaatschap : IAsyncLifetime
 
         var expected = new Lidmaatschap
         {
-            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
             type = JsonLdType.Lidmaatschap.Type,
-            LidmaatschapId = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-            AndereVereniging = _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
-            Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.Van.Value.FormatAsBelgianDate(),
-            Tot = _context.Request.Tot.Value.FormatAsBelgianDate(),
-            Identificatie = _context.Request.Identificatie,
-            Naam = _context.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+            LidmaatschapId = _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+            AndereVereniging = _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
+            Beschrijving = _testContext.CommandRequest.Beschrijving,
+            Van = _testContext.CommandRequest.Van.Value.FormatAsBelgianDate(),
+            Tot = _testContext.CommandRequest.Tot.Value.FormatAsBelgianDate(),
+            Identificatie = _testContext.CommandRequest.Identificatie,
+            Naam = _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
-        Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == _context.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId)
+        Response.Vereniging.Lidmaatschappen.Single(x => x.LidmaatschapId == _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId)
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
-    }
-
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async ValueTask InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
     }
 }

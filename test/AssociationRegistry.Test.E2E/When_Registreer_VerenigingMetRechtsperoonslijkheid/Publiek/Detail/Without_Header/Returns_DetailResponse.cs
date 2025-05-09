@@ -38,5 +38,5 @@ public class Returns_DetailResponse :
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.RequestResult.VCode);
+        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.CommandResult.VCode);
 }

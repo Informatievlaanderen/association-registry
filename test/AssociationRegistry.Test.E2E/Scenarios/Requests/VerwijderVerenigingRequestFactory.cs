@@ -18,7 +18,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         _scenario = scenario;
     }
 
-    public async Task<RequestResult<VerwijderVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<VerwijderVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new VerwijderVerenigingRequest()
         {
@@ -46,7 +46,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<VerwijderVerenigingRequest>(
+        return new CommandResult<VerwijderVerenigingRequest>(
             VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

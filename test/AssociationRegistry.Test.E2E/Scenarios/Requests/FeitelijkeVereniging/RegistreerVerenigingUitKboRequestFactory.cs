@@ -21,7 +21,7 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
     {
     }
 
-    public async Task<RequestResult<RegistreerVerenigingUitKboRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<CommandResult<RegistreerVerenigingUitKboRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var autoFixture = new Fixture().CustomizeAdminApi();
 
@@ -49,6 +49,6 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
 
         await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new RequestResult<RegistreerVerenigingUitKboRequest>(VCode.Create(vCode), request);
+        return new CommandResult<RegistreerVerenigingUitKboRequest>(VCode.Create(vCode), request);
     }
 }

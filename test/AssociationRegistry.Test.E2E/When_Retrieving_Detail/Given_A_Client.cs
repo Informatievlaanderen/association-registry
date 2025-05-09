@@ -27,14 +27,14 @@ public class Given_A_Client :
 
     [Fact]
     public async ValueTask With_An_UnauthorizedClient_Then_We_Get_Unauthorized_Response()
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnauthorizedClient, _testContext.RequestResult.VCode,
-                                                              _testContext.RequestResult.Sequence!.Value)
+        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnauthorizedClient, _testContext.CommandResult.VCode,
+                                                              _testContext.CommandResult.Sequence!.Value)
                        .StatusCode
                        .Should().Be(HttpStatusCode.Forbidden);
     [Fact]
     public async ValueTask With_An_UnAuthenticatedClient_Then_We_Get_Forbidden_Response()
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnautenticatedClient, _testContext.RequestResult.VCode,
-                                                              _testContext.RequestResult.Sequence!.Value)
+        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_testContext.ApiSetup.UnautenticatedClient, _testContext.CommandResult.VCode,
+                                                              _testContext.CommandResult.Sequence!.Value)
                        .StatusCode
                        .Should().Be(HttpStatusCode.Unauthorized);
 
@@ -48,8 +48,8 @@ public class Given_A_Client :
 
                 logger.LogInformation("EXECUTING GET REQUEST");
 
-                return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                    TestContext.RequestResult.Sequence)
+                return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
+                                                                    TestContext.CommandResult.Sequence)
                             .GetAwaiter().GetResult();
             };
         }

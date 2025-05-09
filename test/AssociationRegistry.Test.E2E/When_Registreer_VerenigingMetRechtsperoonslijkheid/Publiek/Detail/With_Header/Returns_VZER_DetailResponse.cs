@@ -39,8 +39,8 @@ public class Returns_VZER_DetailResponse :
 
     public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
     {
-        get { return setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, TestContext.RequestResult.VCode,
-                                                                             TestContext.RequestResult.Sequence)
+        get { return setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
+                                                                             TestContext.CommandResult.Sequence)
                                    .GetAwaiter().GetResult(); }
     }
 }
