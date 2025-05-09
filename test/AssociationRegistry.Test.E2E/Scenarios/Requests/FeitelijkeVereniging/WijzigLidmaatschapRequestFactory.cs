@@ -6,7 +6,9 @@ using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
+using JasperFx.Core;
 using Marten.Events;
+using Polly;
 using Primitives;
 using System.Net;
 using Vereniging;
@@ -45,9 +47,6 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         });
-
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
         return new CommandResult<WijzigLidmaatschapRequest>(VCode.Create(vCode), request);
     }

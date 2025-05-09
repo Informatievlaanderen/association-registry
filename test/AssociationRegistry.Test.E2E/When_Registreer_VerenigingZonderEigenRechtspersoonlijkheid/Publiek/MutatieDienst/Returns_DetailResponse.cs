@@ -1,21 +1,20 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.MutatieDienst;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using Public.Api.Verenigingen.Mutaties;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
+using AssociationRegistry.Public.Api.Verenigingen.Mutaties;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, PubliekVerenigingSequenceResponse[]>
+[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
+public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<PubliekVerenigingSequenceResponse[]>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_VerenigingMutationsSequenceResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
+    public Returns_VerenigingMutationsSequenceResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]
@@ -26,6 +25,6 @@ public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<Registree
         actual!.Sequence.Should().BeGreaterThan(0);
     }
 
-    public override Func<IApiSetup, PubliekVerenigingSequenceResponse[]> GetResponse
-        => setup => setup.PublicApiHost.GetVerenigingMutationsSequence();
+    public override PubliekVerenigingSequenceResponse[] GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetVerenigingMutationsSequence();
 }

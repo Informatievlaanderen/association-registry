@@ -8,7 +8,9 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
+using Lidmaatschap = Admin.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]
 public class Returns_Detail_With_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
@@ -20,7 +22,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<DetailVerenigingResp
         _testContext = testContext;
     }
 
-    public override DetailVerenigingResponse  GetResponse(FullBlownApiSetup setup)
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
         => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
