@@ -39,6 +39,8 @@ Type | Naam | Voorbeeld                                                    |
 Header    | `vr-api-key` | `curl --request GET --url '{appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket' --header 'vr-api-key: api-key'`|
 Query parameter | `vr-api-key` | {appSettings.BaseUrl}/v1/hoofdactiviteitenVerenigingsloket?vr-api-key=api-key |
 
+Alle endpoints in de secties contexten, parameters en mutatiedienst zijn beschikbaar zonder api key. Je hebt dus enkel en API key nodig voor het opvragen van verenigingen.
+
 ## Gebruik API Versies
 Om gebruik te kunnen maken van een andere API versie, is het noodzakelijk een API versie mee te geven.
 
