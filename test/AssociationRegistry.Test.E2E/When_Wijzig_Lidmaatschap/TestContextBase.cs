@@ -10,12 +10,13 @@ using Scenarios.Requests;
 using Vereniging;
 using Xunit;
 
-public abstract class TestContextBase<TScenario, TCommandRequest> : IDisposable, IAsyncLifetime
+public abstract class TestContextBase<TScenario, TCommandRequest> : IDisposable, IAsyncLifetime, ITestContextNew
 where TScenario : IScenario
 {
     protected TestContextBase(FullBlownApiSetup apiSetup)
     {
         ApiSetup = apiSetup;
+        apiSetup.RegisterContext(this);
     }
 
     public FullBlownApiSetup ApiSetup { get; }
@@ -24,7 +25,7 @@ where TScenario : IScenario
     public CommandResult<TCommandRequest> CommandResult { get; protected set; }
     public TCommandRequest CommandRequest => CommandResult.Request;
     private IVCodeService VCodeService => ApiSetup.VCodeService;
-    public TScenario Scenario { get; private set; }
+    public IScenario Scenario { get; private set; }
 
     public AppSettings PublicApiAppSettings =>
         ApiSetup.PublicApiHost.Services.GetRequiredService<AppSettings>();
@@ -34,27 +35,29 @@ where TScenario : IScenario
     public async ValueTask InitializeAsync()
     {
         Scenario = InitializeScenario();
-        var executedEvents = await ApiSetup.ExecuteGiven(Scenario);
-
-        if (executedEvents.Length != 0)
-        {
-            await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
-            await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
-            await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
-        }
-
-        await ExecuteScenario(Scenario);
-
-        await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
-        await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
-        await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
-
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-        await ApiSetup.PublicApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        await ApiSetup.RunContexts();
+        // Scenario = InitializeScenario();
+        // var executedEvents = await ApiSetup.ExecuteGiven(Scenario);
+        //
+        // if (executedEvents.Length != 0)
+        // {
+        //     await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        //     await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        //     await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        // }
+        //
+        // await ExecuteCommandRequests(Scenario);
+        //
+        // await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        // await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        // await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        //
+        // await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        // await ApiSetup.PublicApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 
 
-    protected abstract ValueTask ExecuteScenario(TScenario scenario);
+    public abstract ValueTask ExecuteCommandRequests(IScenario scenario);
 
     public void Dispose()
     {
@@ -63,4 +66,10 @@ where TScenario : IScenario
     public async ValueTask DisposeAsync()
     {
     }
+}
+
+public interface ITestContextNew
+{
+    IScenario Scenario { get; }
+    ValueTask ExecuteCommandRequests(IScenario scenario);
 }

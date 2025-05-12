@@ -12,6 +12,7 @@ using Grar.NutsLau;
 using Hosts.Configuration;
 using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
+using JasperFx.Core;
 using Marten;
 using Marten.Events;
 using Marten.Events.Daemon;
@@ -28,6 +29,7 @@ using Oakton;
 using Scenarios.Requests;
 using TestClasses;
 using Vereniging;
+using When_Wijzig_Lidmaatschap;
 using Xunit;
 using IEvent = Events.IEvent;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
@@ -99,13 +101,43 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         AdminProjectionDaemon = AdminProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
         PublicProjectionDaemon = PublicProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
         AcmProjectionDaemon = AcmApiHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
-        runningDaemons.Add(AdminProjectionDaemon.StartAllAsync());
+    }
 
-        runningDaemons.Add(PublicProjectionDaemon.StartAllAsync());
-        runningDaemons.Add(AcmProjectionDaemon.StartAllAsync());
+    private static object lockObject = new();
+    private bool contextsRan = false;
 
-        Task.WaitAll(runningDaemons.ToArray());
+    public async Task RunContexts()
+    {
+        lock (lockObject)
+        {
+            if (contextsRan)
+                return;
 
+            foreach (var testContext in TestContexts)
+            {
+                ExecuteGiven(testContext.Scenario).GetAwaiter().GetResult();
+            }
+
+            AdminProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+            PublicProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+            AcmProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+
+            foreach (var testContext in TestContexts)
+            {
+                testContext.ExecuteCommandRequests(testContext.Scenario).GetAwaiter().GetResult();
+            }
+
+            AdminProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+            PublicProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+            AcmProjectionDaemon.WaitForNonStaleData(30.Seconds()).GetAwaiter().GetResult();
+            // runningDaemons.Add(AdminProjectionDaemon.StartAllAsync());
+            //
+            // runningDaemons.Add(PublicProjectionDaemon.StartAllAsync());
+            // runningDaemons.Add(AcmProjectionDaemon.StartAllAsync());
+            //
+            // Task.WaitAll(runningDaemons.ToArray());
+            contextsRan = true;
+        }
     }
 
     public IProjectionDaemon AcmProjectionDaemon { get; set; }
@@ -209,7 +241,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         session.SetHeader(MetadataHeaderNames.Tijdstip, InstantPattern.General.Format(new Instant()));
         session.CorrelationId = Guid.NewGuid().ToString();
 
-        var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
+        var givenEvents = await scenario.GivenEvents(VCodeService);
 
         if (givenEvents.Length == 0)
             return [];
@@ -227,20 +259,11 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
     public async Task RefreshIndices()
         => await ElasticClient.Indices.RefreshAsync(Indices.AllIndices);
 
-    private readonly Dictionary<string, object> _ranContexts = new();
+    public List<ITestContextNew> TestContexts { get; set; } = new List<ITestContextNew>();
 
-    public void RegisterContext<T>(ITestContext<T> context)
+    public void RegisterContext(ITestContextNew context)
     {
-
-        if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
-        {
-            context.Init().GetAwaiter().GetResult();
-            _ranContexts.Add(context.GetType().Name, context.CommandResult);
-        }
-        else
-        {
-            context.CommandResult = (CommandResult<T>)ranContext;
-        }
+        TestContexts.Add(context);
     }
 
     public void Dispose()

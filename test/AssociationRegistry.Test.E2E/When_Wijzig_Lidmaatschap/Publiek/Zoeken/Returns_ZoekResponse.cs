@@ -23,11 +23,13 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
 {
     private readonly WijzigLidmaatschapContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    private readonly LidmaatschapWerdToegevoegdScenario _castedScenario;
 
     public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
+        _castedScenario = (LidmaatschapWerdToegevoegdScenario)_testContext.Scenario;
+        FeitelijkeVerenigingWerdGeregistreerd = _castedScenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
@@ -63,7 +65,7 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
             Locaties = PubliekZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
-            Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
+            Lidmaatschappen = PubliekZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode, _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging, _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId),
             Relaties = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
             Links = new VerenigingLinks()

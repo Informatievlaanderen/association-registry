@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap;
 
 using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Schema;
+using Common.Scenarios.CommandHandling;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -12,7 +13,7 @@ using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
-
+using LidmaatschapWerdToegevoegdScenario = Scenarios.Givens.FeitelijkeVereniging.LidmaatschapWerdToegevoegdScenario;
 
 // CollectionFixture for database setup ==> Context
 [CollectionDefinition(nameof(WijzigLidmaatschapCollection))]
@@ -31,10 +32,12 @@ public class WijzigLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevo
     {
     }
 
-    protected override async ValueTask ExecuteScenario(LidmaatschapWerdToegevoegdScenario scenario)
+    public override async ValueTask ExecuteCommandRequests(IScenario scenario)
     {
         CommandResult = await new WijzigLidmaatschapRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
+
+    public new LidmaatschapWerdToegevoegdScenario Scenario => Scenario as LidmaatschapWerdToegevoegdScenario;
 
 }// CollectionFixture for database setup ==> Context
 public class DatabaseFixture2 : IDisposable

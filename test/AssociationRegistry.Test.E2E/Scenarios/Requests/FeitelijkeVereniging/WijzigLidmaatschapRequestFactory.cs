@@ -5,6 +5,7 @@ using Alba;
 using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
+using Givens;
 using Givens.FeitelijkeVereniging;
 using JasperFx.Core;
 using Marten.Events;
@@ -17,9 +18,9 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
 {
     private readonly LidmaatschapWerdToegevoegdScenario _scenario;
 
-    public WijzigLidmaatschapRequestFactory(LidmaatschapWerdToegevoegdScenario scenario)
+    public WijzigLidmaatschapRequestFactory(Framework.TestClasses.IScenario scenario)
     {
-        _scenario = scenario;
+        _scenario = (LidmaatschapWerdToegevoegdScenario)scenario;
     }
 
     public async Task<CommandResult<WijzigLidmaatschapRequest>> ExecuteRequest(IApiSetup apiSetup)
@@ -38,6 +39,8 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
             Identificatie = fixture.Create<string>(),
             Beschrijving = fixture.Create<string>(),
         };
+
+
 
         await apiSetup.AdminApiHost.Scenario(s =>
         {

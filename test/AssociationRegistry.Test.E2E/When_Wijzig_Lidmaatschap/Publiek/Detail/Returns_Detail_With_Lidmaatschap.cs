@@ -9,6 +9,7 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
@@ -16,10 +17,12 @@ using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDetailResponse>
 {
     private readonly WijzigLidmaatschapContext _testContext;
+    private readonly LidmaatschapWerdToegevoegdScenario _castedScenario;
 
     public Returns_Detail_With_Lidmaatschap(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _castedScenario = (LidmaatschapWerdToegevoegdScenario)testContext.Scenario;
     }
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
@@ -34,17 +37,17 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDet
 
         var expected = new Lidmaatschap
         {
-            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
+            id = JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()),
             type = JsonLdType.Lidmaatschap.Type,
-            AndereVereniging = _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
+            AndereVereniging = _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.AndereVereniging,
             Beschrijving = _testContext.CommandRequest.Beschrijving,
             Van = _testContext.CommandRequest.Van.Value.FormatAsBelgianDate(),
             Tot = _testContext.CommandRequest.Tot.Value.FormatAsBelgianDate(),
             Identificatie = _testContext.CommandRequest.Identificatie,
-            Naam = _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
+            Naam = _castedScenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
-        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()))
+        Response.Vereniging.Lidmaatschappen.Single(x => x.id == JsonLdType.Lidmaatschap.CreateWithIdValues(_testContext.VCode, _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId.ToString()))
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 }
