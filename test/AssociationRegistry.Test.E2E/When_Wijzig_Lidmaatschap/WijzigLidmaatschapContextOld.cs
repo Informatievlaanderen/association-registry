@@ -36,10 +36,9 @@ public class WijzigLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevo
     {
         CommandResult = await new WijzigLidmaatschapRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
+}
 
-    public new LidmaatschapWerdToegevoegdScenario Scenario => Scenario as LidmaatschapWerdToegevoegdScenario;
-
-}// CollectionFixture for database setup ==> Context
+// CollectionFixture for database setup ==> Context
 public class DatabaseFixture2 : IDisposable
 {
 

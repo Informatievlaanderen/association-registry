@@ -11,6 +11,7 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
@@ -22,11 +23,14 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
 {
     private readonly WijzigLidmaatschapContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    private readonly LidmaatschapWerdToegevoegdScenario _castedScenario;
 
     public Returns_SearchVerenigingenResponse(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
+        _castedScenario = (LidmaatschapWerdToegevoegdScenario)testContext.Scenario;
+        FeitelijkeVerenigingWerdGeregistreerd = _castedScenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
+
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
@@ -68,9 +72,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             Locaties = BeheerZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = BeheerZoekResponseMapper.MapLidmaatschappen(_testContext.CommandRequest, _testContext.VCode,
-                                                                          _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap
+                                                                          _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap
                                                                                       .AndereVereniging,
-                                                                          _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap
+                                                                          _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap
                                                                                       .LidmaatschapId),
             Links = new VerenigingLinks
             {

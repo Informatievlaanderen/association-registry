@@ -10,16 +10,19 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Xunit;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]
 public class Returns_Historiek: End2EndTest<HistoriekResponse>
 {
     private readonly WijzigLidmaatschapContext _testContext;
+    private readonly LidmaatschapWerdToegevoegdScenario _castedScenario;
 
     public Returns_Historiek(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        _castedScenario = (LidmaatschapWerdToegevoegdScenario)testContext.Scenario;
     }
 
     public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
@@ -44,9 +47,9 @@ public class Returns_Historiek: End2EndTest<HistoriekResponse>
 
         lidmaatschapWerdToegevoegd.ShouldCompare(HistoriekGebeurtenisMapper.LidmaatschapWerdGewijzigd(
                                                      _testContext.CommandRequest,
-                                                     _testContext.Scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
-                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
-                                                     _testContext.Scenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam),
+                                                     _castedScenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId,
+                                                     _castedScenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
+                                                     _castedScenario.BaseScenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam),
                                                  compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

@@ -6,19 +6,22 @@ using Framework.AlbaHost;
 using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
-[Collection(WijzigLocatieContext.Name)]
+[Collection("WijzigLocatieContext")]
 public class Returns_Detail_With_Gewijzigde_Locatie : IAsyncLifetime
 {
     private readonly WijzigLocatieContext _context;
 
-    public Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext context)
+    public Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext testContext)
     {
-        _context = context;
+        _context = testContext;
+       // _castedScenario = (FeitelijkeVerenigingWerdGeregistreerdScenario)testContext.Scenario;
+
     }
 
     [Fact]
@@ -38,7 +41,7 @@ public class Returns_Detail_With_Gewijzigde_Locatie : IAsyncLifetime
             {
                 id = JsonLdType.Adres.CreateWithIdValues(_context.VCode, "1"),
                 type = JsonLdType.Adres.Type,
-                Straatnaam = _context.Request.Locatie.Adres.Straatnaam,
+                Straatnaam = _context.CommandRequest.Locatie.Adres.Straatnaam,
                 Huisnummer = "99",
                 Busnummer = "",
                 Postcode = "9200",

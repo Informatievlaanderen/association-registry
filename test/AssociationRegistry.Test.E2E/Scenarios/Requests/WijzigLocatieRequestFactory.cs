@@ -6,6 +6,7 @@ using Events;
 using Framework.ApiSetup;
 using Vereniging;
 using FeitelijkeVereniging;
+using Givens.FeitelijkeVereniging;
 using Marten;
 using Marten.Events;
 using System.Net;
@@ -15,9 +16,9 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
 {
     private readonly IFeitelijkeVerenigingWerdGeregistreerdScenario _scenario;
 
-    public WijzigLocatieRequestFactory(IFeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    public WijzigLocatieRequestFactory(Framework.TestClasses.IScenario scenario)
     {
-        _scenario = scenario;
+        _scenario = (FeitelijkeVerenigingWerdGeregistreerdScenario)scenario;
     }
 
     public async Task<CommandResult<WijzigLocatieRequest>> ExecuteRequest(IApiSetup apiSetup)
@@ -52,9 +53,6 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
         });
 
         await WaitForAdresMatchEvent(apiSetup);
-
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
         return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
