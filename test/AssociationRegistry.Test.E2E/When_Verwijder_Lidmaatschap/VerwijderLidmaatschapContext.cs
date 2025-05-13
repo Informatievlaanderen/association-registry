@@ -9,24 +9,23 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
+using Xunit;
 
-public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
+public class VerwijderLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevoegdScenario, NullRequest>
 {
-    public const string Name = "VerwijderLidmaatschapContext";
-    public VCode VCode => CommandResult.VCode;
-    public LidmaatschapWerdToegevoegdScenario Scenario { get; }
-
-    public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup)
+    protected override LidmaatschapWerdToegevoegdScenario InitializeScenario()
+        => new(new MultipleWerdGeregistreerdScenario());
+    public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async ValueTask InitializeAsync()
+    protected override async ValueTask ExecuteScenario(LidmaatschapWerdToegevoegdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new VerwijderLidmaatschapRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
+}
+
+[CollectionDefinition(nameof(VerwijderLidmaatschapCollection))]
+public class VerwijderLidmaatschapCollection : ICollectionFixture<VerwijderLidmaatschapContext>
+{
 }

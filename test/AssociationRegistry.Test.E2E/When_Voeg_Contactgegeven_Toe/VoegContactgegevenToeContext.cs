@@ -9,24 +9,25 @@ using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
+using Xunit;
 
-public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToeRequest>
+public class VoegContactgegevenToeContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VoegContactgegevenToeRequest>
 {
-    public const string Name = "VoegContactgegevenToeContext";
-    public VCode VCode => CommandResult.VCode;
-    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 
-    public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup)
+
+    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
+        => new();
+    public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new VoegContactgegevenToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new VoegContactgegevenToeRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
+}
+
+[CollectionDefinition(nameof(VoegContactgegevenToeCollection))]
+public class VoegContactgegevenToeCollection : ICollectionFixture<VoegContactgegevenToeContext>
+{
 }
