@@ -11,7 +11,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(WijzigBaisisGegevensCollection))]
+[Collection(nameof(WijzigBasisGegevensCollection))]
 public class Returns_Historiek : End2EndTest<HistoriekResponse>
 {
     private readonly WijzigBasisgegevensContext _testContext;

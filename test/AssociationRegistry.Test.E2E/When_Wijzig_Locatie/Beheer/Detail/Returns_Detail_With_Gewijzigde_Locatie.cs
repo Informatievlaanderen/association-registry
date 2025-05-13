@@ -22,7 +22,6 @@ public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigi
     public Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        testContext.ApiSetup.Logger.LogInformation("STARTING TEST {TEST}", nameof(Returns_Detail_With_Gewijzigde_Locatie));
     }
 
     [Fact]
