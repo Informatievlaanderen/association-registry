@@ -25,7 +25,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
     }
 
     public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode, headers: new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public async ValueTask With_VCode()
