@@ -3,30 +3,29 @@ namespace AssociationRegistry.Test.E2E.When_Corrigeer_Markeer_Als_Dubbel_Van;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.FeitelijkeVereniging;
-using Scenarios.Requests.FeitelijkeVereniging;
-using Vereniging;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Requests;
+using Scenarios.Requests.FeitelijkeVereniging;
+using Xunit;
 
-public class CorrigeerMarkeringAlsDubbelVanContext: TestContextBase<NullRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class CorrigeerMarkeringAlsDubbelVanCollection : ICollectionFixture<CorrigeerMarkeringAlsDubbelVanContext>
 {
-    public const string Name = "CorrigeerMarkeringAlsDubbelVanContext";
-    public VCode VCode => CommandResult.VCode;
-    public VerenigingWerdGemarkeerdAlsDubbelVanScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class CorrigeerMarkeringAlsDubbelVanContext : TestContextBase<VerenigingWerdGemarkeerdAlsDubbelVanScenario, NullRequest>
+{
+    protected override VerenigingWerdGemarkeerdAlsDubbelVanScenario InitializeScenario()
+        => new();
 
-    public CorrigeerMarkeringAlsDubbelVanContext(FullBlownApiSetup apiSetup)
+    public CorrigeerMarkeringAlsDubbelVanContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    protected override async ValueTask ExecuteScenario(VerenigingWerdGemarkeerdAlsDubbelVanScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new CorrigeerMarkeringAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new CorrigeerMarkeringAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }
