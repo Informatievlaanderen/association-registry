@@ -2,22 +2,28 @@
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
-using Framework.AlbaHost;
 using FluentAssertions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(MarkeerAlsDubbelVanContext.Name)]
-public class Returns_Detail_AuthentiekeVereniging : IAsyncLifetime
+
+[Collection(nameof(MarkeerAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly MarkeerAlsDubbelVanContext _context;
+    private readonly MarkeerAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_AuthentiekeVereniging(MarkeerAlsDubbelVanContext context, ITestOutputHelper helper)
+    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
         _helper = helper;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -44,23 +50,12 @@ public class Returns_Detail_AuthentiekeVereniging : IAsyncLifetime
 
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
-        Response.Vereniging.CorresponderendeVCodes.Should().Contain(_context.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
+        Response.Vereniging.CorresponderendeVCodes.Should().Contain(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
     }
 
     [Fact]
     public void With_Status_Is_Actief()
     {
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Actief);
-    }
-
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async ValueTask InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
     }
 }
