@@ -31,5 +31,4 @@ public class WijzigLocatieContext: TestContextBase<FeitelijkeVerenigingWerdGereg
     {
         CommandResult = await new WijzigLocatieRequestFactory(scenario).ExecuteRequest(ApiSetup);
     }
-
 }

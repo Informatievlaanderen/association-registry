@@ -11,20 +11,22 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, HistoriekResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_Historiek :  End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly WijzigBasisgegevensKboContext _testContext;
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup) =>
+         setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
-    public Returns_Historiek(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_Historiek(WijzigBasisgegevensKboContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -40,7 +42,7 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensKboTestContext, 
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingMetRechtspersoonlijkheidWerdGeregistreerd));
 
         verenigingWerdGeregistreerd.ShouldCompare(
-            HistoriekGebeurtenisMapper.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(TestContext.RegistratieData),
+            HistoriekGebeurtenisMapper.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd(_testContext.RegistratieData),
             compareConfig: HistoriekComparisonConfig.Instance);
 
         var naamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(NaamWerdGewijzigd));
@@ -49,12 +51,12 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensKboTestContext, 
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(KorteBeschrijvingWerdGewijzigd));
 
         korteBeschrijvingWerdGewijzigd.ShouldCompare(
-            HistoriekGebeurtenisMapper.KorteBeschrijvingWerdGewijzigd(TestContext.VCode, TestContext.Request.KorteBeschrijving),
+            HistoriekGebeurtenisMapper.KorteBeschrijvingWerdGewijzigd(_testContext.VCode, _testContext.CommandRequest.KorteBeschrijving),
             compareConfig: HistoriekComparisonConfig.Instance);
 
         var doelgroepWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(DoelgroepWerdGewijzigd));
 
-        doelgroepWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.DoelgroepWerdGewijzigd(TestContext.Request.Doelgroep),
+        doelgroepWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.DoelgroepWerdGewijzigd(_testContext.CommandRequest.Doelgroep),
                                              compareConfig: HistoriekComparisonConfig.Instance);
 
         var hoofdactiviteitenVerenigingsloketWerdenGewijzigd =
@@ -62,19 +64,19 @@ public class Returns_Historiek : End2EndTest<WijzigBasisgegevensKboTestContext, 
 
         hoofdactiviteitenVerenigingsloketWerdenGewijzigd.ShouldCompare(
             HistoriekGebeurtenisMapper.HoofdactiviteitenVerenigingsloketWerdenGewijzigd(
-                TestContext.Request.HoofdactiviteitenVerenigingsloket),
+                _testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
             compareConfig: HistoriekComparisonConfig.Instance);
 
         var werkingsgebiedenWerdenGewijzigd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(WerkingsgebiedenWerdenGewijzigd));
 
         werkingsgebiedenWerdenGewijzigd.ShouldCompare(
-            HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(TestContext.VCode, TestContext.Request.Werkingsgebieden),
+            HistoriekGebeurtenisMapper.WerkingsgebiedenWerdenGewijzigd(_testContext.VCode, _testContext.CommandRequest.Werkingsgebieden),
             compareConfig: HistoriekComparisonConfig.Instance);
 
         var roepnaamWerdGewijzigd = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(RoepnaamWerdGewijzigd));
 
-        roepnaamWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.RoepnaamWerdGewijzigd(TestContext.Request.Roepnaam),
+        roepnaamWerdGewijzigd.ShouldCompare(HistoriekGebeurtenisMapper.RoepnaamWerdGewijzigd(_testContext.CommandRequest.Roepnaam),
                                             compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

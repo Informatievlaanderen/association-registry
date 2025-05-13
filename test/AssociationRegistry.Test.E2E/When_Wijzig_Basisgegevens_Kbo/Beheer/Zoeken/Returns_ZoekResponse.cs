@@ -2,6 +2,7 @@
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
+using Azure.Core;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -18,14 +19,15 @@ using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, SearchVerenigingenResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly WijzigBasisgegevensKboTestContext _testContext;
+    private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext testContext)
+        : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]
@@ -43,8 +45,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
-                Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
+                Minimumleeftijd = _testContext.CommandRequest.Doelgroep.Minimumleeftijd.Value,
+                Maximumleeftijd = _testContext.CommandRequest.Doelgroep.Maximumleeftijd.Value,
             },
             VCode = _testContext.VCode,
             KorteNaam = _testContext.RegistratieData.KorteNaam,
@@ -54,14 +56,14 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = Request.Roepnaam,
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
             Startdatum = Instant.FromDateTimeOffset(
                 new DateTimeOffset(_testContext.RegistratieData.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             Lidmaatschappen = [],
@@ -71,6 +73,6 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+         => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

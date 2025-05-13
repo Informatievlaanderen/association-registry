@@ -1,32 +1,28 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Detail;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Formats;
 using JsonLdContext;
+using NodaTime;
+using Xunit;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Schema.Constants;
+using Azure.Core;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
-using NodaTime;
 
-using Xunit;
-using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
-using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
-using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
-
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
-    PubliekVerenigingDetailResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_DetailResponse : End2EndTest<PubliekVerenigingDetailResponse>
 {
-    private readonly WijzigBasisgegevensKboTestContext _testContext;
+    private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensKboContext testContext)
+        : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]
@@ -56,7 +52,7 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
             KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
@@ -64,17 +60,17 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensKboTestCont
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
             Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = Request.Roepnaam,
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
 }
