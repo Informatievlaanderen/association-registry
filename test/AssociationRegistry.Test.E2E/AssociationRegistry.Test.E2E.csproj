@@ -36,11 +36,10 @@
     <Content Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Content Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Content Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
-    <Content Remove="When_The_Api_Is_Started\**" />
-    <Content Remove="When_Verwijder_Lidmaatschap\**" />
     <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
+    <Content Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -57,13 +56,12 @@
     <Compile Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Compile Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Compile Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
-    <Compile Remove="When_The_Api_Is_Started\**" />
-    <Compile Remove="When_Verwijder_Lidmaatschap\**" />
     <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <Compile Include="When_Verwijder_Vereniging\VerwijderVerenigingContext.cs" />
+    <Compile Include="When_Verwijder_Lidmaatschap\VerwijderLidmaatschapContext.cs" />
     <Compile Include="When_Wijzig_Basisgegevens_Kbo\WijzigBasisgegevensKboContext.cs" />
+    <Compile Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -80,10 +78,10 @@
     <EmbeddedResource Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
-    <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
     <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
+    <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -100,11 +98,10 @@
     <None Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <None Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <None Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
-    <None Remove="When_The_Api_Is_Started\**" />
-    <None Remove="When_Verwijder_Lidmaatschap\**" />
     <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
+    <None Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

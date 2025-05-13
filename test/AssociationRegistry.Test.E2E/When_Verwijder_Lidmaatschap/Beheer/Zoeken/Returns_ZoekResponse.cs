@@ -1,33 +1,31 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Zoeken;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Events;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
+using Framework.TestClasses;
 using Framework.Comparison;
 using Framework.Mappers;
-using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
 using Vereniging;
-
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatschapContext, NullRequest, SearchVerenigingenResponse>
+[Collection(nameof(VerwijderLidmaatschapCollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerwijderLidmaatschapContext _testContext;
-    private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
+    private readonly FeitelijkeVerenigingWerdGeregistreerd _feitelijkeVerenigingWerdGeregistreerd;
 
-    public Returns_SearchVerenigingenResponse(VerwijderLidmaatschapContext testContext)
+    public Returns_SearchVerenigingenResponse(VerwijderLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
-        FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
+        _testContext = testContext;
+        _feitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.BaseScenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 
     [Fact]
@@ -39,39 +37,39 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderLidmaatsc
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
     {
-        Response.Verenigingen.Single().ShouldCompare(new Vereniging
+        Response.Verenigingen.Single().ShouldCompare(new Vereniging()
         {
             type = JsonLdType.FeitelijkeVereniging.Type,
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
                 id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
-                Minimumleeftijd = FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = FeitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
+                Minimumleeftijd = _feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _feitelijkeVerenigingWerdGeregistreerd.Doelgroep.Maximumleeftijd,
             },
             VCode = _testContext.VCode,
-            KorteNaam = FeitelijkeVerenigingWerdGeregistreerd.KorteNaam,
+            KorteNaam = _feitelijkeVerenigingWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = FeitelijkeVerenigingWerdGeregistreerd.Naam,
-            Startdatum = FeitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),
+            Naam = _feitelijkeVerenigingWerdGeregistreerd.Naam,
+            Startdatum = _feitelijkeVerenigingWerdGeregistreerd.Startdatum.FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(FeitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
+            HoofdactiviteitenVerenigingsloket = BeheerZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_feitelijkeVerenigingWerdGeregistreerd.HoofdactiviteitenVerenigingsloket),
             Werkingsgebieden = [],
-            Locaties = BeheerZoekResponseMapper.MapLocaties(FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
+            Locaties = BeheerZoekResponseMapper.MapLocaties(_feitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Sleutels = BeheerZoekResponseMapper.MapSleutels(_testContext.VCode),
             Lidmaatschappen = [],
-            Links = new VerenigingLinks()
+            Links = new VerenigingLinks
             {
                 Detail = new Uri($"{_testContext.AdminApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
     }
 
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }
