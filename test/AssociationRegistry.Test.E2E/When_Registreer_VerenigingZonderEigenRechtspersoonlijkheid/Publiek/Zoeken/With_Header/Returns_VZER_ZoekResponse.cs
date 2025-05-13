@@ -1,15 +1,13 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using JsonLdContext;
-using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
@@ -25,6 +23,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
     {
         _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -69,7 +70,4 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

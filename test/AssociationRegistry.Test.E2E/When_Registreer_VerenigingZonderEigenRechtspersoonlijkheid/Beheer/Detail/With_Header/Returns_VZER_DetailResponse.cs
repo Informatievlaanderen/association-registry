@@ -1,22 +1,16 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Detail.With_Header;
 
-using Admin.Api;
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
-using Vereniging.Bronnen;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+using Vereniging.Bronnen;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Verenigingssubtype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
@@ -24,8 +18,7 @@ using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
 [Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
-public class Returns_VZER_DetailResponse :
-    End2EndTest<DetailVerenigingResponse>
+public class Returns_VZER_DetailResponse : End2EndTest<DetailVerenigingResponse>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
@@ -33,6 +26,11 @@ public class Returns_VZER_DetailResponse :
     {
         _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                                        _testContext.CommandResult.Sequence)
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -67,8 +65,8 @@ public class Returns_VZER_DetailResponse :
             KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
+                Code = Vereniging.Verenigingstype.VZER.Code,
+                Naam = Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = new Verenigingssubtype()
             {
@@ -91,15 +89,4 @@ public class Returns_VZER_DetailResponse :
             Sleutels = BeheerDetailResponseMapper.MapSleutels(_testContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-    {
-            var logger = setup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
-
-            logger.LogInformation("EXECUTING GET REQUEST");
-
-        return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
-                                                            _testContext.CommandResult.Sequence)
-                        .GetAwaiter().GetResult();
-    }
 }
