@@ -1,33 +1,32 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Formats;
-using JsonLdContext;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
-using Vereniging.Bronnen;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-
+using Vereniging.Bronnen;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>,
-                                      IAsyncLifetime
+[Collection(nameof(WijzigBaisisGegevensCollection))]
+public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
 {
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
+    private readonly WijzigBasisgegevensContext _testContext;
 
-    public Returns_DetailResponse(WijzigBasisgegevensTestContext testContext)
+    public Returns_DetailResponse(WijzigBasisgegevensContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -53,37 +52,37 @@ public class Returns_DetailResponse : End2EndTest<WijzigBasisgegevensTestContext
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
-                Minimumleeftijd = Request.Doelgroep.Minimumleeftijd.Value,
-                Maximumleeftijd = Request.Doelgroep.Maximumleeftijd.Value,
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                Minimumleeftijd = _testContext.CommandRequest.Doelgroep.Minimumleeftijd.Value,
+                Maximumleeftijd = _testContext.CommandRequest.Doelgroep.Maximumleeftijd.Value,
             },
-            VCode = TestContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = Request.KorteNaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.CommandRequest.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
-                Code = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
-                Naam = AssociationRegistry.Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
+                Code = Vereniging.Verenigingstype.FeitelijkeVereniging.Code,
+                Naam = Vereniging.Verenigingstype.FeitelijkeVereniging.Naam,
             },
-            Naam = Request.Naam,
+            Naam = _testContext.CommandRequest.Naam,
             Startdatum = Instant.FromDateTimeOffset(
-                new DateTimeOffset(Request.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
+                new DateTimeOffset(_testContext.CommandRequest.Startdatum.Value.ToDateTime(new TimeOnly(12, 0, 0)))
             ).FormatAsBelgianDate(),
             Einddatum = null,
             Status = VerenigingStatus.Actief,
-            IsUitgeschrevenUitPubliekeDatastroom = Request.IsUitgeschrevenUitPubliekeDatastroom.Value,
+            IsUitgeschrevenUitPubliekeDatastroom = _testContext.CommandRequest.IsUitgeschrevenUitPubliekeDatastroom.Value,
             Contactgegevens =
-                BeheerDetailResponseMapper.MapContactgegevens(TestContext.RegistratieData.Contactgegevens,
-                                                              TestContext.VCode),
+                BeheerDetailResponseMapper.MapContactgegevens(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens,
+                                                              _testContext.VCode),
             HoofdactiviteitenVerenigingsloket =
-                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
-            Locaties = BeheerDetailResponseMapper.MapLocaties(TestContext.RegistratieData.Locaties, TestContext.VCode),
+                BeheerDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = BeheerDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
+            Locaties = BeheerDetailResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
             Vertegenwoordigers =
-                BeheerDetailResponseMapper.MapVertegenwoordigers(TestContext.RegistratieData.Vertegenwoordigers, TestContext.VCode),
+                BeheerDetailResponseMapper.MapVertegenwoordigers(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
-            Sleutels = BeheerDetailResponseMapper.MapSleutels( TestContext.VCode),
+            Sleutels = BeheerDetailResponseMapper.MapSleutels( _testContext.VCode),
             IsDubbelVan = string.Empty,
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

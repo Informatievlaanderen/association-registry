@@ -42,11 +42,11 @@
     <Content Remove="When_Verwijder_Vereniging\**" />
     <Content Remove="When_Voeg_Contactgegeven_Toe\**" />
     <Content Remove="When_Voeg_Lidmaatschap_Toe\**" />
-    <Content Remove="When_Wijzig_Basisgegevens\**" />
     <Content Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Content Remove="When_Wijzig_Concurrently\**" />
     <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
+    <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -69,11 +69,11 @@
     <Compile Remove="When_Verwijder_Vereniging\**" />
     <Compile Remove="When_Voeg_Contactgegeven_Toe\**" />
     <Compile Remove="When_Voeg_Lidmaatschap_Toe\**" />
-    <Compile Remove="When_Wijzig_Basisgegevens\**" />
     <Compile Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Compile Remove="When_Wijzig_Concurrently\**" />
     <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
+    <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -96,11 +96,11 @@
     <EmbeddedResource Remove="When_Verwijder_Vereniging\**" />
     <EmbeddedResource Remove="When_Voeg_Contactgegeven_Toe\**" />
     <EmbeddedResource Remove="When_Voeg_Lidmaatschap_Toe\**" />
-    <EmbeddedResource Remove="When_Wijzig_Basisgegevens\**" />
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <EmbeddedResource Remove="When_Wijzig_Concurrently\**" />
     <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
+    <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -123,11 +123,11 @@
     <None Remove="When_Verwijder_Vereniging\**" />
     <None Remove="When_Voeg_Contactgegeven_Toe\**" />
     <None Remove="When_Voeg_Lidmaatschap_Toe\**" />
-    <None Remove="When_Wijzig_Basisgegevens\**" />
     <None Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <None Remove="When_Wijzig_Concurrently\**" />
     <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
+    <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
