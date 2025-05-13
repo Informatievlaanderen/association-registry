@@ -3,9 +3,6 @@ namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoon
 using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
