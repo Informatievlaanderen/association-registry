@@ -1,26 +1,28 @@
 namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.Detail.With_Header;
 
-using Admin.Api;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using NodaTime;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_DetailResponse :
-    End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, DetailVerenigingResponse>
+[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
+public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 {
-    public Returns_VZER_DetailResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                                        _testContext.CommandResult.Sequence)
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -39,18 +41,4 @@ public class Returns_VZER_DetailResponse :
     [Fact]
     public async ValueTask WithKboVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-    {
-        get { return setup =>
-        {
-            var logger = setup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
-
-            logger.LogInformation("EXECUTING GET REQUEST");
-
-            return setup.AdminApiHost.GetBeheerDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
-                                                                TestContext.CommandResult.Sequence)
-                        .GetAwaiter().GetResult();
-        }; }
-    }
 }
