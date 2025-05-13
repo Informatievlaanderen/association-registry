@@ -28,7 +28,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", new RequestHeadersBuilder().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+
 
     [Fact]
     public void With_Context()

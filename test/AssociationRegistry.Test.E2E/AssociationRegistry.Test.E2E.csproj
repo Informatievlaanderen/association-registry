@@ -33,7 +33,6 @@
     <Content Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
     <Content Remove="When_The_Api_Is_Started\**" />
     <Content Remove="When_Verwijder_Lidmaatschap\**" />
-    <Content Remove="When_Verwijder_Vereniging\**" />
     <Content Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
@@ -52,11 +51,8 @@
     <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_The_Api_Is_Started\**" />
     <Compile Remove="When_Verwijder_Lidmaatschap\**" />
-    <Compile Remove="When_Verwijder_Vereniging\**" />
     <Compile Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <Compile Include="When_Verwijder_Lidmaatschap\VerwijderLidmaatschapContext.cs" />
-    <Compile Include="When_Wijzig_Basisgegevens_Kbo\WijzigBasisgegevensKboContext.cs" />
     <Compile Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
@@ -71,7 +67,6 @@
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
     <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
-    <EmbeddedResource Remove="When_Verwijder_Vereniging\**" />
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
@@ -89,7 +84,6 @@
     <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_The_Api_Is_Started\**" />
     <None Remove="When_Verwijder_Lidmaatschap\**" />
-    <None Remove="When_Verwijder_Vereniging\**" />
     <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <None Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>

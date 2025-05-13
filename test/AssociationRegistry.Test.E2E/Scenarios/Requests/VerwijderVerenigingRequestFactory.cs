@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Verwijder.RequestModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.Utilities;
@@ -26,7 +27,7 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
         };
 
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+       var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
 
             foreach (var defaultRequestHeader in apiSetup.SuperAdminHttpClient.DefaultRequestHeaders)
@@ -41,12 +42,11 @@ public class VerwijderVerenigingRequestFactory : ITestRequestFactory<VerwijderVe
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
         return new CommandResult<VerwijderVerenigingRequest>(
-            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
+            VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
     }
 }
