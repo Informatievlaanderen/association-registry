@@ -7,24 +7,23 @@ using Marten.Events;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests;
 using Vereniging;
+using When_Voeg_Contactgegeven_Toe;
+using Xunit;
 
-public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequest>
+public class VerwijderVerenigingContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VerwijderVerenigingRequest>
 {
-    public const string Name = "VerwijderVerenigingContext";
-    private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public VCode VCode => CommandResult.VCode;
+    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
+        => new();
 
-    public VerwijderVerenigingContext(FullBlownApiSetup apiSetup)
+    public VerwijderVerenigingContext(FullBlownApiSetup apiSetup) : base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        _werdGeregistreerdScenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
-    {
-        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        CommandResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.RefreshIndices();
-    }
+    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
+        => CommandResult = await new VerwijderVerenigingRequestFactory(scenario).ExecuteRequest(ApiSetup);
+}
+
+[CollectionDefinition(nameof(VerwijderVerenigingCollection))]
+public class VerwijderVerenigingCollection : ICollectionFixture<VerwijderVerenigingContext>
+{
 }
