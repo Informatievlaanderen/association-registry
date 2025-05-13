@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
+using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Alba;
 using Framework.ApiSetup;
@@ -24,7 +25,7 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
             IsDubbelVan = _scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode,
         };
 
-        await apiSetup.AdminApiHost.Scenario(s =>
+       var response = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.WithRequestHeader("Authorization", apiSetup.SuperAdminHttpClient.DefaultRequestHeaders.GetValues("Authorization").First());
             s.Post
@@ -32,11 +33,10 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/dubbelVan");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        });
+        })).Context.Response;
 
-        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
-        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        return new CommandResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new CommandResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 }
