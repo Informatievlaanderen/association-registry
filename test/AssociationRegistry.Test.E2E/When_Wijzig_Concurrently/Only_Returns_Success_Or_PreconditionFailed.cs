@@ -32,7 +32,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : End2EndTest<DetailVere
     [Fact]
     public async ValueTask TestZonderExpectedVersion()
     {
-        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithOptionalHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
+        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
         var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
@@ -73,7 +73,7 @@ public class Only_Returns_Success_Or_PreconditionFailed : End2EndTest<DetailVere
     [Fact]
     public async ValueTask TestMetExpectedVersion()
     {
-        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithOptionalHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
+        var client = _testContext.ApiSetup.AdminApiHost.CreateClientWithHeaders(_testContext.ApiSetup.SuperAdminHttpClient);
         var locatie = _testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties.First();
         var tasks = new List<Task>();
 
