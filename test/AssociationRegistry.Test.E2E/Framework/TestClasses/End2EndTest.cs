@@ -16,6 +16,8 @@ public abstract class End2EndTest<TResponse>: IAsyncLifetime
         _setup = setup;
     }
 
+
+
     public async ValueTask InitializeAsync()
     {
         _setup.Logger.LogInformation("STARTING TEST BASE INITIALIZE: {Type}", typeof(TResponse).Name);

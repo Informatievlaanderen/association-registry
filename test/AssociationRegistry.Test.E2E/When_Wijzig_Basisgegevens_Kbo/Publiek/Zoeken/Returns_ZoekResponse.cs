@@ -1,4 +1,4 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Zoeken;
 
 using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using JsonLdContext;
@@ -10,19 +10,20 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
-
+using When_Wijzig_Basisgegevens_Kbo;
+using When_Wijzig_Basisgegevens;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest,
-    SearchVerenigingenResponse>
+[Collection(nameof(WijzigBasisgegevensKbocollection))]
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly WijzigBasisgegevensKboTestContext _testContext;
+    private readonly WijzigBasisgegevensKboContext _context;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext context)
+        : base(context.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _context = context;
     }
 
     [Fact]
@@ -39,32 +40,32 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_context.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _testContext.VCode,
-            KorteBeschrijving = Request.KorteBeschrijving,
-            KorteNaam = _testContext.RegistratieData.KorteNaam,
+            VCode = _context.VCode,
+            KorteBeschrijving = _context.CommandRequest.KorteBeschrijving,
+            KorteNaam = _context.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.VZW.Code,
                 Naam = Verenigingstype.VZW.Naam,
             },
-            Naam = _testContext.RegistratieData.Naam,
-            Roepnaam = Request.Roepnaam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Naam = _context.RegistratieData.Naam,
+            Roepnaam = _context.CommandRequest.Roepnaam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_context.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_context.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Lidmaatschappen = [],
             Relaties = [],
-            Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
+            Sleutels = PubliekZoekResponseMapper.MapSleutels(_context.VCode, _context.RegistratieData.KboNummer),
             Links = new VerenigingLinks()
             {
-                Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
+                Detail = new Uri($"{_context.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_context.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_context.VCode}");
 }
