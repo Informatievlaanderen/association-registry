@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Beheer.Historiek;
 
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.Stop.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -11,20 +10,23 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<StopVerenigingContext>
+[Collection(nameof(StopVerenigingCollection))]
+public class Returns_HistoriekResponse : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly StopVerenigingContext _testContext;
 
-    public Returns_Historiek(StopVerenigingContext testContext)
+    public Returns_HistoriekResponse(StopVerenigingContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -39,7 +41,7 @@ public class Returns_Historiek : End2EndTest<StopVerenigingContext>
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdGestopt));
 
         gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGestopt(
-                                                     TestContext.Request.Einddatum.Value),
+                                                     _testContext.CommandRequest.Einddatum.Value),
                                                  compareConfig: HistoriekComparisonConfig.Instance);
     }
 }
