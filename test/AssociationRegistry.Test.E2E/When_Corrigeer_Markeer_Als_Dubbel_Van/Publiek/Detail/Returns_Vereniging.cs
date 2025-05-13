@@ -5,26 +5,24 @@ using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Public.Api.Verenigingen.Detail.ResponseModels;
-using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Vereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest,
-    PubliekVerenigingDetailResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekDetail(_testContext.Scenario.DubbeleVerenging.VCode);
 
     [Fact]
     public void Response_Not_Null()
     {
         Response.Should().NotBeNull();
     }
-
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekDetail(_context.Scenario.DubbeleVerenging.VCode);
 }

@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Remove="When_Corrigeer_Markeer_Als_Dubbel_Van\**" />
     <Content Remove="When_Markeer_Als_Dubbel_Van\**" />
     <Content Remove="When_Messages_Are_Queued\**" />
     <Content Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
@@ -47,7 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="When_Corrigeer_Markeer_Als_Dubbel_Van\**" />
     <Compile Remove="When_Markeer_Als_Dubbel_Van\**" />
     <Compile Remove="When_Messages_Are_Queued\**" />
     <Compile Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
@@ -71,7 +69,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="When_Corrigeer_Markeer_Als_Dubbel_Van\**" />
     <EmbeddedResource Remove="When_Markeer_Als_Dubbel_Van\**" />
     <EmbeddedResource Remove="When_Messages_Are_Queued\**" />
     <EmbeddedResource Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
@@ -94,7 +91,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="When_Corrigeer_Markeer_Als_Dubbel_Van\**" />
     <None Remove="When_Markeer_Als_Dubbel_Van\**" />
     <None Remove="When_Messages_Are_Queued\**" />
     <None Remove="When_OverridingMinimumScoreDuplicateDetection\**" />

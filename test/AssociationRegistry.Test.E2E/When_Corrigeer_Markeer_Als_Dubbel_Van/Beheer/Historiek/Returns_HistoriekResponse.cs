@@ -8,23 +8,25 @@ using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, HistoriekResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
 {
-    public override Func<IApiSetup, HistoriekResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_Historiek(CorrigeerMarkeringAlsDubbelVanContext testContext)
+    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(TestContext.VCode);
+        Response.VCode.ShouldCompare(_testContext.VCode);
     }
 
     [Fact]
@@ -39,7 +41,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(MarkeringDubbeleVerengingWerdGecorrigeerd));
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.MarkeringDubbeleVerengingWerdGecorrigeerd(TestContext.Scenario.VerenigingWerdGemarkeerdAlsDubbelVan),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.MarkeringDubbeleVerengingWerdGecorrigeerd(_testContext.Scenario.VerenigingWerdGemarkeerdAlsDubbelVan),
                                   compareConfig: HistoriekComparisonConfig.Instance);
     }
 }
