@@ -230,20 +230,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
     private readonly Dictionary<string, object> _ranContexts = new();
 
-    public void RegisterContext<T>(ITestContext<T> context)
-    {
-
-        if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
-        {
-            context.Init().GetAwaiter().GetResult();
-            _ranContexts.Add(context.GetType().Name, context.CommandResult);
-        }
-        else
-        {
-            context.CommandResult = (CommandResult<T>)ranContext;
-        }
-    }
-
     public void Dispose()
     {
         AdminApiHost.Dispose();
