@@ -95,16 +95,8 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
 
-        var runningDaemons = new List<Task>();
-        AdminProjectionDaemon = AdminProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
-        PublicProjectionDaemon = PublicProjectionHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
-        AcmProjectionDaemon = AcmApiHost.Services.GetRequiredService<IProjectionCoordinator>().DaemonForMainDatabase();
-        runningDaemons.Add(AdminProjectionDaemon.StartAllAsync());
-
-        runningDaemons.Add(PublicProjectionDaemon.StartAllAsync());
-        runningDaemons.Add(AcmProjectionDaemon.StartAllAsync());
-
-        Task.WaitAll(runningDaemons.ToArray());
+        await AdminProjectionHost.StartAsync();
+        await PublicProjectionHost.StartAsync();
 
     }
 
@@ -200,7 +192,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         await AcmApiHost.DisposeAsync();
     }
 
-    public async Task<KeyValuePair<string, IEvent[]>[]> ExecuteGiven(IScenario scenario)
+    public async Task<Dictionary<string, Marten.Events.IEvent[]>> ExecuteGiven(IScenario scenario)
     {
         var documentStore = AdminApiHost.DocumentStore();
 
@@ -211,17 +203,26 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         var givenEvents = await scenario.GivenEvents(AdminApiHost.Services.GetRequiredService<IVCodeService>());
 
+        var executedEvents = new Dictionary<string, Marten.Events.IEvent[]>();
         if (givenEvents.Length == 0)
             return [];
 
         foreach (var eventsPerStream in givenEvents)
         {
-            session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            var streamAction = session.Events.Append(eventsPerStream.Key, eventsPerStream.Value);
+            if(!executedEvents.ContainsKey(streamAction.Key))
+            {
+                executedEvents.Add(streamAction.Key, streamAction.Events.ToArray());
+            }
+            else
+            {
+                executedEvents[streamAction.Key] = streamAction.Events.Concat(executedEvents[streamAction.Key]).ToArray();
+            }
         }
 
         await session.SaveChangesAsync();
 
-        return givenEvents;
+        return executedEvents;
     }
 
     public async Task RefreshIndices()

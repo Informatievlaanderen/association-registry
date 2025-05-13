@@ -8,6 +8,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using Microsoft.Extensions.Logging;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
@@ -20,6 +21,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDet
     public Returns_Detail_With_Lidmaatschap(WijzigLidmaatschapContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
+        testContext.ApiSetup.Logger.LogInformation("STARTING TEST");
     }
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
