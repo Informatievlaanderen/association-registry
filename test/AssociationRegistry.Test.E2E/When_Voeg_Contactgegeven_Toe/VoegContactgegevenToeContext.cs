@@ -13,8 +13,6 @@ using Xunit;
 
 public class VoegContactgegevenToeContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, VoegContactgegevenToeRequest>
 {
-
-
     protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
         => new();
     public VoegContactgegevenToeContext(FullBlownApiSetup apiSetup) : base(apiSetup)
