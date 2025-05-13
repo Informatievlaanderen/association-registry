@@ -45,6 +45,8 @@
     <Content Remove="When_Wijzig_Basisgegevens\**" />
     <Content Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Content Remove="When_Wijzig_Concurrently\**" />
+    <Content Remove="When_Stop_Vereniging\**" />
+    <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -70,6 +72,8 @@
     <Compile Remove="When_Wijzig_Basisgegevens\**" />
     <Compile Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Compile Remove="When_Wijzig_Concurrently\**" />
+    <Compile Remove="When_Stop_Vereniging\**" />
+    <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -95,6 +99,8 @@
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens\**" />
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <EmbeddedResource Remove="When_Wijzig_Concurrently\**" />
+    <EmbeddedResource Remove="When_Stop_Vereniging\**" />
+    <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -120,6 +126,8 @@
     <None Remove="When_Wijzig_Basisgegevens\**" />
     <None Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <None Remove="When_Wijzig_Concurrently\**" />
+    <None Remove="When_Stop_Vereniging\**" />
+    <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
