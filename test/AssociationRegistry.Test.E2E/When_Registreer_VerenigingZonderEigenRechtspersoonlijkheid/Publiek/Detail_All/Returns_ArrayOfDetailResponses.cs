@@ -1,16 +1,15 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Publiek.Detail_All;
 
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
-using Azure;
+using Formats;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.Comparison;
+using Framework.Mappers;
+using Framework.TestClasses;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
@@ -29,9 +28,9 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetai
     }
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost
-                .GetPubliekDetailAll()
-                .FindVereniging(_testContext.VCode);
+        =>  setup.PublicApiHost
+                 .GetPubliekDetailAll()
+                 .FindVereniging(_testContext.VCode);
 
     [Fact]
     public void With_Context()

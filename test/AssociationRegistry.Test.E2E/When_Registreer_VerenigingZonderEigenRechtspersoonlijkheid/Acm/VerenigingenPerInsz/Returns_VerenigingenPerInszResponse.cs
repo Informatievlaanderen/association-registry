@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Acm.VerenigingenPerInsz;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Vereniging.Mappers;
 using Xunit;
@@ -22,6 +20,14 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
     {
         _testContext = testContext;
     }
+
+    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AcmApiHost.GetVerenigingenPerInsz(new VerenigingenPerInszRequest()
+                 {
+                     Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
+                     KboNummers = [],
+                 })
+                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Verenigingen()
@@ -39,22 +45,14 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                     Naam = _testContext.CommandRequest.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
+                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
-                    Verenigingssubtype =  VerenigingssubtypeCode.Default.Map<AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingssubtype>(),
+                    Verenigingssubtype =  VerenigingssubtypeCode.Default.Map<VerenigingenPerInszResponse.Verenigingssubtype>(),
                     IsHoofdvertegenwoordigerVan = true,
                 },
             ],
             KboNummers = [],
         });
     }
-
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(new VerenigingenPerInszRequest()
-                 {
-                     Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
-                     KboNummers = [],
-                 })
-                .GetAwaiter().GetResult();
 }
