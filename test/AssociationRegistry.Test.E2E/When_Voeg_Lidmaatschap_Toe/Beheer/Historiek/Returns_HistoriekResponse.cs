@@ -1,12 +1,12 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Historiek;
+﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Historiek;
 
-using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Events;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
+using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
+using AssociationRegistry.Events;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 

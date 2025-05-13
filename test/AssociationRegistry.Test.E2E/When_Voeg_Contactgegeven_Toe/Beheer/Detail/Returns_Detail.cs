@@ -4,47 +4,41 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Be.Vlaanderen.Basisregisters.Utilities;
 using FluentAssertions;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 
-[Collection(VoegContactgegevenToeContext.Name)]
-public class Returns_Detail : IAsyncLifetime
+[Collection(nameof(VoegContactgegevenToeCollection))]
+public class Returns_Detail_With_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly VoegContactgegevenToeContext _context;
+    private readonly VoegContactgegevenToeContext _testContext;
 
-    public Returns_Detail(VoegContactgegevenToeContext context)
+    public Returns_Detail_With_Lidmaatschap(VoegContactgegevenToeContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void JsonContentMatches()
     {
-        var nextContactgegevenId = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                                            .Contactgegevens.Max(x => x.ContactgegevenId) + 1;
         Response.Vereniging.Contactgegevens.Single(x => x.ContactgegevenId == nextContactgegevenId)
                 .Should().BeEquivalentTo(new Contactgegeven()
                  {
                      type = JsonLdType.Contactgegeven.Type,
-                     id = JsonLdType.Contactgegeven.CreateWithIdValues(_context.VCode, nextContactgegevenId.ToString()),
+                     id = JsonLdType.Contactgegeven.CreateWithIdValues(_testContext.VCode, nextContactgegevenId.ToString()),
                      ContactgegevenId = nextContactgegevenId,
-                     Beschrijving = _context.Request.Contactgegeven.Beschrijving,
+                     Beschrijving = _testContext.CommandRequest.Contactgegeven.Beschrijving,
                      Bron = Bron.Initiator,
-                     Contactgegeventype = _context.Request.Contactgegeven.Contactgegeventype,
-                     IsPrimair = _context.Request.Contactgegeven.IsPrimair,
-                     Waarde = _context.Request.Contactgegeven.Waarde
+                     Contactgegeventype = _testContext.CommandRequest.Contactgegeven.Contactgegeventype,
+                     IsPrimair = _testContext.CommandRequest.Contactgegeven.IsPrimair,
+                     Waarde = _testContext.CommandRequest.Contactgegeven.Waarde
                  });
-    }
-
-    public DetailVerenigingResponse Response { get; set; }
-
-    public async ValueTask InitializeAsync()
-    {
-        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
-    }
-
-    public async ValueTask DisposeAsync()
-    {
     }
 }
