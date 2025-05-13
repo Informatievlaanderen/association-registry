@@ -2,23 +2,24 @@
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
-using Framework.AlbaHost;
 using FluentAssertions;
+using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Scenarios.Requests;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail_With_Dubbel_Van : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest,
-    DetailVerenigingResponse>
+[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
+public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.Scenario.DubbeleVerenging.VCode);
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -31,7 +32,4 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<CorrigeerMarkeringAlsD
     {
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Actief);
     }
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(_context.Scenario.DubbeleVerenging.VCode);
 }
