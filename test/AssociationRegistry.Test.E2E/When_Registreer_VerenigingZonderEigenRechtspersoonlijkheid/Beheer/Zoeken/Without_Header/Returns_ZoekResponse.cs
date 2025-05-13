@@ -29,6 +29,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
         _testContext = testContext;
     }
 
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+
     [Fact]
     public void With_Context()
     {
@@ -70,7 +73,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }
