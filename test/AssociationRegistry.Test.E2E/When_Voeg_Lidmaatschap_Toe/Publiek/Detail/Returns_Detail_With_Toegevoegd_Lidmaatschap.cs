@@ -8,7 +8,7 @@ using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 
-[Collection(VoegLidmaatschapToeContext.Name)]
+[Collection(nameof(VoegLidmaatschapToeCollection))]
 public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime
 {
     private readonly VoegLidmaatschapToeContext _context;
@@ -30,11 +30,11 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : IAsyncLifetime
             id = JsonLdType.Lidmaatschap.CreateWithIdValues(_context.VCode, "1"),
             type = JsonLdType.Lidmaatschap.Type,
             //LidmaatschapId = 1,
-            AndereVereniging = _context.Request.AndereVereniging,
-            Beschrijving = _context.Request.Beschrijving,
-            Van = _context.Request.Van.FormatAsBelgianDate(),
-            Tot = _context.Request.Tot.FormatAsBelgianDate(),
-            Identificatie = _context.Request.Identificatie,
+            AndereVereniging = _context.CommandRequest.AndereVereniging,
+            Beschrijving = _context.CommandRequest.Beschrijving,
+            Van = _context.CommandRequest.Van.FormatAsBelgianDate(),
+            Tot = _context.CommandRequest.Tot.FormatAsBelgianDate(),
+            Identificatie = _context.CommandRequest.Identificatie,
             Naam = _context.Scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.Naam,
         };
 
