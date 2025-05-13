@@ -27,10 +27,5 @@ public class Returns_ProblemDetails : End2EndTest<ProblemDetails>
     }
 
     public override ProblemDetails GetResponse(FullBlownApiSetup setup)
-    {
-        var response = _context.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, 2);
-        var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-        return JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
-
-    }
+        => _context.ApiSetup.AdminApiHost.GetProblemDetailsForBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, 2);
 }
