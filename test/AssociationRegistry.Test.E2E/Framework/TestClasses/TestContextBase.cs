@@ -1,4 +1,4 @@
-namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
+﻿namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using Alba;
 using ApiSetup;
@@ -90,17 +90,24 @@ where TScenario : IScenario
 
         var counter = 0;
         while (counter < 10
-              && projectionProgress.Any(x => x.Sequence <= highWaterMark))
+              && !projectionProgress.All(x => x.Sequence >= highWaterMark))
         {
+            setup.Logger.LogWarning($"{beforeOrAfter} COMMANDS: WAITING FOR ANY projection progress for: " +
+                                    $" {string.Join(", ", projectionProgress.Where(x => x.Sequence <= highWaterMark)
+                                                                            .Select(x => $"{x.ShardName}: {x.Sequence}\n"))}");
+
             counter++;
             projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, counter);
         }
 
-        if(projectionProgress.Any(x => x.Sequence <= highWaterMark))
+        if(!projectionProgress.All(x => x.Sequence >= highWaterMark))
 
         {
-            setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
-            setup.Logger.LogCritical($"{beforeOrAfter} COMMANDS: Projection progress for {databaseSchemaName} was not high enough");
+            setup.Logger.LogCritical("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
+
+            setup.Logger.LogCritical($"{beforeOrAfter} COMMANDS: Projection progress for {databaseSchemaName} was not high enough:" +
+                                    string.Join(", ", projectionProgress.Where(x => x.Sequence <= highWaterMark)
+                                                                        .Select(x => $"{x.ShardName}: {x.Sequence}\n")));
         }
         else
         {
