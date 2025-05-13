@@ -21,7 +21,7 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<HistoriekResponse>
     }
 
     public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode, new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
