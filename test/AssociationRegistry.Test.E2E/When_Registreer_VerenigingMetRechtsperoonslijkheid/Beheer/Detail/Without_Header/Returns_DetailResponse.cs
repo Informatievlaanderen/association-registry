@@ -11,13 +11,18 @@ using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_DetailResponse :
-    End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, DetailVerenigingResponse>
+
+[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
+public class Returns_Vereniging : End2EndTest<DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
+        _testContext = testContext;
     }
+
+    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.CommandResult.VCode);
 
     [Fact]
     public void With_Context()
@@ -36,7 +41,4 @@ public class Returns_DetailResponse :
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
-
-    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.CommandResult.VCode);
 }
