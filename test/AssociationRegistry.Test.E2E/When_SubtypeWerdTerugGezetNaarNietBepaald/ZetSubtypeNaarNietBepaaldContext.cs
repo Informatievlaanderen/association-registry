@@ -4,30 +4,28 @@ using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.FeitelijkeVereniging;
-using Scenarios.Requests.FeitelijkeVereniging;
-using Vereniging;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Requests.VZER;
+using Xunit;
 
-public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(ZetSubtypeNaarNietBepaaldCollection))]
+public class ZetSubtypeNaarNietBepaaldCollection : ICollectionFixture<ZetSubtypeNaarNietBepaaldContext>
 {
-    public const string Name = "ZetSubtypeNaarNietBepaaldContext";
-    public VCode VCode => CommandResult.VCode;
-    public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class ZetSubtypeNaarNietBepaaldContext : TestContextBase<SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario, WijzigSubtypeRequest>
+{
+    protected override SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario InitializeScenario()
+        => new();
 
-    public ZetSubtypeNaarNietBepaaldContext(FullBlownApiSetup apiSetup)
+    public ZetSubtypeNaarNietBepaaldContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    protected override async ValueTask ExecuteScenario(SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(Scenario).ExecuteRequest(ApiSetup);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = await new WijzigSubtypeRequestVoorNietBepaaldFactory(scenario).ExecuteRequest(ApiSetup);
     }
 }
