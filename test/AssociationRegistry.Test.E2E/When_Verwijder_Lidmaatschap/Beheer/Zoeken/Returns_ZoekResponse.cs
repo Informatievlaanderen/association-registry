@@ -1,16 +1,15 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Zoeken;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
-using Events;
-using Formats;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Framework.Comparison;
-using Framework.Mappers;
-using JsonLdContext;
+using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Events;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Vereniging;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
@@ -71,5 +70,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 }

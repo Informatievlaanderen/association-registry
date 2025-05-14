@@ -1,10 +1,10 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Detail;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using Xunit;
 
 [Collection(nameof(VerwijderLidmaatschapCollection))]
@@ -24,5 +24,5 @@ public class Returns_Detail_Without_Lidmaatschap : End2EndTest<DetailVerenigingR
     }
 
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 }
