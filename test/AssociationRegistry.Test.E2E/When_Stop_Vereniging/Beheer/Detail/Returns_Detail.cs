@@ -20,7 +20,7 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
     }
 
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient ,_testContext.CommandResult.VCode, new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void JsonContentMatches()
