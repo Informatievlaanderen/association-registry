@@ -52,7 +52,7 @@ where TScenario : IScenario
         ApiSetup.Logger.LogWarning($"EXECUTING Scenario COMMAND REQUESTS: {Scenario}");
         await ExecuteScenario(Scenario);
 
-        ApiSetup.Logger.LogWarning($"Command Result: {@CommandResult.Sequence}");
+        ApiSetup.Logger.LogWarning($"Command Result: {@CommandResult?.Sequence}");
 
         if (CommandResult.Sequence.HasValue)
         {
