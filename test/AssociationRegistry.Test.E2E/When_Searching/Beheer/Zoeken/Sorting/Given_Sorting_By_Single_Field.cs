@@ -26,7 +26,7 @@ public class Given_Sorting_By_Single_Field
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort=-{field}",
-                                                                              new RequestParameters().V2());
+                                                                              headers: new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
@@ -47,7 +47,7 @@ public class Given_Sorting_By_Single_Field
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort={field}",
-                                                                              new RequestParameters().V2());
+                                                                              headers: new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 

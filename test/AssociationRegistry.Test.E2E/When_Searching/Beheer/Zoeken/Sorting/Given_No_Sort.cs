@@ -17,7 +17,7 @@ public class Given_No_Sort
     [Fact]
     public void Then_it_sorts_by_vcode_descending()
     {
-        var response = _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken( _testContext.ApiSetup.AdminHttpClient ,"*", new RequestParameters()).GetAwaiter().GetResult();
+        var response = _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken( _testContext.ApiSetup.AdminHttpClient ,"*", headers: new RequestParameters()).GetAwaiter().GetResult();
         var verenigingen = response.Verenigingen.Select(x => x.VCode);
         verenigingen.Should().BeInDescendingOrder();
     }

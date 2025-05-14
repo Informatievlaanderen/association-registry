@@ -69,9 +69,18 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query,
+        string? sort = "",
         RequestParameters? headers = null)
         => await SmartHttpClient.Create(source, authenticatedClient, headers).GetWithRetryAsync<SearchVerenigingenResponse>(
-            $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}");
+            $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}{AddOptionalSort(sort)}");
+
+    private static string AddOptionalSort(string sort)
+    {
+        if (string.IsNullOrEmpty(sort))
+            return string.Empty;
+
+        return $"&sort={HttpUtility.UrlEncode(sort)}";
+    }
 
     public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient baseClient)
         => SmartHttpClient.Create(source, baseClient).HttpClient;
@@ -81,16 +90,21 @@ public class SmartHttpClient
 {
     private readonly HttpClient _client;
     private readonly RequestParameters.Result? _requestParameters;
+    private readonly bool _shouldThrowOn412 = true;
 
-    private SmartHttpClient(HttpClient client, RequestParameters.Result? requestParameters)
+    private SmartHttpClient(HttpClient client, RequestParameters.Result? requestParameters, bool shouldThrowOn412 = true)
     {
         _client = client;
         _requestParameters = requestParameters;
+        _shouldThrowOn412 = shouldThrowOn412;
     }
+
+    public SmartHttpClient ShouldThrowOn412(bool shouldThrowOn412 = true)
+        => new(_client, _requestParameters, shouldThrowOn412);
 
     public HttpClient HttpClient => _client;
 
-    public async Task<TResponse> GetWithRetryAsync<TResponse>(string uri)
+    public async Task<TResponse?> GetWithRetryAsync<TResponse>(string uri)
     {
         if (_requestParameters is not null)
             uri = EmbellishUri(uri, _requestParameters);
@@ -113,7 +127,22 @@ public class SmartHttpClient
             delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds * 2);
         }
 
-        throw new HttpRequestException($"Failed to retrieve {uri} after {maxRetries} retries due to 412 responses.");
+        if(_shouldThrowOn412)
+            throw new HttpRequestException($"Failed to retrieve {uri} after {maxRetries} retries due to 412 responses.");
+
+        return default;
+    }
+
+    public async Task<TResponse> GetAsync<TResponse>(string uri)
+    {
+        if (_requestParameters is not null)
+            uri = EmbellishUri(uri, _requestParameters);
+
+        var response = await _client.GetAsync(uri);
+
+        var json = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<TResponse>(json)!;
     }
 
     private static string EmbellishUri(string uri, RequestParameters.Result requestParameters)
