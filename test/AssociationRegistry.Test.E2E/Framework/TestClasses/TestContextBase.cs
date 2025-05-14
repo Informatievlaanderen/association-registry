@@ -45,9 +45,12 @@ where TScenario : IScenario
 
         if (executedEvents.Count != 0)
         {
-            await WaitBeforeCommands(ApiSetup, executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence), ApiSetup.AdminProjectionHost, "BEFORE");
-            await WaitBeforeCommands(ApiSetup, executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence), ApiSetup.PublicProjectionHost, "BEFORE");
+            MaxSequenceByScenario = executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence);
+
+            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.AdminProjectionHost, "BEFORE");
+            await WaitBeforeCommands(ApiSetup, MaxSequenceByScenario.Value, ApiSetup.PublicProjectionHost, "BEFORE");
         }
+
 
         ApiSetup.Logger.LogWarning($"EXECUTING Scenario COMMAND REQUESTS: {Scenario}");
         await ExecuteScenario(Scenario);
@@ -62,6 +65,8 @@ where TScenario : IScenario
         ApiSetup.Logger.LogWarning($"SCENARIO SETUP DONE: {Scenario}");
         await ApiSetup.ElasticClient.Indices.RefreshAsync(Indices.All);
     }
+
+    public long? MaxSequenceByScenario { get; set; }
 
     private async Task WaitBeforeCommands(FullBlownApiSetup setup, long max, IAlbaHost host, string beforeOrAfter)
     {

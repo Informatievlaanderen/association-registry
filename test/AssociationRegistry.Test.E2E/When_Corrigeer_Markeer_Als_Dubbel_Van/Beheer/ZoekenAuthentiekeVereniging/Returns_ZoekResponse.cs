@@ -19,7 +19,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}", headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+                                              headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging?.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
