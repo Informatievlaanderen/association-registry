@@ -10,7 +10,7 @@ using Grar.GrarConsumer.Messaging;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(FullBlownApiCollection.Name)]
+[Collection(nameof(MessageQueueCollection))]
 public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 {
     private readonly FullBlownApiSetup _setup;
