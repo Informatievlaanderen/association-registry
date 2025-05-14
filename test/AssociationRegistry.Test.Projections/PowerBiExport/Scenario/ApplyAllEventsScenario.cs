@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 

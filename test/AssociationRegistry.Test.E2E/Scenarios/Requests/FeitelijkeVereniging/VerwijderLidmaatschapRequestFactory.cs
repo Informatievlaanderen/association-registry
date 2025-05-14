@@ -3,7 +3,6 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 using Admin.Api.Infrastructure;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
-using Marten.Events;
 using System.Net;
 using Vereniging;
 

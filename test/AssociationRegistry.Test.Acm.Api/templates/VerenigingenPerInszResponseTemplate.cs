@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Acm.Api.templates;
 
-using AssociationRegistry.Acm.Schema.Constants;
 using Common.Extensions;
 using Scriban;
 using Vereniging;

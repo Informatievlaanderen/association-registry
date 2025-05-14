@@ -5,7 +5,6 @@ using Formats;
 using Framework;
 using JsonLdContext;
 using Marten.Events;
-using Microsoft.Extensions.Logging.Abstractions;
 using Schema;
 using Schema.Detail;
 using Vereniging;

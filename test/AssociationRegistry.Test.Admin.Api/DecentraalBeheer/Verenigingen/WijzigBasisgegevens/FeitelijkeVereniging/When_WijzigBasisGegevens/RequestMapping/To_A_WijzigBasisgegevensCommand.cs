@@ -8,7 +8,6 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Common.Framework;
 using FluentAssertions;
-using Moq;
 using Xunit;
 
 public class To_A_WijzigBasisgegevensCommand

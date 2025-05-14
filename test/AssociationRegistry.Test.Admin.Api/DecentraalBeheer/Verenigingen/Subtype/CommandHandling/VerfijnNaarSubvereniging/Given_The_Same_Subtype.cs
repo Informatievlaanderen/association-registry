@@ -10,7 +10,6 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using FluentAssertions;
 using Resources;
-using Vereniging;
 using Vereniging.Exceptions;
 using Vereniging.Subtypes.Subvereniging;
 using Xunit;

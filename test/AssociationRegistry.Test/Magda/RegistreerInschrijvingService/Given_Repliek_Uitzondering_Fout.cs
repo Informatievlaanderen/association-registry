@@ -11,7 +11,6 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Resources;
 using Vereniging;
 using Xunit;
 

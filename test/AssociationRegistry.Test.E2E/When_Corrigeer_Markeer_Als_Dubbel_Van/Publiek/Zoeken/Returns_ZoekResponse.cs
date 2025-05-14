@@ -6,7 +6,6 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
 using Xunit;
 
 [Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]

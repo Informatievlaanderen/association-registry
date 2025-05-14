@@ -3,13 +3,11 @@
 using AssociationRegistry.Admin.AddressSync;
 using AssociationRegistry.Admin.AddressSync.Infrastructure.Notifications;
 using AssociationRegistry.Admin.AddressSync.MessageHandling.Sqs.AddressSync;
-using Grar;
 using Marten;
 using Microsoft.Extensions.Hosting.Internal;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Notifications;
-using Vereniging;
 using Wolverine;
 
 public class AddressSyncServiceTests

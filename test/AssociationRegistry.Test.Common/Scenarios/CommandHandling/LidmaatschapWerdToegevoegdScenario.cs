@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 
-using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
 using global::AutoFixture;

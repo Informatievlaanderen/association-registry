@@ -1,10 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Grar.NutsLau.When_Fetching_NutsAndLAuFromGrar;
 
 using AssociationRegistry.Grar.Clients;
-using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Grar.NutsLau;
-using AssociationRegistry.Test.Common.AutoFixture;
-using AutoFixture;
 using FluentAssertions;
 using Moq;
 using Xunit;

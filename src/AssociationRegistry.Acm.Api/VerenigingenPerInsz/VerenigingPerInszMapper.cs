@@ -3,7 +3,6 @@
 using AcmBevraging;
 using Schema.VerenigingenPerInsz;
 using System.Linq;
-using Vereniging;
 using Vereniging.Mappers;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 

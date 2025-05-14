@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Historiek;
 
 using AssociationRegistry.Admin.Api.Verenigingen.Historiek.ResponseModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Events;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
@@ -9,7 +8,6 @@ using AssociationRegistry.Test.E2E.Framework.Comparison;
 using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
 using Xunit;
 
 [Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]

@@ -10,7 +10,6 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;

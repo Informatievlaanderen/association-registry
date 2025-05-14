@@ -7,13 +7,10 @@ using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using JasperFx.Core;
 using Newtonsoft.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Web;
-using Xunit;
 
 public static class AdminApiEndpoints
 {

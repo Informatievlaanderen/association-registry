@@ -7,7 +7,6 @@ using AutoFixture;
 using Common.AutoFixture;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
-using Marten.Events;
 using System.Net;
 using Vereniging;
 

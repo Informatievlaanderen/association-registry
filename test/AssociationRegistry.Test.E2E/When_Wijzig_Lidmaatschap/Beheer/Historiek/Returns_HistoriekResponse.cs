@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Beheer.Historiek;
 
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -9,7 +8,6 @@ using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]

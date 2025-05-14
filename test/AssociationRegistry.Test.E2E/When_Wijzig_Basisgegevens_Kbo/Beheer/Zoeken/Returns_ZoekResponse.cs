@@ -1,8 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Zoeken;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
-using Azure.Core;
 using Formats;
 using JsonLdContext;
 using Framework.AlbaHost;
@@ -10,7 +8,6 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 

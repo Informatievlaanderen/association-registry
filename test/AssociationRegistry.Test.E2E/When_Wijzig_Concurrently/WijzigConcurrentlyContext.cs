@@ -4,10 +4,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.W
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 using AssociationRegistry.Test.E2E.Scenarios.Requests;
-using AssociationRegistry.Vereniging;
 using Framework.TestClasses;
-using Marten.Events;
-using When_Wijzig_Lidmaatschap;
 using Xunit;
 
 // CollectionFixture for database setup ==> Context

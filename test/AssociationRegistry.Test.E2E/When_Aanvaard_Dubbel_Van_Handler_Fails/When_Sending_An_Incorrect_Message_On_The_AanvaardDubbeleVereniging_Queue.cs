@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.When_Aanvaard_Dubbel_Van_Handler_Fails;
 
-using Acm.Api.VerenigingenPerInsz;
 using Events;
 using EventStore;
 using AssociationRegistry.Framework;
@@ -10,7 +9,6 @@ using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
-using Framework.TestClasses;
 using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using NodaTime;

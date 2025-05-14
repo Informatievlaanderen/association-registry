@@ -1,29 +1,19 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Searching.Beheer.Zoeken.Sorting;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using KellermanSoftware.CompareNetObjects;
-using Scenarios.Requests;
 using System.Reflection;
 using Xunit;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Given_Sorting_By_Multiple_Fields : End2EndTest<SearchContext, NullRequest, SearchVerenigingenResponse>
+[Collection(nameof(SearchCollection))]
+public class Given_Sorting_By_Multiple_Fields
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Multiple_Fields(SearchContext testContext)
-    {
-        TestContext = _testContext = testContext;
-    }
+    public Given_Sorting_By_Multiple_Fields( SearchContext testContext)
 
-    [Fact]
-    public void With_Context()
     {
-        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
+        _testContext = testContext;
     }
 
     [Theory]
@@ -32,8 +22,9 @@ public class Given_Sorting_By_Multiple_Fields : End2EndTest<SearchContext, NullR
     [InlineData("verenigingstype.code", "vCode")]
     public async Task Then_it_sorts_by_Verenigingstype_then_by_vCode_descending_V2(string ascendingField, string descendingField)
     {
-        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort={ascendingField},-{descendingField}");
+        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
+                                                                              $"*&sort={ascendingField},-{descendingField}",
+                                                                              new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
@@ -60,8 +51,9 @@ public class Given_Sorting_By_Multiple_Fields : End2EndTest<SearchContext, NullR
     [InlineData("verenigingstype.code", "vCode")]
     public async Task? Then_it_sorts_descending_then_ascending_V2(string descendingField, string ascendingField)
     {
-        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort=-{descendingField},{ascendingField}");
+        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
+                                                                              $"*&sort=-{descendingField},{ascendingField}",
+                                                                              new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
@@ -88,7 +80,4 @@ public class Given_Sorting_By_Multiple_Fields : End2EndTest<SearchContext, NullR
 
         return propInfo?.GetValue(obj, null);
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken("*&sort=verenigingstype.code");
 }

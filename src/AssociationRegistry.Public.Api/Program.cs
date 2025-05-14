@@ -14,7 +14,6 @@ using Be.Vlaanderen.Basisregisters.Middleware.AddProblemJsonHeader;
 using Constants;
 using Destructurama;
 using FluentValidation;
-using Framework;
 using Infrastructure.Caching;
 using Infrastructure.ConfigurationBindings;
 using Infrastructure.Extensions;
@@ -35,10 +34,8 @@ using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 using OpenTelemetry.Extensions;
 using Queries;
-using Schema.Detail;
 using Serilog;
 using Serilog.Debugging;
-using System.Diagnostics;
 using System.Globalization;
 using System.IO.Compression;
 using System.Net;
@@ -46,9 +43,7 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using Vereniging;
-using Verenigingen.Detail;
 using Verenigingen.DetailAll;
-using Verenigingen.Search;
 using IExceptionHandler = Be.Vlaanderen.Basisregisters.Api.Exceptions.IExceptionHandler;
 
 public class Program

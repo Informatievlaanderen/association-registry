@@ -4,7 +4,6 @@ using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
-using Common.AutoFixture;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
@@ -13,7 +12,6 @@ using Nest;
 using Vereniging;
 
 using Xunit;
-using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(PublicApiCollection))]
 public class When_Searching_On_Type

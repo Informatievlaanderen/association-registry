@@ -17,7 +17,6 @@ using Hosts.Configuration.ConfigurationBindings;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using ResultNet;
-using Vereniging;
 using Wolverine;
 using Xunit;
 using Verenigingstype = Vereniging.Verenigingstype;

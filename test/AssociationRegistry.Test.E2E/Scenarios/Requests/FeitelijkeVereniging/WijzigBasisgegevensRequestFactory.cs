@@ -9,7 +9,6 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
-using Marten.Events;
 using System.Net;
 
 public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasisgegevensRequest>

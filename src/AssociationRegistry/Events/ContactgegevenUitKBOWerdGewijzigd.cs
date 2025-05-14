@@ -2,7 +2,6 @@ namespace AssociationRegistry.Events;
 
 
 using System.Runtime.Serialization;
-using Vereniging;
 using Vereniging.Bronnen;
 
 public record ContactgegevenUitKBOWerdGewijzigd(

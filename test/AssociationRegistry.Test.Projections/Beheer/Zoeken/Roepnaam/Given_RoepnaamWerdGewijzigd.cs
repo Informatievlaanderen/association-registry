@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Roepnaam;
 
 using AssociationRegistry.Test.Projections.Scenario.Roepnaam;
-using Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_RoepnaamWerdGewijzigd(

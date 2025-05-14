@@ -23,19 +23,6 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Remove="When_Searching\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Compile Remove="When_Searching\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Remove="When_Searching\**" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Remove="When_Searching\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

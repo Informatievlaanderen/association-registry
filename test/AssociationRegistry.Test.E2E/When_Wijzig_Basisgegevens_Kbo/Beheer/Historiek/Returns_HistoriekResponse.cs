@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Beheer.Historiek;
 
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

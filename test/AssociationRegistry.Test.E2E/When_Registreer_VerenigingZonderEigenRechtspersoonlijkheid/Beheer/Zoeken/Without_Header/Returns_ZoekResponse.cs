@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid.Beheer.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Formats;
 using JsonLdContext;
@@ -9,10 +8,8 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 using DoelgroepResponse = Admin.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;

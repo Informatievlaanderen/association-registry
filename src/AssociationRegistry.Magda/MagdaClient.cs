@@ -3,7 +3,6 @@ namespace AssociationRegistry.Magda;
 using Extensions;
 using Framework;
 using Hosts.Configuration.ConfigurationBindings;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Models;
 using Models.GeefOnderneming;

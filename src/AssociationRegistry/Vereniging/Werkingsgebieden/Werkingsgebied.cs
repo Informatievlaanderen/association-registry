@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Vereniging;
 
-using Exceptions;
-
 public record Werkingsgebied
 {
     public static readonly Werkingsgebied[] ProvincieWerkingsgebieden = new[]

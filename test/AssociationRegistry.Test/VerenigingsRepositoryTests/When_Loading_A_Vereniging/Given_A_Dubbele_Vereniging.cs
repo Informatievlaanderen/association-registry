@@ -1,13 +1,11 @@
 ﻿namespace AssociationRegistry.Test.VerenigingsRepositoryTests.When_Loading_A_Vereniging;
 
 using AssociationRegistry.EventStore;
-using AssociationRegistry.Framework;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
-using EventStore;
 using FluentAssertions;
 using Framework;
 using Resources;
