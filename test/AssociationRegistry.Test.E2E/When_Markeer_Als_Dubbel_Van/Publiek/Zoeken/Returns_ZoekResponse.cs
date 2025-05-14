@@ -19,7 +19,6 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     {
         _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
-
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
