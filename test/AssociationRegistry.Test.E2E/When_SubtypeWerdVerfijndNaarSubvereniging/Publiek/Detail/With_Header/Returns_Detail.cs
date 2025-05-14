@@ -1,30 +1,30 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail.With_Header;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Public.Api;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Vereniging;
 using Xunit;
 using SubverenigingVan = Public.Api.Verenigingen.Detail.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingssubtype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
-{
-    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context)
+[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
+public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
+{
+    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
+
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
 
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                                          _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
     [Fact]
     public void With_Context()
     {
@@ -44,23 +44,10 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
 
         Response.Vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
-            Naam = _context.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
-            AndereVereniging = _context.Request.AndereVereniging!,
-            Beschrijving = _context.Request.Beschrijving!,
-            Identificatie = _context.Request.Identificatie!,
+            Naam = _testContext.Scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            AndereVereniging = _testContext.CommandRequest.AndereVereniging!,
+            Beschrijving = _testContext.CommandRequest.Beschrijving!,
+            Identificatie = _testContext.CommandRequest.Identificatie!,
         });
-    }
-
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
-    {
-        get { return setup =>
-        {
-            var logger = setup.PublicApiHost.Services.GetRequiredService<ILogger<Program>>();
-
-            logger.LogInformation("EXECUTING GET REQUEST");
-
-            return setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, TestContext.CommandResult.VCode,
-                                                                  TestContext.CommandResult.Sequence).GetAwaiter().GetResult();
-        }; }
     }
 }
