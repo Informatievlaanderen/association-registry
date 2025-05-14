@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail_All;
 
-using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Formats;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -20,20 +19,20 @@ using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenig
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
+[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
+public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
 {
-    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
-        setup => setup.PublicApiHost
-                      .GetPubliekDetailAll()
-                      .FindVereniging(TestContext.VCode);
-
-    public Returns_ArrayOfDetailResponses(VerfijnSubtypeNaarSubverenigingContext testContext)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
     {
-        _context = testContext;
+        _testContext = testContext;
     }
+
+    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost
+                 .GetPubliekDetailAll()
+                 .FindVereniging(_testContext.CommandResult.VCode);
 
     [Fact]
     public void With_Context()
@@ -57,13 +56,13 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubv
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
-                Minimumleeftijd = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Minimumleeftijd,
-                Maximumleeftijd = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Maximumleeftijd,
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                Minimumleeftijd = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Minimumleeftijd,
+                Maximumleeftijd = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Doelgroep.Maximumleeftijd,
             },
-            VCode = TestContext.VCode,
-            KorteBeschrijving = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteBeschrijving,
-            KorteNaam = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteBeschrijving,
+            KorteNaam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
@@ -76,18 +75,18 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubv
             },
             SubverenigingVan = new SubverenigingVan()
             {
-                AndereVereniging = _context.Request.AndereVereniging!,
-                Beschrijving = _context.Request.Beschrijving!,
-                Identificatie = _context.Request.Identificatie!,
+                AndereVereniging = _testContext.CommandRequest.AndereVereniging!,
+                Beschrijving = _testContext.CommandRequest.Beschrijving!,
+                Identificatie = _testContext.CommandRequest.Identificatie!,
             },
-            Naam = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
-            Startdatum = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value,
+            Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
+            Startdatum = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Startdatum.Value,
             Status = VerenigingStatus.Actief,
-            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Contactgegevens, TestContext.VCode),
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => x.Code).ToArray()),
+            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Contactgegevens, _testContext.VCode),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.HoofdactiviteitenVerenigingsloket.Select(x => x.Code).ToArray()),
             Werkingsgebieden = [],
-            Locaties = PubliekDetailResponseMapper.MapLocaties(_context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties, TestContext.VCode),
+            Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Locaties, _testContext.VCode),
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }
