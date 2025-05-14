@@ -17,16 +17,19 @@ using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
 using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
+public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",new RequestParameters()
+                                                 .WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
     [Fact]
     public void With_Context()
     {
@@ -40,7 +43,4 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaar
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeNull();
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

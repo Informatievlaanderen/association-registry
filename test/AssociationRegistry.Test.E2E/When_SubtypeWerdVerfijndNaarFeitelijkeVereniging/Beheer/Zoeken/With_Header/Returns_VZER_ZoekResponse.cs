@@ -1,35 +1,29 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.Comparison;
-using AssociationRegistry.Test.E2E.Framework.Mappers;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Search.ResponseModels;
 using FluentAssertions;
-using Formats;
 using Framework.AlbaHost;
-using JsonLdContext;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using NodaTime;
 using Vereniging;
 using Vereniging.Mappers;
-using Weasel.Postgresql.Tables.Partitioning;
-using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
-using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
+public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
 
-    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",new RequestParameters()
+                                                 .V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -44,7 +38,4 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>());
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

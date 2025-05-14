@@ -1,10 +1,9 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Publiek.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Subtype.RequestModels;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Vereniging;
@@ -12,15 +11,18 @@ using Vereniging.Mappers;
 using Xunit;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
-[Collection(FullBlownApiCollection.Name)]
-public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
+[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
+public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
 
-    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
+
+    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
+        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -35,7 +37,4 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarFeitelijk
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.FeitelijkeVereniging.Map<Verenigingssubtype>());
     }
-
-    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }
