@@ -29,7 +29,6 @@
     <Content Remove="When_Retrieving_Detail\**" />
     <Content Remove="When_Searching\**" />
     <Content Remove="When_The_Api_Is_Started\**" />
-    <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <Content Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
@@ -40,7 +39,6 @@
     <Compile Remove="When_Retrieving_Detail\**" />
     <Compile Remove="When_Searching\**" />
     <Compile Remove="When_The_Api_Is_Started\**" />
-    <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <Compile Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
@@ -51,7 +49,6 @@
     <EmbeddedResource Remove="When_Retrieving_Detail\**" />
     <EmbeddedResource Remove="When_Searching\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
-    <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
@@ -62,7 +59,6 @@
     <None Remove="When_Retrieving_Detail\**" />
     <None Remove="When_Searching\**" />
     <None Remove="When_The_Api_Is_Started\**" />
-    <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
     <None Remove="When_The_Api_Is_Started\**" />
   </ItemGroup>
 
