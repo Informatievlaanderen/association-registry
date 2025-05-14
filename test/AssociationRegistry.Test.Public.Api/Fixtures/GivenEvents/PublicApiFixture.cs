@@ -132,7 +132,7 @@ public class PublicApiFixture : IDisposable, IAsyncLifetime
 
         var retry = Policy
                    .Handle<Exception>()
-                   .WaitAndRetryAsync(retryCount: 3, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
+                   .WaitAndRetryAsync(retryCount: 5, sleepDurationProvider: i => TimeSpan.FromSeconds(10 * i));
 
         await retry.ExecuteAsync(
             async () =>
