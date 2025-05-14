@@ -12,11 +12,14 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
-public class Returns_Historiek :  End2EndTest<HistoriekResponse>
+public class Returns_Historiek : End2EndTest<HistoriekResponse>
 {
     private readonly WijzigBasisgegevensKboContext _testContext;
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup) =>
-         setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
+
+    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
+        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode,
+                                                 new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence))
+                .GetAwaiter().GetResult();
 
     public Returns_Historiek(WijzigBasisgegevensKboContext testContext) : base(testContext.ApiSetup)
     {
