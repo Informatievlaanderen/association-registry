@@ -23,7 +23,6 @@
 
   <ItemGroup>
     <Content Include="appsettings.*.json" CopyToOutputDirectory="Always" />
-    <Content Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
     <Content Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <Content Remove="When_Retrieving_Detail\**" />
     <Content Remove="When_Searching\**" />
@@ -32,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
     <Compile Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <Compile Remove="When_Retrieving_Detail\**" />
     <Compile Remove="When_Searching\**" />
@@ -41,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
     <EmbeddedResource Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <EmbeddedResource Remove="When_Retrieving_Detail\**" />
     <EmbeddedResource Remove="When_Searching\**" />
@@ -50,7 +47,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="When_OverridingMinimumScoreDuplicateDetection\**" />
     <None Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <None Remove="When_Retrieving_Detail\**" />
     <None Remove="When_Searching\**" />
