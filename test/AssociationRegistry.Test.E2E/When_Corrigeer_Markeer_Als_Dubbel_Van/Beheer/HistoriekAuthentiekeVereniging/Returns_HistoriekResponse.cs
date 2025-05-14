@@ -24,7 +24,9 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
     }
 
     public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode, headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+        => setup.AdminApiHost.GetBeheerHistoriek(
+            setup.AdminHttpClient ,_testContext.Scenario.AuthentiekeVereniging.VCode,
+            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
 
     [Fact]
