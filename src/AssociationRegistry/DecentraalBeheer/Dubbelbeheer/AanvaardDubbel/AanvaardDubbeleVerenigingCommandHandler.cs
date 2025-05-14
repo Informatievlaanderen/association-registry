@@ -1,11 +1,9 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.AanvaardDubbel;
 
-using EventStore;
 using Framework;
 using Messages;
 using Vereniging;
 using Be.Vlaanderen.Basisregisters.AggregateSource;
-using NodaTime;
 using Wolverine;
 
 public class AanvaardDubbeleVerenigingCommandHandler(

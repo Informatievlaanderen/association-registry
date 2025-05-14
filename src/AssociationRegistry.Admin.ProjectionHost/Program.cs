@@ -8,7 +8,6 @@ using Infrastructure.Extensions;
 using Infrastructure.Json;
 using Infrastructure.Metrics;
 using Infrastructure.Program;
-using Infrastructure.Program.WebApplication;
 using Infrastructure.Program.WebApplicationBuilder;
 using JasperFx.CodeGeneration;
 using Marten.Events.Daemon;

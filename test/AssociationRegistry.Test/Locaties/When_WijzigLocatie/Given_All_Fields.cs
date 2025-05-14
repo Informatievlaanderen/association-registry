@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.Locaties.When_WijzigLocatie;
 
 using AssociationRegistry.Events;
-using AssociationRegistry.Framework;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AutoFixture;

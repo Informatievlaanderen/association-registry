@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Hosts.Configuration.ConfigurationBindings;
 
-using Marten;
-using Microsoft.Extensions.Caching.Memory;
 using System;
 
 public class AppSettings

@@ -4,7 +4,6 @@ using Framework;
 using Marten;
 using Metrics;
 using Vereniging;
-using Vereniging.Exceptions;
 
 public class VerenigingsRepository : IVerenigingsRepository
 {

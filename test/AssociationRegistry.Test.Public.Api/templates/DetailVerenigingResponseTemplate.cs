@@ -1,7 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Public.Api.templates;
 
-using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using AssociationRegistry.Public.Schema.Constants;
 using Common.Extensions;
 using Events;
 using Formats;

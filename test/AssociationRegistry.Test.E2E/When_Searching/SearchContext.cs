@@ -2,29 +2,29 @@ namespace AssociationRegistry.Test.E2E.When_Searching;
 
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Marten.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests;
-using Vereniging;
+using Xunit;
 
-public class SearchContext: TestContextBase<NullRequest>
+// CollectionFixture for database setup ==> Context
+[CollectionDefinition(nameof(SearchCollection))]
+public class SearchCollection : ICollectionFixture<SearchContext>
 {
-    public const string Name = "SearchContext";
-    public VCode VCode => CommandResult.VCode;
-    public SearchScenario Scenario { get; }
+    // This class has no code, and is never created. Its purpose is simply
+    // to be the place to apply [CollectionDefinition] and all the
+    // ICollectionFixture<> interfaces.
+}
+public class SearchContext : TestContextBase<SearchScenario, NullRequest>
+{
+    protected override SearchScenario InitializeScenario()
+        => new();
 
-    public SearchContext(FullBlownApiSetup apiSetup)
+    public SearchContext(FullBlownApiSetup apiSetup): base(apiSetup)
     {
-        ApiSetup = apiSetup;
-        Scenario = new SearchScenario();
     }
 
-    public override async ValueTask InitializeAsync()
+    protected override async ValueTask ExecuteScenario(SearchScenario scenario)
     {
-        await ApiSetup.ExecuteGiven(Scenario);
-        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
-        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        CommandResult = CommandResult<NullRequest>.NullCommandResult();
     }
 }

@@ -12,7 +12,6 @@ using Xunit;
 
 using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
-using Public.Schema.Search;
 using Vereniging;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 

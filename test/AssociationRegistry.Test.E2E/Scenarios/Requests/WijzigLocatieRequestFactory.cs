@@ -8,7 +8,6 @@ using Framework.ApiSetup;
 using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
-using Marten.Events;
 using System.Net;
 using Adres = Admin.Api.Verenigingen.Common.Adres;
 

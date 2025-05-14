@@ -1,7 +1,5 @@
 namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
-using Events;
-
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdGewijzigd(PowerBiScenarioFixture<LocatieWerdGewijzigdEventsScenario> fixture) : PowerBiScenarioClassFixture<LocatieWerdGewijzigdEventsScenario>
 {

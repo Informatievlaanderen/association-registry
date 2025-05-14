@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 
-using AssociationRegistry.Vereniging;
 using System.ComponentModel;
 using System.Runtime.Serialization;
 

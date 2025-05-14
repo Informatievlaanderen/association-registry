@@ -4,7 +4,6 @@ using Framework;
 using Infrastructure.Extensions;
 using Marten;
 using Schema.Detail;
-using Verenigingen.Detail;
 
 public interface IPubliekVerenigingenDetailAllQuery : IQuery<IAsyncEnumerable<PubliekVerenigingDetailDocument>>;
 

@@ -8,7 +8,6 @@ using Framework.TestClasses;
 using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;

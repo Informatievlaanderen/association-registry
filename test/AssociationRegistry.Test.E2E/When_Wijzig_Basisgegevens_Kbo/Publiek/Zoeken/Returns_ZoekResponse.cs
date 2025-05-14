@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Zoeken;
 
-using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using JsonLdContext;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Framework.AlbaHost;
@@ -11,7 +10,6 @@ using Framework.TestClasses;
 using Vereniging;
 using KellermanSoftware.CompareNetObjects;
 using When_Wijzig_Basisgegevens_Kbo;
-using When_Wijzig_Basisgegevens;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 

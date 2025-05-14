@@ -4,7 +4,6 @@ using AssociationRegistry.Grar.NutsLau;
 using AutoFixture;
 using Common.AutoFixture;
 using Common.Framework;
-using FluentAssertions;
 using Vereniging;
 using Vereniging.Exceptions;
 using Xunit;

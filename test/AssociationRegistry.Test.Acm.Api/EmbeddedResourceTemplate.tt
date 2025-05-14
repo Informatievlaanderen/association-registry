@@ -3,9 +3,6 @@ namespace AssociationRegistry.Test.Acm.Api;
 <#@ template debug="true" language="C#" #>
 <#@ output extension=".cs" #>
 <#@ assembly name="System.Xml.Linq, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" #>
-<#@ import namespace="System.IO" #>
-<#@ import namespace="System.Xml.Linq" #>
-<#@ import namespace="System.Linq" #>
 public static class EmbeddedResources {
 <#
   string GetRelativePath(string fromPath, string toPath)

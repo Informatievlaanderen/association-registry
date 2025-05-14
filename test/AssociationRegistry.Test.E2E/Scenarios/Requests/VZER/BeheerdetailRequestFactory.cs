@@ -3,16 +3,13 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
 using Alba;
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using Hosts.Configuration.ConfigurationBindings;
 using AssociationRegistry.Test.Common.AutoFixture;
 using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
-using Adres = Admin.Api.Verenigingen.Common.Adres;
 
 public class BeheerdetailRequestFactory : ITestRequestFactory<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {

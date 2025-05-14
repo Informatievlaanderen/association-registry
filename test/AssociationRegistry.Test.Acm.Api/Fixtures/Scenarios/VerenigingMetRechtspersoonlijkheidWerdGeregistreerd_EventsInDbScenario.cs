@@ -4,7 +4,6 @@ using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AutoFixture;
 using Events;
-using EventStore;
 using Framework;
 using Vereniging;
 

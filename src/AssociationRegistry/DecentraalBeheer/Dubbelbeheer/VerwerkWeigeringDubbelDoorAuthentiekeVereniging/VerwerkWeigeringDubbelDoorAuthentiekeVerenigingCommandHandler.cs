@@ -1,12 +1,10 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.VerwerkWeigeringDubbelDoorAuthentiekeVereniging;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Notifications.Messages;
 using AssociationRegistry.Vereniging;
 using Microsoft.Extensions.Logging;
-using NodaTime;
 using Polly;
 
 public class VerwerkWeigeringDubbelDoorAuthentiekeVerenigingCommandHandler(

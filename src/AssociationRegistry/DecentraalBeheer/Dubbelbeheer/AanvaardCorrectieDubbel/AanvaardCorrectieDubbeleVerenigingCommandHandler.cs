@@ -1,9 +1,7 @@
 ﻿namespace AssociationRegistry.DecentraalBeheer.Dubbelbeheer.AanvaardCorrectieDubbel;
 
-using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
-using NodaTime;
 
 public class AanvaardCorrectieDubbeleVerenigingCommandHandler(
     IVerenigingsRepository repository)

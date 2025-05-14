@@ -4,7 +4,6 @@ using DuplicateVerenigingDetection;
 using Hosts.Configuration.ConfigurationBindings;
 using System.Collections.Immutable;
 using System.Runtime.Serialization;
-using Vereniging;
 using Vereniging.Mappers;
 
 [DataContract]

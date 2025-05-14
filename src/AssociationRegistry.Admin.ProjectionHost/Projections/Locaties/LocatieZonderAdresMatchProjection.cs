@@ -1,14 +1,9 @@
 ﻿namespace AssociationRegistry.Admin.ProjectionHost.Projections.Locaties;
 
 using Events;
-using Grar;
 using Grar.Clients;
-using Marten;
-using Marten.Events;
 using Marten.Events.Aggregation;
-using Marten.Events.Projections;
 using Schema.Detail;
-using System.Data;
 using Vereniging;
 
 public class LocatieZonderAdresMatchProjection : SingleStreamProjection<LocatieZonderAdresMatchDocument>

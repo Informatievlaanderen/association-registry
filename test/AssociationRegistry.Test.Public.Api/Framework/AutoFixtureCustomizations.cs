@@ -4,7 +4,6 @@ using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Common.AutoFixture;
-using Formats;
 using JsonLdContext;
 using Vereniging;
 

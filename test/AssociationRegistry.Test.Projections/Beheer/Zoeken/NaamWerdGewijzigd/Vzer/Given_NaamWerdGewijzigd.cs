@@ -1,7 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.NaamWerdGewijzigd.Vzer;
 
 using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Vzer;
-using Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NaamWerdGewijzigd(

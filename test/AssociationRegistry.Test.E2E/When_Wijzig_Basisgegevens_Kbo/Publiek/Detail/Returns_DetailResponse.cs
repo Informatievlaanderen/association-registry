@@ -6,7 +6,6 @@ using NodaTime;
 using Xunit;
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Schema.Constants;
-using Azure.Core;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;

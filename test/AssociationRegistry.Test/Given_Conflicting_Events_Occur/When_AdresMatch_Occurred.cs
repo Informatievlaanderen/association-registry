@@ -7,7 +7,6 @@ using AutoFixture.Kernel;
 using Common.AutoFixture;
 using Common.Framework;
 using Events;
-using EventStore;
 using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;

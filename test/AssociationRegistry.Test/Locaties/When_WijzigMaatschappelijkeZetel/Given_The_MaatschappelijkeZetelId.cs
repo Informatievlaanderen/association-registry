@@ -1,6 +1,5 @@
 ﻿namespace AssociationRegistry.Test.Locaties.When_WijzigMaatschappelijkeZetel;
 
-using AssociationRegistry.Events;
 using AssociationRegistry.Test.Common.AutoFixture;
 using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;

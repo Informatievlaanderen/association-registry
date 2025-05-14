@@ -5,7 +5,6 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
-using When_Wijzig_Lidmaatschap;
 using Xunit;
 
 // CollectionFixture for database setup ==> Context

@@ -1,8 +1,5 @@
 ﻿namespace AssociationRegistry.Events;
 
-
-using Vereniging;
-
 public record VertegenwoordigerWerdGewijzigd(
     int VertegenwoordigerId,
     bool IsPrimair,

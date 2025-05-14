@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Nest;
-using Newtonsoft.Json;
 using Schema.Search;
 
 public class ElasticRepository : IElasticRepository

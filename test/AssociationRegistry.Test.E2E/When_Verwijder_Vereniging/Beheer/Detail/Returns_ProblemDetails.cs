@@ -5,7 +5,6 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using Newtonsoft.Json;
 using Xunit;
 
 [Collection(nameof(VerwijderVerenigingCollection))]
