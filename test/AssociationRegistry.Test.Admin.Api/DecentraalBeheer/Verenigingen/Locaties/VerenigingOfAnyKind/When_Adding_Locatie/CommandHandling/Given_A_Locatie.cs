@@ -29,7 +29,7 @@ public class Given_A_Locatie
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_A_LocatieWerdToegevoegd_Event_Is_Saved(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
@@ -57,7 +57,7 @@ public class Given_A_Locatie
 
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task Then_An_EntityId_Is_Returned(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_An_EntityId_Is_Returned(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 

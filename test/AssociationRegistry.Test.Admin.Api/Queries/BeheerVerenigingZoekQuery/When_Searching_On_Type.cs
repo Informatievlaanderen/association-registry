@@ -71,7 +71,7 @@ public class When_Searching_On_Type
     [InlineData("verenigingstype.code: vzer AND verenigingstype.code: fv")]
     [InlineData("verenigingstype.code: vzer AND naam:de kleine vereniging AND verenigingstype.code: fv")]
     [InlineData("naam:de kleine vereniging AND verenigingstype.code: vzer AND verenigingstype.code: fv")]
-    public async Task With_FV_In_Query_Returns_FV_And_VZER(string query)
+    public async ValueTask With_FV_In_Query_Returns_FV_And_VZER(string query)
     {
         var indexFeitelijke = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_feitelijkeVereniging);
         var indexVzer = await _elasticClient.IndexDocumentAsync<VerenigingZoekDocument>(_vzer);

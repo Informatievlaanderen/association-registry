@@ -28,7 +28,7 @@ public class Given_An_Authentieke_Vereniging
 
     [Theory]
     [InlineData(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype.Feitelijke)]
-    public async Task Then_It_Throws(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
+    public async ValueTask Then_It_Throws(VerenigingAanvaarddeDubbeleVerenigingScenario.Verenigingstype verenigingstype)
     {
         var scenario = new VerenigingAanvaarddeDubbeleVerenigingScenario(verenigingstype);
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());

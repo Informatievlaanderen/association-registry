@@ -63,7 +63,7 @@ public class With_Html_Fields
 
     [Theory]
     [ClassData(typeof(When_RegistreerVerenigingZonderEigenRechtspersoonlijkheid_WithHtmlFields_Data))]
-    public async Task Then_it_returns_a_bad_request_response(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request)
+    public async ValueTask Then_it_returns_a_bad_request_response(RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest request)
     {
         var response = await _fixture.DefaultClient.RegistreerVerenigingZonderEigenRechtspersoonlijkheid(GetJsonBody(request));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

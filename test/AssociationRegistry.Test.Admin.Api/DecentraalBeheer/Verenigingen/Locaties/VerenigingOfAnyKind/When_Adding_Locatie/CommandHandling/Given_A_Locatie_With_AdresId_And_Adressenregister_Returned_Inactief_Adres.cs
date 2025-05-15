@@ -22,7 +22,7 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_Inactief
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public async Task Then_Throws_AdressenregisterReturnedInactiefAdres(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async ValueTask Then_Throws_AdressenregisterReturnedInactiefAdres(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 

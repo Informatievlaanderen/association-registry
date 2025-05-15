@@ -31,7 +31,7 @@ public class Given_Some_Updates
 
     [Theory]
     [InlineData("V9999047", "Vereniging van Technologïeënthusiasten: Inováçie & Ëntwikkeling")]
-    public async Task? Then_A_DuplicateIsDetected_WithDifferentCapitalization(
+    public async ValueTask Then_A_DuplicateIsDetected_WithDifferentCapitalization(
         string duplicatesShouldContainThisVCode,
         string naam)
     {
