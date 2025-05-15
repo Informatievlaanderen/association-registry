@@ -24,7 +24,7 @@ public class Given_Sorting_By_Nested_Fields
         var field = "doelgroep.minimumleeftijd";
 
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(
-            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=doelgroep.minimumleeftijd");
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=doelgroep.minimumleeftijd", _testContext.MaxSequenceByScenario);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -39,7 +39,7 @@ public class Given_Sorting_By_Nested_Fields
     {
         var field = "doelgroep.minimumleeftijd";
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(
-            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=-doelgroep.minimumleeftijd");
+            _testContext.ApiSetup.SuperAdminHttpClient, $"*&sort=-doelgroep.minimumleeftijd", _testContext.MaxSequenceByScenario);
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))

@@ -1,6 +1,10 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
 using Alba;
+using Marten;
+using Marten.Events.Daemon;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Public.Api.Infrastructure;
@@ -35,13 +39,42 @@ public static class PublicApiEndpoints
     }
 
     public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
-        => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+    {
+        return source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+    }
 
     public static async Task<SearchVerenigingenResponse> GetPubliekZoekenWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        string query)
-        => await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient, $"/v1/verenigingen/zoeken?q={query}");
+        string query,
+        long? expectedSequence)
+    {
+        await WaitForExpectedSequence(source, expectedSequence);
+        return await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient,
+                                                                                  $"/v1/verenigingen/zoeken?q={query}");
+    }
+
+    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence)
+    {
+        var store = source.Services.GetRequiredService<IDocumentStore>();
+        await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        var result = (await store.Advanced
+                                  .AllProjectionProgress()).Single(x => x.ShardName == "PubliekVerenigingZoekenDocument:All").Sequence;
+
+
+        bool reachedSequence = result >= expectedSequence;
+        var counter = 0;
+        while (!reachedSequence && counter < 10)
+        {
+            counter++;
+            await Task.Delay(500);
+            await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+            result = (await store.Advanced
+                                .AllProjectionProgress()).Single(x => x.ShardName == "PubliekVerenigingZoekenDocument:All").Sequence;
+
+            reachedSequence = result >= expectedSequence;
+        }
+    }
 
     private static async Task<TResponse> GetResponseFromRequestWithHeader<TResponse>(
         IAlbaHost source,
