@@ -19,7 +19,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.CommandResult.VCode}");
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.CommandResult.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()

@@ -1,27 +1,27 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Zoeken;
+﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Zoeken;
 
-using JsonLdContext;
-using Public.Api.Verenigingen.Search.ResponseModels;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
-using Vereniging;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
+using AssociationRegistry.Vereniging;
 using KellermanSoftware.CompareNetObjects;
-using When_Wijzig_Basisgegevens_Kbo;
 using Xunit;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
 {
-    private readonly WijzigBasisgegevensKboContext _context;
+    private readonly WijzigBasisgegevensKboContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext context)
-        : base(context.ApiSetup)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboContext testContext)
+        : base(testContext.ApiSetup)
     {
-        _context = context;
+        _testContext = testContext;
     }
 
     [Fact]
@@ -38,32 +38,32 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_context.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _context.VCode,
-            KorteBeschrijving = _context.CommandRequest.KorteBeschrijving,
-            KorteNaam = _context.RegistratieData.KorteNaam,
+            VCode = _testContext.VCode,
+            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
+            KorteNaam = _testContext.RegistratieData.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.VZW.Code,
                 Naam = Verenigingstype.VZW.Naam,
             },
-            Naam = _context.RegistratieData.Naam,
-            Roepnaam = _context.CommandRequest.Roepnaam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_context.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_context.CommandRequest.Werkingsgebieden),
+            Naam = _testContext.RegistratieData.Naam,
+            Roepnaam = _testContext.CommandRequest.Roepnaam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
             Locaties = [],
             Lidmaatschappen = [],
             Relaties = [],
-            Sleutels = PubliekZoekResponseMapper.MapSleutels(_context.VCode, _context.RegistratieData.KboNummer),
+            Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode, _testContext.RegistratieData.KboNummer),
             Links = new VerenigingLinks()
             {
-                Detail = new Uri($"{_context.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_context.VCode}"),
+                Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_context.VCode}");
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 }
