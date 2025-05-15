@@ -1,11 +1,16 @@
 namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van;
 
 using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
+using Events;
+using FluentAssertions;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Marten;
+using Microsoft.Extensions.DependencyInjection;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Xunit;
+using IEvent = Marten.Events.IEvent;
 
 // CollectionFixture for database setup ==> Context
 [CollectionDefinition(nameof(MarkeerAlsDubbelVanCollection))]
@@ -17,6 +22,8 @@ public class MarkeerAlsDubbelVanCollection : ICollectionFixture<MarkeerAlsDubbel
 }
 public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistreerdScenario, MarkeerAlsDubbelVanRequest>
 {
+    public IEvent? VerenigingAanvaarddeDubbeleVereniging { get; private set; }
+
     protected override MultipleWerdGeregistreerdScenario InitializeScenario()
         => new MultipleWerdGeregistreerdScenario();
 
@@ -27,5 +34,28 @@ public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistre
     protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
     {
         CommandResult = await new MarkeerAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
+
+        await using var session = ApiSetup.AdminApiHost.Services.GetRequiredService<IDocumentSession>();
+
+        var stream = await session
+                          .Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+        var counter = 0;
+
+        VerenigingAanvaarddeDubbeleVereniging = stream
+           .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+
+        while(VerenigingAanvaarddeDubbeleVereniging is null && counter < 10)
+
+        {
+            counter++;
+            await Task.Delay(500);
+
+            stream = await session.Events.FetchStreamAsync(scenario.AndereFeitelijkeVerenigingWerdGeregistreerd.VCode);
+
+            VerenigingAanvaarddeDubbeleVereniging = stream
+               .SingleOrDefault(x => x.EventType == typeof(VerenigingAanvaarddeDubbeleVereniging));
+        }
+
+        VerenigingAanvaarddeDubbeleVereniging.Should().NotBeNull();
     }
 }
