@@ -91,7 +91,7 @@ public class DuplicateDetectionTest
         string associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv)
     {
         var resourceName = associationregistryTestAdminApiDuplicatedetectionGivenAnExtensiveDatasetVerwachtdubbelsCsv;
-        var assembly = typeof(Then_Some_Duplicates_Are_Expected).Assembly;
+        var assembly = typeof(DuplicateDetectionTest).Assembly;
         var stream = assembly.GetResource(resourceName);
 
         using var streamReader = new StreamReader(stream);
