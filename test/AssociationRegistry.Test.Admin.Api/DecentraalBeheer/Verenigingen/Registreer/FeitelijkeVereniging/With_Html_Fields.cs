@@ -63,7 +63,7 @@ public class With_Html_Fields
 
     [Theory]
     [ClassData(typeof(When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data))]
-    public async Task Then_it_returns_a_bad_request_response(RegistreerFeitelijkeVerenigingRequest request)
+    public async ValueTask Then_it_returns_a_bad_request_response(RegistreerFeitelijkeVerenigingRequest request)
     {
         var response = await _fixture.DefaultClient.RegistreerFeitelijkeVereniging(GetJsonBody(request));
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);

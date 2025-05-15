@@ -19,7 +19,7 @@ public class Given_Sort_By_Field_In_A_List
 
     [Theory]
     [InlineData("locaties.postcode")]
-    public async Task? Then_it_returns200_but_we_dont_support_it(string field)
+    public async ValueTask Then_it_returns200_but_we_dont_support_it(string field)
     {
         var response = await _adminApiClient.Search(q: "*", field);
 

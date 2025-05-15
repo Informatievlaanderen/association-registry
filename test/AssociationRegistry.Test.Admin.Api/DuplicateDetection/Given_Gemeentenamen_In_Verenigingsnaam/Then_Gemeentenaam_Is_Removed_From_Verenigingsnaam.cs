@@ -28,7 +28,7 @@ public class Then_Gemeentenaam_Is_Removed_From_Verenigingsnaam
     [InlineData("De haan haantjes","haantjes", "de haan", "Buizingen")]
     [InlineData("De haantjes de haan","de haantjes", "de haan", "Buizingen")]
     [InlineData("De haantjes (de haan)","de haantjes ()", "de haan", "Buizingen")]
-    public async Task XXX(string verenigingsnaam, string expectedVerenigingsnaam, params string[] gemeentenamen)
+    public async ValueTask XXX(string verenigingsnaam, string expectedVerenigingsnaam, params string[] gemeentenamen)
     {
 
         var gemeentes = gemeentenamen.Select(x => VerrijkteGemeentenaam.FromGemeentenaam(new Gemeentenaam(x))).ToArray();

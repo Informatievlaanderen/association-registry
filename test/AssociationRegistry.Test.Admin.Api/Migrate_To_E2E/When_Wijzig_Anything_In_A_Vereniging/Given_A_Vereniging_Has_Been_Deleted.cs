@@ -35,7 +35,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
 
     [Fact]
     // Naam wijzigen van vereniging
-    public async Task It_Should_Return_NotFound_Or_BadRequest_OnPatch_When_WijzigVereniging()
+    public async ValueTask It_Should_Return_NotFound_Or_BadRequest_OnPatch_When_WijzigVereniging()
     {
         var response = await _adminApiClients.Authenticated.PatchVereniging(
             VCode.Create(_scenario.VCode),
@@ -50,7 +50,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
 
     [Fact]
     // Nieuw contactgegeven toevoegen
-    public async Task It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Contactgegeven()
+    public async ValueTask It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Contactgegeven()
     {
         var response = await _adminApiClients.Authenticated.PostContactgegevens(
             VCode.Create(_scenario.VCode),
@@ -65,7 +65,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
 
     [Fact]
     // Vertegenwoordiger verwijderen
-    public async Task It_Should_Return_NotFound_Or_BadRequest_OnDelete_When_Removing_Vertegenwoordiger()
+    public async ValueTask It_Should_Return_NotFound_Or_BadRequest_OnDelete_When_Removing_Vertegenwoordiger()
     {
         var response = await _adminApiClients.Authenticated.DeleteVertegenwoordiger(
             VCode.Create(_scenario.VCode),
@@ -78,7 +78,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
 
     [Fact]
     // Nieuwe locatie toevoegen
-    public async Task It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Locatie()
+    public async ValueTask It_Should_Return_NotFound_Or_BadRequest_OnPost_When_Adding_Locatie()
     {
         var response = await _adminApiClients.Authenticated.PostLocatie(
             VCode.Create(_scenario.VCode),
@@ -93,7 +93,7 @@ public class Given_A_Vereniging_Has_Been_Deleted
 
     [Fact]
     // Nieuwe locatie toevoegen
-    public async Task It_Should_Return_NotFound_Or_BadRequest_OnDelete()
+    public async ValueTask It_Should_Return_NotFound_Or_BadRequest_OnDelete()
     {
         var response = await _adminApiClients.SuperAdmin.DeleteVereniging(
             VCode.Create(_scenario.VCode),
