@@ -26,7 +26,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                  {
                      Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
                      KboNummers = [],
-                 })
+                 }, _testContext.CommandResult.Sequence)
                 .GetAwaiter().GetResult();
 
     [Fact]
