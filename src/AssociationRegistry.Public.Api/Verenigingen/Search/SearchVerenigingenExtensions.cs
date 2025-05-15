@@ -10,7 +10,7 @@ public static class SearchVerenigingenExtensions
         this SearchDescriptor<T> source,
         string? sort,
         Func<SortDescriptor<T>, SortDescriptor<T>> defaultSort,
-        TypeMapping mapping) where T : class
+        ITypeMapping mapping) where T : class
     {
         if (string.IsNullOrWhiteSpace(sort))
             return source.Sort(defaultSort);
@@ -18,7 +18,7 @@ public static class SearchVerenigingenExtensions
         return source.Sort(_ => SortDescriptor<T>(sort, mapping).ThenBy(defaultSort));
     }
 
-    private static SortDescriptor<T> SortDescriptor<T>(string sort, TypeMapping mapping) where T : class
+    private static SortDescriptor<T> SortDescriptor<T>(string sort, ITypeMapping mapping) where T : class
     {
         var sortParts = sort.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => x.Trim())
                             .ToArray();

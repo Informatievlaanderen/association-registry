@@ -30,6 +30,7 @@ public class V016_VerenigingWerdGestopt : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             VerenigingWerdGestopt,
         };
     }

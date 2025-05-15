@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
 
 using AssociationRegistry.Public.Api;
+using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
 using AssociationRegistry.Public.ProjectionHost.Projections.Search;
 using AssociationRegistry.Public.Schema.Search;
 using Framework.Helpers;
@@ -58,12 +59,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         if (client.Indices.Exists(verenigingenIndexName).Exists)
             client.Indices.Delete(verenigingenIndexName);
 
-        client.Indices.Create(
-            VerenigingenIndexName,
-            selector: c => c
-               .Map<VerenigingZoekDocument>(
-                    m => m
-                       .AutoMap<VerenigingZoekDocument>()));
+        client.Indices.CreateVerenigingIndex(verenigingenIndexName);
 
         client.Indices.Refresh(Indices.All);
     }

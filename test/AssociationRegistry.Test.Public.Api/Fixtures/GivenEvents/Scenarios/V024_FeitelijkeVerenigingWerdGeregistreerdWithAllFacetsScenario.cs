@@ -29,6 +29,7 @@ public class V024_FeitelijkeVerenigingWerdGeregistreerdWithAllFacetsScenario : I
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
         };
     }
 

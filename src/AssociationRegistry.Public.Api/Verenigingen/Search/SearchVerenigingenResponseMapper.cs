@@ -40,7 +40,17 @@ public class SearchVerenigingenResponseMapper
         PaginationQueryParams paginationRequest,
         string originalQuery,
         string[] hoofdactiviteiten)
-        => new()
+    {
+        var verenigingZoekDocuments = searchResponse.Hits.Where(x => x.Source.Verenigingstype is null);
+
+        logger.LogCritical("BLBAAAAAT DEBUG: {Debuginfo}", searchResponse.DebugInformation);
+        foreach (var verenigingZoekDocument in verenigingZoekDocuments)
+        {
+            logger.LogCritical("BLAAAAAAAAAAT: {@VerenigingZoekDocument} \n{DebugInfo}", verenigingZoekDocument, searchResponse.DebugInformation);
+
+        }
+
+        return new SearchVerenigingenResponse
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
             Verenigingen = searchResponse.Hits
@@ -49,6 +59,7 @@ public class SearchVerenigingenResponseMapper
             Facets = MapFacets(searchResponse, originalQuery, hoofdactiviteiten),
             Metadata = GetMetadata(searchResponse, paginationRequest),
         };
+    }
 
     private Facets MapFacets(ISearchResponse<VerenigingZoekDocument> searchResponse, string originalQuery, string[] hoofdactiviteiten)
         => new()

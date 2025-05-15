@@ -3,9 +3,10 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Public.ProjectionHost.Infrastructure.Extensions;
-using Events;
 using Framework.Helpers;
+using Humanizer;
 using Marten;
+using Marten.Events;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.Configuration;
@@ -17,6 +18,7 @@ using NodaTime.Extensions;
 using Npgsql;
 using System.Reflection;
 using Xunit;
+using IEvent = Events.IEvent;
 using ProjectionHostProgram = AssociationRegistry.Public.ProjectionHost.Program;
 
 public class ProjectionHostFixture : IDisposable, IAsyncLifetime
@@ -89,9 +91,10 @@ public class ProjectionHostFixture : IDisposable, IAsyncLifetime
         var eventStore = new EventStore(DocumentStore, EventConflictResolver, NullLogger<EventStore>.Instance);
         await eventStore.Save(vCode, EventStore.ExpectedVersion.NewStream, metadata, CancellationToken.None, eventToAdd);
 
-        using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
-        await daemon.StartAllShards();
-        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+        await DocumentStore.WaitForNonStaleProjectionDataAsync(60.Seconds());
+        // using var daemon = await DocumentStore.BuildProjectionDaemonAsync();
+        // await daemon.StartAllShards();
+        // await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
 
         // Make sure all documents are properly indexed
         await _elasticClient.Indices.RefreshAsync(Indices.All);

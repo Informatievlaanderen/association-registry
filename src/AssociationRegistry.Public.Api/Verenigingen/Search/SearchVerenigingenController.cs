@@ -127,6 +127,7 @@ public class SearchVerenigingenController : ApiController
         q ??= "*";
         var hoofdActiviteitenArray = hoofdactiviteitenVerenigingsloket?.Split(separator: ',') ?? Array.Empty<string>();
 
+
         var searchResponse =
             await query.ExecuteAsync(new PubliekVerenigingenZoekFilter(q, sort, hoofdActiviteitenArray, paginationQueryParams),
                                      cancellationToken);
