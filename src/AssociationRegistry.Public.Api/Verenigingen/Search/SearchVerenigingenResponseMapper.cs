@@ -41,15 +41,6 @@ public class SearchVerenigingenResponseMapper
         string originalQuery,
         string[] hoofdactiviteiten)
     {
-        var verenigingZoekDocuments = searchResponse.Hits.Where(x => x.Source.Verenigingstype is null);
-
-        logger.LogCritical("BLBAAAAAT DEBUG: {Debuginfo}", searchResponse.DebugInformation);
-        foreach (var verenigingZoekDocument in verenigingZoekDocuments)
-        {
-            logger.LogCritical("BLAAAAAAAAAAT: {@VerenigingZoekDocument} \n{DebugInfo}", verenigingZoekDocument, searchResponse.DebugInformation);
-
-        }
-
         return new SearchVerenigingenResponse
         {
             Context = $"{_appSettings.BaseUrl}/v1/contexten/publiek/zoek-verenigingen-context.json",
