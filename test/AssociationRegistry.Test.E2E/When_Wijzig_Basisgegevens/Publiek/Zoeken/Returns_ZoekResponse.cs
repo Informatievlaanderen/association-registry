@@ -24,7 +24,7 @@ public class Returns_SearchVerenigingenResponse
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
+        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
 
     [Fact]
     public void With_Context()

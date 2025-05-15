@@ -1,17 +1,17 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo.Publiek.Detail;
 
-using Formats;
-using JsonLdContext;
+using AssociationRegistry.Admin.Schema.Constants;
+using AssociationRegistry.Formats;
+using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
 using NodaTime;
 using Xunit;
-using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
-using Admin.Schema.Constants;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.Comparison;
-using Framework.Mappers;
-using Framework.TestClasses;
-using KellermanSoftware.CompareNetObjects;
 
 [Collection(nameof(WijzigBasisgegevensKbocollection))]
 public class Returns_DetailResponse : End2EndTest<PubliekVerenigingDetailResponse>
