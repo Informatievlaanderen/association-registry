@@ -33,7 +33,7 @@ public class Given_A_Second_NietPrimair_Contactgegeven
     [InlineData("Website", "https://www.example.org")]
     [InlineData("SocialMedia", "https://www.example.org")]
     [InlineData("Telefoon", "0000112233")]
-    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
+    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
         var command = new VoegContactgegevenToeCommand(
             _scenario.VCode,
