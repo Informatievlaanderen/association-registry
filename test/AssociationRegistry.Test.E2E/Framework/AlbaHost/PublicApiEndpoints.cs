@@ -59,7 +59,7 @@ public static class PublicApiEndpoints
         var store = source.Services.GetRequiredService<IDocumentStore>();
         await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
         var result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")?.Sequence;
+                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "PubliekVerenigingZoekenDocument:All")?.Sequence;
 
 
         bool reachedSequence = result >= expectedSequence;
@@ -70,7 +70,7 @@ public static class PublicApiEndpoints
             await Task.Delay(500);
             await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
             result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")?.Sequence;
+                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "PubliekVerenigingZoekenDocument:All")?.Sequence;
 
             reachedSequence = result >= expectedSequence;
         }
