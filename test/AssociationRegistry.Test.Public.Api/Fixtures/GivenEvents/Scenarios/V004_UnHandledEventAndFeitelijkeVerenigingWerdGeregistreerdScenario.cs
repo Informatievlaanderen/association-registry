@@ -31,6 +31,7 @@ public class V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario
         {
             new EenEvent(),
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
         };
     }
 

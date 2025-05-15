@@ -47,6 +47,7 @@ public class V022_LocatieDuplicaatWerdVerwijderdNaAdresMatchScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             LocatieDuplicaatWerdVerwijderdNaAdresMatch,
         };
     }

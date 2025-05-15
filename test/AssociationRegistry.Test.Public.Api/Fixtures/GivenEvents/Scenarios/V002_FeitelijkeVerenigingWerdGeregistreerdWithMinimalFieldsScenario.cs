@@ -29,6 +29,7 @@ public class V002_FeitelijkeVerenigingWerdGeregistreerdWithMinimalFieldsScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
+            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode)
         };
     }
 
