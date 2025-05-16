@@ -8,7 +8,7 @@ using Framework.ApiSetup;
 using System.Net;
 using Xunit;
 
-[Collection(nameof(OverridingMinimumScoreDuplicateDetectionCollection))]
+[Collection(FullBlownApiCollection.Name)]
 public class Without_Super_Admin_Authentication {
     private readonly FullBlownApiSetup _apiSetup;
 

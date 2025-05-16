@@ -9,7 +9,7 @@ using FluentAssertions;
 using System.Net;
 using Xunit;
 
-[Collection(nameof(OverridingMinimumScoreDuplicateDetectionCollection))]
+[Collection(FullBlownApiCollection.Name)]
 public class With_Super_Admin_Authentication {
     private readonly FullBlownApiSetup _apiSetup;
 
