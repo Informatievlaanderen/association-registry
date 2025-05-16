@@ -143,7 +143,7 @@ public class SmartHttpClient
         if (_requestParameters is not null)
             uri = EmbellishUri(uri, _requestParameters);
 
-        const int maxRetries = 7;
+        const int maxRetries = 5;
         var delay = TimeSpan.FromMilliseconds(300);
 
         for (var attempt = 0; attempt < maxRetries; attempt++)
