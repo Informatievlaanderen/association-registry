@@ -53,6 +53,6 @@ public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd
             },
         ];
 
-        expected.ForEach(x => response.Should().ContainEquivalentOf(x));
+        expected.ForEach(x => response.Should().Contain(x));
     }
 }
