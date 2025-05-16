@@ -1,27 +1,25 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Publiek.Detail_All;
 
-using FluentAssertions;
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Formats;
+using Public.Api.Verenigingen.DetailAll;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
-using Public.Api.Verenigingen.DetailAll;
 using Xunit;
 
-[Collection(nameof(MarkeerAlsDubbelVanCollection))]
-public class Returns_Vereniging : End2EndTest<IEnumerable<JObject>>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ArrayOfDetailResponses : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, IEnumerable<JObject>>
 {
-    private readonly MarkeerAlsDubbelVanContext _testContext;
+    public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>
+        setup => setup.PublicApiHost.GetPubliekDetailAll();
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_ArrayOfDetailResponses(MarkeerAlsDubbelVanContext context)
     {
-        _testContext = testContext;
     }
-
-    public override IEnumerable<JObject> GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailAll();
 
     [Fact]
     public void WithVereniging()
@@ -31,7 +29,7 @@ public class Returns_Vereniging : End2EndTest<IEnumerable<JObject>>
                     {
                         Vereniging = new DetailAllConverter.TeVerwijderenVereniging.TeVerwijderenVerenigingData()
                         {
-                            VCode = _testContext.VCode,
+                            VCode = TestContext.VCode,
                             TeVerwijderen = true,
                             DeletedAt = DateTime.UtcNow.Date.ToInstant().FormatAsBelgianDate(),
                         },

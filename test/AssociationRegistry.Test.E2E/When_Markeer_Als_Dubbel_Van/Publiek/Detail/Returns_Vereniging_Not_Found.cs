@@ -2,27 +2,33 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using System.Net;
 using Xunit;
 
-[Collection(nameof(MarkeerAlsDubbelVanCollection))]
-public class Returns_Vereniging : End2EndTest<HttpStatusCode>
+[Collection(MarkeerAlsDubbelVanContext.Name)]
+public class Returns_Vereniging_Not_Found : IAsyncLifetime
 {
-    private readonly MarkeerAlsDubbelVanContext _testContext;
+    private readonly MarkeerAlsDubbelVanContext _context;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_Vereniging_Not_Found(MarkeerAlsDubbelVanContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override HttpStatusCode GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailStatusCode(_testContext.VCode);
 
     [Fact]
     public void Status_Code_Is_NotFound()
     {
         Response.Should().Be(HttpStatusCode.NotFound);
+    }
+
+    public HttpStatusCode Response { get; set; }
+
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetailStatusCode(_context.VCode);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
     }
 }

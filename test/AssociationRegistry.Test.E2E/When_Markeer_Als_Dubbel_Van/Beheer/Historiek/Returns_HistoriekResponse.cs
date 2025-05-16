@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.Historiek;
 
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Events;
 using Framework.AlbaHost;
@@ -10,23 +11,20 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(MarkeerAlsDubbelVanCollection))]
-public class Returns_Vereniging : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, HistoriekResponse>
 {
-    private readonly MarkeerAlsDubbelVanContext _testContext;
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_Historiek(MarkeerAlsDubbelVanContext testContext)
     {
-        _testContext = testContext;
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(_testContext.VCode);
+        Response.VCode.ShouldCompare(TestContext.VCode);
     }
 
     [Fact]
@@ -41,7 +39,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
         var gebeurtenis =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdGemarkeerdAlsDubbelVan));
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGermarkeerdAlsDubbelVan(_testContext.CommandRequest, _testContext.VCode),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGermarkeerdAlsDubbelVan(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

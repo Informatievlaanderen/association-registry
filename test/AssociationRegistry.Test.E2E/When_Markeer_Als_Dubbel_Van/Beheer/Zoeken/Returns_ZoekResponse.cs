@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Markeer_Als_Dubbel_Van.Beheer.Zoeken;
 
+using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelVan.RequestModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Events;
 using FluentAssertions;
@@ -9,21 +10,17 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(MarkeerAlsDubbelVanCollection))]
-public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_SearchVerenigingenResponse : End2EndTest<MarkeerAlsDubbelVanContext, MarkeerAlsDubbelVanRequest, SearchVerenigingenResponse>
 {
     private readonly MarkeerAlsDubbelVanContext _testContext;
-    public FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd { get; set; }
+    private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
-    public Returns_Vereniging(MarkeerAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(MarkeerAlsDubbelVanContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
-
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 
     [Fact]
     public void With_Context()
@@ -36,4 +33,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     {
         Response.Verenigingen.Should().BeEmpty();
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

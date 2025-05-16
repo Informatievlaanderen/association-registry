@@ -9,27 +9,24 @@ using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
-using Xunit;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(MarkeerAlsDubbelVanCollection))]
-public class MarkeerAlsDubbelVanCollection : ICollectionFixture<MarkeerAlsDubbelVanContext>
+public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class MarkeerAlsDubbelVanContext : TestContextBase<MultipleWerdGeregistreerdScenario, MarkeerAlsDubbelVanRequest>
-{
-    protected override MultipleWerdGeregistreerdScenario InitializeScenario()
-        => new MultipleWerdGeregistreerdScenario();
+    public const string Name = "MarkeerAlsDubbelVanContext";
+    public VCode VCode => CommandResult.VCode;
+    public MultipleWerdGeregistreerdScenario Scenario { get; }
 
-    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        Scenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new MarkeerAlsDubbelVanRequestFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(Scenario);
+        CommandResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }
