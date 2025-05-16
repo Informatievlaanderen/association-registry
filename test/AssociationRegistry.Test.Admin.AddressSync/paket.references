@@ -1,8 +1,7 @@
 Microsoft.NET.Test.Sdk
-
+xunit.assert
 xunit.runner.visualstudio
 xunit.categories
-xunit.v3.assert
 AutoFixture
 FluentAssertions.Json
 Moq
