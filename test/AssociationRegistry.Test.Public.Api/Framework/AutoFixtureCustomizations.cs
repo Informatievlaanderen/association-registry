@@ -66,6 +66,7 @@ public static class AutoFixtureCustomizations
                                       Code = x.Code,
                                       Naam = x.Naam,
                                   }).ToArray();
+                    document.Geotags = fixture.CreateMany<VerenigingZoekDocument.Types.Geotag>().ToArray();
 
                     return document;
                 }).OmitAutoProperties());

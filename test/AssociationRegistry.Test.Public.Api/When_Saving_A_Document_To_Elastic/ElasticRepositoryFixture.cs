@@ -16,6 +16,7 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
     private readonly string _identifier;
     private readonly IConfigurationRoot _configurationRoot;
     public IElasticClient? ElasticClient;
+    public ITypeMapping? TypeMapping;
     public ElasticRepository? ElasticRepository { get; private set; }
 
     public string VerenigingenIndexName
@@ -60,6 +61,9 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
             client.Indices.Delete(verenigingenIndexName);
 
         client.Indices.CreateVerenigingIndex(verenigingenIndexName);
+        var index = ElasticClient.Indices.Get(Indices.Index<VerenigingZoekDocument>()).Indices.First();
+
+        TypeMapping = index.Value.Mappings;
 
         client.Indices.Refresh(Indices.All);
     }
