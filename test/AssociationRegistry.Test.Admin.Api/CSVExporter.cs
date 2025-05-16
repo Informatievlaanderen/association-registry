@@ -22,7 +22,7 @@ public class CSVExporter
     }
 
     [Fact(Skip = "To migrate to a real test")]
-    public async ValueTask ExportCSV()
+    public async Task ExportCSV()
     {
         await using var writer = new StreamWriter("output.csv");
         await using var csv = new CsvWriter(writer, CultureInfo.InvariantCulture);

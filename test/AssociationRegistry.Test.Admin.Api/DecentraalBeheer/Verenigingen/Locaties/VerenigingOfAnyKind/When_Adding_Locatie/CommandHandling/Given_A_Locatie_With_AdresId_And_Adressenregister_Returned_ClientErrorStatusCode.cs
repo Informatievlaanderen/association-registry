@@ -23,7 +23,7 @@ public class Given_A_Locatie_With_AdresId_And_Adressenregister_Returned_ClientEr
 {
     [Theory]
     [MemberData(nameof(Data))]
-    public async ValueTask Then_Throws_AdressenregisterReturnedClientErrorStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
+    public async Task Then_Throws_AdressenregisterReturnedClientErrorStatusCode(CommandhandlerScenarioBase scenario, int expectedLocatieId)
     {
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
 
