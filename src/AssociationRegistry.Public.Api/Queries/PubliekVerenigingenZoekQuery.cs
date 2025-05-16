@@ -29,6 +29,23 @@ public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
         _typeMapping = typeMapping;
     }
 
+    public async Task Explain(string vCode, PubliekVerenigingenZoekFilter filter)
+    {
+        var explainResponse = _client.Explain<VerenigingZoekDocument>(vCode, descriptor => descriptor.Query(query => query
+                                                                             .Bool(boolQueryDescriptor => boolQueryDescriptor
+                                                                                      .Must(queryContainerDescriptor
+                                                                                                => MatchQueryString(
+                                                                                                    queryContainerDescriptor,
+                                                                                                    $"{filter.Query}{BuildHoofdActiviteiten(filter.Hoofdactiviteiten)}"),
+                                                                                            BeActief
+                                                                                       )
+                                                                                      .MustNot(
+                                                                                           BeUitgeschrevenUitPubliekeDatastroom,
+                                                                                           BeRemoved,
+                                                                                           BeDubbel)
+                                                                              )));
+    }
+
     public async Task<ISearchResponse<VerenigingZoekDocument>> ExecuteAsync(PubliekVerenigingenZoekFilter filter, CancellationToken cancellationToken)
         => await _client.SearchAsync<VerenigingZoekDocument>(
             s =>
