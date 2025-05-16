@@ -17,14 +17,14 @@ public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
     }
 
     [Fact (Skip = "to replace with a singular duplicate test strategy")]
-    public async ValueTask GetDuplicatesFor()
+    public async Task GetDuplicatesFor()
     {
         var actual = await GetDuplicatesFor("vereniging");
         actual.First().Naam.Should().Be("vereniging");
     }
 
     [Fact (Skip = "to replace with a singular duplicate test strategy")]
-    public async ValueTask With_Expected_Vereniging_In_Duplicate_List()
+    public async Task With_Expected_Vereniging_In_Duplicate_List()
     {
         var missedFailures = new List<string>();
         var unnecessaryFailures = new List<string>();
