@@ -22,7 +22,7 @@ public class RegistreerVerenigingMetRechtsperoonlijkheidTestContext: TestContext
     {
         await ApiSetup.ExecuteGiven(new EmptyScenario());
 
-        CommandResult = await new RegistreerVerenigingUitKboRequestFactory().ExecuteRequest(ApiSetup);
+        RequestResult = await new RegistreerVerenigingUitKboRequestFactory().ExecuteRequest(ApiSetup);
 
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);

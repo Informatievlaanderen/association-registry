@@ -15,7 +15,7 @@ using Vereniging;
 public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
     public const string Name = "VerfijnSubtypeNaarFeitelijkeVerenigingContext";
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
     public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 
     public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
@@ -27,7 +27,7 @@ public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<Wijz
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

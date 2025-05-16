@@ -1,28 +1,23 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using ApiSetup;
-using When_Wijzig_Lidmaatschap;
 using Xunit;
 
-public abstract class End2EndTest<TResponse>: IAsyncLifetime
+public abstract class End2EndTest<TContext, TRequest, TResponse>: IAsyncLifetime
+    where TContext : TestContextBase<TRequest>
 {
-    private readonly FullBlownApiSetup _setup;
-    public TResponse Response { get; private set; }
-
-    public End2EndTest(FullBlownApiSetup setup)
-    {
-        _setup = setup;
-    }
+    public TContext TestContext { get; protected set; }
+    // Convenience props
+    public TRequest Request => TestContext.Request;
 
     public async ValueTask InitializeAsync()
     {
-        Response = GetResponse(_setup);
+        Response = GetResponse(TestContext.ApiSetup);
     }
 
-    public abstract TResponse GetResponse(FullBlownApiSetup setup);
+    public TResponse Response { get; private set; }
 
-
-
+    public abstract Func<IApiSetup, TResponse> GetResponse { get; }
     public async ValueTask DisposeAsync()
     {
     }

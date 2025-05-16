@@ -8,6 +8,6 @@ public interface ITestContext<TRequest>: IAsyncLifetime
 {
     IApiSetup ApiSetup { get; }
     TRequest Request { get; }
-    CommandResult<TRequest> CommandResult { get; set; }
+    RequestResult<TRequest> RequestResult { get; set; }
     Task Init();
 }

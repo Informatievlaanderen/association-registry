@@ -20,14 +20,14 @@ public class Given_A_Expected_Sequence : IClassFixture<BeheerDetailContext>
 
     [Fact]
     public async ValueTask With_A_Sequence_Equal_Or_Greater_Than_The_Expected_Sequence_Then_we_get_a_successful_response()
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailWithHeader(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
-                                                                        _testContext.CommandResult.Sequence!.Value)
+        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailWithHeader(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.RequestResult.VCode,
+                                                                        _testContext.RequestResult.Sequence!.Value)
                                                                                     .Should().NotBeNull();
     [Fact]
     public async ValueTask With_A_Sequence_Less_Than_The_Expected_Sequence_Then_We_Get_A_PreconditionFailed_Response()
     {
         var response = _testContext.ApiSetup.AdminApiHost
-                                   .GetBeheerDetailHttpResponse(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                   .GetBeheerDetailHttpResponse(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.RequestResult.VCode,
                                                     long.MaxValue);
 
         response

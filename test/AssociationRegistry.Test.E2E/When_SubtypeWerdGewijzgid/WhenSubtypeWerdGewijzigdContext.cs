@@ -13,7 +13,7 @@ using Vereniging;
 public class WhenSubtypeWerdGewijzigdContext: TestContextBase<WijzigSubtypeRequest>
 {
     public const string Name = "WhenSubtypeWerdGewijzigdContext";
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
     public SubtypeWerdVerfijndNaarSubverenigingScenario Scenario { get; }
 
     public WhenSubtypeWerdGewijzigdContext(FullBlownApiSetup apiSetup)
@@ -25,7 +25,7 @@ public class WhenSubtypeWerdGewijzigdContext: TestContextBase<WijzigSubtypeReque
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

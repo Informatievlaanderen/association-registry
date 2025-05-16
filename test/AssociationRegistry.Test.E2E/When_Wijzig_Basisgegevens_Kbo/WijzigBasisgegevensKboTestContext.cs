@@ -18,7 +18,7 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
     public VerenigingMetRechtspersoonlijkheidWerdGeregistreerd RegistratieData
         => _werdGeregistreerdScenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd;
 
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
 
     public WijzigBasisgegevensKboTestContext(FullBlownApiSetup apiSetup)
     {
@@ -30,7 +30,7 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
         _werdGeregistreerdScenario = new();
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
 
-        CommandResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

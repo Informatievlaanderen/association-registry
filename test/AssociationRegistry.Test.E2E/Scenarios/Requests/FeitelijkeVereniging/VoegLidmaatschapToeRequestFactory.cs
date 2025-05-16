@@ -19,7 +19,7 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<VoegLidmaatschapToeRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<VoegLidmaatschapToeRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var fixture = new Fixture().CustomizeAdminApi();
 
@@ -45,6 +45,6 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new RequestResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 }

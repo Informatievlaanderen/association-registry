@@ -17,7 +17,7 @@ public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<Wi
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<WijzigSubtypeRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<WijzigSubtypeRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new WijzigSubtypeRequest
         {
@@ -36,6 +36,6 @@ public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<Wi
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<WijzigSubtypeRequest>(VCode.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode), request);
+        return new RequestResult<WijzigSubtypeRequest>(VCode.Create(_scenario.VerenigingssubtypeWerdVerfijndNaarFeitelijkeVereniging.VCode), request);
     }
 }

@@ -38,5 +38,5 @@ public class Returns_DetailResponse :
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.CommandResult.VCode);
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.RequestResult.VCode);
 }

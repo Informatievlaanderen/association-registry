@@ -16,7 +16,7 @@ public class BeheerDetailContext: TestContextBase<RegistreerVerenigingZonderEige
     public const string Name = "BeheerDetailContext";
     private EmptyScenario _emptyScenario;
     private readonly ILogger _logger;
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
 
     public BeheerDetailContext(FullBlownApiSetup apiSetup)
     {
@@ -46,7 +46,7 @@ public class BeheerDetailContext: TestContextBase<RegistreerVerenigingZonderEige
 
         logger.LogInformation("Executing registreer feitelijke vereniging request");
 
-        CommandResult = await requestFactory.ExecuteRequest(ApiSetup);
+        RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
 
 
         await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));

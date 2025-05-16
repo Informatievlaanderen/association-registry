@@ -19,7 +19,7 @@ public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRe
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<StopVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<StopVerenigingRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new StopVerenigingRequest
         {
@@ -38,7 +38,7 @@ public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRe
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<StopVerenigingRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new RequestResult<StopVerenigingRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 
     protected async Task WaitForAdresMatchEvent(FullBlownApiSetup apiSetup)

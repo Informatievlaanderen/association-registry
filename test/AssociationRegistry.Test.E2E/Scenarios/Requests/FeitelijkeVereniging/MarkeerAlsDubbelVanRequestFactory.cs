@@ -17,7 +17,7 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<MarkeerAlsDubbelVanRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<MarkeerAlsDubbelVanRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var request = new MarkeerAlsDubbelVanRequest
         {
@@ -37,6 +37,6 @@ public class MarkeerAlsDubbelVanRequestFactory : ITestRequestFactory<MarkeerAlsD
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
+        return new RequestResult<MarkeerAlsDubbelVanRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 }

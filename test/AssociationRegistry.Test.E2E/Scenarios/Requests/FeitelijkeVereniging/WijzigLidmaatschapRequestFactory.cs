@@ -20,7 +20,7 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
         _scenario = scenario;
     }
 
-    public async Task<CommandResult<WijzigLidmaatschapRequest>> ExecuteRequest(IApiSetup apiSetup)
+    public async Task<RequestResult<WijzigLidmaatschapRequest>> ExecuteRequest(IApiSetup apiSetup)
     {
         var vCode = _scenario.LidmaatschapWerdToegevoegd.VCode;
         var lidmaatschapLidmaatschapId = _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId;
@@ -49,6 +49,6 @@ public class WijzigLidmaatschapRequestFactory : ITestRequestFactory<WijzigLidmaa
         await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
         await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<WijzigLidmaatschapRequest>(VCode.Create(vCode), request);
+        return new RequestResult<WijzigLidmaatschapRequest>(VCode.Create(vCode), request);
     }
 }

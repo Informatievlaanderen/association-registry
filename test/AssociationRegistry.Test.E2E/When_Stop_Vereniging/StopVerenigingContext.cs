@@ -12,7 +12,7 @@ public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
 {
     public const string Name = "StopVerenigingContext";
     private readonly FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
 
     public StopVerenigingContext(FullBlownApiSetup apiSetup)
     {
@@ -23,7 +23,7 @@ public class StopVerenigingContext: TestContextBase<StopVerenigingRequest>
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        CommandResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new StopVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.RefreshIndices();
     }

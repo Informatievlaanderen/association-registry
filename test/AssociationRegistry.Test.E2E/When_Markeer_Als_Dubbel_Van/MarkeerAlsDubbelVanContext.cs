@@ -13,7 +13,7 @@ using Vereniging;
 public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequest>
 {
     public const string Name = "MarkeerAlsDubbelVanContext";
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
     public MultipleWerdGeregistreerdScenario Scenario { get; }
 
     public MarkeerAlsDubbelVanContext(FullBlownApiSetup apiSetup)
@@ -25,7 +25,7 @@ public class MarkeerAlsDubbelVanContext: TestContextBase<MarkeerAlsDubbelVanRequ
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new MarkeerAlsDubbelVanRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

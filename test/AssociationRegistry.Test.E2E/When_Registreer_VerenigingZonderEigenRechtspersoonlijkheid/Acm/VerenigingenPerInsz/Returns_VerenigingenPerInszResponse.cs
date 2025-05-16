@@ -12,14 +12,21 @@ using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
-public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerInszResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VerenigingenPerInszResponse :
+    End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, VerenigingenPerInszResponse>
 {
-    private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
+    private readonly string _inszToCompare;
+    private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
-        _testContext = testContext;
+        _inszToCompare = TestContext.Request.Vertegenwoordigers[0].Insz;
+        _request = new VerenigingenPerInszRequest()
+        {
+            Insz = _inszToCompare,
+            KboNummers = [],
+        };
     }
 
     [Fact]
@@ -27,15 +34,15 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
     {
         Response.ShouldCompare(new VerenigingenPerInszResponse()
         {
-            Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
+            Insz = _inszToCompare,
             Verenigingen =
             [
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.VCode,
+                    VCode = TestContext.VCode,
                     CorresponderendeVCodes = [],
                     VertegenwoordigerId = 1,
-                    Naam = _testContext.CommandRequest.Naam,
+                    Naam = TestContext.Request.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
@@ -49,11 +56,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
         });
     }
 
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(new VerenigingenPerInszRequest()
-                 {
-                     Insz = _testContext.CommandRequest.Vertegenwoordigers[0].Insz,
-                     KboNummers = [],
-                 })
-                .GetAwaiter().GetResult();
+    public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
+                         .GetAwaiter().GetResult();
 }

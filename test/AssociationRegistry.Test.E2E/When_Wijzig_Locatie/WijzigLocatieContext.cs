@@ -18,8 +18,8 @@ public class WijzigLocatieContext: ICollectionFixture<WijzigLocatieContext>, IAs
     public const string Name = nameof(WijzigLocatieContext);
     public FullBlownApiSetup ApiSetup { get; }
     private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
-    public WijzigLocatieRequest Request => CommandResult.Request;
-    public VCode VCode => CommandResult.VCode;
+    public WijzigLocatieRequest Request => RequestResult.Request;
+    public VCode VCode => RequestResult.VCode;
 
     public WijzigLocatieContext(FullBlownApiSetup apiSetup)
     {
@@ -31,11 +31,11 @@ public class WijzigLocatieContext: ICollectionFixture<WijzigLocatieContext>, IAs
         _werdGeregistreerdScenario = new();
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        CommandResult = await new WijzigLocatieRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigLocatieRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 
-    public CommandResult<WijzigLocatieRequest> CommandResult { get; set; }
+    public RequestResult<WijzigLocatieRequest> RequestResult { get; set; }
 
     public async ValueTask DisposeAsync()
     {

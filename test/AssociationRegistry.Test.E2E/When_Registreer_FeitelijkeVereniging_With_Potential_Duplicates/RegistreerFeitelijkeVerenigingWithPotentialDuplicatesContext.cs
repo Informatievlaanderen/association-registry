@@ -12,7 +12,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
 {
     public const string Name = "RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext";
     private FeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
 
     public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup)
     {
@@ -27,7 +27,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
         var requestFactory = new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(
             _feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd);
 
-        CommandResult = await requestFactory.ExecuteRequest(ApiSetup);
+        RequestResult = await requestFactory.ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 }

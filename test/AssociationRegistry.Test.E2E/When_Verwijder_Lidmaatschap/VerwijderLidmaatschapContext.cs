@@ -13,7 +13,7 @@ using Vereniging;
 public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
 {
     public const string Name = "VerwijderLidmaatschapContext";
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
     public LidmaatschapWerdToegevoegdScenario Scenario { get; }
 
     public VerwijderLidmaatschapContext(FullBlownApiSetup apiSetup)
@@ -25,7 +25,7 @@ public class VerwijderLidmaatschapContext: TestContextBase<NullRequest>
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new VerwijderLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

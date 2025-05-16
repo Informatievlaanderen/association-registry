@@ -15,7 +15,6 @@ public class MultipleWerdGeregistreerdScenario : Framework.TestClasses.IScenario
 
     public MultipleWerdGeregistreerdScenario()
     {
-
     }
 
     public async Task<KeyValuePair<string, IEvent[]>[]> GivenEvents(IVCodeService service)

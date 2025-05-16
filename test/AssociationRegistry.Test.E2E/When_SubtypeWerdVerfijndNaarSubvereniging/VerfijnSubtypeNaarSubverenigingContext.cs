@@ -14,7 +14,7 @@ using Scenarios.Requests.VZER;
 public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
     public const string Name = "VerfijnSubtypeNaarSubverenigingContext";
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
     public VzerAndKboVerenigingWerdenGeregistreerdScenario Scenario { get; }
 
     public VerfijnSubtypeNaarSubverenigingContext(FullBlownApiSetup apiSetup)
@@ -26,7 +26,7 @@ public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubty
     public override async ValueTask InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
-        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(Scenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(Scenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }

@@ -15,7 +15,7 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
     public const string Name = "WijzigBasisgegevensTestContext";
     private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public FeitelijkeVerenigingWerdGeregistreerd RegistratieData => _werdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd;
-    public VCode VCode => CommandResult.VCode;
+    public VCode VCode => RequestResult.VCode;
 
     public WijzigBasisgegevensTestContext(FullBlownApiSetup apiSetup)
     {
@@ -27,7 +27,7 @@ public class WijzigBasisgegevensTestContext: TestContextBase<WijzigBasisgegevens
         _werdGeregistreerdScenario = new(true);
 
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
-        CommandResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        RequestResult = await new WijzigBasisgegevensRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
         await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

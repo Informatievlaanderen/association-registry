@@ -40,5 +40,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigi
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
 
     public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
-        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.CommandResult.VCode}");
+        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.RequestResult.VCode}");
 }

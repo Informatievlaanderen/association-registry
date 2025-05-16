@@ -68,7 +68,7 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         await AdminApiHost.ResetAllMartenDataAsync();
 
-        await InsertWerkingsgebieden();
+        InsertWerkingsgebieden();
 
         AdminProjectionHost = await AlbaHost.For<Admin.ProjectionHost.Program>(
             ConfigureForTesting("adminproj"));
@@ -87,7 +87,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
 
         SqsClientWrapper = AdminApiHost.Services.GetRequiredService<ISqsClientWrapper>();
         AmazonSqs = AdminApiHost.Services.GetRequiredService<IAmazonSQS>();
-        VCodeService = AdminApiHost.Services.GetRequiredService<IVCodeService>();
 
         ElasticClient = AdminApiHost.Services.GetRequiredService<IElasticClient>();
         await AdminApiHost.DocumentStore().Storage.ApplyAllConfiguredChangesToDatabaseAsync();
@@ -112,8 +111,6 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         }
         Logger.LogInformation("Daemon Startup {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
     }
-
-    public IVCodeService VCodeService { get; set; }
 
     private async Task InsertWerkingsgebieden()
     {
@@ -240,11 +237,11 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         if (!_ranContexts.TryGetValue(context.GetType().Name, out var ranContext))
         {
             context.Init().GetAwaiter().GetResult();
-            _ranContexts.Add(context.GetType().Name, context.CommandResult);
+            _ranContexts.Add(context.GetType().Name, context.RequestResult);
         }
         else
         {
-            context.CommandResult = (CommandResult<T>)ranContext;
+            context.RequestResult = (RequestResult<T>)ranContext;
         }
     }
 
