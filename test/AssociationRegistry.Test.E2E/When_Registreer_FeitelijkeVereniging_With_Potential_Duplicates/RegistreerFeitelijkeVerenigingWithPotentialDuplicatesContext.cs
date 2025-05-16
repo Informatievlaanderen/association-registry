@@ -3,30 +3,31 @@
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Vereniging;
+using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
-using When_Wijzig_Lidmaatschap;
-using Xunit;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesCollection))]
-public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesCollection : ICollectionFixture<RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext>
+public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext : TestContextBase<FeitelijkeVerenigingWerdGeregistreerdScenario, RegistreerFeitelijkeVerenigingRequest>
-{
-    protected override FeitelijkeVerenigingWerdGeregistreerdScenario InitializeScenario()
-        => new();
+    public const string Name = "RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext";
+    private FeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
+    public VCode VCode => CommandResult.VCode;
 
-    public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        _feitelijkeVerenigingWerdGeregistreerdScenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(scenario.FeitelijkeVerenigingWerdGeregistreerd).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(_feitelijkeVerenigingWerdGeregistreerdScenario);
+
+        var requestFactory = new RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory(
+            _feitelijkeVerenigingWerdGeregistreerdScenario.FeitelijkeVerenigingWerdGeregistreerd);
+
+        CommandResult = await requestFactory.ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 }
