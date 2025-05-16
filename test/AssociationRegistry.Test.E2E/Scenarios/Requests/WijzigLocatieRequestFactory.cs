@@ -52,14 +52,14 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
         })).Context.Response;
 
-        var sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
-        var newSequence = await WaitForAdresMatchEvent(apiSetup);
+        await WaitForAdresMatchEvent(apiSetup);
 
-        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, newSequence);
+        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
     }
 
-    protected async Task<long> WaitForAdresMatchEvent(IApiSetup apiSetup)
+    protected async Task WaitForAdresMatchEvent(IApiSetup apiSetup)
     {
         await using var session = apiSetup.AdminProjectionHost.DocumentStore().LightweightSession();
         var events = await session.Events.FetchStreamAsync(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode);
@@ -75,6 +75,4 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
                 throw new Exception(
                     $"Kept waiting for Adresmatch... Events committed: {string.Join(separator: ", ", events.Select(x => x.EventTypeName))}");
         }
-
-        return events.Max(a => a.Sequence);
     }}
