@@ -43,8 +43,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var typeMapping = index.Value.Mappings;
 
         var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.VCode = fixture.Create<VCode>();
-        verenigingZoekDocument.Status = VerenigingStatus.Actief;
         verenigingZoekDocument.Geotags = [new VerenigingZoekDocument.Types.Geotag("BE02222")];
 
         await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
@@ -70,8 +68,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var typeMapping = index.Value.Mappings;
 
         var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.VCode = fixture.Create<VCode>();
-        verenigingZoekDocument.Status = VerenigingStatus.Actief;
         verenigingZoekDocument.Geotags = [new VerenigingZoekDocument.Types.Geotag("BE02222")];
 
         await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
@@ -95,8 +91,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var typeMapping = index.Value.Mappings;
 
         var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.VCode = fixture.Create<VCode>();
-        verenigingZoekDocument.Status = VerenigingStatus.Actief;
         verenigingZoekDocument.Geotags = [new VerenigingZoekDocument.Types.Geotag("BE02222")];
 
         await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
@@ -131,8 +125,6 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var typeMapping = index.Value.Mappings;
 
         var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.VCode = fixture.Create<VCode>();
-        verenigingZoekDocument.Status = VerenigingStatus.Actief;
         verenigingZoekDocument.Geotags = [new VerenigingZoekDocument.Types.Geotag("BE02222")];
 
         await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
@@ -148,7 +140,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     }
 
     [Fact]
-    public async ValueTask When_Searching_On_Multiple_Geotags_Then_Returns_Vereniging2()
+    public async ValueTask When_Searching_On_Multiple_Geotags_Then_Returns_Multiple_Verenigingen()
     {
         var fixture = new Fixture().CustomizePublicApi();
 
@@ -157,20 +149,30 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var typeMapping = index.Value.Mappings;
 
         var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.VCode = fixture.Create<VCode>();
-        verenigingZoekDocument.Status = VerenigingStatus.Actief;
-        verenigingZoekDocument.Geotags = [new VerenigingZoekDocument.Types.Geotag("BE33333,BE02222")];
+        verenigingZoekDocument.Geotags = [
+            new VerenigingZoekDocument.Types.Geotag("BE33333"),
+            new VerenigingZoekDocument.Types.Geotag("BE02222")];
+
+        var verenigingZoekDocument2 = fixture.Create<VerenigingZoekDocument>();
+        verenigingZoekDocument2.Geotags = [
+            new VerenigingZoekDocument.Types.Geotag("BE88888"),
+            new VerenigingZoekDocument.Types.Geotag("BE99999")];
 
         await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
+        await _elasticClient.IndexDocumentAsync(verenigingZoekDocument2);
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
-        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:(BE33333 OR BE02222)", "vCode", [], new PaginationQueryParams()),
+        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:(BE33333 OR BE99999)", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);
 
-        var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
-        vereniging.Should().NotBeNull();
-        vereniging!.Geotags.Should().BeEquivalentTo(verenigingZoekDocument.Geotags);
+        var vereniging1 = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
+        vereniging1.Should().NotBeNull();
+        vereniging1!.Geotags.Should().BeEquivalentTo(verenigingZoekDocument.Geotags);
+
+        var vereniging2 = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument2.VCode);
+        vereniging2.Should().NotBeNull();
+        vereniging2!.Geotags.Should().BeEquivalentTo(verenigingZoekDocument2.Geotags);
     }
 
     public void Dispose()
