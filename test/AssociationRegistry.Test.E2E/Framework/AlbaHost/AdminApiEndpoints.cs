@@ -10,7 +10,6 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 using System.Web;
-using Xunit;
 
 public static class AdminApiEndpoints
 {
@@ -23,7 +22,6 @@ public static class AdminApiEndpoints
             source,
             authenticatedClient,
             $"/v1/verenigingen/{vCode}/historiek",
-            null,
             headers);
 
     public static async Task<string> GetDetailAsText(
@@ -50,7 +48,6 @@ public static class AdminApiEndpoints
             source,
             authenticatedClient,
             $"/v1/verenigingen/{vCode}",
-            null,
             headers);
 
     public static HttpResponseMessage GetBeheerDetailHttpResponse(
@@ -68,13 +65,11 @@ public static class AdminApiEndpoints
     public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        ITestOutputHelper? helper = null,
         RequestHeadersBuilder? headers = null)
         => await GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>(
             source,
             authenticatedClient,
             "/v1/admin/config/minimumScoreDuplicateDetection",
-            helper,
             headers);
 
     public static async Task<HttpResponseMessage> PostMinimumScoreDuplicateDetectionOverride(
@@ -92,21 +87,19 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query,
-        ITestOutputHelper? helper = null,
         RequestHeadersBuilder? headers = null)
         => await GetWithRetryAsync<SearchVerenigingenResponse>(
             source,
             authenticatedClient,
             $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}",
-            helper,
             headers);
+
     // ---------- Shared helpers ----------
 
     private static async Task<TResponse> GetWithRetryAsync<TResponse>(
         IAlbaHost source,
         HttpClient authenticatedClient,
         string uri,
-        ITestOutputHelper? helper = null,
         RequestHeadersBuilder? headers = null)
     {
         var client = source.CreateClientWithHeaders(authenticatedClient, headers);
@@ -170,9 +163,8 @@ public class RequestHeadersBuilder
 
     public RequestHeadersBuilder WithExpectedSequence(long? expectedSequence)
     {
-        //TODO:
         if (expectedSequence.HasValue)
-            With(WellknownHeaderNames., expectedSequence.Value.ToString());
+            With("expectedSequence", expectedSequence.Value.ToString());
 
         return this;
     }
