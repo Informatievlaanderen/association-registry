@@ -30,7 +30,7 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
     }
 
     public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(_request, _testContext.CommandResult.Sequence)
+        => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
                 .GetAwaiter().GetResult();
 
     [Fact]
