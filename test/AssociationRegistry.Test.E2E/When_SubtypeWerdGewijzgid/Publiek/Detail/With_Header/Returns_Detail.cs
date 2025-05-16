@@ -22,7 +22,8 @@ public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
     }
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode).GetAwaiter().GetResult();
+        => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                                          _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()

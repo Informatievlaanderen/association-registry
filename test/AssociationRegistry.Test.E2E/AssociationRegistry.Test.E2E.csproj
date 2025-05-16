@@ -29,6 +29,7 @@
     <Content Remove="When_Retrieving_Detail\**" />
     <Content Remove="When_Searching\**" />
     <Content Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
+    <Content Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Content Remove="When_The_Api_Is_Started\**" />
     <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
@@ -42,6 +43,7 @@
     <Compile Remove="When_Retrieving_Detail\**" />
     <Compile Remove="When_Searching\**" />
     <Compile Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
+    <Compile Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_The_Api_Is_Started\**" />
     <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
@@ -55,6 +57,7 @@
     <EmbeddedResource Remove="When_Retrieving_Detail\**" />
     <EmbeddedResource Remove="When_Searching\**" />
     <EmbeddedResource Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
+    <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
     <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
@@ -68,6 +71,7 @@
     <None Remove="When_Retrieving_Detail\**" />
     <None Remove="When_Searching\**" />
     <None Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
+    <None Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_The_Api_Is_Started\**" />
     <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />

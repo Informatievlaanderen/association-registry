@@ -1,26 +1,23 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
-using FluentAssertions;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
-public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
+    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
-
 
     [Fact]
     public void With_Context()
@@ -33,4 +30,7 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
+
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 }

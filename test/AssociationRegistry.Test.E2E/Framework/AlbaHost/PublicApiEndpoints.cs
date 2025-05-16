@@ -18,8 +18,9 @@ public static class PublicApiEndpoints
     public static async Task<PubliekVerenigingDetailResponse> GetPubliekDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-        string vCode)
-        => await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}");
+        string vCode,
+        long? expectedSequence)
+        => await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
 
     public static HttpStatusCode GetPubliekDetailStatusCode(this IAlbaHost source, string vCode)
     {

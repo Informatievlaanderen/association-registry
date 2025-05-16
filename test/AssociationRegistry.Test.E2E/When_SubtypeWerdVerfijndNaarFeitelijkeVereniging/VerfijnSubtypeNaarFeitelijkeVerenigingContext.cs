@@ -11,27 +11,24 @@ using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Scenarios.Requests.VZER;
 using Vereniging;
-using Xunit;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
-public class VerfijnSubtypeNaarFeitelijkeVerenigingCollection : ICollectionFixture<VerfijnSubtypeNaarFeitelijkeVerenigingContext>
+public class VerfijnSubtypeNaarFeitelijkeVerenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class VerfijnSubtypeNaarFeitelijkeVerenigingContext : TestContextBase<VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario, WijzigSubtypeRequest>
-{
-    protected override VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario InitializeScenario()
-        => new();
+    public const string Name = "VerfijnSubtypeNaarFeitelijkeVerenigingContext";
+    public VCode VCode => CommandResult.VCode;
+    public VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario Scenario { get; }
 
-    public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public VerfijnSubtypeNaarFeitelijkeVerenigingContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        Scenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(Scenario);
+        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarFvFactory(Scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

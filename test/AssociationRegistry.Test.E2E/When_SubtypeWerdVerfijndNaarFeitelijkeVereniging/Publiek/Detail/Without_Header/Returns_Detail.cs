@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Publiek.Detail.Without_Header;
 
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,18 +9,15 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
-public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
+    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -32,4 +30,7 @@ public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.CommandResult.VCode);
 }

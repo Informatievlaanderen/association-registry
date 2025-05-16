@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Acm.VerenigingenPerInsz;
 
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -10,27 +11,22 @@ using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
-public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VerenigingenPerInszResponse :
+    End2EndTest<VerfijnSubtypeNaarFeitelijkeVerenigingContext, WijzigSubtypeRequest, VerenigingenPerInszResponse>
 {
-    private readonly VerfijnSubtypeNaarFeitelijkeVerenigingContext _testContext;
-    private readonly VerenigingenPerInszRequest _request;
     private readonly string _inszToCompare;
+    private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_Detail(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_VerenigingenPerInszResponse(VerfijnSubtypeNaarFeitelijkeVerenigingContext testContext)
     {
-        _testContext = testContext;
-        _inszToCompare = testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers.First().Insz;
+        _inszToCompare = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].Insz;
         _request = new VerenigingenPerInszRequest()
         {
             Insz = _inszToCompare,
             KboNummers = [],
         };
     }
-
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
-                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Verenigingen()
@@ -42,13 +38,13 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
             [
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.VCode,
+                    VCode = TestContext.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
+                    VertegenwoordigerId = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = TestContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
-                    Verenigingstype = new VerenigingenPerInszResponse.Verenigingstype(
+                    Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
                         Verenigingstype.VZER.Code,
                         Verenigingstype.VZER.Naam),
                     Verenigingssubtype =  new VerenigingenPerInszResponse.Verenigingssubtype()
@@ -62,4 +58,8 @@ public class Returns_Detail : End2EndTest<VerenigingenPerInszResponse>
             KboNummers = [],
         });
     }
+
+    public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
+                         .GetAwaiter().GetResult();
 }
