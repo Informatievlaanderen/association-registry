@@ -1,3 +1,17 @@
+# [8.238.0](https://github.com/informatievlaanderen/association-registry/compare/v8.237.1...v8.238.0) (2025-05-16)
+
+
+### Bug Fixes
+
+* **admin-proj:** or-2802 always use update document to prevent accidental reset of boolean properties ([b957655](https://github.com/informatievlaanderen/association-registry/commit/b9576555c593f1542d798139bfac20bea6bb491e))
+* or-2784 return unexpected aggregate version when loading an aggregate with higher version ([6287933](https://github.com/informatievlaanderen/association-registry/commit/62879339d10e2fc201a715ccbdf3896edd3048cc))
+* or-2802 always use update document to prevent accidental reset of boolean properties ([835baf3](https://github.com/informatievlaanderen/association-registry/commit/835baf39e88efb3e93db2b710165ef9b0e71cade))
+
+
+### Features
+
+* or-2794 clarify which endpoints dont need an api key in public api ([27ad0db](https://github.com/informatievlaanderen/association-registry/commit/27ad0db89d3911d3a7cc55e581d469587438bdd6))
+
 ## [8.237.1](https://github.com/informatievlaanderen/association-registry/compare/v8.237.0...v8.237.1) (2025-05-06)
 
 
