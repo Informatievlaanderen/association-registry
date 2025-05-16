@@ -12,23 +12,20 @@ using KellermanSoftware.CompareNetObjects;
 using When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
 using Xunit;
 
-[Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
-public class Returns_Detail : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, HistoriekResponse>
 {
-    private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
+    public Returns_Historiek(ZetSubtypeNaarNietBepaaldContext testContext)
     {
-        _testContext = testContext;
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(_testContext.VCode);
+        Response.VCode.ShouldCompare(TestContext.VCode);
     }
 
     [Fact]
@@ -43,7 +40,7 @@ public class Returns_Detail : End2EndTest<HistoriekResponse>
         var werdVerfijnd =
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingssubtypeWerdTerugGezetNaarNietBepaald));
 
-        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubtypeWerdTerugGezetNaarNietBepaald(_testContext.VCode),
+        werdVerfijnd.ShouldCompare(HistoriekGebeurtenisMapper.SubtypeWerdTerugGezetNaarNietBepaald(TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

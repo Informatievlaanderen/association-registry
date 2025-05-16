@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Detail.Without_Header;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Admin.Api.Verenigingen.Subtype.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,18 +9,15 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
-public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
+    private readonly ZetSubtypeNaarNietBepaaldContext _context;
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -32,4 +30,7 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
+
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 }

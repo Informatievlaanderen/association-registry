@@ -1,25 +1,24 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdTerugGezetNaarNietBepaald.Beheer.Zoeken.Without_Header;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using When_SubtypeWerdVerfijndNaarFeitelijkeVereniging;
 using Xunit;
 
-[Collection(nameof(ZetSubtypeNaarNietBepaaldCollection))]
-public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_SearchVerenigingenResponse : End2EndTest<ZetSubtypeNaarNietBepaaldContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
     private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
 
-    public Returns_Detail(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(ZetSubtypeNaarNietBepaaldContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}",new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -34,4 +33,7 @@ public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
         vereniging.VCode.Should().BeEquivalentTo(_testContext.VCode);
         vereniging.Verenigingssubtype.Should().BeNull();
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }
