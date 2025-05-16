@@ -1,15 +1,17 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens.Publiek.Detail_All;
 
+using Admin.Api.Verenigingen.WijzigBasisgegevens.FeitelijkeVereniging.RequestModels;
 using Formats;
+using JsonLdContext;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
-using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using NodaTime;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Detail.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
@@ -17,21 +19,20 @@ using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenig
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(nameof(WijzigBaisisGegevensCollection))]
-public class Returns_ArrayOfDetailResponses
-    : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensTestContext, WijzigBasisgegevensRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly WijzigBasisgegevensContext _testContext;
+    private readonly WijzigBasisgegevensTestContext _testContext;
 
-    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensContext testContext) : base(testContext.ApiSetup)
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
+        setup => setup.PublicApiHost
+                      .GetPubliekDetailAll()
+                      .FindVereniging(TestContext.VCode);
+
+    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost
-                           .GetPubliekDetailAll()
-                           .FindVereniging(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -56,13 +57,13 @@ public class Returns_ArrayOfDetailResponses
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _testContext.VCode,
-            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
-            KorteNaam = _testContext.CommandRequest.KorteNaam,
+            VCode = TestContext.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
@@ -74,14 +75,14 @@ public class Returns_ArrayOfDetailResponses
                 Naam = string.Empty,
             },
             SubverenigingVan = null,
-            Naam = _testContext.CommandRequest.Naam,
+            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Contactgegevens, _testContext.VCode),
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
-            Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties, _testContext.VCode),
+            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.RegistratieData.Contactgegevens, TestContext.VCode),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.RegistratieData.Locaties, TestContext.VCode),
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels( TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

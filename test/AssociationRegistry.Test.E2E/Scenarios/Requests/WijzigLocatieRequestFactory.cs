@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 
-using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Alba;
 using Events;
@@ -43,20 +42,21 @@ public class WijzigLocatieRequestFactory : ITestRequestFactory<WijzigLocatieRequ
                 },
         };
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/locaties/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.Locaties[0].LocatieId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        })).Context.Response;
-
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        });
 
         await WaitForAdresMatchEvent(apiSetup);
 
-        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
+        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+
+        return new CommandResult<WijzigLocatieRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 
     protected async Task WaitForAdresMatchEvent(IApiSetup apiSetup)
