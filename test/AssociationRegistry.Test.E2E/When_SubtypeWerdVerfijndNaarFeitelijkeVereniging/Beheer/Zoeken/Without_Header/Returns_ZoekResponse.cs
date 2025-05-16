@@ -6,7 +6,6 @@ using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
 using Framework.AlbaHost;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
 using Xunit;
 
 [Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
@@ -20,7 +19,7 @@ public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", setup.AdminApiHost.DocumentStore(), headers: new RequestParameters()
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", headers: new RequestParameters()
                                                  .WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
     [Fact]
     public void With_Context()

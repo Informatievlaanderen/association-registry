@@ -23,7 +23,7 @@ public class Given_Sorting_By_Multiple_Fields
     public async Task Then_it_sorts_by_Verenigingstype_then_by_vCode_descending_V2(string ascendingField, string descendingField)
     {
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort={ascendingField},-{descendingField}", _testContext.MaxSequenceByScenario);
+                                                                                $"*&sort={ascendingField},-{descendingField}");
 
         var verenigingen = result.Verenigingen;
 
@@ -51,7 +51,7 @@ public class Given_Sorting_By_Multiple_Fields
     public async Task? Then_it_sorts_descending_then_ascending_V2(string descendingField, string ascendingField)
     {
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort=-{descendingField},{ascendingField}", _testContext.MaxSequenceByScenario);
+                                                                                $"*&sort=-{descendingField},{ascendingField}");
 
         var verenigingen = result.Verenigingen;
 

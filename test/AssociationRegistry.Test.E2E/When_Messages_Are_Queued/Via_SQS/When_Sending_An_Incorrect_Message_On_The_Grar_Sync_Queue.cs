@@ -34,7 +34,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<OverkoepelendeGrarConsumerMessage>());
 
-        var maxRetries = 20;
+        var maxRetries = 5;
         var tries = 0;
         List<Message> messages = null;
 
@@ -51,7 +51,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Grar_Sync_Queue
             }
 
             _testOutputHelper.WriteLine($"Attempt {tries}");
-            await Task.Delay(1000);
+            await Task.Delay(500);
         }
 
         messages.Should().NotBeEmpty();

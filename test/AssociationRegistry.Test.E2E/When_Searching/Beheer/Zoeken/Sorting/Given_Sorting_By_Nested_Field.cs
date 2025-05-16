@@ -2,7 +2,6 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Marten;
 using System.Reflection;
 using Xunit;
 
@@ -23,7 +22,7 @@ public class Given_Sorting_By_Nested_Fields
         var field = "doelgroep.minimumleeftijd";
 
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                              "*", _testContext.ApiSetup.AdminApiHost.DocumentStore(), "doelgroep.minimumleeftijd",
+                                                                              "*", "doelgroep.minimumleeftijd",
                                                                               headers: new RequestParameters().V2()
                                                                                  .WithExpectedSequence(_testContext.MaxSequenceByScenario));
 
@@ -41,7 +40,7 @@ public class Given_Sorting_By_Nested_Fields
         var field = "doelgroep.minimumleeftijd";
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               "*",
-                                                                              _testContext.ApiSetup.AdminApiHost.DocumentStore(), sort: "-doelgroep.minimumleeftijd",
+                                                                              sort: "-doelgroep.minimumleeftijd",
                                                                                new RequestParameters()
                                                                                   .V2()
                                                                                  .WithExpectedSequence(_testContext.MaxSequenceByScenario));

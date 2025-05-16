@@ -2,7 +2,6 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Marten;
 using System.Reflection;
 using Xunit;
 
@@ -25,7 +24,7 @@ public class Given_Sorting_By_Multiple_Fields
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort={ascendingField},-{descendingField}",
-                                                                              _testContext.ApiSetup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              headers: new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
@@ -54,8 +53,7 @@ public class Given_Sorting_By_Multiple_Fields
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort=-{descendingField},{ascendingField}",
-                                                                              _testContext.ApiSetup.AdminApiHost.DocumentStore(),
-                                                                              headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              headers: new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 

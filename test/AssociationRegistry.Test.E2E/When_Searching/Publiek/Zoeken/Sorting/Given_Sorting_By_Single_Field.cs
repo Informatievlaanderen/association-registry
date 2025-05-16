@@ -23,7 +23,7 @@ public class Given_Sorting_By_Single_Field
     public async Task Then_it_sorts_descending_V2(string field)
     {
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort=-{field}", _testContext.MaxSequenceByScenario);
+                                                                                $"*&sort=-{field}");
 
         var verenigingen = result.Verenigingen;
 
@@ -43,7 +43,7 @@ public class Given_Sorting_By_Single_Field
     public async Task? Then_it_sorts_ascending_V2(string field)
     {
         var result = await _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(_testContext.ApiSetup.SuperAdminHttpClient,
-                                                                                $"*&sort={field}", _testContext.MaxSequenceByScenario);
+                                                                                $"*&sort={field}");
 
         var verenigingen = result.Verenigingen;
 

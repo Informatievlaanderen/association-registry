@@ -2,7 +2,6 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Marten;
 using Xunit;
 
 [Collection(nameof(SearchCollection))]
@@ -21,7 +20,7 @@ public class Given_Sorting_By_VerenigingsType
     {
         var response = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                                     "*&sort=verenigingstype.code",
-                                                                                    _testContext.ApiSetup.AdminApiHost.DocumentStore(), headers: new RequestParameters().V2().WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                                    headers: new RequestParameters().V2());
 
         var groups = response.Verenigingen.Select(x => new { x.VCode, x.Verenigingstype.Code })
                                  .GroupBy(x => x.Code, x => x.VCode)

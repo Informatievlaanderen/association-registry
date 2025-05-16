@@ -5,9 +5,7 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
-using JasperFx.Core;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
 using Xunit;
 
 [Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
@@ -21,14 +19,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-    {
-        Task.Delay(5.Seconds()).GetAwaiter().GetResult();
-
-        return setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
-                                                  setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().WithExpectedSequence(
-                                                      _testContext.AanvaarddeCorrectieDubbeleVereniging?.Sequence)).GetAwaiter()
-                    .GetResult();
-    }
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient ,$"vCode:{_testContext.Scenario.AuthentiekeVereniging.VCode}",
+                                              headers: new RequestParameters().WithExpectedSequence(_testContext.AanvaarddeCorrectieDubbeleVereniging?.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()

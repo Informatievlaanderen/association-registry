@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Framework.AlbaHost;
 
-using Admin.Api;
 using Admin.Api.Administratie.Configuratie;
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Detail.ResponseModels;
@@ -8,17 +7,10 @@ using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
-using Marten;
-using Marten.Events.Daemon;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Testing.Platform.Logging;
-using Nest;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
 using System.Web;
-using Xunit.Abstractions;
 
 public static class AdminApiEndpoints
 {
@@ -77,36 +69,10 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query,
-        IDocumentStore store,
         string? sort = "",
         RequestParameters? headers = null)
-    {
-        var store2 = source.Services.GetRequiredService<IDocumentStore>();
-        var logger = source.Services.GetRequiredService<Microsoft.Extensions.Logging.ILogger<Program>>();
-        await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-
-        var result = (await store2.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")
-                                                          ?.Sequence;
-
-        var expectedSequence = headers?.Build().ExpectedSequence;
-
-        bool reachedSequence = result >= expectedSequence;
-        var counter = 0;
-        while ((!result.HasValue || !reachedSequence) && counter < 10)
-        {
-            logger.LogCritical($"<<<<<<<<<<<<<<Did not reach the expected sequence yet. Expected: {expectedSequence}, Actual: {result} >>>>>>>>>>>>>{query}");
-            counter++;
-            await Task.Delay(500);
-            await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
-
-            result = (await store2.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "BeheerVerenigingZoekenDocument:All")?.Sequence;
-            reachedSequence = result >= expectedSequence;
-        }
-        return await SmartHttpClient.Create(source, authenticatedClient, headers?.WithoutExpectedSequence()).GetWithRetryAsync<SearchVerenigingenResponse>(
+        => await SmartHttpClient.Create(source, authenticatedClient, headers).GetWithRetryAsync<SearchVerenigingenResponse>(
             $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}{AddOptionalSort(sort)}");
-    }
 
     private static string AddOptionalSort(string sort)
     {
@@ -261,13 +227,6 @@ public class RequestParameters
         _expectedSequence);
 
     public record Result(IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers, long? ExpectedSequence);
-
-    public RequestParameters WithoutExpectedSequence()
-    {
-        _expectedSequence = null;
-
-        return this;
-    }
 }
 
 

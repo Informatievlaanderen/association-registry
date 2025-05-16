@@ -18,8 +18,7 @@ public class Given_Sorting_By_VerenigingsType
     [Fact]
     public void Then_it_sorts_by_Verenigingstype_then_by_vCode_descending()
     {
-        var verenigingen = _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(
-            _testContext.ApiSetup.SuperAdminHttpClient,"*&sort=verenigingstype.code", _testContext.MaxSequenceByScenario).GetAwaiter().GetResult().Verenigingen;
+        var verenigingen = _testContext.ApiSetup.PublicApiHost.GetPubliekZoekenWithHeader(_testContext.ApiSetup.SuperAdminHttpClient,"*&sort=verenigingstype.code").GetAwaiter().GetResult().Verenigingen;
 
         var groups = verenigingen.Select(x => new { x.VCode, x.Verenigingstype.Code })
                                  .GroupBy(x => x.Code, x => x.VCode)

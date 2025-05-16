@@ -1,36 +1,24 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Beheer.Zoeken.With_Header;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
-using Admin.Schema.Search;
 using FluentAssertions;
-using FluentAssertions.Extensions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Marten;
-using Marten.Events.Daemon;
-using Nest;
 using Xunit;
 
 [Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
 public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
 {
     private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
-    private readonly ITestOutputHelper _helper;
-
-    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
     {
         _testContext = testContext;
-        _helper = helper;
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-    {
-        return setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.CommandResult.VCode}",
-                                                  setup.AdminApiHost.DocumentStore(),headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter()
-                    .GetResult();
-    }
+        => setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient,$"vCode:{_testContext.CommandResult.VCode}", headers: new RequestParameters().V2().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
