@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Beheer.Zoeken;
 
 using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.Verenigingen.Stop.RequestModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
@@ -10,18 +11,15 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 
-[Collection(nameof(StopVerenigingCollection))]
-public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_SearchVerenigingenResponse : End2EndTest<StopVerenigingContext, StopVerenigingRequest, SearchVerenigingenResponse>
 {
     private readonly StopVerenigingContext _testContext;
 
-    public Returns_ZoekResponse(StopVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(StopVerenigingContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 
     [Fact]
     public void With_Context()
@@ -32,7 +30,10 @@ public class Returns_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
     {
-        Response.Verenigingen.Single().Einddatum.Should().Be(_testContext.CommandRequest.Einddatum.FormatAsBelgianDate());
+        Response.Verenigingen.Single().Einddatum.Should().Be(_testContext.Request.Einddatum.FormatAsBelgianDate());
         Response.Verenigingen.Single().Status.Should().Be(VerenigingStatus.Gestopt);
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

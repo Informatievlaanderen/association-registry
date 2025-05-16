@@ -1,27 +1,25 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Stop_Vereniging.Publiek.Detail_All;
 
-using FluentAssertions;
-using Formats;
+using Admin.Api.Verenigingen.Stop.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using FluentAssertions;
+using Formats;
 using Newtonsoft.Json.Linq;
 using NodaTime.Extensions;
 using Public.Api.Verenigingen.DetailAll;
 using Xunit;
 
-[Collection(nameof(StopVerenigingCollection))]
-public class Returns_ArrayOfDetailResponses : End2EndTest<IEnumerable<JObject>>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ArrayOfDetailResponses : End2EndTest<StopVerenigingContext, StopVerenigingRequest, IEnumerable<JObject>>
 {
-    private readonly StopVerenigingContext _testContext;
+    public override Func<IApiSetup, IEnumerable<JObject>> GetResponse =>
+        setup => setup.PublicApiHost.GetPubliekDetailAll();
 
-    public Returns_ArrayOfDetailResponses(StopVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_ArrayOfDetailResponses(StopVerenigingContext context)
     {
-        _testContext = testContext;
     }
-
-    public override IEnumerable<JObject> GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailAll();
 
     [Fact]
     public void WithVereniging()
@@ -31,7 +29,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<IEnumerable<JObject>>
                     {
                         Vereniging = new DetailAllConverter.TeVerwijderenVereniging.TeVerwijderenVerenigingData()
                         {
-                            VCode = _testContext.VCode,
+                            VCode = TestContext.VCode,
                             TeVerwijderen = true,
                             DeletedAt = DateTime.UtcNow.Date.ToInstant().FormatAsBelgianDate(),
                         },

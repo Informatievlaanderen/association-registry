@@ -4,28 +4,34 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using Vereniging;
 using Xunit;
 
-[Collection(nameof(StopVerenigingCollection))]
-public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
+[Collection(StopVerenigingContext.Name)]
+public class Returns_Detail : IAsyncLifetime
 {
-    private readonly StopVerenigingContext _testContext;
+    private readonly StopVerenigingContext _context;
 
-    public Returns_Detail(StopVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(StopVerenigingContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void JsonContentMatches()
     {
-       Response.Vereniging.Einddatum.Should().BeEquivalentTo(_testContext.CommandRequest.Einddatum.FormatAsBelgianDate());
+       Response.Vereniging.Einddatum.Should().BeEquivalentTo(_context.Request.Einddatum.FormatAsBelgianDate());
        Response.Vereniging.Status.Should().BeEquivalentTo(VerenigingStatus.Gestopt.StatusNaam);
+    }
+
+    public DetailVerenigingResponse Response { get; set; }
+
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
     }
 }
