@@ -28,7 +28,7 @@ public class Returns_SearchVerenigingenResponse
     }
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", headers: new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
 
     [Fact]

@@ -27,7 +27,7 @@ public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
     }
 
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
+        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()

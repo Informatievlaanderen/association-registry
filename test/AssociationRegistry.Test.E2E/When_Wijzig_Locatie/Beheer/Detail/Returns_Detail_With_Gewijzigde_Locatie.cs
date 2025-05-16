@@ -69,9 +69,5 @@ public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigi
     }
 
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(
-                            setup.AdminHttpClient,
-                            _testContext.VCode,
-                            headers: new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence))
-                       .GetAwaiter().GetResult();
+        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode, headers: new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
 }

@@ -6,10 +6,8 @@ using Admin.Api.Verenigingen.Detail.ResponseModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
 using Admin.Api.Verenigingen.Search.ResponseModels;
 using Alba;
-using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using Newtonsoft.Json;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Web;
 using Xunit;
@@ -20,94 +18,109 @@ public static class AdminApiEndpoints
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
-        RequestParameters? headers = null)
-        => SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<HistoriekResponse>($"/v1/verenigingen/{vCode}/historiek")
-          .GetAwaiter()
-          .GetResult();
+        RequestHeadersBuilder? headers = null)
+        => await GetWithRetryAsync<HistoriekResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/verenigingen/{vCode}/historiek",
+            null,
+            headers);
+
+    public static async Task<string> GetDetailAsText(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string vCode,
+        RequestHeadersBuilder? headers = null)
+    {
+        var uri = $"/v1/verenigingen/{vCode}";
+        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
+
+        var response = await client.GetAsync(uri);
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content.ReadAsStringAsync();
+    }
 
     public static async Task<DetailVerenigingResponse> GetBeheerDetail(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
-        RequestParameters? headers = null)
-        => SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}")
-          .GetAwaiter()
-          .GetResult();
+        RequestHeadersBuilder? headers = null)
+        => await GetWithRetryAsync<DetailVerenigingResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/verenigingen/{vCode}",
+            null,
+            headers);
 
-
-    public static ProblemDetails GetProblemDetailsForBeheerDetailHttpResponse(
+    public static HttpResponseMessage GetBeheerDetailHttpResponse(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
         long expectedSequence,
-        RequestParameters? headers = null)
-        => SmartHttpClient
-          .Create(source, authenticatedClient, headers)
-          .GetWithRetryAsync<ProblemDetails>($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}")
-          .GetAwaiter()
-          .GetResult();
+        RequestHeadersBuilder? headers = null)
+    {
+        var uri = $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}";
+        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
+        return client.GetAsync(uri).GetAwaiter().GetResult();
+    }
 
     public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         HttpClient authenticatedClient,
-         RequestParameters? headers = null)
-        => await SmartHttpClient
-                .Create(source, authenticatedClient, headers)
-                .GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>("/v1/admin/config/minimumScoreDuplicateDetection");
+        ITestOutputHelper? helper = null,
+        RequestHeadersBuilder? headers = null)
+        => await GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>(
+            source,
+            authenticatedClient,
+            "/v1/admin/config/minimumScoreDuplicateDetection",
+            helper,
+            headers);
 
     public static async Task<HttpResponseMessage> PostMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         OverrideMinimumScoreDuplicateDetectionRequest request,
-        HttpClient authenticatedClient)
-        => await SmartHttpClient
-                .Create(source, authenticatedClient)
-                .PostAsync("/v1/admin/config/minimumScoreDuplicateDetection", JsonContent.Create(request));
+        HttpClient authenticatedClient,
+        RequestHeadersBuilder? headers = null)
+    {
+        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
+        var uri = "/v1/admin/config/minimumScoreDuplicateDetection";
+        return await client.PostAsync(uri, JsonContent.Create(request));
+    }
 
     public static async Task<SearchVerenigingenResponse> GetBeheerZoeken(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string query,
-        RequestParameters? headers = null)
-        => await SmartHttpClient.Create(source, authenticatedClient, headers).GetWithRetryAsync<SearchVerenigingenResponse>(
-            $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}");
+        ITestOutputHelper? helper = null,
+        RequestHeadersBuilder? headers = null)
+        => await GetWithRetryAsync<SearchVerenigingenResponse>(
+            source,
+            authenticatedClient,
+            $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}",
+            helper,
+            headers);
+    // ---------- Shared helpers ----------
 
-    public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient baseClient)
-        => SmartHttpClient.Create(source, baseClient).HttpClient;
-}
-
-public class SmartHttpClient
-{
-    private readonly HttpClient _client;
-    private readonly RequestParameters.Result? _requestParameters;
-
-    private SmartHttpClient(HttpClient client, RequestParameters.Result? requestParameters)
+    private static async Task<TResponse> GetWithRetryAsync<TResponse>(
+        IAlbaHost source,
+        HttpClient authenticatedClient,
+        string uri,
+        ITestOutputHelper? helper = null,
+        RequestHeadersBuilder? headers = null)
     {
-        _client = client;
-        _requestParameters = requestParameters;
-    }
-
-    public HttpClient HttpClient => _client;
-
-    public async Task<TResponse> GetWithRetryAsync<TResponse>(string uri)
-    {
-        if (_requestParameters is not null)
-            uri = EmbellishUri(uri, _requestParameters);
-
+        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
         const int maxRetries = 5;
         var delay = TimeSpan.FromMilliseconds(300);
 
-        for (var attempt = 0; attempt < maxRetries; attempt++)
+        for (int attempt = 0; attempt < maxRetries; attempt++)
         {
-            var response = await _client.GetAsync(uri);
+            var response = await client.GetAsync(uri);
 
-            if (response.StatusCode is not HttpStatusCode.PreconditionFailed or HttpStatusCode.NotFound)
+            if (response.StatusCode != HttpStatusCode.PreconditionFailed)
             {
+                response.EnsureSuccessStatusCode();
                 var json = await response.Content.ReadAsStringAsync();
-
                 return JsonConvert.DeserializeObject<TResponse>(json)!;
             }
 
@@ -118,96 +131,61 @@ public class SmartHttpClient
         throw new HttpRequestException($"Failed to retrieve {uri} after {maxRetries} retries due to 412 responses.");
     }
 
-    private static string EmbellishUri(string uri, RequestParameters.Result requestParameters)
+    public static HttpClient CreateClientWithHeaders(
+        this IAlbaHost source,
+        HttpClient? baseClient = null,
+        RequestHeadersBuilder? builder = null)
     {
-        if (requestParameters.ExpectedSequence is null)
-            return uri;
-
-        if (uri.Contains(WellknownParameters.ExpectedSequence))
-            throw new InvalidOperationException("ExpectedSequence already in uri");
-
-        if (uri.Contains("?"))
-            uri += $"&{WellknownParameters.ExpectedSequence}={requestParameters.ExpectedSequence}";
-        else
-            uri += $"?{WellknownParameters.ExpectedSequence}={requestParameters.ExpectedSequence}";
-
-        return uri;
-    }
-
-    public static SmartHttpClient Create(IAlbaHost host, HttpClient? baseClient, RequestParameters? requestParametersBuilder = null)
-    {
-        var requestParameters = requestParametersBuilder?.Build();
-        var client = host.Server.CreateClient();
+        var client = source.Server.CreateClient();
 
         if (baseClient != null)
         {
-            AddHeaders(client, baseClient.DefaultRequestHeaders);
+            foreach (var header in baseClient.DefaultRequestHeaders)
+            {
+                client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+            }
         }
 
-        if (requestParameters is null)
-            return new(client, null);
-
-        AddHeaders(client, requestParameters.Headers);
-
-        return new(client, requestParameters);
-    }
-
-    private static void AddHeaders(
-        HttpClient client,
-        IEnumerable<KeyValuePair<string, IEnumerable<string>>> baseClientDefaultRequestHeaders)
-    {
-        foreach (var header in baseClientDefaultRequestHeaders)
+        foreach (var header in (builder ?? Headers.None()).Build())
         {
             client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
         }
-    }
 
-    public async Task<HttpResponseMessage> PostAsync(string uri, JsonContent create)
-        => await _client.PostAsync(uri, create);
+        return client;
+    }
 }
 
-public class RequestParameters
+public class RequestHeadersBuilder
 {
-    private readonly Dictionary<string, string[]> _headers = new();
-    private long? _expectedSequence;
+    private readonly Dictionary<string, string> _headers = new();
 
-    public RequestParameters With(string key, string value)
+    public RequestHeadersBuilder With(string key, string value)
     {
-        _headers[key] = [value];
-        _expectedSequence = null;
+        _headers[key] = value;
         return this;
     }
 
-    public RequestParameters V2()
+    public RequestHeadersBuilder V2()
         => With(WellknownHeaderNames.Version, WellknownVersions.V2);
 
-    public RequestParameters WithExpectedSequence(long? expectedSequence)
+    public RequestHeadersBuilder WithExpectedSequence(long? expectedSequence)
     {
-        _expectedSequence = expectedSequence;
+        //TODO:
+        if (expectedSequence.HasValue)
+            With(WellknownHeaderNames., expectedSequence.Value.ToString());
 
         return this;
     }
 
-    public Result Build() => new(
-        _headers
-           .ToDictionary(
-                x => x.Key,
-                x => x.Value)
-           .Select(
-                x => new KeyValuePair<string, IEnumerable<string>>(
-                    x.Key,
-                    x.Value)),
-        _expectedSequence);
-
-    public record Result(IEnumerable<KeyValuePair<string, IEnumerable<string>>> Headers, long? ExpectedSequence);
+    internal IEnumerable<KeyValuePair<string, string>> Build()
+        => _headers;
 }
-
 
 public static class Headers
 {
-    public static RequestParameters None()
+    public static RequestHeadersBuilder None()
         => new();
 
-    public static RequestParameters V2()
-        => new RequestParameters().V2();
+    public static RequestHeadersBuilder V2()
+        => new RequestHeadersBuilder().V2();
 }
