@@ -33,7 +33,10 @@ public class WijzigLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevo
 
     protected override async ValueTask ExecuteScenario(LidmaatschapWerdToegevoegdScenario scenario)
     {
+        await ApiSetup.ExecuteGiven(scenario);
         CommandResult = await new WijzigLidmaatschapRequestFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 
 }// CollectionFixture for database setup ==> Context

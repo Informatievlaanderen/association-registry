@@ -8,22 +8,21 @@ using Framework.ApiSetup;
 using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
+using Vereniging;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
+
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using Verenigingssubtype = Public.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
-using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(nameof(RegistreerVerenigingZonderEigenRechtspersoonlijkheidCollection))]
-public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest, SearchVerenigingenResponse>
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext _testContext;
 
-    public Returns_VZER_ZoekResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_VZER_ZoekResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]
@@ -45,8 +44,8 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
-            KorteNaam = _testContext.CommandRequest.KorteNaam,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new VerenigingsType
             {
                 Code = Verenigingstype.VZER.Code,
@@ -57,10 +56,10 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
                 Code = string.Empty,
                 Naam = string.Empty,
             },
-            Naam = _testContext.CommandRequest.Naam,
-            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
-            Locaties = PubliekZoekResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
+            Naam = Request.Naam,
+            HoofdactiviteitenVerenigingsloket = PubliekZoekResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekZoekResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = PubliekZoekResponseMapper.MapLocaties(Request.Locaties, _testContext.VCode),
             Relaties = [],
             Lidmaatschappen = [],
             Sleutels = PubliekZoekResponseMapper.MapSleutels(_testContext.VCode),
@@ -70,6 +69,6 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

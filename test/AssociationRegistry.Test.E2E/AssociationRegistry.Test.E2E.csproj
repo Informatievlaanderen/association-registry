@@ -33,6 +33,7 @@
     <Content Remove="When_Registreer_VerenigingMetRechtsperoonslijkheid\**" />
     <Content Remove="When_Retrieving_Detail\**" />
     <Content Remove="When_Searching\**" />
+    <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_SubtypeWerdGewijzgid\**" />
     <Content Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Content Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
@@ -45,6 +46,8 @@
     <Content Remove="When_Wijzig_Basisgegevens\**" />
     <Content Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Content Remove="When_Wijzig_Concurrently\**" />
+    <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Beheer\**" />
+    <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Publiek\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,6 +61,7 @@
     <Compile Remove="When_Registreer_VerenigingMetRechtsperoonslijkheid\**" />
     <Compile Remove="When_Retrieving_Detail\**" />
     <Compile Remove="When_Searching\**" />
+    <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_SubtypeWerdGewijzgid\**" />
     <Compile Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Compile Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
@@ -70,6 +74,8 @@
     <Compile Remove="When_Wijzig_Basisgegevens\**" />
     <Compile Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Compile Remove="When_Wijzig_Concurrently\**" />
+    <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Beheer\**" />
+    <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Publiek\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -83,6 +89,7 @@
     <EmbeddedResource Remove="When_Registreer_VerenigingMetRechtsperoonslijkheid\**" />
     <EmbeddedResource Remove="When_Retrieving_Detail\**" />
     <EmbeddedResource Remove="When_Searching\**" />
+    <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_SubtypeWerdGewijzgid\**" />
     <EmbeddedResource Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
@@ -95,6 +102,8 @@
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens\**" />
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <EmbeddedResource Remove="When_Wijzig_Concurrently\**" />
+    <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Beheer\**" />
+    <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Publiek\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -108,6 +117,7 @@
     <None Remove="When_Registreer_VerenigingMetRechtsperoonslijkheid\**" />
     <None Remove="When_Retrieving_Detail\**" />
     <None Remove="When_Searching\**" />
+    <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_SubtypeWerdGewijzgid\**" />
     <None Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <None Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
@@ -120,6 +130,8 @@
     <None Remove="When_Wijzig_Basisgegevens\**" />
     <None Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <None Remove="When_Wijzig_Concurrently\**" />
+    <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Beheer\**" />
+    <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\Publiek\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

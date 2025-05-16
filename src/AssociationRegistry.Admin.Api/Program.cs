@@ -745,12 +745,12 @@ public class Program
 
     private static void ConfigureLifetimeHooks(WebApplication app)
     {
-        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Admin Api started"));
+        app.Lifetime.ApplicationStarted.Register(() => Log.Information("Application started"));
 
         app.Lifetime.ApplicationStopping.Register(
             () =>
             {
-                Log.Information("Admin Api stopping");
+                Log.Information("Application stopping");
                 Log.CloseAndFlush();
             });
 

@@ -32,8 +32,13 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext : TestC
 
     protected override async ValueTask ExecuteScenario(EmptyScenario scenario)
     {
+        await ApiSetup.ExecuteGiven(scenario);
         CommandResult = await new RegistreerVZERRequestFactory().ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
+
+
 
 
     /// <summary>

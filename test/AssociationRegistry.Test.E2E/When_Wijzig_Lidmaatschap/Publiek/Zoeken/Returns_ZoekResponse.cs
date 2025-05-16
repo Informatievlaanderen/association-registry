@@ -10,16 +10,15 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Scenarios.Givens.FeitelijkeVereniging;
+using Vereniging;
+
 using Xunit;
-using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;
-using Verenigingstype = Vereniging.Verenigingstype;
 
 [Collection(nameof(WijzigLidmaatschapCollection))]
-public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>
+public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingenResponse>, IAsyncLifetime
 {
     private readonly WijzigLidmaatschapContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
@@ -71,4 +70,8 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
                 Detail = new Uri($"{_testContext.PublicApiAppSettings.BaseUrl}/v1/verenigingen/{_testContext.VCode}"),
             },
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
+
+    public async ValueTask DisposeAsync()
+    {
+    }
 }

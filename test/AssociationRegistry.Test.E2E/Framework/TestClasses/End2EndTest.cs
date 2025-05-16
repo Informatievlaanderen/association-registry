@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.TestClasses;
 
 using ApiSetup;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using When_Wijzig_Lidmaatschap;
 using Xunit;
 

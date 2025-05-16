@@ -1,7 +1,6 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
-using Events;
 using Marten.Events.Daemon;
 using TestClasses;
 
@@ -18,6 +17,6 @@ public interface IApiSetup
 
     public IProjectionDaemon AdminProjectionDaemon { get; }
 
-    Task<KeyValuePair<string, IEvent[]>[]> ExecuteGiven(IScenario scenario);
+    Task ExecuteGiven(IScenario scenario);
     Task RefreshIndices();
 }
