@@ -20,9 +20,9 @@ using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigings
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_DetailResponse :
-    End2EndTest<WijzigBasisgegevensKboContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
+    End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(WijzigBasisgegevensKboContext context)
+    public Returns_DetailResponse(WijzigBasisgegevensKboTestContext testContext)
     {
     }
 

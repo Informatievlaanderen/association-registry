@@ -19,20 +19,19 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(nameof(WijzigBasisgegevensKbocollection))]
-public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKboTestContext, WijzigBasisgegevensRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly WijzigBasisgegevensKboContext _context;
+    private readonly WijzigBasisgegevensKboTestContext _testContext;
 
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
+        setup => setup.PublicApiHost
                       .GetPubliekDetailAll()
-                .FindVereniging(_context.VCode);
+                      .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboContext context)
-        : base(context.ApiSetup)
+    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboTestContext testContext)
     {
-        _context = context;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]
@@ -57,27 +56,27 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<PubliekVerenigingDetai
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_context.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _context.VCode,
-            KorteBeschrijving = _context.CommandRequest.KorteBeschrijving,
-            KorteNaam = _context.RegistratieData.KorteNaam,
+            VCode = TestContext.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = TestContext.RegistratieData.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZW.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZW.Naam,
             },
-            Naam = _context.RegistratieData.Naam,
-            Roepnaam = _context.CommandRequest.Roepnaam,
+            Naam = TestContext.RegistratieData.Naam,
+            Roepnaam = Request.Roepnaam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
             Contactgegevens = [],
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_context.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_context.CommandRequest.Werkingsgebieden),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
             Locaties = [],
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(_context.VCode, _context.RegistratieData.KboNummer),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode, TestContext.RegistratieData.KboNummer),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }
