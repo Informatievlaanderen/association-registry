@@ -30,7 +30,7 @@ public class Returns_ArrayOfDetailResponses
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
         => setup.PublicApiHost
-                           .GetPubliekDetailAll(_testContext.CommandResult.Sequence)
+                           .GetPubliekDetailAll()
                            .FindVereniging(_testContext.VCode);
 
     [Fact]

@@ -25,10 +25,8 @@ public static class PublicApiEndpoints
         string vCode)
         => await GetResponseFromRequestWithHeader<PubliekVerenigingDetailResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}");
 
-    public static HttpStatusCode GetPubliekDetailStatusCode(this IAlbaHost source, string vCode, long? expectedSequence)
+    public static HttpStatusCode GetPubliekDetailStatusCode(this IAlbaHost source, string vCode)
     {
-        WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All").GetAwaiter().GetResult();
-
         var client = source.Server.CreateClient();
         var response = client.GetAsync($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult();
 
@@ -40,10 +38,8 @@ public static class PublicApiEndpoints
         return source.GetAsJson<PubliekVerenigingSequenceResponse[]>($"/v1/verenigingen/mutaties").GetAwaiter().GetResult()!;
     }
 
-    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query, long? expectedSequence)
+    public static SearchVerenigingenResponse GetPubliekZoeken(this IAlbaHost source, string query)
     {
-        WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All").GetAwaiter().GetResult();
-
         return source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
     }
 
@@ -53,17 +49,17 @@ public static class PublicApiEndpoints
         string query,
         long? expectedSequence)
     {
-        await WaitForExpectedSequence(source, expectedSequence, "PubliekVerenigingZoekenDocument:All");
+        await WaitForExpectedSequence(source, expectedSequence);
         return await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient,
                                                                                   $"/v1/verenigingen/zoeken?q={query}");
     }
 
-    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence, string publiekverenigingzoekendocumentAll)
+    private static async Task WaitForExpectedSequence(IAlbaHost source, long? expectedSequence)
     {
         var store = source.Services.GetRequiredService<IDocumentStore>();
         await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
         var result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
+                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "PubliekVerenigingZoekenDocument:All")?.Sequence;
 
 
         bool reachedSequence = result >= expectedSequence;
@@ -74,7 +70,7 @@ public static class PublicApiEndpoints
             await Task.Delay(500);
             await source.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
             result = (await store.Advanced
-                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == publiekverenigingzoekendocumentAll)?.Sequence;
+                                  .AllProjectionProgress()).SingleOrDefault(x => x.ShardName == "PubliekVerenigingZoekenDocument:All")?.Sequence;
 
             reachedSequence = result >= expectedSequence;
         }
@@ -110,10 +106,8 @@ public static class PublicApiEndpoints
     public static WerkingsgebiedenResponse GetWerkingsgebieden(this IAlbaHost source)
         => source.GetAsJson<WerkingsgebiedenResponse>($"/v1/werkingsgebieden").GetAwaiter().GetResult()!;
 
-    public static JObject[] GetPubliekDetailAll(this IAlbaHost source, long? expectedSequence)
+    public static JObject[] GetPubliekDetailAll(this IAlbaHost source)
     {
-        WaitForExpectedSequence(source, expectedSequence, "AssociationRegistry.Public.ProjectionHost.Projections.Detail.PubliekVerenigingDetailProjection:All").GetAwaiter().GetResult();
-
         var locationHeader = GetDetailAllLocationHeader(source);
 
         var s3Response = GetS3Response(locationHeader);

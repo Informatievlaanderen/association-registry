@@ -32,7 +32,7 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
 
     public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
         => setup.PublicApiHost
-                .GetPubliekDetailAll(_testContext.CommandResult.Sequence)
+                .GetPubliekDetailAll()
                 .FindVereniging(_testContext.VCode);
 
     [Fact]

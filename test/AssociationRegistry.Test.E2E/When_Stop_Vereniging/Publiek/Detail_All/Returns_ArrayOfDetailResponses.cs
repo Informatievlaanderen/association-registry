@@ -21,7 +21,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<IEnumerable<JObject>>
     }
 
     public override IEnumerable<JObject> GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailAll(_testContext.CommandResult.Sequence);
+        => setup.PublicApiHost.GetPubliekDetailAll();
 
     [Fact]
     public void WithVereniging()

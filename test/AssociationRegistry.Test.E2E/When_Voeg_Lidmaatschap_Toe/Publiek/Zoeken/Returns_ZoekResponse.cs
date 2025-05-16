@@ -68,5 +68,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
         }, compareConfig: PubliekZoekenComparisonConfig.Instance);
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => _testContext.ApiSetup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}", _testContext.CommandResult.Sequence);
+        => _testContext.ApiSetup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.VCode}");
 }

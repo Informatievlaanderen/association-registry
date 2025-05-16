@@ -34,7 +34,7 @@ public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue
 
         await _setup.SqsClientWrapper.QueueMessage(_autoFixture.Create<TeAdresMatchenLocatieMessage>());
 
-        var maxRetries = 50;
+        var maxRetries = 5;
         var tries = 0;
         List<Message> messages = null;
 
