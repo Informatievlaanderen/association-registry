@@ -1,19 +1,17 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging.Beheer.Detail;
 
 using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using Newtonsoft.Json;
 using Xunit;
 
-[Collection(nameof(VerwijderVerenigingCollection))]
-public class Returns_ProblemDetails : End2EndTest<ProblemDetails>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ProblemDetails : IClassFixture<VerwijderVerenigingContext>
 {
     private readonly VerwijderVerenigingContext _context;
 
-    public Returns_ProblemDetails(VerwijderVerenigingContext context) : base(context.ApiSetup)
+    public Returns_ProblemDetails(VerwijderVerenigingContext context)
     {
         _context = context;
     }
@@ -21,16 +19,12 @@ public class Returns_ProblemDetails : End2EndTest<ProblemDetails>
     [Fact]
     public async ValueTask With_VerenigingWerdVerwijderd_In_Response()
     {
-        Response!.Title.Should().Be("Er heeft zich een fout voorgedaan!");
-        Response!.Detail.Should().Be("Deze vereniging werd verwijderd.");
-        Response.ProblemTypeUri.Should().Be("urn:associationregistry.admin.api:validation");
-    }
-
-    public override ProblemDetails GetResponse(FullBlownApiSetup setup)
-    {
         var response = _context.ApiSetup.AdminApiHost.GetBeheerDetailHttpResponse(_context.ApiSetup.SuperAdminHttpClient, _context.VCode, 2);
-        var responseContent = response.Content.ReadAsStringAsync().GetAwaiter().GetResult();
-        return JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
 
+        responseContentObject!.Title.Should().Be("Er heeft zich een fout voorgedaan!");
+        responseContentObject!.Detail.Should().Be("Deze vereniging werd verwijderd.");
+        responseContentObject.ProblemTypeUri.Should().Be("urn:associationregistry.admin.api:validation");
     }
 }

@@ -1,6 +1,7 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging.Historiek;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Vereniging.Beheer.Historiek;
 
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Verwijder.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -10,20 +11,23 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VerwijderVerenigingCollection))]
-public class Returns_Historiek : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<VerwijderVerenigingContext, VerwijderVerenigingRequest, HistoriekResponse>
 {
     private readonly VerwijderVerenigingContext _testContext;
 
-    public Returns_Historiek(VerwijderVerenigingContext testContext) : base(testContext.ApiSetup)
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+
+    public Returns_Historiek(VerwijderVerenigingContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(_testContext.VCode);
+        Response.VCode.ShouldCompare(TestContext.VCode);
     }
 
     [Fact]
@@ -37,11 +41,7 @@ public class Returns_Historiek : End2EndTest<HistoriekResponse>
     {
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingWerdVerwijderd));
 
-        gebeurtenisResponse.ShouldCompare(
-            HistoriekGebeurtenisMapper.VerenigingWerdVerwijderd(_testContext.CommandRequest.Reden),
+        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdVerwijderd(_testContext.Request.Reden),
                                                  compareConfig: HistoriekComparisonConfig.Instance);
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 }

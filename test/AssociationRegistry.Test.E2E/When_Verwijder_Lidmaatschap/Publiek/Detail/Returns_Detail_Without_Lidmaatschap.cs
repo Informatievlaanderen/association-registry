@@ -2,27 +2,38 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(VerwijderLidmaatschapCollection))]
-public class Returns_Detail_Without_Lidmaatschap : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(VerwijderLidmaatschapContext.Name)]
+public class Returns_Detail_Without_Lidmaatschap : IAsyncLifetime
 {
-    private readonly VerwijderLidmaatschapContext _testContext;
+    private readonly VerwijderLidmaatschapContext _context;
 
-    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
 
     [Fact]
     public void JsonContentMatches()
     {
+        var comparisonConfig = new ComparisonConfig();
+        comparisonConfig.MaxDifferences = 10;
+        comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+
         Response.Vereniging.Lidmaatschappen.Should().BeEmpty();
     }
 
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
+    public PubliekVerenigingDetailResponse Response { get; set; }
+
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+    }
 }

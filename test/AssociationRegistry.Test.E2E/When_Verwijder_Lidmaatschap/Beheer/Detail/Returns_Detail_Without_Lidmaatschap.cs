@@ -1,28 +1,39 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VerwijderLidmaatschapCollection))]
-public class Returns_Detail_Without_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
+[Collection(VerwijderLidmaatschapContext.Name)]
+public class Returns_Detail_Without_Lidmaatschap : IAsyncLifetime
 {
-    private readonly VerwijderLidmaatschapContext _testContext;
+    private readonly VerwijderLidmaatschapContext _context;
 
-    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail_Without_Lidmaatschap(VerwijderLidmaatschapContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
 
     [Fact]
     public void JsonContentMatches()
     {
+        var comparisonConfig = new ComparisonConfig();
+        comparisonConfig.MaxDifferences = 10;
+        comparisonConfig.MaxMillisecondsDateDifference = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+
         Response.Vereniging.Lidmaatschappen.Should().BeEmpty();
     }
 
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
+    public DetailVerenigingResponse Response { get; set; }
+
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+    }
 }
