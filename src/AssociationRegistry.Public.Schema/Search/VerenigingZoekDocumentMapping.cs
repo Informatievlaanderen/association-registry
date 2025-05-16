@@ -90,6 +90,11 @@ public static class VerenigingZoekDocumentMapping
                                                    .Name(document => document.Sleutels)
                                                    .IncludeInRoot()
                                                    .Properties(SleutelMapping.Get))
+                         .Nested<VerenigingZoekDocument.Types.Geotag>(
+                              propertyDescriptor => propertyDescriptor
+                                                   .Name(document => document.Geotags)
+                                                   .IncludeInRoot()
+                                                   .Properties(GeotagMapping.Get))
                          .Nested<VerenigingZoekDocument.Types.Relatie>(
                               propertyDescriptor => propertyDescriptor
                                                    .Name(document => document.Relaties)
@@ -259,6 +264,15 @@ public static class VerenigingZoekDocumentMapping
                                         .Name(document => document.GestructureerdeIdentificator)
                                         .IncludeInRoot()
                                         .Properties(GestructureerdeIdentificatorMapping.Get));
+    }
+
+    private static class GeotagMapping
+    {
+        public static IPromise<IProperties> Get(PropertiesDescriptor<VerenigingZoekDocument.Types.Geotag> map)
+            => map
+               .Keyword(
+                    propertyDescriptor => propertyDescriptor
+                                         .Name(document => document.Identifier));
     }
 
     private static class RelatieMapping

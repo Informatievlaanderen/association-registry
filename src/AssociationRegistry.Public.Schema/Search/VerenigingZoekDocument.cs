@@ -26,9 +26,12 @@ public class VerenigingZoekDocument : ICanBeUitgeschrevenUitPubliekeDatastroom, 
     public string Status { get; set; } = null!;
     public bool IsVerwijderd { get; set; }
     public bool IsDubbel { get; set; }
+    public Types.Geotag[] Geotags { get; set; } = null!;
 
     public static class Types
     {
+        public record Geotag(string Identifier);
+
         public class Verenigingssubtype : IVerenigingssubtypeCode
         {
             public string Code { get; init; } = null!;

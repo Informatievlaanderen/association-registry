@@ -1,18 +1,14 @@
-namespace AssociationRegistry.Test.Public.Api.Queries;
+namespace AssociationRegistry.Test.Public.Api.Queries.PubliekVerenigingenZoekQuery;
 
 using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
+using AssociationRegistry.Test.Public.Api.Framework;
+using AssociationRegistry.Test.Public.Api.When_Saving_A_Document_To_Elastic;
+using AssociationRegistry.Vereniging;
 using AutoFixture;
-using Common.Framework;
-using Fixtures.GivenEvents;
 using FluentAssertions;
-using Framework;
-using Marten;
-using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using Vereniging;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
