@@ -38,7 +38,7 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
             Roepnaam = "Roep!",
         };
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Patch
              .Json(request, JsonStyle.Mvc)
@@ -48,11 +48,12 @@ public class WijzigBasisgegevensRequestFactory : ITestRequestFactory<WijzigBasis
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response;
+        });
 
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
         return new CommandResult<WijzigBasisgegevensRequest>(
-            VCode.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
+            VCode.Create(_scenario.VerenigingMetRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

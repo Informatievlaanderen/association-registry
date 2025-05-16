@@ -29,6 +29,5 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<SearchVerenigingen
         => Response.Verenigingen.SingleOrDefault(x => x.VCode == _testContext.VCode).Should().BeNull();
 
     public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.AdminHttpClient, $"vCode:{_testContext.VCode}", new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
-
+        => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

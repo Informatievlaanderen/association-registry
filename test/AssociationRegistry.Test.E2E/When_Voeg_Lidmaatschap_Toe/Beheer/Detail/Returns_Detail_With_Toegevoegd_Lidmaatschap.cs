@@ -21,11 +21,7 @@ public class Returns_Detail_With_Toegevoegd_Lidmaatschap : End2EndTest<DetailVer
     }
 
     public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(setup.AdminHttpClient, _testContext.VCode,new RequestHeadersBuilder().WithExpectedSequence(_testContext.CommandResult.Sequence)).GetAwaiter().GetResult();
-
-    //await host.GetBeheerDetail(_testContext.AuthClient, _testContext.VCode, Headers.V2().WithExpectedSequence(42));
-
-   // await host.GetBeheerZoeken(_testContext.AuthClient, "Foo", Headers.V2());
+        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void JsonContentMatches()

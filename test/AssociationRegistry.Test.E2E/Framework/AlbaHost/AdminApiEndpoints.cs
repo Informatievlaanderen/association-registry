@@ -9,175 +9,110 @@ using Alba;
 using Newtonsoft.Json;
 using System.Net;
 using System.Net.Http.Json;
-using System.Web;
 
 public static class AdminApiEndpoints
 {
-    public static async Task<HistoriekResponse> GetBeheerHistoriek(
-        this IAlbaHost source,
-        HttpClient authenticatedClient,
-        string vCode,
-        RequestHeadersBuilder? headers = null)
-        => await GetWithRetryAsync<HistoriekResponse>(
-            source,
-            authenticatedClient,
-            $"/v1/verenigingen/{vCode}/historiek",
-            headers);
+    public static HistoriekResponse GetBeheerHistoriek(this IAlbaHost source, string vCode)
+        => source.GetAsJson<HistoriekResponse>(url: $"/v1/verenigingen/{vCode}/historiek")
+                 .GetAwaiter().GetResult()!;
 
-    public static async Task<string> GetDetailAsText(
-        this IAlbaHost source,
-        HttpClient authenticatedClient,
-        string vCode,
-        RequestHeadersBuilder? headers = null)
+    public static string GetDetailAsText(this IAlbaHost source, string vCode)
+        => source.GetAsText($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static DetailVerenigingResponse GetBeheerDetail(this IAlbaHost source, string vCode)
+        => source.GetAsJson<DetailVerenigingResponse>($"/v1/verenigingen/{vCode}").GetAwaiter().GetResult()!;
+
+    public static HttpResponseMessage GetBeheerDetailHttpResponse(this IAlbaHost source,
+                                                      HttpClient authenticatedClient,
+                                                      string vCode, long expectedSequence)
     {
-        var uri = $"/v1/verenigingen/{vCode}";
-        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
+        var client = source.Server.CreateClient();
 
-        var response = await client.GetAsync(uri);
-        response.EnsureSuccessStatusCode();
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
 
-        return await response.Content.ReadAsStringAsync();
+        return client.GetAsync($"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}").GetAwaiter().GetResult()!;
     }
 
-    public static async Task<DetailVerenigingResponse> GetBeheerDetail(
+    public static async  Task<DetailVerenigingResponse> GetBeheerDetailWithHeader(
         this IAlbaHost source,
         HttpClient authenticatedClient,
         string vCode,
-        RequestHeadersBuilder? headers = null)
-        => await GetWithRetryAsync<DetailVerenigingResponse>(
-            source,
-            authenticatedClient,
-            $"/v1/verenigingen/{vCode}",
-            headers);
-
-    public static HttpResponseMessage GetBeheerDetailHttpResponse(
-        this IAlbaHost source,
-        HttpClient authenticatedClient,
-        string vCode,
-        long expectedSequence,
-        RequestHeadersBuilder? headers = null)
-    {
-        var uri = $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}";
-        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
-        return client.GetAsync(uri).GetAwaiter().GetResult();
-    }
+        long? expectedSequence)
+        => await GetResponseFromRequestWithHeader<DetailVerenigingResponse>(source, authenticatedClient, $"/v1/verenigingen/{vCode}?expectedSequence={expectedSequence}");
 
     public static async Task<MinimumScoreDuplicateDetectionOverrideResponse> GetMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
-        HttpClient authenticatedClient,
-        RequestHeadersBuilder? headers = null)
-        => await GetWithRetryAsync<MinimumScoreDuplicateDetectionOverrideResponse>(
+        HttpClient authenticatedClient)
+        => await GetResponseFromRequestWithHeader<MinimumScoreDuplicateDetectionOverrideResponse>(
             source,
             authenticatedClient,
-            "/v1/admin/config/minimumScoreDuplicateDetection",
-            headers);
+            $"/v1/admin/config/minimumScoreDuplicateDetection");
 
     public static async Task<HttpResponseMessage> PostMinimumScoreDuplicateDetectionOverride(
         this IAlbaHost source,
         OverrideMinimumScoreDuplicateDetectionRequest request,
-        HttpClient authenticatedClient,
-        RequestHeadersBuilder? headers = null)
-    {
-        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
-        var uri = "/v1/admin/config/minimumScoreDuplicateDetection";
-        return await client.PostAsync(uri, JsonContent.Create(request));
-    }
-
-    public static async Task<SearchVerenigingenResponse> GetBeheerZoeken(
-        this IAlbaHost source,
-        HttpClient authenticatedClient,
-        string query,
-        RequestHeadersBuilder? headers = null)
-        => await GetWithRetryAsync<SearchVerenigingenResponse>(
-            source,
-            authenticatedClient,
-            $"/v1/verenigingen/zoeken?q={HttpUtility.UrlEncode(query)}",
-            headers);
-
-    // ---------- Shared helpers ----------
-
-    private static async Task<TResponse> GetWithRetryAsync<TResponse>(
-        IAlbaHost source,
-        HttpClient authenticatedClient,
-        string uri,
-        RequestHeadersBuilder? headers = null)
-    {
-        var client = source.CreateClientWithHeaders(authenticatedClient, headers);
-        const int maxRetries = 5;
-        var delay = TimeSpan.FromMilliseconds(300);
-
-        for (int attempt = 0; attempt < maxRetries; attempt++)
-        {
-            var response = await client.GetAsync(uri);
-
-            if (response.StatusCode != HttpStatusCode.PreconditionFailed)
-            {
-                response.EnsureSuccessStatusCode();
-                var json = await response.Content.ReadAsStringAsync();
-                return JsonConvert.DeserializeObject<TResponse>(json)!;
-            }
-
-            await Task.Delay(delay);
-            delay = TimeSpan.FromMilliseconds(delay.TotalMilliseconds * 2);
-        }
-
-        throw new HttpRequestException($"Failed to retrieve {uri} after {maxRetries} retries due to 412 responses.");
-    }
-
-    public static HttpClient CreateClientWithHeaders(
-        this IAlbaHost source,
-        HttpClient? baseClient = null,
-        RequestHeadersBuilder? builder = null)
+        HttpClient authenticatedClient)
     {
         var client = source.Server.CreateClient();
 
-        if (baseClient != null)
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
         {
-            foreach (var header in baseClient.DefaultRequestHeaders)
-            {
-                client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
-            }
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
         }
 
-        foreach (var header in (builder ?? Headers.None()).Build())
+        var requestUri = "/v1/admin/config/minimumScoreDuplicateDetection";
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+
+        return await client.PostAsync(requestUri, JsonContent.Create(request));
+    }
+
+    public static SearchVerenigingenResponse GetBeheerZoeken(this IAlbaHost source, string query)
+        => source.GetAsJson<SearchVerenigingenResponse>($"/v1/verenigingen/zoeken?q={query}").GetAwaiter().GetResult()!;
+
+    public static async  Task<SearchVerenigingenResponse> GetBeheerZoekenV2(
+        this IAlbaHost source,
+        HttpClient authenticatedClient,
+        string query)
+    => await GetResponseFromRequestWithHeader<SearchVerenigingenResponse>(source, authenticatedClient, $"/v1/verenigingen/zoeken?q={query}");
+
+    private static async Task<TResponse> GetResponseFromRequestWithHeader<TResponse>(
+        IAlbaHost source,
+        HttpClient authenticatedClient,
+        string requestUri)
+    {
+        var client = source.Server.CreateClient();
+
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
         {
-            client.DefaultRequestHeaders.TryAddWithoutValidation(header.Key, header.Value);
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
         }
 
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
+
+        var response = await client.GetAsync(requestUri);
+
+        while (response.StatusCode == HttpStatusCode.PreconditionFailed)
+        {
+            await Task.Delay(300);
+            response = await client.GetAsync(requestUri);
+        }
+
+        var readAsStringAsync = await response.Content.ReadAsStringAsync();
+
+        return JsonConvert.DeserializeObject<TResponse>(readAsStringAsync);
+    }
+
+    public static HttpClient CreateClientWithHeaders(this IAlbaHost source, HttpClient authenticatedClient)
+    {
+        var client = source.Server.CreateClient();
+        foreach (var defaultRequestHeader in authenticatedClient.DefaultRequestHeaders)
+        {
+            client.DefaultRequestHeaders.Add(defaultRequestHeader.Key, defaultRequestHeader.Value);
+        }
+        client.DefaultRequestHeaders.Add(WellknownHeaderNames.Version, WellknownVersions.V2);
         return client;
     }
-}
-
-public class RequestHeadersBuilder
-{
-    private readonly Dictionary<string, string> _headers = new();
-
-    public RequestHeadersBuilder With(string key, string value)
-    {
-        _headers[key] = value;
-        return this;
-    }
-
-    public RequestHeadersBuilder V2()
-        => With(WellknownHeaderNames.Version, WellknownVersions.V2);
-
-    public RequestHeadersBuilder WithExpectedSequence(long? expectedSequence)
-    {
-        if (expectedSequence.HasValue)
-            With("expectedSequence", expectedSequence.Value.ToString());
-
-        return this;
-    }
-
-    internal IEnumerable<KeyValuePair<string, string>> Build()
-        => _headers;
-}
-
-public static class Headers
-{
-    public static RequestHeadersBuilder None()
-        => new();
-
-    public static RequestHeadersBuilder V2()
-        => new RequestHeadersBuilder().V2();
 }
