@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Publiek.Zoeken.With_Header;
 
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,17 +9,15 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
-public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VZER_ZoekResponse : End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, SearchVerenigingenResponse>
 {
-    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
-    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
-    {
-        _testContext = testContext;
-    }
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
 
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.CommandResult.VCode}").GetAwaiter().GetResult();
+    public Returns_VZER_ZoekResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
+    {
+        TestContext = _testContext = testContext;
+    }
 
     [Fact]
     public void With_Context()
@@ -29,4 +28,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekZoekenWithHeader(setup.SuperAdminHttpClient,$"vCode:{_testContext.CommandResult.VCode}").GetAwaiter().GetResult();
 }

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Publiek.Zoeken.Without_Header;
 
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,18 +9,15 @@ using KellermanSoftware.CompareNetObjects;
 using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 
-[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
-public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_SearchVerenigingenResponse : End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, SearchVerenigingenResponse>
 {
-    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
+    private readonly RegistreerVerenigingMetRechtsperoonlijkheidTestContext _testContext;
 
-    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.CommandResult.VCode}");
 
     [Fact]
     public void With_Context()
@@ -30,4 +28,7 @@ public class Returns_Vereniging : End2EndTest<SearchVerenigingenResponse>
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
         => Response.Verenigingen.Single().Verenigingssubtype.Should().BeNull();
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekZoeken($"vCode:{_testContext.CommandResult.VCode}");
 }

@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_VerenigingMetRechtsperoonslijkheid.Publiek.Detail.Without_Header;
 
+using Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijkheid.RequestModels;
 using FluentAssertions;
 using Formats;
 using Framework.AlbaHost;
@@ -10,17 +11,13 @@ using NodaTime;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(RegistreerVerenigingMetRechtsperoonlijkheidCollection))]
-public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_DetailResponse :
+    End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly RegistreerVerenigingMetRechtsperoonlijkheidContext _testContext;
-    public Returns_Vereniging(RegistreerVerenigingMetRechtsperoonlijkheidContext testContext) : base(testContext.ApiSetup)
+    public Returns_DetailResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
     {
-        _testContext = testContext;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.CommandResult.VCode);
 
     [Fact]
     public void With_Context()
@@ -39,4 +36,7 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
     [Fact]
     public async ValueTask WithFeitelijkeVereniging()
         => Response.Vereniging.Verenigingssubtype.Should().BeNull();
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.CommandResult.VCode);
 }
