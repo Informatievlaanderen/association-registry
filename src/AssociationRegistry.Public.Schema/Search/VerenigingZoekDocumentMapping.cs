@@ -272,7 +272,8 @@ public static class VerenigingZoekDocumentMapping
             => map
                .Keyword(
                     propertyDescriptor => propertyDescriptor
-                                         .Name(document => document.Identifier));
+                                         .Name(document => document.Identifier)
+                                         .Normalizer(PubliekZoekenNormalizer));
     }
 
     private static class RelatieMapping

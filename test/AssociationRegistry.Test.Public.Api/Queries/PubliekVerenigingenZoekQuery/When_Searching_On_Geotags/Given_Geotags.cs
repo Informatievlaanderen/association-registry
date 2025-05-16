@@ -104,10 +104,17 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
 
         var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
 
-        await query.Explain(verenigingZoekDocument.VCode,
-                      new PubliekVerenigingenZoekFilter($"geotags.identifier:BE02222", "vCode", [], new PaginationQueryParams()));
-        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:BE02222", "vCode", [], new PaginationQueryParams()),
+        var publiekVerenigingenZoekFilter = new PubliekVerenigingenZoekFilter($"geotags.identifier:BE02222", "vCode", [], new PaginationQueryParams());
+
+        var actual = await query.ExecuteAsync(publiekVerenigingenZoekFilter,
                                               CancellationToken.None);
+
+        var document =
+            await query.ExecuteAsync(
+                new PubliekVerenigingenZoekFilter($"vCode:{verenigingZoekDocument.VCode}", "", [], new PaginationQueryParams()),
+                CancellationToken.None);
+
+        await query.Explain(document.Hits.First().Id, publiekVerenigingenZoekFilter);
 
         var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
         vereniging.Should().NotBeNull();
@@ -158,7 +165,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         await _elasticClient.Indices.RefreshAsync(Indices.All);
 
         var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
-        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:BE33333,BE02222", "vCode", [], new PaginationQueryParams()),
+        var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:(BE33333 OR BE02222)", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);
 
         var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
