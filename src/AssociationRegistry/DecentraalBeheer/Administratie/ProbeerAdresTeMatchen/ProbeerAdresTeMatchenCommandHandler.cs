@@ -6,6 +6,7 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using Grar.Clients;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 
 public class ProbeerAdresTeMatchenCommandHandler
 {

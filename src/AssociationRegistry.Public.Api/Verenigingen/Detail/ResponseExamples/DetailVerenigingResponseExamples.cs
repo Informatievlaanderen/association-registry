@@ -3,6 +3,7 @@
 using Infrastructure.ConfigurationBindings;
 using JsonLdContext;
 using ResponseModels;
+using Schema.Constants;
 using Swashbuckle.AspNetCore.Filters;
 using Vereniging;
 using Vereniging.Mappers;

@@ -1,6 +1,8 @@
 namespace AssociationRegistry.Test.Public.Api.DetailAll;
 
+using AssociationRegistry.Public.Api.Infrastructure.ConfigurationBindings;
 using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Api.Verenigingen.Detail;
 using AssociationRegistry.Public.Api.Verenigingen.DetailAll;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Public.Api.Framework;

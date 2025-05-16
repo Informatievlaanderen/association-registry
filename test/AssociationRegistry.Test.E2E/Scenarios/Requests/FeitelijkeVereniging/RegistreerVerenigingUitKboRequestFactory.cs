@@ -9,6 +9,7 @@ using Framework.ApiSetup;
 using Vereniging;
 using AutoFixture;
 using FluentAssertions;
+using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 

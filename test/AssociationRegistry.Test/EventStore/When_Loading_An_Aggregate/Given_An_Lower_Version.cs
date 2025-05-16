@@ -9,6 +9,7 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using AutoFixture.Kernel;
 using FluentAssertions;
+using Marten;
 using Microsoft.Extensions.Logging.Abstractions;
 using NodaTime;
 using Xunit;

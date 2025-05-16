@@ -6,6 +6,7 @@ using Infrastructure;
 using Nest;
 using RequestModels;
 using ResponseModels;
+using Vereniging;
 using Vereniging.Mappers;
 using Doelgroep = Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 using HoofdactiviteitVerenigingsloket = ResponseModels.HoofdactiviteitVerenigingsloket;

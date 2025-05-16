@@ -2,6 +2,7 @@ namespace AssociationRegistry.Test.Public.Api.Queries;
 
 using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
 using Fixtures.GivenEvents;

@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Common.AutoFixture;
 
 using Admin.Schema.PowerBiExport;
+using Events;
 using Framework;
 using global::AutoFixture;
 using global::AutoFixture.Dsl;

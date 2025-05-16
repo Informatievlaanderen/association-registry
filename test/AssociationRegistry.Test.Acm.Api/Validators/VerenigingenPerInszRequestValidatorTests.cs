@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Acm.Api.Validators;
 
 using AssociationRegistry.Acm.Api.VerenigingenPerInsz;
+using FluentValidation;
 using FluentValidation.TestHelper;
 using Xunit;
 

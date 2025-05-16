@@ -1,28 +1,36 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Searching.Beheer.Zoeken.Sorting;
 
+using Admin.Api.Verenigingen.Search.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
+using Scenarios.Requests;
 using Xunit;
 
-[Collection(nameof(SearchCollection))]
-public class Given_Sorting_By_VerenigingsType
+[Collection(FullBlownApiCollection.Name)]
+public class Given_Sorting_By_VerenigingsType : End2EndTest<SearchContext, NullRequest, SearchVerenigingenResponse>
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_VerenigingsType( SearchContext testContext)
-
+    public Given_Sorting_By_VerenigingsType(SearchContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
     [Fact]
-    public async ValueTask Then_it_sorts_by_Verenigingstype_then_by_vCode_descending()
+    public void With_Context()
     {
-        var response = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                                    "*&sort=verenigingstype.code",
-                                                                                    new RequestParameters().V2());
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
+    }
 
-        var groups = response.Verenigingen.Select(x => new { x.VCode, x.Verenigingstype.Code })
+    [Fact]
+    public void Then_it_sorts_by_Verenigingstype_then_by_vCode_descending()
+    {
+        var verenigingen = Response.Verenigingen;
+
+        var groups = verenigingen.Select(x => new { x.VCode, x.Verenigingstype.Code })
                                  .GroupBy(x => x.Code, x => x.VCode)
                                  .ToDictionary(x => x.Key, x => x.ToList());
 
@@ -33,4 +41,7 @@ public class Given_Sorting_By_VerenigingsType
             group.Value.Should().BeInDescendingOrder();
         }
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,"*&sort=verenigingstype.code").GetAwaiter().GetResult();
 }

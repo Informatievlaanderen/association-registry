@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.Locaties;
 
 using AssociationRegistry.Test.Projections.Scenario.Locaties;
+using Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_LocatieWerdVerwijderd(

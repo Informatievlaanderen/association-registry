@@ -8,6 +8,7 @@ using ConfigurationBindings;
 using Documentation;
 using Hosts;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi.Interfaces;
 using Microsoft.OpenApi.Models;

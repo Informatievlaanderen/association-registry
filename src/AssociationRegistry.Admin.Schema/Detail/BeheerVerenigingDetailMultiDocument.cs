@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Detail;
 
+using Marten.Metadata;
 using Marten.Schema;
 
 public record BeheerVerenigingDetailMultiDocument : IVCode, IMetadata

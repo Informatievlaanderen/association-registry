@@ -1,22 +1,30 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Searching.Beheer.Zoeken.Sorting;
 
+using Admin.Api.Verenigingen.Search.ResponseModels;
 using FluentAssertions;
 using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using KellermanSoftware.CompareNetObjects;
+using Scenarios.Requests;
 using System.Reflection;
 using Xunit;
 
-[Collection(nameof(SearchCollection))]
-public class Given_Sorting_By_Single_Field
+[Collection(FullBlownApiCollection.Name)]
+public class Given_Sorting_By_Single_Field : End2EndTest<SearchContext, NullRequest, SearchVerenigingenResponse>
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Single_Field( SearchContext testContext)
-
+    public Given_Sorting_By_Single_Field(SearchContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
 
-
+    [Fact]
+    public void With_Context()
+    {
+        Response.Context.ShouldCompare("http://127.0.0.1:11003/v1/contexten/beheer/zoek-verenigingen-context.json");
+    }
 
     [Theory]
     [InlineData("naam")]
@@ -24,9 +32,8 @@ public class Given_Sorting_By_Single_Field
     [InlineData("vCode")]
     public async Task Then_it_sorts_descending_V2(string field)
     {
-        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                              $"*&sort=-{field}",
-                                                                              new RequestParameters().V2());
+        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(_testContext.ApiSetup.SuperAdminHttpClient,
+                                                                                $"*&sort=-{field}");
 
         var verenigingen = result.Verenigingen;
 
@@ -45,9 +52,8 @@ public class Given_Sorting_By_Single_Field
     [InlineData("vCode")]
     public async Task? Then_it_sorts_ascending_V2(string field)
     {
-        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                              $"*&sort={field}",
-                                                                              new RequestParameters().V2());
+        var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoekenV2(_testContext.ApiSetup.SuperAdminHttpClient,
+                                                                                $"*&sort={field}");
 
         var verenigingen = result.Verenigingen;
 
@@ -66,4 +72,7 @@ public class Given_Sorting_By_Single_Field
 
         return propInfo?.GetValue(obj, null);
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoeken("*&sort=verenigingstype.code");
 }

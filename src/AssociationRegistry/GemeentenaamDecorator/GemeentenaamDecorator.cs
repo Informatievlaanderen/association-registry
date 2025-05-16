@@ -2,6 +2,7 @@ namespace AssociationRegistry.GemeentenaamDecorator;
 
 using AssociationRegistry.Grar.Models.PostalInfo;
 using AssociationRegistry.Vereniging;
+using Events;
 
 public static class GemeentenaamDecorator
 {

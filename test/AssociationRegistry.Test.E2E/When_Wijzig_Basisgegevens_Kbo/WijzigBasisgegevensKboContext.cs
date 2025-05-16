@@ -1,9 +1,14 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Basisgegevens_Kbo;
 
+using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Admin.Api.Verenigingen.WijzigBasisgegevens.MetRechtspersoonlijkheid.RequestModels;
 using Events;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Vereniging;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Givens.MetRechtspersoonlijkheid;
 using Xunit;
 using WijzigBasisgegevensRequestFactory = Scenarios.Requests.VerenigingMetRechtspersoonlijkheid.WijzigBasisgegevensRequestFactory;

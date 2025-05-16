@@ -5,6 +5,7 @@ using Common.AutoFixture;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Xunit;
 

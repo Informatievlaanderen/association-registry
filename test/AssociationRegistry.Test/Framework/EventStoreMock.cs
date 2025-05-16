@@ -3,6 +3,7 @@
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using Events;
+using EventStore;
 using Marten;
 using Vereniging;
 

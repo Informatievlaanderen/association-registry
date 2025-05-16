@@ -6,6 +6,7 @@ using EventFactories;
 using Events;
 using FluentAssertions;
 using Framework;
+using Framework.Customizations;
 using Vereniging;
 using Xunit;
 

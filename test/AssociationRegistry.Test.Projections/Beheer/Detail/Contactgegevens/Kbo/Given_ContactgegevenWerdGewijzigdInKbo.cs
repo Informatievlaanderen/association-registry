@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Contactgegevens.Kbo;
 
+using AssociationRegistry.Test.Projections.Scenario.Contactgegevens;
 using Scenario.Contactgegevens.Kbo;
 
 [Collection(nameof(ProjectionContext))]

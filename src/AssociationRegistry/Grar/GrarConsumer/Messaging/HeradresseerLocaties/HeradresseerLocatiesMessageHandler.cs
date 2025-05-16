@@ -1,10 +1,12 @@
 namespace AssociationRegistry.Grar.GrarConsumer.Messaging.HeradresseerLocaties;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Grar.GrarUpdates.Hernummering;
 using AssociationRegistry.Vereniging;
 using Clients;
 using Models;
+using NodaTime;
 
 public class HeradresseerLocatiesMessageHandler
 {

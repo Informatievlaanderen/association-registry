@@ -6,6 +6,7 @@ using Marten.Events;
 using Schema.VerenigingenPerInsz;
 using Vereniging;
 using Vereniging.Mappers;
+using VerenigingenPerInsz;
 using Vereniging = Schema.VerenigingenPerInsz.Vereniging;
 using Verenigingssubtype = Schema.VerenigingenPerInsz.Verenigingssubtype;
 using VerenigingStatus = Schema.Constants.VerenigingStatus;

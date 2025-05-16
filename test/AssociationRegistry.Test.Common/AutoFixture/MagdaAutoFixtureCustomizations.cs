@@ -2,6 +2,8 @@
 
 using global::AutoFixture;
 using Magda.Constants;
+using Magda.Models;
+using Magda.Models.RegistreerInschrijving;
 using Magda.Onderneming.GeefOnderneming;
 using AntwoordenType = Magda.Repertorium.RegistreerInschrijving.AntwoordenType;
 using ContextType = Magda.Repertorium.RegistreerInschrijving.ContextType;

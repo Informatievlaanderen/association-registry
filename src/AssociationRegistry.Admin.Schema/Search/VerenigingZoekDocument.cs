@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.Schema.Search;
 
+using Detail;
 using Vereniging;
 
 

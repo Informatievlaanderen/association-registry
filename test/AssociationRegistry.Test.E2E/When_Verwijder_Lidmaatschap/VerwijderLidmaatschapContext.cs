@@ -2,9 +2,13 @@ namespace AssociationRegistry.Test.E2E.When_Verwijder_Lidmaatschap;
 
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Marten.Events;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Scenarios.Requests.FeitelijkeVereniging;
+using Vereniging;
 using Xunit;
 
 public class VerwijderLidmaatschapContext : TestContextBase<LidmaatschapWerdToegevoegdScenario, NullRequest>

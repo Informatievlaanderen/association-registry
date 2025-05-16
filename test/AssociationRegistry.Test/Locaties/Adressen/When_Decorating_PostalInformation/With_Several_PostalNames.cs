@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Locaties.Adressen.When_Decorating_PostalInformation;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Grar.Models.PostalInfo;
 using Vereniging;
 using AutoFixture;

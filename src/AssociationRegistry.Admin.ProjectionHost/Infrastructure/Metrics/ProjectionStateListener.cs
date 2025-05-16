@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.ProjectionHost.Infrastructure.Metrics;
 
+using Marten.Events.Daemon;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.Reflection;

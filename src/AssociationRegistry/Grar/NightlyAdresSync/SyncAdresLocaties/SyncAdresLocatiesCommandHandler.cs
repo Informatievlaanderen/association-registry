@@ -1,9 +1,11 @@
 ﻿namespace AssociationRegistry.Grar.NightlyAdresSync.SyncAdresLocaties;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
 using Clients;
 using Microsoft.Extensions.Logging;
+using NodaTime;
 
 public class SyncAdresLocatiesCommandHandler(
     IVerenigingsRepository repository,

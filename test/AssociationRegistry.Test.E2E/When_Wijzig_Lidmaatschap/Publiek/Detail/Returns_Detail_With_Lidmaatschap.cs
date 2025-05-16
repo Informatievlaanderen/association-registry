@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Detail;
 
 using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using Events;
 using Framework.AlbaHost;
 using Formats;
 using Framework.ApiSetup;
@@ -8,6 +9,7 @@ using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Microsoft.Extensions.Logging;
+using Public.Api.Verenigingen.Search.ResponseModels;
 using Xunit;
 using Lidmaatschap = Public.Api.Verenigingen.Detail.ResponseModels.Lidmaatschap;
 

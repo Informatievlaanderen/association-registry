@@ -3,8 +3,12 @@ namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid;
 using Admin.Api.Verenigingen.Subtype.RequestModels;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Marten.Events;
+using Microsoft.Extensions.DependencyInjection;
+using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.VZER;
+using Vereniging;
 using Xunit;
 
 // CollectionFixture for database setup ==> Context

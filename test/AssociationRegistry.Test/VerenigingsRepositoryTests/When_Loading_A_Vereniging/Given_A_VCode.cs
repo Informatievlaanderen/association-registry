@@ -3,7 +3,9 @@
 using AssociationRegistry.Events;
 using AssociationRegistry.EventStore;
 using AssociationRegistry.Test.Framework;
+using AssociationRegistry.Test.Framework.Customizations;
 using AssociationRegistry.Vereniging;
+using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Common.AutoFixture;

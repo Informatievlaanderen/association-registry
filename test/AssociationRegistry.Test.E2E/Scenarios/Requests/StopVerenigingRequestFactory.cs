@@ -8,6 +8,7 @@ using Framework.ApiSetup;
 using Vereniging;
 using FeitelijkeVereniging;
 using Marten;
+using Marten.Events;
 using System.Net;
 
 public class StopVerenigingRequestFactory : ITestRequestFactory<StopVerenigingRequest>

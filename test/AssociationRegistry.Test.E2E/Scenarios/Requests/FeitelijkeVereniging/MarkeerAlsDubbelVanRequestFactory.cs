@@ -5,6 +5,7 @@ using Admin.Api.Verenigingen.Dubbelbeheer.FeitelijkeVereniging.MarkeerAlsDubbelV
 using Alba;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
+using Marten.Events;
 using System.Net;
 using Vereniging;
 

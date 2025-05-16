@@ -1,5 +1,6 @@
 namespace AssociationRegistry.Admin.AddressSync;
 
+using Grar;
 using Grar.Clients;
 using Grar.Exceptions;
 using Grar.Models;

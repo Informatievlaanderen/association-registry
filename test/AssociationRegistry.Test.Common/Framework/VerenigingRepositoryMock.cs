@@ -8,6 +8,7 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Marten;
 using Vereniging;
+using Xunit;
 
 public class VerenigingRepositoryMock : IVerenigingsRepository
 {

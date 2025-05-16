@@ -2,7 +2,9 @@ namespace AssociationRegistry.Public.ProjectionHost.Projections.Search;
 
 using Events;
 using Formats;
+using Infrastructure.Extensions;
 using JsonLdContext;
+using Schema.Constants;
 using Schema.Detail;
 using Schema.Search;
 using Vereniging;

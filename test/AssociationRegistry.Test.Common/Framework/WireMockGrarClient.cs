@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Common.Framework;
 
+using Grar;
 using Grar.Clients;
 using Microsoft.Extensions.Logging.Abstractions;
 

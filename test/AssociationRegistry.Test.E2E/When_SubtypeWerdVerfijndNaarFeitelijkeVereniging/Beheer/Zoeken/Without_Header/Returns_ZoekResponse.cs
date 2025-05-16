@@ -1,12 +1,21 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarFeitelijkeVereniging.Beheer.Zoeken.Without_Header;
 
+using Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.Comparison;
+using AssociationRegistry.Test.E2E.Framework.Mappers;
 using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
+using Formats;
 using Framework.AlbaHost;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using NodaTime;
+using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
+using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 
 [Collection(nameof(VerfijnSubtypeNaarFeitelijkeVerenigingCollection))]
 public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>

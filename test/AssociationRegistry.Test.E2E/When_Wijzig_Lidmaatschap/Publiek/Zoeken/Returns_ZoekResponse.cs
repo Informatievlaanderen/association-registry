@@ -1,5 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap.Publiek.Zoeken;
 
+using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
+using Azure;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -8,7 +10,9 @@ using Framework.Mappers;
 using Framework.TestClasses;
 using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
+using Public.Api.Verenigingen.Detail.ResponseModels;
 using Public.Api.Verenigingen.Search.ResponseModels;
+using Scenarios.Givens.FeitelijkeVereniging;
 using Xunit;
 using DoelgroepResponse = Public.Api.Verenigingen.Search.ResponseModels.DoelgroepResponse;
 using Vereniging = Public.Api.Verenigingen.Search.ResponseModels.Vereniging;

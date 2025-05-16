@@ -5,6 +5,7 @@ using Formats;
 using Framework;
 using JsonLdContext;
 using Marten.Events;
+using Schema.Constants;
 using Schema.Detail;
 using Vereniging;
 

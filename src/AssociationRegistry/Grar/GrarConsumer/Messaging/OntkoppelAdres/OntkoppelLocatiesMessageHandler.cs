@@ -1,7 +1,9 @@
 ﻿namespace AssociationRegistry.Grar.GrarConsumer.Messaging.OntkoppelAdres;
 
+using AssociationRegistry.EventStore;
 using AssociationRegistry.Framework;
 using AssociationRegistry.Vereniging;
+using NodaTime;
 
 public class OntkoppelLocatiesMessageHandler
 {

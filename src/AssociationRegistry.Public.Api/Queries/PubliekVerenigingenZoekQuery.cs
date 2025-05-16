@@ -2,6 +2,7 @@ namespace AssociationRegistry.Public.Api.Queries;
 
 using Constants;
 using Framework;
+using Marten.Linq.SoftDeletes;
 using Nest;
 using Schema;
 using Schema.Search;

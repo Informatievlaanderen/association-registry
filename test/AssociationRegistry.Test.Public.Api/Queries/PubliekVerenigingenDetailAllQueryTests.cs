@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.Public.Api.Queries;
 
 using AssociationRegistry.Public.Api.Queries;
+using AssociationRegistry.Public.Schema.Constants;
 using AssociationRegistry.Public.Schema.Detail;
 using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;

@@ -2,6 +2,8 @@
 
 using AssociationRegistry.Grar.Clients;
 using AssociationRegistry.Grar.Exceptions;
+using Hosts.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using System.Net;

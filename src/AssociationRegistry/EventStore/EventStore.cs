@@ -8,6 +8,7 @@ using Marten.Events;
 using Marten.Exceptions;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
+using System.Diagnostics;
 using Vereniging;
 using IEvent = Events.IEvent;
 

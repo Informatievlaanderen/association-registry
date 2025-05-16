@@ -1,6 +1,7 @@
 namespace AssociationRegistry.Test.E2E.Framework.ApiSetup;
 
 using Alba;
+using Events;
 using Marten.Events.Daemon;
 using TestClasses;
 using IEvent = Marten.Events.IEvent;

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Contactgegeven_Toe.Beheer.Detail;
 
 using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;

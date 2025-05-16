@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.PowerBiExport;
 
 using Scenario.Migratie;
+using Scenario.Subtypes;
 using Vereniging;
 using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 

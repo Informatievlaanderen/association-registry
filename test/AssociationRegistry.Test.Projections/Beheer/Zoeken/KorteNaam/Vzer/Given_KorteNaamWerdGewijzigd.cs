@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.KorteNaam.Vzer;
 
 using AssociationRegistry.Test.Projections.Scenario.KorteNaamWerdGewijzigd.Vzer;
+using Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_KorteNaamWerdGewijzigd(

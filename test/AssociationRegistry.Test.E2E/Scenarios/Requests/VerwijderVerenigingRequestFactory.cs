@@ -3,8 +3,10 @@ namespace AssociationRegistry.Test.E2E.Scenarios.Requests;
 using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Verwijder.RequestModels;
 using Alba;
+using Be.Vlaanderen.Basisregisters.Utilities;
 using Framework.ApiSetup;
 using Givens.VerenigingZonderEigenRechtspersoonlijkheid;
+using Marten.Events;
 using System.Net;
 using Vereniging;
 

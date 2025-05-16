@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Dubbelbeheer.When_Verwerk_Weigering_Dubbel_Door_Authentieke_Vereniging;
 
+using AssociationRegistry.Events;
 using AssociationRegistry.Notifications;
 using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;

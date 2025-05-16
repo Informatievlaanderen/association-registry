@@ -14,6 +14,7 @@ using Doelgroep = Schema.Detail.Doelgroep;
 using HoofdactiviteitVerenigingsloket = Schema.Detail.HoofdactiviteitVerenigingsloket;
 using Lidmaatschap = Schema.Detail.Lidmaatschap;
 using Locatie = Schema.Detail.Locatie;
+using Verenigingssubtype = Schema.Detail.Verenigingssubtype;
 using Verenigingstype = Schema.Detail.Verenigingstype;
 using Vertegenwoordiger = Schema.Detail.Vertegenwoordiger;
 using Werkingsgebied = Schema.Detail.Werkingsgebied;

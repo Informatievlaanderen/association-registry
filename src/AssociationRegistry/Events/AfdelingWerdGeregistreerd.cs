@@ -1,5 +1,8 @@
 namespace AssociationRegistry.Events;
 
+
+using System.Runtime.Serialization;
+
 [Obsolete]
 public record AfdelingWerdGeregistreerd(
     string VCode,

@@ -14,6 +14,7 @@ using Common.Framework;
 using Events;
 using EventStore;
 using Vereniging;
+using SubverenigingVan = Public.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 
 public static class HistoriekGebeurtenisMapper
 {

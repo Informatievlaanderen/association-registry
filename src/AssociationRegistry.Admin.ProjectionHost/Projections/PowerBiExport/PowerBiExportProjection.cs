@@ -8,6 +8,8 @@ using JasperFx.Core;
 using JsonLdContext;
 using Marten.Events;
 using Marten.Events.Aggregation;
+using Schema;
+using Schema.Detail;
 using Schema.PowerBiExport;
 using Vereniging;
 using Vereniging.Mappers;

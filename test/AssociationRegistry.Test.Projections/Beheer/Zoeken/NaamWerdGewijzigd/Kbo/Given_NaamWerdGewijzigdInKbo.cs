@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Zoeken.NaamWerdGewijzigd.Kbo;
 
 using AssociationRegistry.Test.Projections.Scenario.NaamWerdGewijzigd.Kbo;
+using Detail;
 
 [Collection(nameof(ProjectionContext))]
 public class Given_NaamWerdGewijzigdInKbo(

@@ -10,9 +10,12 @@ using Common.Clients;
 using Common.Framework;
 using Grar.NutsLau;
 using Hosts.Configuration;
+using Hosts.Configuration.ConfigurationBindings;
 using IdentityModel.AspNetCore.OAuth2Introspection;
 using Marten;
+using Marten.Events;
 using Marten.Events.Daemon;
+using Marten.Events.Daemon.Coordination;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,9 +25,11 @@ using Nest;
 using NodaTime;
 using NodaTime.Text;
 using Oakton;
+using Scenarios.Requests;
 using TestClasses;
 using Vereniging;
 using Xunit;
+using IEvent = Events.IEvent;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
 public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable

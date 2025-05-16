@@ -3,6 +3,7 @@
 using AssociationRegistry.Admin.Schema;
 using AssociationRegistry.Admin.Schema.Detail;
 using AssociationRegistry.JsonLdContext;
+using AssociationRegistry.Test.Projections.Scenario.Contactgegevens;
 using AssociationRegistry.Vereniging.Bronnen;
 using Scenario.Contactgegevens.Kbo;
 

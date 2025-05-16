@@ -5,6 +5,7 @@ using Infrastructure;
 using Infrastructure.ConfigurationBindings;
 using ResponseModels;
 using Schema.Detail;
+using Vereniging;
 using Vereniging.Mappers;
 using Adres = ResponseModels.Adres;
 using AdresId = ResponseModels.AdresId;

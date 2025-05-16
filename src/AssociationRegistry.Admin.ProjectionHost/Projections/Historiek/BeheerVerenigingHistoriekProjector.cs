@@ -3,6 +3,7 @@ namespace AssociationRegistry.Admin.ProjectionHost.Projections.Historiek;
 using Events;
 using Formats;
 using Framework;
+using Infrastructure.Extensions;
 using Marten.Events;
 using Schema;
 using Schema.Historiek;

@@ -4,6 +4,7 @@ using AssociationRegistry.Admin.Api.Infrastructure;
 using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
 using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.When_Wijzig_Locatie;
 using FluentAssertions;
 using Framework.ApiSetup;
 using Framework.TestClasses;

@@ -2,6 +2,7 @@
 
 using Admin.Api.Verenigingen.Common;
 using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
+using Admin.Schema.Constants;
 using Events;
 using Extensions.Mappers;
 using Formats;

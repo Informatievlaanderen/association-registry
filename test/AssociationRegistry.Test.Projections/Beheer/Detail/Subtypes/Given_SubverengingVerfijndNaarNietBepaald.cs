@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Subtypes;
 
+using Admin.Schema.Constants;
 using Scenario.Subtypes;
 
 [Collection(nameof(ProjectionContext))]

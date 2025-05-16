@@ -2,6 +2,7 @@
 
 using Be.Vlaanderen.Basisregisters.AggregateSource;
 using Destructurama;
+using global::OpenTelemetry;
 using global::OpenTelemetry.Exporter;
 using global::OpenTelemetry.Metrics;
 using global::OpenTelemetry.Resources;

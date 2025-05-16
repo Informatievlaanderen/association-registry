@@ -1,5 +1,6 @@
 ﻿namespace AssociationRegistry.Public.Api.Infrastructure.Extensions;
 
+using ConfigurationBindings;
 using Constants;
 using Json;
 using Marten;

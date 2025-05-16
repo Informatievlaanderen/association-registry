@@ -4,9 +4,12 @@ using Events;
 using Marten;
 using Marten.Events;
 using Marten.Events.Projections;
+using Schema.Constants;
 using Schema.VerenigingenPerInsz;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Vereniging;
+using VerenigingenPerInsz;
 
 public class VerenigingenPerInszProjection : EventProjection
 {

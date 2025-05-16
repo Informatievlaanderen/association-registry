@@ -1,6 +1,9 @@
 ﻿namespace AssociationRegistry.Test.Projections.Beheer.Detail.Migratie;
 
+using Admin.Schema;
+using Admin.Schema.Detail;
 using Scenario.Migratie;
+using Vereniging;
 using Verenigingstype = Admin.Schema.Detail.Verenigingstype;
 
 [Collection(nameof(ProjectionContext))]

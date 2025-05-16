@@ -6,6 +6,7 @@ using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 using AssociationRegistry.Test.E2E.Framework.ApiSetup;
 using AssociationRegistry.Test.E2E.Scenarios.Givens.FeitelijkeVereniging;
 using AssociationRegistry.Vereniging;
+using Marten.Events;
 using System.Net;
 
 public class WijzigSubtypeRequestVoorNietBepaaldFactory : ITestRequestFactory<WijzigSubtypeRequest>

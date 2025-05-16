@@ -2,6 +2,7 @@
 
 using ResponseModels;
 using Swashbuckle.AspNetCore.Filters;
+using Vereniging;
 using Werkingsgebied = ResponseModels.Werkingsgebied;
 
 public class WerkingsgebiedenResponseExamples : IExamplesProvider<WerkingsgebiedenResponse[]>

@@ -1,6 +1,7 @@
 ﻿namespace AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
 
 using DecentraalBeheer.Subtype;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using Vereniging;
 using Vereniging.Subtypes.Subvereniging;
