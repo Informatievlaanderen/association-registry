@@ -21,9 +21,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VoegLidmaatschapTo
     private readonly VoegLidmaatschapToeContext _testContext;
     private readonly FeitelijkeVerenigingWerdGeregistreerd FeitelijkeVerenigingWerdGeregistreerd;
 
-    public Returns_SearchVerenigingenResponse(VoegLidmaatschapToeContext testContext)
+    public Returns_SearchVerenigingenResponse(VoegLidmaatschapToeContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
         FeitelijkeVerenigingWerdGeregistreerd = testContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd;
     }
 

@@ -30,7 +30,7 @@ using Vereniging;
 using Xunit;
 using ProjectionHostProgram = Public.ProjectionHost.Program;
 
-public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
+public class FullBlownApiSetup : IAsyncLifetime, IApiSetup
 {
     public FullBlownApiSetup()
     {
@@ -243,20 +243,5 @@ public class FullBlownApiSetup : IAsyncLifetime, IApiSetup, IDisposable
         {
             context.RequestResult = (RequestResult<T>)ranContext;
         }
-    }
-
-    public void Dispose()
-    {
-        AdminApiHost.Dispose();
-        AcmApiHost.Dispose();
-        AdminProjectionHost.Dispose();
-        PublicProjectionHost.Dispose();
-        PublicApiHost.Dispose();
-        AdminProjectionDaemon.Dispose();
-        SuperAdminHttpClient.Dispose();
-        UnautenticatedClient.Dispose();
-        UnauthorizedClient.Dispose();
-        AdminHttpClient.Dispose();
-        AmazonSqs.Dispose();
     }
 }

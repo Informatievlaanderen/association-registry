@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaar
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarSubverenigingContext testContext)
+    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

@@ -24,7 +24,7 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
     public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 
-    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context)
+    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext context): base(context)
     {
     }
 

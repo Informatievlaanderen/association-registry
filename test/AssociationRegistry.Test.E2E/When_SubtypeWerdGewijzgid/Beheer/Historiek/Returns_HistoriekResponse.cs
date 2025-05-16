@@ -17,7 +17,7 @@ public class Returns_Historiek : End2EndTest<WhenSubtypeWerdGewijzigdContext, Wi
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(WhenSubtypeWerdGewijzigdContext testContext)
+    public Returns_Historiek(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext)
     {
     }
 

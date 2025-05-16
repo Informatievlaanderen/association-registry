@@ -8,8 +8,8 @@ using JsonLdContext;
 using Vereniging.Bronnen;
 using Xunit;
 
-[Collection(VoegContactgegevenToeContext.Name)]
-public class Returns_Detail : IAsyncLifetime
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : IClassFixture<VoegContactgegevenToeContext>, IAsyncLifetime
 {
     private readonly VoegContactgegevenToeContext _context;
 

@@ -15,7 +15,7 @@ using Xunit;
 public class Returns_DetailResponse :
     End2EndTest<RegistreerVerenigingMetRechtsperoonlijkheidTestContext, RegistreerVerenigingUitKboRequest, DetailVerenigingResponse>
 {
-    public Returns_DetailResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext)
+    public Returns_DetailResponse(RegistreerVerenigingMetRechtsperoonlijkheidTestContext testContext) : base(testContext)
     {
     }
 

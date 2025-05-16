@@ -16,7 +16,7 @@ public class Returns_Vereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanCont
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext context) : base(context)
     {
     }
 

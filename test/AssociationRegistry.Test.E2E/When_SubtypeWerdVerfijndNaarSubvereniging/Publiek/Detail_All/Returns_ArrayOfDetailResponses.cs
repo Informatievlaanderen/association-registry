@@ -30,7 +30,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<VerfijnSubtypeNaarSubv
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(VerfijnSubtypeNaarSubverenigingContext testContext)
+    public Returns_ArrayOfDetailResponses(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
         _context = testContext;
     }

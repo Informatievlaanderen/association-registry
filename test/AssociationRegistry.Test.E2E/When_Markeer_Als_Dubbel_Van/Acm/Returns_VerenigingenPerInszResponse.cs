@@ -17,7 +17,7 @@ public class Returns_VerenigingenPerInszResponse :
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(MarkeerAlsDubbelVanContext testContext)
+    public Returns_VerenigingenPerInszResponse(MarkeerAlsDubbelVanContext testContext) : base(testContext)
     {
         _inszToCompare = TestContext.Scenario.FeitelijkeVerenigingWerdGeregistreerd.Vertegenwoordigers[0].Insz;
         _request = new VerenigingenPerInszRequest()

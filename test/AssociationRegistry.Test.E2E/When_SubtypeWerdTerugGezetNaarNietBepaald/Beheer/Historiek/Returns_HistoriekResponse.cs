@@ -18,7 +18,7 @@ public class Returns_Historiek : End2EndTest<ZetSubtypeNaarNietBepaaldContext, W
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(ZetSubtypeNaarNietBepaaldContext testContext)
+    public Returns_Historiek(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext)
     {
     }
 

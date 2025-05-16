@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<VerwijderVerenigin
 {
     private readonly VerwijderVerenigingContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(VerwijderVerenigingContext testContext)
+    public Returns_SearchVerenigingenResponse(VerwijderVerenigingContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

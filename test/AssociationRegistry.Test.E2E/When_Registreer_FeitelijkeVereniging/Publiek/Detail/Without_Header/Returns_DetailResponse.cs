@@ -24,9 +24,9 @@ public class Returns_DetailResponse : End2EndTest<RegistreerFeitelijkeVereniging
 {
     private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
+    public Returns_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

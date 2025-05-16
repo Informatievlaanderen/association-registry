@@ -19,9 +19,9 @@ public class Returns_Historiek : End2EndTest<VerwijderVerenigingContext, Verwijd
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VerwijderVerenigingContext testContext)
+    public Returns_Historiek(VerwijderVerenigingContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

@@ -14,7 +14,6 @@ using Vereniging;
 
 public class RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest[]>
 {
-    public const string Name = "RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext";
         public class TestData
     {
         public string KortrijkSpurs { get; set; } = $"{FictieveGemeentenaam.ToUpper()} SPURS";

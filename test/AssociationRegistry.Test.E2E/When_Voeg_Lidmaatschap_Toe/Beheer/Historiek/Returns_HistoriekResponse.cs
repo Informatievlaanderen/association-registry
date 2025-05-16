@@ -17,7 +17,7 @@ public class Returns_Historiek : End2EndTest<VoegLidmaatschapToeContext, VoegLid
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VoegLidmaatschapToeContext testContext)
+    public Returns_Historiek(VoegLidmaatschapToeContext testContext) : base(testContext)
     {
     }
 

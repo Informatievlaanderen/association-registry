@@ -14,9 +14,9 @@ public class Given_No_Sort : End2EndTest<SearchContext, NullRequest, SearchVeren
 {
     private readonly SearchContext _testContext;
 
-    public Given_No_Sort(SearchContext testContext)
+    public Given_No_Sort(SearchContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

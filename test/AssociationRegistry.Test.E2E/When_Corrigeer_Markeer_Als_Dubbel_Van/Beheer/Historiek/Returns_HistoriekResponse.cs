@@ -17,7 +17,7 @@ public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanConte
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(CorrigeerMarkeringAlsDubbelVanContext testContext)
+    public Returns_Historiek(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext)
     {
     }
 

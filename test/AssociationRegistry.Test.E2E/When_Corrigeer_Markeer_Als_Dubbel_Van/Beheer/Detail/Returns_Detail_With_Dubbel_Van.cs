@@ -15,7 +15,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<CorrigeerMarkeringAlsD
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
 
-    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext context) : base(context)
     {
         _context = context;
     }

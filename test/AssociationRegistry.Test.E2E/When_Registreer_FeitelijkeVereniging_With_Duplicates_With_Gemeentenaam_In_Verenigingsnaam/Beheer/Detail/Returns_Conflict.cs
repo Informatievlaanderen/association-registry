@@ -12,8 +12,8 @@ using System.Net;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext.Name)]
-public class Returns_Conflict : IAsyncLifetime
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext>, IAsyncLifetime
 {
     private readonly RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext _context;
     private readonly ITestOutputHelper _testOutputHelper;

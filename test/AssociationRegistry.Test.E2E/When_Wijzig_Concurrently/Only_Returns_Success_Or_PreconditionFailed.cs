@@ -12,8 +12,8 @@ using System.Text;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(WijzigConcurrentlyContext.Name)]
-public class Only_Returns_Success_Or_PreconditionFailed : IAsyncLifetime
+[Collection(FullBlownApiCollection.Name)]
+public class Only_Returns_Success_Or_PreconditionFailed : IClassFixture<WijzigConcurrentlyContext>, IAsyncLifetime
 {
     private readonly WijzigConcurrentlyContext _context;
     private readonly ITestOutputHelper _helper;

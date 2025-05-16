@@ -19,7 +19,7 @@ public class Returns_VerenigingenPerInszResponse :
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
+    public Returns_VerenigingenPerInszResponse(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
     {
         _inszToCompare = TestContext.Request.Vertegenwoordigers[0].Insz;
         _request = new VerenigingenPerInszRequest()

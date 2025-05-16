@@ -18,7 +18,7 @@ public class Returns_Historiek : End2EndTest<VerfijnSubtypeNaarSubverenigingCont
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Historiek(VerfijnSubtypeNaarSubverenigingContext testContext)
+    public Returns_Historiek(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
     }
 

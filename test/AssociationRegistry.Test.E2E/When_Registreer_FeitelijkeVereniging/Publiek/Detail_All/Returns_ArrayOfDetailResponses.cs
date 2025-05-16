@@ -28,7 +28,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVe
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingTestContext testContext)
+    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingTestContext testContext) : base(testContext)
     {
     }
 

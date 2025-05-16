@@ -8,14 +8,8 @@ using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
 using Xunit;
 
-[CollectionDefinition("WijzigLidmaatschapContext")]
-public class DatabaseCollection : ICollectionFixture<WijzigLocatieContext>
+public class WijzigLocatieContext: IAsyncLifetime
 {
-}
-
-public class WijzigLocatieContext: ICollectionFixture<WijzigLocatieContext>, IAsyncLifetime
-{
-    public const string Name = nameof(WijzigLocatieContext);
     public FullBlownApiSetup ApiSetup { get; }
     private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public WijzigLocatieRequest Request => RequestResult.Request;

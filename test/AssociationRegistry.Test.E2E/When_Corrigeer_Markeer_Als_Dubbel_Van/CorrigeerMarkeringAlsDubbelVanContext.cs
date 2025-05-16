@@ -12,7 +12,6 @@ using Scenarios.Requests;
 
 public class CorrigeerMarkeringAlsDubbelVanContext: TestContextBase<NullRequest>
 {
-    public const string Name = "CorrigeerMarkeringAlsDubbelVanContext";
     public VCode VCode => RequestResult.VCode;
     public VerenigingWerdGemarkeerdAlsDubbelVanScenario Scenario { get; }
 

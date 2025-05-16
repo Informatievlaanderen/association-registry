@@ -14,9 +14,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<CorrigeerMarkering
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext)
+    public Returns_SearchVerenigingenResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

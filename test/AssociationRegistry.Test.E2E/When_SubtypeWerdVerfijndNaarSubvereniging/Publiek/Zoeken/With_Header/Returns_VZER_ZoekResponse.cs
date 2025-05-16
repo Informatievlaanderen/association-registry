@@ -18,9 +18,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubvereni
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarSubverenigingContext testContext)
+    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

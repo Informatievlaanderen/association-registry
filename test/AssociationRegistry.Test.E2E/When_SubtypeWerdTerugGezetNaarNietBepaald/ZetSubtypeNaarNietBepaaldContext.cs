@@ -13,7 +13,6 @@ using Scenarios.Requests.VZER;
 
 public class ZetSubtypeNaarNietBepaaldContext: TestContextBase<WijzigSubtypeRequest>
 {
-    public const string Name = "ZetSubtypeNaarNietBepaaldContext";
     public VCode VCode => RequestResult.VCode;
     public SubtypeWerdVerfijndNaarFeitelijkeVerenigingScenario Scenario { get; }
 

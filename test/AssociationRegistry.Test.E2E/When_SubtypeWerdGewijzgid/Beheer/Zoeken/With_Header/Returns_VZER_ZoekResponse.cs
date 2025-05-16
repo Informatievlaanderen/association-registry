@@ -18,9 +18,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdCon
 {
     private readonly WhenSubtypeWerdGewijzigdContext _testContext;
 
-    public Returns_VZER_ZoekResponse(WhenSubtypeWerdGewijzigdContext testContext)
+    public Returns_VZER_ZoekResponse(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

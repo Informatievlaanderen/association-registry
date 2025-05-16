@@ -10,7 +10,6 @@ using Vereniging;
 
 public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequest>
 {
-    public const string Name = "VerwijderVerenigingContext";
     private readonly VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerdScenario _werdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 

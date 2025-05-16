@@ -19,7 +19,7 @@ public class Returns_VerenigingenPerInszResponse :
     private readonly string _inszToCompare;
     private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext context): base(context)
     {
         _context = context;
         _inszToCompare = context.Scenario.DubbeleVerenging.Vertegenwoordigers[0].Insz;

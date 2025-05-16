@@ -10,7 +10,6 @@ using Scenarios.Requests.FeitelijkeVereniging;
 
 public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestContextBase<RegistreerFeitelijkeVerenigingRequest>
 {
-    public const string Name = "RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext";
     private FeitelijkeVerenigingWerdGeregistreerdScenario _feitelijkeVerenigingWerdGeregistreerdScenario;
     public VCode VCode => RequestResult.VCode;
 

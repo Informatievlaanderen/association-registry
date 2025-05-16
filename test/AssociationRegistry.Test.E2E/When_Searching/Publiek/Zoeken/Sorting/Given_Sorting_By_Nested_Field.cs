@@ -15,9 +15,9 @@ public class Given_Sorting_By_Nested_Fields : End2EndTest<SearchContext, NullReq
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Nested_Fields(SearchContext testContext)
+    public Given_Sorting_By_Nested_Fields(SearchContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

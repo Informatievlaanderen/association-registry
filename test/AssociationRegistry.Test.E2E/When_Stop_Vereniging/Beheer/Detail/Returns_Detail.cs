@@ -7,8 +7,8 @@ using Framework.AlbaHost;
 using Vereniging;
 using Xunit;
 
-[Collection(StopVerenigingContext.Name)]
-public class Returns_Detail : IAsyncLifetime
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : IClassFixture<StopVerenigingContext>, IAsyncLifetime
 {
     private readonly StopVerenigingContext _context;
 

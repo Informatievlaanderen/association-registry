@@ -29,9 +29,9 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<WijzigBasisgegevensKbo
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_ArrayOfDetailResponses(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

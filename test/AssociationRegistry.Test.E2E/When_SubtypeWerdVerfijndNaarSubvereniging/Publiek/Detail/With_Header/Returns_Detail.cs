@@ -20,7 +20,7 @@ public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context): base(context)
     {
         _context = context;
     }

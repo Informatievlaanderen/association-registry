@@ -13,7 +13,6 @@ using Scenarios.Requests.VZER;
 
 public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
-    public const string Name = "VerfijnSubtypeNaarSubverenigingContext";
     public VCode VCode => RequestResult.VCode;
     public VzerAndKboVerenigingWerdenGeregistreerdScenario Scenario { get; }
 

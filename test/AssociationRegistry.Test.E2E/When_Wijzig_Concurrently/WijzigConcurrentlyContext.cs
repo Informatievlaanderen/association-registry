@@ -10,7 +10,6 @@ using Xunit;
 
 public class WijzigConcurrentlyContext: IAsyncLifetime
 {
-    public const string Name = nameof(WijzigConcurrentlyContext);
     public FullBlownApiSetup ApiSetup { get; }
     public FeitelijkeVerenigingWerdGeregistreerdScenario WerdGeregistreerdScenario { get; private set; }
     public WijzigLocatieRequest Request => RequestResult.Request;

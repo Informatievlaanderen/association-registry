@@ -23,9 +23,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<WijzigBasisgegeven
 {
     private readonly WijzigBasisgegevensKboTestContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboTestContext testContext)
+    public Returns_SearchVerenigingenResponse(WijzigBasisgegevensKboTestContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

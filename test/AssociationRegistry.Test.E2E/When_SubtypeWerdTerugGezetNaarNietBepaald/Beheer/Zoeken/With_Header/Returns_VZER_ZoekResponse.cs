@@ -18,9 +18,9 @@ public class Returns_VZER_ZoekResponse : End2EndTest<ZetSubtypeNaarNietBepaaldCo
 {
     private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
 
-    public Returns_VZER_ZoekResponse(ZetSubtypeNaarNietBepaaldContext testContext)
+    public Returns_VZER_ZoekResponse(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

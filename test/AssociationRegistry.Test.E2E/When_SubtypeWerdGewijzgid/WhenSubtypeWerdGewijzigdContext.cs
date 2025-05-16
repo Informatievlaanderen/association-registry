@@ -12,7 +12,6 @@ using Vereniging;
 
 public class WhenSubtypeWerdGewijzigdContext: TestContextBase<WijzigSubtypeRequest>
 {
-    public const string Name = "WhenSubtypeWerdGewijzigdContext";
     public VCode VCode => RequestResult.VCode;
     public SubtypeWerdVerfijndNaarSubverenigingScenario Scenario { get; }
 

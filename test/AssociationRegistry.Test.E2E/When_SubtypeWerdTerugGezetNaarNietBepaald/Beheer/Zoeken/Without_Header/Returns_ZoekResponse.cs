@@ -15,9 +15,9 @@ public class Returns_SearchVerenigingenResponse : End2EndTest<ZetSubtypeNaarNiet
 {
     private readonly ZetSubtypeNaarNietBepaaldContext _testContext;
 
-    public Returns_SearchVerenigingenResponse(ZetSubtypeNaarNietBepaaldContext testContext)
+    public Returns_SearchVerenigingenResponse(ZetSubtypeNaarNietBepaaldContext testContext) : base(testContext)
     {
-        TestContext = _testContext = testContext;
+        _testContext = testContext;
     }
 
     [Fact]

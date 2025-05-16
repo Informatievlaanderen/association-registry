@@ -14,7 +14,7 @@ public class Returns_Vereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanCont
 {
     private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
 
-    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext context)
+    public Returns_Vereniging(CorrigeerMarkeringAlsDubbelVanContext context) : base(context)
     {
         _context = context;
     }

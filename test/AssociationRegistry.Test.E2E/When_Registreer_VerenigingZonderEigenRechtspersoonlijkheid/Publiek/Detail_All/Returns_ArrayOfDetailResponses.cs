@@ -29,7 +29,7 @@ public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerVerenigingZo
                       .GetPubliekDetailAll()
                       .FindVereniging(TestContext.VCode);
 
-    public Returns_ArrayOfDetailResponses(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext)
+    public Returns_ArrayOfDetailResponses(RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext testContext) : base(testContext)
     {
     }
 
