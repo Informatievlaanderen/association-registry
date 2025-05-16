@@ -10,27 +10,24 @@ using Marten.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Scenarios.Requests.VZER;
-using Xunit;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
-public class VerfijnSubtypeNaarSubverenigingCollection : ICollectionFixture<VerfijnSubtypeNaarSubverenigingContext>
+public class VerfijnSubtypeNaarSubverenigingContext: TestContextBase<WijzigSubtypeRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class VerfijnSubtypeNaarSubverenigingContext : TestContextBase<VzerAndKboVerenigingWerdenGeregistreerdScenario, WijzigSubtypeRequest>
-{
-    protected override VzerAndKboVerenigingWerdenGeregistreerdScenario InitializeScenario()
-        => new();
+    public const string Name = "VerfijnSubtypeNaarSubverenigingContext";
+    public VCode VCode => CommandResult.VCode;
+    public VzerAndKboVerenigingWerdenGeregistreerdScenario Scenario { get; }
 
-    public VerfijnSubtypeNaarSubverenigingContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public VerfijnSubtypeNaarSubverenigingContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        Scenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(VzerAndKboVerenigingWerdenGeregistreerdScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(Scenario);
+        CommandResult = await new WijzigSubtypeRequestVoorVerfijnNaarSubFactory(Scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

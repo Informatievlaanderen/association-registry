@@ -1,10 +1,12 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Beheer.Zoeken.With_Header;
 
-using Admin.Api.Verenigingen.Search.ResponseModels;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Search.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Vereniging;
 using Vereniging.Mappers;
@@ -12,21 +14,15 @@ using Xunit;
 using SubverenigingVan = Admin.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
-
-[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
-public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VZER_ZoekResponse : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_VZER_ZoekResponse(VerfijnSubtypeNaarSubverenigingContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}", headers: new RequestParameters().V2().WithExpectedSequence(
-                                                  _testContext.CommandResult.Sequence))
-                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -43,9 +39,12 @@ public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
 
         vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
-            AndereVereniging = _testContext.CommandRequest.AndereVereniging!,
-            Beschrijving = _testContext.CommandRequest.Beschrijving!,
-            Identificatie = _testContext.CommandRequest.Identificatie!,
+            AndereVereniging = _testContext.Request.AndereVereniging!,
+            Beschrijving = _testContext.Request.Beschrijving!,
+            Identificatie = _testContext.Request.Identificatie!,
         });
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

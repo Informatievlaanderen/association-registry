@@ -9,20 +9,15 @@ using FluentAssertions;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
-public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_SearchVerenigingenResponse : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
     private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
 
-    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_SearchVerenigingenResponse(VerfijnSubtypeNaarSubverenigingContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoeken(setup.SuperAdminHttpClient, $"vCode:{_testContext.VCode}", headers: new RequestParameters().WithExpectedSequence(
-                                                  _testContext.CommandResult.Sequence))
-                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -38,4 +33,7 @@ public class Returns_Detail : End2EndTest<SearchVerenigingenResponse>
         vereniging.Verenigingssubtype.Should().BeNull();
         vereniging.SubverenigingVan.Should().BeNull();
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoeken($"vCode:{_testContext.VCode}");
 }

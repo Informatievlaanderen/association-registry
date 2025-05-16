@@ -1,25 +1,23 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdVerfijndNaarSubvereniging.Publiek.Detail.Without_Header;
 
+using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Public.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
-using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(VerfijnSubtypeNaarSubverenigingCollection))]
-public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : End2EndTest<VerfijnSubtypeNaarSubverenigingContext, WijzigSubtypeRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly VerfijnSubtypeNaarSubverenigingContext _testContext;
+    private readonly VerfijnSubtypeNaarSubverenigingContext _context;
 
-    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(VerfijnSubtypeNaarSubverenigingContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.CommandResult.VCode);
 
     [Fact]
     public void With_Context()
@@ -33,4 +31,7 @@ public class Returns_Detail : End2EndTest<PubliekVerenigingDetailResponse>
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
         Response.Vereniging.SubverenigingVan.Should().BeNull();
     }
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetail(TestContext.CommandResult.VCode);
 }
