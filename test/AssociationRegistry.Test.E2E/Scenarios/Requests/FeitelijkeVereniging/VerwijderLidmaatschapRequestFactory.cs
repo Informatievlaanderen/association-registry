@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Infrastructure;
 using Framework.ApiSetup;
 using Givens.FeitelijkeVereniging;
 using Marten.Events;
@@ -21,16 +20,17 @@ public class VerwijderLidmaatschapRequestFactory : ITestRequestFactory<NullReque
         var vCode = _scenario.LidmaatschapWerdToegevoegd.VCode;
         var lidmaatschapLidmaatschapId = _scenario.LidmaatschapWerdToegevoegd.Lidmaatschap.LidmaatschapId;
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Delete
              .Url($"/v1/verenigingen/{vCode}/lidmaatschappen/{lidmaatschapLidmaatschapId}");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        })).Context.Response;
+        });
 
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<NullRequest>(VCode.Create(vCode), new NullRequest(), sequence);
+        return new CommandResult<NullRequest>(VCode.Create(vCode), new NullRequest());
     }
 }

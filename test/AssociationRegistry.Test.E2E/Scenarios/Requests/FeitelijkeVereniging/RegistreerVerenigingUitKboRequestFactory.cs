@@ -44,10 +44,11 @@ public class RegistreerVerenigingUitKboRequestFactory : ITestRequestFactory<Regi
         })).Context.Response;
 
         response.StatusCode.Should().BeOneOf((int)HttpStatusCode.OK, (int)HttpStatusCode.Accepted);
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
         var vCode = response.Headers.Location.First()!.Split('/').Last();;
 
-        return new CommandResult<RegistreerVerenigingUitKboRequest>(VCode.Create(vCode), request, sequence);
+        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+
+        return new CommandResult<RegistreerVerenigingUitKboRequest>(VCode.Create(vCode), request);
     }
 }

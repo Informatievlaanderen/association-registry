@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Alba;
 using AutoFixture;
@@ -34,17 +33,18 @@ public class VoegLidmaatschapToeRequestFactory : ITestRequestFactory<VoegLidmaat
             Beschrijving = fixture.Create<string>(),
         };
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode}/lidmaatschappen");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        })).Context.Response;
+        });
 
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-        return new CommandResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request, sequence);
+        return new CommandResult<VoegLidmaatschapToeRequest>(VCode.Create(_scenario.FeitelijkeVerenigingWerdGeregistreerd.VCode), request);
     }
 }

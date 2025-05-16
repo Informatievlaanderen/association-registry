@@ -1,6 +1,5 @@
 namespace AssociationRegistry.Test.E2E.Scenarios.Requests.FeitelijkeVereniging;
 
-using Admin.Api.Infrastructure;
 using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Alba;
 using AutoFixture;
@@ -26,18 +25,18 @@ public class VoegContactgegevenToeRequestFactory : ITestRequestFactory<VoegConta
 
         var request = fixture.Create<VoegContactgegevenToeRequest>();
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl($"/v1/verenigingen/{_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode}/contactgegevens");
 
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
-        })).Context.Response;
+        });
 
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        await apiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+        await apiSetup.PublicProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
 
-
-        return new CommandResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request, sequence);
+        return new CommandResult<VoegContactgegevenToeRequest>(VCode.Create(_scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd.VCode), request);
     }
 }

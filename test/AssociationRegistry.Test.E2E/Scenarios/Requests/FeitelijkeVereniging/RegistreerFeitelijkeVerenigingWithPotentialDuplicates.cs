@@ -136,10 +136,9 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
 
         var hashForAllowingDuplicate = bevestigingsTokenHelper.Calculate(request);
 
-        var response = (await apiSetup.AdminApiHost.Scenario(s =>
+        var vCode = (await apiSetup.AdminApiHost.Scenario(s =>
         {
             s.WithRequestHeader(WellknownHeaderNames.BevestigingsToken, hashForAllowingDuplicate);
-
             s.Post
              .Json(request, JsonStyle.Mvc)
              .ToUrl("/v1/verenigingen/feitelijkeverenigingen");
@@ -147,16 +146,14 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesRequestFactory
             s.StatusCodeShouldBe(HttpStatusCode.Accepted);
 
             s.Header("Location").ShouldHaveValues();
-
-            s.Header("Location")
-             .SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
+            s.Header("Location").SingleValueShouldMatch($"{apiSetup.AdminApiHost.Services.GetRequiredService<AppSettings>().BaseUrl}/v1/verenigingen/V");
 
             s.Header(WellknownHeaderNames.Sequence).ShouldHaveValues();
             s.Header(WellknownHeaderNames.Sequence).SingleValueShouldMatch(_isPositiveInteger);
-        })).Context.Response;
-        var vCode = response.Headers.Location.First().Split('/').Last();
-        long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
+        })).Context.Response.Headers.Location.First().Split('/').Last();
 
-        return new CommandResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request, sequence);
+        await apiSetup.AdminApiHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(60));
+
+        return new CommandResult<RegistreerFeitelijkeVerenigingRequest>(VCode.Create(vCode), request);
     }
 }
