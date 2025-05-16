@@ -12,7 +12,7 @@ using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
 [Collection(FullBlownApiCollection.Name)]
-public class Returns_Historiek : End2EndTest<StopVerenigingContext>
+public class Returns_Historiek : End2EndTest<StopVerenigingContext, StopVerenigingRequest, HistoriekResponse>
 {
     public override Func<IApiSetup, HistoriekResponse> GetResponse
         => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);

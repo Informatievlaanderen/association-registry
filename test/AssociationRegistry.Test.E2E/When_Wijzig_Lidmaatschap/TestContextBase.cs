@@ -1,13 +1,9 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Lidmaatschap;
 
-using Alba;
 using Framework.ApiSetup;
 using Framework.TestClasses;
 using JasperFx.Core;
-using Marten;
-using Marten.Events.Daemon;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Nest;
 using Public.Api.Infrastructure.ConfigurationBindings;
 using Scenarios.Requests;
@@ -37,165 +33,25 @@ where TScenario : IScenario
 
     public async ValueTask InitializeAsync()
     {
-        ApiSetup.Logger.LogWarning($"INITIALIZING Scenario: {Scenario}");
-
         Scenario = InitializeScenario();
         var executedEvents = await ApiSetup.ExecuteGiven(Scenario);
 
-        ApiSetup.Logger.LogWarning($"WAITING FOR EVENTS TO BE PROCESSED: {Scenario}");
-
-        if (executedEvents.Count != 0)
+        if (executedEvents.Length != 0)
         {
-            await WaitBeforeCommands(ApiSetup, executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence), ApiSetup.AdminProjectionHost, "BEFORE");
-            await WaitBeforeCommands(ApiSetup, executedEvents.SelectMany(x => x.Value).Max(x => x.Sequence), ApiSetup.PublicProjectionHost, "BEFORE");
+            await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
+            await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
+            await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
         }
 
-        ApiSetup.Logger.LogWarning($"EXECUTING Scenario COMMAND REQUESTS: {Scenario}");
         await ExecuteScenario(Scenario);
 
-        ApiSetup.Logger.LogWarning($"Command Result: {@CommandResult.Sequence}");
+        await ApiSetup.AdminProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        await ApiSetup.AcmProjectionDaemon.WaitForNonStaleData(10.Seconds());
+        await ApiSetup.PublicProjectionDaemon.WaitForNonStaleData(10.Seconds());
 
-        if (CommandResult.Sequence.HasValue)
-        {
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.AdminProjectionHost, "AFTER");
-            await WaitBeforeCommands(ApiSetup, CommandResult.Sequence.Value, ApiSetup.PublicProjectionHost, "AFTER");
-        }
-        ApiSetup.Logger.LogWarning($"SCENARIO SETUP DONE: {Scenario}");
-        await ApiSetup.ElasticClient.Indices.RefreshAsync(Indices.All);
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+        await ApiSetup.PublicApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
-
-    private async Task WaitBeforeCommands(FullBlownApiSetup setup, long max, IAlbaHost host, string beforeOrAfter)
-    {
-        setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: WAITING FOR REAL NOW", beforeOrAfter);
-        var documentStore = host.Server.Services.GetRequiredService<IDocumentStore>();
-
-
-        using var session = documentStore.LightweightSession();
-        var highWaterMark = max;
-
-        var databaseSchemaName = host.Server.BaseAddress.ToString();
-
-        setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
-                          beforeOrAfter, highWaterMark, databaseSchemaName);
-
-        var projectionProgress = await documentStore.Advanced.AllProjectionProgress();
-
-        setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
-
-        while (!projectionProgress.Any() || !projectionProgress.Any(x => !x.ShardName.Contains("ater")))
-        {
-            await Task.Delay(1.Seconds());
-            projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
-            ApiSetup.Logger.LogInformation("WAITING FOR ANY projection progress");
-        }
-
-        var counter = 0;
-        while (counter < 10
-              && projectionProgress.Any(x => x.Sequence <= highWaterMark))
-        {
-            counter++;
-            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, counter);
-        }
-
-        if(projectionProgress.Any(x => x.Sequence <= highWaterMark))
-
-        {
-            setup.Logger.LogWarning("{BEFOREORAFTER} COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", beforeOrAfter, databaseSchemaName, projectionProgress);
-            setup.Logger.LogCritical($"{beforeOrAfter} COMMANDS: Projection progress for {databaseSchemaName} was not high enough");
-        }
-        else
-        {
-            setup.Logger.LogCritical($"{beforeOrAfter} COMMANDS: Projection progress for {databaseSchemaName} was high enough!");
-        }
-
-        // Logger.LogInformation("BEFORE COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
-        //                       highWaterMark, databaseSchemaName);
-        // foreach (var shardName in documentStore.Advanced.AllAsyncProjectionShardNames())
-        // {
-        //     try
-        //     {
-        //         Logger.LogWarning("Waiting for projection data for shard {ShardName}", shardName);
-        //         daemon.Tracker.WaitForShardState(shardName, highWaterMark, TimeSpan.FromSeconds(30))
-        //               .GetAwaiter().GetResult();
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Logger.LogError(ex, "Failed to wait for projection data for shard {ShardName}", shardName);
-        //     }
-        // }
-    }
-    private async Task WaitAfterCommands(string databaseSchemaName, FullBlownApiSetup setup)
-    {
-        var host = setup.AdminApiHost;
-        setup.Logger.LogWarning("AFTER COMMANDS: WAITING FOR REAL NOW");
-
-        var documentStore = host.DocumentStore();
-
-
-        await using var session = documentStore.LightweightSession();
-        var highWaterMark = session.Events.QueryAllRawEvents().Take(1).OrderByDescending(x => x.Sequence).FirstOrDefault()?.Sequence;
-
-        setup.Logger.LogWarning("AFTER COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
-            highWaterMark, databaseSchemaName);
-
-        var projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
-
-        setup.Logger.LogWarning("AFTER COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", databaseSchemaName, projectionProgress);
-
-        var counter = 0;
-
-        while (!projectionProgress.Any())
-        {
-            await Task.Delay(1.Seconds());
-            projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
-            ApiSetup.Logger.LogInformation("WAITING FOR ANY projection progress");
-        }
-        while (counter < 10
-            && projectionProgress.All(x => x.Sequence <= highWaterMark))
-        {
-            counter++;
-            projectionProgress = await UpdateProjectionProgress(databaseSchemaName, setup, highWaterMark, counter);
-        }
-
-        if(projectionProgress.Any(x => x.Sequence <= highWaterMark))
-
-        {
-            setup.Logger.LogWarning("AFTER COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", databaseSchemaName, projectionProgress);
-            setup.Logger.LogCritical($"AFTER COMMANDS: Projection progress for {databaseSchemaName} was not high enough");
-        }
-
-        // Logger.LogInformation("AFTER COMMANDS: Waiting for high water mark of {HighWaterMark} on database schema {DatabaseSchemaName}",
-        //                       highWaterMark, databaseSchemaName);
-        // foreach (var shardName in documentStore.Advanced.AllAsyncProjectionShardNames())
-        // {
-        //     try
-        //     {
-        //         Logger.LogWarning("Waiting for projection data for shard {ShardName}", shardName);
-        //         daemon.Tracker.WaitForShardState(shardName, highWaterMark, TimeSpan.FromSeconds(30))
-        //               .GetAwaiter().GetResult();
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         Logger.LogError(ex, "Failed to wait for projection data for shard {ShardName}", shardName);
-        //     }
-        // }
-    }
-
-    private async Task<IReadOnlyList<ShardState>> UpdateProjectionProgress(string databaseSchemaName, FullBlownApiSetup setup, long? highWaterMark, int counter)
-    {
-        var documentStore = setup.AdminApiHost.DocumentStore();
-
-        IReadOnlyList<ShardState> projectionProgress;
-        await using var session = documentStore.LightweightSession();
-        setup.Logger.LogWarning("COMMANDS: Waiting for projection progress to be at least {HighWaterMark} on database schema {DatabaseSchemaName}",
-                          highWaterMark, databaseSchemaName);
-        await Task.Delay(2000);
-        projectionProgress = await session.DocumentStore.Advanced.AllProjectionProgress();
-        setup.Logger.LogWarning("COMMANDS: Projection progress for {DatabaseSchemaName} is {ProjectionProgress}", databaseSchemaName, projectionProgress);
-
-        return  projectionProgress;
-    }
-
 
 
     protected abstract ValueTask ExecuteScenario(TScenario scenario);

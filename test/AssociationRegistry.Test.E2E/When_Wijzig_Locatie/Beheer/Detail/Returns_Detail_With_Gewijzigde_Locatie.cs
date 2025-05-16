@@ -3,26 +3,22 @@
 using Admin.Api.Verenigingen.Detail.ResponseModels;
 using JsonLdContext;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using Vereniging;
 using Vereniging.Bronnen;
 using KellermanSoftware.CompareNetObjects;
-using Microsoft.Extensions.Logging;
 using Xunit;
 using Adres = Admin.Api.Verenigingen.Detail.ResponseModels.Adres;
 using AdresId = Admin.Api.Verenigingen.Detail.ResponseModels.AdresId;
 using Locatie = Admin.Api.Verenigingen.Detail.ResponseModels.Locatie;
 
-[Collection(nameof(WijzigLocatieCollection))]
-public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigingResponse>
+[Collection(WijzigLocatieContext.Name)]
+public class Returns_Detail_With_Gewijzigde_Locatie : IAsyncLifetime
 {
-    private readonly WijzigLocatieContext _testContext;
+    private readonly WijzigLocatieContext _context;
 
-    public Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail_With_Gewijzigde_Locatie(WijzigLocatieContext context)
     {
-        _testContext = testContext;
-        testContext.ApiSetup.Logger.LogInformation("STARTING TEST {TEST}", nameof(Returns_Detail_With_Gewijzigde_Locatie));
+        _context = context;
     }
 
     [Fact]
@@ -34,15 +30,15 @@ public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigi
 
         var expected = new Locatie
         {
-            id = JsonLdType.Locatie.CreateWithIdValues(_testContext.VCode, "1"),
+            id = JsonLdType.Locatie.CreateWithIdValues(_context.VCode, "1"),
             type = JsonLdType.Locatie.Type,
             LocatieId = 1,
             Naam = "Kantoor",
             Adres = new Adres
             {
-                id = JsonLdType.Adres.CreateWithIdValues(_testContext.VCode, "1"),
+                id = JsonLdType.Adres.CreateWithIdValues(_context.VCode, "1"),
                 type = JsonLdType.Adres.Type,
-                Straatnaam = _testContext.CommandRequest.Locatie.Adres.Straatnaam,
+                Straatnaam = _context.Request.Locatie.Adres.Straatnaam,
                 Huisnummer = "99",
                 Busnummer = "",
                 Postcode = "9200",
@@ -69,9 +65,14 @@ public class Returns_Detail_With_Gewijzigde_Locatie : End2EndTest<DetailVerenigi
                 .ShouldCompare(expected, compareConfig: comparisonConfig);
     }
 
+    public DetailVerenigingResponse Response { get; set; }
 
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.AdminApiHost.GetBeheerDetail(_context.VCode);
+    }
 
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
-
+    public async ValueTask DisposeAsync()
+    {
+    }
 }

@@ -1,34 +1,44 @@
 namespace AssociationRegistry.Test.E2E.When_Wijzig_Locatie;
 
-using Admin.Api.Verenigingen.Lidmaatschap.WijzigLidmaatschap.RequestModels;
 using Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.WijzigLocatie.RequestModels;
 using Framework.ApiSetup;
 using Vereniging;
 using Marten.Events;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests;
-using When_Wijzig_Lidmaatschap;
 using Xunit;
 
-[CollectionDefinition(nameof(WijzigLocatieCollection))]
-public class WijzigLocatieCollection : ICollectionFixture<WijzigLocatieContext>
+[CollectionDefinition("WijzigLidmaatschapContext")]
+public class DatabaseCollection : ICollectionFixture<WijzigLocatieContext>
 {
 }
 
-public class WijzigLocatieContext: TestContextBase<FeitelijkeVerenigingWerdGeregistreerdScenario, WijzigLocatieRequest>
+public class WijzigLocatieContext: ICollectionFixture<WijzigLocatieContext>, IAsyncLifetime
 {
-    protected override FeitelijkeVerenigingWerdGeregistreerdScenario InitializeScenario()
-        => new();
+    public const string Name = nameof(WijzigLocatieContext);
+    public FullBlownApiSetup ApiSetup { get; }
+    private FeitelijkeVerenigingWerdGeregistreerdScenario _werdGeregistreerdScenario;
+    public WijzigLocatieRequest Request => CommandResult.Request;
+    public VCode VCode => CommandResult.VCode;
 
-
-    public WijzigLocatieContext(FullBlownApiSetup apiSetup) :  base(apiSetup)
+    public WijzigLocatieContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
     }
 
-
-    protected override async ValueTask ExecuteScenario(FeitelijkeVerenigingWerdGeregistreerdScenario scenario)
+    public async ValueTask InitializeAsync()
     {
-        CommandResult = await new WijzigLocatieRequestFactory(scenario).ExecuteRequest(ApiSetup);
+        _werdGeregistreerdScenario = new();
+
+        await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
+        CommandResult = await new WijzigLocatieRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
     }
 
+    public CommandResult<WijzigLocatieRequest> CommandResult { get; set; }
+
+    public async ValueTask DisposeAsync()
+    {
+
+    }
 }

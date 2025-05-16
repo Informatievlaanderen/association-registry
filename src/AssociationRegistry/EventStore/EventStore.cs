@@ -8,7 +8,6 @@ using Marten.Events;
 using Marten.Exceptions;
 using Microsoft.Extensions.Logging;
 using NodaTime.Text;
-using System.Diagnostics;
 using Vereniging;
 using IEvent = Events.IEvent;
 
@@ -91,7 +90,6 @@ public class EventStore : IEventStore
                 _logger.LogWarning("Sequence is less than expected: {Sequence}", maxSequence);
 
             var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
-            _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}\n{Stack}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence, Environment.StackTrace);
 
             return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
             //return new StreamActionResult(maxSequence, streamAction.Version);
@@ -118,7 +116,6 @@ public class EventStore : IEventStore
 
                 var eventsAgain = await session.Events.FetchStreamAsync(aggregateId, token: cancellationToken);
 
-                _logger.LogInformation("SAVED EVENTS {@EventNames} with max sequence: {MaxSeq}", string.Join(", ", events.Select(x => x.GetType().Name)), maxSequence);
                 return new StreamActionResult(eventsAgain.Max(@event => @event.Sequence), eventsAgain.Max(x => x.Version));
                 //return new StreamActionResult(maxSequence, streamAction.Version);
             }
