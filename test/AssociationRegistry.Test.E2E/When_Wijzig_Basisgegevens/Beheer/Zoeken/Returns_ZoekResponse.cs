@@ -15,7 +15,7 @@ using Vereniging = Admin.Api.Verenigingen.Search.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingstype;
 
-[Collection(nameof(WijzigBasisGegevensCollection))]
+[Collection(nameof(WijzigBaisisGegevensCollection))]
 public class Returns_SearchVerenigingenResponse
 
     : End2EndTest<SearchVerenigingenResponse>

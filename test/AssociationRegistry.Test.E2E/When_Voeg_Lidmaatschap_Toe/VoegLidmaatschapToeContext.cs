@@ -9,25 +9,24 @@ using Nest;
 using Scenarios.Givens.FeitelijkeVereniging;
 using Scenarios.Requests.FeitelijkeVereniging;
 using Vereniging;
-using Xunit;
 
-public class VoegLidmaatschapToeContext : TestContextBase<MultipleWerdGeregistreerdScenario, VoegLidmaatschapToeRequest>
+public class VoegLidmaatschapToeContext: TestContextBase<VoegLidmaatschapToeRequest>
 {
+    public const string Name = "VoegLidmaatschapToeContext";
+    public VCode VCode => CommandResult.VCode;
+    public MultipleWerdGeregistreerdScenario Scenario { get; }
 
-    protected override MultipleWerdGeregistreerdScenario InitializeScenario()
-        => new();
-
-    public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup) : base(apiSetup)
+    public VoegLidmaatschapToeContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        Scenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(MultipleWerdGeregistreerdScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new VoegLidmaatschapToeRequestFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(Scenario);
+        CommandResult = await new VoegLidmaatschapToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
-}
-
-[CollectionDefinition(nameof(VoegLidmaatschapToeCollection))]
-public class VoegLidmaatschapToeCollection : ICollectionFixture<VoegLidmaatschapToeContext>
-{
 }

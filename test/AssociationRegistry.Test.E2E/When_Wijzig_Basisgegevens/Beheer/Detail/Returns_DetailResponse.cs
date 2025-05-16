@@ -15,7 +15,7 @@ using Xunit;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Admin.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(nameof(WijzigBasisGegevensCollection))]
+[Collection(nameof(WijzigBaisisGegevensCollection))]
 public class Returns_DetailResponse : End2EndTest<DetailVerenigingResponse>
 {
     private readonly WijzigBasisgegevensContext _testContext;

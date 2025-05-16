@@ -16,7 +16,7 @@ using Vereniging = Public.Api.Verenigingen.Detail.ResponseModels.Vereniging;
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-[Collection(nameof(WijzigBasisGegevensCollection))]
+[Collection(nameof(WijzigBaisisGegevensCollection))]
 public class Returns_DetailResponse
     : End2EndTest<PubliekVerenigingDetailResponse>
 {

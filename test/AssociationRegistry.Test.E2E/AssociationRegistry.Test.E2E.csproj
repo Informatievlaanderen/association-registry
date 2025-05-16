@@ -40,12 +40,13 @@
     <Content Remove="When_The_Api_Is_Started\**" />
     <Content Remove="When_Verwijder_Lidmaatschap\**" />
     <Content Remove="When_Verwijder_Vereniging\**" />
+    <Content Remove="When_Voeg_Contactgegeven_Toe\**" />
+    <Content Remove="When_Voeg_Lidmaatschap_Toe\**" />
     <Content Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Content Remove="When_Wijzig_Concurrently\**" />
     <Content Remove="When_Stop_Vereniging\**" />
     <Content Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <Content Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <Content Remove="When_Voeg_Contactgegeven_Toe\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -66,12 +67,13 @@
     <Compile Remove="When_The_Api_Is_Started\**" />
     <Compile Remove="When_Verwijder_Lidmaatschap\**" />
     <Compile Remove="When_Verwijder_Vereniging\**" />
+    <Compile Remove="When_Voeg_Contactgegeven_Toe\**" />
+    <Compile Remove="When_Voeg_Lidmaatschap_Toe\**" />
     <Compile Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <Compile Remove="When_Wijzig_Concurrently\**" />
     <Compile Remove="When_Stop_Vereniging\**" />
     <Compile Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <Compile Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <Compile Remove="When_Voeg_Contactgegeven_Toe\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -90,13 +92,15 @@
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
     <EmbeddedResource Remove="When_The_Api_Is_Started\**" />
+    <EmbeddedResource Remove="When_Verwijder_Lidmaatschap\**" />
     <EmbeddedResource Remove="When_Verwijder_Vereniging\**" />
+    <EmbeddedResource Remove="When_Voeg_Contactgegeven_Toe\**" />
+    <EmbeddedResource Remove="When_Voeg_Lidmaatschap_Toe\**" />
     <EmbeddedResource Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <EmbeddedResource Remove="When_Wijzig_Concurrently\**" />
     <EmbeddedResource Remove="When_Stop_Vereniging\**" />
     <EmbeddedResource Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <EmbeddedResource Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <EmbeddedResource Remove="When_Voeg_Contactgegeven_Toe\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -117,13 +121,14 @@
     <None Remove="When_The_Api_Is_Started\**" />
     <None Remove="When_Verwijder_Lidmaatschap\**" />
     <None Remove="When_Verwijder_Vereniging\**" />
+    <None Remove="When_Voeg_Contactgegeven_Toe\**" />
+    <None Remove="When_Voeg_Lidmaatschap_Toe\**" />
+    <None Remove="When_Wijzig_Basisgegevens_Kbo\**" />
     <None Remove="When_Wijzig_Concurrently\**" />
     <None Remove="When_Stop_Vereniging\**" />
     <None Remove="When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid\**" />
     <None Remove="When_Aanvaard_Dubbel_Van_Handler_Fails\**" />
-    <None Remove="When_Voeg_Contactgegeven_Toe\**" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
-
