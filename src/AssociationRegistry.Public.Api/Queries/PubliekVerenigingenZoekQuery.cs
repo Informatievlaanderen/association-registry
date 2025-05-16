@@ -18,12 +18,12 @@ public interface IPubliekVerenigingenZoekQuery : IQuery<ISearchResponse<Verenigi
 public class PubliekVerenigingenZoekQuery : IPubliekVerenigingenZoekQuery
 {
     private readonly IElasticClient _client;
-    private readonly ITypeMapping _typeMapping;
+    private readonly TypeMapping _typeMapping;
 
     private static readonly Func<SortDescriptor<VerenigingZoekDocument>, SortDescriptor<VerenigingZoekDocument>> DefaultSort =
         x => x.Descending(v => v.VCode);
 
-    public PubliekVerenigingenZoekQuery(IElasticClient client, ITypeMapping typeMapping)
+    public PubliekVerenigingenZoekQuery(IElasticClient client, TypeMapping typeMapping)
     {
         _client = client;
         _typeMapping = typeMapping;

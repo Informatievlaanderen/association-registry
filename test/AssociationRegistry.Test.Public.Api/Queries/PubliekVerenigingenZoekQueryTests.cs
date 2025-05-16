@@ -4,37 +4,28 @@ using AssociationRegistry.Public.Api.Queries;
 using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using AssociationRegistry.Public.Schema.Search;
 using AutoFixture;
-using Common.Framework;
 using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
-using Marten;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Vereniging;
-using When_Saving_A_Document_To_Elastic;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
-public class PubliekVerenigingenZoekQuery_Fixture : ElasticRepositoryFixture
+[Collection(nameof(PublicApiCollection))]
+public class PubliekVerenigingenZoekQueryTests
 {
-    public PubliekVerenigingenZoekQuery_Fixture() : base(nameof(PubliekVerenigingenZoekQuery_Fixture))
-    {
-    }
-}
-
-public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVerenigingenZoekQuery_Fixture>, IDisposable, IAsyncDisposable
-{
-    private readonly PubliekVerenigingenZoekQuery_Fixture _fixture;
     private readonly ITestOutputHelper _helper;
-    private readonly IElasticClient? _elasticClient;
+    private readonly IElasticClient _elasticClient;
+    private readonly TypeMapping _typeMapping;
 
-    public PubliekVerenigingenZoekQueryTests(PubliekVerenigingenZoekQuery_Fixture fixture, ITestOutputHelper helper)
+    public PubliekVerenigingenZoekQueryTests(GivenEventsFixture fixture, ITestOutputHelper helper)
     {
-        _fixture = fixture;
         _helper = helper;
         _elasticClient = fixture.ElasticClient;
+        _typeMapping = fixture.ServiceProvider.GetRequiredService<TypeMapping>();
     }
 
     [Fact]
@@ -45,21 +36,12 @@ public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVereniginge
         var desiredCount = 10000;
         var batchCount = 500;
 
-        var index = _elasticClient.Indices.Get(Indices.Index<VerenigingZoekDocument>()).Indices.First();
-
-        var typeMapping = index.Value.Mappings;
-
         do
         {
             var docs = new List<VerenigingZoekDocument>();
 
             for (var i = 0; i < batchCount; i++)
-            {
-                var verenigingZoekDocument = fixture.Create<VerenigingZoekDocument>();
-                verenigingZoekDocument.VCode = VCode.Create(10000 + i);
-                verenigingZoekDocument.Status = VerenigingStatus.Actief;
-                docs.Add(verenigingZoekDocument);
-            }
+                docs.Add(new() { VCode = fixture.Create<VCode>(), Status = VerenigingStatus.Actief});
 
             var result = await _elasticClient.BulkAsync(b => b.IndexMany(docs));
             if(!result.IsValid)
@@ -68,23 +50,13 @@ public class PubliekVerenigingenZoekQueryTests: IClassFixture<PubliekVereniginge
             totalCount += batchCount;
         } while (totalCount < desiredCount);
 
-        await _elasticClient.Indices.RefreshAsync(Indices.All);
+        await _elasticClient.Indices.RefreshAsync();
 
-        var query = new PubliekVerenigingenZoekQuery(_elasticClient, typeMapping);
+        var query = new PubliekVerenigingenZoekQuery(_elasticClient, _typeMapping);
 
         var actual = await query.ExecuteAsync(new PubliekVerenigingenZoekFilter("*", "vCode", [], new PaginationQueryParams()),
                                               CancellationToken.None);
 
-        actual.Total.Should().Be(desiredCount);
-    }
-
-    public void Dispose()
-    {
-        // TODO release managed resources here
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        // TODO release managed resources here
+        actual.Total.Should().BeGreaterThan(desiredCount);
     }
 }

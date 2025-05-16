@@ -33,7 +33,6 @@ public class V005_ContactgegevenWerdToegevoegdScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             ContactgegevenWerdToegevoegd,
         };
     }

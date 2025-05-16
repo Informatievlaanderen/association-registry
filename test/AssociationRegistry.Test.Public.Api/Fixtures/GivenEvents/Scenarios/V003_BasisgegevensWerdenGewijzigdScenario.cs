@@ -40,7 +40,6 @@ public class V003_BasisgegevensWerdenGewijzigdScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             KorteBeschrijvingWerdGewijzigd,
             NaamWerdGewijzigd,
             KorteNaamWerdGewijzigd,

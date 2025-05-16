@@ -29,13 +29,6 @@ public static class ElasticSearchExtensions
 
             return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
         });
-        services.AddSingleton<ITypeMapping>(serviceProvider =>
-        {
-            var client = serviceProvider.GetRequiredService<IElasticClient>();
-            var mapping = client.Indices.GetMapping<VerenigingZoekDocument>();
-
-            return mapping.Indices[elasticSearchOptions.Indices!.Verenigingen!].Mappings;
-        });
 
         return services;
     }

@@ -28,7 +28,6 @@ public class V010_FeitelijkeVerenigingWerdGeregistreerdAndUitgeschrevenUitPublie
                 Array.Empty<Registratiedata.Vertegenwoordiger>(),
                 Array.Empty<Registratiedata.HoofdactiviteitVerenigingsloket>()),
             new VerenigingWerdUitgeschrevenUitPubliekeDatastroom(),
-            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
         };
     }
 

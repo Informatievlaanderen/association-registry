@@ -92,7 +92,6 @@ public class V018_FeitelijkeVerenigingWerdVerwijderdScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             new VerenigingWerdVerwijderd(VCode, Reden: "Zomaar"),
         };
     }

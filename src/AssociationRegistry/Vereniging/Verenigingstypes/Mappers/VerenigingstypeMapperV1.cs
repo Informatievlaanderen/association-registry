@@ -6,9 +6,6 @@ public class VerenigingstypeMapperV1 : IVerenigingstypeMapper
         where TDestination : IVerenigingstype, new()
         where TSource : IVerenigingstype, new()
     {
-        if (verenigingsType is null)
-            throw new NullReferenceException(nameof(verenigingsType));
-
         if (Verenigingstype.IsGeenKboVereniging(verenigingsType.Code))
         {
             return new TDestination()

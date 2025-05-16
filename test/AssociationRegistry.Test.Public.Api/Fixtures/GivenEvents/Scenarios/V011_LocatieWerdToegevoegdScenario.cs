@@ -38,7 +38,6 @@ public class V011_LocatieWerdToegevoegdScenario : IScenario
         return new IEvent[]
         {
             FeitelijkeVerenigingWerdGeregistreerd,
-            new FeitelijkeVerenigingWerdGemigreerdNaarVerenigingZonderEigenRechtspersoonlijkheid(VCode),
             LocatieWerdToegevoegd,
         };
     }
