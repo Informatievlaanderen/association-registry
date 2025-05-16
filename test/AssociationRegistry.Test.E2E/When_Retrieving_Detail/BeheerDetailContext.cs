@@ -1,31 +1,69 @@
 namespace AssociationRegistry.Test.E2E.When_Retrieving_Detail;
 
-using Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
-using Framework.ApiSetup;
-using Framework.TestClasses;
-using Scenarios.Givens;
-using Scenarios.Requests.VZER;
-using Xunit;
+using AssociationRegistry.Admin.Api;
+using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEigenRechtspersoonlijkheid.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using AssociationRegistry.Test.E2E.Scenarios.Givens;
+using AssociationRegistry.Test.E2E.Scenarios.Requests.VZER;
+using AssociationRegistry.Vereniging;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Nest;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(BeheerDetailCollection))]
-public class BeheerDetailCollection : ICollectionFixture<BeheerDetailContext>
+public class BeheerDetailContext: TestContextBase<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class BeheerDetailContext : TestContextBase<EmptyScenario, RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>
-{
-    protected override EmptyScenario InitializeScenario()
-        => new();
+    public const string Name = "BeheerDetailContext";
+    private EmptyScenario _emptyScenario;
+    private readonly ILogger _logger;
+    public VCode VCode => CommandResult.VCode;
 
-    public BeheerDetailContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public BeheerDetailContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        _emptyScenario = new EmptyScenario();
+
+        apiSetup.RegisterContext(this);
     }
 
-    protected override async ValueTask ExecuteScenario(EmptyScenario scenario)
+    public override async ValueTask InitializeAsync()
+    { }
+
+    public override async Task Init()
     {
-        CommandResult = await new BeheerdetailRequestFactory().ExecuteRequest(ApiSetup);
+        var logger = ApiSetup.AdminApiHost.Services.GetRequiredService<ILogger<Program>>();
+
+        _emptyScenario = new EmptyScenario();
+
+        var requestFactory = new BeheerdetailRequestFactory();
+
+        var daemon = ApiSetup.AdminProjectionDaemon;
+
+        logger.LogInformation("Starting up shards (running: {IsRunning})", daemon.IsRunning);
+
+
+        await ApiSetup.ExecuteGiven(_emptyScenario);
+
+        logger.LogInformation("Executing registreer feitelijke vereniging request");
+
+        CommandResult = await requestFactory.ExecuteRequest(ApiSetup);
+
+
+        await daemon.WaitForNonStaleData(TimeSpan.FromSeconds(10));
+
+        var agents = daemon.CurrentAgents().Select(x => new
+        {
+            x.Name.Identity, x.Position, x.Status
+        });
+
+        logger.LogInformation("Daemon agents {@Says}", agents.Select(x => $" {x.Identity}: {x.Position} ({x.Status})|"));
+
+        logger.LogInformation("Waiting for non stale data...(running: {IsRunning})", daemon.IsRunning);
+
+        logger.LogInformation("Refreshing indices");
+
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
+
+        logger.LogInformation("Initialisation complete");
     }
 }

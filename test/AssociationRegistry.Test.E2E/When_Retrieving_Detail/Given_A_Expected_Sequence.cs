@@ -1,11 +1,14 @@
 namespace AssociationRegistry.Test.E2E.When_Retrieving_Detail;
 
+using Be.Vlaanderen.Basisregisters.BasicApiProblem;
 using FluentAssertions;
 using Framework.AlbaHost;
+using Newtonsoft.Json;
 using System.Net;
+using When_Registreer_VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
 
-[Collection(nameof(BeheerDetailCollection))]
+[Collection(FullBlownApiCollection.Name)]
 public class Given_A_Expected_Sequence : IClassFixture<BeheerDetailContext>
 {
     private readonly BeheerDetailContext _testContext;
@@ -16,28 +19,24 @@ public class Given_A_Expected_Sequence : IClassFixture<BeheerDetailContext>
     }
 
     [Fact]
-    public async ValueTask With_An_Expected_Sequence_Less_than_The_Actual_Then_we_get_a_successful_response()
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
-                                                              new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence - 1))
-                                                                                    .Should().NotBeNull();
-
-    [Fact]
-    public async ValueTask With_An_Expected_Sequence_Equal_To_The_Actual_Then_we_get_a_successful_response()
-        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetail(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
-                                                              new RequestParameters().WithExpectedSequence(_testContext.CommandResult.Sequence))
+    public async ValueTask With_A_Sequence_Equal_Or_Greater_Than_The_Expected_Sequence_Then_we_get_a_successful_response()
+        => _testContext.ApiSetup.AdminApiHost.GetBeheerDetailWithHeader(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                                                        _testContext.CommandResult.Sequence!.Value)
                                                                                     .Should().NotBeNull();
     [Fact]
-    public async ValueTask With_An_Expected_Sequence_More_than_The_Actual_Then_we_get_a_successful_response()
+    public async ValueTask With_A_Sequence_Less_Than_The_Expected_Sequence_Then_We_Get_A_PreconditionFailed_Response()
     {
         var response = _testContext.ApiSetup.AdminApiHost
-                                   .GetProblemDetailsForBeheerDetailHttpResponse(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
+                                   .GetBeheerDetailHttpResponse(_testContext.ApiSetup.SuperAdminHttpClient, _testContext.CommandResult.VCode,
                                                     long.MaxValue);
 
         response
-           .HttpStatus
-           .Should().Be((int)HttpStatusCode.PreconditionFailed);
+           .StatusCode
+           .Should().Be(HttpStatusCode.PreconditionFailed);
 
-        response.Title.Should().Be("Er heeft zich een fout voorgedaan!");
-        response.ProblemTypeUri.Should().Be("urn:associationregistry.admin.api:validation");
+        var responseContent = await response.Content.ReadAsStringAsync();
+        var responseContentObject = JsonConvert.DeserializeObject<ProblemDetails>(responseContent);
+        responseContentObject!.Title.Should().Be("Er heeft zich een fout voorgedaan!");
+        responseContentObject.ProblemTypeUri.Should().Be("urn:associationregistry.admin.api:validation");
     }
 }
