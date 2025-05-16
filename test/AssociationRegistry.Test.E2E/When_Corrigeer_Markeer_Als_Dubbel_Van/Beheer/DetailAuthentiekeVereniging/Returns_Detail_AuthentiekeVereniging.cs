@@ -6,23 +6,22 @@ using FluentAssertions;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using Scenarios.Requests;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
-public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest,
+    DetailVerenigingResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public Returns_Detail_AuthentiekeVereniging(CorrigeerMarkeringAlsDubbelVanContext context, ITestOutputHelper helper)
     {
-        _testContext = testContext;
+        _context = context;
         _helper = helper;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.Scenario.AuthentiekeVereniging.VCode);
 
     [Fact]
     public void With_IsDubbelVan_VCode_Of_AndereFeitelijkeVerenigingWerdGeregistreerd()
@@ -60,4 +59,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<DetailVerenigingRespon
     {
         Response.Vereniging.Status.Should().Be(VerenigingStatus.Actief);
     }
+
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerDetail(_context.Scenario.AuthentiekeVereniging.VCode);
 }

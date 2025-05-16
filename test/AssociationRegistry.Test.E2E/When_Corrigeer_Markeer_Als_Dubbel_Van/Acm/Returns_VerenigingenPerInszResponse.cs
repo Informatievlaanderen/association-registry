@@ -11,17 +11,18 @@ using Xunit;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Vereniging.Verenigingstype;
 
-[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
-public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerInszResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VerenigingenPerInszResponse :
+    End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, VerenigingenPerInszResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
-    private readonly VerenigingenPerInszRequest _request;
+    private readonly CorrigeerMarkeringAlsDubbelVanContext _context;
     private readonly string _inszToCompare;
+    private readonly VerenigingenPerInszRequest _request;
 
-    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext testContext) : base(testContext.ApiSetup)
+    public Returns_VerenigingenPerInszResponse(CorrigeerMarkeringAlsDubbelVanContext context)
     {
-        _testContext = testContext;
-        _inszToCompare = testContext.Scenario.DubbeleVerenging.Vertegenwoordigers[0].Insz;
+        _context = context;
+        _inszToCompare = context.Scenario.DubbeleVerenging.Vertegenwoordigers[0].Insz;
 
         _request = new VerenigingenPerInszRequest()
         {
@@ -29,10 +30,6 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
             KboNummers = [],
         };
     }
-
-    public override VerenigingenPerInszResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
-                .GetAwaiter().GetResult();
 
     [Fact]
     public void With_Verenigingen()
@@ -45,10 +42,10 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                 // Dubbele vereniging wordt getoond
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.Scenario.DubbeleVerenging.VCode,
+                    VCode = _context.Scenario.DubbeleVerenging.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.DubbeleVerenging.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.DubbeleVerenging.Naam,
+                    VertegenwoordigerId = _context.Scenario.DubbeleVerenging.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = _context.Scenario.DubbeleVerenging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
@@ -65,10 +62,10 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
                 // Authentieke vereniging wordt getoond zonder corresponderende verenigingen dubbele verenigingen
                 new VerenigingenPerInszResponse.Vereniging()
                 {
-                    VCode = _testContext.Scenario.AuthentiekeVereniging.VCode,
+                    VCode = _context.Scenario.AuthentiekeVereniging.VCode,
                     CorresponderendeVCodes = [],
-                    VertegenwoordigerId = _testContext.Scenario.AuthentiekeVereniging.Vertegenwoordigers[0].VertegenwoordigerId,
-                    Naam = _testContext.Scenario.AuthentiekeVereniging.Naam,
+                    VertegenwoordigerId = _context.Scenario.AuthentiekeVereniging.Vertegenwoordigers[0].VertegenwoordigerId,
+                    Naam = _context.Scenario.AuthentiekeVereniging.Naam,
                     Status = VerenigingStatus.Actief,
                     KboNummer = string.Empty,
                     Verenigingstype = new AssociationRegistry.Acm.Api.VerenigingenPerInsz.VerenigingenPerInszResponse.Verenigingstype(
@@ -85,4 +82,8 @@ public class Returns_VerenigingenPerInszResponse : End2EndTest<VerenigingenPerIn
             KboNummers = [],
         });
     }
+
+    public override Func<IApiSetup, VerenigingenPerInszResponse> GetResponse
+        => setup => setup.AcmApiHost.GetVerenigingenPerInsz(_request)
+                         .GetAwaiter().GetResult();
 }

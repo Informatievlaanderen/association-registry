@@ -8,23 +8,22 @@ using Framework.Comparison;
 using Framework.Mappers;
 using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
+using Scenarios.Requests;
 using Xunit;
 using ITestOutputHelper = Xunit.ITestOutputHelper;
 
-[Collection(nameof(CorrigeerMarkeringAlsDubbelVanCollection))]
-public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, HistoriekResponse>
 {
-    private readonly CorrigeerMarkeringAlsDubbelVanContext _testContext;
     private readonly ITestOutputHelper _helper;
 
-    public Returns_Detail_With_Dubbel_Van(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper) : base(testContext.ApiSetup)
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.Scenario.AuthentiekeVereniging.VCode);
+
+    public Returns_Historiek(CorrigeerMarkeringAlsDubbelVanContext testContext, ITestOutputHelper helper)
     {
-        _testContext = testContext;
         _helper = helper;
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.Scenario.AuthentiekeVereniging.VCode);
 
     [Fact]
     public async ValueTask With_VCode()
@@ -46,7 +45,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        Response.VCode.ShouldCompare(_testContext.Scenario.AuthentiekeVereniging.VCode);
+        Response.VCode.ShouldCompare(TestContext.Scenario.AuthentiekeVereniging.VCode);
     }
 
     [Fact]
@@ -78,7 +77,7 @@ public class Returns_Detail_With_Dubbel_Van : End2EndTest<HistoriekResponse>
             _helper.WriteLine("Did not find any CorresponderendeVCodes.");
         }
 
-        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.AanvaardingDubbeleVerenigingWerdGecorrigeerd(_testContext.Scenario.VerenigingAanvaarddeDubbeleVereniging),
+        gebeurtenis.ShouldCompare(HistoriekGebeurtenisMapper.AanvaardingDubbeleVerenigingWerdGecorrigeerd(TestContext.Scenario.VerenigingAanvaarddeDubbeleVereniging),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }
