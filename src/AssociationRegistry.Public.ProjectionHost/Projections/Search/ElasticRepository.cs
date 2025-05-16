@@ -122,7 +122,7 @@ public class ElasticRepository : IElasticRepository
     {
         var response = await _elasticClient.UpdateAsync<VerenigingZoekDocument>(
             id,
-            selector: u => u.RetryOnConflict(3).Script(
+            selector: u => u.Script(
                 s => s
                     .Source("if (ctx._source.sequence == null || params.seq > ctx._source.sequence) {" +
                             "ctx._source.locaties.add(params.locatie);" +
