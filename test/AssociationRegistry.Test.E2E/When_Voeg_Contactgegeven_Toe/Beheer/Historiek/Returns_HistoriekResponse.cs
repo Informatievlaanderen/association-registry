@@ -1,6 +1,8 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Contactgegeven_Toe.Beheer.Historiek;
 
+using Admin.Api.Verenigingen.Contactgegevens.FeitelijkeVereniging.VoegContactGegevenToe.RequestsModels;
 using Admin.Api.Verenigingen.Historiek.ResponseModels;
+using Admin.Api.Verenigingen.Lidmaatschap.VoegLidmaatschapToe.RequestModels;
 using Events;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
@@ -10,18 +12,24 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(VoegContactgegevenToeCollection))]
-public class Returns_Detail_With_Lidmaatschap : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<VoegContactgegevenToeContext, VoegContactgegevenToeRequest, HistoriekResponse>
 {
-    private readonly VoegContactgegevenToeContext _testContext;
+    private readonly VoegContactgegevenToeContext _context;
 
-    public Returns_Detail_With_Lidmaatschap(VoegContactgegevenToeContext testContext) : base(testContext.ApiSetup)
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
+
+    public Returns_Historiek(VoegContactgegevenToeContext testContext)
     {
-        _testContext = testContext;
+        _context = testContext;
     }
 
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
+    [Fact]
+    public void With_VCode()
+    {
+        Response.VCode.ShouldCompare(TestContext.VCode);
+    }
 
     [Fact]
     public void With_Context()
@@ -32,10 +40,10 @@ public class Returns_Detail_With_Lidmaatschap : End2EndTest<HistoriekResponse>
     [Fact]
     public void With_LidmaatschapWerdToegevoegd_Gebeurtenissen()
     {
-        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        var nextContactgegevenId = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                                            .Contactgegevens.Max(x => x.ContactgegevenId) + 1;
         var gebeurtenisResponse = Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(ContactgegevenWerdToegevoegd));
-        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.ContactgegevenWerdToegevoegd(nextContactgegevenId,_testContext.CommandRequest),
+        gebeurtenisResponse.ShouldCompare(HistoriekGebeurtenisMapper.ContactgegevenWerdToegevoegd(nextContactgegevenId,TestContext.Request),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }

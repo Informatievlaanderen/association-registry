@@ -2,39 +2,45 @@
 
 using FluentAssertions;
 using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using JsonLdContext;
 using Public.Api.Verenigingen.Detail.ResponseModels;
 using Xunit;
 
-[Collection(nameof(VoegContactgegevenToeCollection))]
-public class Returns_Detail_With_Lidmaatschap : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(VoegContactgegevenToeContext.Name)]
+public class Returns_Detail : IAsyncLifetime
 {
-    private readonly VoegContactgegevenToeContext _testContext;
+    private readonly VoegContactgegevenToeContext _context;
 
-    public Returns_Detail_With_Lidmaatschap(VoegContactgegevenToeContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(VoegContactgegevenToeContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetail(_testContext.VCode);
 
     [Fact]
     public void JsonContentMatches()
     {
-        var nextContactgegevenId = _testContext.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
+        var nextContactgegevenId = _context.Scenario.VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd
                                            .Contactgegevens.Max(x => x.ContactgegevenId) + 1;
         Response.Vereniging.Contactgegevens.Last()
                 .Should().BeEquivalentTo(new Contactgegeven()
                  {
                      type = JsonLdType.Contactgegeven.Type,
-                     id = JsonLdType.Contactgegeven.CreateWithIdValues(_testContext.VCode, nextContactgegevenId.ToString()),
-                     Beschrijving = _testContext.CommandRequest.Contactgegeven.Beschrijving,
-                     Contactgegeventype = _testContext.CommandRequest.Contactgegeven.Contactgegeventype,
-                     IsPrimair = _testContext.CommandRequest.Contactgegeven.IsPrimair,
-                     Waarde = _testContext.CommandRequest.Contactgegeven.Waarde
+                     id = JsonLdType.Contactgegeven.CreateWithIdValues(_context.VCode, nextContactgegevenId.ToString()),
+                     Beschrijving = _context.Request.Contactgegeven.Beschrijving,
+                     Contactgegeventype = _context.Request.Contactgegeven.Contactgegeventype,
+                     IsPrimair = _context.Request.Contactgegeven.IsPrimair,
+                     Waarde = _context.Request.Contactgegeven.Waarde
                  });
+    }
+
+    public PubliekVerenigingDetailResponse Response { get; set; }
+
+    public async ValueTask InitializeAsync()
+    {
+        Response = _context.ApiSetup.PublicApiHost.GetPubliekDetail(_context.VCode);
+    }
+
+    public async ValueTask DisposeAsync()
+    {
     }
 }

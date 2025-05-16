@@ -1,14 +1,13 @@
-﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Beheer.Detail;
+﻿namespace AssociationRegistry.Test.E2E.When_Voeg_Lidmaatschap_Toe.Detail;
 
-using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
-using AssociationRegistry.Formats;
-using AssociationRegistry.JsonLdContext;
-using AssociationRegistry.Test.E2E.Framework.AlbaHost;
-using AssociationRegistry.Test.E2E.Framework.ApiSetup;
-using AssociationRegistry.Test.E2E.Framework.TestClasses;
+using Admin.Api.Verenigingen.Detail.ResponseModels;
+using Formats;
+using Framework.AlbaHost;
+using Framework.ApiSetup;
+using Framework.TestClasses;
+using JsonLdContext;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
-
 [Collection(nameof(VoegLidmaatschapToeCollection))]
 public class Returns_Detail_With_Toegevoegd_Lidmaatschap : End2EndTest<DetailVerenigingResponse>
 {
