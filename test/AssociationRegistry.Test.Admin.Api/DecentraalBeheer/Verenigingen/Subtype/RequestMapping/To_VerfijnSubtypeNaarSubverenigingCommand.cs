@@ -8,7 +8,10 @@ using FluentAssertions;
 using Vereniging;
 using Vereniging.Subtypes.Subvereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
+[Category("Mapping")]
 public class To_WijzigSubtypeCommandTests
 {
     [Fact]

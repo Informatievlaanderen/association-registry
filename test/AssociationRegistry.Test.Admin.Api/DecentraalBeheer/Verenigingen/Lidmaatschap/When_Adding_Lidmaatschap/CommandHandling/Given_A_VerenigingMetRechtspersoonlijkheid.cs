@@ -10,7 +10,9 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_VerenigingMetRechtspersoonlijkheid
 {
     [Fact]

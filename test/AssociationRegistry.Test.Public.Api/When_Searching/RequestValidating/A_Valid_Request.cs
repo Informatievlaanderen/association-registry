@@ -5,7 +5,9 @@ using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class A_Valid_Request : ValidatorTest
 {
     [Theory]

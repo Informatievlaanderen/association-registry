@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_VerenigingVolgensKbo_Contactgegevens
 {
     private readonly RegistreerVerenigingUitKboCommand _command;
@@ -95,6 +97,7 @@ public class With_VerenigingVolgensKbo_Contactgegevens
     }
 }
 
+[UnitTest]
 public class With_VerenigingVolgensKbo_No_Contactgegevens
 {
     private readonly RegistreerVerenigingUitKboCommand _command;

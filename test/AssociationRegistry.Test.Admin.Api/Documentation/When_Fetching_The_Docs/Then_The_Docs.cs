@@ -3,12 +3,14 @@ namespace AssociationRegistry.Test.Admin.Api.Documentation.When_Fetching_The_Doc
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System.ComponentModel;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("PublicApi")]
 [Category(Categories.MoveToBasicIntegrationCollection)]
+[IntegrationTest]
 public class Then_The_Docs
 {
     public Then_The_Docs(EventsInDbScenariosFixture fixture)

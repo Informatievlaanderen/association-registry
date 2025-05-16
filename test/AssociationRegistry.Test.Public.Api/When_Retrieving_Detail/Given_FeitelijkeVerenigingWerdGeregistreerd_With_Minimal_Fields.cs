@@ -8,8 +8,11 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_Minimal_Fields
 {
     private readonly PublicApiClient _publicApiClient;

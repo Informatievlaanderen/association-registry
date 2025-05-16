@@ -10,8 +10,11 @@ using templates;
 using Vereniging;
 
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_LocatieWerdGewijzigd
 {
     private readonly PublicApiClient _publicApiClient;

@@ -4,7 +4,9 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.MetRechtspersoonlijk
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Is_Too_Short : ValidatorTest
 {
     [Fact]

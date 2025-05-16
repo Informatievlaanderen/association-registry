@@ -7,6 +7,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Remove_An_Existing_Vereniging : IAsyncLifetime
 {
@@ -28,11 +29,13 @@ public class Remove_An_Existing_Vereniging : IAsyncLifetime
         Response = await _fixture.SuperAdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_An_Existing_Vereniging : IClassFixture<Remove_An_Existing_Vereniging>
 {
     private readonly Remove_An_Existing_Vereniging _classFixture;

@@ -8,6 +8,7 @@ using FluentAssertions;
 using Framework;
 using Marten;
 using Xunit;
+using Xunit.Categories;
 
 public class VerenigingenPerInszQueryFixture: IAsyncLifetime
 {
@@ -24,6 +25,7 @@ public class VerenigingenPerInszQueryFixture: IAsyncLifetime
     }
 }
 
+[IntegrationTest]
 public class VerenigingenPerInszQueryTests : IClassFixture<VerenigingenPerInszQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;

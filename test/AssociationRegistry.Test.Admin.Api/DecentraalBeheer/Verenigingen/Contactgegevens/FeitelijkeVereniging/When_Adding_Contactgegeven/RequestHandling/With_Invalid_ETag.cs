@@ -13,7 +13,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Invalid_ETag
 {
     private readonly VoegContactgegevenToeController _controller;

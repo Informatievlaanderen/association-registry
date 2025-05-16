@@ -7,8 +7,10 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 
+[UnitTest]
 public class With_An_Empty_Straatnaam : ValidatorTest
 {
     [Fact]

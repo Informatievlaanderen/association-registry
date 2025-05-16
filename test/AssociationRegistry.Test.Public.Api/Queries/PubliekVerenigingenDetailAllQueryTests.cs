@@ -11,6 +11,7 @@ using Marten;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
+using Xunit.Categories;
 
 public class PubliekVerenigingenDetailAllQueryFixture : IAsyncLifetime
 {
@@ -27,6 +28,7 @@ public class PubliekVerenigingenDetailAllQueryFixture : IAsyncLifetime
     }
 }
 
+[IntegrationTest]
 public class PubliekVerenigingenDetailAllQueryTests : IClassFixture<PubliekVerenigingenDetailAllQueryFixture>, IDisposable, IAsyncDisposable
 {
     private readonly IDocumentSession _session;

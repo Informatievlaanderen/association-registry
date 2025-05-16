@@ -7,9 +7,12 @@ using Framework.Fixtures;
 using Marten;
 using System.Globalization;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class CSVExporter
 {
     private readonly EventsInDbScenariosFixture _fixture;

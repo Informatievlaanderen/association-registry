@@ -20,6 +20,7 @@ using Microsoft.Net.Http.Headers;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Same_Naam_And_Gemeente
 {
@@ -67,6 +68,8 @@ public sealed class RegistreerVerenigingZonderEigenRechtspersoonlijkheid_With_Sa
 
 //TODO: Rework to unit test
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class With_Same_Naam_And_Gemeente
 {
     private readonly EventsInDbScenariosFixture _fixture;

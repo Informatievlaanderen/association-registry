@@ -11,13 +11,16 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using System.ComponentModel;
+
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 using Doelgroep = AssociationRegistry.Admin.Schema.Search.VerenigingZoekDocument.Types.Doelgroep;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 [Category(Categories.RefactorAfterVZERMigration)]
+[IntegrationTest]
 public class BeheerVerenigingenZoekQueryTests
 {
     private readonly ITestOutputHelper _helper;
@@ -32,7 +35,7 @@ public class BeheerVerenigingenZoekQueryTests
     }
 
     [Fact]
-    public async ValueTask Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
+    public async ValueTask? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizeAdminApi();
         var totalCount = 0;

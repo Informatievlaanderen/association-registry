@@ -7,8 +7,10 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class With_An_Invalid_Locatietype : ValidatorTest
 {
     [Fact]

@@ -8,7 +8,7 @@ using AutoFixture;
 using FluentAssertions;
 using Messages;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class When_Sending_An_Incorrect_Message_On_The_Adres_Match_Queue

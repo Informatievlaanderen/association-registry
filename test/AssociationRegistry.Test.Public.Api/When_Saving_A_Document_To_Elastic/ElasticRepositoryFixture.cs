@@ -88,8 +88,8 @@ public abstract class ElasticRepositoryFixture : IDisposable, IAsyncLifetime
         return tempConfiguration;
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 
     public void Dispose()
     {

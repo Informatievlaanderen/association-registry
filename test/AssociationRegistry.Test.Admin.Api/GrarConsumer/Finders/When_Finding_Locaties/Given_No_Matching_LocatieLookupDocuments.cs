@@ -10,6 +10,7 @@ using FluentAssertions;
 using Marten;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 public class LocatieLookupFixture : IAsyncLifetime
 {
@@ -30,6 +31,7 @@ public class LocatieLookupFixture : IAsyncLifetime
     }
 }
 
+[IntegrationTest]
 public class Given_LocatieLookupDocuments : IClassFixture<LocatieLookupFixture>
 {
     private readonly LocatieLookupFixture _fixture;

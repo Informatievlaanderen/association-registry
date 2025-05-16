@@ -9,6 +9,7 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup : IAsyncLifetime
 {
@@ -51,11 +52,13 @@ public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenre
                                                               _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister : IClassFixture<
     Given_A_FeitelijkeVereniging_With_AdresWerdOvergenomenUitAdressenregister_Setup>
 {

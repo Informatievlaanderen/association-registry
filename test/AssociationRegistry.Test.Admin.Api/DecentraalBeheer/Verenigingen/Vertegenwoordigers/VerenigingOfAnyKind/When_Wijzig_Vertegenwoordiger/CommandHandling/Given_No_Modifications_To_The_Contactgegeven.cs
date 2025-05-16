@@ -12,7 +12,9 @@ using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;
@@ -61,6 +63,6 @@ public class Given_No_Modifications_To_The_Vertegenwoordiger : IAsyncLifetime
         _commandResult.HasChanges().Should().BeFalse();
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

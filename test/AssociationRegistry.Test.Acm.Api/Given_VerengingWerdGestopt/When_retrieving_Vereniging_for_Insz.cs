@@ -8,9 +8,12 @@ using System.Net;
 using templates;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Acm.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AcmApiCollection))]
+[Category("AcmApi")]
+[IntegrationTest]
 public class When_retrieving_Vereniging_for_Insz
 {
     private readonly HttpResponseMessage _response;

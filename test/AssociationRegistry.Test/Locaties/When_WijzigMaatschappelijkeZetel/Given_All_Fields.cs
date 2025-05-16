@@ -7,7 +7,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_All_Fields
 {
     [Fact]

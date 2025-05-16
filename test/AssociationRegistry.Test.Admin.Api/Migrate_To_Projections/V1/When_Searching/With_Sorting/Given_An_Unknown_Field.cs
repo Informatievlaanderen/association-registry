@@ -7,9 +7,12 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_Sort_By_UnknownField
 {
     private readonly ITestOutputHelper _outputHelper;
@@ -22,7 +25,7 @@ public class Given_Sort_By_UnknownField
     }
 
     [Fact]
-    public async ValueTask Then_it_returns_an_error_message_for_the_first_wrong_field()
+    public async ValueTask? Then_it_returns_an_error_message_for_the_first_wrong_field()
     {
         var unknownField = "vCode,asdfasdfasdfasdf,balk";
         var response = await _adminApiClient.Search(q: "*", unknownField);

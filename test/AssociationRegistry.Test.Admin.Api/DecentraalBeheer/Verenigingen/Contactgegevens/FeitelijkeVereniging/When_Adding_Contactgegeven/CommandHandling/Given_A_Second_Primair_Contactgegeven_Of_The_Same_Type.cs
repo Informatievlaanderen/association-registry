@@ -10,7 +10,9 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Second_Primair_Contactgegeven_Of_The_Same_Type
 {
     private readonly VoegContactgegevenToeCommandHandler _commandHandler;

@@ -15,7 +15,9 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Existing_Locatie_Without_AdresId
 {
     [Fact]

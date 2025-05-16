@@ -17,7 +17,9 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_A_Website
 {
     private readonly MagdaGeefVerenigingService _service;

@@ -6,8 +6,10 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging.Exceptions;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class Is_Before_Today : ValidatorTest
 {
     [Fact]

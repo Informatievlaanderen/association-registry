@@ -12,6 +12,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Patch_A_New_Vertegenwoordiger_For_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
@@ -67,11 +68,13 @@ public class Patch_A_New_Vertegenwoordiger_For_VerenigingMetRechtspersoonlijkhei
                                                                         _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     Patch_A_New_Vertegenwoordiger_For_VerenigingMetRechtspersoonlijkheid>
 {

@@ -10,7 +10,7 @@ using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Conflict : IClassFixture<RegistreerFeitelijkeVerenigingenWithGemeentenaamInVerenigingsnaamContext>, IAsyncLifetime

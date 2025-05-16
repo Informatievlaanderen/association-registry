@@ -4,7 +4,9 @@ using AssociationRegistry.Admin.Api.Verenigingen.Common;
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Is_Outside_Of_Range : ValidatorTest
 {
     [Theory]

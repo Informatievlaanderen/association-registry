@@ -6,7 +6,10 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
+[Category("Mapping")]
 public class To_VoegLidmaatschapToeCommandTests
 {
     [Fact]

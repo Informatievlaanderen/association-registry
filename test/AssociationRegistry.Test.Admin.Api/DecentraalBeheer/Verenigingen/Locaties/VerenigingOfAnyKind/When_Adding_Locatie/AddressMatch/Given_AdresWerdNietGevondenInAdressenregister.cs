@@ -9,6 +9,7 @@ using Marten;
 using Polly;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Given_With_AdresWerdNietGevondenInAdressenregister_Setup : IAsyncLifetime
 {
@@ -52,11 +53,13 @@ public class Given_With_AdresWerdNietGevondenInAdressenregister_Setup : IAsyncLi
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_AdresWerdNietGevondenInAdressenregister : IClassFixture<
     Given_With_AdresWerdNietGevondenInAdressenregister_Setup>
 {

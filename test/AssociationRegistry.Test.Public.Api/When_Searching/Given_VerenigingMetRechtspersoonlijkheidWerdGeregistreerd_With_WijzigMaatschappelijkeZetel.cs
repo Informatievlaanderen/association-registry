@@ -9,8 +9,11 @@ using Framework;
 using templates;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel
 {
     private readonly V017_VerenigingMetRechtspersoonlijkheidWerdGeregistreerd_With_WijzigMaatschappelijkeZetel_Scenario _scenario;

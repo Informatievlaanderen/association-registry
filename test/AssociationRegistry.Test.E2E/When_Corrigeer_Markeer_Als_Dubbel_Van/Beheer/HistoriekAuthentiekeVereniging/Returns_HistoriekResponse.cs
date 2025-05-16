@@ -10,7 +10,7 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Scenarios.Requests;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Historiek : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest, HistoriekResponse>

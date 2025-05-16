@@ -5,7 +5,9 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.VerenigingMetRechtsper
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Locatie : ValidatorTest
 {
     [Fact]

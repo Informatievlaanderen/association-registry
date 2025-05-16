@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonder
 using Vereniging;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Different_Subtype
 {
     [Fact]

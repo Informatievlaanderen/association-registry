@@ -6,7 +6,9 @@ using AssociationRegistry.Test.Admin.Api.Framework;
 using Moq;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Null_Request
 {
     private readonly WijzigContactgegevenController _controller;

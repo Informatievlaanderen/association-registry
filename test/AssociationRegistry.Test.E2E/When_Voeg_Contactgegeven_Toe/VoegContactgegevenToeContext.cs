@@ -21,7 +21,7 @@ public class VoegContactgegevenToeContext: TestContextBase<VoegContactgegevenToe
         Scenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new VoegContactgegevenToeRequestFactory(Scenario).ExecuteRequest(ApiSetup);

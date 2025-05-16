@@ -12,10 +12,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Nest;
 using Vereniging;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Public.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class PubliekVerenigingenZoekQueryTests
 {
     private readonly ITestOutputHelper _helper;
@@ -30,7 +33,7 @@ public class PubliekVerenigingenZoekQueryTests
     }
 
     [Fact]
-    public async ValueTask Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
+    public async ValueTask? Given_More_Than_ElasticSearch_Context_Limit_Total_Count_Is_Actual_Number()
     {
         var fixture = new Fixture().CustomizePublicApi();
         var totalCount = 0;

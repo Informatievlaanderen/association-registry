@@ -10,10 +10,12 @@ using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingMetRechtspersoonlijkheid;
 using Vereniging.Exceptions;
 using Xunit;
+using Xunit.Categories;
 
 /// <summary>
 /// This wil result in a verfijn naar subvereniging
 /// </summary>
+[UnitTest]
 public class Given_A_Different_Subtype
 {
     private readonly Fixture _fixture;

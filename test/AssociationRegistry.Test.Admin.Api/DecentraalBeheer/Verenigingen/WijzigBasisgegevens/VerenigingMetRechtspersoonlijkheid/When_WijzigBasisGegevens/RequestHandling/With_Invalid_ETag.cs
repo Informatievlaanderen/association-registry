@@ -12,7 +12,9 @@ using Moq;
 using Vereniging;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Invalid_ETag
 {
     private readonly WijzigBasisgegevensController _controller;

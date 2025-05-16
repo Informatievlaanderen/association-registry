@@ -7,8 +7,8 @@ using AssociationRegistry.Test.Common.Framework;
 using AutoFixture;
 using FluentAssertions;
 using Marten;
-using System.ComponentModel;
 using Xunit;
+using Xunit.Categories;
 
 public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
 {
@@ -25,6 +25,7 @@ public class BeheerVerenigingDetailQueryFixture : IAsyncLifetime
     }
 }
 
+[IntegrationTest]
 [Category(Categories.ReplaceThisQueryWithGetNamesForVCodeForOneUsage)]
 public class BeheerVerenigingDetailQueryTests : IClassFixture<BeheerVerenigingDetailQueryFixture>, IDisposable, IAsyncDisposable
 {

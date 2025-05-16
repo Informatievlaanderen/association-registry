@@ -8,7 +8,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Different_Subtype
 {
     [Fact]

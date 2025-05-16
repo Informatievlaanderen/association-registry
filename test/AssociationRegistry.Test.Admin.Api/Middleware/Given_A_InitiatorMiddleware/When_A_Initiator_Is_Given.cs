@@ -3,10 +3,11 @@
 using AssociationRegistry.Admin.Api.Infrastructure;
 using FluentAssertions;
 using Framework.Fixtures;
-using System.ComponentModel;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 [Category("Middleware")]
 [Collection(nameof(AdminApiCollection))]
 public class When_A_Initiator_Is_Given

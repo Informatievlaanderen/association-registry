@@ -8,7 +8,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_UitgeschrevenUitPubliekeDatastroom_Null
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

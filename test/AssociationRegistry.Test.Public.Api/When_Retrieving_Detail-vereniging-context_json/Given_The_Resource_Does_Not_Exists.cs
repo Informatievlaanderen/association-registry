@@ -4,8 +4,11 @@ using Fixtures;
 using FluentAssertions;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(VerenigingPublicApiCollection.Name)]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_The_Resource_Does_Not_Exists : IClassFixture<StaticPublicApiFixture>
 {
     private readonly HttpClient _httpClient;

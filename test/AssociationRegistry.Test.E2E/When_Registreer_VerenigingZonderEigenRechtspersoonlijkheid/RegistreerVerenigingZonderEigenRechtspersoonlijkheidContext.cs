@@ -25,7 +25,7 @@ public class RegistreerVerenigingZonderEigenRechtspersoonlijkheidContext: TestCo
         apiSetup.RegisterContext(this);
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         // _emptyScenario = new EmptyScenario();e
         //

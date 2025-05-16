@@ -3,7 +3,9 @@
 using AssociationRegistry.Vereniging.SocialMedias;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Empty_String
 {
     [Fact]

@@ -2,12 +2,14 @@ namespace AssociationRegistry.Test.Admin.Api.Migrate_To_E2E.When_Wijzig_Anything
 
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
-using System.ComponentModel;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 [Category(Categories.MoveToBasicE2E)]
+[IntegrationTest]
 public class Given_A_Vereniging_Does_Not_Exist
 {
     private const string VCode = "V9999999";

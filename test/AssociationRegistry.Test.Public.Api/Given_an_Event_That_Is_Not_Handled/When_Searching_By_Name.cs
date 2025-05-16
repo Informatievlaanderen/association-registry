@@ -9,8 +9,11 @@ using System.Text.RegularExpressions;
 using templates;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class When_Searching_By_Name
 {
     private readonly PublicApiClient _publicApiClient;
@@ -30,7 +33,7 @@ public class When_Searching_By_Name
            .BeSuccessful();
 
     [Fact]
-    public async ValueTask Then_we_retrieve_one_vereniging_matching_the_name_searched()
+    public async ValueTask? Then_we_retrieve_one_vereniging_matching_the_name_searched()
     {
         var response = await _publicApiClient.Search(V004_UnHandledEventAndFeitelijkeVerenigingWerdGeregistreerdScenario.Naam);
         var content = await response.Content.ReadAsStringAsync();
@@ -43,7 +46,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
+    public async ValueTask? Then_one_vereniging_is_not_retrieved_by_part_of_its_name()
     {
         var response = await _publicApiClient.Search("stende");
         var content = await response.Content.ReadAsStringAsync();
@@ -52,7 +55,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
+    public async ValueTask? Then_one_vereniging_is_retrieved_by_part_of_its_name_when_using_wildcards()
     {
         var response = await _publicApiClient.Search("*stende*");
         var content = await response.Content.ReadAsStringAsync();
@@ -65,7 +68,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
+    public async ValueTask? Then_one_vereniging_is_retrieved_by_full_term_within_its_name()
     {
         var response = await _publicApiClient.Search("oostende");
         var content = await response.Content.ReadAsStringAsync();
@@ -78,7 +81,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask Then_one_vereniging_is_retrieved_by_its_vCode()
+    public async ValueTask? Then_one_vereniging_is_retrieved_by_its_vCode()
     {
         var response = await _publicApiClient.Search(_vCode);
         var content = await response.Content.ReadAsStringAsync();
@@ -91,7 +94,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
+    public async ValueTask? Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
         var response = await _publicApiClient.Search("001");
         var content = await response.Content.ReadAsStringAsync();
@@ -100,7 +103,7 @@ public class When_Searching_By_Name
     }
 
     [Fact]
-    public async ValueTask When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
+    public async ValueTask? When_Navigating_To_A_Hoofdactiviteit_Facet_Then_it_is_retrieved()
     {
         var response = await _publicApiClient.Search("*dena*");
         var content = await response.Content.ReadAsStringAsync();

@@ -8,7 +8,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_One_Vertegenwoordiger
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

@@ -9,8 +9,11 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_An_Outdated_Sequence
 {
     private readonly EventsInDbScenariosFixture _fixture;

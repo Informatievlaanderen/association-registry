@@ -7,7 +7,10 @@ using AutoFixture;
 using Common.Framework;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
+[Category("Mapping")]
 public class To_A_WijzigBasisgegevensCommand
 {
     [Fact]

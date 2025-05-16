@@ -5,7 +5,9 @@ using AssociationRegistry.Public.Api.Verenigingen.Search.RequestModels;
 using FluentValidation.TestHelper;
 using Framework;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Is_Over_Total_Allowed : ValidatorTest
 {
     [Fact]

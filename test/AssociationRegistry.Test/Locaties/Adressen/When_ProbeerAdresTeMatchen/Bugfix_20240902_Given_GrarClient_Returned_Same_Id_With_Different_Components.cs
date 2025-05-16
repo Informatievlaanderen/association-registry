@@ -11,7 +11,9 @@ using AutoFixture.Kernel;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Bugfix_20240902_Given_GrarClient_Returned_Same_Id_With_Different_Components
 {
   private static Mock<IGrarClient> SetupGrarClientMock(Fixture fixture, Registratiedata.Locatie locatie)

@@ -20,7 +20,9 @@ using Microsoft.Net.Http.Headers;
 using Moq;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Valid_Request
 {
     private readonly VoegVertegenwoordigerToeController _controller;

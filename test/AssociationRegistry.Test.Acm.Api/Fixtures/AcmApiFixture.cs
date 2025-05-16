@@ -106,7 +106,7 @@ public abstract class AcmApiFixture : IDisposable, IAsyncLifetime
     public async ValueTask InitializeAsync()
         => await Given();
 
-    public virtual async ValueTask DisposeAsync()
+    public virtual async Task DisposeAsync()
         => Dispose();
 
     public void Dispose()

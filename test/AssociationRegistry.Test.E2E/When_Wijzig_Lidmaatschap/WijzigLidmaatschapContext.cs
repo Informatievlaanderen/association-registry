@@ -21,7 +21,7 @@ public class WijzigLidmaatschapContext: TestContextBase<WijzigLidmaatschapReques
         Scenario = new(new MultipleWerdGeregistreerdScenario());
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         RequestResult = await new WijzigLidmaatschapRequestFactory(Scenario).ExecuteRequest(ApiSetup);

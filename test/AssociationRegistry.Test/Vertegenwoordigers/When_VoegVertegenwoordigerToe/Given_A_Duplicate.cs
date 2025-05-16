@@ -7,7 +7,9 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using AutoFixture.Kernel;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Duplicate
 {
     [Theory]

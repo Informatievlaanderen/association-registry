@@ -14,7 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Wolverine;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Valid_ETag : IAsyncLifetime
 {
     private readonly Mock<IMessageBus> _messageBusMock;
@@ -63,6 +65,6 @@ public class With_Valid_ETag : IAsyncLifetime
             Times.Once);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }

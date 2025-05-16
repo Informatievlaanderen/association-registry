@@ -13,12 +13,14 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Newtonsoft.Json;
-using System.ComponentModel;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 [Category(Categories.MoveToBasicE2E)]
+[IntegrationTest]
 public class Given_A_Vereniging_Has_Been_Deleted
 {
     private const string TEST_INITIATOR = EventStore.DigitaalVlaanderenOvoNumber;

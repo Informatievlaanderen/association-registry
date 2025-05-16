@@ -8,7 +8,7 @@ using Framework.ApiSetup;
 using Framework.TestClasses;
 using Scenarios.Requests;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class Returns_Detail_AuthentiekeVereniging : End2EndTest<CorrigeerMarkeringAlsDubbelVanContext, NullRequest,

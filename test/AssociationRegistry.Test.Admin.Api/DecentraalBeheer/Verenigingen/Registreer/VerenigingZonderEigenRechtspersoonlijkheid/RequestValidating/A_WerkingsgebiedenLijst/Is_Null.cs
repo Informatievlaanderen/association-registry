@@ -5,8 +5,10 @@ using AssociationRegistry.Admin.Api.Verenigingen.Registreer.VerenigingZonderEige
 using AssociationRegistry.Test.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class Is_Null : ValidatorTest
 {
     [Fact]

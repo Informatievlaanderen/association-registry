@@ -21,5 +21,5 @@ public class DetailFixture : IAsyncLifetime
         Result = await _client.GetAddressById(adresId: "200001", CancellationToken.None);
     }
 
-    public ValueTask DisposeAsync() => new(Task.CompletedTask);
+    public Task DisposeAsync() => Task.CompletedTask;
 }

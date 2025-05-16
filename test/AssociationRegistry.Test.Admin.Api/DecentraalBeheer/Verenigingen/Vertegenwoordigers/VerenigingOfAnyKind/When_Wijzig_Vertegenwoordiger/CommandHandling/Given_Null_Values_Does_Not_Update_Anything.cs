@@ -7,7 +7,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereniging;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Null_Values_Does_Not_Update_Anything
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;

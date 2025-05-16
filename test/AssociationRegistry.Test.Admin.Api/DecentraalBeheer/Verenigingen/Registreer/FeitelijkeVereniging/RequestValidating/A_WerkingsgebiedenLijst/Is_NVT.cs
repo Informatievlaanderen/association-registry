@@ -8,8 +8,10 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class Is_NVT : ValidatorTest
 {
     [Fact]

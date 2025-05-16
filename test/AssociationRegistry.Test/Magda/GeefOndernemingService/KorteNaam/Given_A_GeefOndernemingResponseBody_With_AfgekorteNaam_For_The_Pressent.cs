@@ -16,7 +16,9 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_AfgekorteNaam_For_The_Pressent
 {
     private readonly MagdaGeefVerenigingService _service;

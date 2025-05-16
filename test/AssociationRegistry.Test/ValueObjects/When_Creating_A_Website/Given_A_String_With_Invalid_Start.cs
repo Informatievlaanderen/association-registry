@@ -4,7 +4,9 @@ using AssociationRegistry.Vereniging.Websites;
 using AssociationRegistry.Vereniging.Websites.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_String_With_Invalid_Start
 {
     [Theory]

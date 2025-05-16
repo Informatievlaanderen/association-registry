@@ -24,7 +24,7 @@ public class WijzigBasisgegevensKboTestContext : TestContextBase<WijzigBasisgege
         ApiSetup = apiSetup;
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         _werdGeregistreerdScenario = new();
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);

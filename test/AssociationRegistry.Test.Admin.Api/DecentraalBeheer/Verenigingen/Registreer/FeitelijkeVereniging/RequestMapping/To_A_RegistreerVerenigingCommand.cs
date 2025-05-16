@@ -12,7 +12,9 @@ using Common.Framework;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class To_A_RegistreerFeitelijkeVerenigingCommand
 {
     [Fact]

@@ -14,10 +14,11 @@ using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
-using System.ComponentModel;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 [Category("Middleware")]
 public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifetime
 {
@@ -66,10 +67,10 @@ public class When_A_UnexpectedAggregateVersionException_Is_Thrown : IAsyncLifeti
         problemDetails.Detail.Should().Be(ValidationMessages.Status412PreconditionFailed);
     }
 
-    public ValueTask DisposeAsync()
+    public Task DisposeAsync()
     {
         _host.Dispose();
 
-        return ValueTask.CompletedTask;
+        return Task.CompletedTask;
     }
 }

@@ -7,7 +7,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_No_Adres_And_An_AdresId
 {
     [Theory]

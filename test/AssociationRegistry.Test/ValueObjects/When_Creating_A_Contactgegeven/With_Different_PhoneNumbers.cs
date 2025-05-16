@@ -2,7 +2,9 @@
 
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Different_PhoneNumbers
 {
     [Theory]

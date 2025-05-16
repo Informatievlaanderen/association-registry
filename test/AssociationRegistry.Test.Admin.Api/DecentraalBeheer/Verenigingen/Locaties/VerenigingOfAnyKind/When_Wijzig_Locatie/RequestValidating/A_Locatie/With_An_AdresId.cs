@@ -5,7 +5,9 @@ using AssociationRegistry.Admin.Api.Verenigingen.Locaties.FeitelijkeVereniging.W
 using AssociationRegistry.Test.Admin.Api.Framework;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_An_AdresId : ValidatorTest
 {
     [Fact]

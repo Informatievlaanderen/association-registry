@@ -28,5 +28,5 @@ public class WithNoIdInMatchDestelbergenFixture : IAsyncLifetime
         Result = await _client.GetAddressMatches(Straatnaam, Huisnummer, busnummer: null, Postcode, Gemeentenaam, CancellationToken.None);
     }
 
-    public ValueTask DisposeAsync() => new ValueTask(Task.CompletedTask);
+    public Task DisposeAsync() => Task.CompletedTask;
 }

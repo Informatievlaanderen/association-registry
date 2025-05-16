@@ -6,6 +6,7 @@ using AssociationRegistry.Test.Common.Extensions;
 using AssociationRegistry.Test.Common.Scenarios.EventsInDb;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd_Setup : IAsyncLifetime
 {
@@ -25,6 +26,8 @@ public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVer
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd : IClassFixture<
     Given_AdresWerdOvergenomenUitAdressenregister_And_VerenigingWerdVerwijderd_Setup>
 {

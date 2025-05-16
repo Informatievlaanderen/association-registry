@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithDuplicateKboNummer
 {
@@ -38,6 +39,8 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_WithDuplic
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class With_Duplicate_KboNummer
 {
     private readonly EventsInDbScenariosFixture _fixture;

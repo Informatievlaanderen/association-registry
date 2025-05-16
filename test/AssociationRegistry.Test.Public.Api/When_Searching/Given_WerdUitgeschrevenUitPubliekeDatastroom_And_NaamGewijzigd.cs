@@ -7,8 +7,11 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_WerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigd
 {
     private readonly V023_WerdUitgeschrevenUitPubliekeDatastroomScenario_And_NaamWerdGewijzigd _scenario;
@@ -25,7 +28,7 @@ public class Given_WerdUitgeschrevenUitPubliekeDatastroom_And_NaamGewijzigd
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask Then_no_vereniging_is_retrieved_by_its_vCode()
+    public async ValueTask? Then_no_vereniging_is_retrieved_by_its_vCode()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

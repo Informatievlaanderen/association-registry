@@ -4,7 +4,9 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_An_Integer_Smaller_Than_A_Thousand_And_One
 {
     [Theory]

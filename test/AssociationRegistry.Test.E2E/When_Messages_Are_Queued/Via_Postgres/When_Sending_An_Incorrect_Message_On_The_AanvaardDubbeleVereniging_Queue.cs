@@ -10,7 +10,7 @@ using Vereniging.Exceptions;
 using Wolverine;
 using Wolverine.Persistence.Durability;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 [Collection(FullBlownApiCollection.Name)]
 public class When_Sending_An_Incorrect_Message_On_The_AanvaardDubbeleVereniging_Queue

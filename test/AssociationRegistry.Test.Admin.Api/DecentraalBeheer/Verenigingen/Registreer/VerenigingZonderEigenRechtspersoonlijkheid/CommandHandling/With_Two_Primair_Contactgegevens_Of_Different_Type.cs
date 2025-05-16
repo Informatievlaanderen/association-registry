@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;
@@ -63,8 +65,8 @@ public class With_Two_Primair_Contactgegevens_Of_Different_Type : IAsyncLifetime
                                      CancellationToken.None);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 
     [Fact]
     public void Then_it_saves_the_event()

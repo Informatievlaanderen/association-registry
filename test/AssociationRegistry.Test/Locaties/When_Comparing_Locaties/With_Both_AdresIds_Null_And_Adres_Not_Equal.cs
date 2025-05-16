@@ -3,7 +3,9 @@ namespace AssociationRegistry.Test.Locaties.When_Comparing_Locaties;
 using AssociationRegistry.Vereniging;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Both_AdresIds_Null_And_Adres_Not_Equal
 {
     [Fact]

@@ -13,8 +13,10 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 using AntwoordInhoudType = AssociationRegistry.Magda.Repertorium.RegistreerInschrijving.AntwoordInhoudType;
 
+[UnitTest]
 public class Given_Geslaagd
 {
     private readonly MagdaRegistreerInschrijvingService _service;

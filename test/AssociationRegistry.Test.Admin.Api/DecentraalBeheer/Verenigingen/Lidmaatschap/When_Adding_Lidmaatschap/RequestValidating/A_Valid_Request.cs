@@ -5,8 +5,10 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class A_Valid_Request : ValidatorTest
 {
     private readonly Fixture _fixture;

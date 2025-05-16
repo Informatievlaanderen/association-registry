@@ -7,6 +7,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid : IAsyncLifetime
 {
@@ -29,11 +30,13 @@ public class Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoo
                                                                       Scenario.ContactgegevenWerdToegevoegd.ContactgegevenId);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<
     Delete_An_Existing_Contactgegeven_Given_A_VerenigingMetRechtspersoonlijkheid>
 {

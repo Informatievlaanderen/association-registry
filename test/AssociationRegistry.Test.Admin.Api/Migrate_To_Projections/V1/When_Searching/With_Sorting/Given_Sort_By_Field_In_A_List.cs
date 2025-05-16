@@ -3,9 +3,12 @@ namespace AssociationRegistry.Test.Admin.Api.Migrate_To_Projections.V1.When_Sear
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_Sort_By_Field_In_A_List
 {
     private readonly ITestOutputHelper _outputHelper;

@@ -7,8 +7,11 @@ using FluentAssertions;
 using Framework;
 using templates;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_VerenigingWerdGestopt
 {
     private readonly V016_VerenigingWerdGestopt _scenario;

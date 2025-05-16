@@ -14,10 +14,12 @@ using Vereniging;
 using Vereniging.Exceptions;
 using Vereniging.Subtypes.Subvereniging;
 using Xunit;
+using Xunit.Categories;
 
 /// <summary>
 /// This will result in a te wijzigen subtype
 /// </summary>
+[UnitTest]
 public class Given_The_Same_Subtype
 {
     private readonly Fixture _fixture;

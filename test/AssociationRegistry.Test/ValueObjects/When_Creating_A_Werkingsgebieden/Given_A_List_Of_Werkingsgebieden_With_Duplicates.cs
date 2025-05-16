@@ -6,7 +6,9 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Werkingsgebieden_With_Duplicates
 {
     [Fact]

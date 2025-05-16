@@ -15,7 +15,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Different_Null_Adres
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

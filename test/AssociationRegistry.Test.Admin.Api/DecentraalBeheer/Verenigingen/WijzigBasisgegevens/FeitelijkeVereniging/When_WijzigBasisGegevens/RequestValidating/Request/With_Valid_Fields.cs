@@ -6,7 +6,9 @@ using AssociationRegistry.Primitives;
 using FluentValidation.TestHelper;
 using System.Globalization;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Valid_Fields
 {
     [Theory]

@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.VerenigingMetRec
 using AssociationRegistry.Vereniging;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Minimumleeftijd
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

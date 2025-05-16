@@ -11,7 +11,9 @@ using AssociationRegistry.Vereniging.SocialMedias;
 using AssociationRegistry.Vereniging.TelefoonNummers;
 using AutoFixture;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Vertegenwoordiger
 {
     private readonly WijzigVertegenwoordigerCommandHandler _commandHandler;

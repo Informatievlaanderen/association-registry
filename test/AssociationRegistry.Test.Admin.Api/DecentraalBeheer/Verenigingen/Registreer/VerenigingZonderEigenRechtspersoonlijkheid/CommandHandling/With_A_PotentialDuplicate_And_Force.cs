@@ -19,7 +19,9 @@ using Moq;
 using ResultNet;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_PotentialDuplicate_And_Force
 {
     private readonly RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand _command;

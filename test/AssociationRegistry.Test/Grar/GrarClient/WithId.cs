@@ -5,7 +5,9 @@ using AssociationRegistry.Grar.Models;
 using FluentAssertions;
 using Locaties.When_Heradresseren_Locaties.Fixtures;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Id : IClassFixture<DetailFixture>
 {
     private readonly DetailFixture _fixture;

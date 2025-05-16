@@ -8,8 +8,11 @@ using Formats;
 using Framework;
 using templates;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_LocatieWerdToegevoegd
 {
     private readonly V011_LocatieWerdToegevoegdScenario _scenario;
@@ -26,7 +29,7 @@ public class Given_LocatieWerdToegevoegd
         => (await _publicApiClient.Search(_scenario.VCode)).Should().BeSuccessful();
 
     [Fact]
-    public async ValueTask Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
+    public async ValueTask? Then_we_retrieve_one_vereniging_matching_the_vcode_searched()
     {
         var response = await _publicApiClient.Search(_scenario.VCode);
         var content = await response.Content.ReadAsStringAsync();

@@ -7,6 +7,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Given_A_FeitelijkeVereniging_Setup : IAsyncLifetime
 {
@@ -45,11 +46,13 @@ public class Given_A_FeitelijkeVereniging_Setup : IAsyncLifetime
         Response = await _fixture.AdminApiClient.PostLocatie(Scenario.VCode, _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Given_A_FeitelijkeVereniging_Setup>
 {
     private readonly Given_A_FeitelijkeVereniging_Setup _classFixture;

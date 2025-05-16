@@ -11,7 +11,9 @@ using FluentAssertions;
 using Moq;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_GrarClient_Returned_NotFound
 {
     [Theory]

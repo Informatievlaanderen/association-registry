@@ -5,7 +5,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Seed;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 public class Then_Some_Duplicates_Are_Expected: DuplicateDetectionTest
 {

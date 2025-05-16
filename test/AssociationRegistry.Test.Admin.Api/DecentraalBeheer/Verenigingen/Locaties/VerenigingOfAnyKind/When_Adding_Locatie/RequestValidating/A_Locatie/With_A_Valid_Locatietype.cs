@@ -8,7 +8,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Valid_Locatietype : ValidatorTest
 {
     [Theory]

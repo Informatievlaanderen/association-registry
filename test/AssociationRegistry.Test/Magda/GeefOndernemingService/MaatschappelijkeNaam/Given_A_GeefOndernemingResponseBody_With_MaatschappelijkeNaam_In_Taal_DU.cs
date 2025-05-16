@@ -16,7 +16,9 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_DU
 {
     private readonly MagdaGeefVerenigingService _service;
@@ -83,6 +85,7 @@ public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Ta
     }
 }
 
+[UnitTest]
 public class Given_A_GeefOndernemingResponseBody_With_MaatschappelijkeNaam_In_Taal_Onbekend
 {
     private readonly MagdaGeefVerenigingService _service;

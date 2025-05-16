@@ -13,6 +13,7 @@ xunit.v3
 
 xunit.analyzers
 xunit.v3.assert
+xunit.v3.assert.source
 xunit.v3.core
 xunit.v3.extensibility.core
 xunit.v3.runner.console

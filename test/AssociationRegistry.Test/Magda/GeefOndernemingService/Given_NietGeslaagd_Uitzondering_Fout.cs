@@ -15,7 +15,9 @@ using Moq;
 using ResultNet;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_NietGeslaagd_Uitzondering_Fout
 {
     private readonly MagdaGeefVerenigingService _service;

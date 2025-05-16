@@ -11,6 +11,7 @@ using Marten;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
 {
@@ -39,11 +40,13 @@ public class Post_A_New_Vertegenwoordiger : IAsyncLifetime
         Response = await _classFixture.AdminApiClient.PostVertegenwoordiger(Scenario.VCode, _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_New_Vertegenwoordiger : IClassFixture<Post_A_New_Vertegenwoordiger>
 {
     private readonly Post_A_New_Vertegenwoordiger _classFixture;

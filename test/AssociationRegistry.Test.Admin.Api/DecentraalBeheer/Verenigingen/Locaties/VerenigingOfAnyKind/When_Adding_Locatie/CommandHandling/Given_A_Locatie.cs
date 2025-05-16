@@ -17,7 +17,9 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Locatie
 {
     private Fixture _fixture;

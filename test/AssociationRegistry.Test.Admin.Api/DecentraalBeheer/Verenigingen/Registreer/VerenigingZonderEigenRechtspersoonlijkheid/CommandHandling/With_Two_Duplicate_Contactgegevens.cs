@@ -15,7 +15,9 @@ using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Two_Duplicate_Contactgegevens
 {
     private readonly CommandEnvelope<RegistreerVerenigingZonderEigenRechtspersoonlijkheidCommand> _commandEnvelope;

@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public sealed class When_ContactgegevenWerdOvergenomen_Setup
 {
@@ -43,6 +44,8 @@ public sealed class When_ContactgegevenWerdOvergenomen_Setup
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_ContactgegevenWerdOvergenomen_Setup>
 {
     private readonly WijzigContactgegevenRequest _request;

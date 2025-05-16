@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Net.Http.Headers;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public sealed class When_WijzigMaatschappelijkeZetel_Setup
 {
@@ -41,6 +42,8 @@ public sealed class When_WijzigMaatschappelijkeZetel_Setup
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class Given_A_VerenigingMetRechtspersoonlijkheid : IClassFixture<When_WijzigMaatschappelijkeZetel_Setup>
 {
     private readonly WijzigMaatschappelijkeZetelRequest _request;

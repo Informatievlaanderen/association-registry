@@ -14,8 +14,10 @@ using Marten;
 using Moq;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
+[UnitTest]
 public class Given_A_Vereniging
 {
     private readonly Fixture _fixture;

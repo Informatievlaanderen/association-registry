@@ -5,8 +5,11 @@ using AssociationRegistry.Events;
 using AssociationRegistry.Test.Admin.Api.Framework.Fixtures;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public abstract class With_KboNummer_For_Unsupported_Organisatie
 {
     private readonly EventsInDbScenariosFixture _fixture;

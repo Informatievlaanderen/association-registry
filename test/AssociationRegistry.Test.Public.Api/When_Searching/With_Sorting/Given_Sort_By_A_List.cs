@@ -8,9 +8,12 @@ using Newtonsoft.Json;
 using Resources;
 using System.Net;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_Sort_By_A_List
 {
     private readonly ITestOutputHelper _outputHelper;

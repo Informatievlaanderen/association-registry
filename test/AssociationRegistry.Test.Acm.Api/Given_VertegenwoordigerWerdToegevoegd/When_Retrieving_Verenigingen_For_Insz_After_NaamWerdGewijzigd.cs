@@ -8,8 +8,11 @@ using System.Net;
 using templates;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(AcmApiCollection))]
+[Category("AcmApi")]
+[IntegrationTest]
 public class When_Retrieving_Verenigingen_For_Insz_After_NaamWerdGewijzigd
 {
     private readonly HttpResponseMessage _response;

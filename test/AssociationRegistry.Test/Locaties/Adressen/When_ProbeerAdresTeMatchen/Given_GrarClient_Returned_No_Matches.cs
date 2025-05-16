@@ -11,7 +11,9 @@ using AutoFixture.Kernel;
 using FluentAssertions;
 using Moq;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_GrarClient_Returned_No_Matches
 {
     [Theory]

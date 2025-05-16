@@ -8,6 +8,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Post_A_New_Contactgegeven : IAsyncLifetime
 {
@@ -42,11 +43,13 @@ public class Post_A_New_Contactgegeven : IAsyncLifetime
         Response = await _fixture.AdminApiClient.PostContactgegevens(Scenario.VCode, _jsonBody);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_A_FeitelijkeVereniging : IClassFixture<Post_A_New_Contactgegeven>
 {
     private readonly Post_A_New_Contactgegeven _classFixture;

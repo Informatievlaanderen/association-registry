@@ -4,7 +4,9 @@ using AssociationRegistry.Vereniging;
 using AssociationRegistry.Vereniging.Exceptions;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Non_DataVlaanderen_Uri_For_AR_Bron
 {
     [Fact]

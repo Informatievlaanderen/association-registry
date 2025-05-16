@@ -7,7 +7,9 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_The_Same_Doelgroep
 {
     [Fact]

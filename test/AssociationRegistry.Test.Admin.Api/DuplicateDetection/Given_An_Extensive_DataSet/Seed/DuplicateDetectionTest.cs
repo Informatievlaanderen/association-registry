@@ -17,7 +17,7 @@ using Nest;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 using Adres = Vereniging.Adres;
 using Locatie = Vereniging.Locatie;
 
@@ -125,8 +125,8 @@ public class DuplicateDetectionTest
         await InsertGeregistreerdeVerenigingen(DubbelDetectieData);
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 
     public async Task<IReadOnlyCollection<DuplicaatVereniging>> GetDuplicatesFor(string teRegistrerenNaam)
         => await _duplicateVerenigingDetectionService.GetDuplicates(VerenigingsNaam.Create(teRegistrerenNaam),

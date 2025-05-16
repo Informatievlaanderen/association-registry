@@ -17,7 +17,9 @@ using Moq;
 using Wolverine;
 using Wolverine.Marten;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Locatie_With_Adres_id
 {
     [Fact]

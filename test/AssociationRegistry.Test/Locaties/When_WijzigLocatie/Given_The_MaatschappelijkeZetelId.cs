@@ -8,7 +8,9 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_From_MaatschappelijkeZetelId
 {
     [Fact]
@@ -38,6 +40,7 @@ public class Given_From_MaatschappelijkeZetelId
     }
 }
 
+[UnitTest]
 public class Given_To_MaatschappelijkeZetelId
 {
     [Fact]

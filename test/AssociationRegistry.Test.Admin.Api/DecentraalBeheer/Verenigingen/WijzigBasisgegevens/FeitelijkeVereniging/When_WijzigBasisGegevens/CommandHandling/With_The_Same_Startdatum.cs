@@ -12,7 +12,9 @@ using AssociationRegistry.Vereniging;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_The_Same_Startdatum
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

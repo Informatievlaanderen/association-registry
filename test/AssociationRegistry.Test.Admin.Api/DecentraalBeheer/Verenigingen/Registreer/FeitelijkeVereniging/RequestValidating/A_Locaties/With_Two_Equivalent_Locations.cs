@@ -6,9 +6,11 @@ using AssociationRegistry.Test.Framework;
 using AssociationRegistry.Vereniging;
 using FluentValidation.TestHelper;
 using Xunit;
+using Xunit.Categories;
 using Adres = AssociationRegistry.Admin.Api.Verenigingen.Common.Adres;
 using ValidatorTest = Framework.ValidatorTest;
 
+[UnitTest]
 public class With_Two_Equivalent_Locations : ValidatorTest
 {
     [Fact]

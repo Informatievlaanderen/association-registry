@@ -5,7 +5,9 @@ using AssociationRegistry.Test.Common.Framework;
 using AssociationRegistry.Test.Common.Scenarios.CommandHandling;
 using AssociationRegistry.Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_Bepaald_To_NietVanToepassing
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

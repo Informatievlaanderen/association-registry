@@ -11,12 +11,15 @@ using AutoFixture;
 using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using Nest;
-using System.ComponentModel;
+
 using Xunit;
+using Xunit.Categories;
 using VerenigingStatus = AssociationRegistry.Admin.Schema.Constants.VerenigingStatus;
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 [Category(Categories.RefactorAfterVZERMigration)]
+[IntegrationTest]
 public class When_Searching_On_Type
 {
     private BeheerVerenigingenZoekQuery _query;

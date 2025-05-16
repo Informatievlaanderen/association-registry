@@ -14,7 +14,9 @@ using Moq;
 using Resources;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Repliek_Uitzondering_Fout
 {
     private readonly MagdaRegistreerInschrijvingService _service;

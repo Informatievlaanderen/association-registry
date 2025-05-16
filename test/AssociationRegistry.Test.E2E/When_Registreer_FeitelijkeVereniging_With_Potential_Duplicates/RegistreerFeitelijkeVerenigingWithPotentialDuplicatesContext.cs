@@ -19,7 +19,7 @@ public class RegistreerFeitelijkeVerenigingWithPotentialDuplicatesContext: TestC
         _feitelijkeVerenigingWerdGeregistreerdScenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_feitelijkeVerenigingWerdGeregistreerdScenario);
 

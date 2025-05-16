@@ -18,7 +18,9 @@ using ResultNet;
 using Vereniging;
 
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_Geslaagd
 {
     private readonly MagdaGeefVerenigingService _service;

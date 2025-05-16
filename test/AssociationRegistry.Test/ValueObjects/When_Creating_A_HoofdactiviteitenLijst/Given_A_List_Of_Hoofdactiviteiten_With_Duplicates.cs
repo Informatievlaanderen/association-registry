@@ -6,7 +6,9 @@ using AssociationRegistry.Vereniging.Exceptions;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_List_Of_Hoofdactiviteiten_With_Duplicates
 {
     [Fact]

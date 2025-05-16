@@ -16,7 +16,9 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_A_Contactgegeven_That_Exists_With_Bron_Initiator
 {
     private readonly VerenigingRepositoryMock _verenigingRepositoryMock;

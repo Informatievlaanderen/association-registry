@@ -7,6 +7,7 @@ using FluentAssertions;
 using Marten;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLifetime
 {
@@ -28,11 +29,13 @@ public class Remove_An_Existing_Vereniging_With_Insufficient_Rights : IAsyncLife
         Response = await _fixture.AdminApiClient.DeleteVereniging(Scenario.VCode, reason: "Omdat");
     }
 
-    public ValueTask DisposeAsync()
-        => ValueTask.CompletedTask;
+    public Task DisposeAsync()
+        => Task.CompletedTask;
 }
 
+[IntegrationTest]
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
 public class Given_An_Client_With_Insufficient_Rights : IClassFixture<Remove_An_Existing_Vereniging_With_Insufficient_Rights>
 {
     private readonly Remove_An_Existing_Vereniging_With_Insufficient_Rights _classFixture;

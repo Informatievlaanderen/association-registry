@@ -7,8 +7,11 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_It_Already_Exists
 {
     private const string DochterVCode = "V0005998";

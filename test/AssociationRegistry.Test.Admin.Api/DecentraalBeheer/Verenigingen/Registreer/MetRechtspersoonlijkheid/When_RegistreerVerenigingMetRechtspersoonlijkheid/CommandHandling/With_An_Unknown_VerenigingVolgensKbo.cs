@@ -14,7 +14,9 @@ using Microsoft.Extensions.Logging;
 using Moq;
 using ResultNet;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class With_An_Unknown_VerenigingVolgensKbo
 {
     private readonly RegistreerVerenigingUitKboCommandHandler _commandHandler;

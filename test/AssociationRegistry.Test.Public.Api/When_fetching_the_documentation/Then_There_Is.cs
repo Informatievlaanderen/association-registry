@@ -5,8 +5,11 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Then_The_Docs
 {
     public Then_The_Docs(GivenEventsFixture fixture)

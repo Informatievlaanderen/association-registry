@@ -19,7 +19,7 @@ public class VerwijderVerenigingContext: TestContextBase<VerwijderVerenigingRequ
         _werdGeregistreerdScenario = new();
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(_werdGeregistreerdScenario);
         RequestResult = await new VerwijderVerenigingRequestFactory(_werdGeregistreerdScenario).ExecuteRequest(ApiSetup);

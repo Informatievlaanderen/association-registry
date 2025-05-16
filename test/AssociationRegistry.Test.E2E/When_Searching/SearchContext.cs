@@ -20,7 +20,7 @@ public class SearchContext: TestContextBase<NullRequest>
         Scenario = new SearchScenario();
     }
 
-    public override async ValueTask InitializeAsync()
+    public override async Task InitializeAsync()
     {
         await ApiSetup.ExecuteGiven(Scenario);
         await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));

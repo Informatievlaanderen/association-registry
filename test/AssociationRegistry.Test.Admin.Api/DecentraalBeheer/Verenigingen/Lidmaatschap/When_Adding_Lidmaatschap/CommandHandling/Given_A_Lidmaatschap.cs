@@ -9,7 +9,9 @@ using AssociationRegistry.Test.Common.Scenarios.CommandHandling.FeitelijkeVereni
 using AutoFixture;
 using Common.Scenarios.CommandHandling.VerenigingZonderEigenRechtspersoonlijkheid;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Lidmaatschap
 {
     [Fact]

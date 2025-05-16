@@ -9,6 +9,7 @@ using AutoFixture;
 using FluentAssertions;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Duplicate_Requests
 {
@@ -48,6 +49,8 @@ public sealed class When_RegistreerVerenigingMetRechtspersoonlijkheid_With_Dupli
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class With_Duplicate_Requests
 {
     private readonly EventsInDbScenariosFixture _fixture;

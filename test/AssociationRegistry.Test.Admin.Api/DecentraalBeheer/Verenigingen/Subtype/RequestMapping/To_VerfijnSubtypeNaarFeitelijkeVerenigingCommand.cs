@@ -7,7 +7,10 @@ using Common.AutoFixture;
 using FluentAssertions;
 using Vereniging;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
+[Category("Mapping")]
 public class To_VerfijnSubtypeNaarFeitelijkeVerenigingCommand
 {
     [Fact]

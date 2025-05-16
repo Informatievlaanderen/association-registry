@@ -4,7 +4,7 @@ using AssociationRegistry.Formats;
 using FluentAssertions;
 using NodaTime;
 using Xunit;
-using ITestOutputHelper = Xunit.ITestOutputHelper;
+using Xunit.Abstractions;
 
 public class DateFormatterTests
 {

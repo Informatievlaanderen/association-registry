@@ -6,7 +6,9 @@ using AssociationRegistry.Test.Common.AutoFixture;
 using AutoFixture;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class To_A_RegistreerVereningUitKboCommand
 {
     [Fact]

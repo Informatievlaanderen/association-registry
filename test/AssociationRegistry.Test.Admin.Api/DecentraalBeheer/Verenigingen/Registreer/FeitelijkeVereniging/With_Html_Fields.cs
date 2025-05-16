@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Collections;
 using System.Net;
 using Xunit;
+using Xunit.Categories;
 
 public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerable<object[]>
 {
@@ -52,6 +53,8 @@ public class When_RegistreerFeitelijkeVereniging_WithHtmlFields_Data : IEnumerab
 }
 
 [Collection(nameof(AdminApiCollection))]
+[Category("AdminApi")]
+[IntegrationTest]
 public class With_Html_Fields
 {
     private readonly EventsInDbScenariosFixture _fixture;

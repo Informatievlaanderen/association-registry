@@ -8,7 +8,9 @@ using AutoFixture;
 using EventFactories;
 using FluentAssertions;
 using Xunit;
+using Xunit.Categories;
 
+[UnitTest]
 public class Given_A_Second_Primair
 {
     [Fact]

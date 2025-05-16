@@ -5,8 +5,11 @@ using Fixtures.GivenEvents;
 using FluentAssertions;
 using Framework;
 using Xunit;
+using Xunit.Categories;
 
 [Collection(nameof(PublicApiCollection))]
+[Category("PublicApi")]
+[IntegrationTest]
 public class Given_A_Working_Service
 {
     private readonly PublicApiClient _publicApiClient;
