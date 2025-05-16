@@ -20,21 +20,17 @@ using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenig
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-
-[Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
-public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_ArrayOfDetailResponses : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly RegistreerFeitelijkeVerenigingContext _testContext;
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse =>
+        setup => setup.PublicApiHost
+                      .GetPubliekDetailAll()
+                      .FindVereniging(TestContext.VCode);
 
-    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_ArrayOfDetailResponses(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost
-                .GetPubliekDetailAll()
-                .FindVereniging(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -58,13 +54,13 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             Doelgroep = new DoelgroepResponse
             {
                 type = JsonLdType.Doelgroep.Type,
-                id = JsonLdType.Doelgroep.CreateWithIdValues(_testContext.VCode),
+                id = JsonLdType.Doelgroep.CreateWithIdValues(TestContext.VCode),
                 Minimumleeftijd = 1,
                 Maximumleeftijd = 149,
             },
-            VCode = _testContext.VCode,
-            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
-            KorteNaam = _testContext.CommandRequest.KorteNaam,
+            VCode = TestContext.VCode,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
@@ -72,14 +68,14 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
             },
             Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
             SubverenigingVan = null,
-            Naam = _testContext.CommandRequest.Naam,
+            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.CommandRequest.Contactgegevens, _testContext.VCode),
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
-            Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
+            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, TestContext.VCode),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = PubliekDetailResponseMapper.MapLocaties(Request.Locaties, TestContext.VCode),
             Relaties = [],
-            Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
+            Sleutels = PubliekDetailResponseMapper.MapSleutels(TestContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
 }

@@ -1,24 +1,22 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_Registreer_FeitelijkeVereniging.Publiek.MutatieDienst;
 
-using FluentAssertions;
+using Admin.Api.Verenigingen.Registreer.FeitelijkeVereniging.RequestModels;
 using Framework.AlbaHost;
 using Framework.ApiSetup;
 using Framework.TestClasses;
+using FluentAssertions;
 using Public.Api.Verenigingen.Mutaties;
 using Xunit;
 
-[Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
-public class Returns_Vereniging : End2EndTest<PubliekVerenigingSequenceResponse[]>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VerenigingMutationsSequenceResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingSequenceResponse[]>
 {
-    private readonly RegistreerFeitelijkeVerenigingContext _testContext;
+    private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_VerenigingMutationsSequenceResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override PubliekVerenigingSequenceResponse[] GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetVerenigingMutationsSequence();
 
     [Fact]
     public void With_RegisteredVereniging()
@@ -27,4 +25,7 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingSequenceResponse[
         actual.Should().NotBeNull();
         actual!.Sequence.Should().BeGreaterThan(0);
     }
+
+    public override Func<IApiSetup, PubliekVerenigingSequenceResponse[]> GetResponse
+        => setup => setup.PublicApiHost.GetVerenigingMutationsSequence();
 }

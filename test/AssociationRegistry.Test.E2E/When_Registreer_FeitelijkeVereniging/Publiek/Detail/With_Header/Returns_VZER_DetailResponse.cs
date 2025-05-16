@@ -20,19 +20,15 @@ using Verenigingssubtype = Public.Api.Verenigingen.Detail.ResponseModels.Verenig
 using VerenigingStatus = Admin.Schema.Constants.VerenigingStatus;
 using Verenigingstype = Public.Api.Verenigingen.Detail.ResponseModels.Verenigingstype;
 
-
-[Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
-public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VZER_DetailResponse : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, PubliekVerenigingDetailResponse>
 {
-    private readonly RegistreerFeitelijkeVerenigingContext _testContext;
+    private readonly RegistreerFeitelijkeVerenigingTestContext _testContext;
 
-    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_VZER_DetailResponse(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override PubliekVerenigingDetailResponse GetResponse(FullBlownApiSetup setup)
-        => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -61,22 +57,26 @@ public class Returns_Vereniging : End2EndTest<PubliekVerenigingDetailResponse>
                 Maximumleeftijd = 149,
             },
             VCode = _testContext.VCode,
-            KorteBeschrijving = _testContext.CommandRequest.KorteBeschrijving,
-            KorteNaam = _testContext.CommandRequest.KorteNaam,
+            KorteBeschrijving = Request.KorteBeschrijving,
+            KorteNaam = Request.KorteNaam,
             Verenigingstype = new Verenigingstype
             {
                 Code = AssociationRegistry.Vereniging.Verenigingstype.VZER.Code,
                 Naam = AssociationRegistry.Vereniging.Verenigingstype.VZER.Naam,
             },
             Verenigingssubtype = VerenigingssubtypeCode.Default.Map<Verenigingssubtype>(),
-            Naam = _testContext.CommandRequest.Naam,
+            Naam = Request.Naam,
             Startdatum = DateOnly.FromDateTime(DateTime.Now),
             Status = VerenigingStatus.Actief,
-            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(_testContext.CommandRequest.Contactgegevens, _testContext.VCode),
-            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(_testContext.CommandRequest.HoofdactiviteitenVerenigingsloket),
-            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(_testContext.CommandRequest.Werkingsgebieden),
-            Locaties = PubliekDetailResponseMapper.MapLocaties(_testContext.CommandRequest.Locaties, _testContext.VCode),
+            Contactgegevens = PubliekDetailResponseMapper.MapContactgegevens(Request.Contactgegevens, _testContext.VCode),
+            HoofdactiviteitenVerenigingsloket = PubliekDetailResponseMapper.MapHoofdactiviteitenVerenigingsloket(Request.HoofdactiviteitenVerenigingsloket),
+            Werkingsgebieden = PubliekDetailResponseMapper.MapWerkingsgebieden(Request.Werkingsgebieden),
+            Locaties = PubliekDetailResponseMapper.MapLocaties(Request.Locaties, _testContext.VCode),
             Relaties = [],
             Sleutels = PubliekDetailResponseMapper.MapSleutels(_testContext.VCode),
         }, compareConfig: AdminDetailComparisonConfig.Instance);
+
+
+    public override Func<IApiSetup, PubliekVerenigingDetailResponse> GetResponse
+        => setup => setup.PublicApiHost.GetPubliekDetailWithHeader(setup.SuperAdminHttpClient, _testContext.VCode, _testContext.CommandResult.Sequence).GetAwaiter().GetResult();
 }

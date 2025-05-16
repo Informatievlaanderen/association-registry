@@ -11,23 +11,20 @@ using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(RegistreerFeitelijkeVerenigingCollection))]
-public class Returns_Vereniging : End2EndTest<HistoriekResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Historiek : End2EndTest<RegistreerFeitelijkeVerenigingTestContext, RegistreerFeitelijkeVerenigingRequest, HistoriekResponse>
 {
-    private readonly RegistreerFeitelijkeVerenigingContext _testContext;
+    public override Func<IApiSetup, HistoriekResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerHistoriek(TestContext.VCode);
 
-    public Returns_Vereniging(RegistreerFeitelijkeVerenigingContext testContext) : base(testContext.ApiSetup)
+    public Returns_Historiek(RegistreerFeitelijkeVerenigingTestContext testContext)
     {
-        _testContext = testContext;
     }
-
-    public override HistoriekResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerHistoriek(_testContext.VCode);
 
     [Fact]
     public void With_VCode()
     {
-        Response.VCode.ShouldCompare(_testContext.VCode);
+        Response.VCode.ShouldCompare(TestContext.VCode);
     }
 
     [Fact]
@@ -43,7 +40,7 @@ public class Returns_Vereniging : End2EndTest<HistoriekResponse>
             Response.Gebeurtenissen.SingleOrDefault(x => x.Gebeurtenis == nameof(VerenigingZonderEigenRechtspersoonlijkheidWerdGeregistreerd));
 
         // Returns now VZER
-        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGeregistreerd(_testContext.CommandRequest, _testContext.VCode),
+        werdGeregistreerd.ShouldCompare(HistoriekGebeurtenisMapper.VerenigingWerdGeregistreerd(TestContext.Request, TestContext.VCode),
                                         compareConfig: HistoriekComparisonConfig.Instance);
     }
 }
