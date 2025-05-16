@@ -10,7 +10,7 @@ public class Given_Sorting_By_Nested_Fields
 {
     private readonly SearchContext _testContext;
 
-    public Given_Sorting_By_Nested_Fields(SearchContext testContext)
+    public Given_Sorting_By_Nested_Fields( SearchContext testContext)
 
     {
         _testContext = testContext;
@@ -22,9 +22,8 @@ public class Given_Sorting_By_Nested_Fields
         var field = "doelgroep.minimumleeftijd";
 
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                              "*", "doelgroep.minimumleeftijd",
-                                                                              headers: new RequestParameters().V2()
-                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              $"*&sort=doelgroep.minimumleeftijd",
+                                                                              new RequestParameters().V2());
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))
@@ -39,11 +38,8 @@ public class Given_Sorting_By_Nested_Fields
     {
         var field = "doelgroep.minimumleeftijd";
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
-                                                                              "*",
-                                                                              sort: "-doelgroep.minimumleeftijd",
-                                                                               new RequestParameters()
-                                                                                  .V2()
-                                                                                 .WithExpectedSequence(_testContext.MaxSequenceByScenario));
+                                                                              $"*&sort=-doelgroep.minimumleeftijd",
+                                                                               new RequestParameters().V2());
 
         var values = result.Verenigingen
                            .Select(x => GetNestedPropertyValue(x, field))

@@ -45,6 +45,8 @@ public class BeheerdetailRequestFactory : ITestRequestFactory<RegistreerVerenigi
         var vCode = response.Headers.Location.First().Split('/').Last();
         long sequence = Convert.ToInt64(response.Headers[WellknownHeaderNames.Sequence].First());
 
+        await apiSetup.AdminProjectionDaemon.WaitForNonStaleData(TimeSpan.FromSeconds(60));
+
         return new CommandResult<RegistreerVerenigingZonderEigenRechtspersoonlijkheidRequest>(VCode.Create(vCode), request, sequence);
     }
 }

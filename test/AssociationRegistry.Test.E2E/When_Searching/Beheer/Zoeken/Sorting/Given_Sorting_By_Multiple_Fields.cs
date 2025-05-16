@@ -24,7 +24,7 @@ public class Given_Sorting_By_Multiple_Fields
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort={ascendingField},-{descendingField}",
-                                                                              headers: new RequestParameters().V2());
+                                                                              new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
@@ -53,7 +53,7 @@ public class Given_Sorting_By_Multiple_Fields
     {
         var result = await _testContext.ApiSetup.AdminApiHost.GetBeheerZoeken(_testContext.ApiSetup.AdminHttpClient,
                                                                               $"*&sort=-{descendingField},{ascendingField}",
-                                                                              headers: new RequestParameters().V2());
+                                                                              new RequestParameters().V2());
 
         var verenigingen = result.Verenigingen;
 
