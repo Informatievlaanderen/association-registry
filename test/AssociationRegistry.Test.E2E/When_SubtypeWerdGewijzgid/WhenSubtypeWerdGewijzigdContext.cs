@@ -9,27 +9,24 @@ using Nest;
 using Scenarios.Givens.VerenigingZonderEigenRechtspersoonlijkheid;
 using Scenarios.Requests.VZER;
 using Vereniging;
-using Xunit;
 
-// CollectionFixture for database setup ==> Context
-[CollectionDefinition(nameof(WhenSubtypeWerdGewijzigdCollection))]
-public class WhenSubtypeWerdGewijzigdCollection : ICollectionFixture<WhenSubtypeWerdGewijzigdContext>
+public class WhenSubtypeWerdGewijzigdContext: TestContextBase<WijzigSubtypeRequest>
 {
-    // This class has no code, and is never created. Its purpose is simply
-    // to be the place to apply [CollectionDefinition] and all the
-    // ICollectionFixture<> interfaces.
-}
-public class WhenSubtypeWerdGewijzigdContext : TestContextBase<SubtypeWerdVerfijndNaarSubverenigingScenario, WijzigSubtypeRequest>
-{
-    protected override SubtypeWerdVerfijndNaarSubverenigingScenario InitializeScenario()
-        => new();
+    public const string Name = "WhenSubtypeWerdGewijzigdContext";
+    public VCode VCode => CommandResult.VCode;
+    public SubtypeWerdVerfijndNaarSubverenigingScenario Scenario { get; }
 
-    public WhenSubtypeWerdGewijzigdContext(FullBlownApiSetup apiSetup): base(apiSetup)
+    public WhenSubtypeWerdGewijzigdContext(FullBlownApiSetup apiSetup)
     {
+        ApiSetup = apiSetup;
+        Scenario = new();
     }
 
-    protected override async ValueTask ExecuteScenario(SubtypeWerdVerfijndNaarSubverenigingScenario scenario)
+    public override async ValueTask InitializeAsync()
     {
-        CommandResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.ExecuteGiven(Scenario);
+        CommandResult = await new WijzigSubtypeRequestVoorWijzigSubtypeFactory(Scenario).ExecuteRequest(ApiSetup);
+        await ApiSetup.AdminProjectionHost.WaitForNonStaleProjectionDataAsync(TimeSpan.FromSeconds(10));
+        await ApiSetup.AdminApiHost.Services.GetRequiredService<IElasticClient>().Indices.RefreshAsync(Indices.All);
     }
 }

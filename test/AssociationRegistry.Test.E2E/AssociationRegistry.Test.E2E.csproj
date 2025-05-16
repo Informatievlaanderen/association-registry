@@ -28,6 +28,7 @@
     <Content Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <Content Remove="When_Retrieving_Detail\**" />
     <Content Remove="When_Searching\**" />
+    <Content Remove="When_SubtypeWerdGewijzgid\**" />
     <Content Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Content Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Content Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
@@ -46,6 +47,7 @@
     <Compile Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <Compile Remove="When_Retrieving_Detail\**" />
     <Compile Remove="When_Searching\**" />
+    <Compile Remove="When_SubtypeWerdGewijzgid\**" />
     <Compile Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <Compile Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <Compile Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
@@ -66,6 +68,7 @@
     <EmbeddedResource Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <EmbeddedResource Remove="When_Retrieving_Detail\**" />
     <EmbeddedResource Remove="When_Searching\**" />
+    <EmbeddedResource Remove="When_SubtypeWerdGewijzgid\**" />
     <EmbeddedResource Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <EmbeddedResource Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />
@@ -83,6 +86,7 @@
     <None Remove="When_Registreer_FeitelijkeVereniging_With_Duplicates_With_Gemeentenaam_In_Verenigingsnaam\**" />
     <None Remove="When_Retrieving_Detail\**" />
     <None Remove="When_Searching\**" />
+    <None Remove="When_SubtypeWerdGewijzgid\**" />
     <None Remove="When_SubtypeWerdTerugGezetNaarNietBepaald\**" />
     <None Remove="When_SubtypeWerdVerfijndNaarFeitelijkeVereniging\**" />
     <None Remove="When_SubtypeWerdVerfijndNaarSubvereniging\**" />

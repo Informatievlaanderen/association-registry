@@ -13,18 +13,15 @@ using Xunit;
 using SubverenigingVan = Admin.Api.Verenigingen.Search.ResponseModels.SubverenigingVan;
 using Verenigingssubtype = Admin.Api.Verenigingen.Search.ResponseModels.Verenigingssubtype;
 
-[Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
-public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_VZER_ZoekResponse : End2EndTest<WhenSubtypeWerdGewijzigdContext, WijzigSubtypeRequest, SearchVerenigingenResponse>
 {
     private readonly WhenSubtypeWerdGewijzigdContext _testContext;
 
-    public Returns_VZER_ZoekResponse(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext.ApiSetup)
+    public Returns_VZER_ZoekResponse(WhenSubtypeWerdGewijzigdContext testContext)
     {
-        _testContext = testContext;
+        TestContext = _testContext = testContext;
     }
-
-    public override SearchVerenigingenResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 
     [Fact]
     public void With_Context()
@@ -40,9 +37,12 @@ public class Returns_VZER_ZoekResponse : End2EndTest<SearchVerenigingenResponse>
         vereniging.Verenigingssubtype.Should().BeEquivalentTo(VerenigingssubtypeCode.Subvereniging.Map<Verenigingssubtype>());
         vereniging.SubverenigingVan.Should().BeEquivalentTo(new SubverenigingVan()
         {
-            AndereVereniging = _testContext.CommandRequest.AndereVereniging!,
-            Beschrijving = _testContext.CommandRequest.Beschrijving!,
-            Identificatie = _testContext.CommandRequest.Identificatie!,
+            AndereVereniging = _testContext.Request.AndereVereniging!,
+            Beschrijving = _testContext.Request.Beschrijving!,
+            Identificatie = _testContext.Request.Identificatie!,
         });
     }
+
+    public override Func<IApiSetup, SearchVerenigingenResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerZoekenV2(setup.SuperAdminHttpClient,$"vCode:{_testContext.VCode}").GetAwaiter().GetResult();
 }

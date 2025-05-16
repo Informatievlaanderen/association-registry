@@ -1,25 +1,23 @@
 ﻿namespace AssociationRegistry.Test.E2E.When_SubtypeWerdGewijzgid.Beheer.Detail.Without_Header;
 
-using Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Detail.ResponseModels;
+using AssociationRegistry.Admin.Api.Verenigingen.Subtype.RequestModels;
+using AssociationRegistry.Test.E2E.Framework.AlbaHost;
+using AssociationRegistry.Test.E2E.Framework.ApiSetup;
+using AssociationRegistry.Test.E2E.Framework.TestClasses;
 using FluentAssertions;
-using Framework.AlbaHost;
-using Framework.ApiSetup;
-using Framework.TestClasses;
 using KellermanSoftware.CompareNetObjects;
 using Xunit;
 
-[Collection(nameof(WhenSubtypeWerdGewijzigdCollection))]
-public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
+[Collection(FullBlownApiCollection.Name)]
+public class Returns_Detail : End2EndTest<WhenSubtypeWerdGewijzigdContext, WijzigSubtypeRequest, DetailVerenigingResponse>
 {
-    private readonly WhenSubtypeWerdGewijzigdContext _testContext;
+    private readonly WhenSubtypeWerdGewijzigdContext _context;
 
-    public Returns_Detail(WhenSubtypeWerdGewijzigdContext testContext) : base(testContext.ApiSetup)
+    public Returns_Detail(WhenSubtypeWerdGewijzigdContext context)
     {
-        _testContext = testContext;
+        _context = context;
     }
-
-    public override DetailVerenigingResponse GetResponse(FullBlownApiSetup setup)
-        => setup.AdminApiHost.GetBeheerDetail(_testContext.VCode);
 
     [Fact]
     public void With_Context()
@@ -32,4 +30,7 @@ public class Returns_Detail : End2EndTest<DetailVerenigingResponse>
     {
         Response.Vereniging.Verenigingssubtype.Should().BeNull();
     }
+
+    public override Func<IApiSetup, DetailVerenigingResponse> GetResponse
+        => setup => setup.AdminApiHost.GetBeheerDetail(TestContext.VCode);
 }
