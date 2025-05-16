@@ -17,7 +17,7 @@ public class Given_A_NietPrimair_Contactgegeven
     [InlineData("Website", "https://www.example.org")]
     [InlineData("SocialMedia", "https://www.example.org")]
     [InlineData("Telefoon", "0000112233")]
-    public async ValueTask Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
+    public async Task Then_A_ContactgegevenWerdToegevoegd_Event_Is_Saved(string type, string waarde)
     {
         var scenario = new FeitelijkeVerenigingWerdGeregistreerdScenario();
         var verenigingRepositoryMock = new VerenigingRepositoryMock(scenario.GetVerenigingState());
