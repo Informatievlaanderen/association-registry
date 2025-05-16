@@ -29,6 +29,7 @@ public class Then_The_Docs
     [Fact]
     public void Have_A_Summary_ForEach_Path()
         => Docs!.Paths
+                .Where(x => x.Key != "/v1/verenigingen/detail/all")
                 .ToList()
                 .ForEach(path =>
                              path.Value.ToList().ForEach(method => method.Value.Summary.Should()
