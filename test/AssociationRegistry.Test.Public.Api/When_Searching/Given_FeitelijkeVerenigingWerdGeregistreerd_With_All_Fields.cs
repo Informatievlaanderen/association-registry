@@ -100,7 +100,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Fields
     [Fact]
     public async ValueTask Then_one_vereniging_is_not_retrieved_by_part_of_its_vCode()
     {
-        var response = await _publicApiClient.Search("00100");
+        var response = await _publicApiClient.Search("0001");
         var content = await response.Content.ReadAsStringAsync();
 
         content.Should().BeEquivalentJson(new ZoekVerenigingenResponseTemplate());
