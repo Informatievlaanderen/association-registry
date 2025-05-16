@@ -47,13 +47,10 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"vCode:{documents.First().VCode}", "vCode", [], new PaginationQueryParams()),
-                                              CancellationToken.None);
+        var actual = await ExecuteQuery($"vCode:{documents.First().VCode}");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
-
-
 
     [Fact]
     public async ValueTask When_Searching_On_Different_Geotag_Then_Returns_Nothing()
@@ -61,10 +58,9 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:BE03333", "vCode", [], new PaginationQueryParams()),
-                                              CancellationToken.None);
+        var actual = await ExecuteQuery("geotags.identifier:BE03333");
 
-        ShouldFindVerenigingenWithGeotag(actual, documents);
+        ShouldNotHaveVereniging(actual, documents[0].VCode);
     }
 
     [Fact]
@@ -73,10 +69,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var publiekVerenigingenZoekFilter = new PubliekVerenigingenZoekFilter($"geotags.identifier:{geotag}", "vCode", [], new PaginationQueryParams());
-
-        var actual = await _query.ExecuteAsync(publiekVerenigingenZoekFilter,
-                                              CancellationToken.None);
+        var actual = await ExecuteQuery($"geotags.identifier:{geotag}");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -89,8 +82,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag = "BE02222";
         var documents = await IndexDocumentsWithGeotags([geotag]);
 
-        var actual = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:{geotags}", "vCode", [], new PaginationQueryParams()),
-                                              CancellationToken.None);
+        var actual = await ExecuteQuery($"geotags.identifier:{geotags}");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -102,8 +94,7 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var geotag2 = "BE99999";
         var documents = await IndexDocumentsWithGeotags([geotag, _autoFixture.Create<string>()], [geotag2, _autoFixture.Create<string>()]);
 
-        var actual = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:({geotag} OR {geotag2})", "vCode", [], new PaginationQueryParams()),
-                                              CancellationToken.None);
+        var actual = await ExecuteQuery($"geotags.identifier:({geotag} OR {geotag2})");
 
         ShouldFindVerenigingenWithGeotag(actual, documents);
     }
@@ -111,31 +102,14 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
     [Fact]
     public async ValueTask When_Searching_On_Multiple_Geotags_Then_Returns_Multiple_Verenigingen2()
     {
-      var verenigingZoekDocument = _autoFixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument.Geotags = [
-            new VerenigingZoekDocument.Types.Geotag("BE33333"),
-            new VerenigingZoekDocument.Types.Geotag("BE02222")];
+        var documents = await IndexDocumentsWithGeotags(
+            ["BE33333", "BE02222"],
+            ["BE88888", "BE99999"]
+        );
 
-        var verenigingZoekDocument2 = _autoFixture.Create<VerenigingZoekDocument>();
-        verenigingZoekDocument2.Geotags = [
-            new VerenigingZoekDocument.Types.Geotag("BE88888"),
-            new VerenigingZoekDocument.Types.Geotag("BE99999")];
+        var actual = await ExecuteQuery("geotags.identifier:(BE33333 OR BE99999 OR BE11111)");
 
-        await _elasticClient.IndexDocumentAsync(verenigingZoekDocument);
-        await _elasticClient.IndexDocumentAsync(verenigingZoekDocument2);
-        await _elasticClient.Indices.RefreshAsync(Indices.All);
-
-        var query = new PubliekVerenigingenZoekQuery(_elasticClient, _fixture.TypeMapping);
-        var actual = await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter($"geotags.identifier:(BE33333 OR BE99999 OR BE11111)", "vCode", [], new PaginationQueryParams()),
-                                              CancellationToken.None);
-
-        var vereniging1 = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument.VCode);
-        vereniging1.Should().NotBeNull();
-        vereniging1!.Geotags.Should().BeEquivalentTo(verenigingZoekDocument.Geotags);
-
-        var vereniging2 = actual.Documents.SingleOrDefault(x => x.VCode == verenigingZoekDocument2.VCode);
-        vereniging2.Should().NotBeNull();
-        vereniging2!.Geotags.Should().BeEquivalentTo(verenigingZoekDocument2.Geotags);
+        ShouldFindVerenigingenWithGeotag(actual, documents);
     }
 
     private static void ShouldFindVerenigingenWithGeotag(ISearchResponse<VerenigingZoekDocument> actual, VerenigingZoekDocument[] verenigingZoekDocuments)
@@ -171,6 +145,10 @@ public class Given_Geotags: IClassFixture<Given_GeotagsFixture>, IDisposable, IA
         var vereniging = actual.Documents.SingleOrDefault(x => x.VCode == vCode);
         vereniging.Should().BeNull();
     }
+
+    private async ValueTask<ISearchResponse<VerenigingZoekDocument>> ExecuteQuery(string query)
+        => await _query.ExecuteAsync(new PubliekVerenigingenZoekFilter(query, "vCode", [], new PaginationQueryParams()),
+                                     CancellationToken.None);
 
     public void Dispose()
     {
