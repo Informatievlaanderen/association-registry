@@ -28,7 +28,7 @@ public class Given_FeitelijkeVerenigingWerdGeregistreerd_With_All_Facets
     [Fact]
     public async ValueTask Then_The_Amount_Of_Facets_Should_Be_The_Total_Count_Of_Facets()
     {
-        var response = await _publicApiClient.Search($"vCode:{_scenario.VCode}");
+        var response = await _publicApiClient.Search("*");
         var content = await response.Content.ReadAsStringAsync();
 
        var searchVerenigingenResponse = JsonConvert.DeserializeObject<SearchVerenigingenResponse>(content);
