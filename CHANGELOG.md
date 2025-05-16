@@ -1,3 +1,10 @@
+## [8.238.1](https://github.com/informatievlaanderen/association-registry/compare/v8.238.0...v8.238.1) (2025-05-16)
+
+
+### Bug Fixes
+
+* or-2744 remove documentation from publiek get all ([5d9b704](https://github.com/informatievlaanderen/association-registry/commit/5d9b704965cf6f566a38009a28a3886de121d9f9))
+
 # [8.238.0](https://github.com/informatievlaanderen/association-registry/compare/v8.237.1...v8.238.0) (2025-05-16)
 
 
